@@ -383,12 +383,16 @@ box("Drag_chain_X", beam_l - 100, 40, 30, -(beam_l - 100) / 2, beam_y0 + 30, z_b
 
 # ======================= 8. ELECTRICAL =====================================
 grp = "08 Electrical"
-cab_w, cab_d, cab_h = 440, 200, 300
-cab = cq.Solid.makeBox(cab_w, cab_d, cab_h, V(-cab_w / 2, beam_y0 + p["col_d"], gz0 + g_h + 5))
-add("Electrical_cabinet", cab, grp,
-    "Cabinet 440x300x200 IP54 w/ filter fan on gantry back: Teensy 4.1 + T41U5XBB, 4x MR-J4-40A "
-    "(X/Y/Z/spindle), line drivers, 24V PSU, breaker, terminals",
-    "1 PC can supervise several machines over Ethernet")
+# no separate cabinet: drives + controller on a plate bolted to the beam rear face, between the columns,
+# under a thin sheet cover (Al chips are conductive, 220 V terminals). 4x MR-J4-40A ~40x168x135 each.
+pnl_w, pnl_h, pnl_d = 440, 260, 150
+pnl_y0 = beam_y0 + p["beam_d"]
+box("Electrical_panel", pnl_w, 3, pnl_h, -pnl_w / 2, pnl_y0, z_beam0 + p["beam_h"] - pnl_h, grp,
+    "Mounting plate t3 on beam rear: 4x MR-J4-40A (X/Y/Z/spindle), Teensy 4.1 + T41U5XBB, line drivers, "
+    "24V PSU, breaker, terminals", "1 PC can supervise several machines over Ethernet")
+cov = cq.Solid.makeBox(pnl_w, pnl_d - 3, pnl_h, V(-pnl_w / 2, pnl_y0 + 3, z_beam0 + p["beam_h"] - pnl_h))
+cov = cov.cut(cq.Solid.makeBox(pnl_w - 3, pnl_d - 6, pnl_h, V(-pnl_w / 2 + 1.5, pnl_y0 + 3, z_beam0 + p["beam_h"] - pnl_h - 1.5)))
+add("Electrical_cover", cov, grp, "Sheet cover t1.5, open vented bottom, hinged for service")
 
 # ======================= export ===========================================
 COLORS = {

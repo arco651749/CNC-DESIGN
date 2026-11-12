@@ -721,10 +721,16 @@
    "note": ""
   },
   {
-   "name": "Electrical_cabinet",
+   "name": "Electrical_panel",
    "group": "08 Electrical",
-   "material": "Cabinet 440x300x200 IP54 w/ filter fan on gantry back: Teensy 4.1 + T41U5XBB, 4x MR-J4-40A (X/Y/Z/spindle), line drivers, 24V PSU, breaker, terminals",
+   "material": "Mounting plate t3 on beam rear: 4x MR-J4-40A (X/Y/Z/spindle), Teensy 4.1 + T41U5XBB, line drivers, 24V PSU, breaker, terminals",
    "note": "1 PC can supervise several machines over Ethernet"
+  },
+  {
+   "name": "Electrical_cover",
+   "group": "08 Electrical",
+   "material": "Sheet cover t1.5, open vented bottom, hinged for service",
+   "note": ""
   }
  ]
 }
