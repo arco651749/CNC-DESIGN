@@ -36,3 +36,19 @@ python cad/make_drawing.py
 python cad/core_assembly.py
 python cad/make_spindle_detail.py
 ```
+
+## text-to-cad 工具（結構分析、工程圖、廠商 STEP）
+
+`.claude/skills/` 內含 [earthtojake/text-to-cad](https://github.com/earthtojake/text-to-cad)（MIT）的三個 skill：
+`cad`（build123d 建模、讀廠商 STEP、干涉 / 可加工性檢查）、`fea`（CalculiX 結構分析）、`engineering-drawing`（PDF 工程圖）。
+
+它和 CadQuery 用的 OpenCascade 版本不同，請裝在獨立的虛擬環境：
+
+```bash
+python3 -m venv /opt/ttc
+/opt/ttc/bin/pip install "cad[build123d]==0.11.9" "cad-server==0.11.9"
+/opt/ttc/bin/cad telemetry off
+/opt/ttc/bin/cad update auto off
+```
+
+廠商 STEP（三住、HIWIN、三菱）請放在 `vendor/`。
