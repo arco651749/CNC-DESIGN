@@ -1,0 +1,528 @@
+{
+ "params": {
+  "travel_x": 300,
+  "travel_y": 600,
+  "travel_z": 100,
+  "work": 300,
+  "stand_h": 700,
+  "bed_h": 160,
+  "bed_w": 820,
+  "bed_l": 1400,
+  "rail_y_gap": 320,
+  "table_w": 440,
+  "table_l": 420,
+  "table_t": 40,
+  "spindle_y": 120,
+  "col_w": 140,
+  "col_d": 200,
+  "beam_h": 220,
+  "beam_d": 180,
+  "clear": 220,
+  "spindle_d": 80,
+  "spindle_l": 230
+ },
+ "overall": {
+  "x": 1130,
+  "y": 1502,
+  "z": 1560,
+  "xmin": -550.0,
+  "ymin": -900.0,
+  "zmin": -20.0,
+  "xmax": 580.0,
+  "ymax": 602.0,
+  "zmax": 1540.0
+ },
+ "z_levels": {
+  "bed": 700,
+  "bed_top": 860,
+  "table_top": 940,
+  "beam_bottom": 1160,
+  "beam_top": 1380
+ },
+ "table_y": {
+  "work": 120,
+  "load": -480
+ },
+ "parts": [
+  {
+   "name": "Stand_leg_1",
+   "group": "01 Stand",
+   "material": "Q235 80x80x4",
+   "note": ""
+  },
+  {
+   "name": "Stand_leg_2",
+   "group": "01 Stand",
+   "material": "Q235 80x80x4",
+   "note": ""
+  },
+  {
+   "name": "Stand_leg_3",
+   "group": "01 Stand",
+   "material": "Q235 80x80x4",
+   "note": ""
+  },
+  {
+   "name": "Stand_leg_4",
+   "group": "01 Stand",
+   "material": "Q235 80x80x4",
+   "note": ""
+  },
+  {
+   "name": "Stand_top_L",
+   "group": "01 Stand",
+   "material": "Q235 80x60x4",
+   "note": ""
+  },
+  {
+   "name": "Stand_top_R",
+   "group": "01 Stand",
+   "material": "Q235 80x60x4",
+   "note": ""
+  },
+  {
+   "name": "Stand_top_F",
+   "group": "01 Stand",
+   "material": "Q235 80x60x4",
+   "note": ""
+  },
+  {
+   "name": "Stand_top_B",
+   "group": "01 Stand",
+   "material": "Q235 80x60x4",
+   "note": ""
+  },
+  {
+   "name": "Stand_low_L",
+   "group": "01 Stand",
+   "material": "Q235 80x60x4",
+   "note": ""
+  },
+  {
+   "name": "Stand_low_R",
+   "group": "01 Stand",
+   "material": "Q235 80x60x4",
+   "note": ""
+  },
+  {
+   "name": "Stand_low_F",
+   "group": "01 Stand",
+   "material": "Q235 80x60x4",
+   "note": ""
+  },
+  {
+   "name": "Stand_low_B",
+   "group": "01 Stand",
+   "material": "Q235 80x60x4",
+   "note": ""
+  },
+  {
+   "name": "Leveling_foot_1",
+   "group": "01 Stand",
+   "material": "M16 leveling foot",
+   "note": ""
+  },
+  {
+   "name": "Leveling_foot_2",
+   "group": "01 Stand",
+   "material": "M16 leveling foot",
+   "note": ""
+  },
+  {
+   "name": "Leveling_foot_3",
+   "group": "01 Stand",
+   "material": "M16 leveling foot",
+   "note": ""
+  },
+  {
+   "name": "Leveling_foot_4",
+   "group": "01 Stand",
+   "material": "M16 leveling foot",
+   "note": ""
+  },
+  {
+   "name": "Bed_top_plate",
+   "group": "02 Bed",
+   "material": "Q235 t30, stress relieved, rails face milled",
+   "note": ""
+  },
+  {
+   "name": "Bed_bottom_plate",
+   "group": "02 Bed",
+   "material": "Q235 t20",
+   "note": ""
+  },
+  {
+   "name": "Bed_long_web_1",
+   "group": "02 Bed",
+   "material": "Q235 t20",
+   "note": ""
+  },
+  {
+   "name": "Bed_long_web_2",
+   "group": "02 Bed",
+   "material": "Q235 t20",
+   "note": ""
+  },
+  {
+   "name": "Bed_long_web_3",
+   "group": "02 Bed",
+   "material": "Q235 t20",
+   "note": ""
+  },
+  {
+   "name": "Bed_long_web_4",
+   "group": "02 Bed",
+   "material": "Q235 t20",
+   "note": ""
+  },
+  {
+   "name": "Bed_cross_rib_1",
+   "group": "02 Bed",
+   "material": "Q235 t20",
+   "note": ""
+  },
+  {
+   "name": "Bed_cross_rib_2",
+   "group": "02 Bed",
+   "material": "Q235 t20",
+   "note": ""
+  },
+  {
+   "name": "Bed_cross_rib_3",
+   "group": "02 Bed",
+   "material": "Q235 t20",
+   "note": ""
+  },
+  {
+   "name": "Bed_cross_rib_4",
+   "group": "02 Bed",
+   "material": "Q235 t20",
+   "note": ""
+  },
+  {
+   "name": "Bed_cross_rib_5",
+   "group": "02 Bed",
+   "material": "Q235 t20",
+   "note": ""
+  },
+  {
+   "name": "Bed_cross_rib_6",
+   "group": "02 Bed",
+   "material": "Q235 t20",
+   "note": ""
+  },
+  {
+   "name": "Bed_cross_rib_7",
+   "group": "02 Bed",
+   "material": "Q235 t20",
+   "note": ""
+  },
+  {
+   "name": "Y_rail_L",
+   "group": "03 Y-axis",
+   "material": "HGR25 L=1200",
+   "note": ""
+  },
+  {
+   "name": "Y_block_L1",
+   "group": "03 Y-axis",
+   "material": "HGH25CA",
+   "note": ""
+  },
+  {
+   "name": "Y_block_L2",
+   "group": "03 Y-axis",
+   "material": "HGH25CA",
+   "note": ""
+  },
+  {
+   "name": "Y_rail_R",
+   "group": "03 Y-axis",
+   "material": "HGR25 L=1200",
+   "note": ""
+  },
+  {
+   "name": "Y_block_R1",
+   "group": "03 Y-axis",
+   "material": "HGH25CA",
+   "note": ""
+  },
+  {
+   "name": "Y_block_R2",
+   "group": "03 Y-axis",
+   "material": "HGH25CA",
+   "note": ""
+  },
+  {
+   "name": "Y_ballscrew",
+   "group": "03 Y-axis",
+   "material": "SFU2010 L=1150, C7",
+   "note": ""
+  },
+  {
+   "name": "Y_nut_housing",
+   "group": "03 Y-axis",
+   "material": "DSG20H nut seat",
+   "note": ""
+  },
+  {
+   "name": "Y_BK_support",
+   "group": "03 Y-axis",
+   "material": "BK15 fixed end (front)",
+   "note": ""
+  },
+  {
+   "name": "Y_BF_support",
+   "group": "03 Y-axis",
+   "material": "BF15 floating end (rear)",
+   "note": ""
+  },
+  {
+   "name": "Y_motor",
+   "group": "03 Y-axis",
+   "material": "Servo 750W / NEMA34, belt or direct",
+   "note": ""
+  },
+  {
+   "name": "Work_table",
+   "group": "03 Y-axis",
+   "material": "HT250 / Q235 t40, 5x T-slot 14",
+   "note": "440x420 table, work area 300x300"
+  },
+  {
+   "name": "Work_area_300x300",
+   "group": "03 Y-axis",
+   "material": "reference",
+   "note": "usable 300x300"
+  },
+  {
+   "name": "Y_bellows_front",
+   "group": "03 Y-axis",
+   "material": "Bellows way cover (coolant proof)",
+   "note": ""
+  },
+  {
+   "name": "Y_bellows_rear",
+   "group": "03 Y-axis",
+   "material": "Bellows way cover (coolant proof)",
+   "note": ""
+  },
+  {
+   "name": "Gantry_column_L",
+   "group": "04 Gantry",
+   "material": "Welded box 140x200 t12 (Q235)",
+   "note": ""
+  },
+  {
+   "name": "Gantry_column_R",
+   "group": "04 Gantry",
+   "material": "Welded box 140x200 t12 (Q235)",
+   "note": ""
+  },
+  {
+   "name": "Gantry_beam",
+   "group": "04 Gantry",
+   "material": "Welded box 220x180 t12, filled epoxy granite optional",
+   "note": ""
+  },
+  {
+   "name": "X_rail_1",
+   "group": "05 X-axis",
+   "material": "HGR20",
+   "note": ""
+  },
+  {
+   "name": "X_rail_2",
+   "group": "05 X-axis",
+   "material": "HGR20",
+   "note": ""
+  },
+  {
+   "name": "X_ballscrew",
+   "group": "05 X-axis",
+   "material": "SFU1605, C7",
+   "note": ""
+  },
+  {
+   "name": "X_motor",
+   "group": "05 X-axis",
+   "material": "Servo 400W / NEMA23-34",
+   "note": ""
+  },
+  {
+   "name": "X_carriage_plate",
+   "group": "05 X-axis",
+   "material": "6061-T6 / steel t30",
+   "note": ""
+  },
+  {
+   "name": "Z_rail_L",
+   "group": "06 Z-axis",
+   "material": "HGR20",
+   "note": ""
+  },
+  {
+   "name": "Z_rail_R",
+   "group": "06 Z-axis",
+   "material": "HGR20",
+   "note": ""
+  },
+  {
+   "name": "Z_ballscrew",
+   "group": "06 Z-axis",
+   "material": "SFU1605",
+   "note": ""
+  },
+  {
+   "name": "Z_motor",
+   "group": "06 Z-axis",
+   "material": "Servo 400W w/ brake",
+   "note": ""
+  },
+  {
+   "name": "Z_slide_plate",
+   "group": "06 Z-axis",
+   "material": "Steel t30",
+   "note": ""
+  },
+  {
+   "name": "Spindle_clamp",
+   "group": "06 Z-axis",
+   "material": "Clamp D80",
+   "note": ""
+  },
+  {
+   "name": "Spindle",
+   "group": "06 Z-axis",
+   "material": "2.2kW water-cooled ER20 D80",
+   "note": ""
+  },
+  {
+   "name": "Tool_ER20",
+   "group": "06 Z-axis",
+   "material": "Tool stick-out ref",
+   "note": ""
+  },
+  {
+   "name": "Guard_side_L",
+   "group": "07 Coolant & Air",
+   "material": "SUS304 t2 splash guard",
+   "note": ""
+  },
+  {
+   "name": "Guard_side_R",
+   "group": "07 Coolant & Air",
+   "material": "SUS304 t2 splash guard",
+   "note": ""
+  },
+  {
+   "name": "Guard_rear",
+   "group": "07 Coolant & Air",
+   "material": "SUS304 t2",
+   "note": ""
+  },
+  {
+   "name": "Guard_front_lip",
+   "group": "07 Coolant & Air",
+   "material": "SUS304 t2 low lip (loading side)",
+   "note": ""
+  },
+  {
+   "name": "Guard_window_L",
+   "group": "07 Coolant & Air",
+   "material": "PC window 5mm",
+   "note": ""
+  },
+  {
+   "name": "Coolant_trough_L",
+   "group": "07 Coolant & Air",
+   "material": "SUS304 trough, slope 1:100 to rear",
+   "note": ""
+  },
+  {
+   "name": "Coolant_trough_R",
+   "group": "07 Coolant & Air",
+   "material": "SUS304 trough, slope 1:100 to rear",
+   "note": ""
+  },
+  {
+   "name": "Coolant_trough_rear",
+   "group": "07 Coolant & Air",
+   "material": "collects to drain",
+   "note": ""
+  },
+  {
+   "name": "Drain_pipe",
+   "group": "07 Coolant & Air",
+   "material": "PVC D40 drain",
+   "note": ""
+  },
+  {
+   "name": "Coolant_tank",
+   "group": "07 Coolant & Air",
+   "material": "SUS304 t3, ~100 L (fill 80 L)",
+   "note": "on castors, slides out rear"
+  },
+  {
+   "name": "Chip_filter_basket",
+   "group": "07 Coolant & Air",
+   "material": "SUS304 perforated basket + 60 mesh bag",
+   "note": "removable, catches Al/steel chips"
+  },
+  {
+   "name": "Filter_baffle",
+   "group": "07 Coolant & Air",
+   "material": "Settling baffle (dirty | clean side)",
+   "note": ""
+  },
+  {
+   "name": "Coolant_pump",
+   "group": "07 Coolant & Air",
+   "material": "Immersion pump 90W, 25 L/min, 0.2 MPa",
+   "note": ""
+  },
+  {
+   "name": "Pump_motor",
+   "group": "07 Coolant & Air",
+   "material": "pump motor",
+   "note": ""
+  },
+  {
+   "name": "Coolant_hose",
+   "group": "07 Coolant & Air",
+   "material": "PU 12x8 hose in drag chain",
+   "note": ""
+  },
+  {
+   "name": "Coolant_nozzle_1",
+   "group": "07 Coolant & Air",
+   "material": "Loc-Line 1/4\" coolant",
+   "note": ""
+  },
+  {
+   "name": "Coolant_nozzle_2",
+   "group": "07 Coolant & Air",
+   "material": "Loc-Line 1/4\" coolant",
+   "note": ""
+  },
+  {
+   "name": "Air_blow_nozzle",
+   "group": "07 Coolant & Air",
+   "material": "Air blast / mist, 0.5 MPa",
+   "note": ""
+  },
+  {
+   "name": "Air_solenoid_FRL",
+   "group": "07 Coolant & Air",
+   "material": "FRL + 24V solenoid valve (M7/M8 coolant/air via controller)",
+   "note": ""
+  },
+  {
+   "name": "Drag_chain_X",
+   "group": "07 Coolant & Air",
+   "material": "Drag chain 25x38 (cables, coolant, air)",
+   "note": ""
+  }
+ ]
+}
