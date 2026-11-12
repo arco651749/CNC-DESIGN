@@ -19,9 +19,8 @@
   "beam_h": 220,
   "beam_d": 180,
   "clear": 220,
-  "spindle_d": 62,
-  "spindle_l": 200,
-  "belt_ratio": 3,
+  "spindle_d": 65,
+  "spindle_l": 188,
   "servo_sq": 60,
   "servo_l": 98,
   "servo_l_brake": 132,
@@ -511,10 +510,22 @@
    "note": "brake holds spindle head at power-off"
   },
   {
-   "name": "Spindle_cartridge",
+   "name": "Spindle",
    "group": "06 Z-axis & Spindle",
-   "material": "ER11 belt-driven spindle cartridge D62, >=15,000 rpm, P4 angular contact bearings, taper runout <=0.003",
-   "note": "~13,500 rpm at motor 4,500 rpm"
+   "material": "0.8 kW air-cooled electro-spindle D65, ER11, 220 V 400 Hz, 6,000-24,000 rpm, 2x7002C + 2x7000C bearings",
+   "note": "runout <=0.005 mm requested; e.g. Sorotec HFSAC-6508 / GDF65-24Z-0.8"
+  },
+  {
+   "name": "Spindle_fan_cover",
+   "group": "06 Z-axis & Spindle",
+   "material": "Fan cover (air intake on top, keep away from chips)",
+   "note": ""
+  },
+  {
+   "name": "Spindle_connector",
+   "group": "06 Z-axis & Spindle",
+   "material": "Aviation plug 4-pin (U/V/W/PE) to VFD",
+   "note": ""
   },
   {
    "name": "Spindle_nose",
@@ -543,55 +554,7 @@
   {
    "name": "Spindle_clamp",
    "group": "06 Z-axis & Spindle",
-   "material": "Clamp D62, steel",
-   "note": ""
-  },
-  {
-   "name": "Spindle_shaft",
-   "group": "06 Z-axis & Spindle",
-   "material": "spindle shaft end D15",
-   "note": ""
-  },
-  {
-   "name": "Spindle_pulley",
-   "group": "06 Z-axis & Spindle",
-   "material": "PJ poly-V pulley D32 (balanced)",
-   "note": ""
-  },
-  {
-   "name": "Spindle_motor_pulley",
-   "group": "06 Z-axis & Spindle",
-   "material": "PJ poly-V pulley D96 (balanced)",
-   "note": ""
-  },
-  {
-   "name": "Spindle_motor_shaft",
-   "group": "06 Z-axis & Spindle",
-   "material": "motor shaft D14",
-   "note": ""
-  },
-  {
-   "name": "Spindle_motor_bracket",
-   "group": "06 Z-axis & Spindle",
-   "material": "Motor bracket t12, slotted for belt tension",
-   "note": ""
-  },
-  {
-   "name": "Spindle_motor",
-   "group": "06 Z-axis & Spindle",
-   "material": "Mitsubishi HG-KR43 400W",
-   "note": "speed mode, 0-10 V from grblHAL, 1:3 belt"
-  },
-  {
-   "name": "Spindle_belt",
-   "group": "06 Z-axis & Spindle",
-   "material": "PJ poly-V belt (e.g. 6PJ)",
-   "note": ""
-  },
-  {
-   "name": "Belt_guard",
-   "group": "06 Z-axis & Spindle",
-   "material": "Belt guard, Al sheet t1.5",
+   "material": "D65 spindle mount, cast Al, split clamp, bolted to Z slide",
    "note": ""
   },
   {
@@ -723,7 +686,7 @@
   {
    "name": "Electrical_panel",
    "group": "08 Electrical",
-   "material": "Mounting plate t3 on beam rear: 4x MR-J4-40A (X/Y/Z/spindle), Teensy 4.1 + T41U5XBB, line drivers, 24V PSU, breaker, terminals",
+   "material": "Mounting plate t3 on beam rear: 3x MR-J4-40A (X/Y/Z), spindle VFD 0.75-1.5 kW (e.g. Delta MS300, >=400 Hz), Teensy 4.1 + T41U5XBB, line drivers, 24V PSU, breaker, terminals",
    "note": "1 PC can supervise several machines over Ethernet"
   },
   {

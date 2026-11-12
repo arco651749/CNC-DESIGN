@@ -168,7 +168,7 @@ def ctr(name):
 
 
 # ---------- spindle callouts on front view (orange) ----------
-sp_items = [("Spindle_motor", "A"), ("Spindle_belt", "B"), ("Spindle_cartridge", "C"), ("Z_motor", "D")]
+sp_items = [("Spindle", "A"), ("Spindle_fan_cover", "B"), ("ER11_nut", "C"), ("Z_motor", "D")]
 for i, (n, k) in enumerate(sp_items):
     x, y, z = ctr(n)
     px, py = mF(x, z)
@@ -209,9 +209,9 @@ for i, (k, t) in enumerate(legend):
     label(LX + 15, yy, t, 3.2, "start")
 yy = LY + 8 + 12 * 11 + 2
 label(LX + 4, yy, "主軸 / Z 軸 (橘色)", 4.0, "start", True, ORANGE)
-sp_leg = [("A", "主軸馬達 三菱 HG-KR43 400 W (速度模式，0-10 V)"),
-          ("B", "PJ 多楔帶 1:3，皮帶輪 Ø96 / Ø32 (動平衡)，附護罩"),
-          ("C", "ER11 皮帶式主軸頭 Ø62，約 13,500 rpm，人工換刀"),
+sp_leg = [("A", "電主軸 0.8 kW 風冷 Ø65×188，24,000 rpm (變頻器)"),
+          ("B", "風扇罩：進風口朝上，避開切屑"),
+          ("C", "ER11 筒夾 + 螺帽 Ø19，人工換刀"),
           ("D", "Z 軸馬達 三菱 HG-KR43B (附煞車)")]
 for i, (k, t) in enumerate(sp_leg):
     y2 = yy + 8 + i * 10
@@ -235,9 +235,9 @@ spec = [
     "床身：Q235 鋼板焊接 (t30 面板, t20 筋)，退火去應力",
     "線軌：HIWIN HG，ZA 中預壓，H 級 (Y HGR25 / X,Z HGR20)",
     "螺桿：DFU 雙螺帽預壓 C7，導程 5 (Y DFU2005 / X,Z DFU1605)",
-    "伺服：三菱 HG-KR43 400 W x5 (Z 附煞車；Y 馬達後置)",
-    "主軸：HG-KR43 + PJ 皮帶 1:3，ER11 主軸頭 ~13,500 rpm",
-    "電控：grblHAL + MR-J4-40A x4，板子直接鎖龍門背面＋護蓋",
+    "伺服：三菱 HG-KR43 x2 + HG-KR43B x1 (Y 馬達後置)",
+    "主軸：0.8 kW 風冷電主軸 Ø65，ER11，24,000 rpm",
+    "電控：grblHAL + MR-J4-40A x3 + 主軸變頻器，鎖龍門背面",
     "解析度：0.001 mm/step (電子齒輪 5,000 p/rev)",
     "冷卻：浸入式幫浦 25 L/min + 吹氣 (客戶要求保留)",
     "外形 (W x D x H)：%d x %d x %d mm" % (ov["x"], ov["y"], ov["z"]),

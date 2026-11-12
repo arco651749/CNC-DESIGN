@@ -16,7 +16,7 @@ P = {n: (s, m) for n, s, g, m, _ in M["parts"]}
 sp_y, sp_z0 = M["sp_y"], M["sp_z0"]
 W, H = 420, 297
 
-HEAD = [n for n in P if n.startswith(("Spindle", "ER11", "Tool", "Belt", "Z_slide", "Coolant_nozzle", "Air_blow"))]
+HEAD = [n for n in P if n.startswith(("Spindle", "ER11", "Tool", "Z_slide", "Coolant_nozzle", "Air_blow"))]
 VIEWS = {"front": ((0, -1, 0), (1, 0, 0)), "top": ((0, 0, 1), (1, 0, 0))}
 
 
@@ -101,37 +101,37 @@ bb = head.BoundingBox()
 m1 = mapper(110, 105, (bb.xmin + bb.xmax) / 2, (bb.zmin + bb.zmax) / 2, S1)
 RX1 = m1(bb.xmax, 0)[0] + 6; LX1 = m1(bb.xmin, 0)[0] - 4
 draw(project(head, "front"), m1, S1)
-spin_only = cq.Compound.makeCompound([P[n][0] for n in HEAD if n.startswith(("Spindle", "ER11", "Tool", "Belt"))])
 T(110, 14.5, "主軸頭 前視圖 FRONT  1:2", 4, bold=True)
-mx = M["mx"]; pz0 = M["pz0"]
 tip = sp_z0 - 43
+L = M["p"]["spindle_l"]
 vdim(m1, bb.xmax, tip, sp_z0, 4, "43")
-hdim(m1, 0, mx, pz0 + 32, -8, f"皮帶中心距 {mx}")
-leader(m1, mx, pz0 + 10, RX1, m1(0, pz0 + 40)[1], "皮帶輪 Ø96/Ø32，PJ 帶 1:3")
-leader(m1, mx + 20, pz0 - 60, RX1, m1(0, pz0 - 40)[1], "主軸馬達 HG-KR43")
-leader(m1, 50, M["z_slide_z"] + 65, RX1, m1(0, M["z_slide_z"] + 40)[1], "主軸夾座")
-leader(m1, -31, sp_z0 + 100, LX1, m1(0, sp_z0 + 150)[1], "ER11 主軸頭 Ø62", anchor="end")
+vdim(m1, 32.5, sp_z0, sp_z0 + L, 30, f"{L}")
+hdim(m1, -32.5, 32.5, sp_z0 + L, -6, "Ø65")
+leader(m1, 32.5, sp_z0 + L - 18, RX1, m1(0, sp_z0 + L + 10)[1], "風扇罩 (進風口朝上)")
+leader(m1, 20, sp_z0 + 45, RX1, m1(0, sp_z0 + 60)[1], "0.8 kW 風冷電主軸 24,000 rpm")
+leader(m1, 45, M["z_slide_z"] + 60, RX1, m1(0, M["z_slide_z"] + 40)[1], "Ø65 鋁夾座 (切口鎖緊)")
+leader(m1, -48, M["z_slide_z"] + 18, LX1, m1(0, sp_z0 + 150)[1], "航空插頭 → 變頻器", anchor="end")
 leader(m1, 0, sp_z0 - 9, LX1, m1(0, sp_z0 - 5)[1], "詳圖 A (ER11)", anchor="end", color="#d26a10")
 leader(m1, 0, tip + 5, LX1, m1(0, tip - 8)[1], "刀具 Ø5 (柄 Ø6)", anchor="end")
 cx, cy = m1(0, sp_z0 - 10)
 A(f'<circle cx="{cx:.2f}" cy="{cy:.2f}" r="9" fill="none" stroke="#d26a10" stroke-width="0.35" stroke-dasharray="1.5,1"/>')
 T(cx + 11, cy + 9, "A", 4, bold=True, color="#d26a10")
 
-# ------------------------------------------------ view 2: belt drive top view 1:2 (guard removed)
-belt = cq.Compound.makeCompound([P[n][0] for n in ("Spindle_pulley", "Spindle_motor_pulley", "Spindle_belt",
-                                                     "Spindle_motor", "Spindle_motor_bracket", "Spindle_cartridge",
+# ------------------------------------------------ view 2: spindle head top view 1:2
+topv = cq.Compound.makeCompound([P[n][0] for n in ("Spindle", "Spindle_fan_cover", "Spindle_connector",
                                                      "Spindle_clamp", "Z_slide_plate")])
-bb2 = belt.BoundingBox()
-m2 = mapper(110, 240, (bb2.xmin + bb2.xmax) / 2, (bb2.ymin + bb2.ymax) / 2, S1)
-draw(project(belt, "top"), m2, S1)
-T(110, 199, "皮帶傳動 俯視圖 TOP  1:2 (皮帶罩移除)", 3.6, bold=True)
-leader(m2, -16, sp_y, m2(bb2.xmin, 0)[0] - 6, m2(0, sp_y + 30)[1], "Ø32 主軸端", anchor="end")
-leader(m2, mx + 48, M["my"], m2(bb2.xmax, 0)[0] + 6, m2(0, M["my"] - 30)[1], "Ø96 馬達端，長孔調張力")
+bb2 = topv.BoundingBox()
+m2 = mapper(110, 245, (bb2.xmin + bb2.xmax) / 2, (bb2.ymin + bb2.ymax) / 2, S1)
+draw(project(topv, "top"), m2, S1)
+T(110, 205, "主軸頭 俯視圖 TOP  1:2", 3.6, bold=True)
+leader(m2, -20, sp_y - 20, m2(bb2.xmin, 0)[0] - 6, m2(0, sp_y - 40)[1], "風扇罩 Ø65", anchor="end")
+leader(m2, 40, sp_y + 20, m2(bb2.xmax, 0)[0] + 6, m2(0, sp_y + 10)[1], "夾座鎖在 Z 滑板")
+leader(m2, 80, M["zs_y0"] + 15, m2(bb2.xmax, 0)[0] + 6, m2(0, M["zs_y0"] + 40)[1], "Z 滑板 t30")
 
 # ------------------------------------------------ view 3: ER11 nose section 2:1
 S3 = 2.0
-NOSE = ["Spindle_cartridge", "Spindle_nose", "ER11_collet", "ER11_nut", "Tool_D5"]
-FILL = {"Spindle_cartridge": "url(#h1)", "Spindle_nose": "url(#h2)", "ER11_collet": "url(#h3)",
+NOSE = ["Spindle", "Spindle_nose", "ER11_collet", "ER11_nut", "Tool_D5"]
+FILL = {"Spindle": "url(#h1)", "Spindle_nose": "url(#h2)", "ER11_collet": "url(#h3)",
         "ER11_nut": "url(#h4)", "Tool_D5": "#e9e2cf"}
 crop = cq.Solid.makeBox(44, 40, 70, V(-22, sp_y, sp_z0 - 50))
 secs = {n: P[n][0].intersect(crop) for n in NOSE}
@@ -165,7 +165,7 @@ vdim(m3, 12, sp_z0 - 43, sp_z0 - 16, 22, "27 伸出")
 leader(m3, 4.9, sp_z0 - 4, 296, 72, "ER11 筒夾 Ø11.5，8° 錐度，AA ≤0.005", color="#d26a10")
 leader(m3, 6.2, sp_z0 - 5, 296, 84, "主軸鼻端，M13×0.75 外螺紋")
 leader(m3, -8.5, sp_z0 - 12, 204, 150, "ER11 螺帽 A 型 Ø19，扳手槽 ×4", anchor="end", color="#0a6cd6")
-leader(m3, 18, sp_z0 + 12, 296, 58, "主軸頭本體 (錐孔偏擺 ≤0.003)")
+leader(m3, 18, sp_z0 + 12, 296, 58, "電主軸本體 (錐孔偏擺 ≤0.005)")
 leader(m3, 2.5, sp_z0 - 38, 268, 192, "刀具：鋁用 2 刃 Ø5 × 柄 Ø6")
 
 # ------------------------------------------------ ER11 table + title block

@@ -5,15 +5,15 @@ Run:  python cad/cnc_gantry.py
 Outputs (../output): CNC_Gantry.step (named + coloured assembly), cnc_info.json (parts / key dims).
 
 Coordinates: X = left/right, Y = front(-)/back(+), Z = up. Units mm.
-Work area 300 x 300, Z travel 100. Y travel 600 = 300 machining + 300 loading zone (front).
+Work area 300 x 300, Z travel 100. Y travel 400 = 300 machining + 100 loading stroke (front).
 
 v2 changes vs v1 (FreeCAD):
   - aluminium, tools <= D5, manual tool change, feed <= 100 mm/s
-  - all 5 motors Mitsubishi HG-KR43 400 W (Z: HG-KR43B with brake), drivers MR-J4-40A
-  - spindle: HG-KR43 servo + PJ poly-V belt 1:3 -> ER11 belt-driven spindle cartridge ~13,500 rpm
+  - axis motors Mitsubishi HG-KR43 400 W x3 (Z: HG-KR43B with brake), drivers MR-J4-40A x3
+  - spindle: 0.8 kW air-cooled electro-spindle D65 x 188, ER11, 24,000 rpm, VFD (e.g. Delta MS300)
   - ball screws: DFU double-nut preload, lead 5 on all axes (Y DFU2005, X/Z DFU1605)
   - linear guides: HIWIN HG, ZA preload, H accuracy; X/Z blocks, supports and couplings added
-  - electrical cabinet: grblHAL (Teensy 4.1 + T41U5XBB) + 4x MR-J4-40A
+  - electrics on the gantry beam rear: grblHAL (Teensy 4.1 + T41U5XBB), 3x MR-J4-40A, spindle VFD
 """
 import os, json, math
 import cadquery as cq
@@ -37,8 +37,7 @@ P = dict(
     trough_w=40,                    # coolant trough outside the bed, each side + rear
     beam_h=220, beam_d=180,         # gantry beam (welded box)
     clear=220,                      # table top -> beam underside
-    spindle_d=62, spindle_l=200,    # ER11 belt-driven spindle cartridge
-    belt_ratio=3,                   # motor : spindle speed = 1 : 3
+    spindle_d=65, spindle_l=188,    # 0.8 kW air-cooled electro-spindle, ER11
     servo_sq=60,                    # HG-KR43 flange
     servo_l=98, servo_l_brake=132,  # HG-KR43 / HG-KR43B body length (approx.)
 )
@@ -256,7 +255,7 @@ for side, xx in (("L", -80), ("R", 80)):
     box(f"Z_rail_{side}", 20, 18, xc_h, xx - 10, xc_y0 - 18, zc0, grp, "HGR20, H")
 zs_y0 = xc_y0 - 18 - 12 - 30             # Z slide plate front face
 z_slide_z = Z_TABLETOP + p["travel_z"] + 140   # Z slide bottom at Z top position
-zp_x0, zp_w, zp_h = -110, 250, 230
+zp_x0, zp_w, zp_h = -110, 220, 230
 box("Z_slide_plate", zp_w, 30, zp_h, zp_x0, zs_y0, z_slide_z, grp, "Steel t30")
 for side, xx in (("L", -80), ("R", 80)):
     for k, zz in enumerate((z_slide_z + 15, z_slide_z + 140)):
@@ -273,7 +272,7 @@ cyl("Z_coupling", 12.5, 30, V(0, zsc_y, zc0 + xc_h + 17), V(0, 0, 1), grp, "Coup
 servo("Z_motor", (0, zsc_y, zc0 + xc_h + 52), (0, 0, 1), p["servo_l_brake"], grp, MOTOR_B,
       "brake holds spindle head at power-off")
 
-# spindle: ER11 belt-driven cartridge, tool tip at z_slide_z - 120 (same as v1)
+# spindle: 0.8 kW air-cooled electro-spindle D65 x 188, ER11; tool tip at z_slide_z - 120 (same as v1)
 sp_y = p["spindle_y"]
 sp_r = p["spindle_d"] / 2
 sp_z0 = z_slide_z - 77
@@ -286,11 +285,19 @@ def revolve(name, prof, group, mat="", note="", z0=None):
 
 # ER11 nose (ISO 15488): collet D11.5 x 18, 8 deg taper, 30 deg front cone; nut D19, M13x0.75
 T8 = math.tan(math.radians(8))
-body = cq.Solid.makeCylinder(sp_r, p["spindle_l"], V(0, sp_y, sp_z0), V(0, 0, 1))
+body = cq.Solid.makeCylinder(sp_r, p["spindle_l"] - 38, V(0, sp_y, sp_z0), V(0, 0, 1))
 body = body.cut(cq.Solid.makeCylinder(4.4, 30, V(0, sp_y, sp_z0), V(0, 0, 1)))       # collet taper end + shank bore
-add("Spindle_cartridge", body, grp,
-    "ER11 belt-driven spindle cartridge D62, >=15,000 rpm, P4 angular contact bearings, taper runout <=0.003",
-    "~13,500 rpm at motor 4,500 rpm")
+add("Spindle", body, grp,
+    "0.8 kW air-cooled electro-spindle D65, ER11, 220 V 400 Hz, 6,000-24,000 rpm, 2x7002C + 2x7000C bearings",
+    "runout <=0.005 mm requested; e.g. Sorotec HFSAC-6508 / GDF65-24Z-0.8")
+fan = cq.Solid.makeCylinder(sp_r, 38, V(0, sp_y, sp_z0 + p["spindle_l"] - 38), V(0, 0, 1))
+for k in range(12):                                                                  # cooling slots
+    a = 2 * math.pi * k / 12
+    fan = fan.cut(cq.Solid.makeBox(4, 12, 26, V(-2, sp_r - 3, sp_z0 + p["spindle_l"] - 32))
+                  .rotate(V(0, 0, 0), V(0, 0, 1), math.degrees(a)).translate(V(0, sp_y, 0)))
+add("Spindle_fan_cover", fan, grp, "Fan cover (air intake on top, keep away from chips)")
+cyl("Spindle_connector", 8, 22, V(-sp_r + 0.5, sp_y, z_slide_z + 18), V(-1, 0, 0), grp,
+    "Aviation plug 4-pin (U/V/W/PE) to VFD")
 revolve("Spindle_nose", [(5.75, -10), (6.5, -10), (6.5, 0), (5.75 - 10 * T8, 0)], grp,
         "Spindle nose: ER11 8 deg collet seat + M13x0.75 thread (part of spindle shaft)")
 revolve("ER11_collet", [(3, -14), (4.25, -14), (5.75, -10), (5.75 - 14 * T8, 4), (3, 4)], grp,
@@ -303,24 +310,10 @@ for k in range(4):
 add("ER11_nut", nut, grp, "ER11 nut type A, D19, M13x0.75, hook-wrench slots x4")
 revolve("Tool_D5", [(0, -43), (2.5, -43), (2.5, -24), (3, -24), (3, 2), (0, 2)], grp,
         "End mill D5 x shank D6, carbide 2-flute for Al (reference)", "stick-out 27 from nut face")
-clamp = cq.Solid.makeBox(110, zs_y0 - (sp_y - 50), 70, V(-55, sp_y - 50, z_slide_z + 30))
-clamp = clamp.cut(cq.Solid.makeCylinder(sp_r, 70, V(0, sp_y, z_slide_z + 30), V(0, 0, 1)))
-add("Spindle_clamp", clamp, grp, "Clamp D62, steel")
-pz0 = sp_z0 + p["spindle_l"] + 10          # pulley bottom
-cyl("Spindle_shaft", 7.5, 10, V(0, sp_y, sp_z0 + p["spindle_l"]), V(0, 0, 1), grp, "spindle shaft end D15")
-cyl("Spindle_pulley", 16, 20, V(0, sp_y, pz0), V(0, 0, 1), grp, "PJ poly-V pulley D32 (balanced)")
-mx, my = 90, sp_y - 10                     # motor axis (belt centre distance ~90)
-cyl("Spindle_motor_pulley", 48, 20, V(mx, my, pz0), V(0, 0, 1), grp, "PJ poly-V pulley D96 (balanced)")
-cyl("Spindle_motor_shaft", 7, 10, V(mx, my, pz0 - 10), V(0, 0, 1), grp, "motor shaft D14")
-brk_x0 = mx - 30
-box("Spindle_motor_bracket", 60, zs_y0 - (my - 30), 12, brk_x0, my - 30, pz0 - 22, grp,
-    "Motor bracket t12, slotted for belt tension")
-servo("Spindle_motor", (mx, my, pz0 - 22), (0, 0, -1), p["servo_l"], grp, MOTOR,
-      "speed mode, 0-10 V from grblHAL, 1:3 belt")
-add("Spindle_belt", belt_loop((0, sp_y), 16, (mx, my), 48, 4, pz0 + 2, 16), grp, "PJ poly-V belt (e.g. 6PJ)")
-guard = cq.Solid.makeBox(174, zs_y0 - 2 - (my - 58), 36, V(-28, my - 58, pz0 - 4))
-guard = guard.cut(cq.Solid.makeBox(168, zs_y0 - 2 - (my - 58) - 6, 33, V(-25, my - 55, pz0 - 4)))
-add("Belt_guard", guard, grp, "Belt guard, Al sheet t1.5")
+clamp = cq.Solid.makeBox(96, zs_y0 - (sp_y - 46), 60, V(-48, sp_y - 46, z_slide_z + 30))
+clamp = clamp.cut(cq.Solid.makeCylinder(sp_r, 60, V(0, sp_y, z_slide_z + 30), V(0, 0, 1)))
+clamp = clamp.cut(cq.Solid.makeBox(3, 50, 60, V(-1.5, sp_y - 46, z_slide_z + 30)))  # split clamp slot
+add("Spindle_clamp", clamp, grp, "D65 spindle mount, cast Al, split clamp, bolted to Z slide")
 
 # ======================= 7. COOLANT / AIR / CHIP SYSTEM ===================
 grp = "07 Coolant & Air"
@@ -388,8 +381,8 @@ grp = "08 Electrical"
 pnl_w, pnl_h, pnl_d = 440, 260, 150
 pnl_y0 = beam_y0 + p["beam_d"]
 box("Electrical_panel", pnl_w, 3, pnl_h, -pnl_w / 2, pnl_y0, z_beam0 + p["beam_h"] - pnl_h, grp,
-    "Mounting plate t3 on beam rear: 4x MR-J4-40A (X/Y/Z/spindle), Teensy 4.1 + T41U5XBB, line drivers, "
-    "24V PSU, breaker, terminals", "1 PC can supervise several machines over Ethernet")
+    "Mounting plate t3 on beam rear: 3x MR-J4-40A (X/Y/Z), spindle VFD 0.75-1.5 kW (e.g. Delta MS300, "
+    ">=400 Hz), Teensy 4.1 + T41U5XBB, line drivers, 24V PSU, breaker, terminals", "1 PC can supervise several machines over Ethernet")
 cov = cq.Solid.makeBox(pnl_w, pnl_d - 3, pnl_h, V(-pnl_w / 2, pnl_y0 + 3, z_beam0 + p["beam_h"] - pnl_h))
 cov = cov.cut(cq.Solid.makeBox(pnl_w - 3, pnl_d - 6, pnl_h, V(-pnl_w / 2 + 1.5, pnl_y0 + 3, z_beam0 + p["beam_h"] - pnl_h - 1.5)))
 add("Electrical_cover", cov, grp, "Sheet cover t1.5, open vented bottom, hinged for service")
