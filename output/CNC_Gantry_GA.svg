@@ -161,16 +161,17 @@
 <text x="482.00" y="97.00" font-size="3.3" text-anchor="start">加工區：300 x 300 mm；換料：工作台前移 100 mm</text>
 <text x="482.00" y="110.00" font-size="3.3" text-anchor="start">工作台：440 x 420 x 40，T 槽 14 x5</text>
 <text x="482.00" y="123.00" font-size="3.3" text-anchor="start">台面高：955 mm，龍門淨空：220 mm</text>
-<text x="482.00" y="136.00" font-size="3.3" text-anchor="start">床身：焊接框架＋t3 不鏽鋼底盤；只銑滑塊/立柱/支撐座墊板</text>
-<text x="482.00" y="149.00" font-size="3.3" text-anchor="start">線軌：HIWIN ZA/H；Y HG35 倒裝，X/Z HG20</text>
-<text x="482.00" y="162.00" font-size="3.3" text-anchor="start">螺桿：DFU 雙螺帽預壓 C7，導程 5 (Y DFU2005 / X,Z DFU1605)</text>
-<text x="482.00" y="175.00" font-size="3.3" text-anchor="start">伺服：HG-KR43 x2 + HG-KR43B x1；Y 倒裝螺桿 (螺帽固定)</text>
-<text x="482.00" y="188.00" font-size="3.3" text-anchor="start">主軸：0.8 kW 風冷電主軸 Ø65，ER11，24,000 rpm</text>
-<text x="482.00" y="201.00" font-size="3.3" text-anchor="start">電控：grblHAL + MR-J4-40A x3 + 主軸變頻器，鎖龍門背面</text>
-<text x="482.00" y="214.00" font-size="3.3" text-anchor="start">解析度：0.001 mm/step (電子齒輪 5,000 p/rev)</text>
-<text x="482.00" y="227.00" font-size="3.3" text-anchor="start">冷卻：浸入式幫浦 25 L/min + 吹氣 (客戶要求保留)</text>
-<text x="482.00" y="240.00" font-size="3.3" text-anchor="start">外形 (W x D x H)：820 x 1113 x 1639 mm</text>
-<text x="482.00" y="253.00" font-size="3.3" text-anchor="start">* 配置圖，尺寸待細部設計確認</text>
+<text x="482.00" y="136.00" font-size="3.3" text-anchor="start">床身：焊接框架＋t3 底盤；一整塊基準底板 (唯一精密加工)</text>
+<text x="482.00" y="149.00" font-size="3.3" text-anchor="start">龍門：三住鋁擠型 HFS8-80160 (立柱 x2、橫樑 x2)</text>
+<text x="482.00" y="162.00" font-size="3.3" text-anchor="start">線軌：HIWIN ZA/H；Y HG35 倒裝，X/Z HG20</text>
+<text x="482.00" y="175.00" font-size="3.3" text-anchor="start">螺桿：DFU 雙螺帽預壓 C7，導程 5 (Y DFU2005 / X,Z DFU1605)</text>
+<text x="482.00" y="188.00" font-size="3.3" text-anchor="start">伺服：HG-KR43 x2 + HG-KR43B x1；Y 倒裝螺桿 (螺帽固定)</text>
+<text x="482.00" y="201.00" font-size="3.3" text-anchor="start">主軸：0.8 kW 風冷電主軸 Ø65，ER11，24,000 rpm</text>
+<text x="482.00" y="214.00" font-size="3.3" text-anchor="start">電控：grblHAL + MR-J4-40A x3 + 主軸變頻器，鎖龍門背面</text>
+<text x="482.00" y="227.00" font-size="3.3" text-anchor="start">解析度：0.001 mm/step (電子齒輪 5,000 p/rev)</text>
+<text x="482.00" y="240.00" font-size="3.3" text-anchor="start">冷卻：浸入式幫浦 25 L/min + 吹氣 (客戶要求保留)</text>
+<text x="482.00" y="253.00" font-size="3.3" text-anchor="start">外形 (W x D x H)：820 x 1113 x 1639 mm</text>
+<text x="482.00" y="266.00" font-size="3.3" text-anchor="start">* 配置圖，尺寸待細部設計確認</text>
 <rect x="660" y="474" width="171" height="110" fill="none" stroke="#000" stroke-width="0.6"/>
 <path d="M660,496 H831" stroke="#000" stroke-width="0.3"/>
 <path d="M660,518 H831" stroke="#000" stroke-width="0.3"/>
