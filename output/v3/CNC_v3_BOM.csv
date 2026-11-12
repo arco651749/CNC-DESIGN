@@ -1,0 +1,51 @@
+﻿group,item,qty,source,spec
+01 Base,Datum_base_plate,1,custom (machined),"Q235 t30 690x595 milled datum plate: Y block seats, Y nut seat, column feet (bed weldment removed)"
+02 Y-axis,C-KBS1505 nut,1,MISUMI,"C-KBS1505 nut, fixed (y=-150)"
+02 Y-axis,C-KBS1505-545,1,MISUMI,"C-KBS1505-545 (D16 lead 5, C5)"
+02 Y-axis,C-TEK12 fixed support,1,MISUMI,C-TEK12 fixed support (under table)
+02 Y-axis,CPJC40-RD-12-14,1,MISUMI,CPJC40-RD-12-14
+02 Y-axis,HG-KR43 400 W,1,Mitsubishi Electric,"HG-KR43 400 W, rides with the table"
+02 Y-axis,SE2RZ42 block,4,MISUMI,SE2RZ42 block (fixed on datum plate)
+02 Y-axis,SE2RZ42-680 rail,2,MISUMI,"SE2RZ42-680 rail (inverted, moves with table)"
+02 Y-axis,Work_table,1,custom (machined),"440x420x40, 5x T-slot 14, work area 300x300"
+02 Y-axis,Y_carrier_bar,2,custom (machined),"steel bar t16, rail -> table"
+02 Y-axis,Y_motor_bracket,1,custom (machined),"L-bracket steel t15 on table top rear, spigot bore D50"
+02 Y-axis,Y_nut_bracket,1,custom (machined),"steel t15, nut flange seat on datum plate"
+02 Y-axis,screw end journal D12,1,MISUMI,screw end journal D12 (part of C-KBS end machining)
+03 Gantry,Column_foot,2,custom (machined),steel foot plate t18
+03 Gantry,Gantry_joint_plate,2,custom (machined),"Al plate t12, column + beam ends"
+03 Gantry,HFS8-80160-300,2,MISUMI,HFS8-80160-300
+03 Gantry,HFS8-80160-640,2,MISUMI,HFS8-80160-640
+03 Gantry,X_rail_plate,1,custom (machined),"steel t15, front face milled (X rail datum)"
+04 X-axis,C-KBS1505 nut,1,MISUMI,C-KBS1505 nut
+04 X-axis,C-KBS1505-540,1,MISUMI,C-KBS1505-540 (D16 lead 5)
+04 X-axis,C-TEF12 floating support,1,MISUMI,C-TEF12 floating support
+04 X-axis,C-TEK12 fixed support,1,MISUMI,C-TEK12 fixed support
+04 X-axis,CPJC40-RD-12-14,1,MISUMI,CPJC40-RD-12-14
+04 X-axis,HG-KR43 400 W,1,Mitsubishi Electric,HG-KR43 400 W
+04 X-axis,SX2RNL28 block,4,MISUMI,SX2RNL28 block
+04 X-axis,SX2RNL28-600 rail,2,MISUMI,SX2RNL28-600 rail
+04 X-axis,X_carriage_plate,1,custom (machined),"steel t30, 240x380"
+04 X-axis,X_motor_bracket,1,custom (machined),steel t15 motor plate + arm to rail plate end
+04 X-axis,X_nut_bracket,1,custom (machined),"steel t15, nut flange -> carriage rear"
+04 X-axis,X_spacer,2,custom (machined),steel spacer bar t30
+04 X-axis,screw end journal D12,1,MISUMI,screw end journal D12
+05 Z-axis,C-KBS1505 nut,1,MISUMI,C-KBS1505 nut (in slide pocket)
+05 Z-axis,C-KBS1505-330,1,MISUMI,C-KBS1505-330 (fixed-free)
+05 Z-axis,C-TEK12 fixed support,1,MISUMI,C-TEK12 fixed support (top)
+05 Z-axis,CPJC40-RD-12-14,1,MISUMI,CPJC40-RD-12-14
+05 Z-axis,HG-KR43B 400 W with brake,1,Mitsubishi Electric,HG-KR43B 400 W with brake
+05 Z-axis,SX2RNL28 block,4,MISUMI,SX2RNL28 block
+05 Z-axis,SX2RNL28-380 rail,2,MISUMI,SX2RNL28-380 rail
+05 Z-axis,Z_motor_bracket,1,custom (machined),steel t15 motor plate + 2 arms on carriage front
+05 Z-axis,Z_slide_plate,1,custom (machined),"steel t28, pocket for the Z nut"
+05 Z-axis,Z_spacer,2,custom (machined),steel spacer bar t14
+05 Z-axis,screw end journal D12,1,MISUMI,screw end journal D12
+06 Spindle,ER11_nut,1,tooling,ER11 nut D19 M13x0.75
+06 Spindle,Spindle_body,1,spindle vendor (modelled from spec),"0.8 kW air-cooled D65x188, 24,000 rpm, 220 V 400 Hz (e.g. HQD GDF65-24Z/0.8)"
+06 Spindle,Spindle_clamp,1,custom (machined),"split clamp D65, Al, bolted to slide front"
+06 Spindle,Spindle_fan_cover,1,spindle vendor (modelled from spec),fan cover
+06 Spindle,Spindle_nose,1,spindle vendor (modelled from spec),ER11 nose
+06 Spindle,Spindle_plug,1,spindle vendor (modelled from spec),aviation plug 4-pin
+06 Spindle,Tool_D,1,tooling,end mill D5 (reference)
+07 Electrics,MR-J4-40A,3,Mitsubishi Electric,MR-J4-40A
