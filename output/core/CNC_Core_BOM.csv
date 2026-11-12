@@ -1,0 +1,46 @@
+﻿群組,零件,數量,規格 / 型號,外形尺寸 (mm),來源,狀態 / 備註,說明
+02 Bed,Datum_base_plate,1,"Q235 t30, ONE datum plate milled in one setup",640×508×30,自製加工（可用三住 meviy / 板材加工）,依 STEP 尺寸加工,"flat plate: 4 Y block seats, fixed Y nut seat, both column seats (no slot / pocket with HG35)"
+03 Y-axis,Work_table,1,"HT250 / Q235 t40, 5x T-slot 14",440×420×40,自製加工（可用三住 meviy / 板材加工）,依 STEP 尺寸加工,"440x420 table, work area 300x300"
+03 Y-axis,Y_ballscrew,1,"DFU1605 C7, 545 mm, inverted fixed-free: rides under the table, nut fixed",16×545×16,三住 MISUMI 或 HIWIN,DFU1605 C7 雙螺帽預壓，兩端軸頭依圖加工（待選型號）,
+03 Y-axis,Y_block,4,"HGH35CA, ZA preload, H - inverted, fixed on the datum plate",70×109×26,HIWIN（或三住同級線軌）,Y: HGH35CA，X/Z: HGH20CA，ZA 預壓、H 級,double seals (rail face points down)
+03 Y-axis,Y_coupling,1,"Coupling D25, 8x12",25×26×25,三住 MISUMI,聯軸器 Ø25，8×12 / 8×14（待選型號）,
+03 Y-axis,Y_motor,1,Mitsubishi HG-KR43 400W,60×98×60,三菱電機,HG-KR43（Z 軸 HG-KR43B 附煞車）,"on the L-bracket at the table rear, direct drive, rides with the table (cable in drag chain), lead 5"
+03 Y-axis,Y_motor_adapter,1,"Motor adapter, coupling inside",60×30×60,自製加工（可用三住 meviy / 板材加工）,依 STEP 尺寸加工,
+03 Y-axis,Y_motor_bracket,1,"L-shaped motor bracket, steel t15/t25: top flange on table top + leg on rear face",110×65×107,自製加工（可用三住 meviy / 板材加工）,依 STEP 尺寸加工,"fixed-end bearing pair built into the leg (no separate BK/BF), screw front end free"
+03 Y-axis,Y_nut_housing,1,DFU1605 nut seat FIXED on the datum plate (flange truncated top/bottom to 38),70×90×52,自製加工（或三住螺帽座）,依螺帽法蘭尺寸加工,
+03 Y-axis,Y_rail,2,"HGR35 L=640, H - inverted, moves with table",34×640×29,HIWIN（或三住同級線軌）,Y: HGR35，X/Z: HGR20；長度依清單,
+04 Gantry,Column_foot,2,"Steel foot plate t15, bolted to the datum plate + column end (tapped core)",80×180×15,自製加工（可用三住 meviy / 板材加工）,依 STEP 尺寸加工,
+04 Gantry,Gantry_beam,2,MISUMI HFS8-80160-640,640×80×160,三住 MISUMI,型號已查：HFS8-80160（8 系列、槽寬 10），長度可指定 0.5 mm,"aluminium extrusion 80x160 on edge, two side by side"
+04 Gantry,Gantry_column,2,MISUMI HFS8-80160-300,80×160×300,三住 MISUMI,型號已查：HFS8-80160（8 系列、槽寬 10），長度可指定 0.5 mm,"aluminium extrusion 80x160, slot 10"
+04 Gantry,Gantry_joint_plate,2,"Al plate t12, ties column + beam end (T-nuts M8)",12×160×260,自製加工（可用三住 meviy / 板材加工）,依 STEP 尺寸加工,
+04 Gantry,X_rail_plate,1,"Steel plate t15, front face milled flat: X rail datum",640×15×160,自製加工（可用三住 meviy / 板材加工）,依 STEP 尺寸加工,bolted to the beam with T-nuts
+05 X-axis,X_BF_support,1,BF12 floating end,20×34×46,三住 MISUMI 或 HIWIN,BK12 / BF12 同級支撐座（三住對應型號待確認）,
+05 X-axis,X_BK_support,1,BK12 fixed end,25×34×46,三住 MISUMI 或 HIWIN,BK12 / BF12 同級支撐座（三住對應型號待確認）,
+05 X-axis,X_ballscrew,1,"DFU1605 double-nut preload, C7",615×16×16,三住 MISUMI 或 HIWIN,DFU1605 C7 雙螺帽預壓，兩端軸頭依圖加工（待選型號）,
+05 X-axis,X_block,4,"HGH20CA, ZA preload, H",78×18×44,HIWIN（或三住同級線軌）,Y: HGH35CA，X/Z: HGH20CA，ZA 預壓、H 級,
+05 X-axis,X_carriage_plate,1,6061-T6 / steel t30,240×30×380,自製加工（可用三住 meviy / 板材加工）,依 STEP 尺寸加工,
+05 X-axis,X_coupling,1,"Coupling D25, 8x12",30×25×25,三住 MISUMI,聯軸器 Ø25，8×12 / 8×14（待選型號）,
+05 X-axis,X_motor,1,Mitsubishi HG-KR43 400W,98×60×60,三菱電機,HG-KR43（Z 軸 HG-KR43B 附煞車）,"direct drive, lead 5"
+05 X-axis,X_motor_mount,1,Motor bracket t8,40×76×76,自製加工（可用三住 meviy / 板材加工）,依 STEP 尺寸加工,
+05 X-axis,X_nut_housing,1,DFU1605 nut seat (on carriage back),100×28×44,自製加工（或三住螺帽座）,依螺帽法蘭尺寸加工,
+05 X-axis,X_rail,2,"HGR20, H",600×22×23,HIWIN（或三住同級線軌）,Y: HGR35，X/Z: HGR20；長度依清單,
+06 Z-axis & Spindle,ER11_collet,1,"ER11 collet D6 (5.5-6.0), AA grade runout <=0.005 mm",12×12×18,刀具 / 夾頭商,ER11 AA 級筒夾、螺帽 Ø19、刀具 Ø5×柄 Ø6,"choose by tool SHANK diameter, 1-7 mm"
+06 Z-axis & Spindle,ER11_nut,1,"ER11 nut type A, D19, M13x0.75, hook-wrench slots x4",19×19×14,刀具 / 夾頭商,ER11 AA 級筒夾、螺帽 Ø19、刀具 Ø5×柄 Ø6,
+06 Z-axis & Spindle,Spindle,1,"0.8 kW air-cooled electro-spindle D65, ER11, 220 V 400 Hz, 6,000-24,000 rpm, 2x7002C + 2x7000C bearings",65×65×150,電主軸廠（Sorotec / GDF65 等）,"0.8 kW 風冷 Ø65×188 ER11，24,000 rpm",runout <=0.005 mm requested; e.g. Sorotec HFSAC-6508 / GDF65-24Z-0.8
+06 Z-axis & Spindle,Spindle_clamp,1,"D65 spindle mount, cast Al, split clamp, bolted to Z slide",96×94×60,自製加工（可用三住 meviy / 板材加工）,依 STEP 尺寸加工,
+06 Z-axis & Spindle,Spindle_connector,1,Aviation plug 4-pin (U/V/W/PE) to VFD,22×16×16,電主軸廠（Sorotec / GDF65 等）,"0.8 kW 風冷 Ø65×188 ER11，24,000 rpm",
+06 Z-axis & Spindle,Spindle_fan_cover,1,"Fan cover (air intake on top, keep away from chips)",65×65×38,電主軸廠（Sorotec / GDF65 等）,"0.8 kW 風冷 Ø65×188 ER11，24,000 rpm",
+06 Z-axis & Spindle,Spindle_nose,1,Spindle nose: ER11 8 deg collet seat + M13x0.75 thread (part of spindle shaft),13×13×10,電主軸廠（Sorotec / GDF65 等）,"0.8 kW 風冷 Ø65×188 ER11，24,000 rpm",
+06 Z-axis & Spindle,Tool_D5,1,"End mill D5 x shank D6, carbide 2-flute for Al (reference)",6×6×45,刀具 / 夾頭商,ER11 AA 級筒夾、螺帽 Ø19、刀具 Ø5×柄 Ø6,stick-out 27 from nut face
+06 Z-axis & Spindle,Z_BF_support,1,BF12 floating end (bottom),60×28×20,三住 MISUMI 或 HIWIN,BK12 / BF12 同級支撐座（三住對應型號待確認）,
+06 Z-axis & Spindle,Z_BK_support,1,BK12 fixed end (top),60×28×25,三住 MISUMI 或 HIWIN,BK12 / BF12 同級支撐座（三住對應型號待確認）,
+06 Z-axis & Spindle,Z_ballscrew,1,"DFU1605 double-nut preload, C7",16×16×395,三住 MISUMI 或 HIWIN,DFU1605 C7 雙螺帽預壓，兩端軸頭依圖加工（待選型號）,
+06 Z-axis & Spindle,Z_block,4,"HGH20CA, ZA preload, H",44×12×78,HIWIN（或三住同級線軌）,Y: HGH35CA，X/Z: HGH20CA，ZA 預壓、H 級,
+06 Z-axis & Spindle,Z_coupling,1,"Coupling D25, 8x14",25×25×30,三住 MISUMI,聯軸器 Ø25，8×12 / 8×14（待選型號）,
+06 Z-axis & Spindle,Z_motor,1,Mitsubishi HG-KR43B 400W w/ brake,60×60×132,三菱電機,HG-KR43（Z 軸 HG-KR43B 附煞車）,brake holds spindle head at power-off
+06 Z-axis & Spindle,Z_motor_base,1,Motor base plate t12,120×58×12,自製加工（可用三住 meviy / 板材加工）,依 STEP 尺寸加工,
+06 Z-axis & Spindle,Z_motor_mount,1,Motor bracket t8,76×76×40,自製加工（可用三住 meviy / 板材加工）,依 STEP 尺寸加工,
+06 Z-axis & Spindle,Z_nut_housing,1,DFU1605 nut seat,70×8×90,自製加工（或三住螺帽座）,依螺帽法蘭尺寸加工,
+06 Z-axis & Spindle,Z_rail,2,"HGR20, H",20×18×380,HIWIN（或三住同級線軌）,Y: HGR35，X/Z: HGR20；長度依清單,
+06 Z-axis & Spindle,Z_slide_plate,1,Steel t30,220×30×230,自製加工（可用三住 meviy / 板材加工）,依 STEP 尺寸加工,
+04 Gantry,T-nuts / bolts,約 60,8 系列後入式 T 型螺帽 M8 + 內六角螺栓,-,三住 MISUMI,型號待確認,立柱、橫樑、連接板、滑軌座板

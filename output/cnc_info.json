@@ -12,12 +12,13 @@
   "table_l": 420,
   "table_t": 40,
   "spindle_y": 120,
-  "col_w": 100,
-  "col_d": 200,
+  "col_w": 80,
+  "col_d": 160,
+  "xrail_plate_t": 15,
   "table_gap": 20,
   "trough_w": 40,
-  "beam_h": 220,
-  "beam_d": 180,
+  "beam_h": 160,
+  "beam_d": 175,
   "clear": 220,
   "spindle_d": 65,
   "spindle_l": 188,
@@ -26,16 +27,16 @@
   "servo_l_brake": 132,
   "bed_l": 1055,
   "span_in": 480,
-  "bed_w": 680
+  "bed_w": 640
  },
  "overall": {
-  "x": 860,
+  "x": 820,
   "y": 1113,
   "z": 1639,
-  "xmin": -382.1,
+  "xmin": -362.1,
   "ymin": -442.0,
   "zmin": -20.0,
-  "xmax": 478.0,
+  "xmax": 458.0,
   "ymax": 671.0,
   "zmax": 1619.0
  },
@@ -44,7 +45,7 @@
   "bed_top": 860,
   "table_top": 955,
   "beam_bottom": 1175,
-  "beam_top": 1395
+  "beam_top": 1335
  },
  "table_y": {
   "work": 120,
@@ -312,22 +313,58 @@
    "note": "usable 300x300"
   },
   {
+   "name": "Column_foot_L",
+   "group": "04 Gantry",
+   "material": "Steel foot plate t15, bolted to the datum plate + column end (tapped core)",
+   "note": ""
+  },
+  {
    "name": "Gantry_column_L",
    "group": "04 Gantry",
-   "material": "Welded box 100x200 t12 (Q235)",
+   "material": "MISUMI HFS8-80160-300",
+   "note": "aluminium extrusion 80x160, slot 10"
+  },
+  {
+   "name": "Gantry_joint_plate_L",
+   "group": "04 Gantry",
+   "material": "Al plate t12, ties column + beam end (T-nuts M8)",
+   "note": ""
+  },
+  {
+   "name": "Column_foot_R",
+   "group": "04 Gantry",
+   "material": "Steel foot plate t15, bolted to the datum plate + column end (tapped core)",
    "note": ""
   },
   {
    "name": "Gantry_column_R",
    "group": "04 Gantry",
-   "material": "Welded box 100x200 t12 (Q235)",
+   "material": "MISUMI HFS8-80160-300",
+   "note": "aluminium extrusion 80x160, slot 10"
+  },
+  {
+   "name": "Gantry_joint_plate_R",
+   "group": "04 Gantry",
+   "material": "Al plate t12, ties column + beam end (T-nuts M8)",
    "note": ""
   },
   {
-   "name": "Gantry_beam",
+   "name": "Gantry_beam_1",
    "group": "04 Gantry",
-   "material": "Welded box 220x180 t12, filled epoxy granite optional",
-   "note": ""
+   "material": "MISUMI HFS8-80160-640",
+   "note": "aluminium extrusion 80x160 on edge, two side by side"
+  },
+  {
+   "name": "Gantry_beam_2",
+   "group": "04 Gantry",
+   "material": "MISUMI HFS8-80160-640",
+   "note": "aluminium extrusion 80x160 on edge, two side by side"
+  },
+  {
+   "name": "X_rail_plate",
+   "group": "04 Gantry",
+   "material": "Steel plate t15, front face milled flat: X rail datum",
+   "note": "bolted to the beam with T-nuts"
   },
   {
    "name": "X_rail_1",

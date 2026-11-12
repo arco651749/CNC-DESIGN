@@ -1,6 +1,6 @@
 # CNC DESIGN
 
-固定龍門、工作台移動 (Y) 的三軸 CNC。加工區 300 × 300 mm；換料時工作台再前移 100 mm。外形約 860 × 1113 × 1619 mm（床身 680 × 1055）。
+固定龍門、工作台移動 (Y) 的三軸 CNC。加工區 300 × 300 mm；換料時工作台再前移 100 mm。外形約 820 × 1113 × 1619 mm（床身 640 × 1055）；核心組件約 790 × 666 × 789 mm。
 用途：切鋁、刀具 Ø5 以下、人工換刀；以多台並行提高產量。
 
 ## v2 設計重點
@@ -9,6 +9,7 @@
 |---|---|
 | 行程 X / Y / Z | 300 / 400 / 100 mm（Y = 加工 300 + 換料 100），進給 ≤ 100 mm/s |
 | 線軌 | HIWIN HG，ZA 中預壓、H 級（Y HG35 倒裝：滑軌鎖工作台、滑塊鎖基準板；X/Z HG20） |
+| 龍門 | 三住鋁擠型 HFS8-80160：立柱 ×2、橫樑 ×2 並排；前面 t15 銑平鋼板當 X 滑軌基準 |
 | 床身 | 焊接框架＋t3 不鏽鋼底盤；一整塊基準底板（立柱座、Y 滑塊座、固定 Y 螺帽座，一次裝夾銑出）；Y 螺桿倒裝：DFU1605 固定－自由，L 型馬達座鎖在工作台後緣（內建固定端軸承），不另設支撐座；選 HG35 線軌（H=55），滑軌直接鎖工作台、不用墊高塊，基準板免開槽 |
 | 螺桿 | DFU1605 雙螺帽預壓 C7，三軸統一 |
 | 伺服 | 三菱 HG-KR43 400 W × 3（Z 用 HG-KR43B 附煞車），MR-J4-40A × 3 |
@@ -21,6 +22,7 @@
 ## 檔案
 
 - `cad/cnc_gantry.py`：CadQuery 參數化模型 → `output/CNC_Gantry.step`、`output/cnc_info.json`
+- `cad/core_assembly.py`：核心組件（不含大底座）→ `output/core/CNC_Core.step`、`output/core/CNC_Core_BOM.csv`（含三住型號與來源）
 - `cad/make_drawing.py`：GA 總組立圖（A1，1:8，第三角法）→ `output/CNC_Gantry_GA.svg`
 - `cad/make_spindle_detail.py`：主軸頭細部圖（A3，前視 / 俯視 1:2 + ER11 前端剖面 2:1）→ `output/CNC_Spindle_Detail.svg`
 - `freecad/`、`output/v1/`：v1（FreeCAD）的舊腳本與模型，僅供參考，未更新到 v2
@@ -31,5 +33,6 @@
 pip install cadquery
 python cad/cnc_gantry.py
 python cad/make_drawing.py
+python cad/core_assembly.py
 python cad/make_spindle_detail.py
 ```

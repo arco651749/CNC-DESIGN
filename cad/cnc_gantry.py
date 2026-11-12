@@ -32,10 +32,11 @@ P = dict(
     rail_y_gap=320,                 # Y rails centre distance (HGR35, inverted)
     table_w=440, table_l=420, table_t=40,
     spindle_y=120,                  # spindle axis Y (machining centre)
-    col_w=100, col_d=200,           # gantry columns
+    col_w=80, col_d=160,            # gantry columns: MISUMI HFS8-80160 aluminium extrusion
+    xrail_plate_t=15,               # machined steel plate on the beam front for the X rails
     table_gap=20,                   # table <-> column clearance each side (the head runs IN FRONT of the columns)
     trough_w=40,                    # coolant trough outside the bed, each side + rear
-    beam_h=220, beam_d=180,         # gantry beam (welded box)
+    beam_h=160, beam_d=175,         # gantry beam: 2x HFS8-80160 side by side (160x160) + 15 rail plate
     clear=220,                      # table top -> beam underside
     spindle_d=65, spindle_l=188,    # 0.8 kW air-cooled electro-spindle, ER11
     servo_sq=60,                    # HG-KR43 flange
@@ -138,6 +139,28 @@ def servo(name, axis_pt, direction, length, group, mat, note=""):
     return add(name, body.translate(V(*axis_pt)), group, mat, note)
 
 
+def alu_profile(name, w, h, L, org, axis, group, mat, note=""):
+    """MISUMI HFS8-type profile (slot 10, pitch 40, simplified 12 deep grooves). w x h section, length L.
+    axis 'z': w along X, h along Y.  axis 'x': w along Y, h along Z.  org = min corner."""
+    if axis == "z":
+        b = cq.Solid.makeBox(w, h, L)
+        for k in range(int(h // 40)):
+            yc = 20 + 40 * k
+            b = b.cut(cq.Solid.makeBox(12, 10, L, V(0, yc - 5, 0))).cut(cq.Solid.makeBox(12, 10, L, V(w - 12, yc - 5, 0)))
+        for k in range(int(w // 40)):
+            xc_ = 20 + 40 * k
+            b = b.cut(cq.Solid.makeBox(10, 12, L, V(xc_ - 5, 0, 0))).cut(cq.Solid.makeBox(10, 12, L, V(xc_ - 5, h - 12, 0)))
+    else:
+        b = cq.Solid.makeBox(L, w, h)
+        for k in range(int(h // 40)):
+            zc = 20 + 40 * k
+            b = b.cut(cq.Solid.makeBox(L, 12, 10, V(0, 0, zc - 5))).cut(cq.Solid.makeBox(L, 12, 10, V(0, w - 12, zc - 5)))
+        for k in range(int(w // 40)):
+            yc = 20 + 40 * k
+            b = b.cut(cq.Solid.makeBox(L, 10, 12, V(0, yc - 5, 0))).cut(cq.Solid.makeBox(L, 10, 12, V(0, yc - 5, h - 12)))
+    return add(name, b.translate(V(*org)), group, mat, note)
+
+
 def hull2d(pts):
     pts = sorted(set(pts))
     def cross(o, a, b): return (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0])
@@ -189,7 +212,7 @@ pads = {  # name: (x0, y0, sx, sy, note)
 }
 _dp_y0 = min(Y_BLK[0] - 60, Y_NUT_Y - Y_NUT_HALF - 15)
 _slot_y0 = TABLE_Y_LOAD + p["table_l"] / 2 - 5               # Y motor bracket front at loading
-dp = cq.Solid.makeBox(bw, _beam_y0 + p["col_d"] - _dp_y0, PAD_T, V(-bw / 2, _dp_y0, FLOOR_Z))
+dp = cq.Solid.makeBox(bw, _beam_y0 + p["beam_d"] - _dp_y0, PAD_T, V(-bw / 2, _dp_y0, FLOOR_Z))
 add("Datum_base_plate", dp, "02 Bed", "Q235 t30, ONE datum plate milled in one setup",
     "flat plate: 4 Y block seats, fixed Y nut seat, both column seats (no slot / pocket with HG35)")
 floor = cq.Solid.makeBox(bw, bl, 3, V(bx0, Y_BED0, FLOOR_Z - 3))
@@ -249,18 +272,29 @@ z_beam0 = Z_TABLETOP + p["clear"]
 beam_y0 = p["spindle_y"] + 178          # beam front face
 span_in = p["span_in"]                  # inner span between columns
 col_x_in = span_in / 2
+ext_y0 = beam_y0 + p["xrail_plate_t"]   # extrusions start behind the X rail plate
+col_z0 = Z_BEDTOP + 15                  # columns stand on 15 mm foot plates
+col_L = z_beam0 - col_z0                # columns end under the beam (beam sits on top)
+beam_l = span_in + 2 * p["col_w"]
 for side, sgn in (("L", -1), ("R", 1)):
     x0 = col_x_in if sgn > 0 else -col_x_in - p["col_w"]
-    tube(f"Gantry_column_{side}", p["col_w"], p["col_d"], z_beam0 + p["beam_h"] - Z_BEDTOP,
-         x0, beam_y0, Z_BEDTOP, 12, "z", grp, "Welded box 100x200 t12 (Q235)")
-beam_l = span_in + 2 * p["col_w"]
-tube("Gantry_beam", beam_l, p["beam_d"], p["beam_h"], -beam_l / 2, beam_y0, z_beam0, 12, "x",
-     grp, "Welded box 220x180 t12, filled epoxy granite optional")
+    box(f"Column_foot_{side}", p["col_w"], p["col_d"] + 20, 15, x0, ext_y0 - 20, Z_BEDTOP, grp,
+        "Steel foot plate t15, bolted to the datum plate + column end (tapped core)")
+    alu_profile(f"Gantry_column_{side}", p["col_w"], p["col_d"], col_L, (x0, ext_y0, col_z0), "z", grp,
+                f"MISUMI HFS8-80160-{col_L:.0f}", "aluminium extrusion 80x160, slot 10")
+    xo = x0 - 12 if sgn < 0 else x0 + p["col_w"]
+    box(f"Gantry_joint_plate_{side}", 12, p["col_d"], 100 + p["beam_h"], xo, ext_y0, z_beam0 - 100, grp,
+        "Al plate t12, ties column + beam end (T-nuts M8)")
+for k in range(2):
+    alu_profile(f"Gantry_beam_{k+1}", 80, p["beam_h"], beam_l, (-beam_l / 2, ext_y0 + 80 * k, z_beam0), "x", grp,
+                f"MISUMI HFS8-80160-{beam_l:.0f}", "aluminium extrusion 80x160 on edge, two side by side")
+box("X_rail_plate", beam_l, p["xrail_plate_t"], p["beam_h"], -beam_l / 2, beam_y0, z_beam0, grp,
+    "Steel plate t15, front face milled flat: X rail datum", "bolted to the beam with T-nuts")
 
 # ======================= 5. X AXIS ========================================
 grp = "05 X-axis"
 x_rail_l = beam_l - 40
-x_rail_z = (z_beam0 + 30, z_beam0 + p["beam_h"] - 53)
+x_rail_z = (z_beam0 + 20, z_beam0 + p["beam_h"] - 43)
 for k, zz in enumerate(x_rail_z):
     box(f"X_rail_{k+1}", x_rail_l, 22, 23, -x_rail_l / 2, beam_y0 - 22, zz, grp, "HGR20, H")
     for j, xx in enumerate((-60, 60)):
@@ -270,8 +304,8 @@ xs_z = z_beam0 + p["beam_h"] / 2
 xs_y = beam_y0 - 26
 xs0, xs1 = -x_rail_l / 2 + 10, beam_l / 2 + 5
 cyl("X_ballscrew", 8, xs1 - xs0, V(xs0, xs_y, xs_z), V(1, 0, 0), grp, "DFU1605 double-nut preload, C7")
-box("X_BK_support", 25, 34, 60, beam_l / 2 - 45, beam_y0 - 40, xs_z - 30, grp, "BK12 fixed end")
-box("X_BF_support", 20, 34, 60, -x_rail_l / 2, beam_y0 - 40, xs_z - 30, grp, "BF12 floating end")
+box("X_BK_support", 25, 34, 46, beam_l / 2 - 45, beam_y0 - 40, xs_z - 23, grp, "BK12 fixed end")
+box("X_BF_support", 20, 34, 46, -x_rail_l / 2, beam_y0 - 40, xs_z - 23, grp, "BF12 floating end")
 tube("X_motor_mount", 40, 76, 76, beam_l / 2, xs_y - 38, xs_z - 38, 8, "x", grp, "Motor bracket t8")
 cyl("X_coupling", 12.5, 30, V(beam_l / 2 + 5, xs_y, xs_z), V(1, 0, 0), grp, "Coupling D25, 8x12")
 servo("X_motor", (beam_l / 2 + 40, xs_y, xs_z), (1, 0, 0), p["servo_l"], grp, MOTOR, "direct drive, lead 5")
@@ -382,7 +416,7 @@ box("Filter_baffle", tank_w - 6, 3, tank_h - 60, -tank_w / 2 + 3, tank_y0 + tank
 cyl("Coolant_pump", 45, 160, V(-150, tank_y0 + 140, 185 + tank_h - 120), V(0, 0, 1), grp,
     "Immersion pump 90W, 25 L/min, 0.2 MPa")
 cyl("Pump_motor", 55, 110, V(-150, tank_y0 + 140, 185 + tank_h), V(0, 0, 1), grp, "pump motor")
-hz = z_beam0 + p["beam_h"] + 60
+hz = z_beam0 - 120 + xc_h + 22             # above the X carriage plate and Z motor base
 h0 = 185 + tank_h + 117
 hxr = -(bw / 2 - leg) + 20                # riser x: inside the leg line, beside the cabinet
 hose_pts = [V(-150, tank_y0 + 140, 185 + tank_h + 110), V(-150, tank_y0 + 140, h0), V(hxr, gy1 + 10, h0),
@@ -400,7 +434,7 @@ for ang, name, note in [(200, "Coolant_nozzle_1", "Loc-Line 1/4\" coolant"),
     base = V(70 * math.cos(a), sp_y + 70 * math.sin(a), z_slide_z - 60)
     tip = V(8 * math.cos(a), sp_y + 8 * math.sin(a), tip_z + 8)
     cyl(name, 4, (tip - base).Length, base, tip - base, grp, note)
-box("Air_solenoid_FRL", 60, 40, 120, -col_x_in - 80, beam_y0 + p["col_d"], z_beam0 - 260, grp,
+box("Air_solenoid_FRL", 60, 40, 120, -col_x_in - 70, beam_y0 + p["beam_d"], z_beam0 - 260, grp,
     "FRL + 24V solenoid valve (M7/M8 coolant/air via controller)")
 box("Drag_chain_X", beam_l - 100, 40, 30, -(beam_l - 100) / 2, beam_y0 + 30, z_beam0 + p["beam_h"], grp,
     "Drag chain 25x38 (cables, coolant, air)")
