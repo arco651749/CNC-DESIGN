@@ -46,8 +46,7 @@ Z_BED = p["stand_h"]
 Z_BEDTOP = Z_BED + p["bed_h"]
 # Y guide INVERTED: blocks bolted to the base (fixed), rails bolted under the table on carrier bars (moving).
 # Only the block pad needs precision machining. Stack: block 18 + rail 22 + carrier bar 20.
-CARRIER_T = 30                      # rail carrier bar; leaves 70 mm under the table for the Y motor
-RAIL_H = 18 + 22 + CARRIER_T
+RAIL_H = 18 + 22                    # HGH25CA block + HGR25 rail (H=40); rails bolted straight under the table
 Y_BLK = (P["spindle_y"] - 60, P["spindle_y"] + 60)   # fixed block rows straddle the spindle axis (60 / 180)
 Y_BLK_X = 160                       # rail / block centre |x| (rail_y_gap / 2)
 Z_TABLE = Z_BEDTOP + RAIL_H
@@ -59,20 +58,23 @@ TABLE_Y_WORK = p["spindle_y"]                         # model is built at this p
 TABLE_Y_MAX = p["spindle_y"] + p["work"] / 2          # +270
 TABLE_Y_CUT_MIN = p["spindle_y"] - p["work"] / 2      # -30
 TABLE_Y_LOAD = TABLE_Y_MAX - p["travel_y"]            # -130
-# INVERTED Y screw: screw + BF15/BK15 + motor ride under the table, the nut seat is FIXED on the datum plate
-# right under the spindle (between the two block rows). Positions below are relative to the table centre.
-Y_NUT_HALF = 45                     # DFU2005 double nut ~80-90 long -> 90 mm seat
-Y_NUT_GAP = 5                       # nut <-> support clearance at the stroke ends
-Y_NUT_Y = P["spindle_y"]            # fixed nut seat centre (machine Y)
-YS_T0 = Y_NUT_Y - Y_NUT_HALF - Y_NUT_GAP - TABLE_Y_MAX     # thread start rel. table centre (-200)
-YS_T1 = Y_NUT_Y + Y_NUT_HALF + Y_NUT_GAP - TABLE_Y_LOAD    # thread end   rel. table centre (+300)
-# screw = BF journal 20 + thread (stroke 400 + nut 90 + 2x5 = 500) + BK journal 25 + pulley end 20 = 565
+# INVERTED Y screw, fixed-free: DFU1605 rides under the table, its fixed end in a motor bracket with built-in
+# angular-contact bearings bolted to the table REAR face (motor direct-coupled behind it), front end free.
+# The nut seat is FIXED on the datum plate. Positions rel. to the table centre.
+Y_NUT_HALF = 45                     # DFU1605 double nut ~80 long -> 90 mm seat
+Y_NUT_GAP = 5                       # nut <-> thread end clearance at the stroke ends
+YS_REAR = P["table_l"] / 2 - 5      # thread rear end rel. table centre: just inside the table rear face
+Y_NUT_Y = YS_REAR + TABLE_Y_LOAD - Y_NUT_HALF - Y_NUT_GAP     # fixed nut centre (machine Y) -> 25
+YS_T0 = Y_NUT_Y - Y_NUT_HALF - Y_NUT_GAP - TABLE_Y_MAX        # thread front (free) end rel. table centre
+YS_T1 = YS_REAR
+YB_LEG, YB_ADP = 25, 30            # L-bracket leg (fixed bearings built in) + motor adapter (coupling inside)
+# screw = thread (stroke 400 + nut 90 + 2x5 = 500) + journal through the L-bracket bearings into the coupling
 # rail offset towards the rear so both block rows stay engaged at both stroke ends
 _ra = (Y_BLK[0] - 42 - 5) - TABLE_Y_MAX                     # rail front end rel. to table centre
 y_rail_l = math.ceil(((Y_BLK[1] + 42 + 5) - TABLE_Y_LOAD - _ra) / 20) * 20
 yr0 = TABLE_Y_WORK + _ra
 # bed length: no bellows any more -> just the swept envelope of table + rails (+15 mm) and the BF seat
-_sweep_front = min(TABLE_Y_LOAD + _ra, TABLE_Y_LOAD - p["table_l"] / 2, TABLE_Y_LOAD + YS_T0 - 20)
+_sweep_front = min(TABLE_Y_LOAD + _ra, TABLE_Y_LOAD - p["table_l"] / 2, TABLE_Y_LOAD + YS_T0)
 _sweep_rear = max(TABLE_Y_MAX + _ra + y_rail_l, TABLE_Y_MAX + p["table_l"] / 2)
 Y_BED0 = math.floor((_sweep_front - 15) / 5) * 5                       # bed front edge
 Y_BED1 = math.ceil((_sweep_rear + 12 - p["trough_w"]) / 5) * 5         # rear guard (bed + trough) clears the rails
@@ -181,9 +183,14 @@ PAD_T = 30                                  # machined pads, top = Z_BEDTOP
 FLOOR_Z = Z_BEDTOP - PAD_T                  # floor sheet top (on the webs)
 _beam_y0 = p["spindle_y"] + 178
 pads = {  # name: (x0, y0, sx, sy, note)
-    "Datum_base_plate": (-bw / 2, Y_BLK[0] - 60, bw, _beam_y0 + p["col_d"] - (Y_BLK[0] - 60),
-                         "ONE datum plate, milled in one setup: 4 Y block seats, fixed Y nut seat, both column seats"),
 }
+_dp_y0 = min(Y_BLK[0] - 60, Y_NUT_Y - Y_NUT_HALF - 15)
+_slot_y0 = TABLE_Y_LOAD + p["table_l"] / 2 - 5               # Y motor bracket front at loading
+dp = cq.Solid.makeBox(bw, _beam_y0 + p["col_d"] - _dp_y0, PAD_T, V(-bw / 2, _dp_y0, FLOOR_Z))
+dp = dp.cut(cq.Solid.makeBox(120, _beam_y0 + p["col_d"] - _slot_y0 + 1, PAD_T + 2, V(-60, _slot_y0, FLOOR_Z - 1)))
+dp = dp.cut(cq.Solid.makeBox(72, 2 * Y_NUT_HALF + 2, 16, V(-36, Y_NUT_Y - Y_NUT_HALF - 1, Z_BEDTOP - 15)))
+add("Datum_base_plate", dp, "02 Bed", "Q235 t30, ONE datum plate milled in one setup",
+    "4 Y block seats, fixed Y nut seat (15 deep flange pocket), both column seats; 120 slot for the Y motor path")
 floor = cq.Solid.makeBox(bw, bl, 3, V(bx0, Y_BED0, FLOOR_Z - 3))
 for n_, (x0, y0, sx_, sy_, note_) in pads.items():
     box(n_, sx_, sy_, PAD_T, x0, y0, FLOOR_Z, "02 Bed", "Q235 t30 pad welded through the floor to the webs", note_)
@@ -200,35 +207,30 @@ for i in range(n_ribs):
 grp = "03 Y-axis"
 # rail length so both fixed blocks stay engaged over the whole stroke (rail centred on the table)
 for side, xc in (("L", -Y_BLK_X), ("R", Y_BLK_X)):
-    box(f"Y_rail_carrier_{side}", 50, y_rail_l, CARRIER_T, xc - 25, yr0, Z_TABLE - CARRIER_T, grp,
-        f"Steel bar 50x{CARRIER_T} L={y_rail_l:.0f}, bolted under the table, rail seat ground", "moves with table")
-    box(f"Y_rail_{side}", 23, y_rail_l, 22, xc - 11.5, yr0, Z_TABLE - CARRIER_T - 22, grp,
+    box(f"Y_rail_{side}", 23, y_rail_l, 22, xc - 11.5, yr0, Z_TABLE - 22, grp,
         f"HGR25 L={y_rail_l:.0f}, H - inverted, moves with table")
     for k, yb in enumerate(Y_BLK):
         box(f"Y_block_{side}{k+1}", 48, 84, 18, xc - 24, yb - 42, Z_BEDTOP, grp,
             "HGH25CA, ZA preload, H - inverted, fixed on the block pad", "double seals (rail face points down)")
-ys_axis_z = Z_BEDTOP + 35                 # 60 sq motor fits 5 mm above the plate / 5 mm under the table
+ys_axis_z = Z_BEDTOP + 11                 # screw 3 mm above the plate; nut flange (D48) sits in the plate pocket
 tc = TABLE_Y_WORK                         # model is built with the table at this centre
-ys0, ys1 = tc + YS_T0 - 20, tc + YS_T1 + 25 + 20
-cyl("Y_ballscrew", 10, ys1 - ys0, V(0, ys0, ys_axis_z), V(0, 1, 0), grp,
-    "DFU2005 C7, 565 mm, inverted: rides under the table, nut fixed")
-box("Y_nut_housing", 70, 2 * Y_NUT_HALF, ys_axis_z + 29 - Z_BEDTOP, -35, Y_NUT_Y - Y_NUT_HALF, Z_BEDTOP, grp,
-    "DFU2005 nut seat FIXED on the datum plate, under the spindle")
-hang = Z_TABLE - (ys_axis_z - 25)          # supports hang from the table underside
-box("Y_BF_support", 70, 20, hang, -35, tc + YS_T0 - 20, ys_axis_z - 25, grp, "BF15 floating end, bolted under the table")
-box("Y_BK_support", 70, 25, hang, -35, tc + YS_T1, ys_axis_z - 25, grp, "BK15 fixed end, bolted under the table")
-# Y motor alongside the screw (direct coupling would stick out of the machine), 1:1 timing belt at the rear
-ymx = 90                                   # motor axis x: between the screw and the right rail carrier
-ypy = tc + YS_T1 + 27                      # pulley plane (rear face of BK15 + 2)
-cyl("Y_pulley_screw", 16, 20, V(0, ypy, ys_axis_z), V(0, 1, 0), grp, "HTD 5M 20T pulley, 1:1")
-cyl("Y_pulley_motor", 16, 20, V(ymx, ypy, ys_axis_z), V(0, 1, 0), grp, "HTD 5M 20T pulley, 1:1")
-_bl = belt_loop((0, ys_axis_z), 16, (ymx, ys_axis_z), 16, 3, 0, 15)        # built in XY, rotate into XZ
-add("Y_belt", _bl.rotate(V(0, 0, 0), V(1, 0, 0), 90).translate(V(0, ypy + 17.5, 0)), grp, "HTD 5M belt 15 wide, 1:1")
-box("Y_motor_mount", 70, 6, Z_TABLE - (ys_axis_z - 34), ymx - 35, ypy - 8, ys_axis_z - 34, grp,
-    "Motor plate t6 hanging from the table, slotted for belt tension")
-servo("Y_motor", (ymx, ypy - 8, ys_axis_z), (0, -1, 0), p["servo_l"], grp, MOTOR,
-      "rides under the table (cable in drag chain), 1:1 belt to the screw, lead 5")
-box("Y_drag_chain", 80, 230, 30, -125, 240, Z_BEDTOP + 2, grp, "Drag chain 15x30 lying flat for the Y motor cables (moving end on table)")
+ys0, ys1 = tc + YS_T0, tc + p["table_l"] / 2 + YB_LEG + 15
+cyl("Y_ballscrew", 8, ys1 - ys0, V(0, ys0, ys_axis_z), V(0, 1, 0), grp,
+    f"DFU1605 C7, {ys1 - ys0:.0f} mm, inverted fixed-free: rides under the table, nut fixed")
+box("Y_nut_housing", 70, 2 * Y_NUT_HALF, ys_axis_z + 24 - (Z_BEDTOP - 15), -35, Y_NUT_Y - Y_NUT_HALF, Z_BEDTOP - 15, grp,
+    "DFU1605 nut seat FIXED in the datum-plate pocket")
+yb_y0 = tc + p["table_l"] / 2              # table rear face
+# L-shaped motor bracket hugging the table rear edge: top flange bolted on the table top, leg bolted to the
+# rear face and reaching down to the screw axis; fixed-end angular-contact bearing pair built into the leg
+lb = cq.Solid.makeBox(110, 40 + YB_LEG, 15, V(-55, yb_y0 - 40, Z_TABLETOP))
+lb = lb.fuse(cq.Solid.makeBox(110, YB_LEG, Z_TABLETOP + 15 - (ys_axis_z - 40), V(-55, yb_y0, ys_axis_z - 40))).clean()
+add("Y_motor_bracket", lb, grp, "L-shaped motor bracket, steel t15/t25: top flange on table top + leg on rear face",
+    "fixed-end bearing pair built into the leg (no separate BK/BF), screw front end free")
+tube("Y_motor_adapter", 64, YB_ADP, 64, -32, yb_y0 + YB_LEG, ys_axis_z - 32, 6, "y", grp, "Motor adapter, coupling inside")
+cyl("Y_coupling", 12.5, YB_ADP - 4, V(0, yb_y0 + YB_LEG + 2, ys_axis_z), V(0, 1, 0), grp, "Coupling D25, 8x12")
+servo("Y_motor", (0, yb_y0 + YB_LEG + YB_ADP, ys_axis_z), (0, 1, 0), p["servo_l"], grp, MOTOR,
+      "on the L-bracket at the table rear, direct drive, rides with the table (cable in drag chain), lead 5")
+box("Y_drag_chain", 72, 230, 30, -134, 240, Z_BEDTOP + 2, grp, "Drag chain 15x30 lying flat for the Y motor cables (moving end on table)")
 # moving table (T-slot) + bellows covers
 tx0 = -p["table_w"] / 2
 tbl = cq.Solid.makeBox(p["table_w"], p["table_l"], p["table_t"], V(tx0, TABLE_Y_WORK - p["table_l"] / 2, Z_TABLE))
