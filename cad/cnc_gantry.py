@@ -65,16 +65,15 @@ Y_NUT_GAP = 5                       # nut <-> support clearance at the stroke en
 Y_BF_Y0 = TABLE_Y_LOAD - Y_NUT_HALF - Y_NUT_GAP - 20   # BF15 (20 long) just ahead of the nut at loading
 Y_BK_Y0 = TABLE_Y_MAX + Y_NUT_HALF + Y_NUT_GAP       # BK15 (25 long) just behind the nut at full rear
 # screw = BF journal 20 + thread (stroke 400 + nut 90 + 2x5) + BK journal 25 + coupling end 20 = 565
-# bed length from the table stroke: bellows keep >= 15 % of their extended length when compressed
-BELLOW_MIN = 0.15
-_t_front_load = TABLE_Y_LOAD - p["table_l"] / 2       # table front edge at loading
-_t_front_max = TABLE_Y_MAX - p["table_l"] / 2
-_t_rear_max = TABLE_Y_MAX + p["table_l"] / 2
-_t_rear_load = TABLE_Y_LOAD + p["table_l"] / 2
-BELLOW_F = math.floor((_t_front_load - BELLOW_MIN * _t_front_max) / (1 - BELLOW_MIN) / 5) * 5 - 5   # front fixed end
-BELLOW_R = math.ceil((_t_rear_max - BELLOW_MIN * _t_rear_load) / (1 - BELLOW_MIN) / 5) * 5 + 5      # rear fixed end
-Y_BED0 = BELLOW_F - 40              # bed front edge (BF15 floating end in front)
-Y_BED1 = BELLOW_R + 45              # bed rear edge (BK15 fixed end + Y motor at the rear)
+# rail offset towards the rear so both block rows stay engaged at both stroke ends
+_ra = (Y_BLK[0] - 42 - 5) - TABLE_Y_MAX                     # rail front end rel. to table centre
+y_rail_l = math.ceil(((Y_BLK[1] + 42 + 5) - TABLE_Y_LOAD - _ra) / 20) * 20
+yr0 = TABLE_Y_WORK + _ra
+# bed length: no bellows any more -> just the swept envelope of table + rails (+15 mm) and the BF seat
+_sweep_front = min(TABLE_Y_LOAD + _ra, TABLE_Y_LOAD - p["table_l"] / 2, Y_BF_Y0 - 20)
+_sweep_rear = max(TABLE_Y_MAX + _ra + y_rail_l, TABLE_Y_MAX + p["table_l"] / 2)
+Y_BED0 = math.floor((_sweep_front - 15) / 5) * 5                       # bed front edge
+Y_BED1 = math.ceil((_sweep_rear + 12 - p["trough_w"]) / 5) * 5         # rear guard (bed + trough) clears the rails
 P["bed_l"] = Y_BED1 - Y_BED0
 P["span_in"] = p["table_w"] + 2 * p["table_gap"]      # columns only need to clear the moving table
 P["bed_w"] = p["span_in"] + 2 * p["col_w"]           # columns sit fully on the bed
@@ -198,10 +197,6 @@ for i in range(n_ribs):
 # ======================= 3. Y AXIS (moving table) =========================
 grp = "03 Y-axis"
 # rail length so both fixed blocks stay engaged over the whole stroke (rail centred on the table)
-# rail offset towards the rear so both block rows stay engaged at both stroke ends
-_ra = (Y_BLK[0] - 42 - 5) - TABLE_Y_MAX                     # rail front end rel. to table centre
-y_rail_l = math.ceil(((Y_BLK[1] + 42 + 5) - TABLE_Y_LOAD - _ra) / 20) * 20
-yr0 = TABLE_Y_WORK + _ra
 for side, xc in (("L", -Y_BLK_X), ("R", Y_BLK_X)):
     box(f"Y_rail_carrier_{side}", 50, y_rail_l, CARRIER_T, xc - 25, yr0, Z_TABLE - CARRIER_T, grp,
         f"Steel bar 50x{CARRIER_T} L={y_rail_l:.0f}, bolted under the table, rail seat ground", "moves with table")
@@ -213,7 +208,12 @@ for side, xc in (("L", -Y_BLK_X), ("R", Y_BLK_X)):
 ys_axis_z = Z_BEDTOP + 35                 # motor (60 sq) fits 5 mm above the plate / 5 mm under the table
 ys0, ys1 = Y_BF_Y0, Y_BK_Y0 + 45
 cyl("Y_ballscrew", 10, ys1 - ys0, V(0, ys0, ys_axis_z), V(0, 1, 0), grp, "DFU2005 double-nut preload, C7")
-box("Y_nut_housing", 80, 2 * Y_NUT_HALF, Z_TABLE - (ys_axis_z - 28), -40, TABLE_Y_WORK - Y_NUT_HALF, ys_axis_z - 28, grp, "DFU2005 nut seat, hangs under the table")
+TUN_W, TUN_T, SLOT_W = 100, 1.5, 16          # fixed screw tunnel: width, sheet, top slot
+tun_top = Z_TABLE - 5                          # tunnel roof top, 5 mm under the table
+box("Y_nut_housing", 70, 2 * Y_NUT_HALF, tun_top - TUN_T - 1 - (ys_axis_z - 29), -35, TABLE_Y_WORK - Y_NUT_HALF,
+    ys_axis_z - 29, grp, "DFU2005 nut block, runs inside the screw tunnel")
+box("Y_nut_neck", 10, 2 * Y_NUT_HALF - 10, Z_TABLE - (tun_top - TUN_T - 1), -5, TABLE_Y_WORK - Y_NUT_HALF + 5,
+    tun_top - TUN_T - 1, grp, "Neck plate t10 through the tunnel slot, bolted to the table")
 box("Y_BF_support", 70, 20, ys_axis_z + 22 - Z_BEDTOP, -35, Y_BF_Y0, Z_BEDTOP, grp, "BF15 floating end (front), on the datum plate")
 box("Y_BK_support", 70, 25, ys_axis_z + 22 - Z_BEDTOP, -35, Y_BK_Y0, Z_BEDTOP, grp, "BK15 fixed end (rear, motor side), on the datum plate")
 tube("Y_motor_mount", 68, 40, 68, -34, Y_BK_Y0 + 25, ys_axis_z - 34, 6, "y", grp, "Motor bracket t6 on the datum plate")
@@ -228,14 +228,17 @@ for k in range(5):
 add("Work_table", tbl, grp, "HT250 / Q235 t40, 5x T-slot 14", "440x420 table, work area 300x300")
 box("Work_area_300x300", p["work"], p["work"], 0.5, -p["work"] / 2, TABLE_Y_WORK - p["work"] / 2,
     Z_TABLETOP, grp, "reference", "usable 300x300")
-cov_w = 2 * Y_BLK_X - 80                  # between the rail carriers: covers the screw only
-cov_h = Z_TABLETOP - 5 - Z_TABLE              # cover rides at table height, over supports and motor
-front_len = (TABLE_Y_WORK - p["table_l"] / 2) - BELLOW_F
-rear_len = BELLOW_R - (TABLE_Y_WORK + p["table_l"] / 2)
-box("Y_bellows_front", cov_w, front_len, cov_h, -cov_w / 2, BELLOW_F, Z_TABLE, grp,
-    "Bellows over the ball screw (coolant proof)")
-box("Y_bellows_rear", cov_w, rear_len, cov_h, -cov_w / 2, TABLE_Y_WORK + p["table_l"] / 2, Z_TABLE,
-    grp, "Bellows over the ball screw (coolant proof)")
+# fixed screw tunnel (replaces bellows): inverted-U SUS304 sheet on the datum plate, BF15 -> BK15,
+# top slot for the neck plate sealed by brush strips; rails/blocks need no cover (inverted, sealed)
+tun_y0, tun_y1 = Y_BF_Y0 - 5, Y_BK_Y0            # covers BF15 and the whole thread; BK15 + motor behind it
+tun = cq.Solid.makeBox(TUN_W, tun_y1 - tun_y0, tun_top - Z_BEDTOP, V(-TUN_W / 2, tun_y0, Z_BEDTOP))
+tun = tun.cut(cq.Solid.makeBox(TUN_W - 2 * TUN_T, tun_y1 - tun_y0 - 2 * TUN_T, tun_top - Z_BEDTOP - TUN_T,
+                               V(-TUN_W / 2 + TUN_T, tun_y0 + TUN_T, Z_BEDTOP)))
+tun = tun.cut(cq.Solid.makeBox(SLOT_W, tun_y1 - tun_y0 - 2 * TUN_T, TUN_T + 2, V(-SLOT_W / 2, tun_y0 + TUN_T, tun_top - TUN_T - 1)))
+tun = tun.cut(cq.Solid.makeBox(2 * 13, TUN_T + 2, 2 * 13, V(-13, tun_y1 - TUN_T - 1, ys_axis_z - 13)))   # screw exit to coupling
+add("Y_screw_cover", tun, grp, "Fixed screw tunnel SUS304 t1.5, 100 wide, end caps, top slot 16", "replaces way-cover bellows")
+for side, sx in (("L", -SLOT_W / 2 - 6), ("R", SLOT_W / 2)):
+    box(f"Y_slot_brush_{side}", 6, tun_y1 - tun_y0 - 4, 3.5, sx, tun_y0 + 2, tun_top, grp, "Brush seal strip along the slot")
 
 # ======================= 4. FIXED GANTRY =================================
 grp = "04 Gantry"
