@@ -147,8 +147,8 @@ dim(mF(xmax, 0), mF(xmax, zl["table_top"]), 10, f"台面高 {zl['table_top']:.0f
 dim(mF(xmax + 40, zl["table_top"]), mF(xmax + 40, zl["beam_bottom"]), 14, f"{pr['clear']}", horiz=False)
 dim(mF(-pr["work"] / 2, zl["table_top"]), mF(pr["work"] / 2, zl["table_top"]), -66, "加工區 300 (X行程)")
 dim(mR(ymin, zmin), mR(ymax, zmin), 12, f"{ov['y']}")
-ty0 = info["table_y"]["load"]; ty1 = info["table_y"]["work"]
-dim(mR(ty0, zl["table_top"]), mR(ty1, zl["table_top"]), -78, "Y 行程 600 (換料 300 + 加工 300)")
+ty0 = info["table_y"]["load"]; ty1 = info["table_y"]["work"]; tymax = info["table_y"]["max"]
+dim(mR(ty0, zl["table_top"]), mR(tymax, zl["table_top"]), -78, "Y 行程 600 (換料 300 + 加工 300)")
 dim(mR(ty1 - 150, zl["table_top"]), mR(ty1 + 150, zl["table_top"]), -62, "加工區 300")
 dim(mT(xmin, ymin), mT(xmax, ymin), 10, f"{ov['x']}")
 dim(mT(xmin, ymin), mT(xmin, ymax), -12, f"{ov['y']}", horiz=False)

@@ -47,8 +47,12 @@ Z_BEDTOP = Z_BED + p["bed_h"]
 RAIL_H = 40                         # rail+block height HGR25
 Z_TABLE = Z_BEDTOP + RAIL_H
 Z_TABLETOP = Z_TABLE + p["table_t"]
-TABLE_Y_WORK = p["spindle_y"]
-TABLE_Y_LOAD = p["spindle_y"] - p["travel_y"]
+# Y travel 600 = machining 300 (spindle covers the whole 300 work area) + 300 loading stroke.
+# Table centre: +270 = spindle over work-area FRONT edge, +120 = centre, -30 = REAR edge, -330 = loading.
+TABLE_Y_WORK = p["spindle_y"]                         # model is built at this position
+TABLE_Y_MAX = p["spindle_y"] + p["work"] / 2          # +270
+TABLE_Y_CUT_MIN = p["spindle_y"] - p["work"] / 2      # -30
+TABLE_Y_LOAD = TABLE_Y_MAX - p["travel_y"]            # -330
 Y_BED0 = -p["bed_l"] / 2 - 100      # bed front edge
 Y_BED1 = Y_BED0 + p["bed_l"]
 
@@ -389,7 +393,7 @@ if __name__ == "__main__":
                      xmax=round(bb.xmax, 1), ymax=round(bb.ymax, 1), zmax=round(bb.zmax, 1)),
         z_levels=dict(bed=Z_BED, bed_top=Z_BEDTOP, table_top=Z_TABLETOP, beam_bottom=z_beam0,
                       beam_top=z_beam0 + p["beam_h"]),
-        table_y=dict(work=TABLE_Y_WORK, load=TABLE_Y_LOAD),
+        table_y=dict(work=TABLE_Y_WORK, max=TABLE_Y_MAX, cut_min=TABLE_Y_CUT_MIN, load=TABLE_Y_LOAD),
         parts=[dict(name=n, group=g, material=m, note=t) for n, s, g, m, t in parts],
     )
     with open(os.path.join(OUT, "cnc_info.json"), "w", encoding="utf-8") as f:
