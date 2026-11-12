@@ -520,20 +520,32 @@
   {
    "name": "Spindle_cartridge",
    "group": "06 Z-axis & Spindle",
-   "material": "ER11 belt-driven spindle cartridge D62, >=15,000 rpm, P4 angular contact bearings",
+   "material": "ER11 belt-driven spindle cartridge D62, >=15,000 rpm, P4 angular contact bearings, taper runout <=0.003",
    "note": "~13,500 rpm at motor 4,500 rpm"
   },
   {
-   "name": "Spindle_ER11_nut",
+   "name": "Spindle_nose",
    "group": "06 Z-axis & Spindle",
-   "material": "ER11 nut + collet <=0.008 mm",
+   "material": "Spindle nose: ER11 8 deg collet seat + M13x0.75 thread (part of spindle shaft)",
+   "note": ""
+  },
+  {
+   "name": "ER11_collet",
+   "group": "06 Z-axis & Spindle",
+   "material": "ER11 collet D6 (5.5-6.0), AA grade runout <=0.005 mm",
+   "note": "choose by tool SHANK diameter, 1-7 mm"
+  },
+  {
+   "name": "ER11_nut",
+   "group": "06 Z-axis & Spindle",
+   "material": "ER11 nut type A, D19, M13x0.75, hook-wrench slots x4",
    "note": ""
   },
   {
    "name": "Tool_D5",
    "group": "06 Z-axis & Spindle",
-   "material": "Tool ref D5 carbide, stick-out 25",
-   "note": ""
+   "material": "End mill D5 x shank D6, carbide 2-flute for Al (reference)",
+   "note": "stick-out 27 from nut face"
   },
   {
    "name": "Spindle_clamp",

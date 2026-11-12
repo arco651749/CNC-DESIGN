@@ -258,11 +258,32 @@ servo("Z_motor", (0, zsc_y, zc0 + xc_h + 52), (0, 0, 1), p["servo_l_brake"], grp
 sp_y = p["spindle_y"]
 sp_r = p["spindle_d"] / 2
 sp_z0 = z_slide_z - 77
-cyl("Spindle_cartridge", sp_r, p["spindle_l"], V(0, sp_y, sp_z0), V(0, 0, 1), grp,
-    "ER11 belt-driven spindle cartridge D62, >=15,000 rpm, P4 angular contact bearings",
+def revolve(name, prof, group, mat="", note="", z0=None):
+    """Solid of revolution about the spindle axis; prof = [(r, dz), ...] relative to sp_z0."""
+    s = cq.Workplane("XZ").polyline(prof).close().revolve(360, (0, 0, 0), (0, 1, 0)).val()
+    s = s.translate(V(0, sp_y, sp_z0 if z0 is None else z0))
+    return add(name, s, group, mat, note) if name else s
+
+
+# ER11 nose (ISO 15488): collet D11.5 x 18, 8 deg taper, 30 deg front cone; nut D19, M13x0.75
+T8 = math.tan(math.radians(8))
+body = cq.Solid.makeCylinder(sp_r, p["spindle_l"], V(0, sp_y, sp_z0), V(0, 0, 1))
+body = body.cut(cq.Solid.makeCylinder(4.4, 30, V(0, sp_y, sp_z0), V(0, 0, 1)))       # collet taper end + shank bore
+add("Spindle_cartridge", body, grp,
+    "ER11 belt-driven spindle cartridge D62, >=15,000 rpm, P4 angular contact bearings, taper runout <=0.003",
     "~13,500 rpm at motor 4,500 rpm")
-cyl("Spindle_ER11_nut", 9.5, 18, V(0, sp_y, sp_z0 - 18), V(0, 0, 1), grp, "ER11 nut + collet <=0.008 mm")
-cyl("Tool_D5", 2.5, 25, V(0, sp_y, sp_z0 - 43), V(0, 0, 1), grp, "Tool ref D5 carbide, stick-out 25")
+revolve("Spindle_nose", [(5.75, -10), (6.5, -10), (6.5, 0), (5.75 - 10 * T8, 0)], grp,
+        "Spindle nose: ER11 8 deg collet seat + M13x0.75 thread (part of spindle shaft)")
+revolve("ER11_collet", [(3, -14), (4.25, -14), (5.75, -10), (5.75 - 14 * T8, 4), (3, 4)], grp,
+        "ER11 collet D6 (5.5-6.0), AA grade runout <=0.005 mm", "choose by tool SHANK diameter, 1-7 mm")
+nut = revolve(None, [(4.5, -16), (9.5, -16), (9.5, -2), (6.5, -2), (6.5, -10.5), (6.0, -10.5), (4.5, -14.5)], grp)
+for k in range(4):
+    a = math.radians(45 + 90 * k)
+    slot = cq.Solid.makeBox(3, 3.5, 14, V(8.2, -1.75, 0)).rotate(V(0, 0, 0), V(0, 0, 1), math.degrees(a))
+    nut = nut.cut(slot.translate(V(0, sp_y, sp_z0 - 16)))
+add("ER11_nut", nut, grp, "ER11 nut type A, D19, M13x0.75, hook-wrench slots x4")
+revolve("Tool_D5", [(0, -43), (2.5, -43), (2.5, -24), (3, -24), (3, 2), (0, 2)], grp,
+        "End mill D5 x shank D6, carbide 2-flute for Al (reference)", "stick-out 27 from nut face")
 clamp = cq.Solid.makeBox(110, zs_y0 - (sp_y - 50), 70, V(-55, sp_y - 50, z_slide_z + 30))
 clamp = clamp.cut(cq.Solid.makeCylinder(sp_r, 70, V(0, sp_y, z_slide_z + 30), V(0, 0, 1)))
 add("Spindle_clamp", clamp, grp, "Clamp D62, steel")

@@ -16,7 +16,7 @@ info = json.load(open(os.path.join(OUT, "cnc_info.json"), encoding="utf-8"))
 PARTS = {n: (s, g, m) for n, s, g, m, _ in M["parts"]}
 objs = [s for n, (s, g, m) in PARTS.items() if n != "Work_area_300x300"]
 cool = [s for n, (s, g, m) in PARTS.items() if g.startswith("07")]
-spin = [s for n, (s, g, m) in PARTS.items() if n.startswith(("Spindle", "Belt", "Tool"))]
+spin = [s for n, (s, g, m) in PARTS.items() if n.startswith(("Spindle", "Belt", "Tool", "ER11"))]
 comp_all = cq.Compound.makeCompound(objs)
 comp_cool = cq.Compound.makeCompound(cool)
 comp_spin = cq.Compound.makeCompound(spin)
