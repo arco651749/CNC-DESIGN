@@ -47,7 +47,7 @@ Z_BEDTOP = Z_BED + p["bed_h"]
 # Y guide INVERTED: blocks bolted to the base (fixed), rails bolted under the table on carrier bars (moving).
 # Only the block pad needs precision machining. Stack: block 18 + rail 22 + carrier bar 20.
 RAIL_H = 18 + 22 + 20
-Y_BLK = (10, 130)                   # fixed block centres (Y), right under the machining zone
+Y_BLK = (P["spindle_y"] - 60, P["spindle_y"] + 60)   # fixed block rows straddle the spindle axis (60 / 180)
 Y_BLK_X = 160                       # rail / block centre |x| (rail_y_gap / 2)
 Z_TABLE = Z_BEDTOP + RAIL_H
 Z_TABLETOP = Z_TABLE + p["table_t"]
@@ -173,10 +173,8 @@ PAD_T = 30                                  # machined pads, top = Z_BEDTOP
 FLOOR_Z = Z_BEDTOP - PAD_T                  # floor sheet top (on the webs)
 _beam_y0 = p["spindle_y"] + 178
 pads = {  # name: (x0, y0, sx, sy, note)
-    "Y_block_pad": (-Y_BLK_X - 40, Y_BLK[0] - 60, 2 * Y_BLK_X + 80, Y_BLK[1] - Y_BLK[0] + 120,
-                    "ONLY precision-machined face: 4 fixed Y blocks (flat + parallel)"),
-    "Column_pad_L": (-p["span_in"] / 2 - p["col_w"], _beam_y0, p["col_w"], p["col_d"], "column seat, milled"),
-    "Column_pad_R": (p["span_in"] / 2, _beam_y0, p["col_w"], p["col_d"], "column seat, milled"),
+    "Datum_base_plate": (-bw / 2, TABLE_Y_CUT_MIN, bw, _beam_y0 + p["col_d"] - TABLE_Y_CUT_MIN,
+                         "ONE datum plate: Y block seats + both column seats milled in one setup (squareness)"),
     "Y_screw_pad_F": (-45, BELLOW_F - 40, 90, 40, "BF15 seat, milled"),
     "Y_screw_pad_R": (-45, BELLOW_R, 90, 45, "BK15 seat, milled"),
 }
@@ -195,8 +193,10 @@ for i in range(n_ribs):
 # ======================= 3. Y AXIS (moving table) =========================
 grp = "03 Y-axis"
 # rail length so both fixed blocks stay engaged over the whole stroke (rail centred on the table)
-y_rail_l = math.ceil(((TABLE_Y_MAX - TABLE_Y_LOAD) + (Y_BLK[1] - Y_BLK[0]) + 84 + 10) / 20) * 20
-yr0 = TABLE_Y_WORK - y_rail_l / 2
+# rail offset towards the rear so both block rows stay engaged at both stroke ends
+_ra = (Y_BLK[0] - 42 - 5) - TABLE_Y_MAX                     # rail front end rel. to table centre
+y_rail_l = math.ceil(((Y_BLK[1] + 42 + 5) - TABLE_Y_LOAD - _ra) / 20) * 20
+yr0 = TABLE_Y_WORK + _ra
 for side, xc in (("L", -Y_BLK_X), ("R", Y_BLK_X)):
     box(f"Y_rail_carrier_{side}", 50, y_rail_l, 20, xc - 25, yr0, Z_TABLE - 20, grp,
         f"Steel bar 50x20 L={y_rail_l:.0f}, bolted under the table, rail seat ground", "moves with table")

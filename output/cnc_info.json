@@ -150,22 +150,10 @@
    "note": ""
   },
   {
-   "name": "Y_block_pad",
+   "name": "Datum_base_plate",
    "group": "02 Bed",
    "material": "Q235 t30 pad welded through the floor to the webs",
-   "note": "ONLY precision-machined face: 4 fixed Y blocks (flat + parallel)"
-  },
-  {
-   "name": "Column_pad_L",
-   "group": "02 Bed",
-   "material": "Q235 t30 pad welded through the floor to the webs",
-   "note": "column seat, milled"
-  },
-  {
-   "name": "Column_pad_R",
-   "group": "02 Bed",
-   "material": "Q235 t30 pad welded through the floor to the webs",
-   "note": "column seat, milled"
+   "note": "ONE datum plate: Y block seats + both column seats milled in one setup (squareness)"
   },
   {
    "name": "Y_screw_pad_F",
