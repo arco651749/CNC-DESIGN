@@ -31,20 +31,20 @@
  "overall": {
   "x": 860,
   "y": 1205,
-  "z": 1624,
+  "z": 1644,
   "xmin": -382.1,
   "ymin": -462.0,
   "zmin": -20.0,
   "xmax": 478.0,
   "ymax": 743.0,
-  "zmax": 1604.0
+  "zmax": 1624.0
  },
  "z_levels": {
   "bed": 700,
   "bed_top": 860,
-  "table_top": 940,
-  "beam_bottom": 1160,
-  "beam_top": 1380
+  "table_top": 960,
+  "beam_bottom": 1180,
+  "beam_top": 1400
  },
  "table_y": {
   "work": 120,
@@ -150,10 +150,40 @@
    "note": ""
   },
   {
-   "name": "Bed_top_plate",
+   "name": "Y_block_pad",
    "group": "02 Bed",
-   "material": "Q235 t30, stress relieved, rails face milled",
-   "note": ""
+   "material": "Q235 t30 pad welded through the floor to the webs",
+   "note": "ONLY precision-machined face: 4 fixed Y blocks (flat + parallel)"
+  },
+  {
+   "name": "Column_pad_L",
+   "group": "02 Bed",
+   "material": "Q235 t30 pad welded through the floor to the webs",
+   "note": "column seat, milled"
+  },
+  {
+   "name": "Column_pad_R",
+   "group": "02 Bed",
+   "material": "Q235 t30 pad welded through the floor to the webs",
+   "note": "column seat, milled"
+  },
+  {
+   "name": "Y_screw_pad_F",
+   "group": "02 Bed",
+   "material": "Q235 t30 pad welded through the floor to the webs",
+   "note": "BF15 seat, milled"
+  },
+  {
+   "name": "Y_screw_pad_R",
+   "group": "02 Bed",
+   "material": "Q235 t30 pad welded through the floor to the webs",
+   "note": "BK15 seat, milled"
+  },
+  {
+   "name": "Bed_floor_sheet",
+   "group": "02 Bed",
+   "material": "SUS304 t3 floor / coolant tray, NOT machined",
+   "note": "drains to side troughs"
   },
   {
    "name": "Bed_bottom_plate",
@@ -216,40 +246,52 @@
    "note": ""
   },
   {
+   "name": "Y_rail_carrier_L",
+   "group": "03 Y-axis",
+   "material": "Steel bar 50x20 L=620, bolted under the table, rail seat ground",
+   "note": "moves with table"
+  },
+  {
    "name": "Y_rail_L",
    "group": "03 Y-axis",
-   "material": "HGR25 L=760, H",
+   "material": "HGR25 L=620, H - inverted, moves with table",
    "note": ""
   },
   {
    "name": "Y_block_L1",
    "group": "03 Y-axis",
-   "material": "HGH25CA, ZA preload, H",
-   "note": ""
+   "material": "HGH25CA, ZA preload, H - inverted, fixed on the block pad",
+   "note": "double seals (rail face points down)"
   },
   {
    "name": "Y_block_L2",
    "group": "03 Y-axis",
-   "material": "HGH25CA, ZA preload, H",
-   "note": ""
+   "material": "HGH25CA, ZA preload, H - inverted, fixed on the block pad",
+   "note": "double seals (rail face points down)"
+  },
+  {
+   "name": "Y_rail_carrier_R",
+   "group": "03 Y-axis",
+   "material": "Steel bar 50x20 L=620, bolted under the table, rail seat ground",
+   "note": "moves with table"
   },
   {
    "name": "Y_rail_R",
    "group": "03 Y-axis",
-   "material": "HGR25 L=760, H",
+   "material": "HGR25 L=620, H - inverted, moves with table",
    "note": ""
   },
   {
    "name": "Y_block_R1",
    "group": "03 Y-axis",
-   "material": "HGH25CA, ZA preload, H",
-   "note": ""
+   "material": "HGH25CA, ZA preload, H - inverted, fixed on the block pad",
+   "note": "double seals (rail face points down)"
   },
   {
    "name": "Y_block_R2",
    "group": "03 Y-axis",
-   "material": "HGH25CA, ZA preload, H",
-   "note": ""
+   "material": "HGH25CA, ZA preload, H - inverted, fixed on the block pad",
+   "note": "double seals (rail face points down)"
   },
   {
    "name": "Y_ballscrew",
@@ -260,19 +302,19 @@
   {
    "name": "Y_nut_housing",
    "group": "03 Y-axis",
-   "material": "DFU2005 nut seat",
+   "material": "DFU2005 nut seat, hangs under the table",
    "note": ""
   },
   {
    "name": "Y_BF_support",
    "group": "03 Y-axis",
-   "material": "BF15 floating end (front)",
+   "material": "BF15 floating end (front) on riser",
    "note": ""
   },
   {
    "name": "Y_BK_support",
    "group": "03 Y-axis",
-   "material": "BK15 fixed end (rear, motor side)",
+   "material": "BK15 fixed end (rear, motor side) on riser",
    "note": ""
   },
   {
@@ -308,13 +350,13 @@
   {
    "name": "Y_bellows_front",
    "group": "03 Y-axis",
-   "material": "Bellows way cover (coolant proof)",
+   "material": "Bellows over the ball screw (coolant proof)",
    "note": ""
   },
   {
    "name": "Y_bellows_rear",
    "group": "03 Y-axis",
-   "material": "Bellows way cover (coolant proof)",
+   "material": "Bellows over the ball screw (coolant proof)",
    "note": ""
   },
   {

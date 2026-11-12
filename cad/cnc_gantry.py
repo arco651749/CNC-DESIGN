@@ -29,7 +29,7 @@ P = dict(
     work=300,                       # usable work area (square)
     stand_h=700,                    # floor -> top of stand
     bed_h=160,                      # steel weldment bed height
-    rail_y_gap=320,                 # Y rails centre distance (HGR25)
+    rail_y_gap=320,                 # Y rails centre distance (HGR25, inverted)
     table_w=440, table_l=420, table_t=40,
     spindle_y=120,                  # spindle axis Y (machining centre)
     col_w=100, col_d=200,           # gantry columns
@@ -44,7 +44,11 @@ P = dict(
 p = P
 Z_BED = p["stand_h"]
 Z_BEDTOP = Z_BED + p["bed_h"]
-RAIL_H = 40                         # rail+block height HGR25
+# Y guide INVERTED: blocks bolted to the base (fixed), rails bolted under the table on carrier bars (moving).
+# Only the block pad needs precision machining. Stack: block 18 + rail 22 + carrier bar 20.
+RAIL_H = 18 + 22 + 20
+Y_BLK = (10, 130)                   # fixed block centres (Y), right under the machining zone
+Y_BLK_X = 160                       # rail / block centre |x| (rail_y_gap / 2)
 Z_TABLE = Z_BEDTOP + RAIL_H
 Z_TABLETOP = Z_TABLE + p["table_t"]
 # Y travel 400 = machining 300 (spindle covers the whole 300 work area) + 100 loading stroke:
@@ -165,32 +169,48 @@ for i, (lx, ly) in enumerate(corners):
 # ======================= 2. BED (steel weldment) =========================
 bw, bl = p["bed_w"], p["bed_l"]
 bx0 = -bw / 2
-box("Bed_top_plate", bw, bl, 30, bx0, Y_BED0, Z_BEDTOP - 30, "02 Bed", "Q235 t30, stress relieved, rails face milled")
+PAD_T = 30                                  # machined pads, top = Z_BEDTOP
+FLOOR_Z = Z_BEDTOP - PAD_T                  # floor sheet top (on the webs)
+_beam_y0 = p["spindle_y"] + 178
+pads = {  # name: (x0, y0, sx, sy, note)
+    "Y_block_pad": (-Y_BLK_X - 40, Y_BLK[0] - 60, 2 * Y_BLK_X + 80, Y_BLK[1] - Y_BLK[0] + 120,
+                    "ONLY precision-machined face: 4 fixed Y blocks (flat + parallel)"),
+    "Column_pad_L": (-p["span_in"] / 2 - p["col_w"], _beam_y0, p["col_w"], p["col_d"], "column seat, milled"),
+    "Column_pad_R": (p["span_in"] / 2, _beam_y0, p["col_w"], p["col_d"], "column seat, milled"),
+    "Y_screw_pad_F": (-45, BELLOW_F - 40, 90, 40, "BF15 seat, milled"),
+    "Y_screw_pad_R": (-45, BELLOW_R, 90, 45, "BK15 seat, milled"),
+}
+floor = cq.Solid.makeBox(bw, bl, 3, V(bx0, Y_BED0, FLOOR_Z - 3))
+for n_, (x0, y0, sx_, sy_, note_) in pads.items():
+    box(n_, sx_, sy_, PAD_T, x0, y0, FLOOR_Z, "02 Bed", "Q235 t30 pad welded through the floor to the webs", note_)
+add("Bed_floor_sheet", floor, "02 Bed", "SUS304 t3 floor / coolant tray, NOT machined", "drains to side troughs")
 box("Bed_bottom_plate", bw, bl, 20, bx0, Y_BED0, Z_BED, "02 Bed", "Q235 t20")
 for i, xx in enumerate([bx0, -p["rail_y_gap"] / 2 - 10, p["rail_y_gap"] / 2 - 10, bx0 + bw - 20]):
-    box(f"Bed_long_web_{i+1}", 20, bl, p["bed_h"] - 50, xx, Y_BED0, Z_BED + 20, "02 Bed", "Q235 t20")
+    box(f"Bed_long_web_{i+1}", 20, bl, p["bed_h"] - 53, xx, Y_BED0, Z_BED + 20, "02 Bed", "Q235 t20")
 n_ribs = max(4, round(bl / 220))
 for i in range(n_ribs):
     yy = Y_BED0 + i * (bl - 20) / (n_ribs - 1)
-    box(f"Bed_cross_rib_{i+1}", bw - 40, 20, p["bed_h"] - 50, bx0 + 20, yy, Z_BED + 20, "02 Bed", "Q235 t20")
+    box(f"Bed_cross_rib_{i+1}", bw - 40, 20, p["bed_h"] - 53, bx0 + 20, yy, Z_BED + 20, "02 Bed", "Q235 t20")
 
 # ======================= 3. Y AXIS (moving table) =========================
 grp = "03 Y-axis"
-_blk_min = TABLE_Y_LOAD - 110 - 42 - 20
-_blk_max = TABLE_Y_MAX + 110 + 42 + 20
-y_rail_l = math.ceil((_blk_max - _blk_min) / 20) * 20
-yr0 = (_blk_min + _blk_max) / 2 - y_rail_l / 2
-for side, xc in (("L", -p["rail_y_gap"] / 2), ("R", p["rail_y_gap"] / 2)):
-    box(f"Y_rail_{side}", 23, y_rail_l, 22, xc - 11.5, yr0, Z_BEDTOP, grp, f"HGR25 L={y_rail_l:.0f}, H")
-    for k, dy in enumerate((-110, 110)):
-        box(f"Y_block_{side}{k+1}", 48, 84, 18, xc - 24, TABLE_Y_WORK + dy - 42, Z_BEDTOP + 22,
-            grp, "HGH25CA, ZA preload, H")
-ys_axis_z = Z_BEDTOP + 22
+# rail length so both fixed blocks stay engaged over the whole stroke (rail centred on the table)
+y_rail_l = math.ceil(((TABLE_Y_MAX - TABLE_Y_LOAD) + (Y_BLK[1] - Y_BLK[0]) + 84 + 10) / 20) * 20
+yr0 = TABLE_Y_WORK - y_rail_l / 2
+for side, xc in (("L", -Y_BLK_X), ("R", Y_BLK_X)):
+    box(f"Y_rail_carrier_{side}", 50, y_rail_l, 20, xc - 25, yr0, Z_TABLE - 20, grp,
+        f"Steel bar 50x20 L={y_rail_l:.0f}, bolted under the table, rail seat ground", "moves with table")
+    box(f"Y_rail_{side}", 23, y_rail_l, 22, xc - 11.5, yr0, Z_TABLE - 42, grp,
+        f"HGR25 L={y_rail_l:.0f}, H - inverted, moves with table")
+    for k, yb in enumerate(Y_BLK):
+        box(f"Y_block_{side}{k+1}", 48, 84, 18, xc - 24, yb - 42, Z_BEDTOP, grp,
+            "HGH25CA, ZA preload, H - inverted, fixed on the block pad", "double seals (rail face points down)")
+ys_axis_z = Z_BEDTOP + 40
 ys0, ys1 = Y_BED0 + 15, Y_BED1 + 20
 cyl("Y_ballscrew", 10, ys1 - ys0, V(0, ys0, ys_axis_z), V(0, 1, 0), grp, "DFU2005 double-nut preload, C7")
-box("Y_nut_housing", 80, 110, 34, -40, TABLE_Y_WORK - 55, Z_BEDTOP + 5, grp, "DFU2005 nut seat")
-box("Y_BF_support", 70, 20, 45, -35, BELLOW_F - 25, Z_BEDTOP, grp, "BF15 floating end (front)")
-box("Y_BK_support", 70, 25, 45, -35, BELLOW_R + 5, Z_BEDTOP, grp, "BK15 fixed end (rear, motor side)")
+box("Y_nut_housing", 80, 110, Z_TABLE - (ys_axis_z - 28), -40, TABLE_Y_WORK - 55, ys_axis_z - 28, grp, "DFU2005 nut seat, hangs under the table")
+box("Y_BF_support", 70, 20, ys_axis_z + 25 - Z_BEDTOP, -35, BELLOW_F - 25, Z_BEDTOP, grp, "BF15 floating end (front) on riser")
+box("Y_BK_support", 70, 25, ys_axis_z + 25 - Z_BEDTOP, -35, BELLOW_R + 5, Z_BEDTOP, grp, "BK15 fixed end (rear, motor side) on riser")
 tube("Y_motor_mount", 76, 40, 76, -38, Y_BED1, ys_axis_z - 38, 8, "y", grp, "Motor bracket t8 on bed rear face")
 cyl("Y_coupling", 12.5, 30, V(0, Y_BED1 + 5, ys_axis_z), V(0, 1, 0), grp, "Coupling D25, 8x14")
 servo("Y_motor", (0, Y_BED1 + 40, ys_axis_z), (0, 1, 0), p["servo_l"], grp, MOTOR, "rear mounted, direct drive, lead 5")
@@ -203,13 +223,14 @@ for k in range(5):
 add("Work_table", tbl, grp, "HT250 / Q235 t40, 5x T-slot 14", "440x420 table, work area 300x300")
 box("Work_area_300x300", p["work"], p["work"], 0.5, -p["work"] / 2, TABLE_Y_WORK - p["work"] / 2,
     Z_TABLETOP, grp, "reference", "usable 300x300")
-cov_w = p["rail_y_gap"] + 80
+cov_w = 2 * Y_BLK_X - 80                  # between the rail carriers: covers the screw only
+cov_h = Z_TABLETOP - 5 - (Z_BEDTOP + 5)
 front_len = (TABLE_Y_WORK - p["table_l"] / 2) - BELLOW_F
 rear_len = BELLOW_R - (TABLE_Y_WORK + p["table_l"] / 2)
-box("Y_bellows_front", cov_w, front_len, 60, -cov_w / 2, BELLOW_F, Z_BEDTOP, grp,
-    "Bellows way cover (coolant proof)")
-box("Y_bellows_rear", cov_w, rear_len, 60, -cov_w / 2, TABLE_Y_WORK + p["table_l"] / 2, Z_BEDTOP,
-    grp, "Bellows way cover (coolant proof)")
+box("Y_bellows_front", cov_w, front_len, cov_h, -cov_w / 2, BELLOW_F, Z_BEDTOP + 5, grp,
+    "Bellows over the ball screw (coolant proof)")
+box("Y_bellows_rear", cov_w, rear_len, cov_h, -cov_w / 2, TABLE_Y_WORK + p["table_l"] / 2, Z_BEDTOP + 5,
+    grp, "Bellows over the ball screw (coolant proof)")
 
 # ======================= 4. FIXED GANTRY =================================
 grp = "04 Gantry"
@@ -321,7 +342,7 @@ g_h, g_t = 320, 2
 tw = p["trough_w"]
 gx = bw / 2 + tw                          # guards stand on the outer trough edge
 gy1 = Y_BED1 + tw                         # rear guard behind the rear trough
-gz0 = Z_BEDTOP - 60                       # trough bottom; trough top 20 below bed top
+gz0 = FLOOR_Z - 40                         # trough bottom; trough top level with the floor sheet
 box("Guard_side_L", g_t, gy1 - Y_BED0, g_h, -gx - g_t, Y_BED0, gz0, grp, "SUS304 t2 splash guard")
 box("Guard_side_R", g_t, gy1 - Y_BED0, g_h, gx, Y_BED0, gz0, grp, "SUS304 t2 splash guard")
 rg = cq.Solid.makeBox(2 * gx, g_t, g_h, V(-gx, gy1, gz0))
