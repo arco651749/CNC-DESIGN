@@ -60,9 +60,11 @@ TABLE_Y_MAX = p["spindle_y"] + p["work"] / 2          # +270
 TABLE_Y_CUT_MIN = p["spindle_y"] - p["work"] / 2      # -30
 TABLE_Y_LOAD = TABLE_Y_MAX - p["travel_y"]            # -130
 # short Y screw: supports at the nut stroke ends, motor coupled behind BK15 -- all on the datum plate
-Y_NUT_HALF = 55
-Y_BF_Y0 = TABLE_Y_LOAD - Y_NUT_HALF - 10 - 20      # BF15 (20 long) just ahead of the nut at loading
-Y_BK_Y0 = TABLE_Y_MAX + Y_NUT_HALF + 10            # BK15 (25 long) just behind the nut at full rear
+Y_NUT_HALF = 45                     # DFU2005 double nut ~80-90 long -> 90 mm housing
+Y_NUT_GAP = 5                       # nut <-> support clearance at the stroke ends
+Y_BF_Y0 = TABLE_Y_LOAD - Y_NUT_HALF - Y_NUT_GAP - 20   # BF15 (20 long) just ahead of the nut at loading
+Y_BK_Y0 = TABLE_Y_MAX + Y_NUT_HALF + Y_NUT_GAP       # BK15 (25 long) just behind the nut at full rear
+# screw = BF journal 20 + thread (stroke 400 + nut 90 + 2x5) + BK journal 25 + coupling end 20 = 565
 # bed length from the table stroke: bellows keep >= 15 % of their extended length when compressed
 BELLOW_MIN = 0.15
 _t_front_load = TABLE_Y_LOAD - p["table_l"] / 2       # table front edge at loading
