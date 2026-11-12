@@ -153,7 +153,7 @@
    "name": "Datum_base_plate",
    "group": "02 Bed",
    "material": "Q235 t30 pad welded through the floor to the webs",
-   "note": "ONE datum plate, milled in one setup: Y block seats, column seats, BF/BK seats, Y motor seat"
+   "note": "ONE datum plate, milled in one setup: 4 Y block seats, fixed Y nut seat, both column seats"
   },
   {
    "name": "Bed_floor_sheet",
@@ -272,44 +272,62 @@
   {
    "name": "Y_ballscrew",
    "group": "03 Y-axis",
-   "material": "DFU2005 double-nut preload, C7",
+   "material": "DFU2005 C7, 565 mm, inverted: rides under the table, nut fixed",
    "note": ""
   },
   {
    "name": "Y_nut_housing",
    "group": "03 Y-axis",
-   "material": "DFU2005 nut seat, hangs under the table rear half",
+   "material": "DFU2005 nut seat FIXED on the datum plate, under the spindle",
    "note": ""
   },
   {
    "name": "Y_BF_support",
    "group": "03 Y-axis",
-   "material": "BF15 floating end (front), on the datum plate",
+   "material": "BF15 floating end, bolted under the table",
    "note": ""
   },
   {
    "name": "Y_BK_support",
    "group": "03 Y-axis",
-   "material": "BK15 fixed end (rear, motor side), on the datum plate",
+   "material": "BK15 fixed end, bolted under the table",
+   "note": ""
+  },
+  {
+   "name": "Y_pulley_screw",
+   "group": "03 Y-axis",
+   "material": "HTD 5M 20T pulley, 1:1",
+   "note": ""
+  },
+  {
+   "name": "Y_pulley_motor",
+   "group": "03 Y-axis",
+   "material": "HTD 5M 20T pulley, 1:1",
+   "note": ""
+  },
+  {
+   "name": "Y_belt",
+   "group": "03 Y-axis",
+   "material": "HTD 5M belt 15 wide, 1:1",
    "note": ""
   },
   {
    "name": "Y_motor_mount",
    "group": "03 Y-axis",
-   "material": "Motor bracket t6 bolted to BK15 / plate rear edge, overhangs",
-   "note": ""
-  },
-  {
-   "name": "Y_coupling",
-   "group": "03 Y-axis",
-   "material": "Coupling D25, 8x14",
+   "material": "Motor plate t6 hanging from the table, slotted for belt tension",
    "note": ""
   },
   {
    "name": "Y_motor",
    "group": "03 Y-axis",
    "material": "Mitsubishi HG-KR43 400W",
-   "note": "hangs behind the datum plate, direct drive, lead 5"
+   "note": "rides under the table (cable in drag chain), 1:1 belt to the screw, lead 5"
+  },
+  {
+   "name": "Y_drag_chain",
+   "group": "03 Y-axis",
+   "material": "Drag chain 15x30 lying flat for the Y motor cables (moving end on table)",
+   "note": ""
   },
   {
    "name": "Work_table",
