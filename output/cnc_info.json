@@ -30,21 +30,21 @@
  },
  "overall": {
   "x": 860,
-  "y": 1205,
-  "z": 1644,
+  "y": 1123,
+  "z": 1654,
   "xmin": -382.1,
   "ymin": -462.0,
   "zmin": -20.0,
   "xmax": 478.0,
-  "ymax": 743.0,
-  "zmax": 1624.0
+  "ymax": 661.0,
+  "zmax": 1634.0
  },
  "z_levels": {
   "bed": 700,
   "bed_top": 860,
-  "table_top": 960,
-  "beam_bottom": 1180,
-  "beam_top": 1400
+  "table_top": 970,
+  "beam_bottom": 1190,
+  "beam_top": 1410
  },
  "table_y": {
   "work": 120,
@@ -153,19 +153,7 @@
    "name": "Datum_base_plate",
    "group": "02 Bed",
    "material": "Q235 t30 pad welded through the floor to the webs",
-   "note": "ONE datum plate: Y block seats + both column seats milled in one setup (squareness)"
-  },
-  {
-   "name": "Y_screw_pad_F",
-   "group": "02 Bed",
-   "material": "Q235 t30 pad welded through the floor to the webs",
-   "note": "BF15 seat, milled"
-  },
-  {
-   "name": "Y_screw_pad_R",
-   "group": "02 Bed",
-   "material": "Q235 t30 pad welded through the floor to the webs",
-   "note": "BK15 seat, milled"
+   "note": "ONE datum plate, milled in one setup: Y block seats, column seats, BF/BK seats, Y motor seat"
   },
   {
    "name": "Bed_floor_sheet",
@@ -236,7 +224,7 @@
   {
    "name": "Y_rail_carrier_L",
    "group": "03 Y-axis",
-   "material": "Steel bar 50x20 L=620, bolted under the table, rail seat ground",
+   "material": "Steel bar 50x30 L=620, bolted under the table, rail seat ground",
    "note": "moves with table"
   },
   {
@@ -260,7 +248,7 @@
   {
    "name": "Y_rail_carrier_R",
    "group": "03 Y-axis",
-   "material": "Steel bar 50x20 L=620, bolted under the table, rail seat ground",
+   "material": "Steel bar 50x30 L=620, bolted under the table, rail seat ground",
    "note": "moves with table"
   },
   {
@@ -296,19 +284,19 @@
   {
    "name": "Y_BF_support",
    "group": "03 Y-axis",
-   "material": "BF15 floating end (front) on riser",
+   "material": "BF15 floating end (front), on the datum plate",
    "note": ""
   },
   {
    "name": "Y_BK_support",
    "group": "03 Y-axis",
-   "material": "BK15 fixed end (rear, motor side) on riser",
+   "material": "BK15 fixed end (rear, motor side), on the datum plate",
    "note": ""
   },
   {
    "name": "Y_motor_mount",
    "group": "03 Y-axis",
-   "material": "Motor bracket t8 on bed rear face",
+   "material": "Motor bracket t6 on the datum plate",
    "note": ""
   },
   {
@@ -321,7 +309,7 @@
    "name": "Y_motor",
    "group": "03 Y-axis",
    "material": "Mitsubishi HG-KR43 400W",
-   "note": "rear mounted, direct drive, lead 5"
+   "note": "on the datum plate under the table, direct drive, lead 5"
   },
   {
    "name": "Work_table",
@@ -602,7 +590,7 @@
   {
    "name": "Guard_rear",
    "group": "07 Coolant & Air",
-   "material": "SUS304 t2, cut-out for Y motor",
+   "material": "SUS304 t2",
    "note": ""
   },
   {
