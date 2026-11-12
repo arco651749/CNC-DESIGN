@@ -24,27 +24,27 @@
   "servo_sq": 60,
   "servo_l": 98,
   "servo_l_brake": 132,
-  "bed_l": 1045,
+  "bed_l": 1055,
   "span_in": 480,
   "bed_w": 680
  },
  "overall": {
   "x": 860,
-  "y": 1103,
-  "z": 1624,
+  "y": 1113,
+  "z": 1639,
   "xmin": -382.1,
   "ymin": -442.0,
   "zmin": -20.0,
   "xmax": 478.0,
-  "ymax": 661.0,
-  "zmax": 1604.0
+  "ymax": 671.0,
+  "zmax": 1619.0
  },
  "z_levels": {
   "bed": 700,
   "bed_top": 860,
-  "table_top": 940,
-  "beam_bottom": 1160,
-  "beam_top": 1380
+  "table_top": 955,
+  "beam_bottom": 1175,
+  "beam_top": 1395
  },
  "table_y": {
   "work": 120,
@@ -153,7 +153,7 @@
    "name": "Datum_base_plate",
    "group": "02 Bed",
    "material": "Q235 t30, ONE datum plate milled in one setup",
-   "note": "4 Y block seats, fixed Y nut seat (15 deep flange pocket), both column seats; 120 slot for the Y motor path"
+   "note": "flat plate: 4 Y block seats, fixed Y nut seat, both column seats (no slot / pocket with HG35)"
   },
   {
    "name": "Bed_floor_sheet",
@@ -224,37 +224,37 @@
   {
    "name": "Y_rail_L",
    "group": "03 Y-axis",
-   "material": "HGR25 L=620, H - inverted, moves with table",
+   "material": "HGR35 L=640, H - inverted, moves with table",
    "note": ""
   },
   {
    "name": "Y_block_L1",
    "group": "03 Y-axis",
-   "material": "HGH25CA, ZA preload, H - inverted, fixed on the block pad",
+   "material": "HGH35CA, ZA preload, H - inverted, fixed on the datum plate",
    "note": "double seals (rail face points down)"
   },
   {
    "name": "Y_block_L2",
    "group": "03 Y-axis",
-   "material": "HGH25CA, ZA preload, H - inverted, fixed on the block pad",
+   "material": "HGH35CA, ZA preload, H - inverted, fixed on the datum plate",
    "note": "double seals (rail face points down)"
   },
   {
    "name": "Y_rail_R",
    "group": "03 Y-axis",
-   "material": "HGR25 L=620, H - inverted, moves with table",
+   "material": "HGR35 L=640, H - inverted, moves with table",
    "note": ""
   },
   {
    "name": "Y_block_R1",
    "group": "03 Y-axis",
-   "material": "HGH25CA, ZA preload, H - inverted, fixed on the block pad",
+   "material": "HGH35CA, ZA preload, H - inverted, fixed on the datum plate",
    "note": "double seals (rail face points down)"
   },
   {
    "name": "Y_block_R2",
    "group": "03 Y-axis",
-   "material": "HGH25CA, ZA preload, H - inverted, fixed on the block pad",
+   "material": "HGH35CA, ZA preload, H - inverted, fixed on the datum plate",
    "note": "double seals (rail face points down)"
   },
   {
@@ -266,7 +266,7 @@
   {
    "name": "Y_nut_housing",
    "group": "03 Y-axis",
-   "material": "DFU1605 nut seat FIXED in the datum-plate pocket",
+   "material": "DFU1605 nut seat FIXED on the datum plate (flange truncated top/bottom to 38)",
    "note": ""
   },
   {
