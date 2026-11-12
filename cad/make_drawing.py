@@ -148,7 +148,7 @@ dim(mF(xmax + 40, zl["table_top"]), mF(xmax + 40, zl["beam_bottom"]), 14, f"{pr[
 dim(mF(-pr["work"] / 2, zl["table_top"]), mF(pr["work"] / 2, zl["table_top"]), -66, "加工區 300 (X行程)")
 dim(mR(ymin, zmin), mR(ymax, zmin), 12, f"{ov['y']}")
 ty0 = info["table_y"]["load"]; ty1 = info["table_y"]["work"]; tymax = info["table_y"]["max"]
-dim(mR(ty0, zl["table_top"]), mR(tymax, zl["table_top"]), -78, "Y 行程 600 (換料 300 + 加工 300)")
+dim(mR(ty0, zl["table_top"]), mR(tymax, zl["table_top"]), -78, f"Y 行程 {pr['travel_y']} (換料 {pr['travel_y'] - pr['work']} + 加工 {pr['work']})")
 dim(mR(ty1 - 150, zl["table_top"]), mR(ty1 + 150, zl["table_top"]), -62, "加工區 300")
 dim(mT(xmin, ymin), mT(xmax, ymin), 10, f"{ov['x']}")
 dim(mT(xmin, ymin), mT(xmin, ymax), -12, f"{ov['y']}", horiz=False)
@@ -228,16 +228,16 @@ label(SX + 4, SY - 3, "主要規格 SPECIFICATION (v2)", 4.4, "start", True)
 spec = [
     "形式：龍門固定、工作台移動 (Y)；多台並行生產用",
     "加工：鋁材，刀具 Ø5 以下，人工換刀",
-    "行程 X / Y / Z：300 / 600 / 100 mm；進給 ≤ 100 mm/s",
-    "加工區：300 x 300 mm；換料區：前方 300 mm",
+    "行程 X / Y / Z：%d / %d / %d mm；進給 ≤ 100 mm/s" % (pr["travel_x"], pr["travel_y"], pr["travel_z"]),
+    "加工區：300 x 300 mm；換料：工作台前移 %d mm" % (pr["travel_y"] - pr["work"]),
     "工作台：440 x 420 x 40，T 槽 14 x5",
     "台面高：%.0f mm，龍門淨空：%d mm" % (zl["table_top"], pr["clear"]),
     "床身：Q235 鋼板焊接 (t30 面板, t20 筋)，退火去應力",
     "線軌：HIWIN HG，ZA 中預壓，H 級 (Y HGR25 / X,Z HGR20)",
     "螺桿：DFU 雙螺帽預壓 C7，導程 5 (Y DFU2005 / X,Z DFU1605)",
-    "伺服：三菱 HG-KR43 400 W x5 (Z 附煞車)，MR-J4-40A x4",
+    "伺服：三菱 HG-KR43 400 W x5 (Z 附煞車；Y 馬達後置)",
     "主軸：HG-KR43 + PJ 皮帶 1:3，ER11 主軸頭 ~13,500 rpm",
-    "控制：grblHAL (Teensy 4.1 + T41U5XBB)，5 軸，差動脈衝",
+    "電控：grblHAL + MR-J4-40A x4，電控箱掛龍門背面",
     "解析度：0.001 mm/step (電子齒輪 5,000 p/rev)",
     "冷卻：浸入式幫浦 25 L/min + 吹氣 (客戶要求保留)",
     "外形 (W x D x H)：%d x %d x %d mm" % (ov["x"], ov["y"], ov["z"]),

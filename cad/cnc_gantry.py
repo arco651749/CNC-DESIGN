@@ -25,15 +25,16 @@ os.makedirs(OUT, exist_ok=True)
 
 # ---------------- parameters ----------------
 P = dict(
-    travel_x=300, travel_y=600, travel_z=100,
+    travel_x=300, travel_y=400, travel_z=100,  # Y = machining 300 + loading 100
     work=300,                       # usable work area (square)
     stand_h=700,                    # floor -> top of stand
     bed_h=160,                      # steel weldment bed height
-    bed_w=820, bed_l=1400,
     rail_y_gap=320,                 # Y rails centre distance (HGR25)
     table_w=440, table_l=420, table_t=40,
     spindle_y=120,                  # spindle axis Y (machining centre)
-    col_w=140, col_d=200,           # gantry columns
+    col_w=100, col_d=200,           # gantry columns
+    span_in=632,                    # inner span between columns (X travel 300 + head width + clearance)
+    trough_w=40,                    # coolant trough outside the bed, each side + rear
     beam_h=220, beam_d=180,         # gantry beam (welded box)
     clear=220,                      # table top -> beam underside
     spindle_d=62, spindle_l=200,    # ER11 belt-driven spindle cartridge
@@ -47,14 +48,25 @@ Z_BEDTOP = Z_BED + p["bed_h"]
 RAIL_H = 40                         # rail+block height HGR25
 Z_TABLE = Z_BEDTOP + RAIL_H
 Z_TABLETOP = Z_TABLE + p["table_t"]
-# Y travel 600 = machining 300 (spindle covers the whole 300 work area) + 300 loading stroke.
-# Table centre: +270 = spindle over work-area FRONT edge, +120 = centre, -30 = REAR edge, -330 = loading.
+# Y travel 400 = machining 300 (spindle covers the whole 300 work area) + 100 loading stroke:
+# at loading the work-area rear edge sits ~30 mm in front of the spindle head (nozzles).
+# Table centre: +270 = spindle over work-area FRONT edge, +120 = centre, -30 = REAR edge, -130 = loading.
 TABLE_Y_WORK = p["spindle_y"]                         # model is built at this position
 TABLE_Y_MAX = p["spindle_y"] + p["work"] / 2          # +270
 TABLE_Y_CUT_MIN = p["spindle_y"] - p["work"] / 2      # -30
-TABLE_Y_LOAD = TABLE_Y_MAX - p["travel_y"]            # -330
-Y_BED0 = -p["bed_l"] / 2 - 100      # bed front edge
-Y_BED1 = Y_BED0 + p["bed_l"]
+TABLE_Y_LOAD = TABLE_Y_MAX - p["travel_y"]            # -130
+# bed length from the table stroke: bellows keep >= 15 % of their extended length when compressed
+BELLOW_MIN = 0.15
+_t_front_load = TABLE_Y_LOAD - p["table_l"] / 2       # table front edge at loading
+_t_front_max = TABLE_Y_MAX - p["table_l"] / 2
+_t_rear_max = TABLE_Y_MAX + p["table_l"] / 2
+_t_rear_load = TABLE_Y_LOAD + p["table_l"] / 2
+BELLOW_F = math.floor((_t_front_load - BELLOW_MIN * _t_front_max) / (1 - BELLOW_MIN) / 5) * 5 - 5   # front fixed end
+BELLOW_R = math.ceil((_t_rear_max - BELLOW_MIN * _t_rear_load) / (1 - BELLOW_MIN) / 5) * 5 + 5      # rear fixed end
+Y_BED0 = BELLOW_F - 40              # bed front edge (BF15 floating end in front)
+Y_BED1 = BELLOW_R + 45              # bed rear edge (BK15 fixed end + Y motor at the rear)
+P["bed_l"] = Y_BED1 - Y_BED0
+P["bed_w"] = p["span_in"] + 2 * p["col_w"]           # columns sit fully on the bed
 
 parts = []   # (name, shape, group, material, note)
 
@@ -136,7 +148,7 @@ def belt_loop(c1, r1, c2, r2, t, z0, h):
 
 # ======================= 1. STAND (contains coolant tank) =================
 leg = 80
-sw, sl = p["bed_w"] + 80, p["bed_l"]
+sw, sl = p["bed_w"], p["bed_l"]                       # legs right under the bed edges
 sx0, sy0 = -sw / 2, Y_BED0
 corners = [(sx0, sy0), (sx0 + sw - leg, sy0), (sx0, sy0 + sl - leg), (sx0 + sw - leg, sy0 + sl - leg)]
 for i, (lx, ly) in enumerate(corners):
@@ -157,29 +169,31 @@ box("Bed_top_plate", bw, bl, 30, bx0, Y_BED0, Z_BEDTOP - 30, "02 Bed", "Q235 t30
 box("Bed_bottom_plate", bw, bl, 20, bx0, Y_BED0, Z_BED, "02 Bed", "Q235 t20")
 for i, xx in enumerate([bx0, -p["rail_y_gap"] / 2 - 10, p["rail_y_gap"] / 2 - 10, bx0 + bw - 20]):
     box(f"Bed_long_web_{i+1}", 20, bl, p["bed_h"] - 50, xx, Y_BED0, Z_BED + 20, "02 Bed", "Q235 t20")
-n_ribs = 7
+n_ribs = max(4, round(bl / 220))
 for i in range(n_ribs):
     yy = Y_BED0 + i * (bl - 20) / (n_ribs - 1)
     box(f"Bed_cross_rib_{i+1}", bw - 40, 20, p["bed_h"] - 50, bx0 + 20, yy, Z_BED + 20, "02 Bed", "Q235 t20")
 
 # ======================= 3. Y AXIS (moving table) =========================
 grp = "03 Y-axis"
-y_rail_l = 1200
-yr0 = Y_BED0 + (bl - y_rail_l) / 2
+_blk_min = TABLE_Y_LOAD - 110 - 42 - 20
+_blk_max = TABLE_Y_MAX + 110 + 42 + 20
+y_rail_l = math.ceil((_blk_max - _blk_min) / 20) * 20
+yr0 = (_blk_min + _blk_max) / 2 - y_rail_l / 2
 for side, xc in (("L", -p["rail_y_gap"] / 2), ("R", p["rail_y_gap"] / 2)):
-    box(f"Y_rail_{side}", 23, y_rail_l, 22, xc - 11.5, yr0, Z_BEDTOP, grp, "HGR25 L=1200, H")
+    box(f"Y_rail_{side}", 23, y_rail_l, 22, xc - 11.5, yr0, Z_BEDTOP, grp, f"HGR25 L={y_rail_l:.0f}, H")
     for k, dy in enumerate((-110, 110)):
         box(f"Y_block_{side}{k+1}", 48, 84, 18, xc - 24, TABLE_Y_WORK + dy - 42, Z_BEDTOP + 22,
             grp, "HGH25CA, ZA preload, H")
 ys_axis_z = Z_BEDTOP + 22
-ys0, ys1 = Y_BED0 - 20, Y_BED1 - 70
+ys0, ys1 = Y_BED0 + 15, Y_BED1 + 20
 cyl("Y_ballscrew", 10, ys1 - ys0, V(0, ys0, ys_axis_z), V(0, 1, 0), grp, "DFU2005 double-nut preload, C7")
 box("Y_nut_housing", 80, 110, 34, -40, TABLE_Y_WORK - 55, Z_BEDTOP + 5, grp, "DFU2005 nut seat")
-box("Y_BK_support", 70, 25, 45, -35, Y_BED0 + 40, Z_BEDTOP, grp, "BK15 fixed end (front)")
-box("Y_BF_support", 70, 20, 45, -35, Y_BED1 - 100, Z_BEDTOP, grp, "BF15 floating end (rear)")
-tube("Y_motor_mount", 76, 40, 76, -38, Y_BED0 - 40, ys_axis_z - 38, 8, "y", grp, "Motor bracket t8")
-cyl("Y_coupling", 12.5, 30, V(0, Y_BED0 - 35, ys_axis_z), V(0, 1, 0), grp, "Coupling D25, 8x14")
-servo("Y_motor", (0, Y_BED0 - 40, ys_axis_z), (0, -1, 0), p["servo_l"], grp, MOTOR, "direct drive, lead 5")
+box("Y_BF_support", 70, 20, 45, -35, BELLOW_F - 25, Z_BEDTOP, grp, "BF15 floating end (front)")
+box("Y_BK_support", 70, 25, 45, -35, BELLOW_R + 5, Z_BEDTOP, grp, "BK15 fixed end (rear, motor side)")
+tube("Y_motor_mount", 76, 40, 76, -38, Y_BED1, ys_axis_z - 38, 8, "y", grp, "Motor bracket t8 on bed rear face")
+cyl("Y_coupling", 12.5, 30, V(0, Y_BED1 + 5, ys_axis_z), V(0, 1, 0), grp, "Coupling D25, 8x14")
+servo("Y_motor", (0, Y_BED1 + 40, ys_axis_z), (0, 1, 0), p["servo_l"], grp, MOTOR, "rear mounted, direct drive, lead 5")
 # moving table (T-slot) + bellows covers
 tx0 = -p["table_w"] / 2
 tbl = cq.Solid.makeBox(p["table_w"], p["table_l"], p["table_t"], V(tx0, TABLE_Y_WORK - p["table_l"] / 2, Z_TABLE))
@@ -190,9 +204,9 @@ add("Work_table", tbl, grp, "HT250 / Q235 t40, 5x T-slot 14", "440x420 table, wo
 box("Work_area_300x300", p["work"], p["work"], 0.5, -p["work"] / 2, TABLE_Y_WORK - p["work"] / 2,
     Z_TABLETOP, grp, "reference", "usable 300x300")
 cov_w = p["rail_y_gap"] + 80
-front_len = (TABLE_Y_WORK - p["table_l"] / 2) - (Y_BED0 + 70)
-rear_len = (Y_BED1 - 40) - (TABLE_Y_WORK + p["table_l"] / 2)
-box("Y_bellows_front", cov_w, front_len, 60, -cov_w / 2, Y_BED0 + 70, Z_BEDTOP, grp,
+front_len = (TABLE_Y_WORK - p["table_l"] / 2) - BELLOW_F
+rear_len = BELLOW_R - (TABLE_Y_WORK + p["table_l"] / 2)
+box("Y_bellows_front", cov_w, front_len, 60, -cov_w / 2, BELLOW_F, Z_BEDTOP, grp,
     "Bellows way cover (coolant proof)")
 box("Y_bellows_rear", cov_w, rear_len, 60, -cov_w / 2, TABLE_Y_WORK + p["table_l"] / 2, Z_BEDTOP,
     grp, "Bellows way cover (coolant proof)")
@@ -201,12 +215,12 @@ box("Y_bellows_rear", cov_w, rear_len, 60, -cov_w / 2, TABLE_Y_WORK + p["table_l
 grp = "04 Gantry"
 z_beam0 = Z_TABLETOP + p["clear"]
 beam_y0 = p["spindle_y"] + 178          # beam front face
-span_in = p["travel_x"] + 260 + 80      # inner span between columns
+span_in = p["span_in"]                  # inner span between columns
 col_x_in = span_in / 2
 for side, sgn in (("L", -1), ("R", 1)):
     x0 = col_x_in if sgn > 0 else -col_x_in - p["col_w"]
     tube(f"Gantry_column_{side}", p["col_w"], p["col_d"], z_beam0 + p["beam_h"] - Z_BEDTOP,
-         x0, beam_y0, Z_BEDTOP, 12, "z", grp, "Welded box 140x200 t12 (Q235)")
+         x0, beam_y0, Z_BEDTOP, 12, "z", grp, "Welded box 100x200 t12 (Q235)")
 beam_l = span_in + 2 * p["col_w"]
 tube("Gantry_beam", beam_l, p["beam_d"], p["beam_h"], -beam_l / 2, beam_y0, z_beam0, 12, "x",
      grp, "Welded box 220x180 t12, filled epoxy granite optional")
@@ -310,35 +324,42 @@ add("Belt_guard", guard, grp, "Belt guard, Al sheet t1.5")
 # ======================= 7. COOLANT / AIR / CHIP SYSTEM ===================
 grp = "07 Coolant & Air"
 g_h, g_t = 320, 2
-gx = bw / 2 + 10
-box("Guard_side_L", g_t, bl, g_h, -gx - g_t, Y_BED0, Z_BEDTOP - 40, grp, "SUS304 t2 splash guard")
-box("Guard_side_R", g_t, bl, g_h, gx, Y_BED0, Z_BEDTOP - 40, grp, "SUS304 t2 splash guard")
-box("Guard_rear", 2 * gx, g_t, g_h, -gx, Y_BED1, Z_BEDTOP - 40, grp, "SUS304 t2")
-lip = cq.Solid.makeBox(2 * gx, g_t, 120, V(-gx, Y_BED0 - g_t, Z_BEDTOP - 40))
-lip = lip.cut(cq.Solid.makeBox(90, 10, 90, V(-45, Y_BED0 - 6, ys_axis_z - 45)))
-add("Guard_front_lip", lip, grp, "SUS304 t2 low lip (loading side), cut-out for Y motor")
-box("Guard_window_L", g_t, 500, 200, -gx - g_t - 0.1, p["spindle_y"] - 250, Z_BEDTOP + 60, grp, "PC window 5mm")
-box("Coolant_trough_L", 60, bl, 40, -gx, Y_BED0, Z_BEDTOP - 40, grp, "SUS304 trough, slope 1:100 to rear")
-box("Coolant_trough_R", 60, bl, 40, gx - 60, Y_BED0, Z_BEDTOP - 40, grp, "SUS304 trough, slope 1:100 to rear")
-box("Coolant_trough_rear", 2 * gx, 80, 40, -gx, Y_BED1 - 80, Z_BEDTOP - 40, grp, "collects to drain")
-drain_x, drain_y = gx - 30, Y_BED1 - 40
-cyl("Drain_pipe", 20, Z_BEDTOP - 40 - 520, V(drain_x, drain_y, 520), V(0, 0, 1), grp, "PVC D40 drain")
+tw = p["trough_w"]
+gx = bw / 2 + tw                          # guards stand on the outer trough edge
+gy1 = Y_BED1 + tw                         # rear guard behind the rear trough
+gz0 = Z_BEDTOP - 60                       # trough bottom; trough top 20 below bed top
+box("Guard_side_L", g_t, gy1 - Y_BED0, g_h, -gx - g_t, Y_BED0, gz0, grp, "SUS304 t2 splash guard")
+box("Guard_side_R", g_t, gy1 - Y_BED0, g_h, gx, Y_BED0, gz0, grp, "SUS304 t2 splash guard")
+rg = cq.Solid.makeBox(2 * gx, g_t, g_h, V(-gx, gy1, gz0))
+rg = rg.cut(cq.Solid.makeBox(90, 10, 90, V(-45, gy1 - 4, ys_axis_z - 45)))
+add("Guard_rear", rg, grp, "SUS304 t2, cut-out for Y motor")
+box("Guard_front_lip", 2 * gx, g_t, 120, -gx, Y_BED0 - g_t, gz0, grp, "SUS304 t2 low lip (loading side)")
+box("Guard_window_L", g_t, 400, 200, -gx - g_t - 0.1, p["spindle_y"] - 200, Z_BEDTOP + 40, grp, "PC window 5mm")
+box("Coolant_trough_L", tw, gy1 - Y_BED0, 40, -gx, Y_BED0, gz0, grp, "SUS304 trough outside bed, slope 1:100 to rear")
+box("Coolant_trough_R", tw, gy1 - Y_BED0, 40, bw / 2, Y_BED0, gz0, grp, "SUS304 trough outside bed, slope 1:100 to rear")
+box("Coolant_trough_rear", bw, tw, 40, -bw / 2, Y_BED1, gz0, grp, "rear trough, collects to drain")
+drain_x, drain_y = 300, Y_BED1 + tw / 2
+cyl("Drain_pipe", 20, gz0 - 560, V(drain_x, drain_y, 560), V(0, 0, 1), grp, "PVC D40 drain (behind stand)")
 tank_l, tank_w, tank_h = 620, 560, 330
 tank_y0 = Y_BED1 - 80 - tank_l
 tk = cq.Solid.makeBox(tank_w, tank_l, tank_h, V(-tank_w / 2, tank_y0, 185))
 tk = tk.cut(cq.Solid.makeBox(tank_w - 6, tank_l - 6, tank_h, V(-tank_w / 2 + 3, tank_y0 + 3, 188)))
 add("Coolant_tank", tk, grp, "SUS304 t3, ~100 L (fill 80 L)", "on castors, slides out rear")
-fb = cq.Solid.makeBox(220, 220, 180, V(drain_x - 170, drain_y - 190, 340))
-fb = fb.cut(cq.Solid.makeBox(210, 210, 180, V(drain_x - 165, drain_y - 185, 345)))
+fbx, fby = 45, tank_y0 + tank_l - 240
+fb = cq.Solid.makeBox(220, 220, 180, V(fbx, fby, 340))
+fb = fb.cut(cq.Solid.makeBox(210, 210, 180, V(fbx + 5, fby + 5, 345)))
+_d0, _d1 = V(drain_x, drain_y, 560), V(fbx + 110, fby + 110, 525)
+cyl("Drain_pipe_2", 20, (_d1 - _d0).Length, _d0, _d1 - _d0, grp, "PVC D40 elbow to filter basket")
 add("Chip_filter_basket", fb, grp, "SUS304 perforated basket + 60 mesh bag", "removable, catches Al chips")
 box("Filter_baffle", tank_w - 6, 3, tank_h - 60, -tank_w / 2 + 3, tank_y0 + tank_l / 2, 188, grp,
     "Settling baffle (dirty | clean side)")
 cyl("Coolant_pump", 45, 160, V(-150, tank_y0 + 140, 185 + tank_h - 120), V(0, 0, 1), grp,
     "Immersion pump 90W, 25 L/min, 0.2 MPa")
 cyl("Pump_motor", 55, 110, V(-150, tank_y0 + 140, 185 + tank_h), V(0, 0, 1), grp, "pump motor")
-hose_pts = [V(-150, tank_y0 + 140, 185 + tank_h + 110), V(-150, tank_y0 + 140, 640),
-            V(-gx + 30, Y_BED1 - 60, 640), V(-gx + 30, Y_BED1 - 60, z_beam0 + p["beam_h"] + 40),
-            V(-60, xc_y0 + 15, z_beam0 + p["beam_h"] + 40)]
+hz = z_beam0 + p["beam_h"] + 60
+h0 = 185 + tank_h + 117
+hose_pts = [V(-150, tank_y0 + 140, 185 + tank_h + 110), V(-150, tank_y0 + 140, h0), V(-300, gy1 + 10, h0),
+            V(-300, gy1 + 10, hz), V(-60, xc_y0 + 15, hz)]
 hose = None
 for a, b in zip(hose_pts[:-1], hose_pts[1:]):
     seg = cq.Solid.makeCylinder(6, (b - a).Length, a, (b - a))
@@ -352,17 +373,18 @@ for ang, name, note in [(200, "Coolant_nozzle_1", "Loc-Line 1/4\" coolant"),
     base = V(70 * math.cos(a), sp_y + 70 * math.sin(a), z_slide_z - 60)
     tip = V(8 * math.cos(a), sp_y + 8 * math.sin(a), tip_z + 8)
     cyl(name, 4, (tip - base).Length, base, tip - base, grp, note)
-box("Air_solenoid_FRL", 60, 40, 120, -gx - 130, Y_BED1 - 120, 560, grp,
+box("Air_solenoid_FRL", 60, 40, 120, -col_x_in - 80, beam_y0 + p["col_d"], z_beam0 - 260, grp,
     "FRL + 24V solenoid valve (M7/M8 coolant/air via controller)")
 box("Drag_chain_X", beam_l - 100, 40, 30, -(beam_l - 100) / 2, beam_y0 + 30, z_beam0 + p["beam_h"], grp,
     "Drag chain 25x38 (cables, coolant, air)")
 
 # ======================= 8. ELECTRICAL =====================================
 grp = "08 Electrical"
-cab_w, cab_d, cab_h = 220, 500, 600
-cab = cq.Solid.makeBox(cab_w, cab_d, cab_h, V(sw / 2, -380, 80))
+cab_w, cab_d, cab_h = 480, 200, 300
+cab = cq.Solid.makeBox(cab_w, cab_d, cab_h, V(-cab_w / 2, beam_y0 + p["beam_d"], gz0 + g_h + 5))
 add("Electrical_cabinet", cab, grp,
-    "SPCC cabinet IP54: grblHAL Teensy 4.1 + T41U5XBB, 4x MR-J4-40A, line drivers, 24V PSU, breaker",
+    "Cabinet 480x300x200 IP54 w/ filter fan on gantry back: Teensy 4.1 + T41U5XBB, 4x MR-J4-40A "
+    "(X/Y/Z/spindle), line drivers, 24V PSU, breaker, terminals",
     "1 PC can supervise several machines over Ethernet")
 
 # ======================= export ===========================================
