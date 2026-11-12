@@ -33,7 +33,7 @@ P = dict(
     table_w=440, table_l=420, table_t=40,
     spindle_y=120,                  # spindle axis Y (machining centre)
     col_w=100, col_d=200,           # gantry columns
-    span_in=632,                    # inner span between columns (X travel 300 + head width + clearance)
+    table_gap=20,                   # table <-> column clearance each side (the head runs IN FRONT of the columns)
     trough_w=40,                    # coolant trough outside the bed, each side + rear
     beam_h=220, beam_d=180,         # gantry beam (welded box)
     clear=220,                      # table top -> beam underside
@@ -66,6 +66,7 @@ BELLOW_R = math.ceil((_t_rear_max - BELLOW_MIN * _t_rear_load) / (1 - BELLOW_MIN
 Y_BED0 = BELLOW_F - 40              # bed front edge (BF15 floating end in front)
 Y_BED1 = BELLOW_R + 45              # bed rear edge (BK15 fixed end + Y motor at the rear)
 P["bed_l"] = Y_BED1 - Y_BED0
+P["span_in"] = p["table_w"] + 2 * p["table_gap"]      # columns only need to clear the moving table
 P["bed_w"] = p["span_in"] + 2 * p["col_w"]           # columns sit fully on the bed
 
 parts = []   # (name, shape, group, material, note)
@@ -338,14 +339,15 @@ box("Guard_window_L", g_t, 400, 200, -gx - g_t - 0.1, p["spindle_y"] - 200, Z_BE
 box("Coolant_trough_L", tw, gy1 - Y_BED0, 40, -gx, Y_BED0, gz0, grp, "SUS304 trough outside bed, slope 1:100 to rear")
 box("Coolant_trough_R", tw, gy1 - Y_BED0, 40, bw / 2, Y_BED0, gz0, grp, "SUS304 trough outside bed, slope 1:100 to rear")
 box("Coolant_trough_rear", bw, tw, 40, -bw / 2, Y_BED1, gz0, grp, "rear trough, collects to drain")
-drain_x, drain_y = 300, Y_BED1 + tw / 2
+drain_x, drain_y = bw / 2 - leg - 60, Y_BED1 + tw / 2   # behind the stand, clear of the legs
 cyl("Drain_pipe", 20, gz0 - 560, V(drain_x, drain_y, 560), V(0, 0, 1), grp, "PVC D40 drain (behind stand)")
-tank_l, tank_w, tank_h = 620, 560, 330
+tank_l, tank_h = 620, 330
+tank_w = sw - 2 * leg - 20                # fits between the stand legs (~100 L)
 tank_y0 = Y_BED1 - 80 - tank_l
 tk = cq.Solid.makeBox(tank_w, tank_l, tank_h, V(-tank_w / 2, tank_y0, 185))
 tk = tk.cut(cq.Solid.makeBox(tank_w - 6, tank_l - 6, tank_h, V(-tank_w / 2 + 3, tank_y0 + 3, 188)))
 add("Coolant_tank", tk, grp, "SUS304 t3, ~100 L (fill 80 L)", "on castors, slides out rear")
-fbx, fby = 45, tank_y0 + tank_l - 240
+fbx, fby = tank_w / 2 - 235, tank_y0 + tank_l - 240
 fb = cq.Solid.makeBox(220, 220, 180, V(fbx, fby, 340))
 fb = fb.cut(cq.Solid.makeBox(210, 210, 180, V(fbx + 5, fby + 5, 345)))
 _d0, _d1 = V(drain_x, drain_y, 560), V(fbx + 110, fby + 110, 525)
@@ -358,8 +360,9 @@ cyl("Coolant_pump", 45, 160, V(-150, tank_y0 + 140, 185 + tank_h - 120), V(0, 0,
 cyl("Pump_motor", 55, 110, V(-150, tank_y0 + 140, 185 + tank_h), V(0, 0, 1), grp, "pump motor")
 hz = z_beam0 + p["beam_h"] + 60
 h0 = 185 + tank_h + 117
-hose_pts = [V(-150, tank_y0 + 140, 185 + tank_h + 110), V(-150, tank_y0 + 140, h0), V(-300, gy1 + 10, h0),
-            V(-300, gy1 + 10, hz), V(-60, xc_y0 + 15, hz)]
+hxr = -(bw / 2 - leg) + 20                # riser x: inside the leg line, beside the cabinet
+hose_pts = [V(-150, tank_y0 + 140, 185 + tank_h + 110), V(-150, tank_y0 + 140, h0), V(hxr, gy1 + 10, h0),
+            V(hxr, gy1 + 10, hz), V(-60, xc_y0 + 15, hz)]
 hose = None
 for a, b in zip(hose_pts[:-1], hose_pts[1:]):
     seg = cq.Solid.makeCylinder(6, (b - a).Length, a, (b - a))
@@ -380,10 +383,10 @@ box("Drag_chain_X", beam_l - 100, 40, 30, -(beam_l - 100) / 2, beam_y0 + 30, z_b
 
 # ======================= 8. ELECTRICAL =====================================
 grp = "08 Electrical"
-cab_w, cab_d, cab_h = 480, 200, 300
-cab = cq.Solid.makeBox(cab_w, cab_d, cab_h, V(-cab_w / 2, beam_y0 + p["beam_d"], gz0 + g_h + 5))
+cab_w, cab_d, cab_h = 440, 200, 300
+cab = cq.Solid.makeBox(cab_w, cab_d, cab_h, V(-cab_w / 2, beam_y0 + p["col_d"], gz0 + g_h + 5))
 add("Electrical_cabinet", cab, grp,
-    "Cabinet 480x300x200 IP54 w/ filter fan on gantry back: Teensy 4.1 + T41U5XBB, 4x MR-J4-40A "
+    "Cabinet 440x300x200 IP54 w/ filter fan on gantry back: Teensy 4.1 + T41U5XBB, 4x MR-J4-40A "
     "(X/Y/Z/spindle), line drivers, 24V PSU, breaker, terminals",
     "1 PC can supervise several machines over Ethernet")
 

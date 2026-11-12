@@ -14,7 +14,7 @@
   "spindle_y": 120,
   "col_w": 100,
   "col_d": 200,
-  "span_in": 632,
+  "table_gap": 20,
   "trough_w": 40,
   "beam_h": 220,
   "beam_d": 180,
@@ -26,16 +26,17 @@
   "servo_l": 98,
   "servo_l_brake": 132,
   "bed_l": 1065,
-  "bed_w": 832
+  "span_in": 480,
+  "bed_w": 680
  },
  "overall": {
-  "x": 1012,
+  "x": 860,
   "y": 1205,
   "z": 1624,
-  "xmin": -458.1,
+  "xmin": -382.1,
   "ymin": -462.0,
   "zmin": -20.0,
-  "xmax": 554.0,
+  "xmax": 478.0,
   "ymax": 743.0,
   "zmax": 1604.0
  },
@@ -722,7 +723,7 @@
   {
    "name": "Electrical_cabinet",
    "group": "08 Electrical",
-   "material": "Cabinet 480x300x200 IP54 w/ filter fan on gantry back: Teensy 4.1 + T41U5XBB, 4x MR-J4-40A (X/Y/Z/spindle), line drivers, 24V PSU, breaker, terminals",
+   "material": "Cabinet 440x300x200 IP54 w/ filter fan on gantry back: Teensy 4.1 + T41U5XBB, 4x MR-J4-40A (X/Y/Z/spindle), line drivers, 24V PSU, breaker, terminals",
    "note": "1 PC can supervise several machines over Ethernet"
   }
  ]
