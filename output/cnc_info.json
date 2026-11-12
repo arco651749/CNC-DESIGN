@@ -1,4 +1,5 @@
 {
+ "version": "v2 (CadQuery)",
  "params": {
   "travel_x": 300,
   "travel_y": 600,
@@ -18,19 +19,23 @@
   "beam_h": 220,
   "beam_d": 180,
   "clear": 220,
-  "spindle_d": 80,
-  "spindle_l": 230
+  "spindle_d": 62,
+  "spindle_l": 200,
+  "belt_ratio": 3,
+  "servo_sq": 60,
+  "servo_l": 98,
+  "servo_l_brake": 132
  },
  "overall": {
-  "x": 1130,
-  "y": 1502,
-  "z": 1560,
+  "x": 1220,
+  "y": 1540,
+  "z": 1624,
   "xmin": -550.0,
-  "ymin": -900.0,
+  "ymin": -938.0,
   "zmin": -20.0,
-  "xmax": 580.0,
+  "xmax": 670.0,
   "ymax": 602.0,
-  "zmax": 1540.0
+  "zmax": 1604.0
  },
  "z_levels": {
   "bed": 700,
@@ -221,49 +226,49 @@
   {
    "name": "Y_rail_L",
    "group": "03 Y-axis",
-   "material": "HGR25 L=1200",
+   "material": "HGR25 L=1200, H",
    "note": ""
   },
   {
    "name": "Y_block_L1",
    "group": "03 Y-axis",
-   "material": "HGH25CA",
+   "material": "HGH25CA, ZA preload, H",
    "note": ""
   },
   {
    "name": "Y_block_L2",
    "group": "03 Y-axis",
-   "material": "HGH25CA",
+   "material": "HGH25CA, ZA preload, H",
    "note": ""
   },
   {
    "name": "Y_rail_R",
    "group": "03 Y-axis",
-   "material": "HGR25 L=1200",
+   "material": "HGR25 L=1200, H",
    "note": ""
   },
   {
    "name": "Y_block_R1",
    "group": "03 Y-axis",
-   "material": "HGH25CA",
+   "material": "HGH25CA, ZA preload, H",
    "note": ""
   },
   {
    "name": "Y_block_R2",
    "group": "03 Y-axis",
-   "material": "HGH25CA",
+   "material": "HGH25CA, ZA preload, H",
    "note": ""
   },
   {
    "name": "Y_ballscrew",
    "group": "03 Y-axis",
-   "material": "SFU2010 L=1150, C7",
+   "material": "DFU2005 double-nut preload, C7",
    "note": ""
   },
   {
    "name": "Y_nut_housing",
    "group": "03 Y-axis",
-   "material": "DSG20H nut seat",
+   "material": "DFU2005 nut seat",
    "note": ""
   },
   {
@@ -279,10 +284,22 @@
    "note": ""
   },
   {
+   "name": "Y_motor_mount",
+   "group": "03 Y-axis",
+   "material": "Motor bracket t8",
+   "note": ""
+  },
+  {
+   "name": "Y_coupling",
+   "group": "03 Y-axis",
+   "material": "Coupling D25, 8x14",
+   "note": ""
+  },
+  {
    "name": "Y_motor",
    "group": "03 Y-axis",
-   "material": "Servo 750W / NEMA34, belt or direct",
-   "note": ""
+   "material": "Mitsubishi HG-KR43 400W",
+   "note": "direct drive, lead 5"
   },
   {
    "name": "Work_table",
@@ -329,26 +346,74 @@
   {
    "name": "X_rail_1",
    "group": "05 X-axis",
-   "material": "HGR20",
+   "material": "HGR20, H",
+   "note": ""
+  },
+  {
+   "name": "X_block_11",
+   "group": "05 X-axis",
+   "material": "HGH20CA, ZA preload, H",
+   "note": ""
+  },
+  {
+   "name": "X_block_12",
+   "group": "05 X-axis",
+   "material": "HGH20CA, ZA preload, H",
    "note": ""
   },
   {
    "name": "X_rail_2",
    "group": "05 X-axis",
-   "material": "HGR20",
+   "material": "HGR20, H",
+   "note": ""
+  },
+  {
+   "name": "X_block_21",
+   "group": "05 X-axis",
+   "material": "HGH20CA, ZA preload, H",
+   "note": ""
+  },
+  {
+   "name": "X_block_22",
+   "group": "05 X-axis",
+   "material": "HGH20CA, ZA preload, H",
    "note": ""
   },
   {
    "name": "X_ballscrew",
    "group": "05 X-axis",
-   "material": "SFU1605, C7",
+   "material": "DFU1605 double-nut preload, C7",
+   "note": ""
+  },
+  {
+   "name": "X_BK_support",
+   "group": "05 X-axis",
+   "material": "BK12 fixed end",
+   "note": ""
+  },
+  {
+   "name": "X_BF_support",
+   "group": "05 X-axis",
+   "material": "BF12 floating end",
+   "note": ""
+  },
+  {
+   "name": "X_motor_mount",
+   "group": "05 X-axis",
+   "material": "Motor bracket t8",
+   "note": ""
+  },
+  {
+   "name": "X_coupling",
+   "group": "05 X-axis",
+   "material": "Coupling D25, 8x12",
    "note": ""
   },
   {
    "name": "X_motor",
    "group": "05 X-axis",
-   "material": "Servo 400W / NEMA23-34",
-   "note": ""
+   "material": "Mitsubishi HG-KR43 400W",
+   "note": "direct drive, lead 5"
   },
   {
    "name": "X_carriage_plate",
@@ -357,51 +422,171 @@
    "note": ""
   },
   {
+   "name": "X_nut_housing",
+   "group": "05 X-axis",
+   "material": "DFU1605 nut seat (on carriage back)",
+   "note": ""
+  },
+  {
    "name": "Z_rail_L",
-   "group": "06 Z-axis",
-   "material": "HGR20",
+   "group": "06 Z-axis & Spindle",
+   "material": "HGR20, H",
    "note": ""
   },
   {
    "name": "Z_rail_R",
-   "group": "06 Z-axis",
-   "material": "HGR20",
-   "note": ""
-  },
-  {
-   "name": "Z_ballscrew",
-   "group": "06 Z-axis",
-   "material": "SFU1605",
-   "note": ""
-  },
-  {
-   "name": "Z_motor",
-   "group": "06 Z-axis",
-   "material": "Servo 400W w/ brake",
+   "group": "06 Z-axis & Spindle",
+   "material": "HGR20, H",
    "note": ""
   },
   {
    "name": "Z_slide_plate",
-   "group": "06 Z-axis",
+   "group": "06 Z-axis & Spindle",
    "material": "Steel t30",
    "note": ""
   },
   {
+   "name": "Z_block_L1",
+   "group": "06 Z-axis & Spindle",
+   "material": "HGH20CA, ZA preload, H",
+   "note": ""
+  },
+  {
+   "name": "Z_block_L2",
+   "group": "06 Z-axis & Spindle",
+   "material": "HGH20CA, ZA preload, H",
+   "note": ""
+  },
+  {
+   "name": "Z_block_R1",
+   "group": "06 Z-axis & Spindle",
+   "material": "HGH20CA, ZA preload, H",
+   "note": ""
+  },
+  {
+   "name": "Z_block_R2",
+   "group": "06 Z-axis & Spindle",
+   "material": "HGH20CA, ZA preload, H",
+   "note": ""
+  },
+  {
+   "name": "Z_ballscrew",
+   "group": "06 Z-axis & Spindle",
+   "material": "DFU1605 double-nut preload, C7",
+   "note": ""
+  },
+  {
+   "name": "Z_nut_housing",
+   "group": "06 Z-axis & Spindle",
+   "material": "DFU1605 nut seat",
+   "note": ""
+  },
+  {
+   "name": "Z_BF_support",
+   "group": "06 Z-axis & Spindle",
+   "material": "BF12 floating end (bottom)",
+   "note": ""
+  },
+  {
+   "name": "Z_BK_support",
+   "group": "06 Z-axis & Spindle",
+   "material": "BK12 fixed end (top)",
+   "note": ""
+  },
+  {
+   "name": "Z_motor_base",
+   "group": "06 Z-axis & Spindle",
+   "material": "Motor base plate t12",
+   "note": ""
+  },
+  {
+   "name": "Z_motor_mount",
+   "group": "06 Z-axis & Spindle",
+   "material": "Motor bracket t8",
+   "note": ""
+  },
+  {
+   "name": "Z_coupling",
+   "group": "06 Z-axis & Spindle",
+   "material": "Coupling D25, 8x14",
+   "note": ""
+  },
+  {
+   "name": "Z_motor",
+   "group": "06 Z-axis & Spindle",
+   "material": "Mitsubishi HG-KR43B 400W w/ brake",
+   "note": "brake holds spindle head at power-off"
+  },
+  {
+   "name": "Spindle_cartridge",
+   "group": "06 Z-axis & Spindle",
+   "material": "ER11 belt-driven spindle cartridge D62, >=15,000 rpm, P4 angular contact bearings",
+   "note": "~13,500 rpm at motor 4,500 rpm"
+  },
+  {
+   "name": "Spindle_ER11_nut",
+   "group": "06 Z-axis & Spindle",
+   "material": "ER11 nut + collet <=0.008 mm",
+   "note": ""
+  },
+  {
+   "name": "Tool_D5",
+   "group": "06 Z-axis & Spindle",
+   "material": "Tool ref D5 carbide, stick-out 25",
+   "note": ""
+  },
+  {
    "name": "Spindle_clamp",
-   "group": "06 Z-axis",
-   "material": "Clamp D80",
+   "group": "06 Z-axis & Spindle",
+   "material": "Clamp D62, steel",
    "note": ""
   },
   {
-   "name": "Spindle",
-   "group": "06 Z-axis",
-   "material": "2.2kW water-cooled ER20 D80",
+   "name": "Spindle_shaft",
+   "group": "06 Z-axis & Spindle",
+   "material": "spindle shaft end D15",
    "note": ""
   },
   {
-   "name": "Tool_ER20",
-   "group": "06 Z-axis",
-   "material": "Tool stick-out ref",
+   "name": "Spindle_pulley",
+   "group": "06 Z-axis & Spindle",
+   "material": "PJ poly-V pulley D32 (balanced)",
+   "note": ""
+  },
+  {
+   "name": "Spindle_motor_pulley",
+   "group": "06 Z-axis & Spindle",
+   "material": "PJ poly-V pulley D96 (balanced)",
+   "note": ""
+  },
+  {
+   "name": "Spindle_motor_shaft",
+   "group": "06 Z-axis & Spindle",
+   "material": "motor shaft D14",
+   "note": ""
+  },
+  {
+   "name": "Spindle_motor_bracket",
+   "group": "06 Z-axis & Spindle",
+   "material": "Motor bracket t12, slotted for belt tension",
+   "note": ""
+  },
+  {
+   "name": "Spindle_motor",
+   "group": "06 Z-axis & Spindle",
+   "material": "Mitsubishi HG-KR43 400W",
+   "note": "speed mode, 0-10 V from grblHAL, 1:3 belt"
+  },
+  {
+   "name": "Spindle_belt",
+   "group": "06 Z-axis & Spindle",
+   "material": "PJ poly-V belt (e.g. 6PJ)",
+   "note": ""
+  },
+  {
+   "name": "Belt_guard",
+   "group": "06 Z-axis & Spindle",
+   "material": "Belt guard, Al sheet t1.5",
    "note": ""
   },
   {
@@ -425,7 +610,7 @@
   {
    "name": "Guard_front_lip",
    "group": "07 Coolant & Air",
-   "material": "SUS304 t2 low lip (loading side)",
+   "material": "SUS304 t2 low lip (loading side), cut-out for Y motor",
    "note": ""
   },
   {
@@ -468,7 +653,7 @@
    "name": "Chip_filter_basket",
    "group": "07 Coolant & Air",
    "material": "SUS304 perforated basket + 60 mesh bag",
-   "note": "removable, catches Al/steel chips"
+   "note": "removable, catches Al chips"
   },
   {
    "name": "Filter_baffle",
@@ -523,6 +708,12 @@
    "group": "07 Coolant & Air",
    "material": "Drag chain 25x38 (cables, coolant, air)",
    "note": ""
+  },
+  {
+   "name": "Electrical_cabinet",
+   "group": "08 Electrical",
+   "material": "SPCC cabinet IP54: grblHAL Teensy 4.1 + T41U5XBB, 4x MR-J4-40A, line drivers, 24V PSU, breaker",
+   "note": "1 PC can supervise several machines over Ethernet"
   }
  ]
 }
