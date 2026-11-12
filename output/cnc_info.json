@@ -278,7 +278,7 @@
   {
    "name": "Y_nut_housing",
    "group": "03 Y-axis",
-   "material": "DFU2005 nut seat, hangs under the table",
+   "material": "DFU2005 nut seat, hangs under the table rear half",
    "note": ""
   },
   {
@@ -296,7 +296,7 @@
   {
    "name": "Y_motor_mount",
    "group": "03 Y-axis",
-   "material": "Motor bracket t6 on the datum plate",
+   "material": "Motor bracket t6 bolted to BK15 / plate rear edge, overhangs",
    "note": ""
   },
   {
@@ -309,7 +309,7 @@
    "name": "Y_motor",
    "group": "03 Y-axis",
    "material": "Mitsubishi HG-KR43 400W",
-   "note": "on the datum plate under the table, direct drive, lead 5"
+   "note": "hangs behind the datum plate, direct drive, lead 5"
   },
   {
    "name": "Work_table",

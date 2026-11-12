@@ -62,8 +62,13 @@ TABLE_Y_LOAD = TABLE_Y_MAX - p["travel_y"]            # -130
 # short Y screw: supports at the nut stroke ends, motor coupled behind BK15 -- all on the datum plate
 Y_NUT_HALF = 45                     # DFU2005 double nut ~80-90 long -> 90 mm housing
 Y_NUT_GAP = 5                       # nut <-> support clearance at the stroke ends
-Y_BF_Y0 = TABLE_Y_LOAD - Y_NUT_HALF - Y_NUT_GAP - 20   # BF15 (20 long) just ahead of the nut at loading
-Y_BK_Y0 = TABLE_Y_MAX + Y_NUT_HALF + Y_NUT_GAP       # BK15 (25 long) just behind the nut at full rear
+# nut mounted towards the table REAR so BK15 sits on the datum-plate rear edge (column rear face) and the
+# motor hangs out behind the plate -> the datum plate gets shorter at the front
+_datum_rear = P["spindle_y"] + 178 + P["col_d"]                    # column rear face
+Y_NUT_OFF = _datum_rear - 25 - TABLE_Y_MAX - Y_NUT_HALF - Y_NUT_GAP  # nut centre rel. to table centre
+assert Y_NUT_OFF + Y_NUT_HALF <= P["table_l"] / 2, "nut seat must stay under the table"
+Y_BF_Y0 = TABLE_Y_LOAD + Y_NUT_OFF - Y_NUT_HALF - Y_NUT_GAP - 20   # BF15 (20 long) just ahead of the nut at loading
+Y_BK_Y0 = TABLE_Y_MAX + Y_NUT_OFF + Y_NUT_HALF + Y_NUT_GAP         # BK15 (25 long), flush with the plate rear edge
 # screw = BF journal 20 + thread (stroke 400 + nut 90 + 2x5) + BK journal 25 + coupling end 20 = 565
 # rail offset towards the rear so both block rows stay engaged at both stroke ends
 _ra = (Y_BLK[0] - 42 - 5) - TABLE_Y_MAX                     # rail front end rel. to table centre
@@ -208,13 +213,13 @@ for side, xc in (("L", -Y_BLK_X), ("R", Y_BLK_X)):
 ys_axis_z = Z_BEDTOP + 35                 # motor (60 sq) fits 5 mm above the plate / 5 mm under the table
 ys0, ys1 = Y_BF_Y0, Y_BK_Y0 + 45
 cyl("Y_ballscrew", 10, ys1 - ys0, V(0, ys0, ys_axis_z), V(0, 1, 0), grp, "DFU2005 double-nut preload, C7")
-box("Y_nut_housing", 70, 2 * Y_NUT_HALF, Z_TABLE - (ys_axis_z - 29), -35, TABLE_Y_WORK - Y_NUT_HALF, ys_axis_z - 29, grp,
-    "DFU2005 nut seat, hangs under the table")
+box("Y_nut_housing", 70, 2 * Y_NUT_HALF, Z_TABLE - (ys_axis_z - 29), -35, TABLE_Y_WORK + Y_NUT_OFF - Y_NUT_HALF,
+    ys_axis_z - 29, grp, "DFU2005 nut seat, hangs under the table rear half")
 box("Y_BF_support", 70, 20, ys_axis_z + 22 - Z_BEDTOP, -35, Y_BF_Y0, Z_BEDTOP, grp, "BF15 floating end (front), on the datum plate")
 box("Y_BK_support", 70, 25, ys_axis_z + 22 - Z_BEDTOP, -35, Y_BK_Y0, Z_BEDTOP, grp, "BK15 fixed end (rear, motor side), on the datum plate")
-tube("Y_motor_mount", 68, 40, 68, -34, Y_BK_Y0 + 25, ys_axis_z - 34, 6, "y", grp, "Motor bracket t6 on the datum plate")
+tube("Y_motor_mount", 68, 40, 68, -34, Y_BK_Y0 + 25, ys_axis_z - 34, 6, "y", grp, "Motor bracket t6 bolted to BK15 / plate rear edge, overhangs")
 cyl("Y_coupling", 12.5, 30, V(0, Y_BK_Y0 + 30, ys_axis_z), V(0, 1, 0), grp, "Coupling D25, 8x14")
-servo("Y_motor", (0, Y_BK_Y0 + 65, ys_axis_z), (0, 1, 0), p["servo_l"], grp, MOTOR, "on the datum plate under the table, direct drive, lead 5")
+servo("Y_motor", (0, Y_BK_Y0 + 65, ys_axis_z), (0, 1, 0), p["servo_l"], grp, MOTOR, "hangs behind the datum plate, direct drive, lead 5")
 # moving table (T-slot) + bellows covers
 tx0 = -p["table_w"] / 2
 tbl = cq.Solid.makeBox(p["table_w"], p["table_l"], p["table_t"], V(tx0, TABLE_Y_WORK - p["table_l"] / 2, Z_TABLE))
