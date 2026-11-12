@@ -278,13 +278,7 @@
   {
    "name": "Y_nut_housing",
    "group": "03 Y-axis",
-   "material": "DFU2005 nut block, runs inside the screw tunnel",
-   "note": ""
-  },
-  {
-   "name": "Y_nut_neck",
-   "group": "03 Y-axis",
-   "material": "Neck plate t10 through the tunnel slot, bolted to the table",
+   "material": "DFU2005 nut seat, hangs under the table",
    "note": ""
   },
   {
@@ -328,24 +322,6 @@
    "group": "03 Y-axis",
    "material": "reference",
    "note": "usable 300x300"
-  },
-  {
-   "name": "Y_screw_cover",
-   "group": "03 Y-axis",
-   "material": "Fixed screw tunnel SUS304 t1.5, 100 wide, end caps, top slot 16",
-   "note": "replaces way-cover bellows"
-  },
-  {
-   "name": "Y_slot_brush_L",
-   "group": "03 Y-axis",
-   "material": "Brush seal strip along the slot",
-   "note": ""
-  },
-  {
-   "name": "Y_slot_brush_R",
-   "group": "03 Y-axis",
-   "material": "Brush seal strip along the slot",
-   "note": ""
   },
   {
    "name": "Gantry_column_L",

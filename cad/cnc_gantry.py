@@ -208,12 +208,8 @@ for side, xc in (("L", -Y_BLK_X), ("R", Y_BLK_X)):
 ys_axis_z = Z_BEDTOP + 35                 # motor (60 sq) fits 5 mm above the plate / 5 mm under the table
 ys0, ys1 = Y_BF_Y0, Y_BK_Y0 + 45
 cyl("Y_ballscrew", 10, ys1 - ys0, V(0, ys0, ys_axis_z), V(0, 1, 0), grp, "DFU2005 double-nut preload, C7")
-TUN_W, TUN_T, SLOT_W = 100, 1.5, 16          # fixed screw tunnel: width, sheet, top slot
-tun_top = Z_TABLE - 5                          # tunnel roof top, 5 mm under the table
-box("Y_nut_housing", 70, 2 * Y_NUT_HALF, tun_top - TUN_T - 1 - (ys_axis_z - 29), -35, TABLE_Y_WORK - Y_NUT_HALF,
-    ys_axis_z - 29, grp, "DFU2005 nut block, runs inside the screw tunnel")
-box("Y_nut_neck", 10, 2 * Y_NUT_HALF - 10, Z_TABLE - (tun_top - TUN_T - 1), -5, TABLE_Y_WORK - Y_NUT_HALF + 5,
-    tun_top - TUN_T - 1, grp, "Neck plate t10 through the tunnel slot, bolted to the table")
+box("Y_nut_housing", 70, 2 * Y_NUT_HALF, Z_TABLE - (ys_axis_z - 29), -35, TABLE_Y_WORK - Y_NUT_HALF, ys_axis_z - 29, grp,
+    "DFU2005 nut seat, hangs under the table")
 box("Y_BF_support", 70, 20, ys_axis_z + 22 - Z_BEDTOP, -35, Y_BF_Y0, Z_BEDTOP, grp, "BF15 floating end (front), on the datum plate")
 box("Y_BK_support", 70, 25, ys_axis_z + 22 - Z_BEDTOP, -35, Y_BK_Y0, Z_BEDTOP, grp, "BK15 fixed end (rear, motor side), on the datum plate")
 tube("Y_motor_mount", 68, 40, 68, -34, Y_BK_Y0 + 25, ys_axis_z - 34, 6, "y", grp, "Motor bracket t6 on the datum plate")
@@ -228,17 +224,7 @@ for k in range(5):
 add("Work_table", tbl, grp, "HT250 / Q235 t40, 5x T-slot 14", "440x420 table, work area 300x300")
 box("Work_area_300x300", p["work"], p["work"], 0.5, -p["work"] / 2, TABLE_Y_WORK - p["work"] / 2,
     Z_TABLETOP, grp, "reference", "usable 300x300")
-# fixed screw tunnel (replaces bellows): inverted-U SUS304 sheet on the datum plate, BF15 -> BK15,
-# top slot for the neck plate sealed by brush strips; rails/blocks need no cover (inverted, sealed)
-tun_y0, tun_y1 = Y_BF_Y0 - 5, Y_BK_Y0            # covers BF15 and the whole thread; BK15 + motor behind it
-tun = cq.Solid.makeBox(TUN_W, tun_y1 - tun_y0, tun_top - Z_BEDTOP, V(-TUN_W / 2, tun_y0, Z_BEDTOP))
-tun = tun.cut(cq.Solid.makeBox(TUN_W - 2 * TUN_T, tun_y1 - tun_y0 - 2 * TUN_T, tun_top - Z_BEDTOP - TUN_T,
-                               V(-TUN_W / 2 + TUN_T, tun_y0 + TUN_T, Z_BEDTOP)))
-tun = tun.cut(cq.Solid.makeBox(SLOT_W, tun_y1 - tun_y0 - 2 * TUN_T, TUN_T + 2, V(-SLOT_W / 2, tun_y0 + TUN_T, tun_top - TUN_T - 1)))
-tun = tun.cut(cq.Solid.makeBox(2 * 13, TUN_T + 2, 2 * 13, V(-13, tun_y1 - TUN_T - 1, ys_axis_z - 13)))   # screw exit to coupling
-add("Y_screw_cover", tun, grp, "Fixed screw tunnel SUS304 t1.5, 100 wide, end caps, top slot 16", "replaces way-cover bellows")
-for side, sx in (("L", -SLOT_W / 2 - 6), ("R", SLOT_W / 2)):
-    box(f"Y_slot_brush_{side}", 6, tun_y1 - tun_y0 - 4, 3.5, sx, tun_y0 + 2, tun_top, grp, "Brush seal strip along the slot")
+# Y screw protection: deferred (bellows removed; a fixed screw tunnel was tried, decision postponed)
 
 # ======================= 4. FIXED GANTRY =================================
 grp = "04 Gantry"

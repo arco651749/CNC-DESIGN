@@ -177,7 +177,7 @@ for i, (n, k) in enumerate(sp_items):
 # ---------- coolant callouts on right view ----------
 items = [("Coolant_nozzle_1", 1), ("Air_blow_nozzle", 2), ("Guard_side_R", 3), ("Coolant_trough_rear", 4),
          ("Drain_pipe", 5), ("Chip_filter_basket", 6), ("Filter_baffle", 7), ("Coolant_tank", 8),
-         ("Coolant_pump", 9), ("Coolant_hose", 10), ("Air_solenoid_FRL", 11), ("Y_screw_cover", 12)]
+         ("Coolant_pump", 9), ("Coolant_hose", 10), ("Air_solenoid_FRL", 11), ("Y_nut_housing", 12)]
 rx_right = mR(ymax, 0)[0] + 18
 for i, (n, k) in enumerate(items):
     x, y, z = ctr(n)
@@ -200,7 +200,7 @@ legend = [
     (9, "浸入式幫浦 90 W，25 L/min，0.2 MPa (M8 控制)"),
     (10, "供液管 PU 12x8，走拖鏈至主軸"),
     (11, "三點組合 FRL + 24V 電磁閥 (氣/液)"),
-    (12, "Y 螺桿固定罩 SUS304＋毛刷縫 (取代伸縮護罩)"),
+    (12, "Y 螺桿防護：待定 (伸縮護罩已拿掉)"),
 ]
 for i, (k, t) in enumerate(legend):
     yy = LY + 8 + i * 11
