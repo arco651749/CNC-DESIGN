@@ -6,3 +6,7 @@ vendor/
 # outputs that embed vendor geometry
 output/v3/*.step
 output/v3/*.FCStd
+
+# large generated export (regenerate with kicad-cli)
+electrical/CNC_wiring.svg
+electrical/*-backups/

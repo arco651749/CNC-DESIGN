@@ -27,6 +27,19 @@
 - `cad/make_spindle_detail.py`：主軸頭細部圖（A3，前視 / 俯視 1:2 + ER11 前端剖面 2:1）→ `output/CNC_Spindle_Detail.svg`
 - `freecad/`、`output/v1/`：v1（FreeCAD）的舊腳本與模型，僅供參考，未更新到 v2
 
+## 電氣配線圖（KiCad）
+
+`electrical/CNC_wiring.kicad_sch`：整機配線圖（A1），含單相 220V 分路與急停接觸器、三組 MR-J4-40A 與馬達線（含編碼器、Z 煞車）、主軸變頻器、三組獨立 24V 電源、RP23CNC 控制板與 MR-J4 介面板、原點感測器、伺服報警反相、冷卻幫浦與吹氣閥。圖上同名標籤代表同一條線；右下角與圖內備註列出假設與待核對事項。
+
+- `electrical/CNC_wiring.pdf`、`CNC_wiring_preview.png`：匯出檔
+- `electrical/build_wiring.py`、`kicadgen.py`：產生器，改接線請改腳本再重跑，不要手改 `.kicad_sch`
+- 中文字型用 `WenQuanYi Zen Hei`；在別台機器可用環境變數 `WIRING_FONT="Microsoft JhengHei"` 重新產生
+
+```bash
+python3 electrical/build_wiring.py
+kicad-cli sch export pdf -o electrical/CNC_wiring.pdf electrical/CNC_wiring.kicad_sch
+```
+
 ## 重新產生
 
 ```bash

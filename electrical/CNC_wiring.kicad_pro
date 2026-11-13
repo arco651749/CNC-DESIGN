@@ -1,0 +1,5 @@
+{
+  "meta": { "filename": "CNC_wiring.kicad_pro", "version": 1 },
+  "schematic": { "drawing": { "default_line_thickness": 6.0 } },
+  "sheets": [ [ "29a8df90-9b53-54e3-97bd-3c24404e28f6", "Root" ] ]
+}
