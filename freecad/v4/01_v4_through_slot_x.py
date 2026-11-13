@@ -49,10 +49,10 @@ for side, sx in (('L', -1), ('R', 1)):
     sl = moved(s.common(box(-BIG,BIG,-BIG,BIG,18,178)), (0,0,cut-18))
     c.Shape = lo.fuse([sl, hi]).removeSplitter(); meta(c, spec='HFS8-80160-472 (z18..490)')
     f = O('Column_foot_' + side); f.Shape = box(min(sx*CX0, sx*CX1), max(sx*CX0, sx*CX1), CY0, YPR, 0, 18)
-SLOT = (-181.0, 166.0, 374.0, 446.0)
+SLOT = (-181.0, 166.0, 380.0, 440.0)
 xp = box(-CX1, CX1, YPF, YPR, 330, 490).cut(box(SLOT[0], SLOT[1], YPF-1, YPR+1, SLOT[2], SLOT[3]))
 new('X_base_plate', xp, '03', 'custom (machined)',
-    'steel t20 720x160 = gantry beam; front: X rails, rear: C-TEK12 + X motor block; slot 347x72 for the nut housing; bolted to the column rear faces')
+    'steel t20 720x160 = gantry beam; front: X rails, rear: C-TEK12 + X motor block; slot 347x60 for the nut housing; bolted to the column rear faces')
 
 # ---------------- X axis: rails L540 on the plate front, carriage straight on the blocks
 DYF = YPF - 192.0                 # -30
@@ -71,7 +71,7 @@ tek.Shape = moved(s, (-22.5, XS_Y-167, 0)); meta(tek, spec='C-TEK12 fixed suppor
 # nut housing: one CNC block wrapping the ball nut body (D28), flange (52x45, +x end) bolted to its +x face,
 # the block passes through the plate slot and bolts to the carriage rear face
 nb = O('X_nut_bracket')
-nb.Shape = box(-26, 11, 134, XS_Y + 22, SLOT[2] + 4, SLOT[3] - 4).cut(cylx(-27, 12, XS_Y, XS_Z, 14.1))
+nb.Shape = box(-26, 11, 134, XS_Y + 22.6, XS_Z - 26, XS_Z + 26).cut(cylx(-27, 12, XS_Y, XS_Z, 14.1))   # same size as the flange (52 high, rear edge = flange)
 meta(nb, spec='nut housing (CNC): wraps the C-KBS1505 nut body, flange bolted to the +x face; passes through the slot, 4 bolts into the carriage rear face')
 # X motor direct (CPJC40 coupling), in line behind the plate; motor half-width 30 > axis offset 25,
 # so the plate rear gets a 7 mm locating pocket where the motor block and motor sit
@@ -81,7 +81,7 @@ cp.Shape = moved(R7_COUPLING, (-22.5, XS_Y - 167, 0)); meta(cp, 'MISUMI', 'CPJC4
 m = O('X_motor'); m.Shape = moved(R7_MOTOR, (-22.5, XS_Y - 167, 0))
 meta(m, spec='HG-KR43 400 W, direct (CPJC40), behind the X base plate')
 xb = O('X_base_plate'); xb.Shape = xb.Shape.cut(box(266, CX1 + 1, YPR - 7, YPR + 1, 368, 452)).removeSplitter()
-meta(xb, spec='steel t20 720x160 = gantry beam; front: X rails; rear: C-TEK12 + 7 mm pocket for the X motor block; slot 347x72 for the nut housing; bolted to the column rear faces')
+meta(xb, spec='steel t20 720x160 = gantry beam; front: X rails; rear: C-TEK12 + 7 mm pocket for the X motor block; slot 347x60 for the nut housing; bolted to the column rear faces')
 MF = 309.5                                                     # motor flange face
 mb = box(MF - 38, MF, YPR - 7, XS_Y + 35, 372, 448)            # Z-style block, front part sits in the pocket
 mb = mb.cut(cylx(MF - 39, MF + 1, XS_Y, XS_Z, 22)).cut(cylx(MF - 3, MF + 1, XS_Y, XS_Z, 25.05))
