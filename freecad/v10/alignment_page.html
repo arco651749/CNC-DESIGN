@@ -1,0 +1,324 @@
+<meta charset="utf-8">
+<title>v10 調校動畫</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap">
+<style>
+/* layout: one-screen app. The 3D stage fills the screen; the step panel docks right on wide screens and at the bottom on phones. */
+:root{--bg:#F1F0EB;--panel:#FDFCF9;--fg:#16232E;--mut:#52606B;--line:#D6D2C6;--measure:#B4481A;--measure-fill:#D9622B;--motion:#2A6F97;--ok:#256B43;--bad:#B3261E;--chip:#ECEAE3;--face:#FFFFFF;
+ --font:'Noto Sans TC',system-ui,-apple-system,'PingFang TC','Microsoft JhengHei',sans-serif;--num:ui-monospace,'SF Mono',Menlo,Consolas,monospace}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#121A21;--panel:#1A242D;--fg:#EEF1F2;--mut:#A9B4BC;--line:#33414D;--measure:#F0A27C;--measure-fill:#E0703A;--motion:#7FB8DA;--ok:#6CC08B;--bad:#F2877F;--chip:#24313B;--face:#10171D;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#121A21;--panel:#1A242D;--fg:#EEF1F2;--mut:#A9B4BC;--line:#33414D;--measure:#F0A27C;--measure-fill:#E0703A;--motion:#7FB8DA;--ok:#6CC08B;--bad:#F2877F;--chip:#24313B;--face:#10171D;color-scheme:dark}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--font);overflow:hidden}
+#app{height:100%;display:flex}
+#stage{position:relative;flex:1;min-width:0;min-height:0}
+#c{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none}
+#panel{width:384px;background:var(--panel);border-left:1px solid var(--line);display:flex;flex-direction:column;min-height:0}
+.pad{padding-left:max(18px,env(safe-area-inset-left,0px));padding-right:max(18px,env(safe-area-inset-right,0px))}
+#head{padding-block:18px 10px}
+#kick{margin:0;font-size:12px;font-weight:700;letter-spacing:.14em;color:var(--measure)}
+h1{margin:4px 0 0;font-size:22px;line-height:1.3;font-weight:700;text-wrap:balance}
+#ctl{display:flex;gap:8px;padding-block:4px 8px}
+button{font:inherit;font-size:14px;font-weight:500;color:var(--fg);background:var(--chip);border:1px solid var(--line);border-radius:8px;padding:9px 10px;cursor:pointer;flex:1;min-width:0}
+button:focus-visible,input:focus-visible{outline:2px solid var(--motion);outline-offset:2px}
+#play{flex:1.2;background:var(--fg);color:var(--panel);border-color:var(--fg)}
+#scrubrow{padding-block:2px 6px}
+#scrub{width:100%;accent-color:var(--measure-fill);margin:0}
+#steps{display:flex;gap:6px;padding-block:4px 12px;overflow-x:auto}
+#steps button{flex:0 0 auto;width:34px;height:34px;padding:0;border-radius:50%;font-family:var(--num);font-size:13px}
+#steps button.on{background:var(--measure-fill);border-color:var(--measure-fill);color:#fff;font-weight:700}
+#body{flex:1;min-height:0;overflow-y:auto;border-top:1px solid var(--line);padding-block:14px 22px;display:flex;flex-direction:column;gap:14px}
+#body h2{margin:0 0 3px;font-size:13px;font-weight:700;letter-spacing:.08em;color:var(--motion)}
+#body p{margin:0;font-size:15px;line-height:1.7;color:var(--fg)}
+#cap{position:absolute;left:0;right:0;bottom:0;padding-block:10px 12px;background:color-mix(in srgb,var(--panel) 92%,transparent);border-top:1px solid var(--line);font-size:15px;line-height:1.55;min-height:4.4em;font-weight:500}
+#gauge{position:absolute;top:12px;left:max(12px,env(safe-area-inset-left,0px));width:150px;background:color-mix(in srgb,var(--panel) 94%,transparent);border:1px solid var(--line);border-radius:12px;padding:8px 10px 10px;text-align:center}
+#gauge svg{display:block;width:100%;height:auto}
+.g-rim{fill:var(--face);stroke:var(--measure-fill);stroke-width:5}
+.g-tick{stroke:var(--mut);stroke-width:1.4}
+.g-tick0{stroke:var(--fg);stroke-width:2.4}
+.g-band{fill:none;stroke:var(--ok);stroke-width:4;opacity:.75}
+#g-needle{stroke:var(--measure-fill);stroke-width:3;stroke-linecap:round}
+.g-hub{fill:var(--fg)}
+#g-val{font-family:var(--num);font-size:20px;font-weight:700;font-variant-numeric:tabular-nums;margin-top:2px}
+#g-unit{font-size:11px;color:var(--mut)}
+#g-label{font-size:12.5px;line-height:1.35;color:var(--fg);margin-top:4px;font-weight:500}
+#g-chip{display:inline-block;margin-top:6px;font-size:12px;font-weight:700;padding:2px 10px;border-radius:999px;border:1.5px solid currentColor}
+#g-chip.ok{color:var(--ok)}#g-chip.bad{color:var(--bad)}
+#hint{position:absolute;top:12px;right:max(12px,env(safe-area-inset-right,0px));font-size:12px;color:var(--mut);background:color-mix(in srgb,var(--panel) 85%,transparent);padding:4px 10px;border-radius:999px;border:1px solid var(--line)}
+@media (max-width:820px){
+ #app{flex-direction:column}
+ #panel{width:auto;border-left:0;border-top:1px solid var(--line);max-height:47%}
+ #head{padding-block:10px 4px}h1{font-size:18px}
+ #gauge{width:118px;padding:6px 8px 8px}#g-val{font-size:17px}#g-label{font-size:11.5px}
+ #cap{font-size:14px;min-height:4.2em}
+ #body p{font-size:14.5px}
+}
+</style>
+<div id="app">
+ <div id="stage">
+  <canvas id="c" aria-label="v10 機台的 3D 調校動畫"></canvas>
+  <div id="hint">拖曳旋轉 · 雙指縮放</div>
+  <div id="gauge" hidden>
+   <svg viewBox="0 0 120 84" role="img" aria-label="千分錶讀值"><path class="g-rim" d="M12 74 A52 52 0 1 1 108 74 Z"/><path id="g-band" class="g-band" d=""/><g id="g-ticks"></g><line id="g-needle" x1="60" y1="66" x2="60" y2="22"/><circle class="g-hub" cx="60" cy="66" r="4"/></svg>
+   <div id="g-val">+0.000 <span id="g-unit">mm</span></div>
+   <div id="g-label"></div>
+   <div id="g-chip" hidden></div>
+  </div>
+  <div id="cap" class="pad" aria-live="polite"></div>
+ </div>
+ <aside id="panel">
+  <div id="head" class="pad"><p id="kick"></p><h1 id="ttl"></h1></div>
+  <div id="ctl" class="pad"><button id="prev" type="button">‹ 上一步</button><button id="play" type="button">暫停</button><button id="next" type="button">下一步 ›</button></div>
+  <div id="scrubrow" class="pad"><input id="scrub" type="range" min="0" max="1000" value="0" aria-label="這一步的時間軸"></div>
+  <nav id="steps" class="pad" aria-label="步驟"></nav>
+  <div id="body" class="pad"></div>
+ </aside>
+</div>
+<!--THREE-->
+<script>
+/*DATA*/
+const $=id=>document.getElementById(id), V=THREE.Vector3;
+const clamp=(v,a,b)=>Math.min(b,Math.max(a,v)), sg=(u,a,b)=>clamp((u-a)/(b-a),0,1), ez=t=>t*t*(3-2*t), mix=(a,b,t)=>a+(b-a)*t;
+const DEG=Math.PI/180, YAW0=.4*DEG, PIT0=.6*DEG, SPT0=.8*DEG, PHI0=.7*DEG, A0=2.2/540, STY=30;
+const cv=$('c'), stage=$('stage');
+const R=new THREE.WebGLRenderer({canvas:cv,antialias:true});R.setPixelRatio(Math.min(devicePixelRatio,2));
+const scene=new THREE.Scene();
+const cam=new THREE.PerspectiveCamera(32,1,5,9000);cam.up.set(0,0,1);
+const ctl=new THREE.OrbitControls(cam,cv);ctl.enableDamping=true;
+scene.add(new THREE.HemisphereLight(0xffffff,0x8a8070,.78));
+const d1=new THREE.DirectionalLight(0xffffff,.72);d1.position.set(800,-1200,1600);scene.add(d1);
+const d2=new THREE.DirectionalLight(0xffffff,.3);d2.position.set(-900,700,600);scene.add(d2);
+// groups: base | table (Y) | gantry (yaw + pitch about the right foot's rear corner) > feet, carriage (X) > slide (Z) > spindle
+const P0=new V(320,182,0), PS=new V(0,34,331);
+const G=()=>new THREE.Group();
+const gBase=G(),gY=G(),gGan=G(),gGi=G(),gFeetP=G(),gFeetI=G(),gX=G(),gZ=G(),gSpP=G(),gSpI=G();
+scene.add(gBase,gY,gGan);gGan.position.copy(P0);gGan.add(gGi,gFeetP);gGi.position.copy(P0).negate();gFeetP.add(gFeetI);gFeetI.position.copy(P0).negate();
+gGi.add(gX);gX.add(gZ);gZ.add(gSpP);gSpP.position.copy(PS);gSpP.add(gSpI);gSpI.position.copy(PS).negate();
+const piv={y:G(),x:G(),z:G()};
+piv.y.position.set(0,0,45);gY.add(piv.y);piv.x.position.set(0,207,360);gGi.add(piv.x);piv.z.position.set(0,79,0);gX.add(piv.z);
+function b64(s,T){const b=atob(s),u=new Uint8Array(b.length);for(let i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return new T(u.buffer)}
+const part={}, EDGE=new THREE.LineBasicMaterial({color:0x1b1f22,transparent:true,opacity:.28});
+const FEET=/^Column_foot_/, GAN=/^(Gantry_column_|X_base_plate|X_rail_|X_support_fixed|X_motor|Electrical_panel|Servo_amp_)/, SPN=/^(Spindle_|ER11_nut|Tool_D5)/;
+for(const p of DATA){
+ const q=b64(p.p,Int16Array),pos=new Float32Array(q.length);for(let i=0;i<q.length;i++)pos[i]=q[i]/10;
+ const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.BufferAttribute(pos,3));
+ g.setIndex(new THREE.BufferAttribute(b64(p.i,p.w?Uint16Array:Uint32Array),1));g.computeVertexNormals();
+ const m=new THREE.Mesh(g,new THREE.MeshStandardMaterial({color:new THREE.Color(...p.c),metalness:.25,roughness:.55,side:THREE.DoubleSide}));
+ if(p.nt<6000)m.add(new THREE.LineSegments(new THREE.EdgesGeometry(g,30),EDGE));
+ part[p.n]=m;
+ if(p.r){const pv=piv[p.r];g.translate(-pv.position.x,-pv.position.y,-pv.position.z);if(m.children[0])m.children[0].geometry.translate(-pv.position.x,-pv.position.y,-pv.position.z);pv.add(m)}
+ else if(FEET.test(p.n))gFeetI.add(m);else if(SPN.test(p.n))gSpI.add(m);
+ else if(p.g=='x')gX.add(m);else if(p.g=='z')gZ.add(m);else if(p.g=='y')gY.add(m);
+ else if(GAN.test(p.n))gGi.add(m);else gBase.add(m);
+}
+// ---------- props ----------
+const mat=(c,o)=>new THREE.MeshStandardMaterial(Object.assign({color:c,metalness:.2,roughness:.6},o||{}));
+const M={granite:mat(0x39424a,{roughness:.8}),steel:mat(0xb9c0c6,{metalness:.6,roughness:.35}),dark:mat(0x2b3238),orange:mat(0xd9622b),white:mat(0xf4f2ec),foot:mat(0xc9a36a),pin:mat(0xe9edf0,{metalness:.8,roughness:.25}),cut:mat(0xe6ebee,{metalness:.7,roughness:.3}),plate:mat(0x9aa4ab,{metalness:.5,roughness:.5})};
+function edged(m){m.add(new THREE.LineSegments(new THREE.EdgesGeometry(m.geometry,30),EDGE));return m}
+function box(w,d,h,m,x,y,z){const o=edged(new THREE.Mesh(new THREE.BoxGeometry(w,d,h),m));o.position.set(x||0,y||0,z||0);return o}
+function cyl(r,h,m,ax,x,y,z){const g=new THREE.CylinderGeometry(r,r,h,28);if(ax=='z')g.rotateX(Math.PI/2);else if(ax=='x')g.rotateZ(Math.PI/2);const o=new THREE.Mesh(g,m);o.position.set(x||0,y||0,z||0);return o}
+function ball(r,m,x,y,z){const o=new THREE.Mesh(new THREE.SphereGeometry(r,16,12),m);o.position.set(x,y,z);return o}
+const labels=[];
+function label(text){const c=document.createElement('canvas'),x=c.getContext('2d'),f='600 44px "Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif';x.font=f;
+ const w=Math.ceil(x.measureText(text).width)+44;c.width=w;c.height=68;x.font=f;x.fillStyle='rgba(22,35,46,.88)';
+ x.beginPath();x.roundRect?x.roundRect(0,0,w,68,14):x.rect(0,0,w,68);x.fill();x.fillStyle='#F6F5F1';x.textBaseline='middle';x.fillText(text,22,36);
+ const t=new THREE.CanvasTexture(c);t.minFilter=THREE.LinearFilter;const s=new THREE.Sprite(new THREE.SpriteMaterial({map:t,depthTest:false,sizeAttenuation:false,transparent:true}));
+ s.renderOrder=10;s.userData.asp=w/68;labels.push(s);return s}
+function lab(text,parent,x,y,z){const s=label(text);s.position.set(x,y,z);parent.add(s);return s}
+const prop={};
+// spindle-mounted test indicator: stylus pivot at (0,-80,195), ball 30 below
+{const g=G();g.add(cyl(36,8,M.dark,'z',0,0,232),box(8,34,8,M.dark,20,-45,232),box(8,8,22,M.dark,20,-60,221),cyl(18.5,8,M.orange,'z',20,-60,206),cyl(17,10,M.white,'z',20,-60,206));
+ const bar=box(6,30,5,M.dark,10,-70,198);bar.rotation.z=-Math.PI/4;g.add(bar);
+ const nd=G();nd.position.set(20,-60,211.6);nd.add(box(1.8,14,1,M.orange,0,6,0));g.add(nd);
+ const sp=G();sp.position.set(0,-80,195);sp.add(cyl(1.3,STY,M.steel,'z',0,0,-STY/2),ball(2.5,M.orange,0,0,-STY));g.add(sp);
+ gZ.add(g);prop.indA=g;g.userData={nd,sp}}
+// magnetic-base indicator: contact face at the origin, stylus pointing +y, base H below
+function baseInd(H){const g=G(),sty=G();sty.add(ball(2.5,M.orange,0,-2.5,0),cyl(1.3,26,M.steel,'y',0,-16,0));g.add(sty);
+ g.add(cyl(18.5,8,M.orange,'z',0,-46,0),cyl(17,10,M.white,'z',0,-46,0),cyl(3,22,M.dark,'z',0,-46,16));
+ const nd=G();nd.position.set(0,-46,5.6);nd.add(box(1.8,14,1,M.orange,0,6,0));g.add(nd);
+ const arm=box(49.2,6,6,M.dark,22.5,-56,27);arm.rotation.z=Math.atan2(-20,45);g.add(arm);
+ g.add(cyl(4,H-13,M.dark,'z',45,-66,27-(H-13)/2),box(50,40,40,M.dark,45,-66,-H+20));g.userData={nd,sty};return g}
+// flat granite square on the table: corner (A∩B) at table (-140,-60)
+{const g=G();g.position.set(-140,-60,110);g.add(box(300,200,40,M.granite,150,100,20));lab('A 邊',g,-2,100,52);lab('B 邊',g,150,-2,52);lab('花崗石直角尺',g,170,120,46);gY.add(g);prop.sq=g}
+// cylinder square
+const CYL={x:0,y:-124.5};
+{const g=G();g.position.set(CYL.x,CYL.y,110);g.add(cyl(40,150,M.granite,'z',0,0,75));lab('圓柱直角尺',g,0,-46,120);gY.add(g);prop.cyl=g}
+// bridge gauge on the lower X rail, indicator on the upper rail
+{const g=G();g.add(box(60,26,46,M.dark,0,137,250),box(8,8,150,M.dark,0,130,348),cyl(18.5,8,M.orange,'y',0,122,415),cyl(17,10,M.white,'y',0,122,415),box(6,22,6,M.dark,0,131,428));
+ const nd=G();nd.position.set(0,116.4,415);nd.add(box(1.8,1,14,M.orange,0,0,6));g.add(nd);
+ const sty=G();sty.add(cyl(1.3,30,M.steel,'z',0,140,442),ball(2.5,M.orange,0,140,457.5));g.add(sty);lab('跨橋量具',g,0,110,300);
+ gGi.add(g);prop.bridge=g;g.userData={nd,sty}}
+const boltsG=G(),bolts=[];for(let k=0;k<9;k++){const b=cyl(5,3,mat(0xd9622b),'y',-240+60*k,145,470);bolts.push(b);boltsG.add(b)}gGi.add(boltsG);prop.bolts=boltsG;
+prop.railLab=G();lab('主軌（已靠肩鎖緊）',prop.railLab,-150,120,226);lab('副軌（螺絲先輕鎖）',prop.railLab,-150,120,500);gGi.add(prop.railLab);
+// v11 proposal: front flange on each foot, with bolts
+const fbolts=[];for(const sx of[-1,1]){gFeetI.add(box(80,40,18,M.foot,sx*320,-18,9));for(const dx of[-25,25]){const b=cyl(6,7,M.dark,'z',sx*320+dx,-18,21.5);fbolts.push(b);gFeetI.add(b)}}
+prop.flLab=G();lab('前凸緣（v11 提案）',prop.flLab,-320,-18,48);gFeetI.add(prop.flLab);
+// push blocks
+function pushBlock(x){const g=G();g.add(box(40,30,25,M.orange,x,-65,12.5));const s=G();s.position.set(x,-51,12.5);s.add(cyl(4,26,M.steel,'y',0,0,0),cyl(7,6,M.dark,'y',0,-16,0));g.add(s);g.userData.s=s;gBase.add(g);return g}
+prop.pushL=pushBlock(-320);prop.pushR=pushBlock(320);prop.pushLab=G();lab('頂推塊',prop.pushLab,-320,-100,40);gBase.add(prop.pushLab);
+prop.indB=baseInd(65);prop.indB.position.set(-292,2-612*YAW0,65);gBase.add(prop.indB);
+// shims
+const SH=220*PIT0;prop.shimL=box(80,30,SH,M.orange,-320,-23,SH/2);prop.shimR=box(80,30,SH,M.orange,320,-23,SH/2);gBase.add(prop.shimL,prop.shimR);
+prop.shimLab=G();lab('墊片',prop.shimLab,-320,-60,34);gBase.add(prop.shimLab);
+// reamer and dowel pins
+{const g=G();g.add(cyl(4,70,M.steel,'z',0,0,35),cyl(11,36,M.dark,'z',0,0,88));g.position.set(-320,-18,0);gBase.add(g);prop.ream=g}
+prop.pinL=cyl(4,26,M.pin,'z',-320,-18,8);prop.pinR=cyl(4,26,M.pin,'z',320,-18,8);gBase.add(prop.pinL,prop.pinR);
+prop.pinLab=G();lab('定位銷',prop.pinLab,-320,-18,60);gBase.add(prop.pinLab);
+// test bar, clamp shim, table-mounted indicators for the spindle
+prop.bar=cyl(3.5,80,M.steel,'z',0,0,162);gSpI.add(prop.bar);
+prop.shimS=box(96,1.6,20,M.orange,0,34.8,391);lab('墊片',prop.shimS,70,0,16);gZ.add(prop.shimS);
+prop.indX=baseInd(72);prop.indX.rotation.z=Math.PI/2;prop.indX.position.set(3.5,-1.9,182);gY.add(prop.indX);
+const BARF0=(192-331)*SPT0-3.5;prop.indY=baseInd(72);prop.indY.position.set(0,BARF0,182);gY.add(prop.indY);
+prop.barLab=G();lab('檢驗棒',prop.barLab,46,-6,206);gSpI.add(prop.barLab);
+// fixture plate and milled stripes
+{const g=G();g.add(box(300,400,25,M.plate,0,50,122.5));lab('治具板',g,0,-150,150);const st=[];for(let k=0;k<10;k++){const s=new THREE.Mesh(new THREE.PlaneGeometry(300,40),M.cut);s.position.set(0,-130+40*k,135.3);st.push(s);g.add(s)}g.userData.st=st;gY.add(g);prop.fix=g}
+// axis triad
+{const g=G(),o=new V(-430,-230,0);for(const[d,c,t]of[[new V(1,0,0),0xd9622b,'X'],[new V(0,1,0),0x2a6f97,'Y'],[new V(0,0,1),0x2e7d4f,'Z']]){g.add(new THREE.ArrowHelper(d,o,170,c,34,18));lab(t,g,o.x+d.x*200,o.y+d.y*200,o.z+d.z*200)}scene.add(g);prop.axes=g}
+// ---------- scenes ----------
+const SC=[
+{t:'三條軸線與六個關係',dur:14,cam:{p:[1370,-1440,1200],t:[20,100,340]},
+ sec:[['這份動畫','依組裝順序，演示每一項怎麼量、為什麼這樣量、量完怎麼調。可以拖曳旋轉視角，也可以拖時間軸前後看。'],['要確認的關係','X ⊥ Y、Z ⊥ Y、Z ⊥ X、各軸兩支線軌平行、主軸 ∥ Z、治具板面平行於 X-Y 運動。'],['畫面上的誇大','誤差在畫面上放大了數十倍才看得見。左上角錶上的讀值才是實際大小。']],
+ f(u,S){S.show('axes');if(u<.34){S.y=-150*Math.sin(2*Math.PI*u/.34);S.cap='Y 軸：工作台前後移動。'}else if(u<.67){S.x=140*Math.sin(2*Math.PI*(u-.34)/.33);S.cap='X 軸：滑座沿龍門左右移動。'}else{S.z=45*Math.sin(2*Math.PI*(u-.67)/.33);S.cap='Z 軸：主軸上下移動。'}}},
+{t:'線軌平行',dur:20,cam:{p:[330,-1150,640],t:[0,150,360]},
+ sec:[['怎麼量','跨橋量具騎在主軌上，錶碰副軌的側面，沿全長滑動。'],['原理','主軌靠在加工出來的基準肩上，它的直線度來自加工。副軌照著主軌複製，所以兩軌間距全長一致。'],['怎麼調','副軌螺絲先輕鎖。邊看讀值邊輕敲副軌，逐顆鎖緊。目標是全長變化不超過 0.005 mm。'],['備註','以 X 軸為例，滑座還沒裝上。Y、Z 軸做法相同。']],
+ f(u,S){gX.visible=false;S.show('bridge','bolts','railLab');let bx,a;
+  if(u<.08){bx=-230;a=A0;S.cap='主軌（下軌）已靠基準肩鎖緊。副軌（上軌）螺絲先輕鎖。'}
+  else if(u<.5){bx=mix(-230,230,ez(sg(u,.08,.42)));a=A0;S.cap='跨橋量具沿主軌滑全長。讀值一路變大，代表兩軌不平行。'}
+  else if(u<.9){const v=sg(u,.5,.9);bx=mix(230,-230,v);a=A0*(1-ez(v));S.cap='往回滑。邊看讀值邊輕敲副軌，逐顆鎖緊螺絲。'}
+  else{bx=mix(-230,230,ez(sg(u,.9,1)));a=0;S.cap='再滑一次：全長讀值變化在 0.005 mm 以內，合格。'}
+  S.bx=bx;S.ra=a;S.tight=u<.5?null:u<.9?bx:-999;
+  S.g={v:(bx+230)/460*.018*(a/A0)+(a?0:.0015*Math.sin(bx/45)),label:'副軌側面讀值',lim:.005}}},
+{t:'X ⊥ Y：量測',dur:28,cam:{p:[-560,-900,820],t:[0,-30,170]},
+ sec:[['怎麼量','直角尺平放在工作台上。先走 Y，把 A 邊敲到讀值不變；再走 X，讀 B 邊的變化。'],['原理','對齊後 A 邊代表 Y 軸的方向。B 邊與 A 邊成直角，所以 B 邊是理想的 X 方向。走 X 時讀到的變化，就是實際的 X 方向偏了多少。'],['目標','0.010 mm／300 mm。X 行程要扣掉繞過直角尺的距離，這裡實際量 280 mm。']],
+ f(u,S){S.show('sq','indA');S.tool=false;S.x=-145;S.y=-30;S.z=-35;S.phi=PHI0;S.contact='A';let r=0,lb='A 邊（對齊用）',lim=null;
+  if(u<.06){S.z=mix(0,-35,ez(sg(u,0,.06)));S.cap='錶裝在主軸側，直角尺平放在工作台上。'}
+  else if(u<.26){S.y=mix(-30,-210,ez(sg(u,.06,.26)));r=(-30-S.y)/180*.045;S.cap='① 走 Y，錶碰 A 邊。讀值一路變大，代表直角尺還沒對齊 Y 軸。'}
+  else if(u<.36){S.y=-210;S.phi=PHI0*(1-ez(sg(u,.26,.36)));r=.045*S.phi/PHI0;S.cap='輕敲直角尺，把讀值敲回 0。'}
+  else if(u<.54){S.y=mix(-210,-30,ez(sg(u,.36,.54)));S.phi=0;r=.0008*Math.sin(S.y/20);S.cap='再走一次 Y：全程讀值不變。A 邊現在代表 Y 軸的方向。'}
+  else if(u<.66){S.phi=0;S.contact=u<.62?'':'B';S.z=u<.58?mix(-35,0,sg(u,.54,.58)):u<.62?0:mix(0,-35,sg(u,.62,.66));const v=sg(u,.58,.62);S.x=mix(-145,-130,v);S.y=mix(-30,-19,v);lb='X ⊥ Y';S.cap='錶移到 B 邊。'}
+  else{S.phi=0;S.contact='B';S.y=-19;S.x=mix(-130,150,ez(sg(u,.66,.9)));r=(S.x+130)/280*.024*(S.yaw/YAW0);lb='X ⊥ Y（B 邊讀值）';lim=.0093;
+   S.cap=u<.9?'② 走 X，錶碰 B 邊。讀值的變化就是 X 對 Y 的垂直度誤差。':'280 mm 讀到 0.024 mm，超過目標，需要調整。'}
+  S.g={v:r,label:lb,lim}}},
+{t:'X ⊥ Y：調整',dur:22,cam:{p:[-760,-980,900],t:[-120,-10,110]},
+ sec:[['怎麼調','腳座螺絲放鬆，用前方的頂推塊把一支立柱往後推。錶停在 B 邊末端，看著讀值回到 0。'],['原理','兩支立柱一前一後，龍門就繞垂直軸微轉。柱距 640 mm，推 0.01 mm 約等於 X 走 300 mm 修正 0.005 mm。推左柱與推右柱的轉向相反，所以只從前方推就夠。'],['v11 提案','v10 的腳座被立柱整個蓋住，沒有地方鎖螺絲、打銷和頂推。動畫裡加了一塊前凸緣來示意。']],
+ f(u,S){S.show('sq','indA','pushL','pushR','pushLab','indB');S.tool=false;S.x=150;S.y=-19;S.z=-35;S.phi=0;S.contact='B';let r;
+  if(u<.7){S.yaw=YAW0*(1-ez(sg(u,.15,.6)));r=.024*S.yaw/YAW0;const d=(.055*(1-S.yaw/YAW0)).toFixed(3);
+   S.cap=u<.15?'腳座螺絲放鬆到可以推動。腳座前方鎖上頂推塊。':u<.6?'轉頂推螺絲，把左柱往後推。已推 '+d+' mm。':'推了 0.055 mm，讀值回到 0。鎖緊腳座螺絲。'}
+  else{S.yaw=0;if(u<.78){S.contact='';S.z=u<.72?mix(-35,0,sg(u,.7,.72)):u<.76?0:mix(0,-35,sg(u,.76,.78));S.x=mix(150,-130,sg(u,.72,.76));r=0;S.cap='鎖緊後重量一次。'}
+   else{S.x=mix(-130,150,ez(sg(u,.78,.96)));r=(S.x+130)/280*.002;S.cap=u<.96?'鎖緊後重量一次。':'280 mm 只變 0.002 mm，合格。'}}
+  S.g={v:r,label:'X ⊥ Y（B 邊讀值）',lim:.0093}}},
+{t:'Z 對台面垂直：量測',dur:26,cam:{p:[880,-210,330],t:[0,-95,200]},
+ sec:[['怎麼量','圓柱直角尺立在工作台上，錶裝在 Z 滑板上。先碰朝後的一面走 Z，量前後傾；再改碰側面走一次，量左右傾。'],['原理','圓柱的側面垂直於台面。Z 軸若傾斜，上下走時錶與圓柱的距離就會改變。'],['目標','兩個方向都不超過 0.010 mm／100 mm。前後傾要在 X 的左、中、右各量一次。']],
+ f(u,S){S.show('cyl','indA');S.tool=false;S.z=-50;S.contact='cy';let r=0,lb='前後傾（Z ⊥ Y）';
+  if(u<.06)S.cap='圓柱直角尺立在工作台上。錶裝在 Z 滑板上。';
+  else if(u<.36){S.z=mix(-50,50,ez(sg(u,.06,.3)));r=(S.z+50)/100*.018;S.cap=u<.3?'① 錶碰朝後的一面，走 Z 100 mm。讀值變化是前後傾。':'100 mm 讀到 0.018 mm，超過目標，需要調整。'}
+  else if(u<.54){S.contact=u<.52?'':'cx';S.z=u<.48?50:mix(50,-50,sg(u,.48,.52));S.x=u<.42?mix(0,50,sg(u,.36,.42)):u<.52?50:mix(50,42.5,sg(u,.52,.54));S.y=mix(0,42.5,sg(u,.42,.48));lb='左右傾（Z ⊥ X）';S.cap='錶繞到圓柱的側面。'}
+  else{S.contact='cx';S.x=42.5;S.y=42.5;S.z=mix(-50,50,ez(sg(u,.54,.78)));r=(S.z+50)/100*.004;lb='左右傾（Z ⊥ X）';S.cap=u<.78?'② 錶碰側面，再走一次 Z。讀值變化是左右傾。':'讀到 0.004 mm，合格。左右傾由 X 滑座板的加工決定，只驗不調。'}
+  S.g={v:r,label:lb,lim:.010}}},
+{t:'Z ⊥ Y：調整',dur:20,cam:{p:[-930,-600,290],t:[-260,-10,100]},
+ sec:[['怎麼調','Z 往前倒，就在腳座前緣墊墊片；往後倒就墊後緣。錶停在行程頂端，看著讀值回到 0。'],['原理','墊片讓整座龍門前仰或後仰。腳座含前凸緣深 220 mm，墊 0.01 mm 約等於 Z 走 100 mm 修正 0.005 mm。'],['左右不一致時','X 在左、中、右量到的值不同，代表兩支立柱的傾角不同。左右腳座分開墊。']],
+ f(u,S){S.show('cyl','indA','shimL','shimR','shimLab');S.tool=false;S.contact='cy';S.z=50;
+  const v=ez(sg(u,.15,.6));S.pitch=PIT0*(1-v);S.shim=v;
+  if(u>=.7)S.z=u<.8?mix(50,-50,sg(u,.7,.8)):mix(-50,50,ez(sg(u,.8,.95)));
+  S.cap=u<.15?'腳座螺絲放鬆。Z 往前倒，所以墊腳座前緣。':u<.6?'左右腳座前緣各墊 0.04 mm，龍門往後仰。':u<.7?'讀值回到目標內。鎖緊腳座螺絲。':u<.95?'鎖緊後重量一次。':'100 mm 只變 0.002 mm，合格。';
+  S.g={v:(S.z+50)/100*(.002+.016*S.pitch/PIT0),label:'前後傾（Z ⊥ Y）',lim:.010}}},
+{t:'鎖緊、複量、配銷',dur:15,cam:{p:[-640,-470,330],t:[-320,-10,25]},
+ sec:[['順序','鎖緊腳座螺絲，全部重量一次。合格後，腳座與基準底板一起配鉸，打入定位銷，再量一次並記錄。'],['原理','銷孔在零件上只預鑽底孔，調好後才在現場鉸成一對。銷的作用是記住調好的位置，不是決定位置。'],['幾支銷','每個腳座一支。兩支銷相距 640 mm，足以鎖住龍門的位置與轉向。']],
+ f(u,S){if(u<.6)S.show('flLab');S.boltUp=4*(1-ez(sg(u,.04,.22)));
+  if(u<.25)S.cap='鎖緊腳座螺絲到定扭力，全部重量一次。';
+  else if(u<.6){S.show('ream');S.ream=u<.42?mix(70,-6,ez(sg(u,.25,.42))):mix(-6,70,ez(sg(u,.42,.6)));S.cap='腳座與基準底板一起配鉸。'}
+  else{S.show('pinL','pinLab');S.pin=mix(80,8,ez(sg(u,.6,.82)));if(u>=.85)S.show('pinR');S.cap=u<.85?'打入定位銷。':'右腳座相同。打銷後再量一次並記錄。'}}},
+{t:'主軸 ∥ Z',dur:28,cam:{p:[350,-540,350],t:[10,-25,190]},
+ sec:[['怎麼量','主軸裝檢驗棒，錶座吸在工作台上，錶碰檢驗棒側面，走 Z。X 向、Y 向各量一次。主軸轉 180° 再量一次取平均，可以扣掉檢驗棒自己的偏擺。'],['怎麼調','前後傾：夾座與 Z 滑板之間墊片。左右傾：鬆開夾座螺絲，在孔隙內微轉。合格後配鉸打銷。'],['v10 的限制','筒夾螺帽端面到台面只有約 90 mm。檢驗棒露出 80 mm 時，Z 只能走約 60 mm。目標 0.015／100 換算成 0.009／60。']],
+ f(u,S){S.show('bar','barLab','shimL','shimR','pinL','pinR');S.tool=false;S.z=-10;let r=0,lb='X 向（主軸 ∥ Z）',t=SPT0;
+  if(u<.34){S.show('indX');S.z=u<.08?-10:u<.3?mix(-10,50,ez(sg(u,.08,.3))):mix(50,-10,sg(u,.3,.34));r=u<.3?(S.z+10)/60*.003:0;S.cap=u<.08?'主軸裝檢驗棒。錶座吸在工作台上。':'① 錶碰檢驗棒側面（X 向），走 Z 60 mm。讀到 0.003 mm，合格。'}
+  else{S.show('indY');lb='Y 向（主軸 ∥ Z）';
+   if(u<.6){S.z=u<.38?-10:mix(-10,50,ez(sg(u,.38,.58)));r=(S.z+10)/60*.013;S.cap=u<.58?'② 錶改碰前面（Y 向），再走 Z 60 mm。':'60 mm 讀到 0.013 mm，換算 0.022／100，超過目標。'}
+   else if(u<.78){S.show('shimS');const v=ez(sg(u,.6,.76));t=SPT0*(1-v);S.shimS=v;S.z=50;r=.002+.011*t/SPT0;S.cap='夾座與 Z 滑板之間墊片，把主軸扶正。'}
+   else{S.show('shimS');S.shimS=1;t=0;S.z=u<.86?mix(50,-10,sg(u,.78,.86)):mix(-10,50,ez(sg(u,.86,.97)));r=(S.z+10)/60*.002;S.cap=u<.97?'鎖緊後重量一次。':'60 mm 只變 0.002 mm，合格。夾座配鉸打銷。'}}
+  S.sp=-t;S.g={v:r,label:lb,lim:.009}}},
+{t:'治具板自銑',dur:26,cam:{p:[760,-1080,860],t:[0,10,150]},
+ sec:[['做法','所有項目合格並打銷後，把治具板鎖在工作台上，機台自己輕銑一刀。'],['原理','板面是 X、Y 運動切出來的，所以必然平行於運動平面。兩支立柱的高低差也在這一步消除。'],['為什麼不是銑工作台','v10 的刀尖最低只能到台面上方 20 mm。而且 X 行程 300 mm 小於台面寬 440 mm，銑不到整個台面。所以自銑的對象是治具板。']],
+ f(u,S){S.show('fix','shimL','shimR','pinL','pinR','shimS');S.shimS=1;S.sp=0;S.x=-150;S.y=130;S.mill=0;
+  if(u<.1){S.z=mix(0,-45,ez(sg(u,.02,.1)));S.cap='治具板鎖在工作台上（示意：300 × 400 mm，厚 25 mm）。'}
+  else if(u<.9){const w=sg(u,.1,.9)*10,k=Math.min(9,Math.floor(w)),f=w-k,a=Math.min(1,f/.85),e=k%2?-1:1;S.z=-45;S.x=e*mix(-150,150,a);S.y=130-40*(k+sg(f,.85,1));if(k==9&&f>.85)S.y=-230;S.mill=k+a;S.cap='機台自己把治具板輕銑一刀（0.05–0.1 mm）。步距為示意，實際依刀徑決定。'}
+  else{S.mill=10;S.x=-150;S.y=-230;S.z=mix(-45,0,ez(sg(u,.9,.97)));S.cap='板面是 X、Y 運動切出來的，所以必然平行於運動平面。'}}}
+];
+// ---------- frame ----------
+const tmp=new V();
+function rotY(o,a,c){o.rotation.y=a;const cs=Math.cos(a),sn=Math.sin(a);o.position.set(c.x-(c.x*cs+c.z*sn),0,c.z-(-c.x*sn+c.z*cs))}
+const RC=new V(-270,154,470);
+function frame(i,u){
+ const S={x:0,y:0,z:0,yaw:i<3?YAW0:0,pitch:i<5?PIT0:0,sp:i<7?-SPT0:0,phi:0,contact:'',tool:true,cap:'',g:null,bx:0,ra:0,tight:null,shim:1,shimS:0,boltUp:0,ream:70,pin:8,mill:0,on:{},show(...n){for(const k of n)this.on[k]=1}};
+ gX.visible=true;SC[i].f(u,S);
+ for(const k in prop)prop[k].visible=!!S.on[k];
+ part.Tool_D5.visible=S.tool&&!S.on.bar;
+ gY.position.y=S.y;gX.position.x=S.x;gZ.position.z=S.z;
+ piv.y.rotation.y=S.y/5*2*Math.PI;piv.x.rotation.x=S.x/5*2*Math.PI;piv.z.rotation.z=S.z/5*2*Math.PI;
+ gGan.rotation.set(S.pitch,0,S.yaw);gFeetP.rotation.x=-PIT0;gSpP.rotation.x=S.sp;
+ prop.sq.rotation.z=S.phi;
+ // rails
+ rotY(part.X_rail_2,S.ra,RC);boltsG.rotation.y=part.X_rail_2.rotation.y;boltsG.position.copy(part.X_rail_2.position);
+ prop.bridge.position.x=S.bx;prop.bridge.userData.sty.position.z=-(S.bx+270)*S.ra;
+ bolts.forEach((b,k)=>b.material.color.set(S.tight!=null&&(-240+60*k)>S.tight?0x2b3238:0xd9622b));
+ // gantry adjustment props
+ const fl=-38-640*S.yaw;prop.pushL.userData.s.position.y=fl-13;prop.pushL.userData.s.rotation.y=40*(1-S.yaw/YAW0);
+ prop.indB.userData.sty.position.y=612*(YAW0-S.yaw);
+ for(const[s,sx]of[[prop.shimL,-1],[prop.shimR,1]])s.position.y=mix(-110,-23,S.shim);
+ fbolts.forEach(b=>b.position.z=21.5+S.boltUp);
+ prop.ream.position.z=S.ream;prop.ream.rotation.z=S.ream*.6;prop.pinL.position.z=S.pin;
+ // spindle
+ prop.shimS.position.z=mix(440,391,S.shimS);
+ prop.indY.userData.sty.position.y=((182-S.z-331)*(-S.sp)-3.5)-BARF0;
+ // milling stripes
+ prop.fix.userData.st.forEach((s,k)=>{const a=clamp(S.mill-k,0,1);s.visible=a>0;s.scale.x=Math.max(a,.001);s.position.x=(k%2?1:-1)*150*(1-a)});
+ // stylus follows the surface it touches
+ const sp=prop.indA.userData.sp;let dx=0,dy=0;
+ if(S.contact){scene.updateMatrixWorld(true);sp.getWorldPosition(tmp);const cy=-60+S.y;
+  if(S.contact=='A')dx=-140-(tmp.y-cy)*Math.tan(S.phi)-2.5-tmp.x;
+  else if(S.contact=='B')dy=cy-2.5-tmp.y;
+  else if(S.contact=='cy')dy=CYL.y+S.y+42.5-tmp.y;
+  else if(S.contact=='cx')dx=CYL.x+42.5-tmp.x}
+ sp.rotation.set(Math.asin(clamp(dy/STY,-.5,.5)),-Math.asin(clamp(dx/STY,-.5,.5)),0);
+ // gauge
+ const g=S.g;$('gauge').hidden=!g;
+ if(g){const v=g.v,ang=clamp(v/.05,-1,1)*100;$('g-needle').setAttribute('transform','rotate('+ang.toFixed(2)+' 60 66)');
+  $('g-val').firstChild.nodeValue=(v>=-.00049?'+':'−')+Math.abs(v).toFixed(3)+' ';$('g-label').textContent=g.label;
+  const c=$('g-chip');c.hidden=g.lim==null;if(g.lim!=null){const ok=Math.abs(v)<=g.lim+1e-9;c.className=ok?'ok':'bad';c.textContent=ok?'目標內':'超過目標';setBand(g.lim)}else setBand(0);
+  const na=-clamp(v/.05,-1,1)*2.2;for(const k of['indA','indB','indX','indY','bridge'])if(prop[k].visible){const n=prop[k].userData.nd;k=='bridge'?n.rotation.y=-na:n.rotation.z=na}}
+ if(capText!==S.cap){capText=S.cap;$('cap').textContent=S.cap}
+}
+let capText=null,bandLim=-1;
+function pol(a,r){const t=(a-90)*DEG;return[60+r*Math.cos(t),66+r*Math.sin(t)]}
+function setBand(lim){if(lim===bandLim)return;bandLim=lim;const a=lim/.05*100;if(!lim){$('g-band').setAttribute('d','');return}const[x1,y1]=pol(-a,46),[x2,y2]=pol(a,46);$('g-band').setAttribute('d','M'+x1.toFixed(1)+' '+y1.toFixed(1)+' A46 46 0 0 1 '+x2.toFixed(1)+' '+y2.toFixed(1))}
+{let s='';for(let k=-10;k<=10;k++){const[x1,y1]=pol(k*10,k%5?41:37),[x2,y2]=pol(k*10,44);s+='<line class="'+(k?'g-tick':'g-tick0')+'" x1="'+x1.toFixed(1)+'" y1="'+y1.toFixed(1)+'" x2="'+x2.toFixed(1)+'" y2="'+y2.toFixed(1)+'"/>'}$('g-ticks').innerHTML=s}
+// ---------- UI ----------
+let cur=0,u=0,playing=!matchMedia('(prefers-reduced-motion: reduce)').matches,hold=0,camA=null;
+function camFor(i){const c=SC[i].cam,a=stage.clientWidth/Math.max(1,stage.clientHeight),k=a>=1.3?1:Math.min(2.3,1.3/a),t=new V(...c.t);return{t,p:t.clone().add(new V(...c.p).sub(t).multiplyScalar(k))}}
+function go(i,instant){cur=(i+SC.length)%SC.length;u=0;hold=0;const s=SC[cur];
+ $('kick').textContent='第 '+(cur+1)+' 步／共 '+SC.length+' 步';$('ttl').textContent=s.t;
+ $('body').innerHTML=s.sec.map(([h,p])=>'<section><h2>'+h+'</h2><p>'+p+'</p></section>').join('');$('body').scrollTop=0;
+ [...$('steps').children].forEach((b,k)=>{b.classList.toggle('on',k==cur);b.setAttribute('aria-current',k==cur?'step':'false')});
+ const c=camFor(cur);if(instant){cam.position.copy(c.p);ctl.target.copy(c.t);ctl.update()}else camA={k:0,p0:cam.position.clone(),t0:ctl.target.clone(),p1:c.p,t1:c.t}}
+SC.forEach((s,k)=>{const b=document.createElement('button');b.type='button';b.textContent=k+1;b.title=s.t;b.setAttribute('aria-label','第 '+(k+1)+' 步：'+s.t);b.onclick=()=>go(k);$('steps').appendChild(b)});
+function setPlay(p){playing=p;$('play').textContent=p?'暫停':'播放'}
+$('prev').onclick=()=>go(cur-1);$('next').onclick=()=>go(cur+1);
+$('play').onclick=()=>{if(!playing&&u>=1)u=0;setPlay(!playing)};
+$('scrub').oninput=e=>{setPlay(false);u=+e.target.value/1000;hold=0};
+ctl.addEventListener('start',()=>{camA=null;$('hint').hidden=true});
+function bg(){scene.background=new THREE.Color(getComputedStyle(document.documentElement).getPropertyValue('--bg').trim())}
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change',bg);new MutationObserver(bg).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+function resize(){const w=stage.clientWidth,h=stage.clientHeight;if(!w||!h)return;R.setSize(w,h,false);cam.aspect=w/h;cam.updateProjectionMatrix();
+ const sy=clamp(h*.05,18,26)/h*2*Math.tan(cam.fov*DEG/2);for(const s of labels)s.scale.set(sy*s.userData.asp,sy,1)}
+new ResizeObserver(()=>{resize();if(!camA){const c=camFor(cur);cam.position.copy(c.p);ctl.target.copy(c.t)}}).observe(stage);
+let last=performance.now();
+function tick(now){const dt=Math.min(.05,(now-last)/1000);last=now;
+ if(playing){if(u>=1){hold+=dt;if(hold>1.6){u=0;hold=0}}else u=Math.min(1,u+dt/SC[cur].dur)}
+ $('scrub').value=Math.round(u*1000);
+ if(camA){camA.k=Math.min(1,camA.k+dt/.9);const e=ez(camA.k);cam.position.lerpVectors(camA.p0,camA.p1,e);ctl.target.lerpVectors(camA.t0,camA.t1,e);if(camA.k>=1)camA=null}
+ frame(cur,u);ctl.update();R.render(scene,cam);requestAnimationFrame(tick)}
+window.__go=(i,v)=>{go(i,true);setPlay(false);u=v;frame(cur,u);ctl.update();R.render(scene,cam)};
+bg();resize();go(0,true);setPlay(playing);requestAnimationFrame(tick);
+</script>
