@@ -1,0 +1,37 @@
+{
+ "method": "reference node at the head CG + *COUPLING/*DISTRIBUTING (surface) to the rail strips",
+ "head_mass_kg": 53.07,
+ "cg_mm": [
+  -0.2,
+  92.3,
+  478.1
+ ],
+ "E_cg_x0": {
+  "carriage_x_mm": 0.0,
+  "max_disp_um": 22.3,
+  "max_vm_MPa": 8.1,
+  "tilt_urad": 290.2,
+  "squareness_um_per_100mm": 29.0,
+  "tool_dy_um": 66.7,
+  "hand_method": {
+   "max_disp_um": 22.2,
+   "max_vm_MPa": 7.94,
+   "tilt_urad": 291.2,
+   "tool_dy_um": 67.0
+  }
+ },
+ "E_cg_x150": {
+  "carriage_x_mm": 150.0,
+  "max_disp_um": 11.2,
+  "max_vm_MPa": 4.43,
+  "tilt_urad": 99.3,
+  "squareness_um_per_100mm": 9.9,
+  "tool_dy_um": 22.8,
+  "hand_method": {
+   "max_disp_um": 11.5,
+   "max_vm_MPa": 4.47,
+   "tilt_urad": 98.6,
+   "tool_dy_um": 22.4
+  }
+ }
+}

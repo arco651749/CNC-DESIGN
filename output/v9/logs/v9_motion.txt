@@ -1,0 +1,39 @@
+DESIGN CONTACTS AT HOME (overlap > 1 mm3, review):
+  X_ball_nut x X_nut_bracket : 19 mm3
+  X_ballscrew x X_support_fixed : 137 mm3
+  Y_ballscrew x Y_support_fixed : 137 mm3
+  Z_ballscrew x Z_support_fixed : 137 mm3
+
+COLLISIONS AT TRAVEL ENDS (new vs home): 0
+
+CLEARANCES:
+  home  X_nut_bracket    - X_block_11          3.6 mm
+  home  X_nut_bracket    - X_block_12          9.7 mm
+  home  X_ball_nut       - X_base_plate       15.1 mm
+  home  X_nut_bracket    - X_base_plate        4.0 mm
+  home  X_motor          - X_base_plate        2.0 mm
+  home  X_block_11       - X_carriage_plate    0.0 mm
+  home  X_rail_1         - Work_table        130.0 mm
+  home  X_base_plate     - Work_table        120.0 mm
+  home  X_carriage_plate - Work_table        112.0 mm
+  home  X_block_11       - Work_table        119.0 mm
+  dx-150 X_nut_bracket    - X_base_plate        4.0 mm
+  dx-150 X_ball_nut       - X_support_fixed   329.0 mm
+  dx-150 X_carriage_plate - Gantry_column_R   310.0 mm
+  dx-150 X_carriage_plate - Gantry_column_L    10.0 mm
+  dx-150 X_nut_bracket    - X_block_11          3.6 mm
+  dx-150 X_nut_bracket    - X_block_12          9.7 mm
+  dx+150 X_nut_bracket    - X_base_plate        4.0 mm
+  dx+150 X_ball_nut       - X_support_fixed    29.0 mm
+  dx+150 X_carriage_plate - Gantry_column_R    10.0 mm
+  dx+150 X_carriage_plate - Gantry_column_L   310.0 mm
+  dx+150 X_nut_bracket    - X_block_11          3.6 mm
+  dx+150 X_nut_bracket    - X_block_12          9.7 mm
+  dy-250 dz-50 Work_table     - X_base_plate    190.9 mm
+  dy-250 dz-50 Y_motor        - X_base_plate    152.2 mm
+  dy-250 dz-50 Y_motor_block  - X_base_plate    178.8 mm
+  dy-250 dz-50 Work_table     - X_rail_1        187.0 mm
+  dy+150 dz-50 Work_table     - X_base_plate    120.0 mm
+  dy+150 dz-50 Y_motor        - X_base_plate    281.1 mm
+  dy+150 dz-50 Y_motor_block  - X_base_plate    260.8 mm
+  dy+150 dz-50 Work_table     - X_rail_1        130.0 mm

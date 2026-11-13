@@ -1,0 +1,1 @@
+X_base_plate z[175,490] height 315 (v6 210); mass 31.90 kg (v6 20.04 kg); table top z 110 -> gap 65 mm

@@ -15,3 +15,5 @@ output/v4/fea/*.sta
 output/v4/fea/spooles.out
 # vendor download archives (the extracted STEP files are tracked)
 vendor/**/*.zip
+# interrupted FEA variant run (intermediates)
+output/v4/fea/variants/

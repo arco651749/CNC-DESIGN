@@ -1,0 +1,32 @@
+DESIGN CONTACTS AT HOME (overlap > 1 mm3, review):
+  X_ball_nut x X_nut_bracket : 19 mm3
+  X_ballscrew x X_support_fixed : 137 mm3
+  Y_ballscrew x Y_support_fixed : 137 mm3
+  Z_ballscrew x Z_support_fixed : 137 mm3
+
+COLLISIONS AT TRAVEL ENDS (new vs home): 0
+
+CLEARANCES:
+  home  X_saddle_bridge  - Box_top_plate       5.0 mm
+  home  X_saddle_bridge  - X_block_21          4.0 mm
+  home  X_saddle_bridge  - X_block_R1          4.0 mm
+  home  X_saddle_bridge  - X_base_plate        5.0 mm
+  home  X_saddle_rear    - X_rail_rear        12.5 mm
+  home  X_saddle_rear    - Box_rear_plate     28.0 mm
+  home  X_block_R1       - Box_rear_plate      5.5 mm
+  home  X_saddle_bridge  - X_carriage_plate    0.0 mm
+  home  X_saddle_rear    - X_block_R1          0.0 mm
+  dx-150 X_saddle_bridge  - Gantry_column_L    11.2 mm
+  dx-150 X_saddle_bridge  - Gantry_column_R   310.0 mm
+  dx-150 X_saddle_rear    - X_motor           322.0 mm
+  dx-150 X_saddle_rear    - X_coupling        279.3 mm
+  dx-150 X_carriage_plate - Gantry_column_R   310.0 mm
+  dx-150 X_carriage_plate - Gantry_column_L    10.0 mm
+  dx+150 X_saddle_bridge  - Gantry_column_L   310.0 mm
+  dx+150 X_saddle_bridge  - Gantry_column_R    11.2 mm
+  dx+150 X_saddle_rear    - X_motor            72.8 mm
+  dx+150 X_saddle_rear    - X_coupling         75.8 mm
+  dx+150 X_carriage_plate - Gantry_column_R    10.0 mm
+  dx+150 X_carriage_plate - Gantry_column_L   310.0 mm
+  dx-150 rear blocks x[-253,-47] on rear rail x[-270,270]
+  dx+150 rear blocks x[47,253] on rear rail x[-270,270]
