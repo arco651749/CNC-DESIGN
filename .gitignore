@@ -17,3 +17,11 @@ output/v4/fea/spooles.out
 vendor/**/*.zip
 # interrupted FEA variant run (intermediates)
 output/v4/fea/variants/
+output/v10/fea/*.frd
+output/v10/fea/*.inp
+output/v10/fea/*.npy
+output/v10/fea/*.12d
+output/v10/fea/*.cvg
+output/v10/fea/*.dat
+output/v10/fea/*.sta
+output/v10/fea/spooles.out
