@@ -1,0 +1,78 @@
+{
+ "model": "plate t20 steel + 2x HFS8-80160-472 (6063-T5; equivalent tube 80x160, Ixx/Iyy = MISUMI profile) + feet t18 steel, bonded; feet fixed",
+ "solver": "SPOOLES",
+ "nodes": 310970,
+ "elements": 171527,
+ "head_mass_kg": 55.9,
+ "cases": {
+  "A_weight": {
+   "carriage_x_mm": 0.0,
+   "tool_force_y_N": 0.0,
+   "max_disp_mm": 0.0127,
+   "max_vm_MPa": 3.2,
+   "max_vm_at_mm": [
+    -181.0,
+    162.0,
+    330.0
+   ],
+   "max_vm_column_MPa": 1.4,
+   "safety_factor_column_yield_175": 125.2,
+   "column_top_mean_disp_mm": [
+    -0.0001,
+    0.00135,
+    -0.00064
+   ],
+   "head_rotation_urad": -90.9,
+   "tool_tip_dy_mm_est": 0.01635,
+   "tool_tip_dz_mm_est": -0.00258,
+   "plate_only_tool_tip_dy_mm": 0.01402,
+   "plate_only_head_rotation_urad": -77.86
+  },
+  "B_weight_plus_100N": {
+   "carriage_x_mm": 0.0,
+   "tool_force_y_N": 100.0,
+   "max_disp_mm": 0.02588,
+   "max_vm_MPa": 4.25,
+   "max_vm_at_mm": [
+    -181.0,
+    162.0,
+    330.0
+   ],
+   "max_vm_column_MPa": 2.4,
+   "safety_factor_column_yield_175": 73.0,
+   "column_top_mean_disp_mm": [
+    -0.00012,
+    0.0019,
+    -0.00067
+   ],
+   "head_rotation_urad": -129.2,
+   "tool_tip_dy_mm_est": 0.03092,
+   "tool_tip_dz_mm_est": -0.00291,
+   "plate_only_tool_tip_dy_mm": 0.02296,
+   "plate_only_head_rotation_urad": -111.98
+  },
+  "C_weight_x+150": {
+   "carriage_x_mm": 150.0,
+   "tool_force_y_N": 0.0,
+   "max_disp_mm": 0.00806,
+   "max_vm_MPa": 2.17,
+   "max_vm_at_mm": [
+    278.6,
+    164.3,
+    230.0
+   ],
+   "max_vm_column_MPa": 1.86,
+   "safety_factor_column_yield_175": 94.0,
+   "column_top_mean_disp_mm": [
+    -0.00087,
+    0.00134,
+    -0.00064
+   ],
+   "head_rotation_urad": -45.4,
+   "tool_tip_dy_mm_est": 0.00834,
+   "tool_tip_dz_mm_est": -0.0021,
+   "plate_only_tool_tip_dy_mm": 0.00575,
+   "plate_only_head_rotation_urad": -31.78
+  }
+ }
+}
