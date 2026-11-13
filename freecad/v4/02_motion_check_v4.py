@@ -16,8 +16,8 @@ EXPECT = {frozenset(p) for p in [('Y_ballscrew','Y_ball_nut'),('X_ballscrew','X_
   ('X_rail_1','X_block_11'),('X_rail_1','X_block_12'),('X_rail_2','X_block_21'),('X_rail_2','X_block_22'),
   ('Z_rail_L','Z_block_L1'),('Z_rail_L','Z_block_L2'),('Z_rail_R','Z_block_R1'),('Z_rail_R','Z_block_R2'),
   ('Y_rail_L','Y_block_L1'),('Y_rail_L','Y_block_L2'),('Y_rail_R','Y_block_R1'),('Y_rail_R','Y_block_R2'),
-  ('X_ballscrew','X_nut_bracket'),('X_journal','X_support_fixed'),('Y_journal','Y_support_fixed'),('Z_journal','Z_support_fixed'),
-  ('X_motor','X_motor_block'),('X_ball_nut','X_nut_bracket'),('Y_ball_nut','Y_nut_bracket'),('Z_ball_nut','Z_nut_housing'),('Z_ballscrew','Z_nut_housing'),('Y_ballscrew','Y_nut_bracket'),('X_coupling','X_journal'),('X_coupling','X_motor')]}
+  ('X_ballscrew','X_nut_bracket'),('X_ballscrew','X_support_fixed'),('Y_ballscrew','Y_support_fixed'),('Z_ballscrew','Z_support_fixed'),('X_ballscrew','X_coupling'),('Y_ballscrew','Y_coupling'),('Z_ballscrew','Z_coupling'),
+  ('X_motor','X_motor_block'),('X_ball_nut','X_nut_bracket'),('Y_ball_nut','Y_nut_bracket'),('Z_ball_nut','Z_nut_housing'),('Z_ballscrew','Z_nut_housing'),('Y_ballscrew','Y_nut_bracket'),('X_coupling','X_motor')]}
 def pose(dy, dx, dz):
     out = {}
     for n, s in P.items():
@@ -52,5 +52,19 @@ for dy in (-250, 150):
     S = pose(dy, 0, 0); rep.append('dy=%+d: table-column %.1f, Y_motor-plate %.1f, Y_motor-datum %.1f, Y_motor_block-panel %.1f' % (dy, min(d('Work_table','Gantry_column_L',S), d('Work_table','Gantry_column_R',S)), d('Y_motor','X_base_plate',S), d('Y_motor','Datum_base_plate',S), d('Y_motor','Electrical_panel',S)))
 S = pose(0, 0, -50); S = pose(-250, 0, 0); rep.append('dy=-250: Y_support - Y_nut_housing %.1f, Y_ballscrew rear end y %.0f' % (d('Y_support_fixed','Y_nut_bracket',S), S['Y_ballscrew'].BoundBox.YMax))
 rep.append('table - Y_nut_housing %.1f, Z_nut_housing - carriage %.1f' % (d('Work_table','Y_nut_bracket'), d('Z_nut_housing','X_carriage_plate')))
+# nut must stay on the thread (D16) over the whole travel
+def thread_ok(ax, nut, face, poses):
+    res = []
+    for dy, dx, dz in poses:
+        S = pose(dy, dx, dz); nb = S[nut].BoundBox; sb = S[ax + '_ballscrew'].BoundBox
+        lo, hi = {'X': (nb.XMin, nb.XMax), 'Y': (nb.YMin, nb.YMax), 'Z': (nb.ZMin, nb.ZMax)}[ax]
+        sh = dy if ax == 'Y' else 0          # only the Y screw moves (with the table)
+        t0 = {'X': sb.XMin, 'Y': sb.YMin, 'Z': sb.ZMin}[ax]; t1 = face + sh
+        res.append('%s %+d: nut [%.0f,%.0f] thread [%.0f,%.0f] margin %.0f/%.0f' % (ax, {'X': dx, 'Y': dy, 'Z': dz}[ax], lo, hi, t0, t1, lo - t0, t1 - hi))
+    return res
+rep += thread_ok('Y', 'Y_ball_nut', 170.0, [(-250, 0, 0), (150, 0, 0)])
+rep += thread_ok('X', 'X_ball_nut', 200.0, [(0, -150, 0), (0, 150, 0)])
+rep += ['Z %+d: nut z [%.0f,%.0f] thread [%.0f,616]' % (dz, pose(0,0,dz)['Z_ball_nut'].BoundBox.ZMin, pose(0,0,dz)['Z_ball_nut'].BoundBox.ZMax, P['Z_ballscrew'].BoundBox.ZMin) for dz in (-50, 50)]
+S = pose(-250, 0, 0); rep.append('dy=-250: Y_support - Y_nut_housing %.1f, Y_support - Y_ball_nut %.1f' % (d('Y_support_fixed','Y_nut_bracket',S), d('Y_support_fixed','Y_ball_nut',S)))
 S = pose(0, 0, -50); rep.append('dz=-50: carriage bottom z %.0f, tool tip z %.0f' % (S['X_carriage_plate'].BoundBox.ZMin, S['Tool_D5'].BoundBox.ZMin))
 open(LOG + '/v4_clear.txt', 'w').write('\n'.join(rep))

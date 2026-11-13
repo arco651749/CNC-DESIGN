@@ -100,6 +100,17 @@ zn = O('Z_ball_nut'); b = zn.Shape.BoundBox                                     
 zc = ((b.XMin + b.XMax) / 2, (b.YMin + b.YMax) / 2)
 zh = box(-26, 26, 62, b.YMax, b.ZMin, b.ZMax - 10).cut(Part.makeCylinder(14.1, 34, V(zc[0], zc[1], b.ZMin - 1), V(0, 0, 1)))
 new('Z_nut_housing', zh, '05', 'custom (machined)', 'Z nut housing (CNC): wraps the nut body, flange on its top face, bolted to the slide rear face')
+# ---------------- ball screws with real end machining (no separate journal): thread D16 up to the C-TEK12 face,
+# D12 x36 bearing seat + lock-nut thread through the support, D10 x27 into the coupling (CPJC40-RD-10-14)
+def screw(axis, a0, a_face, c1, c2):
+    mk = {'x': lambda a, b, r: cylx(a, b, c1, c2, r), 'y': lambda a, b, r: cyly(a, b, c1, c2, r),
+          'z': lambda a, b, r: Part.makeCylinder(r, b - a, V(c1, c2, a), V(0, 0, 1))}[axis]
+    return mk(a0, a_face, 8).fuse(mk(a_face, a_face + 36, 6)).fuse(mk(a_face + 36, a_face + 63, 5)).removeSplitter()
+for ax, a0, face, c1, c2, L in (('x', -195.0, 200.0, XS_Y, XS_Z, None), ('y', -305.0, 170.0, 0.0, 45.0, None), ('z', 286.5, 616.5, 0.0, 79.0, None)):
+    A = ax.upper(); sc = O(A + '_ballscrew'); sc.Shape = screw(ax, a0, face, c1, c2)
+    meta(sc, spec='C-KBS1505-%d: thread to the C-TEK12 face, D12x36 (bearing + lock nut) + D10x27 (coupling), fixed-free' % round(face + 63 - a0))
+    rm(A + '_journal')
+    cp_ = O(A + '_coupling'); meta(cp_, spec='CPJC40-RD-10-14')
 # ---------------- motor seats: one straight D50 H7 through bore = HG-KR43(B) spigot D50 x 3 (measured from the
 # Mitsubishi STEP); the D40 coupling passes through the same bore
 SPIG = 25.05   # D50 H7 (modelled 50.1 so it merges with the old pilot recess)
