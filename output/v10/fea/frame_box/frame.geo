@@ -1,0 +1,25 @@
+SetFactory("OpenCASCADE");
+Geometry.Tolerance = 1e-4;
+Geometry.OCCFixSmallEdges = 1;
+ShapeFromFile("/home/user/CNC-DESIGN/output/v10/fea/frame_box/X_base_plate.step");
+ShapeFromFile("/home/user/CNC-DESIGN/output/v10/fea/frame_box/Gantry_column_L.step");
+ShapeFromFile("/home/user/CNC-DESIGN/output/v10/fea/frame_box/Gantry_column_R.step");
+ShapeFromFile("/home/user/CNC-DESIGN/output/v10/fea/frame_box/Column_foot_L.step");
+ShapeFromFile("/home/user/CNC-DESIGN/output/v10/fea/frame_box/Column_foot_R.step");
+BooleanFragments{ Volume{:}; Delete; }{}
+v_PLATE_0() = Volume In BoundingBox{-360.2,161.8,229.8,360.2,182.2,490.2};
+Physical Volume("PLATE") = {v_PLATE_0()};
+v_COLUMN_0() = Volume In BoundingBox{-360.2,1.8,17.8,-279.8,162.2,490.2};
+v_COLUMN_1() = Volume In BoundingBox{279.8,1.8,17.8,360.2,162.2,490.2};
+Physical Volume("COLUMN") = {v_COLUMN_0(), v_COLUMN_1()};
+v_FOOT_0() = Volume In BoundingBox{-360.2,1.8,-0.2,-279.8,182.2,18.2};
+v_FOOT_1() = Volume In BoundingBox{279.8,1.8,-0.2,360.2,182.2,18.2};
+Physical Volume("FOOT") = {v_FOOT_0(), v_FOOT_1()};
+Mesh.CharacteristicLengthMax = 6;
+Mesh.CharacteristicLengthMin = 2;
+Mesh.ElementOrder = 2;
+Mesh.SecondOrderLinear = 1;
+Mesh.Algorithm3D = 10;
+Mesh.SaveAll = 0;
+Mesh 3;
+Save "/home/user/CNC-DESIGN/output/v10/fea/frame_box/frame_mesh.inp";

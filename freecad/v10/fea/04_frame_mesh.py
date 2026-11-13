@@ -15,8 +15,20 @@ doc = App.openDocument(os.path.join(ROOT, 'output', 'v10', 'CNC_v10.FCStd'))
 BODIES = [('PLATE', 'X_base_plate'), ('COLUMN', 'Gantry_column_L'), ('COLUMN', 'Gantry_column_R'),
           ('FOOT', 'Column_foot_L'), ('FOOT', 'Column_foot_R')]
 info, files = [], []
+DEFEAT_R = float(os.environ.get('DEFEAT_R', 0))   # remove cylindrical fillet faces with radius <= DEFEAT_R on the columns
 for grp, lab in BODIES:
     s = doc.getObjectsByLabel(lab)[0].Shape
+    if grp == 'COLUMN' and os.environ.get('COLUMN_MODE') == 'box':
+        # equivalent rectangular tube, same outline 80x160, wall thicknesses fitted so Ixx and Iyy equal the MISUMI
+        # HFS8-80160 section (Ixx 1.005e7, Iyy 2.965e6 mm4; measured from the vendor STEP at z=300)
+        import Part
+        from FreeCAD import Vector as V
+        bb = s.BoundBox; TX, TY = 5.787, 7.677
+        s = Part.makeBox(bb.XLength, bb.YLength, bb.ZLength, V(bb.XMin, bb.YMin, bb.ZMin)).cut(
+            Part.makeBox(bb.XLength - 2 * TX, bb.YLength - 2 * TY, bb.ZLength + 2, V(bb.XMin + TX, bb.YMin + TY, bb.ZMin - 1)))
+    if grp == 'COLUMN' and DEFEAT_R > 0:
+        small = [f for f in s.Faces if 'Cylinder' in f.Surface.TypeId and f.Surface.Radius <= DEFEAT_R + 0.01]
+        s = s.defeaturing(small)          # r <= 2: section area -0.08 %, Ixx -0.21 %, Iyy -0.13 %
     f = os.path.join(WORK, lab + '.step'); s.exportStep(f); files.append(f)
     b = s.BoundBox
     info.append({'group': grp, 'label': lab, 'bbox': [b.XMin, b.YMin, b.ZMin, b.XMax, b.YMax, b.ZMax], 'volume': s.Volume})
@@ -38,4 +50,4 @@ geo += ['Mesh.CharacteristicLengthMax = %g;' % CLMAX, 'Mesh.CharacteristicLength
 gp = os.path.join(WORK, 'frame.geo'); open(gp, 'w').write('\n'.join(geo) + '\n')
 r = subprocess.run([GMSH, gp, '-0', '-nt', '4'], capture_output=True, text=True)
 open(os.path.join(WORK, 'gmsh.log'), 'w').write(r.stdout[-20000:] + r.stderr[-5000:])
-json.dump({'bodies': info, 'clmax': CLMAX, 'clmin': CLMIN}, open(os.path.join(WORK, 'frame_bodies.json'), 'w'), indent=1)
+json.dump({'bodies': info, 'clmax': CLMAX, 'clmin': CLMIN, 'defeature_r': DEFEAT_R, 'column_mode': os.environ.get('COLUMN_MODE', 'profile'), 'column_area_scale': (3902.1 / 2903.0) if os.environ.get('COLUMN_MODE') == 'box' else 1.0}, open(os.path.join(WORK, 'frame_bodies.json'), 'w'), indent=1)

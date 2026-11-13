@@ -13,6 +13,8 @@ FEA = os.path.join(ROOT, 'output', 'v10', 'fea'); WORK = os.path.join(FEA, os.en
 SOLVER = os.environ.get('SOLVER', 'ITERATIVE CHOLESKY')   # or SPOOLES (direct, multithreaded, more memory)
 CCX = os.environ.get('CCX', r'C:\Program Files\FreeCAD 1.1\bin\ccx.exe')
 H = json.load(open(os.path.join(FEA, 'head_mass.json'), encoding='utf-8'))
+BODIES = json.load(open(os.path.join(WORK, 'frame_bodies.json')))
+RHO_AL = 2.70e-9 * BODIES.get('column_area_scale', 1.0)   # equivalent-box columns keep the real profile mass
 PLATE_ONLY = json.load(open(os.path.join(FEA, 'results.json'), encoding='utf-8'))
 
 # ---------------- mesh
@@ -69,7 +71,7 @@ def read_frd(path):
 
 CASES = {'A_weight': (0.0, 0.0), 'B_weight_plus_100N': (100.0, 0.0), 'C_weight_x+150': (0.0, 150.0)}
 col_nodes = np.isin(ids, np.unique([n for e in sets['COLUMN'] for n in elems[e]]))
-res = {'model': 'plate t20 steel + 2x HFS8-80160-472 (6063-T5, MISUMI profile) + feet t18 steel, bonded; feet fixed',
+res = {'model': 'plate t20 steel + 2x HFS8-80160-472 (6063-T5; %s) + feet t18 steel, bonded; feet fixed' % ('equivalent tube 80x160, Ixx/Iyy = MISUMI profile' if BODIES.get('column_mode') == 'box' else 'MISUMI profile'), 'solver': SOLVER,
        'nodes': int(len(ids)), 'elements': len(elems), 'head_mass_kg': H['head_mass_kg'], 'cases': {}}
 for name, (tfy, xc) in CASES.items():
     top, bot = rail_sets(xc)
@@ -77,7 +79,7 @@ for name, (tfy, xc) in CASES.items():
         f.write('*INCLUDE, INPUT=mesh_include.inp\n')
         f.write('*NSET, NSET=NFIX\n'); sel = ids[fix]; [f.write(','.join(map(str, sel[k:k + 16])) + '\n') for k in range(0, len(sel), 16)]
         f.write('*MATERIAL, NAME=STEEL\n*ELASTIC\n210000.,0.3\n*DENSITY\n7.85e-9\n')
-        f.write('*MATERIAL, NAME=AL6063\n*ELASTIC\n69000.,0.33\n*DENSITY\n2.70e-9\n')
+        f.write('*MATERIAL, NAME=AL6063\n*ELASTIC\n69000.,0.33\n*DENSITY\n%.4e\n' % RHO_AL)
         f.write('*SOLID SECTION, ELSET=PLATE, MATERIAL=STEEL\n*SOLID SECTION, ELSET=FOOT, MATERIAL=STEEL\n*SOLID SECTION, ELSET=COLUMN, MATERIAL=AL6063\n')
         f.write('*BOUNDARY\nNFIX,1,3\n*STEP\n*STATIC, SOLVER=%s\n' % SOLVER + '*DLOAD\nPLATE,GRAV,9810.,0.,0.,-1.\nFOOT,GRAV,9810.,0.,0.,-1.\nCOLUMN,GRAV,9810.,0.,0.,-1.\n*CLOAD\n')
         for (s, dof), F in rail_loads(tfy).items():
