@@ -100,6 +100,18 @@ zn = O('Z_ball_nut'); b = zn.Shape.BoundBox                                     
 zc = ((b.XMin + b.XMax) / 2, (b.YMin + b.YMax) / 2)
 zh = box(-26, 26, 62, b.YMax, b.ZMin, b.ZMax - 10).cut(Part.makeCylinder(14.1, 34, V(zc[0], zc[1], b.ZMin - 1), V(0, 0, 1)))
 new('Z_nut_housing', zh, '05', 'custom (machined)', 'Z nut housing (CNC): wraps the nut body, flange on its top face, bolted to the slide rear face')
+# ---------------- motor seats: one straight D50 H7 through bore = HG-KR43(B) spigot D50 x 3 (measured from the
+# Mitsubishi STEP); the D40 coupling passes through the same bore
+SPIG = 25.05   # D50 H7 (modelled 50.1 so it merges with the old pilot recess)
+zp = O('Z_motor_plate'); b = zp.Shape.BoundBox
+zp.Shape = zp.Shape.cut(Part.makeCylinder(SPIG, b.ZLength + 2, V(0, 79, b.ZMin - 1), V(0, 0, 1))).removeSplitter()
+meta(zp, spec=str(zp.Spec).replace('bore D44, pilot D50x3', 'D50 H7 through bore (motor spigot)'))
+yb = O('Y_motor_block'); b = yb.Shape.BoundBox
+yb.Shape = yb.Shape.cut(cyly(b.YMin - 1, b.YMax + 1, 0, 45, SPIG)).removeSplitter()
+meta(yb, spec=str(yb.Spec).replace('bore D44, pilot D50x3', 'D50 H7 through bore (motor spigot)'))
+xm = O('X_motor_block'); b = xm.Shape.BoundBox
+xm.Shape = xm.Shape.cut(cylx(b.XMin - 1, b.XMax + 1, XS_Y, XS_Z, SPIG)).removeSplitter()
+meta(xm, spec=str(xm.Spec).replace('bore D44, pilot D50x3', 'D50 H7 through bore (motor spigot)'))
 # ---------------- electrics: drives on a panel behind the X plate
 for k, n in enumerate(('Servo_amp_X', 'Servo_amp_Y', 'Servo_amp_Z')):
     a = O(n); b = a.Shape.BoundBox; a.Shape = moved(a.Shape, (0, 262 - b.YMin, 0))

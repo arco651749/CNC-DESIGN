@@ -2,7 +2,7 @@ dx=-150: carriage-column 10.0, Z_motor_plate-column 210.0, X_block-column 30.2
 dx=-150: nut_bracket-plate(slot) 4.0, nut-plate 15.1, nut-support 329.0, nut-panel 26.1
 dx=+150: carriage-column 10.0, Z_motor_plate-column 210.0, X_block-column 30.2
 dx=+150: nut_bracket-plate(slot) 4.0, nut-plate 5.0, nut-support 29.0, nut-panel 87.0
-motor-plate 2.0, coupling-plate 5.0, motor-column_R 15.0, motor_block-support 37.6
+motor-plate 2.0, coupling-plate 5.0, motor-column_R 15.0, motor_block-support 38.6
 dy=-250: table-column 60.0, Y_motor-plate 250.3, Y_motor-datum 15.0, Y_motor_block-panel 254.7
 dy=+150: table-column 60.0, Y_motor-plate 353.0, Y_motor-datum 220.8, Y_motor_block-panel 280.5
 dy=-250: Y_support - Y_nut_housing 33.0, Y_ballscrew rear end y -80
