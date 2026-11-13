@@ -1,4 +1,4 @@
-# v3 → r6 / r7 修改紀錄
+# v3 → r7 修改紀錄（r7 定稿 2026-11-13）
 
 **r7（最新）**：拿掉 X 軸浮動支撐座 C-TEF12，三軸螺桿都改成固定－自由。X 危險轉速（Ø15、L≈450）約 2100 rpm，打 8 折約 1680 rpm，大於 100 mm/s 所需的 1200 rpm。`freecad/revisions/08_r7_remove_x_float_support.py` → `output/v3/CNC_v3_r7.FCStd`、`output/v3/CNC_motion_r7.html`。
 Y 軸前方那組是**固定滾珠螺帽＋螺帽座**（倒裝螺桿的驅動點），不是支撐座，保留。
