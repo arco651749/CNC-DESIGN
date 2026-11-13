@@ -1,4 +1,8 @@
-# v3 → r6 修改紀錄
+# v3 → r6 / r7 修改紀錄
+
+**r7（最新）**：拿掉 X 軸浮動支撐座 C-TEF12，三軸螺桿都改成固定－自由。X 危險轉速（Ø15、L≈450）約 2100 rpm，打 8 折約 1680 rpm，大於 100 mm/s 所需的 1200 rpm。`freecad/revisions/08_r7_remove_x_float_support.py` → `output/v3/CNC_v3_r7.FCStd`、`output/v3/CNC_motion_r7.html`。
+Y 軸前方那組是**固定滾珠螺帽＋螺帽座**（倒裝螺桿的驅動點），不是支撐座，保留。
+
 
 由 `freecad/revisions/01..07` 從 `output/v3/CNC_v3.FCStd` 依序產生（`bash freecad/revisions/run_all.sh`）。
 r6 重跑結果與互動修改版一致；三軸行程兩端＋中間 18 個姿態干涉檢查：無碰撞（`output/v3/logs/r6_motion.txt`）。
@@ -27,6 +31,7 @@ r6 重跑結果與互動修改版一致；三軸行程兩端＋中間 18 個姿�
 | 基準板 | 690×595×30 | **640×512×30** |
 | 馬達座 | X/Y/Z 原支架 | X/Y/Z 方塊（自製），Y 馬達座跟著工作台移動 |
 | Y 螺帽座 | 高 54 | 高 66 |
+| X 浮動支撐座 | C-TEF12 | **取消**（r7，固定－自由） |
 
 ## 尺寸
 - 機寬 775（v3 798）；Z 軸底座底部 z272（離工作台面 162）；Z 馬達頂 z861。
