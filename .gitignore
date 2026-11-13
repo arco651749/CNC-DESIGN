@@ -4,3 +4,14 @@ __pycache__/
 output/v3/*.FCStd
 # FreeCAD documents (binary, large) stay local
 *.FCStd
+# FEA intermediates (regenerate with freecad/v4/fea/*.py)
+output/v4/fea/*.frd
+output/v4/fea/*.inp
+output/v4/fea/*.npy
+output/v4/fea/*.12d
+output/v4/fea/*.cvg
+output/v4/fea/*.dat
+output/v4/fea/*.sta
+output/v4/fea/spooles.out
+# vendor download archives (the extracted STEP files are tracked)
+vendor/**/*.zip

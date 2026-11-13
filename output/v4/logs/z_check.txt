@@ -1,0 +1,27 @@
+Y_ball_nut             x[-26,26] y[-145,-103] z[22,68] vol=26121 | C-KBS1505 nut, fixed (y=-150)
+Y_nut_bracket          x[-26,26] y[-145,-113] z[0,68] vol=92482 | Y nut housing (CNC): wraps the C-KBS1505 nut body, flange on its +y fa
+X_ball_nut             x[-21,21] y[184,230] z[384,436] vol=26121 | C-KBS1505 nut
+X_nut_bracket          x[-26,11] y[134,230] z[384,436] vol=160825 | nut housing (CNC): wraps the C-KBS1505 nut body, flange bolted to the 
+Z_rail_L               x[-90,-70] y[88,104] z[272,652] vol=105266 | SX2RNL28-380 rail
+Z_block_L1             x[-101,-59] y[76,99] z[332,412] vol=49858 | SX2RNL28 block
+Z_block_L2             x[-101,-59] y[76,99] z[457,537] vol=49858 | SX2RNL28 block
+Z_spacer_L             x[-105,-55] y[62,76] z[317,547] vol=161000 | steel spacer bar t14
+Z_rail_R               x[70,90] y[88,104] z[272,652] vol=105266 | SX2RNL28-380 rail
+Z_block_R1             x[59,101] y[76,99] z[332,412] vol=49858 | SX2RNL28 block
+Z_block_R2             x[59,101] y[76,99] z[457,537] vol=49858 | SX2RNL28 block
+Z_spacer_R             x[55,105] y[62,76] z[317,547] vol=161000 | steel spacer bar t14
+Z_slide_plate          x[-110,110] y[34,62] z[317,547] vol=1396192 | steel t28, pocket for the Z nut
+Z_ballscrew            x[-8,8] y[71,87] z[286,680] vol=71178 | C-KBS1505-393: thread to the C-TEK12 face, D12x36 (bearing + lock nut)
+Z_ball_nut             x[-26,26] y[56,102] z[411,453] vol=26121 | C-KBS1505 nut (in slide pocket)
+Z_support_fixed        x[-35,35] y[61,104] z[616,652] vol=55780 | C-TEK12 fixed support (top)
+Z_coupling             x[-20,20] y[59,99] z[655,721] vol=65627 | CPJC40-RD-10-14
+Z_motor                x[-30,30] y[49,120] z[696,861] vol=444592 | HG-KR43B 400 W with brake
+Z_motor_bracket        x[-60,60] y[44,134] z[688,726] vol=248080 | block 120x90x38: front part bolted to carriage FRONT face with 4xM6 (s
+Spindle_body           x[-32,32] y[-32,32] z[221,409] vol=623842 | 0.8 kW air-cooled D65x188, 24,000 rpm, 220 V 400 Hz (e.g. HQD GDF65-24
+Spindle_fan_cover      x[-32,32] y[-32,32] z[409,435] vol=48049 | fan cover
+Spindle_plug           x[32,52] y[-8,8] z[407,427] vol=6240 | aviation plug 4-pin
+Spindle_nose           x[-11,11] y[-11,11] z[216,221] vol=1901 | ER11 nose
+ER11_nut               x[-10,10] y[-10,10] z[202,216] vol=3969 | ER11 nut D19 M13x0.75
+Tool_D5                x[-2,2] y[-2,2] z[180,202] vol=432 | end mill D5 (reference)
+Spindle_clamp          x[-48,48] y[-47,34] z[331,401] vol=310008 | split clamp D65, Al, bolted to slide front
+Z_nut_housing          x[-26,26] y[62,102] z[411,443] vol=45890 | Z nut housing (CNC): wraps the nut body, flange on its top face, bolte

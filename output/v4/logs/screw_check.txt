@@ -1,0 +1,4 @@
+objs 68
+SCREW X x[-195.0,263.0] y[199.0,215.0] z[402.0,418.0] solids=1 src=MISUMI C-KBS1505-458 (vendor STEP shaft, ends machined per order)
+SCREW Y x[-8.0,8.0] y[-305.0,233.0] z[37.0,53.0] solids=1 src=MISUMI C-KBS1505-538 (vendor STEP shaft, ends machined per order)
+SCREW Z x[-8.0,8.0] y[71.0,87.0] z[286.5,679.5] solids=1 src=MISUMI C-KBS1505-393 (vendor STEP shaft, ends machined per order)

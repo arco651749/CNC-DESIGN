@@ -102,13 +102,37 @@ zh = box(-26, 26, 62, b.YMax, b.ZMin, b.ZMax - 10).cut(Part.makeCylinder(14.1, 3
 new('Z_nut_housing', zh, '05', 'custom (machined)', 'Z nut housing (CNC): wraps the nut body, flange on its top face, bolted to the slide rear face')
 # ---------------- ball screws with real end machining (no separate journal): thread D16 up to the C-TEK12 face,
 # D12 x36 bearing seat + lock-nut thread through the support, D10 x27 into the coupling (CPJC40-RD-10-14)
+import glob as _glob
+def vendor_shaft(model, L):
+    """Shaft solid (D16, length L along local X from 0) from the vendor STEP, nut excluded."""
+    f = _glob.glob(os.path.join(ROOT, 'vendor', '*', model, 'step', '**', '*.st*p'), recursive=True)[0]
+    sols = [s for s in Part.read(f).Solids if abs(s.BoundBox.XLength - L) < 0.5 and s.BoundBox.YLength < 20]
+    return sols[0].copy()
+def vendor_screw(sh, x_face):
+    """Vendor shaft cut at the C-TEK12 face (local x = x_face), then D12x36 and D10x27 ends fused on."""
+    body = sh.common(box(0, x_face, -20, 20, -20, 20))
+    e12 = Part.makeCylinder(6, 36, V(x_face, 0, 0), V(1, 0, 0))
+    e10 = Part.makeCylinder(5, 27, V(x_face + 36, 0, 0), V(1, 0, 0))
+    return body.fuse(e12).fuse(e10).removeSplitter()
+def put(shape, ex, ey, target):
+    """Map local X->ex, Y->ey (Z->ex x ey) and move the local origin to target."""
+    ex, ey = V(*ex), V(*ey); ez = ex.cross(ey)
+    m = App.Matrix(ex.x, ey.x, ez.x, 0, ex.y, ey.y, ez.y, 0, ex.z, ey.z, ez.z, 0, 0, 0, 0, 1)
+    s = shape.copy(); s.transformShape(m); s.translate(V(*target)); return s
 def screw(axis, a0, a_face, c1, c2):
     mk = {'x': lambda a, b, r: cylx(a, b, c1, c2, r), 'y': lambda a, b, r: cyly(a, b, c1, c2, r),
           'z': lambda a, b, r: Part.makeCylinder(r, b - a, V(c1, c2, a), V(0, 0, 1))}[axis]
     return mk(a0, a_face, 8).fuse(mk(a_face, a_face + 36, 6)).fuse(mk(a_face + 36, a_face + 63, 5)).removeSplitter()
 for ax, a0, face, c1, c2, L in (('x', -195.0, 200.0, XS_Y, XS_Z, None), ('y', -305.0, 170.0, 0.0, 45.0, None), ('z', 286.5, 616.5, 0.0, 79.0, None)):
-    A = ax.upper(); sc = O(A + '_ballscrew'); sc.Shape = screw(ax, a0, face, c1, c2)
-    meta(sc, spec='C-KBS1505-%d: thread to the C-TEK12 face, D12x36 (bearing + lock nut) + D10x27 (coupling), fixed-free' % round(face + 63 - a0))
+    A = ax.upper(); sc = O(A + '_ballscrew')
+    LL = face + 63 - a0                                   # overall screw length (thread + D12 + D10 ends)
+    sh = vendor_shaft({'x': 'C-KBS1505-458', 'y': 'C-KBS1505-538', 'z': 'C-KBS1505-393'}[ax], LL)
+    sc.Shape = vendor_screw(sh, face - a0)              # vendor D16 shaft to the C-TEK12 face + machined ends
+    if ax == 'x': sc.Shape = put(sc.Shape, (1, 0, 0), (0, 1, 0), (a0, c1, c2))
+    elif ax == 'y': sc.Shape = put(sc.Shape, (0, 1, 0), (1, 0, 0), (c1, a0, c2))
+    else: sc.Shape = put(sc.Shape, (0, 0, 1), (1, 0, 0), (c1, c2, a0))
+    meta(sc, src='MISUMI C-KBS1505-%d (vendor STEP shaft, ends machined per order)' % round(LL),
+         spec='C-KBS1505-%d: thread to the C-TEK12 face, D12x36 (bearing + lock nut) + D10x27 (coupling), fixed-free' % round(LL))
     rm(A + '_journal')
     cp_ = O(A + '_coupling'); meta(cp_, spec='CPJC40-RD-10-14')
 # ---------------- motor seats: one straight D50 H7 through bore = HG-KR43(B) spigot D50 x 3 (measured from the

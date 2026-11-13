@@ -1,0 +1,137 @@
+{
+ "head_mass_kg": 53.07,
+ "head_weight_N": 520.6,
+ "cg": [
+  -0.2,
+  92.3,
+  478.1
+ ],
+ "lever_mm": 69.7,
+ "couple_per_rail_N": 302.4,
+ "cases": {
+  "A_weight": {
+   "carriage_x_mm": 0.0,
+   "tool_force_y_N": 0.0,
+   "loads_N": {
+    "top_Z": -260.3,
+    "bot_Z": -260.3,
+    "top_Y": -302.4,
+    "bot_Y": 302.4
+   },
+   "max_disp_mm": 0.02223,
+   "max_vm_MPa": 7.94,
+   "max_vm_at_mm": [
+    166.0,
+    162.0,
+    380.0
+   ],
+   "safety_factor_yield_235": 29.6,
+   "rail_top_mean_disp_mm": [
+    1e-05,
+    -0.01745,
+    -0.00315
+   ],
+   "rail_bot_mean_disp_mm": [
+    -1e-05,
+    0.0175,
+    -0.00316
+   ],
+   "head_rotation_urad": -291.25,
+   "tool_tip_dy_mm_est": 0.06701,
+   "tool_tip_dz_mm_est": -0.00315
+  },
+  "B_weight_plus_100N": {
+   "carriage_x_mm": 0.0,
+   "tool_force_y_N": 100.0,
+   "loads_N": {
+    "top_Z": -260.3,
+    "bot_Z": -260.3,
+    "top_Y": -444.1,
+    "bot_Y": 544.1
+   },
+   "max_disp_mm": 0.04057,
+   "max_vm_MPa": 12.3,
+   "max_vm_at_mm": [
+    -181.0,
+    162.0,
+    380.0
+   ],
+   "safety_factor_yield_235": 19.1,
+   "rail_top_mean_disp_mm": [
+    6e-05,
+    -0.02328,
+    -0.00366
+   ],
+   "rail_bot_mean_disp_mm": [
+    -1e-05,
+    0.03292,
+    -0.0037
+   ],
+   "head_rotation_urad": -468.27,
+   "tool_tip_dy_mm_est": 0.11252,
+   "tool_tip_dz_mm_est": -0.00368
+  },
+  "C_weight_x+150": {
+   "carriage_x_mm": 150.0,
+   "tool_force_y_N": 0.0,
+   "loads_N": {
+    "top_Z": -260.3,
+    "bot_Z": -260.3,
+    "top_Y": -302.4,
+    "bot_Y": 302.4
+   },
+   "max_disp_mm": 0.01146,
+   "max_vm_MPa": 4.47,
+   "max_vm_at_mm": [
+    278.7,
+    162.0,
+    484.7
+   ],
+   "safety_factor_yield_235": 52.6,
+   "rail_top_mean_disp_mm": [
+    0.00025,
+    -0.00616,
+    -0.00139
+   ],
+   "rail_bot_mean_disp_mm": [
+    -0.00023,
+    0.00567,
+    -0.00135
+   ],
+   "head_rotation_urad": -98.6,
+   "tool_tip_dy_mm_est": 0.02243,
+   "tool_tip_dz_mm_est": -0.00137
+  },
+  "D_plate_self_weight_only": {
+   "carriage_x_mm": 0.0,
+   "tool_force_y_N": 0.0,
+   "loads_N": {
+    "top_Z": -0.0,
+    "bot_Z": -0.0,
+    "top_Y": -0.0,
+    "bot_Y": 0.0
+   },
+   "max_disp_mm": 0.00018,
+   "max_vm_MPa": 0.22,
+   "max_vm_at_mm": [
+    280.3,
+    162.0,
+    332.6
+   ],
+   "safety_factor_yield_235": 1046.5,
+   "rail_top_mean_disp_mm": [
+    -0.0,
+    -1e-05,
+    -0.00016
+   ],
+   "rail_bot_mean_disp_mm": [
+    0.0,
+    1e-05,
+    -0.00016
+   ],
+   "head_rotation_urad": -0.17,
+   "tool_tip_dy_mm_est": 4e-05,
+   "tool_tip_dz_mm_est": -0.00016
+  }
+ }
+}

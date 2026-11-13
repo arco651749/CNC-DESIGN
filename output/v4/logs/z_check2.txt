@@ -1,0 +1,11 @@
+X_carriage_plate   x[-120,120] y[104,134] z[272,710] | steel t30, 240x438; ALL holes on the front face (Z rails, C-TEK12, Z motor block); Z assembly raised 100 (spindle mounted 100 lower in the slide, tool tip uncha
+missing Z_motor_bracket
+Z_motor            x[-30,30] y[49,120] z[696,861] | HG-KR43B 400 W with brake
+Z_coupling         x[-20,20] y[59,99] z[655,721] | CPJC40-RD-10-14
+Z_support_fixed    x[-35,35] y[61,104] z[616,652] | C-TEK12 fixed support (top)
+Z_motor_plate      x[-60,60] y[44,134] z[688,726] | block 120x90x38: front part bolted to carriage FRONT face with 4xM6 (same face as rails/TEK), rear lip rests on carriage top edge and carries the rear motor hol
+missing Z_motor_base
+missing X_spacer_1
+missing X_spacer_2
+missing X_rail_plate
+missing X_motor_bracket

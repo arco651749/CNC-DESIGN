@@ -1,0 +1,6 @@
+plate~carriage common vol 0 dist 0.00
+plate~TEK common vol 0 dist 38.64
+motor~plate common vol 0 dist 0.00
+plate BB z[688.0,726.0] y[44.0,134.0] x[-60.0,60.0]
+carriage BB z[272.0,710.0] y[104.0,134.0]
+plate solids 1 vol 248080
