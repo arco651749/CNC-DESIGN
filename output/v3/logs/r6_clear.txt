@@ -1,0 +1,15 @@
+Y_motor - datum 15.0 | Y_motor_plate - datum 15.0 | Y_coupling - datum 25.0 | Y_support - Y_nut_bracket (dy-250) 34.0
+dy+150: Y_motor - Servo_amp_Y 249.7, Y_motor - Column_foot_R 219.1
+dx+150: X_nut_bracket - X_support_fixed 36.5, X_carriage - X_support_fixed 15.0, X_carriage - joint_plate_R 88.5
+Z_motor_plate - Z_support_fixed 37.6, Z_coupling - Z_support_fixed 3.0
+dz+50: Z_block_R2 - Z_support_fixed 49.1, Z_slide - Z_support 19.5
+Z_motor_bracket - Z_rail_R 37.4, Z_motor_bracket - Z_coupling 2.0
+dz+50: Z_motor_bracket - Z_slide 91.0
+dy-250: Y_support - Y_nut_bracket 34.0
+dy+150: Work_table - Servo_amp_Y 216.0, Work_table - Gantry_column_R 20.0, Y_motor - Servo 249.7
+dy-250: Y_motor - Datum 15.0, Work_table - Datum 70.0
+dz-50: Spindle_clamp bottom z 281, Z_slide bottom z 267, carriage bottom z 272, spindle body bottom z 171, tool tip z 130
+dz+50: Spindle_fan_cover - Z_ball_nut 27.7, Spindle_body - Z_ballscrew 38.5
+Y_motor_block - Y_coupling 2.0, Y_motor_block - Y_support 37.6, Y_motor_block - Y_rail_R 77.5
+dy-250: Y_motor_block - Y_nut_bracket 105.5, Y_motor_block - datum 15.0
+dx+150: X_carriage - X_motor_block 18.0; X_motor_block - X_support 32.0, X_motor_block - joint_plate_R 2.0

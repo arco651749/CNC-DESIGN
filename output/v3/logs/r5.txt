@@ -1,0 +1,2 @@
+before: X_carriage_plate z[172,610], Z_slide_plate z[217,447], Spindle_clamp z[331,401], Spindle_body z[221,409], Tool_D5 z[180,202]
+after:  X_carriage_plate z[272,710], Z_slide_plate z[317,547], Spindle_clamp z[331,401], Spindle_body z[221,409], Tool_D5 z[180,202], Z_motor z[696,861]
