@@ -9,7 +9,7 @@ LOG = os.path.join(ROOT, 'output', 'v4', 'logs'); os.makedirs(LOG, exist_ok=True
 doc = App.openDocument(ROOT + '/output/v4/CNC_v4.FCStd')
 P = {o.Label: o.Shape for o in doc.Objects if o.TypeId == 'Part::Feature'}
 Y_MOV = {n for n in P if n.startswith(('Y_rail', 'Work_table', 'Y_ballscrew', 'Y_support', 'Y_journal', 'Y_coupling', 'Y_motor'))}
-Z_MOV = {n for n in P if n.startswith(('Z_block', 'Z_spacer', 'Z_slide', 'Z_ball_nut', 'Spindle', 'ER11', 'Tool'))}
+Z_MOV = {n for n in P if n.startswith(('Z_block', 'Z_spacer', 'Z_slide', 'Z_ball_nut', 'Z_nut_housing', 'Spindle', 'ER11', 'Tool'))}
 X_MOV = {n for n in P if n.startswith(('X_block', 'X_carriage', 'X_ball_nut', 'X_nut_bracket', 'Z_'))} | Z_MOV
 SAME = [Y_MOV, X_MOV, Z_MOV]
 EXPECT = {frozenset(p) for p in [('Y_ballscrew','Y_ball_nut'),('X_ballscrew','X_ball_nut'),('Z_ballscrew','Z_ball_nut'),
@@ -17,7 +17,7 @@ EXPECT = {frozenset(p) for p in [('Y_ballscrew','Y_ball_nut'),('X_ballscrew','X_
   ('Z_rail_L','Z_block_L1'),('Z_rail_L','Z_block_L2'),('Z_rail_R','Z_block_R1'),('Z_rail_R','Z_block_R2'),
   ('Y_rail_L','Y_block_L1'),('Y_rail_L','Y_block_L2'),('Y_rail_R','Y_block_R1'),('Y_rail_R','Y_block_R2'),
   ('X_ballscrew','X_nut_bracket'),('X_journal','X_support_fixed'),('Y_journal','Y_support_fixed'),('Z_journal','Z_support_fixed'),
-  ('X_motor','X_motor_block'),('X_coupling','X_journal'),('X_coupling','X_motor')]}
+  ('X_motor','X_motor_block'),('X_ball_nut','X_nut_bracket'),('Y_ball_nut','Y_nut_bracket'),('Z_ball_nut','Z_nut_housing'),('Z_ballscrew','Z_nut_housing'),('Y_ballscrew','Y_nut_bracket'),('X_coupling','X_journal'),('X_coupling','X_motor')]}
 def pose(dy, dx, dz):
     out = {}
     for n, s in P.items():
@@ -33,7 +33,14 @@ for dy, dx, dz in itertools.product((-250, -50, 150), (-150, 0, 150), (-50, 50))
         if not S[a].BoundBox.intersect(S[b].BoundBox): continue
         v = S[a].common(S[b]).Volume
         if v > 1: hits.setdefault((a, b), []).append((dy, dx, dz, round(v)))
-open(LOG + '/v4_motion.txt', 'w').write('\n'.join('%s x %s : %s' % (k[0], k[1], v) for k, v in sorted(hits.items())) or 'none')
+static = []
+for a, b in itertools.combinations(names, 2):          # pose 0, every pair incl. parts that move together
+    if frozenset((a, b)) in EXPECT or not P[a].BoundBox.intersect(P[b].BoundBox): continue
+    v = P[a].common(P[b]).Volume
+    if v > 0.5: static.append('STATIC %s x %s : %.0f' % (a, b, v))
+hits_txt = '\n'.join(static + ['%s x %s : %s' % (k[0], k[1], v) for k, v in sorted(hits.items())])
+open(LOG + '/v4_motion.txt', 'w').write(hits_txt or 'none')
+if False: open(LOG + '/v4_motion.txt', 'w').write('\n'.join('%s x %s : %s' % (k[0], k[1], v) for k, v in sorted(hits.items())) or 'none')
 d = lambda a, b, S=P: S[a].distToShape(S[b])[0]
 rep = []
 for dx in (-150, 150):
@@ -43,5 +50,7 @@ for dx in (-150, 150):
 rep.append('motor-plate %.1f, coupling-plate %.1f, motor-column_R %.1f, motor_block-support %.1f' % (d('X_motor','X_base_plate'), d('X_coupling','X_base_plate'), d('X_motor','Gantry_column_R'), d('X_motor_block','X_support_fixed')))
 for dy in (-250, 150):
     S = pose(dy, 0, 0); rep.append('dy=%+d: table-column %.1f, Y_motor-plate %.1f, Y_motor-datum %.1f, Y_motor_block-panel %.1f' % (dy, min(d('Work_table','Gantry_column_L',S), d('Work_table','Gantry_column_R',S)), d('Y_motor','X_base_plate',S), d('Y_motor','Datum_base_plate',S), d('Y_motor','Electrical_panel',S)))
+S = pose(0, 0, -50); S = pose(-250, 0, 0); rep.append('dy=-250: Y_support - Y_nut_housing %.1f, Y_ballscrew rear end y %.0f' % (d('Y_support_fixed','Y_nut_bracket',S), S['Y_ballscrew'].BoundBox.YMax))
+rep.append('table - Y_nut_housing %.1f, Z_nut_housing - carriage %.1f' % (d('Work_table','Y_nut_bracket'), d('Z_nut_housing','X_carriage_plate')))
 S = pose(0, 0, -50); rep.append('dz=-50: carriage bottom z %.0f, tool tip z %.0f' % (S['X_carriage_plate'].BoundBox.ZMin, S['Tool_D5'].BoundBox.ZMin))
 open(LOG + '/v4_clear.txt', 'w').write('\n'.join(rep))

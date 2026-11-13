@@ -89,6 +89,17 @@ for xx in (MF - 30, MF - 8):
     for zz in (380, 440): mb = mb.cut(cyly(YPR - 8, XS_Y + 36, xx, zz, 3.3))
 new('X_motor_block', mb.removeSplitter(), '04', 'custom (machined)',
     'Z-style block in the 7 mm pocket of the X base plate REAR face, 4xM6 (same face as C-TEK12); bore D44, pilot D50x3')
+# ---------------- Y and Z nut housings (same idea as X): one CNC block wrapping the nut body, flange bolted to its end face
+# Y: nut 26 back so the housing sits fully on the datum plate (front edge y=-145); housing bolted DOWN into the datum plate
+yn = O('Y_ball_nut'); yn.Shape = moved(yn.Shape, (0, 26, 0)); b = yn.Shape.BoundBox      # body y -145..-113, flange -113..-103
+yh = O('Y_nut_bracket')
+yh.Shape = box(-26, 26, b.YMin, b.YMin + 32, 0, b.ZMax).cut(cyly(b.YMin - 1, b.YMin + 33, 0, (b.ZMin + b.ZMax) / 2, 14.1))
+meta(yh, spec='Y nut housing (CNC): wraps the C-KBS1505 nut body, flange on its +y face, bolted down into the datum plate (same face as the Y blocks)')
+# Z: housing bolted to the slide REAR face, flange (top) bolted onto it
+zn = O('Z_ball_nut'); b = zn.Shape.BoundBox                                               # body z 411..443, flange 443..453
+zc = ((b.XMin + b.XMax) / 2, (b.YMin + b.YMax) / 2)
+zh = box(-26, 26, 62, b.YMax, b.ZMin, b.ZMax - 10).cut(Part.makeCylinder(14.1, 34, V(zc[0], zc[1], b.ZMin - 1), V(0, 0, 1)))
+new('Z_nut_housing', zh, '05', 'custom (machined)', 'Z nut housing (CNC): wraps the nut body, flange on its top face, bolted to the slide rear face')
 # ---------------- electrics: drives on a panel behind the X plate
 for k, n in enumerate(('Servo_amp_X', 'Servo_amp_Y', 'Servo_amp_Z')):
     a = O(n); b = a.Shape.BoundBox; a.Shape = moved(a.Shape, (0, 262 - b.YMin, 0))
