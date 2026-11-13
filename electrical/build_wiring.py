@@ -218,7 +218,7 @@ for i, (t, c) in enumerate(legend):
 
 notes = (
 "假設與待核對事項\n"
-"1. 電源：單相 220V，兩條相線標 L1/L2 (不假設有 N)。若現場為三相，MR-J4 改接 L1/L2/L3，變頻器改三相機種。\n"
+"1. 電源：單相 220V (現場已確認)，兩條相線標 L1/L2，不假設有 N。\n"
 "2. 容量為初估：PSU1 24V/3A、PSU2 24V/1A、PSU3 24V/5A；斷路器與接觸器額定值待負載核算。\n"
 "3. MR-J4-40A 單相接 L1/L2 (L3 不接)；L11/L21 控制電源取自接觸器之前，急停後驅動器仍保持供電與顯示。\n"
 "4. MR-J4 的 PP/PG/NP/NG/SON/EM2/ALM/MBR/DICOM/DOCOM 為信號名，接腳編號與輸入輸出極性請依 MR-J4-A 手冊核對。\n"
@@ -247,5 +247,5 @@ if __name__ == "__main__":
     print("verify:", "OK" if not errs else "%d problems" % len(errs))
     out = os.path.join(os.path.dirname(os.path.abspath(__file__)), "CNC_wiring.kicad_sch")
     S.write(out, "CNC 龍門銑床 電氣配線圖",
-            ["單相 220V；L1/L2 為兩條相線；MR-J4 端子名稱依原廠手冊確認", "控制器 RP23CNC V2.02 (grblHAL)；差動脈衝由 IFB1 線驅動板提供", "Rev A 2026-11-13"])
+            ["單相 220V (已確認)；L1/L2 為兩條相線；MR-J4 端子名稱依原廠手冊確認", "控制器 RP23CNC V2.02 (grblHAL)；差動脈衝由 IFB1 線驅動板提供", "Rev A 2026-11-13"])
     print("wrote", out)
