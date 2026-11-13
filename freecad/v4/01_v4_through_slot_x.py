@@ -1,0 +1,103 @@
+# -*- coding: utf-8 -*-
+"""v4 from v3 r7: X drive behind the X base plate (through-slot), X base plate t20 = gantry beam,
+columns forward to the Y blocks, datum plate t20.  Y and Z as r7.
+Run from the repository root:  freecadcmd freecad/v4/01_v4_through_slot_x.py"""
+import os
+import FreeCAD as App, Part
+from FreeCAD import Vector as V
+ROOT = os.environ.get('CNC_ROOT', os.getcwd())
+LOG = os.path.join(ROOT, 'output', 'v4', 'logs'); os.makedirs(LOG, exist_ok=True)
+doc = App.openDocument(ROOT + '/output/v3/CNC_v3_r7.FCStd')
+BIG = 3000
+def box(x0,x1,y0,y1,z0,z1): return Part.makeBox(x1-x0,y1-y0,z1-z0,V(x0,y0,z0))
+def cylx(x0,x1,y,z,r): return Part.makeCylinder(r,x1-x0,V(x0,y,z),V(1,0,0))
+def cyly(y0,y1,x,z,r): return Part.makeCylinder(r,y1-y0,V(x,y0,z),V(0,1,0))
+O = lambda l: doc.getObjectsByLabel(l)[0]
+def grp(p): return [g for g in doc.Objects if g.TypeId=='App::DocumentObjectGroup' and g.Label.startswith(p)][0]
+def meta(o, src=None, spec=None):
+    for pn,val in (('Source',src),('Spec',spec)):
+        if val is None: continue
+        if pn not in o.PropertiesList: o.addProperty('App::PropertyString',pn,'CNC')
+        setattr(o,pn,val)
+def new(name, shape, g, src, spec):
+    o = doc.addObject('Part::Feature', name); o.Shape = shape; meta(o, src, spec); grp(g).addObject(o); return o
+def rm(*labels):
+    for l in labels: doc.removeObject(O(l).Name)
+def moved(sh, d): s = sh.copy(); s.translate(V(*d)); return s
+
+# ---------------- key planes
+YPF, T = 162.0, 20.0              # X base plate front face (30 closer: spacer bars gone), thickness
+YPR = YPF + T                     # 182 rear face
+XS_Y, XS_Z = YPR + 25, 410.0      # X screw axis behind the plate (C-TEK12 centre height 25)
+CX0, CX1 = 280.0, 360.0           # columns |x|
+CY0, CY1 = YPF - 160, YPF         # columns y 2..162 (front at the rear Y blocks)
+DZ0 = -20.0                       # datum plate t20
+
+# ---------------- base: datum plate t20, trimmed to what it carries
+dp = O('Datum_base_plate'); dp.Shape = box(-CX1, CX1, -145, YPR, DZ0, 0)
+meta(dp, spec='Q235 t20 720x327 milled datum plate (single face): Y block seats, Y nut seat, column feet')
+
+# ---------------- gantry: no beams / joint plates; columns forward; X base plate t20 bolted to the column rear faces
+rm('Gantry_beam_1', 'Gantry_beam_2', 'Gantry_joint_plate_L', 'Gantry_joint_plate_R', 'X_rail_plate')
+for side, sx in (('L', -1), ('R', 1)):
+    c = O('Gantry_column_' + side); s = c.Shape; b = s.BoundBox
+    s = moved(s, ((CX0 - b.XMin) if sx > 0 else (-CX0 - b.XMax), CY0 - b.YMin, 0))   # inner face at |x|=280, y 2..162
+    cut = 174.0
+    lo = s.common(box(-BIG,BIG,-BIG,BIG,-BIG,cut)); hi = moved(s.common(box(-BIG,BIG,-BIG,BIG,cut,BIG)), (0,0,160))
+    sl = moved(s.common(box(-BIG,BIG,-BIG,BIG,18,178)), (0,0,cut-18))
+    c.Shape = lo.fuse([sl, hi]).removeSplitter(); meta(c, spec='HFS8-80160-472 (z18..490)')
+    f = O('Column_foot_' + side); f.Shape = box(min(sx*CX0, sx*CX1), max(sx*CX0, sx*CX1), CY0, YPR, 0, 18)
+SLOT = (-140.0, 195.0, 380.0, 440.0)
+xp = box(-CX1, CX1, YPF, YPR, 330, 490).cut(box(SLOT[0], SLOT[1], YPF-1, YPR+1, SLOT[2], SLOT[3]))
+new('X_base_plate', xp, '03', 'custom (machined)',
+    'steel t20 720x160 = gantry beam; front: X rails, rear: C-TEK12 + X motor block; slot 335x60 for the nut bracket; bolted to the column rear faces')
+
+# ---------------- X axis: rails L540 on the plate front, carriage straight on the blocks
+DYF = YPF - 192.0                 # -30
+for k in (1, 2):
+    r = O('X_rail_%d' % k); r.Shape = moved(r.Shape, (0, DYF, 0)).common(box(-270, 270, -BIG, BIG, -BIG, BIG))
+    meta(r, spec='SX2RNL28-540 rail (between the columns)')
+    for j in (1, 2):
+        b = O('X_block_%d%d' % (k, j)); b.Shape = moved(b.Shape, (0, DYF, 0))
+rm('X_spacer_1', 'X_spacer_2', 'X_coupling', 'X_motor_block')
+# screw: r7 screw (x -295..222.5 at y167) -> right 395 mm, fixed end at x=200, axis behind the plate
+xs = O('X_ballscrew'); s = xs.Shape.common(box(222.5-395, BIG, -BIG, BIG, -BIG, BIG))
+xs.Shape = moved(s, (-22.5, XS_Y-167, 0)); meta(xs, spec='C-KBS1505-395, fixed-free, behind the X base plate')
+n = O('X_ball_nut'); n.Shape = moved(n.Shape, (0, XS_Y-167, 0))
+tek = O('X_support_fixed'); s = tek.Shape.copy(); s.rotate(V(0,167,XS_Z), V(1,0,0), 180)   # base now faces -y (plate rear face)
+tek.Shape = moved(s, (-22.5, XS_Y-167, 0)); meta(tek, spec='C-TEK12 fixed support on the X base plate REAR face')
+j = O('X_journal'); j.Shape = cylx(200, 290, XS_Y, XS_Z, 6); meta(j, spec='screw end journal D12 (long, carries the belt pulley)')
+nb = O('X_nut_bracket')
+nb.Shape = box(21, 36, 134, XS_Y+25, SLOT[2]+5, SLOT[3]-5).cut(cylx(20, 37, XS_Y, XS_Z, 10))
+meta(nb, spec='steel t15: nut flange -> carriage rear, passes through the plate slot')
+# X motor folded under the screw with a 1:1 timing belt (motor turned back, width unchanged)
+MY, MZ, MF = XS_Y + 18, 320.0, 257.0     # motor axis y225 z320, flange face x=257 (shaft +x, body -x)
+m = O('X_motor'); s = m.Shape.copy(); s.rotate(V(332,167,410), V(0,0,1), 180)
+m.Shape = moved(s, (MF-332, MY-167, MZ-410)); meta(m, spec='HG-KR43 400 W, folded back under the X screw (1:1 belt)')
+PZ0, PZ1 = 270.0, 287.0
+new('X_pulley_screw', cylx(PZ0, PZ1, XS_Y, XS_Z, 16).cut(cylx(PZ0-1, PZ1+1, XS_Y, XS_Z, 6)), '04', 'MISUMI (to select)', 'timing pulley HTD5M 20T, bore 12')
+new('X_pulley_motor', cylx(PZ0, PZ1, MY, MZ, 16).cut(cylx(PZ0-1, PZ1+1, MY, MZ, 7)), '04', 'MISUMI (to select)', 'timing pulley HTD5M 20T, bore 14')
+import math
+def hull2(r):
+    # convex hull of two circles in the y-z plane, extruded along x
+    dy, dz = MY-XS_Y, MZ-XS_Z; L = math.hypot(dy, dz); ny, nz = -dz/L, dy/L
+    pts = [V(PZ0+1, XS_Y+ny*r, XS_Z+nz*r), V(PZ0+1, MY+ny*r, MZ+nz*r), V(PZ0+1, MY-ny*r, MZ-nz*r), V(PZ0+1, XS_Y-ny*r, XS_Z-nz*r)]
+    quad = Part.Face(Part.makePolygon(pts+[pts[0]])).extrude(V(PZ1-PZ0-2, 0, 0))
+    return quad.fuse(Part.makeCylinder(r, PZ1-PZ0-2, V(PZ0+1, XS_Y, XS_Z), V(1,0,0))).fuse(Part.makeCylinder(r, PZ1-PZ0-2, V(PZ0+1, MY, MZ), V(1,0,0)))
+new('X_belt', hull2(19.5).cut(hull2(16.0)).removeSplitter(), '04', 'MISUMI (to select)', 'timing belt HTD5M, 15 wide, 1:1, ~90 centre distance')
+mb = box(MF, MF+12, YPR, MY+33, MZ-35, 372).fuse(box(205, MF+12, YPR, YPR+10, 330, 372))
+mb = mb.cut(cylx(MF-1, MF+13, MY, MZ, 10)).cut(cylx(MF-1, MF+3, MY, MZ, 25.05))
+new('X_motor_block', mb.removeSplitter(), '04', 'custom (machined)',
+    'motor plate t12 + foot t10 bolted to the X base plate REAR face (same face as C-TEK12); pilot D50x3')
+# ---------------- electrics: drives on a panel behind the X plate
+for k, n in enumerate(('Servo_amp_X', 'Servo_amp_Y', 'Servo_amp_Z')):
+    a = O(n); b = a.Shape.BoundBox; a.Shape = moved(a.Shape, (0, 262 - b.YMin, 0))
+pan = box(-170, 50, 257, 262, 300, 520)
+for x in (-160, 30): pan = pan.fuse(box(x, x+20, YPR, 257, 460, 480))
+new('Electrical_panel', pan, '07', 'custom', 'steel sheet t5 + 2 standoffs from the X base plate rear face (above the screw)')
+doc.recompute(); doc.saveAs(ROOT + '/output/v4/CNC_v4.FCStd')
+out = []
+for o in doc.Objects:
+    if o.TypeId.startswith('Part::') and o.Label.startswith(('X_','Gantry','Column','Datum','Electrical','Servo')):
+        b = o.Shape.BoundBox; out.append('%-18s x[%6.1f,%6.1f] y[%6.1f,%6.1f] z[%6.1f,%6.1f]' % (o.Label,b.XMin,b.XMax,b.YMin,b.YMax,b.ZMin,b.ZMax))
+open(LOG + '/v4_parts.txt', 'w').write('\n'.join(out))
