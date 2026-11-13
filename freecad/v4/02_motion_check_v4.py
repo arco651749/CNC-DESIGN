@@ -17,7 +17,7 @@ EXPECT = {frozenset(p) for p in [('Y_ballscrew','Y_ball_nut'),('X_ballscrew','X_
   ('Z_rail_L','Z_block_L1'),('Z_rail_L','Z_block_L2'),('Z_rail_R','Z_block_R1'),('Z_rail_R','Z_block_R2'),
   ('Y_rail_L','Y_block_L1'),('Y_rail_L','Y_block_L2'),('Y_rail_R','Y_block_R1'),('Y_rail_R','Y_block_R2'),
   ('X_ballscrew','X_nut_bracket'),('X_journal','X_support_fixed'),('Y_journal','Y_support_fixed'),('Z_journal','Z_support_fixed'),
-  ('X_journal','X_pulley_screw'),('X_motor','X_pulley_motor'),('X_motor','X_motor_block')]}
+  ('X_motor','X_motor_block'),('X_coupling','X_journal'),('X_coupling','X_motor')]}
 def pose(dy, dx, dz):
     out = {}
     for n, s in P.items():
@@ -40,7 +40,7 @@ for dx in (-150, 150):
     S = pose(0, dx, 0); side = 'R' if dx > 0 else 'L'
     rep.append('dx=%+d: carriage-column %.1f, Z_motor_plate-column %.1f, X_block-column %.1f' % (dx, d('X_carriage_plate','Gantry_column_'+side,S), d('Z_motor_plate','Gantry_column_'+side,S), d('X_block_%s2' % ('2' if dx>0 else '1'),'Gantry_column_'+side,S) if False else min(d('X_block_12','Gantry_column_'+side,S), d('X_block_11','Gantry_column_'+side,S))))
     rep.append('dx=%+d: nut_bracket-plate(slot) %.1f, nut-plate %.1f, nut-support %.1f, nut-panel %.1f' % (dx, d('X_nut_bracket','X_base_plate',S), d('X_ball_nut','X_base_plate',S), d('X_ball_nut','X_support_fixed',S), d('X_ball_nut','Electrical_panel',S)))
-rep.append('belt-plate %.1f, belt-motor_block %.1f, motor-plate %.1f, pulley_screw-plate %.1f' % (d('X_belt','X_base_plate'), d('X_belt','X_motor_block'), d('X_motor','X_base_plate'), d('X_pulley_screw','X_base_plate')))
+rep.append('motor-plate %.1f, coupling-plate %.1f, motor-column_R %.1f, motor_block-support %.1f' % (d('X_motor','X_base_plate'), d('X_coupling','X_base_plate'), d('X_motor','Gantry_column_R'), d('X_motor_block','X_support_fixed')))
 for dy in (-250, 150):
     S = pose(dy, 0, 0); rep.append('dy=%+d: table-column %.1f, Y_motor-plate %.1f, Y_motor-datum %.1f, Y_motor_block-panel %.1f' % (dy, min(d('Work_table','Gantry_column_L',S), d('Work_table','Gantry_column_R',S)), d('Y_motor','X_base_plate',S), d('Y_motor','Datum_base_plate',S), d('Y_motor','Electrical_panel',S)))
 S = pose(0, 0, -50); rep.append('dz=-50: carriage bottom z %.0f, tool tip z %.0f' % (S['X_carriage_plate'].BoundBox.ZMin, S['Tool_D5'].BoundBox.ZMin))

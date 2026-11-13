@@ -9,6 +9,8 @@ ROOT = os.environ.get('CNC_ROOT', os.getcwd())
 LOG = os.path.join(ROOT, 'output', 'v4', 'logs'); os.makedirs(LOG, exist_ok=True)
 doc = App.openDocument(ROOT + '/output/v3/CNC_v3_r7.FCStd')
 BIG = 3000
+R7_COUPLING = doc.getObjectsByLabel('X_coupling')[0].Shape.copy()
+R7_MOTOR = doc.getObjectsByLabel('X_motor')[0].Shape.copy()
 def box(x0,x1,y0,y1,z0,z1): return Part.makeBox(x1-x0,y1-y0,z1-z0,V(x0,y0,z0))
 def cylx(x0,x1,y,z,r): return Part.makeCylinder(r,x1-x0,V(x0,y,z),V(1,0,0))
 def cyly(y0,y1,x,z,r): return Part.makeCylinder(r,y1-y0,V(x,y0,z),V(0,1,0))
@@ -47,10 +49,10 @@ for side, sx in (('L', -1), ('R', 1)):
     sl = moved(s.common(box(-BIG,BIG,-BIG,BIG,18,178)), (0,0,cut-18))
     c.Shape = lo.fuse([sl, hi]).removeSplitter(); meta(c, spec='HFS8-80160-472 (z18..490)')
     f = O('Column_foot_' + side); f.Shape = box(min(sx*CX0, sx*CX1), max(sx*CX0, sx*CX1), CY0, YPR, 0, 18)
-SLOT = (-140.0, 195.0, 380.0, 440.0)
+SLOT = (-181.0, 166.0, 374.0, 446.0)
 xp = box(-CX1, CX1, YPF, YPR, 330, 490).cut(box(SLOT[0], SLOT[1], YPF-1, YPR+1, SLOT[2], SLOT[3]))
 new('X_base_plate', xp, '03', 'custom (machined)',
-    'steel t20 720x160 = gantry beam; front: X rails, rear: C-TEK12 + X motor block; slot 335x60 for the nut bracket; bolted to the column rear faces')
+    'steel t20 720x160 = gantry beam; front: X rails, rear: C-TEK12 + X motor block; slot 347x72 for the nut housing; bolted to the column rear faces')
 
 # ---------------- X axis: rails L540 on the plate front, carriage straight on the blocks
 DYF = YPF - 192.0                 # -30
@@ -66,29 +68,27 @@ xs.Shape = moved(s, (-22.5, XS_Y-167, 0)); meta(xs, spec='C-KBS1505-395, fixed-f
 n = O('X_ball_nut'); n.Shape = moved(n.Shape, (0, XS_Y-167, 0))
 tek = O('X_support_fixed'); s = tek.Shape.copy(); s.rotate(V(0,167,XS_Z), V(1,0,0), 180)   # base now faces -y (plate rear face)
 tek.Shape = moved(s, (-22.5, XS_Y-167, 0)); meta(tek, spec='C-TEK12 fixed support on the X base plate REAR face')
-j = O('X_journal'); j.Shape = cylx(200, 290, XS_Y, XS_Z, 6); meta(j, spec='screw end journal D12 (long, carries the belt pulley)')
+# nut housing: one CNC block wrapping the ball nut body (D28), flange (52x45, +x end) bolted to its +x face,
+# the block passes through the plate slot and bolts to the carriage rear face
 nb = O('X_nut_bracket')
-nb.Shape = box(21, 36, 134, XS_Y+25, SLOT[2]+5, SLOT[3]-5).cut(cylx(20, 37, XS_Y, XS_Z, 10))
-meta(nb, spec='steel t15: nut flange -> carriage rear, passes through the plate slot')
-# X motor folded under the screw with a 1:1 timing belt (motor turned back, width unchanged)
-MY, MZ, MF = XS_Y + 18, 320.0, 257.0     # motor axis y225 z320, flange face x=257 (shaft +x, body -x)
-m = O('X_motor'); s = m.Shape.copy(); s.rotate(V(332,167,410), V(0,0,1), 180)
-m.Shape = moved(s, (MF-332, MY-167, MZ-410)); meta(m, spec='HG-KR43 400 W, folded back under the X screw (1:1 belt)')
-PZ0, PZ1 = 270.0, 287.0
-new('X_pulley_screw', cylx(PZ0, PZ1, XS_Y, XS_Z, 16).cut(cylx(PZ0-1, PZ1+1, XS_Y, XS_Z, 6)), '04', 'MISUMI (to select)', 'timing pulley HTD5M 20T, bore 12')
-new('X_pulley_motor', cylx(PZ0, PZ1, MY, MZ, 16).cut(cylx(PZ0-1, PZ1+1, MY, MZ, 7)), '04', 'MISUMI (to select)', 'timing pulley HTD5M 20T, bore 14')
-import math
-def hull2(r):
-    # convex hull of two circles in the y-z plane, extruded along x
-    dy, dz = MY-XS_Y, MZ-XS_Z; L = math.hypot(dy, dz); ny, nz = -dz/L, dy/L
-    pts = [V(PZ0+1, XS_Y+ny*r, XS_Z+nz*r), V(PZ0+1, MY+ny*r, MZ+nz*r), V(PZ0+1, MY-ny*r, MZ-nz*r), V(PZ0+1, XS_Y-ny*r, XS_Z-nz*r)]
-    quad = Part.Face(Part.makePolygon(pts+[pts[0]])).extrude(V(PZ1-PZ0-2, 0, 0))
-    return quad.fuse(Part.makeCylinder(r, PZ1-PZ0-2, V(PZ0+1, XS_Y, XS_Z), V(1,0,0))).fuse(Part.makeCylinder(r, PZ1-PZ0-2, V(PZ0+1, MY, MZ), V(1,0,0)))
-new('X_belt', hull2(19.5).cut(hull2(16.0)).removeSplitter(), '04', 'MISUMI (to select)', 'timing belt HTD5M, 15 wide, 1:1, ~90 centre distance')
-mb = box(MF, MF+12, YPR, MY+33, MZ-35, 372).fuse(box(205, MF+12, YPR, YPR+10, 330, 372))
-mb = mb.cut(cylx(MF-1, MF+13, MY, MZ, 10)).cut(cylx(MF-1, MF+3, MY, MZ, 25.05))
+nb.Shape = box(-26, 11, 134, XS_Y + 22, SLOT[2] + 4, SLOT[3] - 4).cut(cylx(-27, 12, XS_Y, XS_Z, 14.1))
+meta(nb, spec='nut housing (CNC): wraps the C-KBS1505 nut body, flange bolted to the +x face; passes through the slot, 4 bolts into the carriage rear face')
+# X motor direct (CPJC40 coupling), in line behind the plate; motor half-width 30 > axis offset 25,
+# so the plate rear gets a 7 mm locating pocket where the motor block and motor sit
+jr = O('X_journal'); jr.Shape = cylx(200, 263.5, XS_Y, XS_Z, 6); meta(jr, spec='screw end journal D12')
+cp = doc.addObject('Part::Feature', 'X_coupling'); grp('04').addObject(cp)
+cp.Shape = moved(R7_COUPLING, (-22.5, XS_Y - 167, 0)); meta(cp, 'MISUMI', 'CPJC40-RD-12-14')
+m = O('X_motor'); m.Shape = moved(R7_MOTOR, (-22.5, XS_Y - 167, 0))
+meta(m, spec='HG-KR43 400 W, direct (CPJC40), behind the X base plate')
+xb = O('X_base_plate'); xb.Shape = xb.Shape.cut(box(266, CX1 + 1, YPR - 7, YPR + 1, 368, 452)).removeSplitter()
+meta(xb, spec='steel t20 720x160 = gantry beam; front: X rails; rear: C-TEK12 + 7 mm pocket for the X motor block; slot 347x72 for the nut housing; bolted to the column rear faces')
+MF = 309.5                                                     # motor flange face
+mb = box(MF - 38, MF, YPR - 7, XS_Y + 35, 372, 448)            # Z-style block, front part sits in the pocket
+mb = mb.cut(cylx(MF - 39, MF + 1, XS_Y, XS_Z, 22)).cut(cylx(MF - 3, MF + 1, XS_Y, XS_Z, 25.05))
+for xx in (MF - 30, MF - 8):
+    for zz in (380, 440): mb = mb.cut(cyly(YPR - 8, XS_Y + 36, xx, zz, 3.3))
 new('X_motor_block', mb.removeSplitter(), '04', 'custom (machined)',
-    'motor plate t12 + foot t10 bolted to the X base plate REAR face (same face as C-TEK12); pilot D50x3')
+    'Z-style block in the 7 mm pocket of the X base plate REAR face, 4xM6 (same face as C-TEK12); bore D44, pilot D50x3')
 # ---------------- electrics: drives on a panel behind the X plate
 for k, n in enumerate(('Servo_amp_X', 'Servo_amp_Y', 'Servo_amp_Z')):
     a = O(n); b = a.Shape.BoundBox; a.Shape = moved(a.Shape, (0, 262 - b.YMin, 0))
