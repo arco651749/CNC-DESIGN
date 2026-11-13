@@ -1,8 +1,6 @@
-﻿*.FCBak
+*.FCBak
 __pycache__/
 
-# Vendor CAD (MISUMI / Mitsubishi terms of use) - keep local only
-vendor/
-# outputs that embed vendor geometry
-output/v3/*.step
 output/v3/*.FCStd
+# FreeCAD documents (binary, large) stay local
+*.FCStd
