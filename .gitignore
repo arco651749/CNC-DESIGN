@@ -38,3 +38,4 @@ output/v10/fea/frame/*.cvg
 output/v10/fea/frame/*.12d
 output/v10/fea/frame/spooles.out
 output/v10/fea/frame/solve.log
+output/v10/fea/frame_coarse/

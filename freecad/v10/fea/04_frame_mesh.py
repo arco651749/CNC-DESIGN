@@ -8,7 +8,7 @@ import os, json, subprocess
 import FreeCAD as App
 
 ROOT = os.environ.get('CNC_ROOT') or r'D:\Claude\CNC DESIGN'
-WORK = os.path.join(ROOT, 'output', 'v10', 'fea', 'frame'); os.makedirs(WORK, exist_ok=True)
+WORK = os.path.join(ROOT, 'output', 'v10', 'fea', os.environ.get('FRAME_DIR', 'frame')); os.makedirs(WORK, exist_ok=True)
 GMSH = os.environ.get('GMSH', r'C:\Program Files\FreeCAD 1.1\bin\gmsh.exe')
 CLMAX, CLMIN = float(os.environ.get('CLMAX', 6)), float(os.environ.get('CLMIN', 2))
 doc = App.openDocument(os.path.join(ROOT, 'output', 'v10', 'CNC_v10.FCStd'))
@@ -33,7 +33,7 @@ for g in ('PLATE', 'COLUMN', 'FOOT'):
         parts.append('v_%s_%d()' % (g, k))
     geo.append('Physical Volume("%s") = {%s};' % (g, ', '.join(parts)))
 geo += ['Mesh.CharacteristicLengthMax = %g;' % CLMAX, 'Mesh.CharacteristicLengthMin = %g;' % CLMIN,
-        'Mesh.ElementOrder = 2;', 'Mesh.SecondOrderLinear = 1;', 'Mesh.Algorithm3D = 10;', 'Mesh.SaveAll = 0;', 'Mesh 3;',
+        'Mesh.ElementOrder = 2;', 'Mesh.SecondOrderLinear = 1;', 'Mesh.Algorithm3D = %s;' % os.environ.get('ALGO3D', '10'), 'Mesh.SaveAll = 0;', 'Mesh 3;',
         'Save "%s";' % os.path.join(WORK, 'frame_mesh.inp').replace('\\', '/')]
 gp = os.path.join(WORK, 'frame.geo'); open(gp, 'w').write('\n'.join(geo) + '\n')
 r = subprocess.run([GMSH, gp, '-0', '-nt', '4'], capture_output=True, text=True)

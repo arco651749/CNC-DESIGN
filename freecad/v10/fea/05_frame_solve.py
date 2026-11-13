@@ -9,7 +9,8 @@ import os, re, json, subprocess
 import numpy as np
 
 ROOT = os.environ.get('CNC_ROOT') or r'D:\Claude\CNC DESIGN'
-FEA = os.path.join(ROOT, 'output', 'v10', 'fea'); WORK = os.path.join(FEA, 'frame')
+FEA = os.path.join(ROOT, 'output', 'v10', 'fea'); WORK = os.path.join(FEA, os.environ.get('FRAME_DIR', 'frame'))
+SOLVER = os.environ.get('SOLVER', 'ITERATIVE CHOLESKY')   # or SPOOLES (direct, multithreaded, more memory)
 CCX = os.environ.get('CCX', r'C:\Program Files\FreeCAD 1.1\bin\ccx.exe')
 H = json.load(open(os.path.join(FEA, 'head_mass.json'), encoding='utf-8'))
 PLATE_ONLY = json.load(open(os.path.join(FEA, 'results.json'), encoding='utf-8'))
@@ -78,7 +79,7 @@ for name, (tfy, xc) in CASES.items():
         f.write('*MATERIAL, NAME=STEEL\n*ELASTIC\n210000.,0.3\n*DENSITY\n7.85e-9\n')
         f.write('*MATERIAL, NAME=AL6063\n*ELASTIC\n69000.,0.33\n*DENSITY\n2.70e-9\n')
         f.write('*SOLID SECTION, ELSET=PLATE, MATERIAL=STEEL\n*SOLID SECTION, ELSET=FOOT, MATERIAL=STEEL\n*SOLID SECTION, ELSET=COLUMN, MATERIAL=AL6063\n')
-        f.write('*BOUNDARY\nNFIX,1,3\n*STEP\n*STATIC, SOLVER=ITERATIVE CHOLESKY\n*DLOAD\nPLATE,GRAV,9810.,0.,0.,-1.\nFOOT,GRAV,9810.,0.,0.,-1.\nCOLUMN,GRAV,9810.,0.,0.,-1.\n*CLOAD\n')
+        f.write('*BOUNDARY\nNFIX,1,3\n*STEP\n*STATIC, SOLVER=%s\n' % SOLVER + '*DLOAD\nPLATE,GRAV,9810.,0.,0.,-1.\nFOOT,GRAV,9810.,0.,0.,-1.\nCOLUMN,GRAV,9810.,0.,0.,-1.\n*CLOAD\n')
         for (s, dof), F in rail_loads(tfy).items():
             sel = ids[top if s == 'top' else bot]
             for n in sel: f.write('%d,%d,%.6e\n' % (n, dof, F / len(sel)))
