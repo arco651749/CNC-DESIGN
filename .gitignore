@@ -25,3 +25,16 @@ output/v10/fea/*.cvg
 output/v10/fea/*.dat
 output/v10/fea/*.sta
 output/v10/fea/spooles.out
+output/v10/fea/frame/*.inp
+output/v10/fea/frame/*.frd
+output/v10/fea/frame/*.npy
+output/v10/fea/frame/*.step
+output/v10/fea/frame/*.xao
+output/v10/fea/frame/*.geo_unrolled
+output/v10/fea/frame/*.ccxlog
+output/v10/fea/frame/*.dat
+output/v10/fea/frame/*.sta
+output/v10/fea/frame/*.cvg
+output/v10/fea/frame/*.12d
+output/v10/fea/frame/spooles.out
+output/v10/fea/frame/solve.log
