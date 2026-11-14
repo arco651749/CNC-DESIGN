@@ -100,7 +100,7 @@ const G=()=>new THREE.Group();
 function pv(parent,p){const o=G(),i=G();o.position.copy(p);i.position.copy(p).negate();o.add(i);parent.add(o);return{o,i}}
 const base=G(),yG=G();scene.add(base,yG);
 const gan=pv(scene,new V(-320,172,0)),xp=pv(gan.i,new V(-320,172,360)),xG=G();xp.i.add(xG);
-const zp=pv(xG,new V(0,121.5,250)),zG=G();zp.i.add(zG);const sp=pv(zG,new V(-64,33,352));
+const zp=pv(xG,new V(0,121.5,466)),zG=G();zp.i.add(zG);const sp=pv(zG,new V(-64,33,352));
 const dest={base,y:yG,gan:gan.i,xp:xp.i,x:xG,zp:zp.i,z:zG,sp:sp.i};
 function b64(s,T){const b=atob(s),u=new Uint8Array(b.length);for(let i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return new T(u.buffer)}
 const parts=[],EDGE=new THREE.LineBasicMaterial({color:0x1b1f22,transparent:true,opacity:.3});
@@ -129,11 +129,11 @@ const ST=[
   ['為什麼要灌樹脂','兩支立柱的傾角不會完全一樣，背面不在同一平面。X 底板硬鎖上去會被扭轉，X 線軌跟著扭。所以 X 底板在立柱位置的前面銑低 1 mm，和立柱留 1 mm 縫；調好後從 X 底板背面的注入孔灌環氧樹脂墊（每柱 4 個，綠色），固化後再鎖緊螺栓。'],
   ['可拆','頂高螺絲和托座在樹脂固化後拆下。']]},
 {t:'4 Z 軸三個方向：鋼珠＋三支螺絲',tags:['ztram'],also:/^(Z_epoxy_pad_|Z_ball$)/,dof:'ztram',cam:{p:[620,-1000,760],t:[0,110,470]},
- sec:[['機構','鞍板鎖在 X 滑塊上；Z 板和鞍板之間留 1 mm，只靠下方中央一顆 Ø12 鋼珠接觸。鋼珠是所有轉動的支點。'],
-  ['前後傾（繞 X）','Z 板上方兩角各一支 M6×0.5 螺絲穿過 Z 板頂在鞍板上，兩支一起進退，Z 板繞鋼珠前後傾。距鋼珠 408 mm。'],
+ sec:[['機構','鞍板鎖在 X 滑塊上；Z 板和鞍板之間留 1 mm，只靠 Z 板正中央一顆 Ø12 鋼珠接觸。鋼珠是所有轉動的支點，往哪個方向傾都可以，範圍約 ±4.1 mrad。'],
+  ['前後傾（繞 X）','Z 板上方兩側各一支差動螺絲（每轉 0.25 mm）穿過 Z 板頂在鞍板上，兩支一起進退，Z 板繞鋼珠前後傾。距鋼珠 234 mm。'],
   ['繞 Z 轉','兩支螺絲一進一退時 Z 板繞 Z 轉。Z 線軌本身沿 Z，這個轉動不影響垂直度，保持兩支等量即可。'],
-  ['左右傾（繞 Y）','鞍板兩側耳上各一個頂推塊，螺絲對頂 Z 板側邊，距鋼珠 430 mm。'],
-  ['一格多少','螺絲轉 10° 約 32 µrad，Z 走 100 mm 約 0.003 mm。'],
+  ['左右傾（繞 Y）','鞍板兩側耳上各一個頂推塊，差動螺絲對頂 Z 板側邊，距鋼珠 214 mm。'],
+  ['一格多少','螺絲轉 10° 約 30 µrad，Z 走 100 mm 約 0.003 mm。'],
   ['固化','調好後從 Z 板前面的注入孔灌樹脂墊（6 個，圍著夾緊螺栓），固化後退開三支調整螺絲、鎖緊螺栓。之後 Z 板和鞍板就是一體。三支螺絲和兩個頂推塊拆下。']]},
 {t:'5 主軸：預先對 Z 線軌調好',tags:['spindle'],dof:'spindle',cam:{p:[430,-640,560],t:[0,0,400]},
  sec:[['機構','夾座兩側加高的耳朵（181 mm）離開滑板 2 mm，站在 4 疊墊片上。上下墊片的差決定前後傾；左耳下方一支 Ø6 樞軸銷，耳朵頂部兩側兩個頂推塊調左右傾。主軸往前移 8 mm，夾座後壁才有 7.5 mm。'],

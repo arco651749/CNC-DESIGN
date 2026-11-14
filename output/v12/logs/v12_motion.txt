@@ -23,7 +23,7 @@ CLEARANCES:
   home  Spindle_clamp          - Z_slide_plate             2.0 mm
   home  Spindle_clamp          - Spindle_plug              2.0 mm
   home  Spindle_roll_block_R   - Spindle_clamp             2.0 mm
-  home  Z_face_screw_R         - Z_motor_plate            51.6 mm
+  home  Z_face_screw_R         - Z_motor_plate            23.5 mm
   home  Tool_D5                - Work_table               70.1 mm
   home  ER11_nut               - Work_table               92.0 mm
   dx-150 X_saddle_plate         - Gantry_column_L          10.0 mm
@@ -41,9 +41,9 @@ CLEARANCES:
   dz-50 Tool_D5                - Work_table               20.5 mm
   dz-50 Spindle_clamp          - Work_table              159.0 mm
   dz-50 Spindle_roll_screw_R   - Z_support_fixed         188.7 mm
-  dz-50 Z_face_screw_R         - Z_slide_plate           160.3 mm
+  dz-50 Z_face_screw_R         - Z_slide_plate           199.8 mm
   dz+50 Tool_D5                - Work_table              120.1 mm
   dz+50 Spindle_clamp          - Work_table              259.0 mm
   dz+50 Spindle_roll_screw_R   - Z_support_fixed         102.8 mm
-  dz+50 Z_face_screw_R         - Z_slide_plate            65.3 mm
+  dz+50 Z_face_screw_R         - Z_slide_plate           103.0 mm
   tool y -8.0 covers table y -158.0 .. 242.0

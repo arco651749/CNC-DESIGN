@@ -48,7 +48,7 @@ X_roll_jack                -  xlevel   KIT  x[  313.5,  326.5] y[  165.5,  178.5
 X_roll_bracket_bolt_1      -  xlevel   KIT  x[  295.0,  305.0] y[  157.0,  192.0] z[  203.0,  213.0]  OK
 X_roll_bracket_bolt_2      -  xlevel   KIT  x[  335.0,  345.0] y[  157.0,  192.0] z[  203.0,  213.0]  OK
 X_saddle_plate             x  ztram         x[ -142.0,  142.0] y[  121.5,  134.0] z[  222.0,  706.0]  OK
-Z_ball                     x  ztram         x[   -6.0,    6.0] y[  115.5,  127.5] z[  244.0,  256.0]  OK
+Z_ball                     x  ztram         x[   -6.0,    6.0] y[  115.5,  127.5] z[  460.0,  472.0]  OK
 Z_clamp_bolt_1             x  ztram         x[ -113.0, -103.0] y[   98.0,  132.0] z[  235.0,  245.0]  OK
 Z_epoxy_pad_1              x  epoxy         x[ -119.0,  -97.0] y[  121.0,  122.0] z[  229.0,  251.0]  OK
 Z_clamp_bolt_2             x  ztram         x[ -113.0, -103.0] y[   98.0,  132.0] z[  615.0,  625.0]  OK
@@ -61,12 +61,12 @@ Z_clamp_bolt_5             x  ztram         x[  103.0,  113.0] y[   98.0,  132.0
 Z_epoxy_pad_5              x  epoxy         x[   97.0,  119.0] y[  121.0,  122.0] z[  609.0,  631.0]  OK
 Z_clamp_bolt_6             x  ztram         x[  103.0,  113.0] y[   98.0,  132.0] z[  691.0,  701.0]  OK
 Z_epoxy_pad_6              x  epoxy         x[   97.0,  119.0] y[  121.0,  122.0] z[  685.0,  707.0]  OK
-Z_face_screw_R             x  ztram    KIT  x[  103.0,  113.0] y[   92.0,  122.0] z[  653.0,  663.0]  OK
+Z_face_screw_R             x  ztram    KIT  x[   83.5,   96.5] y[   92.0,  122.0] z[  693.5,  706.5]  OK
 Z_roll_block_R             x  ztram    KIT  x[  124.0,  142.0] y[  104.0,  122.0] z[  664.0,  696.0]  OK
 Z_roll_screw_R             x  ztram    KIT  x[  120.0,  150.0] y[  107.0,  118.0] z[  674.5,  685.5]  OK
 Z_roll_block_bolt_R1       x  ztram    KIT  x[  128.8,  137.2] y[   99.0,  132.0] z[  665.8,  674.2]  OK
 Z_roll_block_bolt_R2       x  ztram    KIT  x[  128.8,  137.2] y[   99.0,  132.0] z[  685.8,  694.2]  OK
-Z_face_screw_L             x  ztram    KIT  x[ -113.0, -103.0] y[   92.0,  122.0] z[  653.0,  663.0]  OK
+Z_face_screw_L             x  ztram    KIT  x[  -96.5,  -83.5] y[   92.0,  122.0] z[  693.5,  706.5]  OK
 Z_roll_block_L             x  ztram    KIT  x[ -142.0, -124.0] y[  104.0,  122.0] z[  664.0,  696.0]  OK
 Z_roll_screw_L             x  ztram    KIT  x[ -150.0, -120.0] y[  107.0,  118.0] z[  674.5,  685.5]  OK
 Z_roll_block_bolt_L1       x  ztram    KIT  x[ -137.2, -128.8] y[   99.0,  132.0] z[  665.8,  674.2]  OK

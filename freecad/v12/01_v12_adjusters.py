@@ -7,10 +7,11 @@
   3 X level      X plate turns on a horizontal D10 pin in the LEFT column, a vertical M8x0.75 jack lifts the RIGHT end (lever 640).
                  The X plate stands 1 mm off the column faces (1 mm step milled on its front face outside the rails) and the joint
                  is frozen by injected epoxy pads, so two columns that lean differently cannot twist the ground X plate
-  4 Z (3 axes)   saddle (on the X blocks) + Z plate, 1 mm apart, touching only through a D12 steel ball at the bottom centre
-                 (pivot for every rotation). Two push screws through the Z plate at the top (common mode = nod about X,
-                 differential = turn about Z, which does not affect squareness), opposed side screws at the top = roll about Y
-                 (lever 408-430). Frozen by injected epoxy pads round the 6 clamp bolts
+  4 Z (3 axes)   saddle (on the X blocks) + Z plate, 1 mm apart, touching only through a D12 steel ball at the CENTRE of the
+                 plate (pivot for every rotation; tilts either way, +-4.1 mrad before the plate edge meets the saddle).
+                 Two differential push screws (0.25 mm/rev) through the Z plate at the top (common mode = nod about X,
+                 differential = turn about Z, which does not affect squareness), opposed differential side screws = roll
+                 about Y (levers 234 / 214). Frozen by injected epoxy pads round the 6 clamp bolts
   5 spindle      spindle // Z rails preset as a sub-assembly: tall clamp ears on 4 shim packs (nod, lever 165) and a D6 roll pivot
                  with removable push blocks (roll). Spindle axis moved to y-8 so the clamp has a real rear wall
 Removable alignment kit (Kit = 'removable'): yaw push-pull block, X-level jack + bracket, Z face screws, Z roll blocks,
@@ -124,8 +125,9 @@ prop(zp, 'Spec', 'Z plate, steel t17 240x488: Z rails, Z screw, Z motor plate. 1
 tag('X_carriage_plate', 'ztram')
 sad = fuse(box(-120, 120, 122, 134, 222, 706), box(120, 142, 122, 134, 652, 706), box(-142, -120, 122, 134, 652, 706))
 add('X_saddle_plate', sad, '04 X-axis', 'saddle, steel t12 with two ears above the columns: bolted to the 4 X blocks and the X nut bracket', 'x', 'ztram')
-ball = Part.makeSphere(6, V(0, 121.5, 250))
-add('Z_ball', ball, G, 'D12 hardened steel ball in spherical seats in both plates: the single contact and pivot of the Z plate', 'x', 'ztram')
+ball = Part.makeSphere(6, V(0, 121.5, 466))
+add('Z_ball', ball, G, 'D12 hardened steel ball in spherical seats in both plates, at the centre of the Z plate (z466): the single contact '
+    'and pivot; the plate tilts either way by up to 1/244 = 4.1 mrad before an edge meets the saddle', 'x', 'ztram')
 cut('X_carriage_plate', ball); cut('X_saddle_plate', ball)
 k = 0
 for x in (-108, 108):
@@ -139,14 +141,14 @@ for x in (-108, 108):
         cut('X_carriage_plate', cyl('y', 1.5, 104, 121, x, z + 8))
 for sgn, T in ((1, 'R'), (-1, 'L')):
     m = lambda s: mir(s, sgn)
-    s = m(fuse(cyl('y', 3, 92, 122, 108, 658), cyl('y', 5, 99, 104, 108, 658)))
-    add('Z_face_screw_' + T, s, G, 'M6x0.5 push screw through the Z plate, tip on the saddle (430 above the ball): both = nod about X, '
-        'one = turn about Z (no effect on squareness, keep equal). 10 deg = 32 urad', 'x', 'ztram')
-    cut('X_carriage_plate', m(cyl('y', 3, 104, 121, 108, 658)))
+    s = m(fuse(cyl('y', 4, 92, 122, 90, 700), cyl('y', 6.5, 98, 104, 90, 700)))
+    add('Z_face_screw_' + T, s, G, 'differential push screw (M8x0.75 outer / M6x0.5 inner = 0.25 mm/rev) through the Z plate, tip on the saddle, '
+        '234 above the ball: both = nod about X, one = turn about Z (no effect on squareness, keep equal). 10 deg = 30 urad', 'x', 'ztram')
+    cut('X_carriage_plate', m(cyl('y', 4, 104, 121, 90, 700)))
     add('Z_roll_block_' + T, m(box(124, 142, 104, 122, 664, 696).cut(cyl('x', 3, 124, 142, 112.5, 680)).cut(cyl('y', 2.75, 104, 122, 133, 670)).cut(cyl('y', 2.75, 104, 122, 133, 690))),
         G, 'steel block 18x18x32 on the saddle ear, beside the Z plate edge', 'x', 'ztram')
     add('Z_roll_screw_' + T, m(fuse(cyl('x', 3, 120, 150, 112.5, 680), cyl('x', 5.5, 142, 147, 112.5, 680))), G,
-        'M6x0.5 opposed side screw, tip on the Z plate edge 430 above the ball: roll about Y. 10 deg = 32 urad', 'x', 'ztram')
+        'opposed differential side screw (0.25 mm/rev), tip on the Z plate edge 214 above the ball: roll about Y. 10 deg = 32 urad', 'x', 'ztram')
     for kk, z in enumerate((670, 690), 1):
         add('Z_roll_block_bolt_%s%d' % (T, kk), m(fuse(cyl('y', 4.25, 99, 104, 133, z), cyl('y', 2.5, 104, 132, 133, z))), G, 'M5 SHCS', 'x', 'ztram')
         cut('X_saddle_plate', m(cyl('y', 2.5, 122, 132, 133, z)))

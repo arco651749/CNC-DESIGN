@@ -56,13 +56,13 @@ th{font-size:12px;color:var(--mut);font-weight:700}
   <div class="row pad"><button type="button" data-v="iso">全景</button><button type="button" data-v="ball">鋼珠特寫</button><button type="button" data-v="top">螺絲特寫</button><button type="button" data-v="front">正面</button></div>
   <div id="exrow" class="pad"><label for="ex">爆炸圖</label><input id="ex" type="range" min="0" max="80" value="40"><output id="exv">40 mm</output></div>
   <div id="body" class="pad">
-   <section><h2>結構</h2><p>鞍板（t12）鎖在 4 顆 X 滑塊上，之後不再動。Z 板（t17）帶著 Z 線軌、螺桿和馬達。兩片之間留 1 mm，只靠下方中央一顆 Ø12 淬硬鋼珠接觸；鋼珠坐在兩片板的球面座裡，定住三個平移，也是所有轉動的支點。</p></section>
+   <section><h2>結構</h2><p>鞍板（t12）鎖在 4 顆 X 滑塊上，之後不再動。Z 板（t17）帶著 Z 線軌、螺桿和馬達。兩片之間留 1 mm，只靠 Z 板正中央一顆 Ø12 淬硬鋼珠接觸；鋼珠坐在兩片板的球面座裡，定住三個平移，也是所有轉動的支點。放在中央，往哪個方向傾都對稱，範圍約 ±4.1 mrad（Z 板上下緣各距鋼珠 244 mm，碰到鞍板前可轉 1/244）。</p></section>
    <section><h2>三個方向怎麼調</h2>
     <table><tr><th>方向</th><th>轉哪支</th><th>效果</th></tr>
-    <tr><td>前後傾（繞 X）</td><td><span class="sw" style="background:#E05C1F"></span>上方兩支面螺絲<b>一起</b>進退</td><td>Z 行程對 Y 的垂直度</td></tr>
-    <tr><td>左右傾（繞 Y）</td><td><span class="sw" style="background:#E05C1F"></span>兩側側推螺絲一退一進</td><td>Z 行程對 X 的垂直度</td></tr>
+    <tr><td>前後傾（繞 X）</td><td><span class="sw" style="background:#E05C1F"></span>上方兩支差動面螺絲<b>一起</b>進退</td><td>Z 行程對 Y 的垂直度</td></tr>
+    <tr><td>左右傾（繞 Y）</td><td><span class="sw" style="background:#E05C1F"></span>兩側差動側推螺絲一退一進</td><td>Z 行程對 X 的垂直度</td></tr>
     <tr><td>繞 Z 轉</td><td><span class="sw" style="background:#E05C1F"></span>兩支面螺絲一進一退</td><td>不影響垂直度，兩支保持等量即可</td></tr></table></section>
-   <section><h2>一格多少</h2><p>螺絲都是 M6×0.5。面螺絲距鋼珠 408 mm、側推螺絲 430 mm：轉 10° 約 32 µrad，也就是 Z 走 100 mm 約 0.003 mm。1 mm 的縫讓前後傾有約 ±2.4 mrad 的範圍。</p></section>
+   <section><h2>一格多少</h2><p>鋼珠在中央，力臂比放下方短（面螺絲 234 mm、側推螺絲 214 mm），所以調整螺絲改用差動螺絲：外牙 M8×0.75、內牙 M6×0.5，每轉只前進 0.25 mm。轉 10° 約 30 µrad，也就是 Z 走 100 mm 約 0.003 mm。</p></section>
    <section><h2>調整與固化的順序</h2><p>1. 夾緊螺栓帶碟形彈簧輕鎖，讓 Z 板壓著鋼珠和螺絲尖。<br>2. 錶裝在主軸上，對工作台上的直角尺量；先調左右傾，再調前後傾。<br>3. 合格後，從 Z 板前面的注入孔灌金屬填充環氧樹脂，填滿 6 個圍著夾緊螺栓的圓形墊區（每區 Ø22×1，周圍用膠帶或 O 環擋住）。<br>4. 固化後退開三支調整螺絲，力量改走樹脂墊，再把螺栓鎖到最終扭力，複量。<br>5. 面螺絲和兩側頂推塊屬於校正工具組，拆下給下一台用。</p></section>
    <section><h2>要注意</h2><p>固化後 Z 板和鞍板就是一體，要重調得破壞樹脂。這一層只修正零件加工誤差，一輩子調一次；換主軸只動主軸夾座的墊片，不碰這裡。</p></section>
   </div>
@@ -71,7 +71,7 @@ th{font-size:12px;color:var(--mut);font-weight:700}
 <!--THREE-->
 <script>
 /*DATA*/
-const $=id=>document.getElementById(id),V=THREE.Vector3,DEG=Math.PI/180,BALL=new V(0,121.5,250);
+const $=id=>document.getElementById(id),V=THREE.Vector3,DEG=Math.PI/180,BALL=new V(0,121.5,466);
 const cv=$('c'),stage=$('stage');
 const R=new THREE.WebGLRenderer({canvas:cv,antialias:true});R.setPixelRatio(Math.min(devicePixelRatio,2));R.localClippingEnabled=true;
 const scene=new THREE.Scene(),cam=new THREE.PerspectiveCamera(30,1,5,8000);cam.up.set(0,0,1);
@@ -97,16 +97,16 @@ function label(text,parent,x,y,z){const c=document.createElement('canvas'),k=c.g
  const w=Math.ceil(k.measureText(text).width)+40;c.width=w;c.height=62;k.font=f;k.fillStyle='rgba(22,35,46,.88)';k.beginPath();k.roundRect?k.roundRect(0,0,w,62,12):k.rect(0,0,w,62);k.fill();
  k.fillStyle='#F6F5F1';k.textBaseline='middle';k.fillText(text,20,33);const t=new THREE.CanvasTexture(c);t.minFilter=THREE.LinearFilter;
  const s=new THREE.Sprite(new THREE.SpriteMaterial({map:t,depthTest:false,sizeAttenuation:false,transparent:true}));s.renderOrder=10;s.userData.asp=w/62;s.position.set(x,y,z);parent.add(s);labels.push(s);return s}
-label('鋼珠 Ø12（支點）',sad,0,135,212);
-label('面螺絲',zpi,108,80,712);
+label('鋼珠 Ø12（支點）',sad,0,135,430);
+label('差動面螺絲',zpi,90,80,728);
 label('側推螺絲',sad,178,113,730);
 label('樹脂墊',padG,-108,121.5,575);
-label('鞍板 t12',sad,-131,140,600);label('Z 板 t17',zpi,40,90,470);
+label('鞍板 t12',sad,-131,140,600);label('Z 板 t17',zpi,40,90,560);
 label('夾緊螺栓',zpi,-108,86,268);
 const ctxParts=parts.filter(m=>m.userData.ctx);
 // ---------- state ----------
 let mode='',ph=0,ex=40,sec=false,camA=null;
-const VIEWS={iso:{p:[980,-560,800],t:[0,100,460]},ball:{p:[330,30,320],t:[0,118,250]},top:{p:[560,-380,880],t:[80,110,672]},front:{p:[0,-1350,470],t:[0,120,465]}};
+const VIEWS={iso:{p:[980,-560,800],t:[0,100,460]},ball:{p:[330,30,536],t:[0,118,466]},top:{p:[560,-380,880],t:[80,110,672]},front:{p:[0,-1350,470],t:[0,120,465]}};
 const CAP={'':'靜止。拖曳旋轉，或按上方的調整動作看 Z 板怎麼繞鋼珠轉。',
  nod:'前後傾：上方兩支面螺絲一起進退，Z 板繞鋼珠前後傾。調的是 Z 行程對 Y 的垂直度。',
  roll:'左右傾：兩側側推螺絲一退一進，Z 板在板面內繞鋼珠轉。調的是 Z 行程對 X 的垂直度。',
