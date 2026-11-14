@@ -15,7 +15,7 @@ LOG = os.path.join(ROOT, 'output', 'v12', 'logs', 'export_motion_html_v12.txt')
 
 def colour(n):   # same scheme as the adjuster tour page
     if 'epoxy' in n: return [0.13, 0.62, 0.56]
-    if re.search(r'(dowel|ref_pin|pivot_pin|roll_pin|Z_ball$)', n): return [0.16, 0.5, 0.78]
+    if re.search(r'(dowel|ref_pin|pivot_pin|roll_pin|Z_pivot_)', n): return [0.16, 0.5, 0.78]
     if re.search(r'(bolt|springs|pinch|bar_screw)', n): return [0.45, 0.48, 0.5]
     if re.search(r'(_block|_bracket|_bar$|wedge_base)', n): return [0.2, 0.23, 0.26]
     if re.search(r'(jack|screw|ecc_pin|wedge|shim)', n): return [0.88, 0.36, 0.12]
@@ -66,7 +66,7 @@ html2, nwp = re.subn(r"const tt=bb\['Work_table'\]\.max\.z", "const tt=bb['Fixtu
 log.append('work piece on fixture plate replaced=%d' % nwp)
 html2 = re.sub(r'<title>[^<]*</title>', '<title>CNC v12 動作模擬</title>', html2, count=1)
 html2 = re.sub(r'<div class="sub">.*?</div>',
-               '<div class="sub">v12 生產狀態（校正工具組已拆下；綠色為灌注的環氧樹脂墊；龍門一柱定一柱推、X 底板一端銷一端頂、Z 板鋼珠；主軸前移 8 mm）· 拖曳旋轉、滾輪縮放</div>', html2, count=1)
+               '<div class="sub">v12 生產狀態（校正工具組已拆下；綠色為灌注的環氧樹脂墊；龍門一柱定一柱推、X 底板一端銷一端頂、Z 板球面軸承；主軸前移 8 mm）· 拖曳旋轉、滾輪縮放</div>', html2, count=1)
 open(OUT, 'w', encoding='utf-8', newline='\n').write(html2)
 log.insert(0, 'parts=%d size=%d' % (len(out), len(html2)))
 open(LOG, 'w', encoding='utf-8').write('\n'.join(log))

@@ -7,11 +7,12 @@
   3 X level      X plate turns on a horizontal D10 pin in the LEFT column, a vertical M8x0.75 jack lifts the RIGHT end (lever 640).
                  The X plate stands 1 mm off the column faces (1 mm step milled on its front face outside the rails) and the joint
                  is frozen by injected epoxy pads, so two columns that lean differently cannot twist the ground X plate
-  4 Z (3 axes)   saddle (on the X blocks) + Z plate, 1 mm apart, touching only through a D12 steel ball at the CENTRE of the
-                 plate (pivot for every rotation; tilts either way, +-4.1 mrad before the plate edge meets the saddle).
-                 Two differential push screws (0.25 mm/rev) through the Z plate at the top (common mode = nod about X,
-                 differential = turn about Z, which does not affect squareness), opposed differential side screws = roll
-                 about Y (levers 234 / 214). Frozen by injected epoxy pads round the 6 clamp bolts
+  4 Z (3 axes)   saddle (on the X blocks) + Z plate, 1 mm apart. At the CENTRE of the plates a spherical plain bearing
+                 (MISUMI RBPB8) in the saddle carries a D8 pin pressed into the Z plate: it fixes the in-plane position (X, Z)
+                 and is the pivot for every rotation. The pin slides in the inner ring (g6), so the bearing never takes the
+                 Y (thrust) load. Y is held by three differential push screws (0.25 mm/rev) through the Z plate, two at the
+                 top and one at the bottom: together = gap, top vs bottom = nod about X, left vs right = turn about Z (no
+                 effect on squareness). Opposed differential side screws = roll about Y. Frozen by epoxy pads round the 6 bolts
   5 spindle      spindle // Z rails preset as a sub-assembly: tall clamp ears on 4 shim packs (nod, lever 165) and a D6 roll pivot
                  with removable push blocks (roll). Spindle axis moved to y-8 so the clamp has a real rear wall
 Removable alignment kit (Kit = 'removable'): yaw push-pull block, X-level jack + bracket, Z face screws, Z roll blocks,
@@ -125,10 +126,15 @@ prop(zp, 'Spec', 'Z plate, steel t17 240x488: Z rails, Z screw, Z motor plate. 1
 tag('X_carriage_plate', 'ztram')
 sad = fuse(box(-120, 120, 122, 134, 222, 706), box(120, 142, 122, 134, 652, 706), box(-142, -120, 122, 134, 652, 706))
 add('X_saddle_plate', sad, '04 X-axis', 'saddle, steel t12 with two ears above the columns: bolted to the 4 X blocks and the X nut bracket', 'x', 'ztram')
-ball = Part.makeSphere(6, V(0, 121.5, 466))
-add('Z_ball', ball, G, 'D12 hardened steel ball in spherical seats in both plates, at the centre of the Z plate (z466): the single contact '
-    'and pivot; the plate tilts either way by up to 1/244 = 4.1 mrad before an edge meets the saddle', 'x', 'ztram')
-cut('X_carriage_plate', ball); cut('X_saddle_plate', ball)
+BC = (0, 466)                                                      # bearing centre (x, z), centre of the Z plate
+brg = Part.read(os.path.join(ROOT, 'vendor', 'misumi', 'RBPB8', 'RBPB8.stp'))   # vendor model: axis Z, sphere centre (0, 0, -6)
+brg.translate(V(0, 0, 6)); brg.rotate(V(0, 0, 0), V(1, 0, 0), -90); brg.translate(V(BC[0], 128, BC[1]))   # axis -> Y, centre in the saddle
+add('Z_pivot_bearing', brg, G, 'spherical plain bearing MISUMI RBPB8, vendor STEP (D22 h6, d8 H7, B 9, B1 12, static radial 16.7 kN, '
+    'tilt 8 deg+), pressed into the saddle at its centre; takes only in-plane (radial) load', 'x', 'ztram')
+cut('X_saddle_plate', cyl('y', 11, 122, 134, *BC))
+pin = cyl('y', 4, 108, 134, *BC)
+add('Z_pivot_pin', pin, G, 'D8 pin pressed into the Z plate, slide fit (g6) in the bearing inner ring: fixes X and Z, leaves Y free', 'x', 'ztram')
+cut('X_carriage_plate', pin)
 k = 0
 for x in (-108, 108):
     for z in (240, 620, 696):
@@ -139,16 +145,20 @@ for x in (-108, 108):
         add('Z_epoxy_pad_%d' % k, cyl('y', 11, 121, 122, x, z).cut(cyl('y', 3.5, 121, 122, x, z)), GE,
             'injected epoxy pad D22x1 round the clamp bolt (fill hole through the Z plate)', 'x', 'epoxy')
         cut('X_carriage_plate', cyl('y', 1.5, 104, 121, x, z + 8))
+s = fuse(cyl('y', 4, 92, 122, 0, 236), cyl('y', 6.5, 98, 104, 0, 236))
+add('Z_face_screw_B', s, G, 'differential push screw (0.25 mm/rev) at the bottom centre, 230 below the bearing: with the two top screws it '
+    'holds the Y gap; top pair vs this one = nod about X. 10 deg = 30 urad', 'x', 'ztram')
+cut('X_carriage_plate', cyl('y', 4, 104, 121, 0, 236))
 for sgn, T in ((1, 'R'), (-1, 'L')):
     m = lambda s: mir(s, sgn)
     s = m(fuse(cyl('y', 4, 92, 122, 90, 700), cyl('y', 6.5, 98, 104, 90, 700)))
     add('Z_face_screw_' + T, s, G, 'differential push screw (M8x0.75 outer / M6x0.5 inner = 0.25 mm/rev) through the Z plate, tip on the saddle, '
-        '234 above the ball: both = nod about X, one = turn about Z (no effect on squareness, keep equal). 10 deg = 30 urad', 'x', 'ztram')
+        '234 above the bearing: top pair vs bottom screw = nod about X, left vs right = turn about Z (no effect on squareness). 10 deg = 30 urad', 'x', 'ztram')
     cut('X_carriage_plate', m(cyl('y', 4, 104, 121, 90, 700)))
     add('Z_roll_block_' + T, m(box(124, 142, 104, 122, 664, 696).cut(cyl('x', 3, 124, 142, 112.5, 680)).cut(cyl('y', 2.75, 104, 122, 133, 670)).cut(cyl('y', 2.75, 104, 122, 133, 690))),
         G, 'steel block 18x18x32 on the saddle ear, beside the Z plate edge', 'x', 'ztram')
     add('Z_roll_screw_' + T, m(fuse(cyl('x', 3, 120, 150, 112.5, 680), cyl('x', 5.5, 142, 147, 112.5, 680))), G,
-        'opposed differential side screw (0.25 mm/rev), tip on the Z plate edge 214 above the ball: roll about Y. 10 deg = 32 urad', 'x', 'ztram')
+        'opposed differential side screw (0.25 mm/rev), tip on the Z plate edge 214 above the bearing: roll about Y. 10 deg = 32 urad', 'x', 'ztram')
     for kk, z in enumerate((670, 690), 1):
         add('Z_roll_block_bolt_%s%d' % (T, kk), m(fuse(cyl('y', 4.25, 99, 104, 133, z), cyl('y', 2.5, 104, 132, 133, z))), G, 'M5 SHCS', 'x', 'ztram')
         cut('X_saddle_plate', m(cyl('y', 2.5, 122, 132, 133, z)))

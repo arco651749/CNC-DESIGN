@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""v12 Z-plate ball joint, on its own: saddle, Z plate, D12 ball, face screws, side screws, clamp bolts, epoxy pads
+"""v12 Z-plate pivot joint, on its own: saddle, Z plate, RBPB8 spherical bearing and pin, face screws, side screws, clamp bolts, epoxy pads
 (X blocks and Z rails as faded context). The page adds an exploded view, a section through the ball and the three
 adjustment motions about the ball. three.js comes from the v10 motion page.
 Run:  freecadcmd freecad/v12/05_export_ztram_html_v12.py      Out: output/v12/CNC_ztram_v12.html"""
@@ -14,12 +14,12 @@ src = open(V10, encoding='utf-8').read()
 m = re.search(r'^const DATA=\[.*\];', src, re.M)
 three = src[src.find('<script'):src.rfind('<script>', 0, m.start())]
 
-ROLE = [('pad', r'^Z_epoxy_pad_'), ('zp', r'^(X_carriage_plate|Z_face_screw_|Z_clamp_bolt_|Z_rail_)'),
-        ('sad', r'^(X_saddle_plate|Z_ball$|Z_roll_block|Z_roll_screw|X_block_)')]
+ROLE = [('pad', r'^Z_epoxy_pad_'), ('zp', r'^(X_carriage_plate|Z_face_screw_|Z_clamp_bolt_|Z_rail_|Z_pivot_pin)'),
+        ('sad', r'^(X_saddle_plate|Z_pivot_bearing|Z_roll_block|Z_roll_screw|X_block_)')]
 CTX = r'^(X_block_|Z_rail_)'
 def colour(n):
     if 'epoxy' in n: return [0.13, 0.62, 0.56]
-    if n == 'Z_ball': return [0.16, 0.5, 0.78]
+    if n.startswith('Z_pivot_'): return [0.16, 0.5, 0.78]
     if 'bolt' in n: return [0.45, 0.48, 0.5]
     if '_block' in n and not n.startswith('X_block'): return [0.2, 0.23, 0.26]
     if 'screw' in n: return [0.88, 0.36, 0.12]
@@ -32,7 +32,7 @@ for o in doc.Objects:
     if o.TypeId != 'Part::Feature' or o.Shape.isNull() or not o.Shape.Solids: continue
     role = next((r for r, rx in ROLE if re.match(rx, o.Label)), None)
     if not role: continue
-    pts, tris = o.Shape.tessellate(0.08 if o.Label == 'Z_ball' else 0.15)
+    pts, tris = o.Shape.tessellate(0.06 if o.Label.startswith('Z_pivot_') else 0.15)
     coords = [int(round(v * 10)) for p in pts for v in (p.x, p.y, p.z)]
     w = 1 if len(pts) < 65536 else 0
     idx = [k for t in tris for k in t]
