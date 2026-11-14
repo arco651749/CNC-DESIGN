@@ -1,0 +1,195 @@
+<meta charset="utf-8">
+<title>v11 調整機構</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap">
+<style>
+/* layout: one-screen app. The 3D stage fills the screen; the step panel docks right on wide screens and at the bottom on phones. */
+:root{--bg:#F1F0EB;--panel:#FDFCF9;--fg:#16232E;--mut:#52606B;--line:#D6D2C6;--measure:#B4481A;--measure-fill:#D9622B;--motion:#2A6F97;--ok:#256B43;--bad:#B3261E;--chip:#ECEAE3;--face:#FFFFFF;
+ --font:'Noto Sans TC',system-ui,-apple-system,'PingFang TC','Microsoft JhengHei',sans-serif;--num:ui-monospace,'SF Mono',Menlo,Consolas,monospace}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#121A21;--panel:#1A242D;--fg:#EEF1F2;--mut:#A9B4BC;--line:#33414D;--measure:#F0A27C;--measure-fill:#E0703A;--motion:#7FB8DA;--ok:#6CC08B;--bad:#F2877F;--chip:#24313B;--face:#10171D;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#121A21;--panel:#1A242D;--fg:#EEF1F2;--mut:#A9B4BC;--line:#33414D;--measure:#F0A27C;--measure-fill:#E0703A;--motion:#7FB8DA;--ok:#6CC08B;--bad:#F2877F;--chip:#24313B;--face:#10171D;color-scheme:dark}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--font);overflow:hidden}
+#app{height:100%;display:flex}
+#stage{position:relative;flex:1;min-width:0;min-height:0}
+#c{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none}
+#panel{width:384px;background:var(--panel);border-left:1px solid var(--line);display:flex;flex-direction:column;min-height:0}
+.pad{padding-left:max(18px,env(safe-area-inset-left,0px));padding-right:max(18px,env(safe-area-inset-right,0px))}
+#head{padding-block:18px 10px}
+#kick{margin:0;font-size:12px;font-weight:700;letter-spacing:.14em;color:var(--measure)}
+h1{margin:4px 0 0;font-size:22px;line-height:1.3;font-weight:700;text-wrap:balance}
+#ctl{display:flex;gap:8px;padding-block:4px 8px}
+button{font:inherit;font-size:14px;font-weight:500;color:var(--fg);background:var(--chip);border:1px solid var(--line);border-radius:8px;padding:9px 10px;cursor:pointer;flex:1;min-width:0}
+button:focus-visible,input:focus-visible{outline:2px solid var(--motion);outline-offset:2px}
+#play{flex:1.2;background:var(--fg);color:var(--panel);border-color:var(--fg)}
+#scrubrow{padding-block:2px 6px}
+#scrub{width:100%;accent-color:var(--measure-fill);margin:0}
+#steps{display:flex;gap:6px;padding-block:4px 12px;overflow-x:auto}
+#steps button{flex:0 0 auto;width:34px;height:34px;padding:0;border-radius:50%;font-family:var(--num);font-size:13px}
+#steps button.on{background:var(--measure-fill);border-color:var(--measure-fill);color:#fff;font-weight:700}
+#body{flex:1;min-height:0;overflow-y:auto;border-top:1px solid var(--line);padding-block:14px 22px;display:flex;flex-direction:column;gap:14px}
+#body h2{margin:0 0 3px;font-size:13px;font-weight:700;letter-spacing:.08em;color:var(--motion)}
+#body p{margin:0;font-size:15px;line-height:1.7;color:var(--fg)}
+#cap{position:absolute;left:0;right:0;bottom:0;padding-block:10px 12px;background:color-mix(in srgb,var(--panel) 92%,transparent);border-top:1px solid var(--line);font-size:15px;line-height:1.55;min-height:4.4em;font-weight:500}
+#gauge{position:absolute;top:12px;left:max(12px,env(safe-area-inset-left,0px));width:150px;background:color-mix(in srgb,var(--panel) 94%,transparent);border:1px solid var(--line);border-radius:12px;padding:8px 10px 10px;text-align:center}
+#gauge svg{display:block;width:100%;height:auto}
+.g-rim{fill:var(--face);stroke:var(--measure-fill);stroke-width:5}
+.g-tick{stroke:var(--mut);stroke-width:1.4}
+.g-tick0{stroke:var(--fg);stroke-width:2.4}
+.g-band{fill:none;stroke:var(--ok);stroke-width:4;opacity:.75}
+#g-needle{stroke:var(--measure-fill);stroke-width:3;stroke-linecap:round}
+.g-hub{fill:var(--fg)}
+#g-val{font-family:var(--num);font-size:20px;font-weight:700;font-variant-numeric:tabular-nums;margin-top:2px}
+#g-unit{font-size:11px;color:var(--mut)}
+#g-label{font-size:12.5px;line-height:1.35;color:var(--fg);margin-top:4px;font-weight:500}
+#g-chip{display:inline-block;margin-top:6px;font-size:12px;font-weight:700;padding:2px 10px;border-radius:999px;border:1.5px solid currentColor}
+#g-chip.ok{color:var(--ok)}#g-chip.bad{color:var(--bad)}
+#hint{position:absolute;top:12px;right:max(12px,env(safe-area-inset-right,0px));font-size:12px;color:var(--mut);background:color-mix(in srgb,var(--panel) 85%,transparent);padding:4px 10px;border-radius:999px;border:1px solid var(--line)}
+@media (max-width:820px){
+ #legend{font-size:11.5px;padding:6px 9px;gap:2px}
+ #app{flex-direction:column}
+ #panel{width:auto;border-left:0;border-top:1px solid var(--line);max-height:47%}
+ #head{padding-block:10px 4px}h1{font-size:18px}
+ 
+ 
+ #body p{font-size:14.5px}
+}
+
+#opts{display:flex;gap:8px;padding-block:0 8px}
+#opts button[aria-pressed="true"]{background:var(--motion);border-color:var(--motion);color:var(--panel)}
+#legend{position:absolute;top:12px;left:max(12px,env(safe-area-inset-left,0px));display:flex;flex-direction:column;gap:4px;font-size:12.5px;background:color-mix(in srgb,var(--panel) 92%,transparent);border:1px solid var(--line);border-radius:10px;padding:8px 12px}
+#legend span{display:flex;align-items:center;gap:8px}
+#legend i{width:12px;height:12px;border-radius:3px;display:inline-block;border:1px solid var(--line)}
+#jog{display:grid;grid-template-columns:auto 1fr auto;gap:6px 10px;align-items:center;font-size:13px;color:var(--mut)}
+#jog input{width:100%;accent-color:var(--motion);margin:0}
+#jog output{font-family:var(--num);font-variant-numeric:tabular-nums;min-width:3.2em;text-align:right;color:var(--fg)}
+#body h2.sub{color:var(--mut)}
+</style>
+<div id="app">
+ <div id="stage">
+  <canvas id="c" aria-label="v11 機台的 3D 模型，標示各個調整機構"></canvas>
+  <div id="legend"><span><i style="background:#E05C1F"></i>要轉的螺絲、偏心銷</span><span><i style="background:#2980C7"></i>定位銷、靠銷</span><span><i style="background:#33393F"></i>固定塊、托座</span></div>
+  <div id="hint">拖曳旋轉 · 雙指縮放</div>
+ </div>
+ <aside id="panel">
+  <div id="head" class="pad"><p id="kick"></p><h1 id="ttl"></h1></div>
+  <div id="ctl" class="pad"><button id="prev" type="button">‹ 上一個</button><button id="next" type="button">下一個 ›</button></div>
+  <div id="opts" class="pad"><button id="focus" type="button" aria-pressed="true">只看這組機構</button><button id="demo" type="button" aria-pressed="true">示意調整動作</button></div>
+  <nav id="steps" class="pad" aria-label="調整機構"></nav>
+  <div id="body" class="pad"></div>
+ </aside>
+</div>
+<!--THREE-->
+<script>
+/*DATA*/
+const $=id=>document.getElementById(id), V=THREE.Vector3, DEG=Math.PI/180;
+const cv=$('c'), stage=$('stage');
+const R=new THREE.WebGLRenderer({canvas:cv,antialias:true});R.setPixelRatio(Math.min(devicePixelRatio,2));
+const scene=new THREE.Scene();
+const cam=new THREE.PerspectiveCamera(32,1,5,9000);cam.up.set(0,0,1);
+const ctl=new THREE.OrbitControls(cam,cv);ctl.enableDamping=true;
+scene.add(new THREE.HemisphereLight(0xffffff,0x8a8070,.78));
+const d1=new THREE.DirectionalLight(0xffffff,.72);d1.position.set(800,-1200,1600);scene.add(d1);
+const d2=new THREE.DirectionalLight(0xffffff,.32);d2.position.set(-900,900,600);scene.add(d2);
+// kinematic tree: base | table(y) | gantry(yaw,pitch) > X plate(level) > saddle(x) > Z plate(tram) > slide(z) > spindle(nod,roll)
+const G=()=>new THREE.Group();
+function pv(parent,p){const o=G(),i=G();o.position.copy(p);i.position.copy(p).negate();o.add(i);parent.add(o);return{o,i}}
+const base=G(),yG=G();scene.add(base,yG);
+const gan=pv(scene,new V(0,166,0)),xp=pv(gan.i,new V(0,172,360)),xG=G();xp.i.add(xG);
+const zp=pv(xG,new V(0,113,250)),zG=G();zp.i.add(zG);const sp=pv(zG,new V(-70,34,325));
+const dest={base,y:yG,gan:gan.i,xp:xp.i,x:xG,zp:zp.i,z:zG,sp:sp.i};
+function b64(s,T){const b=atob(s),u=new Uint8Array(b.length);for(let i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return new T(u.buffer)}
+const parts=[],EDGE=new THREE.LineBasicMaterial({color:0x1b1f22,transparent:true,opacity:.3});
+for(const p of DATA){
+ const q=b64(p.p,Int16Array),pos=new Float32Array(q.length);for(let i=0;i<q.length;i++)pos[i]=q[i]/10;
+ const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.BufferAttribute(pos,3));
+ g.setIndex(new THREE.BufferAttribute(b64(p.i,p.w?Uint16Array:Uint32Array),1));g.computeVertexNormals();
+ const m=new THREE.Mesh(g,new THREE.MeshStandardMaterial({color:new THREE.Color(...p.c),metalness:.25,roughness:.55,side:THREE.DoubleSide}));
+ if(p.nt<6000){const e=new THREE.LineSegments(new THREE.EdgesGeometry(g,30),EDGE);m.add(e);m.userData.e=e}
+ m.userData.n=p.n;m.userData.a=p.a;dest[p.k].add(m);parts.push(m);
+}
+const ST=[
+{t:'線軌平行',tags:['rails'],hide:['x'],cam:{p:[330,-1150,640],t:[0,150,360]},
+ sec:[['調什麼','各軸兩支線軌互相平行。畫面是 X 軸，滑座先隱藏；Z 板前面和工作台底面是同一套做法。'],
+  ['機構','主軌旁壓入 3 支靠銷，主軌靠著銷。副軌旁是 3 支偏心銷，用六角扳手轉偏心銷，副軌就往一側微移。兩支線軌的另一側各有 4 顆錐頭側壓螺絲，把線軌壓向銷。這些零件都不到 5.5 mm 高，滑塊可以從上面通過。'],
+  ['怎麼量','跨橋量具騎在主軌上，錶碰副軌側面，沿全長滑。'],
+  ['怎麼調','副軌螺絲輕鎖。轉偏心銷到讀值變化不超過 0.005 mm，再鎖緊副軌。'],
+  ['Y 滑塊','基準底板上另有 4 支靠銷，主側兩顆 Y 滑塊靠著它；副側滑塊浮動，跑全行程後再鎖。']]},
+{t:'X ⊥ Y：龍門轉向',tags:['yaw'],also:/^(Column_foot_|Foot_)/,dof:'yaw',cam:{p:[-800,-620,430],t:[-300,-40,30]},
+ sec:[['機構','兩個腳座前凸緣的前方，基準底板上各鎖一個頂推塊，上面一支 M6×0.75 頂推螺絲頂著凸緣前面。'],
+  ['怎麼量','直角尺平放在治具板上。先走 Y 把 A 邊對齊，再走 X 讀 B 邊。'],
+  ['怎麼調','鬆開腳座的壓緊螺絲，轉一側的頂推螺絲，把那支立柱往後推。推左柱與推右柱的轉向相反，所以兩個方向都調得到。'],
+  ['一格多少','螺絲轉 10°，X 走 300 mm 約變 0.010 mm。'],
+  ['鎖定','鎖緊壓緊螺絲，複量。合格後凸緣與基準底板配鉸，打 Ø8 定位銷。']]},
+{t:'Z ⊥ Y：龍門前後傾',tags:['pitch'],also:/^Foot_dowel_/,dof:'pitch',cam:{p:[-780,-480,250],t:[-310,0,40]},
+ sec:[['機構','腳座底面只有後緣一條承面，其餘讓空 0.5 mm。前凸緣上有兩支 M8×0.75 頂高螺絲頂著基準底板，中間一顆 M8 壓緊螺絲，一推一拉。'],
+  ['怎麼量','圓柱直角尺立在治具板上，錶碰朝後的一面，走 Z 100 mm。X 在左、中、右各量一次。'],
+  ['怎麼調','頂高螺絲往下轉，龍門往後仰；往上退，龍門往前倒。左右腳座可以分開調，用來消除兩支立柱傾角不同。'],
+  ['一格多少','螺絲轉 10°，Z 走 100 mm 約變 0.010 mm。這是六組裡最粗的一組，調的時候要小角度轉。'],
+  ['鎖定','鎖緊前後的壓緊螺絲，複量。']]},
+{t:'X 軸水平',tags:['xlevel'],dof:'xlevel',cam:{p:[-900,900,520],t:[-300,172,250]},
+ sec:[['調什麼','X 運動與基準底板平行，也就是 X 底板左右兩端一樣高。'],
+  ['機構','每支立柱背面、X 底板下緣的下方各有一個托座，上面一支 M8×0.75 頂高螺絲頂著 X 底板下緣。X 底板鎖立柱的 8 個螺絲孔放大到 Ø9.5。'],
+  ['怎麼量','錶裝在 Z 滑板上，碰治具板面，走 X 全行程。'],
+  ['怎麼調','鬆開 X 底板的 8 顆螺絲，底板的重量落在兩支頂高螺絲上。轉其中一支，把那一端頂高或放低。'],
+  ['一格多少','螺絲轉 10°，X 走 300 mm 約變 0.010 mm。'],
+  ['鎖定','鎖緊 8 顆螺絲。頂高螺絲用螺帽鎖住，留在原位繼續承重。這裡不打銷，原因見「定位銷」。']]},
+{t:'Z ⊥ X：Z 軸左右傾',tags:['ztram'],also:/^Z_tram_/,dof:'ztram',cam:{p:[560,-1080,820],t:[0,110,470]},
+ sec:[['機構','滑座分成兩片。後面的鞍板鎖在 4 顆 X 滑塊上；前面的 Z 板帶著 Z 線軌、螺桿和馬達。Z 板下方中央一支 Ø10 樞軸銷，上方兩側各一支 M6×0.5 頂推螺絲對頂 Z 板的側邊，距樞軸 430 mm。'],
+  ['怎麼量','圓柱直角尺立在治具板上，錶碰側面，走 Z 100 mm。'],
+  ['怎麼調','鬆開 6 顆夾緊螺絲，一邊的頂推螺絲退、另一邊進，Z 板繞樞軸銷轉動。6 顆夾緊螺絲都在 Z 滑板的行程之外，任何位置都鎖得到。'],
+  ['一格多少','螺絲轉 10°，Z 走 100 mm 約變 0.003 mm。'],
+  ['鎖定','鎖緊夾緊螺絲，兩支頂推螺絲對鎖，複量。合格後 Z 板與鞍板配鉸，打 Ø6 定位銷。']]},
+{t:'主軸 ∥ Z',tags:['spindle'],also:/^(Spindle_|ER11|Tool)/,dof:'spindle',cam:{p:[420,-620,560],t:[0,20,410]},
+ sec:[['機構','主軸夾座兩側是加長的耳，高 181 mm。前後傾：耳上 4 支 M6×0.5 頂高螺絲頂著 Z 滑板面，上下相距 169 mm。左右傾：左耳下方一支 Ø6 樞軸銷，耳頂兩側各一支 M5×0.5 頂推螺絲對頂。'],
+  ['怎麼量','主軸裝檢驗棒，錶座吸在治具板上，錶碰檢驗棒側面，走 Z 約 60 mm。X 向、Y 向各量一次。'],
+  ['怎麼調','鬆開 6 顆夾座螺絲。前後傾：轉上面或下面那一對頂高螺絲。左右傾：轉耳頂的頂推螺絲。'],
+  ['一格多少','螺絲轉 10°，每 100 mm 約變 0.008 到 0.009 mm。'],
+  ['鎖定','鎖緊夾座螺絲，頂推螺絲對鎖，複量。']]},
+{t:'定位銷',tags:['pins'],also:/(pivot_pin|ref_pin)/,cam:{p:[1150,-1350,1050],t:[0,60,300]},
+ sec:[['兩種銷','藍色零件都是銷。一種先壓入、用來決定位置：線軌靠銷和兩支樞軸銷。另一種調好後才現場配鉸、用來記住位置：兩個腳座凸緣各一支 Ø8，Z 板對鞍板一支 Ø6。'],
+  ['X 底板對立柱不打銷','我量了立柱型材的斷面：四角是空腔，背面的實心壁只有約 6 mm 深，銷打不住。所以這個接合面改由兩支頂高螺絲鎖住並承重，加上 8 顆螺絲夾緊。這和先前「銷打在四角實心區」的決定不同。'],
+  ['不打銷的地方','螺帽座和螺桿支撐座。它們的位置應該由螺桿自己找到。']]},
+{t:'量測基準',tags:['measure'],cam:{p:[640,-920,640],t:[0,0,220]},
+ sec:[['治具板','鋁板 300 × 400 × 25 mm，鎖在工作台上，由機台自己輕銑一刀。銑完的板面就是 X-Y 運動平面，所有垂直度都對這個面量。'],
+  ['錶座','Z 滑板前面左下角一個帶 Ø8 孔的小座。千分錶的桿插在這裡，錶就固定在主軸側。'],
+  ['為什麼需要治具板','刀尖最低只能到台面上方 20 mm，而且 X 行程 300 mm 小於台面寬 440 mm，機台銑不到自己的工作台。']]}
+];
+let cur=0,focus=true,demo=true,camA=null,t0=performance.now();
+const J={x:0,y:0,z:0};
+function solid(m,s){return s.tags.includes(m.userData.a)||(s.also&&s.also.test(m.userData.n))}
+function paint(){const s=ST[cur];for(const m of parts){const on=!focus||solid(m,s),mt=m.material;mt.transparent=!on;mt.opacity=on?1:.1;mt.depthWrite=on;mt.needsUpdate=true;if(m.userData.e)m.userData.e.visible=on;m.renderOrder=on?0:1}
+ xG.visible=!(s.hide&&s.hide.includes('x'))}
+function camFor(i){const c=ST[i].cam,a=stage.clientWidth/Math.max(1,stage.clientHeight),k=a>=1.3?1:Math.min(2.3,1.3/a),t=new V(...c.t);return{t,p:t.clone().add(new V(...c.p).sub(t).multiplyScalar(k))}}
+function go(i,instant){cur=(i+ST.length)%ST.length;const s=ST[cur];
+ $('kick').textContent='調整機構 '+(cur+1)+'／'+ST.length;$('ttl').textContent=s.t;
+ $('body').innerHTML=s.sec.map(([h,p])=>'<section><h2>'+h+'</h2><p>'+p+'</p></section>').join('')+
+  '<section><h2 class="sub">移動各軸，看螺絲鎖不鎖得到</h2><div id="jog">'+[['x','X',-150,150],['y','Y',-250,150],['z','Z',-50,50]].map(([k,l,a,b])=>'<label for="j'+k+'">'+l+'</label><input id="j'+k+'" type="range" min="'+a+'" max="'+b+'" value="'+J[k]+'"><output id="o'+k+'">'+J[k]+'</output>').join('')+'</div></section>';
+ for(const k of['x','y','z'])$('j'+k).oninput=e=>{J[k]=+e.target.value;$('o'+k).textContent=J[k]};
+ $('body').scrollTop=0;[...$('steps').children].forEach((b,k)=>{b.classList.toggle('on',k==cur);b.setAttribute('aria-current',k==cur?'step':'false')});
+ $('demo').disabled=!s.dof;paint();
+ const c=camFor(cur);if(instant){cam.position.copy(c.p);ctl.target.copy(c.t);ctl.update()}else camA={k:0,p0:cam.position.clone(),t0:ctl.target.clone(),p1:c.p,t1:c.t}}
+ST.forEach((s,k)=>{const b=document.createElement('button');b.type='button';b.textContent=k+1;b.title=s.t;b.setAttribute('aria-label',s.t);b.onclick=()=>go(k);$('steps').appendChild(b)});
+$('prev').onclick=()=>go(cur-1);$('next').onclick=()=>go(cur+1);
+$('focus').onclick=()=>{focus=!focus;$('focus').setAttribute('aria-pressed',focus);paint()};
+$('demo').onclick=()=>{demo=!demo;$('demo').setAttribute('aria-pressed',demo)};
+ctl.addEventListener('start',()=>{camA=null;$('hint').hidden=true});
+function bg(){scene.background=new THREE.Color(getComputedStyle(document.documentElement).getPropertyValue('--bg').trim())}
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change',bg);new MutationObserver(bg).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+function resize(){const w=stage.clientWidth,h=stage.clientHeight;if(!w||!h)return;R.setSize(w,h,false);cam.aspect=w/h;cam.updateProjectionMatrix()}
+new ResizeObserver(()=>{resize();if(!camA){const c=camFor(cur);cam.position.copy(c.p);ctl.target.copy(c.t)}}).observe(stage);
+const still=matchMedia('(prefers-reduced-motion: reduce)').matches;if(still){demo=false;$('demo').setAttribute('aria-pressed',false)}
+let last=performance.now(),ph=0;
+function tick(now){const dt=Math.min(.05,(now-last)/1000);last=now;if(demo)ph+=dt;
+ yG.position.y=J.y;xG.position.x=J.x;zG.position.z=J.z;
+ gan.o.rotation.set(0,0,0);xp.o.rotation.set(0,0,0);zp.o.rotation.set(0,0,0);sp.o.rotation.set(0,0,0);
+ const d=ST[cur].dof,a=demo?Math.sin(ph*1.5):0;
+ if(d=='yaw')gan.o.rotation.z=a*.6*DEG;else if(d=='pitch')gan.o.rotation.x=a*.5*DEG;else if(d=='xlevel')xp.o.rotation.y=a*.5*DEG;
+ else if(d=='ztram')zp.o.rotation.y=a*.6*DEG;else if(d=='spindle'){const q=Math.floor(ph*1.5/(2*Math.PI))%2;if(q)sp.o.rotation.y=a*.9*DEG;else sp.o.rotation.x=a*.9*DEG}
+ if(camA){camA.k=Math.min(1,camA.k+dt/.9);const e=camA.k*camA.k*(3-2*camA.k);cam.position.lerpVectors(camA.p0,camA.p1,e);ctl.target.lerpVectors(camA.t0,camA.t1,e);if(camA.k>=1)camA=null}
+ ctl.update();R.render(scene,cam);requestAnimationFrame(tick)}
+window.__go=(i,phase,f)=>{go(i,true);if(f!==undefined&&f!==focus)$('focus').click();demo=phase!=null;ph=phase||0};
+bg();resize();go(0,true);requestAnimationFrame(tick);
+</script>

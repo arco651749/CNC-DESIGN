@@ -1,0 +1,47 @@
+parts: 183   motion classes: static 81 / y 23 / x 45 / z 34
+
+DESIGN CONTACTS AT HOME (overlap > 1 mm3, review): 4
+  X_ball_nut x X_nut_bracket : 19 mm3
+  X_ballscrew x X_support_fixed : 137 mm3
+  Y_ballscrew x Y_support_fixed : 137 mm3
+  Z_ballscrew x Z_support_fixed : 137 mm3
+
+COLLISIONS AT TRAVEL ENDS (new vs home): 0
+
+ALLOWED:
+  Fixture_plate x Tool_D5 : [(-250, -150, -50, 25), (-250, 150, -50, 25), (150, -150, -50, 25), (150, 150, -50, 25)]
+
+CLEARANCES:
+  home  X_saddle_plate     - X_base_plate         28.0 mm
+  home  X_saddle_plate     - Z_motor_plate         4.0 mm
+  home  X_block_21         - X_ecc_pin_2          15.0 mm
+  home  X_block_11         - X_ref_pin_2          17.0 mm
+  home  X_block_11         - X_side_screw_Mb       3.0 mm
+  home  Z_block_L1         - Z_ref_pin_1          36.9 mm
+  home  Z_block_R1         - Z_ecc_pin_1          32.4 mm
+  home  Y_block_L1         - Y_ref_pin_1           7.0 mm
+  home  Y_block_R1         - Y_ecc_pin_1           5.2 mm
+  home  Foot_bolt_rear_R1  - X_base_plate        206.0 mm
+  home  Yaw_push_block_L   - Work_table           91.8 mm
+  home  Column_foot_L      - Work_table           79.4 mm
+  home  Spindle_clamp      - Spindle_plug          6.0 mm
+  home  Indicator_holder   - Spindle_clamp         4.0 mm
+  home  Fixture_plate      - Tool_D5              45.0 mm
+  home  Fixture_plate      - ER11_nut             67.0 mm
+  dx-150 X_saddle_plate     - Gantry_column_L      10.0 mm
+  dx-150 X_saddle_plate     - Gantry_column_R     310.0 mm
+  dx-150 Z_tram_screw_L     - Gantry_column_L     184.5 mm
+  dx-150 Z_tram_screw_R     - Gantry_column_R     336.7 mm
+  dx-150 X_carriage_plate   - Gantry_column_L      10.0 mm
+  dx-150 X_carriage_plate   - Gantry_column_R     310.0 mm
+  dx+150 X_saddle_plate     - Gantry_column_L     310.0 mm
+  dx+150 X_saddle_plate     - Gantry_column_R      10.0 mm
+  dx+150 Z_tram_screw_L     - Gantry_column_L     336.7 mm
+  dx+150 Z_tram_screw_R     - Gantry_column_R     184.5 mm
+  dx+150 X_carriage_plate   - Gantry_column_L     310.0 mm
+  dx+150 X_carriage_plate   - Gantry_column_R      10.0 mm
+  dz-50 Fixture_plate      - ER11_nut             17.0 mm
+  dz-50 Fixture_plate      - Indicator_holder    135.0 mm
+  dz-50 Fixture_plate      - Spindle_clamp       134.0 mm
+  dz+50 Spindle_clamp      - Z_motor_plate       138.4 mm
+  dz+50 Spindle_roll_block_R - Z_support_fixed      90.0 mm
