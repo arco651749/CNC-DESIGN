@@ -2,8 +2,8 @@
 """v11 from v10 (frozen): every geometric relation that has to be set at assembly has an adjuster in the model.
 Three layers, set in this order; later layers never disturb earlier ones:
 
-  1 gantry  pitch  Z travel perp Y, per column   1:10 wedge under each foot flange, M5x0.5 drive from the outer side;
-                                                 the foot pivots on a 10 mm rib at the rear
+  1 gantry  pitch  Z travel perp Y, per column   ground shim pack under each foot flange (0.01 mm = 53 urad); the foot
+                                                 pivots on a 10 mm rib at the rear; a removable jack screw lifts it for shimming
             yaw    X perp Y                      push-pull screws (M6x0.75) in front of each foot flange, columns 640 apart
   2 Z plate ztram  Z travel perp X               carriage = saddle (on the X blocks) + Z plate; D10 pivot low, push screws high
   3 clamp   spindle // Z (nod and roll)          3-point carrier: crowned bar at the bottom, one 1:20 wedge at the top
@@ -16,8 +16,8 @@ Three layers, set in this order; later layers never disturb earlier ones:
   measure                 fixture plate skimmed by the machine (its top is the X-Y motion plane); indicator on the spindle axis
 
 Removable alignment kit (group '09 Alignment kit', Kit = 'removable'): everything that only PUSHES is a bolt-on module that
-comes off after the joint is torqued and dowelled, and is reused on the next machine: yaw push-pull blocks, foot-wedge drives,
-Z-tram push blocks, spindle roll wedge + follower, spindle nod drive. Parts that CARRY load stay: foot wedges, the spindle nod
+comes off after the joint is torqued and dowelled, and is reused on the next machine: yaw push-pull blocks, foot jack screws,
+Z-tram push blocks, spindle roll wedge + follower, spindle nod drive. Parts that CARRY load stay: foot shims, the spindle nod
 wedge pair, the crowned bar, all pins. The spindle kit is put back only for a spindle change.
 
 The X base plate is set on the columns by fixture (no level adjuster).
@@ -75,33 +75,28 @@ for sgn, T in ((1, 'R'), (-1, 'L')):
     foot = O('Column_foot_' + T)
     f = box(280, 360, -48, 182, 0, 18)
     f = f.cut(box(280, 360, -48, 167, 0, 0.5)).cut(box(280, 360, 177, 182, 0, 0.5))           # rib y167..177 is the pivot
-    f = f.cut(prism_xz([(296, 0), (362, 0), (362, 8.4), (296, 1.8)], -46, -22))                 # 1:10 wedge seat, open at the outer side
+    f = f.cut(cyl('z', 4, 0, 18, 288, -30))                                                     # tap for the removable jack
     foot.Shape = m(f)
     prop(foot, 'Spec', 'steel foot t18, 80x230 with a front flange 50. Underside relieved 0.5 except a 10 mm rib at y167..177 '
-                       '(the pitch pivot, with the two rear bolts on it). Inclined 1:10 seat under the flange for the pitch wedge')
+                       '(the pitch pivot, with the two rear bolts on it). The flange stands on a ground shim pack, nominal 0.5 thick')
     tag('Column_foot_' + T, 'pitch')
-    add('Foot_wedge_' + T, m(prism_xz([(304, 0), (352, 0), (352, 7.4), (304, 2.6)], -45, -23).cut(cyl('x', 2.5, 340, 352, -34, 3.7))), G,
-        'hardened steel 1:10 wedge 48x22, 2.6..7.4 thick, slides along X on the datum plate under the foot flange (pushed inward = foot lifts). '
-        'Travel +-4 = +-0.4 mm rise = +-1.9 mrad pitch', '', 'pitch')
-    add('Foot_wedge_block_' + T, m(box(360, 372, -44, -24, 1, 17).cut(cyl('x', 2.5, 360, 372, -34, 3.7))
-                                 .cut(cyl('x', 2, 360, 372, -40, 13)).cut(cyl('x', 2, 360, 372, -28, 13))), G,
-        'steel block 12x20x16 on the outer side face of the foot, carries the wedge drive screw', '', 'pitch')
-    add('Foot_wedge_screw_' + T, m(fuse(cyl('x', 2.5, 346, 380, -34, 3.7), cyl('x', 4.5, 380, 385, -34, 3.7))), G,
-        'M5x0.5 drive screw; its T-head hooks into a T-slot in the wedge end, so block and screw lift off after dowelling. '
-        '10 deg = 1.4 um rise = 6.7 urad pitch (lever 206 to the rib)', '', 'pitch')
-    cut(foot.Label)
-    for k, y in enumerate((-40, -28), 1):
-        add('Foot_wedge_block_bolt_%s%d' % (T, k), m(fuse(cyl('x', 2, 350, 372, y, 13), cyl('x', 3.5, 372, 376, y, 13))), G, 'M4 SHCS', '', 'pitch')
-        cut(foot.Label, m(cyl('x', 2, 350, 360, y, 13)))
+    shim = box(298, 340, -38, -2, 0, 0.5).cut(box(315.5, 324.5, -38, -16, 0, 0.5)).cut(cyl('z', 4.5, 0, 0.5, 320, -16))
+    add('Foot_shim_' + T, m(shim), G,
+        'ground steel shim pack under the flange, nominal 0.5 (e.g. 0.3 + 0.1 + 0.05 + 0.05 ...), U-slot open to the front so it slides in '
+        'around the hold-down bolt. 0.01 mm of shim = 53 urad (lever about 190 to the rib) = 0.005 mm per 100 of Z. '
+        'Range: remove all = -2.6 mrad, add up to +2.6 mrad', '', 'pitch')
+    add('Foot_jack_tool_' + T, m(fuse(cyl('z', 4, 0.2, 24, 288, -30), cyl('z', 6.5, 24, 30, 288, -30))), G,
+        'M8x1 jack screw (alignment kit): screwed into the flange, tip on a brass pad on the datum plate; lifts the flange about 1 mm '
+        'to change shims, then comes out', '', 'pitch')
     s = m(fuse(cyl('z', 4, -14, 18, 320, -16), cyl('z', 6.5, 18, 26, 320, -16)))           # front hold-down
-    add('Foot_bolt_front_' + T, s, G, 'M8 SHCS hold-down beside the wedge, hole D9.5 for adjustment', '', 'pitch')
+    add('Foot_bolt_front_' + T, s, G, 'M8 SHCS hold-down through the shim pack, hole D9.5 for adjustment', '', 'pitch')
     cut(foot.Label, m(cyl('z', 4.75, 0, 18, 320, -16))); cut('Datum_base_plate', m(cyl('z', 4, -14, 0, 320, -16)))
     s = m(cyl('z', 4, -10, 20, 345, -10))                                                   # dowel
     add('Foot_dowel_' + T, s, G, 'dowel D8x30, drilled and reamed through the flange into the datum plate AFTER alignment', '', 'pins')
     cut(foot.Label, s); cut('Datum_base_plate', s)
     for k, x in enumerate((300, 340), 1):                                                    # rear hold-down on the pivot rib
         s = m(fuse(cyl('z', 3, -12, 18, x, 172), cyl('z', 5, 18, 24, x, 172)))
-        add('Foot_bolt_rear_%s%d' % (T, k), s, G, 'M6 SHCS on the pivot rib (loosen before turning the wedge)', '', 'pitch')
+        add('Foot_bolt_rear_%s%d' % (T, k), s, G, 'M6 SHCS on the pivot rib (loosen before changing shims)', '', 'pitch')
         cut(foot.Label, m(cyl('z', 3.5, 0, 18, x, 172))); cut('Datum_base_plate', m(cyl('z', 3, -12, 0, x, 172)))
     for k, (x, y) in enumerate(((300, 22), (340, 22), (300, 142), (340, 142)), 1):              # foot to column end taps
         s = m(fuse(cyl('z', 6.5, 1, 9, x, y), cyl('z', 4, 9, 38, x, y)))
@@ -258,7 +253,7 @@ add('Fixture_plate', box(-150, 150, 13 * -1 - 150, 237, 110, 135), '02 Y-axis',
 
 # ================================================================ removable alignment kit
 import re
-KIT_RX = (r'^(Yaw_|Foot_wedge_block|Foot_wedge_screw|Z_tram_block|Z_tram_screw|Spindle_roll_block|Spindle_roll_wedge|'
+KIT_RX = (r'^(Yaw_|Foot_jack_tool|Z_tram_block|Z_tram_screw|Spindle_roll_block|Spindle_roll_wedge|'
           r'Spindle_roll_screw|Spindle_follower_|Spindle_nod_bracket|Spindle_nod_screw)')
 G_KIT = doc.addObject('App::DocumentObjectGroup', 'AlignmentKit'); G_KIT.Label = '09 Alignment kit'
 KIT = [l for l in NEW if re.match(KIT_RX, l)]
@@ -270,8 +265,8 @@ doc.saveAs(os.path.join(OUT, 'CNC_v11.FCStd'))
 
 res = lambda lead_mm, lever: lead_mm / 36.0 / lever * 1e6       # urad per 10 deg of screw turn
 L = ['v11 = v10 + adjusters.  new parts: %d, of which %d form the removable alignment kit' % (len(NEW), len(KIT)), '', 'ADJUSTER RESOLUTION (per 10 deg of screw turn):']
-for name, lead, lever in (('1 pitch   1:10 wedge, M5x0.5, lever 206 to the rib', .5 / 10, 206),
-                          ('1 yaw     M6x0.75 push-pull, columns 640 apart', .75, 640),
+L.append('  %-48s %5.1f urad  = %.4f mm / 100' % ('1 pitch   shim 0.01 mm under the flange, lever 190', 0.01 / 190 * 1e6, 0.01 / 190 * 100) + '   (per 0.01 mm of shim)')
+for name, lead, lever in (('1 yaw     M6x0.75 push-pull, columns 640 apart', .75, 640),
                           ('2 ztram   M6x0.5 push, 430 above the pivot', .5, 430),
                           ('3 nod     1:20 wedge, M5x0.5, lever 69', .5 / 20, 69),
                           ('3 roll    1:15 wedge, M5x0.5, lever 69', .5 / 15, 69)):

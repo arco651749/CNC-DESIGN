@@ -17,7 +17,7 @@ def colour(n):   # same scheme as the adjuster tour page
     if re.search(r'(dowel|ref_pin|pivot_pin|roll_pin)', n): return [0.16, 0.5, 0.78]
     if re.search(r'(bolt|springs|pinch|bar_screw)', n): return [0.45, 0.48, 0.5]
     if re.search(r'(_block|_bracket|_bar$|wedge_base)', n): return [0.2, 0.23, 0.26]
-    if re.search(r'(jack|screw|ecc_pin|wedge)', n): return [0.88, 0.36, 0.12]
+    if re.search(r'(jack|screw|ecc_pin|wedge|shim)', n): return [0.88, 0.36, 0.12]
     if n == 'Fixture_plate': return [0.78, 0.8, 0.82]
     if n == 'X_saddle_plate': return [0.52, 0.56, 0.6]
     return [0.7, 0.72, 0.75]
@@ -65,7 +65,7 @@ html2, nwp = re.subn(r"const tt=bb\['Work_table'\]\.max\.z", "const tt=bb['Fixtu
 log.append('work piece on fixture plate replaced=%d' % nwp)
 html2 = re.sub(r'<title>[^<]*</title>', '<title>CNC v11 動作模擬</title>', html2, count=1)
 html2 = re.sub(r'<div class="sub">.*?</div>',
-               '<div class="sub">v11 生產狀態（校正工具組已拆下；腳座斜楔、主軸三點支撐留在機上；主軸前移 13 mm，工件在治具板上）· 拖曳旋轉、滾輪縮放</div>', html2, count=1)
+               '<div class="sub">v11 生產狀態（校正工具組已拆下；腳座墊片、主軸三點支撐留在機上；主軸前移 13 mm，工件在治具板上）· 拖曳旋轉、滾輪縮放</div>', html2, count=1)
 open(OUT, 'w', encoding='utf-8', newline='\n').write(html2)
 log.insert(0, 'parts=%d size=%d' % (len(out), len(html2)))
 open(LOG, 'w', encoding='utf-8').write('\n'.join(log))

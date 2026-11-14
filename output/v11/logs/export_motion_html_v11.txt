@@ -1,4 +1,4 @@
-parts=151 size=11319064
+parts=151 size=11300886
 Datum_base_plate g='' r='' tris=8076
 Y_rail_L g='y' r='' tris=8600
 Y_block_L1 g='' r='' tris=44982
@@ -13,9 +13,9 @@ Y_nut_bracket g='' r='' tris=520
 Y_support_fixed g='y' r='' tris=14600
 Y_coupling g='y' r='y' tris=11900
 Y_motor g='y' r='' tris=16584
-Column_foot_L g='' r='' tris=7636
+Column_foot_L g='' r='' tris=7120
 Gantry_column_L g='' r='' tris=17272
-Column_foot_R g='' r='' tris=7636
+Column_foot_R g='' r='' tris=7120
 Gantry_column_R g='' r='' tris=17272
 X_rail_1 g='' r='' tris=9732
 X_block_11 g='x' r='' tris=23526
@@ -60,11 +60,8 @@ X_coupling g='' r='x' tris=11900
 X_motor_block g='' r='' tris=2552
 Z_nut_housing g='z' r='' tris=520
 Electrical_panel g='' r='' tris=44
-Foot_wedge_R g='' r='' tris=516
-KIT (not shown) Foot_wedge_block_R
-KIT (not shown) Foot_wedge_screw_R
-KIT (not shown) Foot_wedge_block_bolt_R1
-KIT (not shown) Foot_wedge_block_bolt_R2
+Foot_shim_R g='' r='' tris=276
+KIT (not shown) Foot_jack_tool_R
 Foot_bolt_front_R g='' r='' tris=1004
 Foot_dowel_R g='' r='' tris=500
 Foot_bolt_rear_R1 g='' r='' tris=1004
@@ -82,11 +79,8 @@ X_plate_bolt_R1 g='' r='' tris=1004
 X_plate_bolt_R2 g='' r='' tris=1004
 X_plate_bolt_R3 g='' r='' tris=1004
 X_plate_bolt_R4 g='' r='' tris=1004
-Foot_wedge_L g='' r='' tris=516
-KIT (not shown) Foot_wedge_block_L
-KIT (not shown) Foot_wedge_screw_L
-KIT (not shown) Foot_wedge_block_bolt_L1
-KIT (not shown) Foot_wedge_block_bolt_L2
+Foot_shim_L g='' r='' tris=276
+KIT (not shown) Foot_jack_tool_L
 Foot_bolt_front_L g='' r='' tris=1004
 Foot_dowel_L g='' r='' tris=500
 Foot_bolt_rear_L1 g='' r='' tris=1004

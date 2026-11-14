@@ -2,7 +2,7 @@
 """v11 collision sweep: all part pairs at home + the 8 travel-end poses (Y -250/+150, X +-150, Z +-50).
 Pairs that overlap at home are listed separately (design contacts); anything else that overlaps at a pose is a collision.
 New v11 parts carry their motion class in the Motion property; v10 parts use the v10 name rules.
-Allowed: Tool_D5 x Fixture_plate at Z -50; Foot_wedge_* x Column_foot_* when the wedge is moved (checked separately) (the tool must reach below the plate top to skim it).
+Allowed: Tool_D5 x Fixture_plate at Z -50 (the tool must reach below the plate top to skim it).
 Run:  freecadcmd freecad/v11/02_motion_check_v11.py     Out: output/v11/logs/v11_motion.txt"""
 import os, itertools
 import FreeCAD as App
@@ -59,7 +59,7 @@ H = pose(0, 0, 0)
 for a, b in (('X_saddle_plate', 'X_base_plate'), ('X_saddle_plate', 'Z_motor_plate'), ('X_block_21', 'X_ecc_pin_2'), ('X_block_11', 'X_ref_pin_2'),
              ('X_block_11', 'X_side_screw_M2'), ('X_block_21', 'X_side_screw_S2'), ('Z_block_L1', 'Z_ref_pin_1'), ('Z_block_R1', 'Z_ecc_pin_1'),
              ('Y_block_L1', 'Y_ref_pin_1'), ('Y_block_R1', 'Y_ecc_pin_1'), ('Y_block_L1', 'Y_side_screw_M1'),
-             ('Yaw_push_block_L', 'Work_table'), ('Column_foot_L', 'Work_table'), ('Foot_wedge_block_R', 'Gantry_column_R'),
+             ('Yaw_push_block_L', 'Work_table'), ('Column_foot_L', 'Work_table'), ('Foot_jack_tool_R', 'Gantry_column_R'), ('Foot_shim_R', 'Foot_dowel_R'),
              ('Spindle_clamp', 'Z_slide_plate'), ('Spindle_nod_wedge', 'Spindle_plug'), ('Spindle_nod_bracket', 'Spindle_fan_cover'),
              ('Spindle_nod_bracket', 'Spindle_plug'), ('Spindle_roll_block', 'Spindle_clamp'), ('Spindle_follower_block', 'Spindle_clamp'),
              ('Fixture_plate', 'Tool_D5'), ('Fixture_plate', 'ER11_nut')):
@@ -72,9 +72,6 @@ for dz in (-5, 5):
 for dz in (-4, 4):
     w = sh('Spindle_roll_wedge', V(0, 0, dz))
     clear.append('roll wedge dz%+d - Spindle_roll_block overlap %.1f mm3 (overlap = the wedge pushes the clamp %+.2f mm in X; 0 = it backs off, the follower keeps contact)' % (dz, vol(w, P['Spindle_roll_block']), -dz / 15.0))
-for dx in (-4, 4):
-    w = sh('Foot_wedge_R', V(dx, 0, 0))
-    clear.append('foot wedge R dx%+d - Column_foot_R overlap %.1f mm3 (overlap = the wedge lifts the flange %+.1f mm; 0 = it backs off, the flange follows down)' % (dx, vol(w, P['Column_foot_R']), -dx * 0.1))
 for dx in (-150, 150):
     S = pose(0, dx, 0)
     for a, b in (('X_saddle_plate', 'Gantry_column_L'), ('X_saddle_plate', 'Gantry_column_R'), ('Z_tram_screw_L', 'Gantry_column_L'),

@@ -33,7 +33,7 @@ def colour(n, adj):
     if re.search(r'(dowel|ref_pin|pivot_pin|roll_pin)', n): return [0.16, 0.5, 0.78]             # pins: blue
     if re.search(r'(bolt|springs|pinch|bar_screw)', n): return [0.45, 0.48, 0.5]               # fasteners: grey
     if re.search(r'(_block|_bracket|_bar$|wedge_base)', n): return [0.2, 0.23, 0.26]           # fixed blocks: dark
-    if re.search(r'(jack|screw|ecc_pin|wedge)', n): return [0.88, 0.36, 0.12]                  # what you turn or what moves: orange
+    if re.search(r'(jack|screw|ecc_pin|wedge|shim)', n): return [0.88, 0.36, 0.12]                  # what you turn or what moves: orange
     if n == 'Spindle_clamp': return [0.62, 0.66, 0.7]
     if n == 'Fixture_plate': return [0.78, 0.8, 0.82]
     if n == 'X_saddle_plate': return [0.52, 0.56, 0.6]

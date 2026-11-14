@@ -1,4 +1,4 @@
-parts: 186   motion classes: static 79 / y 21 / x 43 / z 43
+parts: 180   motion classes: static 73 / y 21 / x 43 / z 43
 
 DESIGN CONTACTS AT HOME (overlap > 1 mm3, review): 4
   X_ball_nut x X_nut_bracket : 19 mm3
@@ -25,7 +25,8 @@ CLEARANCES:
   home  Y_block_L1             - Y_side_screw_M1           8.3 mm
   home  Yaw_push_block_L       - Work_table               91.8 mm
   home  Column_foot_L          - Work_table               79.4 mm
-  home  Foot_wedge_block_R     - Gantry_column_R          26.2 mm
+  home  Foot_jack_tool_R       - Gantry_column_R          25.5 mm
+  home  Foot_shim_R            - Foot_dowel_R              1.0 mm
   home  Spindle_clamp          - Z_slide_plate             8.0 mm
   home  Spindle_nod_wedge      - Spindle_plug             19.0 mm
   home  Spindle_nod_bracket    - Spindle_fan_cover        15.8 mm
@@ -38,8 +39,6 @@ CLEARANCES:
   nod wedge dz+5  - Spindle_clamp overlap 0.0 mm3 (contact face, 0 expected)   - Spindle_nod_bracket    1.0 mm
   roll wedge dz-4 - Spindle_roll_block overlap 100.4 mm3 (overlap = the wedge pushes the clamp +0.27 mm in X; 0 = it backs off, the follower keeps contact)
   roll wedge dz+4 - Spindle_roll_block overlap 0.0 mm3 (overlap = the wedge pushes the clamp -0.27 mm in X; 0 = it backs off, the follower keeps contact)
-  foot wedge R dx-4 - Column_foot_R overlap 422.4 mm3 (overlap = the wedge lifts the flange +0.4 mm; 0 = it backs off, the flange follows down)
-  foot wedge R dx+4 - Column_foot_R overlap 0.0 mm3 (overlap = the wedge lifts the flange -0.4 mm; 0 = it backs off, the flange follows down)
   dx-150 X_saddle_plate         - Gantry_column_L          10.0 mm
   dx-150 X_saddle_plate         - Gantry_column_R         310.0 mm
   dx-150 Z_tram_screw_L         - Gantry_column_L         184.5 mm
