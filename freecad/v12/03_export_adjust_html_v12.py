@@ -16,7 +16,7 @@ old = {d['n']: d['c'] for d in json.loads(m.group(1))}
 three = src[src.find('<script'):src.rfind('<script>', 0, m.start())]
 
 RULES = [   # first match wins
-    ('sp', r'^(Spindle_body|Spindle_fan_cover|Spindle_plug|Spindle_nose|ER11_nut|Tool_D5|Spindle_clamp|Spindle_pinch_screw_|Spindle_bolt_|Spindle_shim_)'),
+    ('sp', r'^(Spindle_body|Spindle_fan_cover|Spindle_plug|Spindle_nose|ER11_nut|Tool_D5|Spindle_clamp|Spindle_pinch_screw_|Spindle_bolt_|Spindle_shim_|Spindle_face_screw_|Spindle_pivot_pin)'),
     ('z', r'^(Z_block|Z_spacer|Z_slide|Z_ball_nut|Z_nut_housing|Spindle_)'),
     ('zp', r'^(X_carriage_plate|Z_rail_|Z_ballscrew|Z_support_fixed|Z_coupling|Z_motor|Z_ref_pin_|Z_ecc_pin_|Z_side_screw_|Z_clamp_bolt_|Z_face_screw_|Z_pivot_pin)'),
     ('x', r'^(X_saddle_plate|X_block_|X_ball_nut|X_nut_bracket|Z_roll_block|Z_roll_screw|Z_pivot_bearing|Z_epoxy_pad_)'),
@@ -31,7 +31,7 @@ def group(n):
 def colour(n, adj):
     if n in old and n != 'Spindle_clamp': return old[n]
     if 'epoxy' in n: return [0.13, 0.62, 0.56]                                                  # cast epoxy: teal
-    if re.search(r'(dowel|ref_pin|pivot_pin|roll_pin|Z_pivot_)', n): return [0.16, 0.5, 0.78]      # pins and the ball: blue
+    if re.search(r'(dowel|ref_pin|pivot_pin|roll_pin|Z_pivot_|pivot_bearing)', n): return [0.16, 0.5, 0.78]      # pins and the ball: blue
     if re.search(r'(bolt|springs|pinch)', n): return [0.45, 0.48, 0.5]
     if re.search(r'(_block|_bracket)', n): return [0.2, 0.23, 0.26]
     if re.search(r'(jack|screw|ecc_pin|wedge|shim)', n): return [0.88, 0.36, 0.12]

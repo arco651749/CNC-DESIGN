@@ -1,4 +1,4 @@
-parts=160 size=12167369
+parts=161 size=12874346
 Datum_base_plate g='' r='' tris=7068
 Y_rail_L g='y' r='' tris=8600
 Y_block_L1 g='' r='' tris=44982
@@ -50,7 +50,7 @@ Spindle_plug g='z' r='' tris=12
 Spindle_nose g='z' r='' tris=500
 ER11_nut g='z' r='' tris=500
 Tool_D5 g='z' r='' tris=500
-Spindle_clamp g='z' r='' tris=6140
+Spindle_clamp g='z' r='' tris=7664
 Servo_amp_X g='' r='' tris=3138
 Servo_amp_Y g='' r='' tris=3138
 Servo_amp_Z g='' r='' tris=3138
@@ -130,6 +130,8 @@ KIT (not shown) Z_roll_block_bolt_L1
 KIT (not shown) Z_roll_block_bolt_L2
 Spindle_pinch_screw_1 g='z' r='' tris=1004
 Spindle_pinch_screw_2 g='z' r='' tris=1004
+Spindle_pivot_bearing g='z' r='' tris=57388
+Spindle_pivot_pin g='z' r='' tris=500
 Spindle_shim_1 g='z' r='' tris=280
 Spindle_bolt_1 g='z' r='' tris=1004
 Spindle_shim_2 g='z' r='' tris=280
@@ -138,7 +140,9 @@ Spindle_shim_3 g='z' r='' tris=280
 Spindle_bolt_3 g='z' r='' tris=1004
 Spindle_shim_4 g='z' r='' tris=280
 Spindle_bolt_4 g='z' r='' tris=1004
-Spindle_roll_pin g='z' r='' tris=500
+KIT (not shown) Spindle_face_screw_TL
+KIT (not shown) Spindle_face_screw_TR
+KIT (not shown) Spindle_face_screw_BR
 KIT (not shown) Spindle_roll_block_R
 KIT (not shown) Spindle_roll_screw_R
 KIT (not shown) Spindle_roll_block_bolt_R

@@ -1,4 +1,4 @@
-parts: 182   motion classes: static 77 / y 20 / x 52 / z 33
+parts: 186   motion classes: static 77 / y 20 / x 52 / z 37
 
 DESIGN CONTACTS AT HOME (overlap > 1 mm3, review): 4
   X_ball_nut x X_nut_bracket : 19 mm3
@@ -40,10 +40,10 @@ CLEARANCES:
   dx+150 Spindle_roll_screw_L   - Gantry_column_L         326.0 mm
   dz-50 Tool_D5                - Work_table               20.5 mm
   dz-50 Spindle_clamp          - Work_table              159.0 mm
-  dz-50 Spindle_roll_screw_R   - Z_support_fixed         188.7 mm
+  dz-50 Spindle_roll_screw_R   - Z_support_fixed         188.2 mm
   dz-50 Z_face_screw_R         - Z_slide_plate           199.8 mm
   dz+50 Tool_D5                - Work_table              120.1 mm
   dz+50 Spindle_clamp          - Work_table              259.0 mm
-  dz+50 Spindle_roll_screw_R   - Z_support_fixed         102.8 mm
+  dz+50 Spindle_roll_screw_R   - Z_support_fixed         102.3 mm
   dz+50 Z_face_screw_R         - Z_slide_plate           103.0 mm
   tool y -8.0 covers table y -158.0 .. 242.0

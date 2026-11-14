@@ -1,4 +1,4 @@
-v12 = v10 + owner architecture.  new parts: 125, alignment kit: 26, epoxy pads: 14
+v12 = v10 + owner architecture.  new parts: 129, alignment kit: 29, epoxy pads: 14
 
 Column_foot_R              -  yaw           x[  280.0,  360.0] y[  -28.0,  182.0] z[    0.0,   18.0]  OK
 X_base_plate               -  xlevel        x[ -360.0,  360.0] y[  162.0,  182.0] z[  230.0,  490.0]  OK
@@ -75,20 +75,24 @@ Z_roll_block_bolt_L1       x  ztram    KIT  x[ -137.2, -128.8] y[   99.0,  132.0
 Z_roll_block_bolt_L2       x  ztram    KIT  x[ -137.2, -128.8] y[   99.0,  132.0] z[  685.8,  694.2]  OK
 Spindle_pinch_screw_1      z  spindle       x[  -30.0,   36.0] y[  -53.0,  -43.0] z[  340.0,  350.0]  OK
 Spindle_pinch_screw_2      z  spindle       x[  -30.0,   36.0] y[  -53.0,  -43.0] z[  383.0,  393.0]  OK
-Spindle_shim_1             z  spindle       x[  -76.0,  -52.0] y[   32.0,   34.0] z[  319.0,  335.0]  OK
-Spindle_bolt_1             z  spindle       x[  -69.0,  -59.0] y[   -4.0,   46.0] z[  322.0,  332.0]  OK
-Spindle_shim_2             z  spindle       x[   52.0,   76.0] y[   32.0,   34.0] z[  319.0,  335.0]  OK
-Spindle_bolt_2             z  spindle       x[   59.0,   69.0] y[   -4.0,   46.0] z[  322.0,  332.0]  OK
-Spindle_shim_3             z  spindle       x[  -76.0,  -52.0] y[   32.0,   34.0] z[  484.0,  500.0]  OK
-Spindle_bolt_3             z  spindle       x[  -69.0,  -59.0] y[   -4.0,   46.0] z[  487.0,  497.0]  OK
-Spindle_shim_4             z  spindle       x[   52.0,   76.0] y[   32.0,   34.0] z[  484.0,  500.0]  OK
-Spindle_bolt_4             z  spindle       x[   59.0,   69.0] y[   -4.0,   46.0] z[  487.0,  497.0]  OK
-Spindle_roll_pin           z  spindle       x[  -67.0,  -61.0] y[   20.0,   46.0] z[  349.0,  355.0]  OK
+Spindle_pivot_bearing      z  spindle       x[  -71.5,  -46.5] y[   32.1,   47.9] z[  332.5,  357.5]  OK
+Spindle_pivot_pin          z  spindle       x[  -63.0,  -55.0] y[   17.0,   46.0] z[  341.0,  349.0]  OK
+Spindle_shim_1             z  spindle       x[  -70.0,  -48.0] y[   32.0,   34.0] z[  392.0,  408.0]  OK
+Spindle_bolt_1             z  spindle       x[  -64.0,  -54.0] y[   -4.0,   46.0] z[  395.0,  405.0]  OK
+Spindle_shim_2             z  spindle       x[   48.0,   70.0] y[   32.0,   34.0] z[  387.0,  403.0]  OK
+Spindle_bolt_2             z  spindle       x[   54.0,   64.0] y[   -4.0,   46.0] z[  390.0,  400.0]  OK
+Spindle_shim_3             z  spindle       x[  -70.0,  -48.0] y[   32.0,   34.0] z[  447.0,  463.0]  OK
+Spindle_bolt_3             z  spindle       x[  -64.0,  -54.0] y[   -4.0,   46.0] z[  450.0,  460.0]  OK
+Spindle_shim_4             z  spindle       x[   48.0,   70.0] y[   32.0,   34.0] z[  447.0,  463.0]  OK
+Spindle_bolt_4             z  spindle       x[   54.0,   64.0] y[   -4.0,   46.0] z[  450.0,  460.0]  OK
+Spindle_face_screw_TL      z  spindle  KIT  x[  -65.5,  -52.5] y[   -4.0,   34.0] z[  483.5,  496.5]  OK
+Spindle_face_screw_TR      z  spindle  KIT  x[   52.5,   65.5] y[   -4.0,   34.0] z[  483.5,  496.5]  OK
+Spindle_face_screw_BR      z  spindle  KIT  x[   52.5,   65.5] y[   -4.0,   34.0] z[  333.5,  346.5]  OK
 Spindle_roll_block_R       z  spindle  KIT  x[   80.0,   98.0] y[   14.0,   34.0] z[  474.0,  504.0]  OK
-Spindle_roll_screw_R       z  spindle  KIT  x[   78.0,  104.0] y[   19.5,   28.5] z[  484.5,  493.5]  OK
+Spindle_roll_screw_R       z  spindle  KIT  x[   78.0,  104.0] y[   19.0,   29.0] z[  484.0,  494.0]  OK
 Spindle_roll_block_bolt_R  z  spindle  KIT  x[   85.5,   92.5] y[   10.0,   46.0] z[  496.5,  503.5]  OK
 Spindle_roll_block_L       z  spindle  KIT  x[  -98.0,  -80.0] y[   14.0,   34.0] z[  474.0,  504.0]  OK
-Spindle_roll_screw_L       z  spindle  KIT  x[ -104.0,  -78.0] y[   19.5,   28.5] z[  484.5,  493.5]  OK
+Spindle_roll_screw_L       z  spindle  KIT  x[ -104.0,  -78.0] y[   19.0,   29.0] z[  484.0,  494.0]  OK
 Spindle_roll_block_bolt_L  z  spindle  KIT  x[  -92.5,  -85.5] y[   10.0,   46.0] z[  496.5,  503.5]  OK
 X_ref_pin_1                -  rails         x[ -243.0, -237.0] y[  157.5,  170.0] z[  234.0,  240.0]  OK
 X_ecc_pin_1                -  rails         x[ -245.0, -235.0] y[  157.5,  170.0] z[  450.0,  460.0]  OK
