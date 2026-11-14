@@ -2,7 +2,7 @@
 """v11 collision sweep: all part pairs at home + the 8 travel-end poses (Y -250/+150, X +-150, Z +-50).
 Pairs that overlap at home are listed separately (design contacts); anything else that overlaps at a pose is a collision.
 New v11 parts carry their motion class in the Motion property; v10 parts use the v10 name rules.
-Allowed: Tool_D5 x Fixture_plate at Z -50 (the tool must reach below the plate top to skim it).
+Allowed: Tool_D5 x Fixture_plate at Z -50; Foot_wedge_* x Column_foot_* when the wedge is moved (checked separately) (the tool must reach below the plate top to skim it).
 Run:  freecadcmd freecad/v11/02_motion_check_v11.py     Out: output/v11/logs/v11_motion.txt"""
 import os, itertools
 import FreeCAD as App
@@ -51,21 +51,44 @@ d = lambda a, b, S: S[a].distToShape(S[b])[0]
 clear = []
 H = pose(0, 0, 0)
 for a, b in (('X_saddle_plate', 'X_base_plate'), ('X_saddle_plate', 'Z_motor_plate'), ('X_block_21', 'X_ecc_pin_2'), ('X_block_11', 'X_ref_pin_2'),
-             ('X_block_11', 'X_side_screw_Mb'), ('Z_block_L1', 'Z_ref_pin_1'), ('Z_block_R1', 'Z_ecc_pin_1'), ('Y_block_L1', 'Y_ref_pin_1'),
-             ('Y_block_R1', 'Y_ecc_pin_1'), ('Foot_bolt_rear_R1', 'X_base_plate'), ('Yaw_push_block_L', 'Work_table'), ('Column_foot_L', 'Work_table'),
-             ('Spindle_clamp', 'Spindle_plug'), ('Indicator_holder', 'Spindle_clamp'), ('Fixture_plate', 'Tool_D5'), ('Fixture_plate', 'ER11_nut')):
-    clear.append('home  %-18s - %-18s %6.1f mm' % (a, b, d(a, b, H)))
+             ('X_block_11', 'X_side_screw_M2'), ('X_block_21', 'X_side_screw_S2'), ('Z_block_L1', 'Z_ref_pin_1'), ('Z_block_R1', 'Z_ecc_pin_1'),
+             ('Y_block_L1', 'Y_ref_pin_1'), ('Y_block_R1', 'Y_ecc_pin_1'), ('Y_block_L1', 'Y_side_screw_M1'),
+             ('Yaw_push_block_L', 'Work_table'), ('Column_foot_L', 'Work_table'), ('Foot_wedge_block_R', 'Gantry_column_R'),
+             ('Spindle_clamp', 'Z_slide_plate'), ('Spindle_nod_wedge', 'Spindle_plug'), ('Spindle_nod_bracket', 'Spindle_fan_cover'),
+             ('Spindle_nod_bracket', 'Spindle_plug'), ('Spindle_roll_block', 'Spindle_clamp'), ('Spindle_follower_block', 'Spindle_clamp'),
+             ('Fixture_plate', 'Tool_D5'), ('Fixture_plate', 'ER11_nut')):
+    clear.append('home  %-22s - %-22s %6.1f mm' % (a, b, d(a, b, H)))
+# adjustment travel of the moving wedges (they are not part of the axis sweep)
+sh = lambda n, v: (lambda s: (s.translate(v), s)[1])(P[n].copy())
+def vol(a, b):
+    try:
+        return a.common(b).Volume
+    except Exception:          # touching faces can give a null common
+        return 0.0
+for dz in (-5, 5):
+    w = sh('Spindle_nod_wedge', V(0, 0, dz))
+    clear.append('nod wedge dz%+d  - Spindle_clamp overlap %.1f mm3 (contact face, 0 expected)   - Spindle_nod_bracket %6.1f mm' % (dz, vol(w, P['Spindle_clamp']), w.distToShape(P['Spindle_nod_bracket'])[0]))
+for dz in (-4, 4):
+    w = sh('Spindle_roll_wedge', V(0, 0, dz))
+    clear.append('roll wedge dz%+d - Spindle_roll_block overlap %.1f mm3 (overlap = the wedge pushes the clamp %+.2f mm in X; 0 = it backs off, the follower keeps contact)' % (dz, vol(w, P['Spindle_roll_block']), -dz / 15.0))
+for dx in (-4, 4):
+    w = sh('Foot_wedge_R', V(dx, 0, 0))
+    clear.append('foot wedge R dx%+d - Column_foot_R overlap %.1f mm3 (overlap = the wedge lifts the flange %+.1f mm; 0 = it backs off, the flange follows down)' % (dx, vol(w, P['Column_foot_R']), -dx * 0.1))
 for dx in (-150, 150):
     S = pose(0, dx, 0)
     for a, b in (('X_saddle_plate', 'Gantry_column_L'), ('X_saddle_plate', 'Gantry_column_R'), ('Z_tram_screw_L', 'Gantry_column_L'),
-                 ('Z_tram_screw_R', 'Gantry_column_R'), ('X_carriage_plate', 'Gantry_column_L'), ('X_carriage_plate', 'Gantry_column_R')):
-        clear.append('dx%+d %-18s - %-18s %6.1f mm' % (dx, a, b, d(a, b, S)))
+                 ('Z_tram_screw_R', 'Gantry_column_R'), ('Spindle_follower_screw', 'Gantry_column_R'), ('Spindle_roll_block', 'Gantry_column_L')):
+        clear.append('dx%+d %-22s - %-22s %6.1f mm' % (dx, a, b, d(a, b, S)))
 S = pose(0, 0, -50)
-for a, b in (('Fixture_plate', 'ER11_nut'), ('Fixture_plate', 'Indicator_holder'), ('Fixture_plate', 'Spindle_clamp')):
-    clear.append('dz-50 %-18s - %-18s %6.1f mm' % (a, b, d(a, b, S)))
+for a, b in (('Fixture_plate', 'ER11_nut'), ('Fixture_plate', 'Spindle_clamp'), ('Fixture_plate', 'Spindle_bolt_1')):
+    clear.append('dz-50 %-22s - %-22s %6.1f mm' % (a, b, d(a, b, S)))
 S = pose(0, 0, 50)
-for a, b in (('Spindle_clamp', 'Z_motor_plate'), ('Spindle_roll_block_R', 'Z_support_fixed')):
-    clear.append('dz+50 %-18s - %-18s %6.1f mm' % (a, b, d(a, b, S)))
+for a, b in (('Spindle_nod_screw', 'Z_support_fixed'), ('Spindle_nod_screw', 'Z_motor_plate')):
+    clear.append('dz+50 %-22s - %-22s %6.1f mm' % (a, b, d(a, b, S)))
+# tool reach over the fixture plate (table moves, tool fixed in Y)
+fb, tb = P['Fixture_plate'].BoundBox, P['Tool_D5'].BoundBox
+ty = (tb.YMin + tb.YMax) / 2
+clear.append('tool y %.1f covers table y %.1f .. %.1f ; fixture plate y %.1f .. %.1f' % (ty, ty - 150, ty + 250, fb.YMin, fb.YMax))
 out = ['parts: %d   motion classes: static %d / y %d / x %d / z %d' % (len(P), *[sum(1 for v in C.values() if v == k) for k in ('', 'y', 'x', 'z')]), '',
        'DESIGN CONTACTS AT HOME (overlap > 1 mm3, review): %d' % len(home)] + ['  %s x %s : %d mm3' % (a, b, v) for (a, b), v in sorted(home.items())]
 out += ['', 'COLLISIONS AT TRAVEL ENDS (new vs home): %d' % len(coll)] + ['  %s x %s : %s' % (a, b, p) for (a, b), p in sorted(coll.items())]

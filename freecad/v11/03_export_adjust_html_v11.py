@@ -16,12 +16,12 @@ old = {d['n']: d['c'] for d in json.loads(m.group(1))}
 three = src[src.find('<script'):src.rfind('<script>', 0, m.start())]
 
 RULES = [   # first match wins
-    ('sp', r'^(Spindle_body|Spindle_fan_cover|Spindle_plug|Spindle_nose|ER11_nut|Tool_D5|Spindle_clamp|Spindle_nod_jack_|Spindle_pivot_pin)'),
-    ('z', r'^(Z_block|Z_spacer|Z_slide|Z_ball_nut|Z_nut_housing|Spindle_roll_|Indicator_holder)'),
+    ('sp', r'^(Spindle_body|Spindle_fan_cover|Spindle_plug|Spindle_nose|ER11_nut|Tool_D5|Spindle_clamp|Spindle_pinch_screw_|Spindle_bolt_|Spindle_disc_springs_)'),
+    ('z', r'^(Z_block|Z_spacer|Z_slide|Z_ball_nut|Z_nut_housing|Spindle_)'),
     ('zp', r'^(X_carriage_plate|Z_rail_|Z_ballscrew|Z_support_fixed|Z_coupling|Z_motor|Z_ref_pin_|Z_ecc_pin_|Z_side_screw_|Z_tram_bolt_|Z_tram_pivot_pin|Z_tram_lock_dowel)'),
     ('x', r'^(X_saddle_plate|X_block_|X_ball_nut|X_nut_bracket|Z_tram_block|Z_tram_screw)'),
     ('y', r'^(Y_rail|Work_table|Y_ballscrew|Y_support|Y_coupling|Y_motor|Y_ref_pin_|Y_ecc_pin_|Y_side_screw_|Fixture_plate)'),
-    ('gan', r'^(Column_foot_|Gantry_column_|Foot_|X_level_)'),
+    ('gan', r'^(Column_foot_|Gantry_column_|Foot_)'),
     ('xp', r'^(X_base_plate|X_rail_|X_ballscrew|X_support_fixed|X_coupling|X_motor|X_ref_pin_|X_ecc_pin_|X_side_screw_|X_plate_bolt_|Servo_amp|Electrical_panel)'),
 ]
 def group(n):
@@ -29,11 +29,12 @@ def group(n):
         if re.match(rx, n): return k
     return 'base'
 def colour(n, adj):
-    if n in old: return old[n]
-    if re.search(r'(dowel|ref_pin|pivot_pin)', n): return [0.16, 0.5, 0.78]              # dowels and reference pins: blue
-    if re.search(r'(jack|screw|ecc_pin)', n): return [0.88, 0.36, 0.12]                  # what you turn: orange
-    if re.search(r'(_block_|_bracket_|Indicator_holder)', n) and 'bolt' not in n: return [0.2, 0.23, 0.26]
-    if 'bolt' in n: return [0.45, 0.48, 0.5]
+    if n in old and n != 'Spindle_clamp': return old[n]
+    if re.search(r'(dowel|ref_pin|pivot_pin|roll_pin)', n): return [0.16, 0.5, 0.78]             # pins: blue
+    if re.search(r'(bolt|springs|pinch|bar_screw)', n): return [0.45, 0.48, 0.5]               # fasteners: grey
+    if re.search(r'(_block|_bracket|_bar$|wedge_base)', n): return [0.2, 0.23, 0.26]           # fixed blocks: dark
+    if re.search(r'(jack|screw|ecc_pin|wedge)', n): return [0.88, 0.36, 0.12]                  # what you turn or what moves: orange
+    if n == 'Spindle_clamp': return [0.62, 0.66, 0.7]
     if n == 'Fixture_plate': return [0.78, 0.8, 0.82]
     if n == 'X_saddle_plate': return [0.52, 0.56, 0.6]
     return [0.7, 0.72, 0.75]
