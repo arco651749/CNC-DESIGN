@@ -21,7 +21,7 @@ CLEARANCES:
   home  X_roll_bracket         - X_motor_block            98.0 mm
   home  X_base_plate           - Gantry_column_R           1.0 mm
   home  Spindle_clamp          - Z_slide_plate             2.0 mm
-  home  Spindle_clamp          - Spindle_plug              2.0 mm
+  home  Spindle_clamp          - Spindle_plug              6.0 mm
   home  Spindle_roll_block_R   - Spindle_clamp             2.0 mm
   home  Z_face_screw_R         - Z_motor_plate            23.5 mm
   home  Tool_D5                - Work_table               70.1 mm
@@ -46,4 +46,4 @@ CLEARANCES:
   dz+50 Spindle_clamp          - Work_table              259.0 mm
   dz+50 Spindle_roll_screw_R   - Z_support_fixed         102.3 mm
   dz+50 Z_face_screw_R         - Z_slide_plate           103.0 mm
-  tool y -8.0 covers table y -158.0 .. 242.0
+  tool y -12.0 covers table y -162.0 .. 238.0

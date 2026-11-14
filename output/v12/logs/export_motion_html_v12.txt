@@ -1,4 +1,4 @@
-parts=161 size=12874346
+parts=161 size=12880405
 Datum_base_plate g='' r='' tris=7068
 Y_rail_L g='y' r='' tris=8600
 Y_block_L1 g='' r='' tris=44982
@@ -131,7 +131,7 @@ KIT (not shown) Z_roll_block_bolt_L2
 Spindle_pinch_screw_1 g='z' r='' tris=1004
 Spindle_pinch_screw_2 g='z' r='' tris=1004
 Spindle_pivot_bearing g='z' r='' tris=57388
-Spindle_pivot_pin g='z' r='' tris=500
+Spindle_pivot_stud g='z' r='' tris=1004
 Spindle_shim_1 g='z' r='' tris=280
 Spindle_bolt_1 g='z' r='' tris=1004
 Spindle_shim_2 g='z' r='' tris=280

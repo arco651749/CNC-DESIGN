@@ -13,9 +13,9 @@
                  Y (thrust) load. Y is held by three differential push screws (0.25 mm/rev) through the Z plate, two at the
                  top and one at the bottom: together = gap, top vs bottom = nod about X, left vs right = turn about Z (no
                  effect on squareness). Opposed differential side screws = roll about Y. Frozen by epoxy pads round the 6 bolts
-  5 spindle      same pivot as the Z plate: RBPB8 in the Z slide under the left ear, pin in the ear; three differential face
-                 screws (gap, nod) and opposed side screws (roll); fixed by shim packs at the 4 bolts so it stays re-adjustable.
-                 Spindles are screened for housing-to-axis error at goods-in. Spindle axis moved to y-8 (real rear wall)
+  5 spindle      same pivot as the Z plate: RBPB8 in the Z slide at the centre behind the clamp body, shouldered stud screwed into
+                 the clamp; three differential face screws (gap, nod) and opposed side screws (roll); fixed by shim packs at the 4
+                 bolts so it stays re-adjustable. Spindles are screened at goods-in. Spindle axis at y-12 (rear wall 11.5)
 Removable alignment kit (Kit = 'removable'): yaw push-pull block, X-level jack + bracket, Z face screws, Z roll blocks,
 spindle roll blocks. After the epoxy has cured they come off and are reused on the next machine.
 Run:  freecadcmd freecad/v12/01_v12_adjusters.py      Out: output/v12/CNC_v12.FCStd, output/v12/logs/v12_build.txt"""
@@ -165,35 +165,35 @@ for sgn, T in ((1, 'R'), (-1, 'L')):
         cut('X_saddle_plate', m(cyl('y', 2.5, 122, 132, 133, z)))
 
 # ================================================================ 5. spindle: same pivot as the Z plate, fixed by shims
-# RBPB8 in the Z slide under the left ear, D8 pin pressed into the ear (slide fit in the inner ring: no thrust on the bearing).
-# Three differential face screws through the ears set the 2 mm gap and nod; opposed side screws set roll. The result is fixed by
-# ground shim packs at the 4 clamp bolts (re-adjustable), and spindles are screened for housing-to-axis error at goods-in, so a
-# spindle change normally needs no re-tram.
-DY = -8
+# RBPB8 in the Z slide at the centre, behind the clamp body; a shouldered stud is screwed into the clamp rear wall and its D8 g6
+# shoulder slides in the inner ring (no thrust on the bearing). Spindle axis at y-12 so the rear wall is 11.5 thick (stud thread 10).
+# Three differential face screws through the ears set the 2 mm gap and nod; opposed side screws set roll. Fixed by ground shim
+# packs at the 4 clamp bolts (re-adjustable); spindles are screened for housing-to-axis error at goods-in.
+DY = -12
 for l in ('Spindle_body', 'Spindle_fan_cover', 'Spindle_plug', 'Spindle_nose', 'ER11_nut', 'Tool_D5'):
     o = O(l); s = o.Shape.copy(); s.translate(V(0, DY, 0)); o.Shape = s; tag(l, 'spindle')
-SB = (-59, 345)                                            # spindle pivot (x, z), bottom of the left ear
-BOLTS = [(-59, 400), (59, 395), (-59, 455), (59, 455)]
-SCREWS = [('TL', -59, 490), ('TR', 59, 490), ('BR', 59, 340)]
+SB = (0, 366)                                              # spindle pivot (x, z): centre of the clamp body
+BOLTS = [(-59, 395), (59, 395), (-59, 455), (59, 455)]
+SCREWS = [('TL', -59, 490), ('TR', 59, 490), ('BR', 59, 335)]
 c = fuse(box(-40, 40, -55, 32, 331, 401), box(40, 78, 2, 32, 319, 500), box(-78, -40, 2, 32, 319, 500))
 c = c.cut(cyl('z', 32.5, 331, 401, 0, DY)).cut(box(-1, 1, -55, DY, 331, 401))
-for z in (345, 388): c = c.cut(cyl('x', 3, -40, 30, -48, z)).cut(cyl('x', 5.5, 26, 40, -48, z))
+for z in (345, 388): c = c.cut(cyl('x', 3, -40, 30, -49, z)).cut(cyl('x', 5.5, 26, 40, -49, z))
 for x, z in BOLTS: c = c.cut(cyl('y', 3.5, 2, 32, x, z))
 for _, x, z in SCREWS: c = c.cut(cyl('y', 4, 2, 32, x, z))
-c = c.cut(cyl('y', 4, 17, 32, *SB))
+c = c.cut(cyl('y', 3, 22, 32, *SB))
 cl = O('Spindle_clamp'); cl.Shape = c
-prop(cl, 'Spec', '6061 split clamp, bore D65 at (x0, y-8), rear wall 7.5; tall ears 38x30x181 stand 2 mm off the slide. Pivot: RBPB8 in the '
-                 'slide, pin in the left ear. Fixed by 4 shim packs at the bolts')
+prop(cl, 'Spec', '6061 split clamp, bore D65 at (x0, y-12), rear wall 11.5 with an M6 tap for the pivot stud; tall ears 38x30x181 stand 2 mm off '
+                 'the slide. Fixed by 4 shim packs at the bolts')
 tag('Spindle_clamp', 'spindle')
 for k, z in enumerate((345, 388), 1):
-    add('Spindle_pinch_screw_%d' % k, fuse(cyl('x', 3, -30, 30, -48, z), cyl('x', 5, 30, 36, -48, z)), G, 'M6 pinch screw, fixed torque before tramming', 'z', 'spindle')
+    add('Spindle_pinch_screw_%d' % k, fuse(cyl('x', 3, -30, 30, -49, z), cyl('x', 5, 30, 36, -49, z)), G, 'M6 pinch screw, fixed torque before tramming', 'z', 'spindle')
 brg = Part.read(os.path.join(ROOT, 'vendor', 'misumi', 'RBPB8', 'RBPB8.stp'))
 brg.translate(V(0, 0, 6)); brg.rotate(V(0, 0, 0), V(1, 0, 0), -90); brg.translate(V(SB[0], 40, SB[1]))   # inner ring y34..46, flush with the slide face
-add('Spindle_pivot_bearing', brg, G, 'spherical plain bearing MISUMI RBPB8 pressed into the Z slide under the left ear: fixes the clamp in X and Z, '
-    'pivot for nod and roll; takes no thrust', 'z', 'spindle')
+add('Spindle_pivot_bearing', brg, G, 'spherical plain bearing MISUMI RBPB8 pressed into the Z slide at the centre behind the clamp body: fixes the '
+    'clamp in X and Z, pivot for nod and roll; takes no thrust', 'z', 'spindle')
 cut('Z_slide_plate', cyl('y', 11, 34, 46, *SB))
-s = cyl('y', 4, 17, 46, *SB)
-add('Spindle_pivot_pin', s, G, 'D8 pin pressed into the left ear, slide fit (g6) in the bearing inner ring', 'z', 'spindle')
+add('Spindle_pivot_stud', fuse(cyl('y', 3, 22, 32, *SB), cyl('y', 4, 32, 46, *SB)), G,
+    'shouldered stud: M6 thread 10 into the clamp rear wall, D8 g6 shoulder sliding in the bearing inner ring', 'z', 'spindle')
 for k, (x, z) in enumerate(BOLTS, 1):
     sh = box(x - 11, x + 11, 32, 34, z - 8, z + 8).cut(box(x - 3.5, x + 3.5, 32, 34, z - 8, z)).cut(cyl('y', 3.5, 32, 34, x, z))
     add('Spindle_shim_%d' % k, sh, G, 'ground shim pack 22x16, nominal 2.0, U-slot: fitted to the measured gap after adjusting, then the bolt is torqued '
@@ -203,13 +203,13 @@ for k, (x, z) in enumerate(BOLTS, 1):
 for nm, x, z in SCREWS:
     add('Spindle_face_screw_' + nm, fuse(cyl('y', 4, -4, 34, x, z), cyl('y', 6.5, -4, 2, x, z)), G,
         'differential push screw (M8x0.75 / M6x0.5 = 0.25 mm/rev) through the ear, tip on the slide face: the three set the 2 mm gap; '
-        'top pair vs bottom = nod (lever about 145, 10 deg = 48 urad)', 'z', 'spindle')
+        'top pair vs bottom = nod (lever about 124, 10 deg = 56 urad)', 'z', 'spindle')
 for sgn, T in ((1, 'R'), (-1, 'L')):
     m = lambda s: mir(s, sgn)
     add('Spindle_roll_block_' + T, m(box(80, 98, 14, 34, 474, 504).cut(cyl('x', 3, 80, 98, 24, 489)).cut(cyl('y', 2.2, 14, 34, 89, 500))), G,
         'steel block beside the top of the ear', 'z', 'spindle')
     add('Spindle_roll_screw_' + T, m(fuse(cyl('x', 3, 78, 104, 24, 489), cyl('x', 5, 98, 102, 24, 489))), G,
-        'opposed differential side screw (0.25 mm/rev) on the ear side, 144 above the pivot: roll. 10 deg = 48 urad', 'z', 'spindle')
+        'opposed differential side screw (0.25 mm/rev) on the ear side, 123 above the pivot: roll. 10 deg = 56 urad', 'z', 'spindle')
     add('Spindle_roll_block_bolt_' + T, m(fuse(cyl('y', 3.5, 10, 14, 89, 500), cyl('y', 2, 14, 46, 89, 500))), G, 'M4 SHCS', 'z', 'spindle')
     cut('Z_slide_plate', m(cyl('y', 2, 34, 46, 89, 500)))
 
