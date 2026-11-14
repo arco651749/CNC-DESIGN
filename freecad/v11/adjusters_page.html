@@ -58,7 +58,8 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--motion);outline
 }
 
 #opts{display:flex;gap:8px;padding-block:0 8px}
-#opts button[aria-pressed="true"]{background:var(--motion);border-color:var(--motion);color:var(--panel)}
+#opts,#opts2{display:flex;gap:8px;padding-block:0 8px}
+#opts button[aria-pressed="true"],#opts2 button[aria-pressed="true"]{background:var(--motion);border-color:var(--motion);color:var(--panel)}
 #legend{position:absolute;top:12px;left:max(12px,env(safe-area-inset-left,0px));display:flex;flex-direction:column;gap:4px;font-size:12.5px;background:color-mix(in srgb,var(--panel) 92%,transparent);border:1px solid var(--line);border-radius:10px;padding:8px 12px}
 #legend span{display:flex;align-items:center;gap:8px}
 #legend i{width:12px;height:12px;border-radius:3px;display:inline-block;border:1px solid var(--line)}
@@ -70,13 +71,14 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--motion);outline
 <div id="app">
  <div id="stage">
   <canvas id="c" aria-label="v11 機台的 3D 模型，標示各個調整機構"></canvas>
-  <div id="legend"><span><i style="background:#E05C1F"></i>要轉的螺絲、斜楔、偏心銷</span><span><i style="background:#2980C7"></i>定位銷、靠銷</span><span><i style="background:#33393F"></i>固定塊、托座</span></div>
+  <div id="legend"><span><i style="background:#E05C1F"></i>要轉的螺絲、斜楔、偏心銷</span><span><i style="background:#2980C7"></i>定位銷、靠銷</span><span><i style="background:#33393F"></i>固定塊、托座</span><span><i style="background:transparent;border:1.5px dashed var(--fg)"></i>可拆的校正工具組</span></div>
   <div id="hint">拖曳旋轉 · 雙指縮放</div>
  </div>
  <aside id="panel">
   <div id="head" class="pad"><p id="kick"></p><h1 id="ttl"></h1></div>
   <div id="ctl" class="pad"><button id="prev" type="button">‹ 上一個</button><button id="next" type="button">下一個 ›</button></div>
   <div id="opts" class="pad"><button id="focus" type="button" aria-pressed="true">只看這組機構</button><button id="demo" type="button" aria-pressed="true">示意調整動作</button></div>
+  <div id="opts2" class="pad"><button id="kit" type="button" aria-pressed="true">校正工具組：裝上</button></div>
   <nav id="steps" class="pad" aria-label="調整機構"></nav>
   <div id="body" class="pad"></div>
  </aside>
@@ -108,7 +110,7 @@ for(const p of DATA){
  g.setIndex(new THREE.BufferAttribute(b64(p.i,p.w?Uint16Array:Uint32Array),1));g.computeVertexNormals();
  const m=new THREE.Mesh(g,new THREE.MeshStandardMaterial({color:new THREE.Color(...p.c),metalness:.25,roughness:.55,side:THREE.DoubleSide}));
  if(p.nt<6000){const e=new THREE.LineSegments(new THREE.EdgesGeometry(g,30),EDGE);m.add(e);m.userData.e=e}
- m.userData.n=p.n;m.userData.a=p.a;dest[p.k].add(m);parts.push(m);
+ m.userData.n=p.n;m.userData.a=p.a;m.userData.kt=p.kt;dest[p.k].add(m);parts.push(m);
 }
 const ST=[
 {t:'線軌平行',tags:['rails'],hide:['x'],cam:{p:[330,-1150,640],t:[0,150,360]},
@@ -123,25 +125,29 @@ const ST=[
   ['怎麼量','錶裝在主軸中心線上（錶桿夾在筒夾裡）。直角尺立在治具板上，錶碰朝後的一面，走 Z 100 mm。X 在 −150 和 +150 各量一次，兩個讀值可以解出左右兩支立柱各自的傾角。'],
   ['怎麼調','先鬆開後方支點稜上的兩顆螺絲和前方的壓緊螺絲，再轉斜楔螺絲。'],
   ['一格多少','螺絲轉 10°，Z 走 100 mm 約變 0.0007 mm。整個調整範圍 ±1.9 mrad。'],
-  ['鎖定','鎖緊前後螺絲，複量。合格後凸緣與基準底板配鉸，打 Ø8 定位銷。']]},
+  ['鎖定','鎖緊前後螺絲，複量。合格後凸緣與基準底板配鉸，打 Ø8 定位銷。'],
+  ['可拆','斜楔本身在承重，留在機上（它會自鎖，又被壓緊螺絲壓住）。外側的驅動螺絲和座在打銷後拆下，給下一台用。按「校正工具組」可以看拆下後的樣子。']]},
 {t:'第 1 層：龍門轉向（X ⊥ Y）',tags:['yaw'],also:/^(Column_foot_|Foot_dowel_)/,dof:'yaw',cam:{p:[-800,-620,430],t:[-300,-40,30]},
  sec:[['機構','兩個腳座前凸緣的前方，基準底板上各鎖一個頂推塊，上面一推一拉兩支 M6×0.75 螺絲。推的頂著凸緣前面，拉的穿過頂推塊鎖進凸緣。'],
   ['怎麼量','直角尺平放在治具板上。先走 Y 把 A 邊對齊，再走 X 讀 B 邊。直角尺翻面再量一次取平均，扣掉直角尺本身的誤差。'],
   ['怎麼調','鬆開腳座的壓緊螺絲。一支退、另一支進，把立柱往前或往後移。可以推也可以拉，修正過頭時不必去動另一隻腳。'],
   ['一格多少','螺絲轉 10°，X 走 300 mm 約變 0.010 mm。'],
-  ['鎖定','和前後傾一起鎖緊、複量、打銷。']]},
+  ['鎖定','和前後傾一起鎖緊、複量、打銷。'],
+  ['可拆','打銷後整個推拉塊連同兩支螺絲拆下，基準底板上只留兩個螺絲孔。']]},
 {t:'第 2 層：Z 軸左右傾（Z ⊥ X）',tags:['ztram'],also:/^Z_tram_/,dof:'ztram',cam:{p:[560,-1080,820],t:[0,110,470]},
  sec:[['機構','滑座分成兩片。後面的鞍板鎖在 4 顆 X 滑塊上；前面的 Z 板帶著 Z 線軌、螺桿和馬達。Z 板下方中央一支 Ø10 樞軸銷，上方兩側各一支 M6×0.5 頂推螺絲對頂 Z 板的側邊，距樞軸 430 mm。'],
   ['怎麼量','錶裝在主軸中心線上。圓柱直角尺立在治具板上，錶碰側面，走 Z 100 mm。'],
   ['怎麼調','鬆開 6 顆夾緊螺絲，一邊的頂推螺絲退、另一邊進，Z 板繞樞軸銷轉動。6 顆夾緊螺絲都在 Z 滑板的行程之外，任何位置都鎖得到。'],
   ['一格多少','螺絲轉 10°，Z 走 100 mm 約變 0.003 mm。'],
-  ['鎖定','鎖緊夾緊螺絲，兩支頂推螺絲對鎖，複量。合格後 Z 板與鞍板配鉸，打 Ø6 定位銷。']]},
+  ['鎖定','鎖緊夾緊螺絲，兩支頂推螺絲對鎖，複量。合格後 Z 板與鞍板配鉸，打 Ø6 定位銷。'],
+  ['可拆','打銷後兩側的頂推塊連同螺絲拆下。Z 板由 6 顆夾緊螺絲和定位銷固定。']]},
 {t:'第 3 層：主軸 ∥ Z',tags:['spindle'],dof:'spindle',cam:{p:[430,-640,520],t:[0,-10,370]},
  sec:[['機構','夾座離開滑板面 8 mm，只靠三點支撐。下排是一條前面磨成弧面的鋼條，它就是前後傾的支點線。上排只有一點：一個 1:20 斜楔，由上方一支 M5×0.5 螺絲帶著上下滑動。左右傾：一支 Ø8 樞軸銷在支點線上、斜楔正下方，左側一個 1:15 側向斜楔推、右側一支螺絲跟隨。三顆 M6 螺栓各自正對它壓的支撐點，螺栓下有碟形彈簧。'],
   ['怎麼量','先以固定扭力鎖緊主軸夾緊螺絲。錶桿夾在筒夾裡，錶尖距軸心 100 mm，手轉主軸掃治具板一圈。前減後除以 200 是前後傾，左減右除以 200 是左右傾。'],
   ['怎麼調','三顆螺栓先鎖到 1 Nm，轉側向斜楔調左右傾，跟隨螺絲靠上。然後把三顆螺栓鎖到最終的 6 Nm，再轉上方斜楔螺絲調前後傾。碟形彈簧讓斜楔在鎖緊狀態下仍推得動，所以調完前後傾不必再鎖任何東西。'],
   ['一格多少','螺絲轉 10°：前後傾約 10 µrad、左右傾約 13 µrad，也就是每 100 mm 約 0.001 mm。'],
-  ['不打銷','主軸外殼本身的歪斜每支不同，這一層的設定只屬於這支主軸。換主軸後重調這一層即可，前兩層不用動。']]},
+  ['不打銷','主軸外殼本身的歪斜每支不同，這一層的設定只屬於這支主軸。換主軸後重調這一層即可，前兩層不用動。'],
+  ['可拆','鋼條、樞軸銷和上方的斜楔對在承重，留在機上。左側的側向斜楔模組、右側的跟隨塊、上方斜楔的驅動螺絲和座，調完都拆下；左右方向靠螺栓夾緊的摩擦力保持。換主軸時再裝回去。']]},
 {t:'定位銷',tags:['pins'],also:/(pivot_pin|ref_pin|roll_pin)/,cam:{p:[1150,-1350,1050],t:[0,60,300]},
  sec:[['兩種銷','藍色零件都是銷。一種先壓入、用來決定位置：線軌靠銷、Z 板樞軸銷、主軸左右傾的樞軸銷。另一種調好後才現場配鉸、用來記住位置：兩個腳座凸緣各一支 Ø8，Z 板對鞍板一支 Ø6。'],
   ['只鎖前兩層','第 1、2 層和主軸無關，打銷鎖死。第 3 層跟著主軸走，不打銷。之後維修只准動第 3 層，就不會有人用主軸去掩蓋 Z 行程的誤差。'],
@@ -152,10 +158,10 @@ const ST=[
   ['錶裝在主軸中心線上','錶桿直接夾在筒夾裡，錶跟著主軸走，X、Y 全行程都量得到。'],
   ['主軸前移 13 mm','治具板跟著往前 13 mm，刀尖仍能走遍整塊板。']]}
 ];
-let cur=0,focus=true,demo=true,camA=null,t0=performance.now();
+let cur=0,focus=true,demo=true,kit=true,camA=null,t0=performance.now();
 const J={x:0,y:0,z:0};
 function solid(m,s){return s.tags.includes(m.userData.a)||(s.also&&s.also.test(m.userData.n))}
-function paint(){const s=ST[cur];for(const m of parts){const on=!focus||solid(m,s),mt=m.material;mt.transparent=!on;mt.opacity=on?1:.1;mt.depthWrite=on;mt.needsUpdate=true;if(m.userData.e)m.userData.e.visible=on;m.renderOrder=on?0:1}
+function paint(){const s=ST[cur];for(const m of parts){m.visible=kit||!m.userData.kt;const on=!focus||solid(m,s),mt=m.material;mt.transparent=!on;mt.opacity=on?1:.1;mt.depthWrite=on;mt.needsUpdate=true;if(m.userData.e)m.userData.e.visible=on;m.renderOrder=on?0:1}
  xG.visible=!(s.hide&&s.hide.includes('x'))}
 function camFor(i){const c=ST[i].cam,a=stage.clientWidth/Math.max(1,stage.clientHeight),k=a>=1.3?1:Math.min(2.3,1.3/a),t=new V(...c.t);return{t,p:t.clone().add(new V(...c.p).sub(t).multiplyScalar(k))}}
 function go(i,instant){cur=(i+ST.length)%ST.length;const s=ST[cur];
@@ -170,6 +176,7 @@ ST.forEach((s,k)=>{const b=document.createElement('button');b.type='button';b.te
 $('prev').onclick=()=>go(cur-1);$('next').onclick=()=>go(cur+1);
 $('focus').onclick=()=>{focus=!focus;$('focus').setAttribute('aria-pressed',focus);paint()};
 $('demo').onclick=()=>{demo=!demo;$('demo').setAttribute('aria-pressed',demo)};
+$('kit').onclick=()=>{kit=!kit;$('kit').setAttribute('aria-pressed',kit);$('kit').textContent='校正工具組：'+(kit?'裝上':'拆下（生產狀態）');paint()};
 ctl.addEventListener('start',()=>{camA=null;$('hint').hidden=true});
 function bg(){scene.background=new THREE.Color(getComputedStyle(document.documentElement).getPropertyValue('--bg').trim())}
 matchMedia('(prefers-color-scheme: dark)').addEventListener('change',bg);new MutationObserver(bg).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});

@@ -49,7 +49,7 @@ for o in doc.Objects:
     w = 1 if len(pts) < 65536 else 0
     idx = [k for t in tris for k in t]
     adj = o.Adj if 'Adj' in o.PropertiesList else ''
-    out.append({'n': o.Label, 'c': colour(o.Label, adj), 'k': group(o.Label), 'a': adj,
+    out.append({'n': o.Label, 'c': colour(o.Label, adj), 'k': group(o.Label), 'a': adj, 'kt': 1 if 'Kit' in o.PropertiesList and o.Kit else 0,
                 'p': base64.b64encode(struct.pack('<%dh' % len(coords), *coords)).decode('ascii'),
                 'i': base64.b64encode(struct.pack(('<%dH' if w else '<%dI') % len(idx), *idx)).decode('ascii'), 'w': w, 'nt': len(tris)})
 page = open(TPL, encoding='utf-8').read()

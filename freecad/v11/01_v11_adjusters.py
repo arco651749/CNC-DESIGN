@@ -15,6 +15,11 @@ Three layers, set in this order; later layers never disturb earlier ones:
                           The clamp is NOT dowelled: its setting belongs to one spindle and is redone after a spindle change.
   measure                 fixture plate skimmed by the machine (its top is the X-Y motion plane); indicator on the spindle axis
 
+Removable alignment kit (group '09 Alignment kit', Kit = 'removable'): everything that only PUSHES is a bolt-on module that
+comes off after the joint is torqued and dowelled, and is reused on the next machine: yaw push-pull blocks, foot-wedge drives,
+Z-tram push blocks, spindle roll wedge + follower, spindle nod drive. Parts that CARRY load stay: foot wedges, the spindle nod
+wedge pair, the crowned bar, all pins. The spindle kit is put back only for a spindle change.
+
 The X base plate is set on the columns by fixture (no level adjuster).
 Hardware is modelled as solids and its holes are cut in the parts, so the collision sweep stays meaningful.
 Run:  freecadcmd freecad/v11/01_v11_adjusters.py      Out: output/v11/CNC_v11.FCStd, output/v11/logs/v11_build.txt"""
@@ -82,7 +87,8 @@ for sgn, T in ((1, 'R'), (-1, 'L')):
                                  .cut(cyl('x', 2, 360, 372, -40, 13)).cut(cyl('x', 2, 360, 372, -28, 13))), G,
         'steel block 12x20x16 on the outer side face of the foot, carries the wedge drive screw', '', 'pitch')
     add('Foot_wedge_screw_' + T, m(fuse(cyl('x', 2.5, 346, 380, -34, 3.7), cyl('x', 4.5, 380, 385, -34, 3.7))), G,
-        'M5x0.5 drive screw, captive in the wedge end: 10 deg = 1.4 um rise = 6.7 urad pitch (lever 206 to the rib)', '', 'pitch')
+        'M5x0.5 drive screw; its T-head hooks into a T-slot in the wedge end, so block and screw lift off after dowelling. '
+        '10 deg = 1.4 um rise = 6.7 urad pitch (lever 206 to the rib)', '', 'pitch')
     cut(foot.Label)
     for k, y in enumerate((-40, -28), 1):
         add('Foot_wedge_block_bolt_%s%d' % (T, k), m(fuse(cyl('x', 2, 350, 372, y, 13), cyl('x', 3.5, 372, 376, y, 13))), G, 'M4 SHCS', '', 'pitch')
@@ -190,7 +196,8 @@ for k, x in enumerate((44, 56), 1):
     add('Spindle_nod_bracket_bolt_%d' % k, fuse(cyl('y', 3.5, 10, 14, x, 436), cyl('y', 2, 14, 44, x, 436)), G, 'M4 SHCS', 'z', 'spindle')
     cut('Z_slide_plate', cyl('y', 2, 34, 44, x, 436))
 add('Spindle_nod_screw', fuse(cyl('z', 2.5, 416, 448, 50, 20), cyl('z', 4.5, 448, 452, 50, 20)), G,
-    'M5x0.5 nod screw from the top, captive in the slider tab: 1 turn = 25 um = 0.36 mrad; 10 deg = 10 urad (0.001/100)', 'z', 'spindle')
+    'M5x0.5 nod screw from the top; its T-head hooks into the slider tab (lifts off with the bracket). '
+    '1 turn = 25 um = 0.36 mrad; 10 deg = 10 urad (0.001/100)', 'z', 'spindle')
 for k, (x, z) in enumerate(BOLTS, 1):
     add('Spindle_bolt_%d' % k, fuse(cyl('y', 5, -11, -5, x, z), cyl('y', 3, -5, 46, x, z)), G,
         'M6x50 SHCS from the front, through the support it loads; 6 Nm', 'z', 'spindle')
@@ -249,11 +256,20 @@ add('Fixture_plate', box(-150, 150, 13 * -1 - 150, 237, 110, 135), '02 Y-axis',
     'Al fixture plate 300x400 t25 on the table (13 forward, under the moved spindle): skimmed by the machine itself, so its top is the '
     'X-Y motion plane. Skim once early (after the gantry is seated) and once at the end', 'y', 'measure')
 
+# ================================================================ removable alignment kit
+import re
+KIT_RX = (r'^(Yaw_|Foot_wedge_block|Foot_wedge_screw|Z_tram_block|Z_tram_screw|Spindle_roll_block|Spindle_roll_wedge|'
+          r'Spindle_roll_screw|Spindle_follower_|Spindle_nod_bracket|Spindle_nod_screw)')
+G_KIT = doc.addObject('App::DocumentObjectGroup', 'AlignmentKit'); G_KIT.Label = '09 Alignment kit'
+KIT = [l for l in NEW if re.match(KIT_RX, l)]
+for l in KIT:
+    o = O(l); G_ADJ.removeObject(o); G_KIT.addObject(o); prop(o, 'Kit', 'removable')
+
 doc.recompute()
 doc.saveAs(os.path.join(OUT, 'CNC_v11.FCStd'))
 
 res = lambda lead_mm, lever: lead_mm / 36.0 / lever * 1e6       # urad per 10 deg of screw turn
-L = ['v11 = v10 + adjusters.  new parts: %d' % len(NEW), '', 'ADJUSTER RESOLUTION (per 10 deg of screw turn):']
+L = ['v11 = v10 + adjusters.  new parts: %d, of which %d form the removable alignment kit' % (len(NEW), len(KIT)), '', 'ADJUSTER RESOLUTION (per 10 deg of screw turn):']
 for name, lead, lever in (('1 pitch   1:10 wedge, M5x0.5, lever 206 to the rib', .5 / 10, 206),
                           ('1 yaw     M6x0.75 push-pull, columns 640 apart', .75, 640),
                           ('2 ztram   M6x0.5 push, 430 above the pivot', .5, 430),
@@ -263,6 +279,6 @@ for name, lead, lever in (('1 pitch   1:10 wedge, M5x0.5, lever 206 to the rib',
 L.append('')
 for l in ['Column_foot_R', 'X_carriage_plate', 'Spindle_clamp', 'Spindle_body', 'Tool_D5'] + NEW:
     o = O(l); b = o.Shape.BoundBox
-    L.append('%-28s %-3s %-8s x[%7.1f,%7.1f] y[%7.1f,%7.1f] z[%7.1f,%7.1f]  %s' % (l, getattr(o, 'Motion', '') or '-', getattr(o, 'Adj', '') or '-',
+    L.append('%-28s %-3s %-8s %-4s x[%7.1f,%7.1f] y[%7.1f,%7.1f] z[%7.1f,%7.1f]  %s' % (l, getattr(o, 'Motion', '') or '-', getattr(o, 'Adj', '') or '-', 'KIT' if l in KIT else '',
              b.XMin, b.XMax, b.YMin, b.YMax, b.ZMin, b.ZMax, 'OK' if o.Shape.isValid() and o.Shape.Volume > 0 else 'INVALID'))
 open(os.path.join(OUT, 'logs', 'v11_build.txt'), 'w', encoding='utf-8').write('\n'.join(L))

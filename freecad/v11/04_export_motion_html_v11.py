@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""v11 motion-simulation page: same viewer as v10 (template = the v10 motion page), DATA rebuilt from CNC_v11.FCStd.
+"""v11 motion-simulation page: same viewer as v10 (template = the v10 motion page), DATA rebuilt from CNC_v11.FCStd, in production state (removable alignment kit taken off).
 Translation group (g), spin axis (r) and colour of v10 parts come from the v10 page by label; new v11 parts take their
 group from the Motion property and their colour from the adjuster colour scheme. The work piece sits on the fixture plate.
 Run:  freecadcmd freecad/v11/04_export_motion_html_v11.py      Out: output/v11/CNC_motion_v11.html"""
@@ -32,6 +32,8 @@ for o in doc.Objects:
     if o.TypeId != 'Part::Feature' or o.Shape.isNull() or not o.Shape.Solids:
         continue
     name = o.Label
+    if 'Kit' in o.PropertiesList and o.Kit:      # production state: the alignment kit is off the machine
+        log.append('KIT (not shown) ' + name); continue
     if name in old:
         g, r, c = old[name]['g'], old[name]['r'], old[name]['c']
         if name == 'Spindle_clamp': c = [0.62, 0.66, 0.7]
@@ -63,7 +65,7 @@ html2, nwp = re.subn(r"const tt=bb\['Work_table'\]\.max\.z", "const tt=bb['Fixtu
 log.append('work piece on fixture plate replaced=%d' % nwp)
 html2 = re.sub(r'<title>[^<]*</title>', '<title>CNC v11 動作模擬</title>', html2, count=1)
 html2 = re.sub(r'<div class="sub">.*?</div>',
-               '<div class="sub">v11（v10 加調整機構：腳座斜楔、Z 板樞軸、主軸三點支撐夾座；主軸前移 13 mm，工件在治具板上）· 拖曳旋轉、滾輪縮放</div>', html2, count=1)
+               '<div class="sub">v11 生產狀態（校正工具組已拆下；腳座斜楔、主軸三點支撐留在機上；主軸前移 13 mm，工件在治具板上）· 拖曳旋轉、滾輪縮放</div>', html2, count=1)
 open(OUT, 'w', encoding='utf-8', newline='\n').write(html2)
 log.insert(0, 'parts=%d size=%d' % (len(out), len(html2)))
 open(LOG, 'w', encoding='utf-8').write('\n'.join(log))
