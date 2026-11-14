@@ -24,6 +24,12 @@ def cls(n):
     return ''
 C = {n: cls(n) for n in P}
 
+def vol(a, b):
+    try:
+        return a.common(b).Volume
+    except Exception:          # touching faces can give a null common
+        return 0.0
+
 def pose(dy, dx, dz):
     S = {}
     for n, s in P.items():
@@ -36,7 +42,7 @@ def overlaps(S):
     hit = {}
     for a, b in itertools.combinations(sorted(S), 2):
         if not S[a].BoundBox.intersect(S[b].BoundBox): continue
-        v = S[a].common(S[b]).Volume
+        v = vol(S[a], S[b])
         if v > 1.0: hit[(a, b)] = round(v)
     return hit
 
@@ -60,11 +66,6 @@ for a, b in (('X_saddle_plate', 'X_base_plate'), ('X_saddle_plate', 'Z_motor_pla
     clear.append('home  %-22s - %-22s %6.1f mm' % (a, b, d(a, b, H)))
 # adjustment travel of the moving wedges (they are not part of the axis sweep)
 sh = lambda n, v: (lambda s: (s.translate(v), s)[1])(P[n].copy())
-def vol(a, b):
-    try:
-        return a.common(b).Volume
-    except Exception:          # touching faces can give a null common
-        return 0.0
 for dz in (-5, 5):
     w = sh('Spindle_nod_wedge', V(0, 0, dz))
     clear.append('nod wedge dz%+d  - Spindle_clamp overlap %.1f mm3 (contact face, 0 expected)   - Spindle_nod_bracket %6.1f mm' % (dz, vol(w, P['Spindle_clamp']), w.distToShape(P['Spindle_nod_bracket'])[0]))

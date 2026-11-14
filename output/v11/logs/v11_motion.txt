@@ -1,4 +1,4 @@
-parts: 183   motion classes: static 81 / y 23 / x 45 / z 34
+parts: 186   motion classes: static 79 / y 21 / x 43 / z 43
 
 DESIGN CONTACTS AT HOME (overlap > 1 mm3, review): 4
   X_ball_nut x X_nut_bracket : 19 mm3
@@ -12,36 +12,49 @@ ALLOWED:
   Fixture_plate x Tool_D5 : [(-250, -150, -50, 25), (-250, 150, -50, 25), (150, -150, -50, 25), (150, 150, -50, 25)]
 
 CLEARANCES:
-  home  X_saddle_plate     - X_base_plate         28.0 mm
-  home  X_saddle_plate     - Z_motor_plate         4.0 mm
-  home  X_block_21         - X_ecc_pin_2          15.0 mm
-  home  X_block_11         - X_ref_pin_2          17.0 mm
-  home  X_block_11         - X_side_screw_Mb       3.0 mm
-  home  Z_block_L1         - Z_ref_pin_1          36.9 mm
-  home  Z_block_R1         - Z_ecc_pin_1          32.4 mm
-  home  Y_block_L1         - Y_ref_pin_1           7.0 mm
-  home  Y_block_R1         - Y_ecc_pin_1           5.2 mm
-  home  Foot_bolt_rear_R1  - X_base_plate        206.0 mm
-  home  Yaw_push_block_L   - Work_table           91.8 mm
-  home  Column_foot_L      - Work_table           79.4 mm
-  home  Spindle_clamp      - Spindle_plug          6.0 mm
-  home  Indicator_holder   - Spindle_clamp         4.0 mm
-  home  Fixture_plate      - Tool_D5              45.0 mm
-  home  Fixture_plate      - ER11_nut             67.0 mm
-  dx-150 X_saddle_plate     - Gantry_column_L      10.0 mm
-  dx-150 X_saddle_plate     - Gantry_column_R     310.0 mm
-  dx-150 Z_tram_screw_L     - Gantry_column_L     184.5 mm
-  dx-150 Z_tram_screw_R     - Gantry_column_R     336.7 mm
-  dx-150 X_carriage_plate   - Gantry_column_L      10.0 mm
-  dx-150 X_carriage_plate   - Gantry_column_R     310.0 mm
-  dx+150 X_saddle_plate     - Gantry_column_L     310.0 mm
-  dx+150 X_saddle_plate     - Gantry_column_R      10.0 mm
-  dx+150 Z_tram_screw_L     - Gantry_column_L     336.7 mm
-  dx+150 Z_tram_screw_R     - Gantry_column_R     184.5 mm
-  dx+150 X_carriage_plate   - Gantry_column_L     310.0 mm
-  dx+150 X_carriage_plate   - Gantry_column_R      10.0 mm
-  dz-50 Fixture_plate      - ER11_nut             17.0 mm
-  dz-50 Fixture_plate      - Indicator_holder    135.0 mm
-  dz-50 Fixture_plate      - Spindle_clamp       134.0 mm
-  dz+50 Spindle_clamp      - Z_motor_plate       138.4 mm
-  dz+50 Spindle_roll_block_R - Z_support_fixed      90.0 mm
+  home  X_saddle_plate         - X_base_plate             28.0 mm
+  home  X_saddle_plate         - Z_motor_plate             4.0 mm
+  home  X_block_21             - X_ecc_pin_2              15.0 mm
+  home  X_block_11             - X_ref_pin_2              17.0 mm
+  home  X_block_11             - X_side_screw_M2          16.3 mm
+  home  X_block_21             - X_side_screw_S2          16.3 mm
+  home  Z_block_L1             - Z_ref_pin_1              36.9 mm
+  home  Z_block_R1             - Z_ecc_pin_1              32.4 mm
+  home  Y_block_L1             - Y_ref_pin_1               7.0 mm
+  home  Y_block_R1             - Y_ecc_pin_1               5.2 mm
+  home  Y_block_L1             - Y_side_screw_M1           8.3 mm
+  home  Yaw_push_block_L       - Work_table               91.8 mm
+  home  Column_foot_L          - Work_table               79.4 mm
+  home  Foot_wedge_block_R     - Gantry_column_R          26.2 mm
+  home  Spindle_clamp          - Z_slide_plate             8.0 mm
+  home  Spindle_nod_wedge      - Spindle_plug             19.0 mm
+  home  Spindle_nod_bracket    - Spindle_fan_cover        15.8 mm
+  home  Spindle_nod_bracket    - Spindle_plug             19.2 mm
+  home  Spindle_roll_block     - Spindle_clamp             1.0 mm
+  home  Spindle_follower_block - Spindle_clamp             2.0 mm
+  home  Fixture_plate          - Tool_D5                  45.0 mm
+  home  Fixture_plate          - ER11_nut                 67.0 mm
+  nod wedge dz-5  - Spindle_clamp overlap 0.0 mm3 (contact face, 0 expected)   - Spindle_nod_bracket   11.0 mm
+  nod wedge dz+5  - Spindle_clamp overlap 0.0 mm3 (contact face, 0 expected)   - Spindle_nod_bracket    1.0 mm
+  roll wedge dz-4 - Spindle_roll_block overlap 100.4 mm3 (overlap = the wedge pushes the clamp +0.27 mm in X; 0 = it backs off, the follower keeps contact)
+  roll wedge dz+4 - Spindle_roll_block overlap 0.0 mm3 (overlap = the wedge pushes the clamp -0.27 mm in X; 0 = it backs off, the follower keeps contact)
+  foot wedge R dx-4 - Column_foot_R overlap 422.4 mm3 (overlap = the wedge lifts the flange +0.4 mm; 0 = it backs off, the flange follows down)
+  foot wedge R dx+4 - Column_foot_R overlap 0.0 mm3 (overlap = the wedge lifts the flange -0.4 mm; 0 = it backs off, the flange follows down)
+  dx-150 X_saddle_plate         - Gantry_column_L          10.0 mm
+  dx-150 X_saddle_plate         - Gantry_column_R         310.0 mm
+  dx-150 Z_tram_screw_L         - Gantry_column_L         184.5 mm
+  dx-150 Z_tram_screw_R         - Gantry_column_R         336.7 mm
+  dx-150 Spindle_follower_screw - Gantry_column_R         322.0 mm
+  dx-150 Spindle_roll_block     - Gantry_column_L          24.0 mm
+  dx+150 X_saddle_plate         - Gantry_column_L         310.0 mm
+  dx+150 X_saddle_plate         - Gantry_column_R          10.0 mm
+  dx+150 Z_tram_screw_L         - Gantry_column_L         336.7 mm
+  dx+150 Z_tram_screw_R         - Gantry_column_R         184.5 mm
+  dx+150 Spindle_follower_screw - Gantry_column_R          22.0 mm
+  dx+150 Spindle_roll_block     - Gantry_column_L         324.0 mm
+  dz-50 Fixture_plate          - ER11_nut                 17.0 mm
+  dz-50 Fixture_plate          - Spindle_clamp           133.0 mm
+  dz-50 Fixture_plate          - Spindle_bolt_1          137.0 mm
+  dz+50 Spindle_nod_screw      - Z_support_fixed         124.1 mm
+  dz+50 Spindle_nod_screw      - Z_motor_plate           187.0 mm
+  tool y -13.0 covers table y -163.0 .. 237.0 ; fixture plate y -163.0 .. 237.0
