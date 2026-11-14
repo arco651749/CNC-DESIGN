@@ -53,7 +53,7 @@ def servo(ax, top, brake=False):
             ("DICOM", 12), ("DOCOM", 13), ("EM2", 14), ("SON", 15), ("ALM", 16)]
     if brake: left.append(("MBR", 17))
     return blk("SV" + ax, "MR-J4-40A  %s軸 (SV%s)" % (ax, ax), SRV_CX, top, left=left,
-               right=[("U", 1), ("V", 2), ("W", 3), ("MPE", 4, "PE"), ("ENC", 6, "CN2 ENC")], w=30.48)
+               right=[("U", 1), ("V", 2), ("W", 3), ("MPE", 4, "PE"), ("ENC", 6, "CN2 ENC"), ("BAT", 14, "CN4 BAT")], w=30.48)
 def motor(ax, top, brake=False):
     left = [("U", 1), ("V", 2), ("W", 3), ("PE", 4), ("ENC", 6, "ENC CN2")]
     if brake: left += [("B1", 9), ("B2", 10)]
@@ -81,6 +81,11 @@ KA3 = blk("KA3", "KA3 Z軸煞車繼電器", 533.4, 274.32, left=[("A1", 1), ("A2
 S.stub(KA3["A1"], "+24V3", RED); S.stub(KA3["A2"], "MBR_Z", PUR); S.stub(KA3["COM"], "+24V3", RED)
 S.conn("BRK_Z", RED, [KA3["NO"], MZ["B1"]])
 S.stub(MZ["B2"], "0V3", BLK)
+# absolute-position backup batteries on CN4 of each drive (not connected to the controller)
+OLV = (150, 100, 0)
+for ax, top in (("X", 35.56), ("Y", 137.16), ("Z", 238.76)):
+    bt = blk("BT" + ax, "BT%s %s軸電池 (MR-BAT6V1SET)" % (ax, ax), 533.4, top + 13 * R, left=[("CN4", 1, "CN4")], w=20.32)
+    S.conn("BAT_" + ax, OLV, [SV[ax]["BAT"], bt["CN4"]])
 
 # ------------------------------------------------------------------ 3. controller RP23CNC + interface board
 BX, BT = 215.9, 256.54
@@ -210,7 +215,7 @@ lx, ly = 650, 40
 S.text("線色圖例", lx, ly - 5, 2.2, True)
 legend = [("L1 相線", BRN), ("L2 相線", BLU), ("PE 接地", GRN), ("+24V", RED), ("0V / 負極", BLK),
           ("馬達 U", UCL), ("馬達 W", GRY), ("脈衝 PP/PG、STEP", ORG), ("方向 NP/NG、DIR、報警、SIG", PUR),
-          ("致能 EN / 伺服 SON", YEL), ("編碼器", TEL), ("類比 0-10V、乙太網路", ANA)]
+          ("致能 EN / 伺服 SON", YEL), ("編碼器", TEL), ("類比 0-10V、乙太網路", ANA), ("絕對位置備份電池 (CN4)", OLV)]
 for i, (t, c) in enumerate(legend):
     y = ly + i * 5.08
     S.seg("LEG%d" % i, c, 0.381, lx, y, lx + 12.7, y)
@@ -228,7 +233,8 @@ notes = (
 "8. 主軸：0-10V 類比 + KA1 正轉接點。MS300 的 AVI/ACM/MI1/DCM 端子名請依手冊核對，並設定外部類比速度與外部端子運轉。\n"
 "9. 急停 S1：NC1 切斷 KM1/KM2 線圈，NC2 接 EM2，NO 接控制板 ESTOP。硬線切斷伺服與主軸，不依賴控制器。\n"
 "10. 感測器用 NPN 型 24V 近接開關 (控制板限位輸入為 NPN 或機械開關，不支援 PNP)。\n"
-"11. 佈線：動力線與信號線分槽、間距 100 mm 以上；馬達線、變頻器輸出線、脈衝線 (PP/PG、NP/NG 各一對) 用屏蔽雙絞線，屏蔽層單端接 PE；繼電器線圈與煞車並聯續流二極體。"
+"11. 佈線：動力線與信號線分槽、間距 100 mm 以上；馬達線、變頻器輸出線、脈衝線 (PP/PG、NP/NG 各一對) 用屏蔽雙絞線，屏蔽層單端接 PE；繼電器線圈與煞車並聯續流二極體。\n"
+"12. 電池：每台 MR-J4 的 CN4 各接一顆備份電池 (型號待核對)，只在驅動器與電池之間連線，不接控制板。grblHAL 不支援 ABS 傳送協定，開機後仍須用原點感測器回原點；PA03 等參數依手冊設定。"
 )
 S.text(notes, 345, 450, 1.5)
 rails = (
