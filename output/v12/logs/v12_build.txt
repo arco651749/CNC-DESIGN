@@ -1,0 +1,130 @@
+v12 = v10 + owner architecture.  new parts: 123, alignment kit: 25, epoxy pads: 14
+
+Column_foot_R              -  yaw           x[  280.0,  360.0] y[  -28.0,  182.0] z[    0.0,   18.0]  OK
+X_base_plate               -  xlevel        x[ -360.0,  360.0] y[  162.0,  182.0] z[  230.0,  490.0]  OK
+X_carriage_plate           -  ztram         x[ -120.0,  120.0] y[  104.0,  121.5] z[  222.0,  710.0]  OK
+Spindle_clamp              -  spindle       x[  -78.0,   78.0] y[  -55.0,   32.0] z[  319.0,  500.0]  OK
+Spindle_body               -  spindle       x[  -32.5,   32.5] y[  -40.5,   24.5] z[  221.0,  409.0]  OK
+Foot_bolt_R1               -  yaw           x[  289.5,  302.5] y[  165.5,  178.5] z[  -14.0,   26.0]  OK
+Foot_bolt_R2               -  yaw           x[  337.5,  350.5] y[  165.5,  178.5] z[  -14.0,   26.0]  OK
+Foot_bolt_R3               -  yaw           x[  313.5,  326.5] y[  -19.5,   -6.5] z[  -14.0,   26.0]  OK
+Foot_col_bolt_R1           -  -             x[  293.5,  306.5] y[   15.5,   28.5] z[    1.0,   38.0]  OK
+Foot_col_bolt_R2           -  -             x[  333.5,  346.5] y[   15.5,   28.5] z[    1.0,   38.0]  OK
+Foot_col_bolt_R3           -  -             x[  293.5,  306.5] y[  135.5,  148.5] z[    1.0,   38.0]  OK
+Foot_col_bolt_R4           -  -             x[  333.5,  346.5] y[  135.5,  148.5] z[    1.0,   38.0]  OK
+Yaw_lock_dowel             -  pins          x[  315.0,  325.0] y[  167.0,  177.0] z[  -12.0,   18.0]  OK
+Foot_bolt_L1               -  yaw           x[ -302.5, -289.5] y[  165.5,  178.5] z[  -14.0,   26.0]  OK
+Foot_bolt_L2               -  yaw           x[ -350.5, -337.5] y[  165.5,  178.5] z[  -14.0,   26.0]  OK
+Foot_bolt_L3               -  yaw           x[ -326.5, -313.5] y[  -19.5,   -6.5] z[  -14.0,   26.0]  OK
+Foot_col_bolt_L1           -  -             x[ -306.5, -293.5] y[   15.5,   28.5] z[    1.0,   38.0]  OK
+Foot_col_bolt_L2           -  -             x[ -346.5, -333.5] y[   15.5,   28.5] z[    1.0,   38.0]  OK
+Foot_col_bolt_L3           -  -             x[ -306.5, -293.5] y[  135.5,  148.5] z[    1.0,   38.0]  OK
+Foot_col_bolt_L4           -  -             x[ -346.5, -333.5] y[  135.5,  148.5] z[    1.0,   38.0]  OK
+Yaw_pivot_pin              -  yaw           x[ -325.0, -315.0] y[  167.0,  177.0] z[  -12.0,   18.0]  OK
+Yaw_push_block             -  yaw      KIT  x[  300.0,  340.0] y[  -62.0,  -36.0] z[    0.0,   25.0]  OK
+Yaw_push_screw             -  yaw      KIT  x[  306.5,  317.5] y[  -72.0,  -28.0] z[    6.5,   17.5]  OK
+Yaw_pull_screw             -  yaw      KIT  x[  323.0,  333.0] y[  -68.0,  -16.0] z[    7.0,   17.0]  OK
+Yaw_block_bolt_1           -  yaw      KIT  x[  299.8,  308.2] y[  -53.2,  -44.8] z[  -10.0,   30.0]  OK
+Yaw_block_bolt_2           -  yaw      KIT  x[  331.8,  340.2] y[  -53.2,  -44.8] z[  -10.0,   30.0]  OK
+X_plate_bolt_R1            -  xlevel        x[  293.5,  306.5] y[  150.0,  190.0] z[  263.5,  276.5]  OK
+X_epoxy_pad_R1             -  epoxy         x[  285.0,  315.0] y[  162.0,  163.0] z[  255.0,  285.0]  OK
+X_plate_bolt_R2            -  xlevel        x[  333.5,  346.5] y[  150.0,  190.0] z[  263.5,  276.5]  OK
+X_epoxy_pad_R2             -  epoxy         x[  325.0,  355.0] y[  162.0,  163.0] z[  255.0,  285.0]  OK
+X_plate_bolt_R3            -  xlevel        x[  293.5,  306.5] y[  150.0,  190.0] z[  443.5,  456.5]  OK
+X_epoxy_pad_R3             -  epoxy         x[  285.0,  315.0] y[  162.0,  163.0] z[  435.0,  465.0]  OK
+X_plate_bolt_R4            -  xlevel        x[  333.5,  346.5] y[  150.0,  190.0] z[  443.5,  456.5]  OK
+X_epoxy_pad_R4             -  epoxy         x[  325.0,  355.0] y[  162.0,  163.0] z[  435.0,  465.0]  OK
+X_plate_bolt_L1            -  xlevel        x[ -306.5, -293.5] y[  150.0,  190.0] z[  263.5,  276.5]  OK
+X_epoxy_pad_L1             -  epoxy         x[ -315.0, -285.0] y[  162.0,  163.0] z[  255.0,  285.0]  OK
+X_plate_bolt_L2            -  xlevel        x[ -346.5, -333.5] y[  150.0,  190.0] z[  263.5,  276.5]  OK
+X_epoxy_pad_L2             -  epoxy         x[ -355.0, -325.0] y[  162.0,  163.0] z[  255.0,  285.0]  OK
+X_plate_bolt_L3            -  xlevel        x[ -306.5, -293.5] y[  150.0,  190.0] z[  443.5,  456.5]  OK
+X_epoxy_pad_L3             -  epoxy         x[ -315.0, -285.0] y[  162.0,  163.0] z[  435.0,  465.0]  OK
+X_plate_bolt_L4            -  xlevel        x[ -346.5, -333.5] y[  150.0,  190.0] z[  443.5,  456.5]  OK
+X_epoxy_pad_L4             -  epoxy         x[ -355.0, -325.0] y[  162.0,  163.0] z[  435.0,  465.0]  OK
+X_roll_pin                 -  xlevel        x[ -325.0, -315.0] y[  150.0,  182.0] z[  355.0,  365.0]  OK
+X_roll_bracket             -  xlevel   KIT  x[  290.0,  350.0] y[  162.0,  186.0] z[  192.0,  224.0]  OK
+X_roll_jack                -  xlevel   KIT  x[  313.5,  326.5] y[  165.5,  178.5] z[  184.0,  230.0]  OK
+X_roll_bracket_bolt_1      -  xlevel   KIT  x[  295.0,  305.0] y[  157.0,  192.0] z[  203.0,  213.0]  OK
+X_roll_bracket_bolt_2      -  xlevel   KIT  x[  335.0,  345.0] y[  157.0,  192.0] z[  203.0,  213.0]  OK
+X_saddle_plate             x  ztram         x[ -142.0,  142.0] y[  121.5,  134.0] z[  222.0,  706.0]  OK
+Z_ball                     x  ztram         x[   -6.0,    6.0] y[  115.5,  127.5] z[  244.0,  256.0]  OK
+Z_clamp_bolt_1             x  ztram         x[ -113.0, -103.0] y[   98.0,  132.0] z[  235.0,  245.0]  OK
+Z_epoxy_pad_1              x  epoxy         x[ -119.0,  -97.0] y[  121.0,  122.0] z[  229.0,  251.0]  OK
+Z_clamp_bolt_2             x  ztram         x[ -113.0, -103.0] y[   98.0,  132.0] z[  615.0,  625.0]  OK
+Z_epoxy_pad_2              x  epoxy         x[ -119.0,  -97.0] y[  121.0,  122.0] z[  609.0,  631.0]  OK
+Z_clamp_bolt_3             x  ztram         x[ -113.0, -103.0] y[   98.0,  132.0] z[  691.0,  701.0]  OK
+Z_epoxy_pad_3              x  epoxy         x[ -119.0,  -97.0] y[  121.0,  122.0] z[  685.0,  707.0]  OK
+Z_clamp_bolt_4             x  ztram         x[  103.0,  113.0] y[   98.0,  132.0] z[  235.0,  245.0]  OK
+Z_epoxy_pad_4              x  epoxy         x[   97.0,  119.0] y[  121.0,  122.0] z[  229.0,  251.0]  OK
+Z_clamp_bolt_5             x  ztram         x[  103.0,  113.0] y[   98.0,  132.0] z[  615.0,  625.0]  OK
+Z_epoxy_pad_5              x  epoxy         x[   97.0,  119.0] y[  121.0,  122.0] z[  609.0,  631.0]  OK
+Z_clamp_bolt_6             x  ztram         x[  103.0,  113.0] y[   98.0,  132.0] z[  691.0,  701.0]  OK
+Z_epoxy_pad_6              x  epoxy         x[   97.0,  119.0] y[  121.0,  122.0] z[  685.0,  707.0]  OK
+Z_face_screw_R             x  ztram    KIT  x[  103.0,  113.0] y[   92.0,  122.0] z[  653.0,  663.0]  OK
+Z_roll_block_R             x  ztram    KIT  x[  124.0,  142.0] y[  104.0,  122.0] z[  664.0,  696.0]  OK
+Z_roll_screw_R             x  ztram    KIT  x[  120.0,  150.0] y[  107.0,  118.0] z[  674.5,  685.5]  OK
+Z_roll_block_bolt_R1       x  ztram    KIT  x[  128.8,  137.2] y[   99.0,  132.0] z[  665.8,  674.2]  OK
+Z_roll_block_bolt_R2       x  ztram    KIT  x[  128.8,  137.2] y[   99.0,  132.0] z[  685.8,  694.2]  OK
+Z_face_screw_L             x  ztram    KIT  x[ -113.0, -103.0] y[   92.0,  122.0] z[  653.0,  663.0]  OK
+Z_roll_block_L             x  ztram    KIT  x[ -142.0, -124.0] y[  104.0,  122.0] z[  664.0,  696.0]  OK
+Z_roll_screw_L             x  ztram    KIT  x[ -150.0, -120.0] y[  107.0,  118.0] z[  674.5,  685.5]  OK
+Z_roll_block_bolt_L1       x  ztram    KIT  x[ -137.2, -128.8] y[   99.0,  132.0] z[  665.8,  674.2]  OK
+Z_roll_block_bolt_L2       x  ztram    KIT  x[ -137.2, -128.8] y[   99.0,  132.0] z[  685.8,  694.2]  OK
+Spindle_pinch_screw_1      z  spindle       x[  -30.0,   36.0] y[  -53.0,  -43.0] z[  340.0,  350.0]  OK
+Spindle_pinch_screw_2      z  spindle       x[  -30.0,   36.0] y[  -53.0,  -43.0] z[  383.0,  393.0]  OK
+Spindle_shim_1             z  spindle       x[  -76.0,  -52.0] y[   32.0,   34.0] z[  319.0,  335.0]  OK
+Spindle_bolt_1             z  spindle       x[  -69.0,  -59.0] y[   -4.0,   46.0] z[  322.0,  332.0]  OK
+Spindle_shim_2             z  spindle       x[   52.0,   76.0] y[   32.0,   34.0] z[  319.0,  335.0]  OK
+Spindle_bolt_2             z  spindle       x[   59.0,   69.0] y[   -4.0,   46.0] z[  322.0,  332.0]  OK
+Spindle_shim_3             z  spindle       x[  -76.0,  -52.0] y[   32.0,   34.0] z[  484.0,  500.0]  OK
+Spindle_bolt_3             z  spindle       x[  -69.0,  -59.0] y[   -4.0,   46.0] z[  487.0,  497.0]  OK
+Spindle_shim_4             z  spindle       x[   52.0,   76.0] y[   32.0,   34.0] z[  484.0,  500.0]  OK
+Spindle_bolt_4             z  spindle       x[   59.0,   69.0] y[   -4.0,   46.0] z[  487.0,  497.0]  OK
+Spindle_roll_pin           z  spindle       x[  -67.0,  -61.0] y[   20.0,   46.0] z[  349.0,  355.0]  OK
+Spindle_roll_block_R       z  spindle  KIT  x[   80.0,   98.0] y[   14.0,   34.0] z[  474.0,  504.0]  OK
+Spindle_roll_screw_R       z  spindle  KIT  x[   78.0,  104.0] y[   19.5,   28.5] z[  484.5,  493.5]  OK
+Spindle_roll_block_bolt_R  z  spindle  KIT  x[   85.5,   92.5] y[   10.0,   46.0] z[  496.5,  503.5]  OK
+Spindle_roll_block_L       z  spindle  KIT  x[  -98.0,  -80.0] y[   14.0,   34.0] z[  474.0,  504.0]  OK
+Spindle_roll_screw_L       z  spindle  KIT  x[ -104.0,  -78.0] y[   19.5,   28.5] z[  484.5,  493.5]  OK
+Spindle_roll_block_bolt_L  z  spindle  KIT  x[  -92.5,  -85.5] y[   10.0,   46.0] z[  496.5,  503.5]  OK
+X_ref_pin_1                -  rails         x[ -243.0, -237.0] y[  157.5,  170.0] z[  234.0,  240.0]  OK
+X_ecc_pin_1                -  rails         x[ -245.0, -235.0] y[  157.5,  170.0] z[  450.0,  460.0]  OK
+X_side_screw_M1            -  rails         x[ -244.0, -236.0] y[  159.5,  170.0] z[  260.0,  268.0]  OK
+X_side_screw_S1            -  rails         x[ -244.0, -236.0] y[  159.5,  170.0] z[  480.0,  488.0]  OK
+X_ref_pin_2                -  rails         x[   -3.0,    3.0] y[  157.5,  170.0] z[  234.0,  240.0]  OK
+X_ecc_pin_2                -  rails         x[   -5.0,    5.0] y[  157.5,  170.0] z[  450.0,  460.0]  OK
+X_side_screw_M2            -  rails         x[   -4.0,    4.0] y[  159.5,  170.0] z[  260.0,  268.0]  OK
+X_side_screw_S2            -  rails         x[   -4.0,    4.0] y[  159.5,  170.0] z[  480.0,  488.0]  OK
+X_ref_pin_3                -  rails         x[  237.0,  243.0] y[  157.5,  170.0] z[  234.0,  240.0]  OK
+X_ecc_pin_3                -  rails         x[  235.0,  245.0] y[  157.5,  170.0] z[  450.0,  460.0]  OK
+X_side_screw_M3            -  rails         x[  236.0,  244.0] y[  159.5,  170.0] z[  260.0,  268.0]  OK
+X_side_screw_S3            -  rails         x[  236.0,  244.0] y[  159.5,  170.0] z[  480.0,  488.0]  OK
+Z_ref_pin_1                x  rails         x[  -70.0,  -64.0] y[   99.5,  112.0] z[  297.0,  303.0]  OK
+Z_ecc_pin_1                x  rails         x[   60.0,   70.0] y[   99.5,  112.0] z[  295.0,  305.0]  OK
+Z_side_screw_M1            x  rails         x[  -98.0,  -90.0] y[  101.5,  112.0] z[  296.0,  304.0]  OK
+Z_side_screw_S1            x  rails         x[   90.0,   98.0] y[  101.5,  112.0] z[  296.0,  304.0]  OK
+Z_ref_pin_2                x  rails         x[  -70.0,  -64.0] y[   99.5,  112.0] z[  459.0,  465.0]  OK
+Z_ecc_pin_2                x  rails         x[   60.0,   70.0] y[   99.5,  112.0] z[  457.0,  467.0]  OK
+Z_side_screw_M2            x  rails         x[  -98.0,  -90.0] y[  101.5,  112.0] z[  458.0,  466.0]  OK
+Z_side_screw_S2            x  rails         x[   90.0,   98.0] y[  101.5,  112.0] z[  458.0,  466.0]  OK
+Z_ref_pin_3                x  rails         x[  -70.0,  -64.0] y[   99.5,  112.0] z[  621.0,  627.0]  OK
+Z_ecc_pin_3                x  rails         x[   60.0,   70.0] y[   99.5,  112.0] z[  619.0,  629.0]  OK
+Z_side_screw_M3            x  rails         x[  -98.0,  -90.0] y[  101.5,  112.0] z[  620.0,  628.0]  OK
+Z_side_screw_S3            x  rails         x[   90.0,   98.0] y[  101.5,  112.0] z[  620.0,  628.0]  OK
+Y_ref_pin_1                y  ydatum        x[ -137.5, -129.5] y[ -154.0, -146.0] z[   63.0,   78.0]  OK
+Y_ecc_pin_1                y  ydatum        x[  125.5,  137.5] y[ -156.0, -144.0] z[   63.0,   78.0]  OK
+Y_side_screw_M1            y  ydatum        x[ -194.5, -182.5] y[ -156.0, -144.0] z[   67.5,   78.0]  OK
+Y_side_screw_S1            y  ydatum        x[  182.5,  194.5] y[ -156.0, -144.0] z[   67.5,   78.0]  OK
+Y_ref_pin_2                y  ydatum        x[ -137.5, -129.5] y[   46.0,   54.0] z[   63.0,   78.0]  OK
+Y_ecc_pin_2                y  ydatum        x[  125.5,  137.5] y[   44.0,   56.0] z[   63.0,   78.0]  OK
+Y_side_screw_M2            y  ydatum        x[ -194.5, -182.5] y[   44.0,   56.0] z[   67.5,   78.0]  OK
+Y_side_screw_S2            y  ydatum        x[  182.5,  194.5] y[   44.0,   56.0] z[   67.5,   78.0]  OK
+Y_ref_pin_3                y  ydatum        x[ -137.5, -129.5] y[  246.0,  254.0] z[   63.0,   78.0]  OK
+Y_ecc_pin_3                y  ydatum        x[  125.5,  137.5] y[  244.0,  256.0] z[   63.0,   78.0]  OK
+Y_side_screw_M3            y  ydatum        x[ -194.5, -182.5] y[  244.0,  256.0] z[   67.5,   78.0]  OK
+Y_side_screw_S3            y  ydatum        x[  182.5,  194.5] y[  244.0,  256.0] z[   67.5,   78.0]  OK
+Y_block_ref_pin_1          -  ydatum        x[ -211.0, -203.0] y[ -134.0, -126.0] z[   -8.0,   12.0]  OK
+Y_block_ref_pin_2          -  ydatum        x[ -211.0, -203.0] y[  -34.0,  -26.0] z[   -8.0,   12.0]  OK
+Y_block_ref_pin_3          -  ydatum        x[ -211.0, -203.0] y[   26.0,   34.0] z[   -8.0,   12.0]  OK
+Y_block_ref_pin_4          -  ydatum        x[ -211.0, -203.0] y[  126.0,  134.0] z[   -8.0,   12.0]  OK
