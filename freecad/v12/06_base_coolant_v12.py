@@ -109,7 +109,7 @@ for k, (a, b) in enumerate(((P0, (-200, 90, -290)), ((-200, 90, -290), (-475, 90
 for k, sx in enumerate((-1, 1), 1):                         # one each side of the clamp block, kept clear of the spindle body
     add('Coolant_nozzle_block_%d' % k, box(48 * sx if sx > 0 else -58, 58 if sx > 0 else -48, -52, -32, 372, 392),
         'nozzle block on the side face of the spindle clamp (Loc-Line 1/4)', 'z')
-    pts = [(53 * sx, -44, 372), (62 * sx, -56, 290), (22 * sx, -40, 210)]
+    pts = [(53 * sx, -44, 372), (62 * sx, -56, 290), (24 * sx, -44, 210)]
     add('Coolant_nozzle_%d' % k, seg(pts[0], pts[1], 4).fuse(seg(pts[1], pts[2], 3.5)), 'segmented coolant nozzle 1/4, out first then down, aimed at the tool', 'z')
 
 doc.recompute()

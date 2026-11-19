@@ -1,4 +1,4 @@
-parts=323 size=15502523
+parts=323 size=15502571
 Datum_base_plate g='' r='' tris=25292
 Y_rail_L g='y' r='' tris=8600
 Y_block_L1 g='' r='' tris=44982
@@ -348,7 +348,7 @@ Coolant_hose_2 g='base' r='' tris=500
 Coolant_hose_3 g='base' r='' tris=500
 Coolant_hose_4 g='base' r='' tris=500
 Coolant_nozzle_block_1 g='z' r='' tris=12
-Coolant_nozzle_1 g='z' r='' tris=962
+Coolant_nozzle_1 g='z' r='' tris=966
 Coolant_nozzle_block_2 g='z' r='' tris=12
 Coolant_nozzle_2 g='z' r='' tris=964
 pivots replaced=1: piv.y.position.set(-0.0,0,45.0);gY.add(piv.y);piv.x.position.set(0,207.0,360.0);gS.add(piv.x);piv.z.position.set(-0.0,79.0,0);gX.add(piv.z);

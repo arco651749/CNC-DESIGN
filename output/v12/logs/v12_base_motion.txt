@@ -1,57 +1,39 @@
-parts: 337   motion classes: static 166 / y 28 / x 82 / z 61
+parts: 348   motion classes: static 176 / y 28 / x 82 / z 62
 
-DESIGN CONTACTS AT HOME (overlap > 1 mm3, review): 25
-  Base_cross_1 x Base_mount_bolt_1 : 2885 mm3
-  Base_cross_1 x Base_mount_bolt_2 : 2885 mm3
-  Base_cross_2 x Base_mount_bolt_3 : 2885 mm3
-  Base_cross_2 x Base_mount_bolt_4 : 2885 mm3
-  Base_leg_1 x Base_low_front : 44704 mm3
-  Base_leg_2 x Base_low_front : 44704 mm3
-  Base_leg_3 x Base_low_side_L : 44704 mm3
-  Base_leg_4 x Base_low_side_R : 44704 mm3
+DESIGN CONTACTS AT HOME (overlap > 1 mm3, review): 9
   Coolant_hose_1 x Coolant_hose_2 : 288 mm3
-  Coolant_hose_1 x Coolant_pump : 1131 mm3
   Coolant_hose_2 x Coolant_hose_3 : 288 mm3
-  Coolant_hose_2 x Coolant_pump : 6211 mm3
   Coolant_hose_3 x Coolant_hose_4 : 288 mm3
-  Coolant_nozzle_1 x Coolant_nozzle_block : 10 mm3
-  Coolant_nozzle_1 x Spindle_body : 1684 mm3
-  Coolant_nozzle_1 x Spindle_clamp : 839 mm3
-  Coolant_nozzle_1 x Spindle_clamp_bolt_1 : 30 mm3
-  Coolant_nozzle_2 x Coolant_nozzle_block : 10 mm3
-  Coolant_nozzle_2 x Spindle_body : 2231 mm3
-  Coolant_nozzle_2 x Spindle_clamp : 839 mm3
-  Coolant_nozzle_2 x Spindle_clamp_bolt_1 : 30 mm3
+  Coolant_nozzle_1 x Coolant_nozzle_block_1 : 8 mm3
+  Coolant_nozzle_2 x Coolant_nozzle_block_2 : 8 mm3
   X_ball_nut x X_nut_bracket : 19 mm3
   X_ballscrew x X_support_fixed : 137 mm3
   Y_ballscrew x Y_support_fixed : 137 mm3
   Z_ballscrew x Z_support_fixed : 137 mm3
 
-COLLISIONS AT TRAVEL ENDS (new vs home): 3
-  Guard_front_lip x Y_ballscrew : [(-250, -150, -50, 241), (-250, -150, 50, 241), (-250, 150, -50, 241), (-250, 150, 50, 241)]
-  Guard_front_lip x Y_rail_L : [(-250, -150, -50, 1196), (-250, -150, 50, 1196), (-250, 150, -50, 1196), (-250, 150, 50, 1196)]
-  Guard_front_lip x Y_rail_R : [(-250, -150, -50, 1196), (-250, -150, 50, 1196), (-250, 150, -50, 1196), (-250, 150, 50, 1196)]
+COLLISIONS AT TRAVEL ENDS (new vs home): 0
 
 ALLOWED:
 
 CLEARANCES:
-  dy-250 Work_table         - Guard_front_lip      31.6 mm
+  dy-250 Work_table         - Guard_front_lip     130.4 mm
   dy-250 Y_motor            - Guard_rear          442.2 mm
   dy-250 Y_ballscrew        - Guard_rear          587.0 mm
-  dy-250 Y_ballscrew        - Guard_front_lip       0.0 mm
-  dy-250 Work_table         - Coolant_pan         105.5 mm
-  dy+150 Work_table         - Guard_front_lip     430.1 mm
+  dy-250 Y_ballscrew        - Guard_front_lip      35.0 mm
+  dy-250 Work_table         - Coolant_pan         158.5 mm
+  dy+150 Work_table         - Guard_front_lip     530.1 mm
   dy+150 Y_motor            - Guard_rear           42.2 mm
   dy+150 Y_ballscrew        - Guard_rear          187.0 mm
-  dy+150 Y_ballscrew        - Guard_front_lip     335.0 mm
+  dy+150 Y_ballscrew        - Guard_front_lip     435.0 mm
   dy+150 Work_table         - Coolant_pan         158.5 mm
   dx-150 X_motor            - Guard_side_R         43.0 mm
-  dx-150 Coolant_nozzle_1   - Gantry_column_L      89.0 mm
-  dx-150 Spindle_roll_screw_R - Guard_side_R        497.3 mm
+  dx-150 Coolant_nozzle_1   - Gantry_column_L      86.4 mm
+  dx-150 Coolant_nozzle_2   - Gantry_column_R     369.0 mm
   dx+150 X_motor            - Guard_side_R         43.0 mm
-  dx+150 Coolant_nozzle_1   - Gantry_column_L     376.7 mm
-  dx+150 Spindle_roll_screw_R - Guard_side_R        199.3 mm
-  dz-50 Coolant_nozzle_1   - Work_table           54.0 mm
-  dz-50 Coolant_nozzle_2   - Work_table           54.0 mm
+  dx+150 Coolant_nozzle_1   - Gantry_column_L     369.0 mm
+  dx+150 Coolant_nozzle_2   - Gantry_column_R      86.4 mm
+  dz-50 Coolant_nozzle_1   - Work_table           48.4 mm
+  dz-50 Coolant_nozzle_2   - Work_table           48.4 mm
+  dz-50 Coolant_nozzle_1   - Spindle_body          2.3 mm
   dz-50 Tool_D5            - Work_table           20.5 mm
-  nozzle tip to tool tip at home: 19.1 mm
+  nozzle tip to tool tip at home: 29.7 mm
