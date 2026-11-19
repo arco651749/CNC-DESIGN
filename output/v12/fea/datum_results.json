@@ -1,0 +1,153 @@
+{
+ "gantry": {
+  "mass_kg": 109.27,
+  "cg_mm": [
+   3.7,
+   121.5,
+   391.2
+  ]
+ },
+ "table": {
+  "mass_kg": 44.25,
+  "cg_mm": [
+   0.0,
+   54.1,
+   74.9
+  ]
+ },
+ "plate_mass_kg": 36.47,
+ "cases": {
+  "A_table_centre": {
+   "table_y_mm": 0,
+   "cut_force_N": 0,
+   "block_pair_N": [
+    69.4,
+    364.7
+   ],
+   "max_disp_mm": 0.00782,
+   "max_vm_MPa": 6.18,
+   "max_vm_at_mm": [
+    -272.5,
+    141.4,
+    -20.0
+   ],
+   "safety_factor_yield_235": 38.0,
+   "block_uz_um": {
+    "Y_block_L1": -4.04,
+    "Y_block_R1": -4.09,
+    "Y_block_L2": -2.3,
+    "Y_block_R2": -2.41
+   },
+   "table_pitch_urad": 10.77,
+   "table_roll_front_urad": -0.15,
+   "table_roll_rear_urad": -0.33,
+   "rail_twist_urad": -0.18,
+   "foot_tilt_urad": {
+    "L": -3.24,
+    "R": -3.41
+   }
+  },
+  "B_table_load_pos_y-250": {
+   "table_y_mm": -250,
+   "cut_force_N": 0,
+   "block_pair_N": [
+    751.8,
+    -317.8
+   ],
+   "max_disp_mm": 0.01927,
+   "max_vm_MPa": 7.32,
+   "max_vm_at_mm": [
+    307.8,
+    -107.4,
+    -20.0
+   ],
+   "safety_factor_yield_235": 32.1,
+   "block_uz_um": {
+    "Y_block_L1": -9.23,
+    "Y_block_R1": -9.28,
+    "Y_block_L2": -3.07,
+    "Y_block_R2": -3.18
+   },
+   "table_pitch_urad": 38.56,
+   "table_roll_front_urad": -0.15,
+   "table_roll_rear_urad": -0.34,
+   "rail_twist_urad": -0.19,
+   "foot_tilt_urad": {
+    "L": -2.2,
+    "R": -2.35
+   }
+  },
+  "C_table_rear_y+150": {
+   "table_y_mm": 150,
+   "cut_force_N": 0,
+   "block_pair_N": [
+    -340.1,
+    774.2
+   ],
+   "max_disp_mm": 0.00425,
+   "max_vm_MPa": 6.63,
+   "max_vm_at_mm": [
+    -272.5,
+    141.4,
+    -20.0
+   ],
+   "safety_factor_yield_235": 35.5,
+   "block_uz_um": {
+    "Y_block_L1": -0.93,
+    "Y_block_R1": -0.97,
+    "Y_block_L2": -1.84,
+    "Y_block_R2": -1.94
+   },
+   "table_pitch_urad": -5.91,
+   "table_roll_front_urad": -0.15,
+   "table_roll_rear_urad": -0.32,
+   "rail_twist_urad": -0.17,
+   "foot_tilt_urad": {
+    "L": -3.87,
+    "R": -4.05
+   }
+  },
+  "D_centre_plus_100N_cut": {
+   "table_y_mm": 0,
+   "cut_force_N": 100,
+   "block_pair_N": [
+    69.4,
+    364.7
+   ],
+   "max_disp_mm": 0.00812,
+   "max_vm_MPa": 6.62,
+   "max_vm_at_mm": [
+    270.3,
+    144.3,
+    -20.0
+   ],
+   "safety_factor_yield_235": 35.5,
+   "block_uz_um": {
+    "Y_block_L1": -4.01,
+    "Y_block_R1": -4.06,
+    "Y_block_L2": -2.23,
+    "Y_block_R2": -2.34
+   },
+   "table_pitch_urad": 11.0,
+   "table_roll_front_urad": -0.15,
+   "table_roll_rear_urad": -0.33,
+   "rail_twist_urad": -0.18,
+   "foot_tilt_urad": {
+    "L": -5.96,
+    "R": -5.98
+   }
+  }
+ },
+ "travel_change": {
+  "table_pitch_urad_B_minus_C": 44.47,
+  "rail_twist_urad_B_minus_C": -0.02,
+  "foot_tilt_urad_B_minus_C": {
+   "L": 1.67,
+   "R": 1.7
+  },
+  "foot_tilt_urad_D_minus_A": {
+   "L": -2.72,
+   "R": -2.57
+  }
+ }
+}
