@@ -173,8 +173,8 @@ DY = -20
 for l in ('Spindle_body', 'Spindle_fan_cover', 'Spindle_plug', 'Spindle_nose', 'ER11_nut', 'Tool_D5'):
     o = O(l); s = o.Shape.copy(); s.translate(V(0, DY, 0)); o.Shape = s; tag(l, 'spindle')
 SB = (0, 366)                                              # spindle pivot (x, z)
-BOLTS = [(-63, 395), (63, 395), (-63, 455), (63, 455)]
-SCREWS = [('TL', -63, 490), ('TR', 63, 490), ('BR', 63, 335)]
+BOLTS = [(-63, 420), (63, 420), (-63, 455), (63, 455)]            # clear of the Z-block screws in the slide
+SCREWS = [('TC', 0, 490), ('BL', -63, 335), ('BR', 63, 335)]       # turn about Z is irrelevant for the spindle: one top screw
 CB = [(-41, 340), (41, 340), (-41, 396), (41, 396)]       # clamp block to plate
 # back plate: flat steel 156x181x12, every hole from the front face (2.5D, one set-up)
 pl = box(-78, 78, 20, 32, 319, 500)
@@ -212,7 +212,7 @@ for k, (x, z) in enumerate(BOLTS, 1):
 for nm, x, z in SCREWS:
     add('Spindle_face_screw_' + nm, fuse(cyl('y', 4, 14, 34, x, z), cyl('y', 6.5, 14, 20, x, z)), G,
         'differential push screw (M8x0.75 / M6x0.5 = 0.25 mm/rev) through the ear, tip on the slide face: the three set the 2 mm gap; '
-        'top pair vs bottom = nod (lever about 124, 10 deg = 56 urad)', 'z', 'spindle')
+        'top vs bottom pair = nod (lever about 124, 10 deg = 56 urad)', 'z', 'spindle')
 for sgn, T in ((1, 'R'), (-1, 'L')):
     m = lambda s: mir(s, sgn)
     add('Spindle_roll_block_' + T, m(box(80, 98, 14, 34, 474, 504).cut(cyl('x', 3, 80, 98, 24, 489)).cut(cyl('y', 2.2, 14, 34, 89, 500))), G,
@@ -246,6 +246,46 @@ for i, y in enumerate((-130, -30, 30, 130), 1):
     cut('Datum_base_plate', cyl('z', 4, -8, 0, -207, y))
 for l in NEW:
     if l.startswith(('Y_ref_pin', 'Y_ecc_pin', 'Y_side_screw')): tag(l, 'ydatum')
+
+# ================================================================ rail and block screws (fasteners: one colour in the pages)
+# hole positions read from the MISUMI models; low-head screws (DIN 7984) where the part is too thin for a normal head
+LOWHEAD = {5: (4.25, 3.5), 10: (8.0, 6.0)}                 # thread: (head radius, head height)
+NORMAL = {5: (4.25, 5.0), 12: (9.0, 12.0)}
+for T, xc in (('L', -160), ('R', 160)):                    # Y rails: M12 from the rail bottom (inverted rail) into the table
+    for k, y in enumerate((-160, -55, 50, 155), 1):          # the rail holes at y-265 / 260 / 365 lie outside the table
+        add('Y_rail_bolt_%s%d' % (T, k), fuse(cyl('z', 9, 37, 49, xc, y), cyl('z', 6, 49, 84, xc, y)), G,
+            'M12x35 SHCS in the rail counterbore, tapped 14 into the table', 'y', 'fasten')
+        cut('Work_table', cyl('z', 6, 70, 84, xc, y))
+for T, xs in (('L', (-190, -130)), ('R', (130, 190))):      # Y blocks: low-head M10 from under the datum plate
+    for n, ys in ((1, (-102, -42)), (2, (42, 102))):
+        for x in xs:
+            for y in ys:
+                add('Y_block_bolt_%s%d_%d_%d' % (T, n, x, y), fuse(cyl('z', 8, -20, -14, x, y), cyl('z', 4.19, -14, 11, x, y)), G,
+                    'M10x25 low-head (DIN 7984) from under the datum plate, 11 into the block tap', '', 'fasten')
+                cut('Datum_base_plate', cyl('z', 8.5, -20, -13.5, x, y), cyl('z', 5.5, -13.5, 0, x, y))
+for r, z in ((1, 250), (2, 470)):                           # X rails: M5 in the rail counterbores into the X plate
+    for x in (-210, -150, -90, -30, 30, 90, 150, 210):
+        add('X_rail_bolt_%d_%d' % (r, x), fuse(cyl('y', 4.25, 150, 155, x, z), cyl('y', 2.5, 155, 171, x, z)), G,
+            'M5x16 SHCS in the rail counterbore, tapped 9 into the X plate', '', 'fasten')
+        cut('X_base_plate', cyl('y', 2.5, 162, 171, x, z))
+for blk, xs, zs in (('11', (-69.5, -37.5), (234, 266)), ('12', (37.5, 69.5), (234, 266)), ('21', (-69.5, -37.5), (454, 486)), ('22', (37.5, 69.5), (454, 486))):
+    for x in xs:                                            # X blocks: low-head M5 from the saddle front (1 mm gap to the Z plate)
+        for z in zs:
+            add('X_block_bolt_%s_%d_%d' % (blk, x, z), fuse(cyl('y', 4.25, 122.5, 126, x, z), cyl('y', 2.07, 126, 140, x, z)), G,
+                'M5x14 low-head (DIN 7984) from the saddle front, head sunk 4 into the saddle (fit before the Z plate)', 'x', 'fasten')
+            cut('X_saddle_plate', cyl('y', 4.75, 122, 126, x, z), cyl('y', 2.75, 126, 134, x, z))
+for T, xc in (('L', -80), ('R', 80)):                       # Z rails: M5 in the rail counterbores into the Z plate
+    for z in range(282, 643, 60):
+        add('Z_rail_bolt_%s_%d' % (T, z), fuse(cyl('y', 4.25, 92, 97, xc, z), cyl('y', 2.5, 97, 113, xc, z)), G,
+            'M5x16 SHCS in the rail counterbore, tapped 9 into the Z plate', 'x', 'fasten')
+        cut('X_carriage_plate', cyl('y', 2.5, 104, 113, xc, z))
+for T, xs in (('L', (-96, -64)), ('R', (64, 96))):          # Z blocks: M5 from the slide front through slide and spacer
+    for n, zs in ((1, (362.5, 394.5)), (2, (474.5, 506.5))):        # upper blocks are mounted the other way round
+        for x in xs:
+            for z in zs:
+                add('Z_block_bolt_%s%d_%d_%d' % (T, n, x, z), fuse(cyl('y', 4.25, 37, 42, x, z), cyl('y', 2.07, 42, 82, x, z)), G,
+                    'M5x40 SHCS from the slide front, counterbore 8, through slide and spacer, 6 into the block (fit before the spindle plate)', 'z', 'fasten')
+                cut('Z_slide_plate', cyl('y', 4.75, 34, 42, x, z), cyl('y', 2.75, 42, 62, x, z)); cut('Z_spacer_' + T, cyl('y', 2.75, 62, 76, x, z))
 
 # ================================================================ removable alignment kit
 KIT_RX = r'^(Yaw_push|Yaw_pull|Yaw_block_bolt|X_roll_bracket|X_roll_jack|Z_face_screw|Z_roll_block|Z_roll_screw|Spindle_face_screw|Spindle_roll_block|Spindle_roll_screw)'

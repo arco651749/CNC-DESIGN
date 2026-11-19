@@ -15,6 +15,7 @@ LOG = os.path.join(ROOT, 'output', 'v12', 'logs', 'export_motion_html_v12.txt')
 
 def colour(n):   # same scheme as the adjuster tour page
     if 'epoxy' in n: return [0.13, 0.62, 0.56]
+    if re.search(r'(bolt|pinch)', n): return [0.96, 0.78, 0.12]
     if re.search(r'(dowel|ref_pin|pivot_pin|roll_pin|Z_pivot_|pivot_bearing|pivot_stud)', n): return [0.16, 0.5, 0.78]
     if re.search(r'(bolt|springs|pinch|bar_screw)', n): return [0.45, 0.48, 0.5]
     if re.search(r'(_block|_bracket|_bar$|wedge_base)', n): return [0.2, 0.23, 0.26]

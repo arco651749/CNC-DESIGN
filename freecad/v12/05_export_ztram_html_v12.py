@@ -20,7 +20,7 @@ CTX = r'^(X_block_|Z_rail_)'
 def colour(n):
     if 'epoxy' in n: return [0.13, 0.62, 0.56]
     if n.startswith('Z_pivot_'): return [0.16, 0.5, 0.78]
-    if 'bolt' in n: return [0.45, 0.48, 0.5]
+    if 'bolt' in n: return [0.96, 0.78, 0.12]
     if '_block' in n and not n.startswith('X_block'): return [0.2, 0.23, 0.26]
     if 'screw' in n: return [0.88, 0.36, 0.12]
     if n == 'X_saddle_plate': return [0.52, 0.56, 0.6]

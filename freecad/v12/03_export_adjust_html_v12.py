@@ -32,7 +32,8 @@ def colour(n, adj):
     if n in old and n != 'Spindle_clamp': return old[n]
     if 'epoxy' in n: return [0.13, 0.62, 0.56]                                                  # cast epoxy: teal
     if re.search(r'(dowel|ref_pin|pivot_pin|roll_pin|Z_pivot_|pivot_bearing|pivot_stud)', n): return [0.16, 0.5, 0.78]      # pins and the ball: blue
-    if re.search(r'(bolt|springs|pinch)', n): return [0.45, 0.48, 0.5]
+    if re.search(r'(bolt|pinch)', n): return [0.96, 0.78, 0.12]   # every fastening screw: one colour
+    if 'springs' in n: return [0.45, 0.48, 0.5]
     if re.search(r'(_block|_bracket)', n): return [0.2, 0.23, 0.26]
     if re.search(r'(jack|screw|ecc_pin|wedge|shim)', n): return [0.88, 0.36, 0.12]
     if n == 'Spindle_clamp': return [0.62, 0.66, 0.7]
