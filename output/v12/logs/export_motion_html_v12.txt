@@ -1,4 +1,4 @@
-parts=161 size=12880405
+parts=161 size=12887749
 Datum_base_plate g='' r='' tris=7068
 Y_rail_L g='y' r='' tris=8600
 Y_block_L1 g='' r='' tris=44982
@@ -50,7 +50,7 @@ Spindle_plug g='z' r='' tris=12
 Spindle_nose g='z' r='' tris=500
 ER11_nut g='z' r='' tris=500
 Tool_D5 g='z' r='' tris=500
-Spindle_clamp g='z' r='' tris=7664
+Spindle_clamp g='z' r='' tris=8276
 Servo_amp_X g='' r='' tris=3138
 Servo_amp_Y g='' r='' tris=3138
 Servo_amp_Z g='' r='' tris=3138

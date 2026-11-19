@@ -173,20 +173,21 @@ DY = -12
 for l in ('Spindle_body', 'Spindle_fan_cover', 'Spindle_plug', 'Spindle_nose', 'ER11_nut', 'Tool_D5'):
     o = O(l); s = o.Shape.copy(); s.translate(V(0, DY, 0)); o.Shape = s; tag(l, 'spindle')
 SB = (0, 366)                                              # spindle pivot (x, z): centre of the clamp body
-BOLTS = [(-59, 395), (59, 395), (-59, 455), (59, 455)]
-SCREWS = [('TL', -59, 490), ('TR', 59, 490), ('BR', 59, 335)]
-c = fuse(box(-40, 40, -55, 32, 331, 401), box(40, 78, 2, 32, 319, 500), box(-78, -40, 2, 32, 319, 500))
-c = c.cut(cyl('z', 32.5, 331, 401, 0, DY)).cut(box(-1, 1, -55, DY, 331, 401))
-for z in (345, 388): c = c.cut(cyl('x', 3, -40, 30, -49, z)).cut(cyl('x', 5.5, 26, 40, -49, z))
-for x, z in BOLTS: c = c.cut(cyl('y', 3.5, 2, 32, x, z))
-for _, x, z in SCREWS: c = c.cut(cyl('y', 4, 2, 32, x, z))
+BOLTS = [(-63, 395), (63, 395), (-63, 455), (63, 455)]
+SCREWS = [('TL', -63, 490), ('TR', 63, 490), ('BR', 63, 335)]
+# one-piece bracket: back plate 156x181x18 on the slide + clamp ring in front; relief round the spindle above and below the ring
+c = fuse(box(-78, 78, 14, 32, 319, 500), box(-48, 48, -55, 32, 331, 405))
+c = c.cut(cyl('z', 34, 319, 500, 0, DY).cut(box(-48, 48, -60, 40, 331, 405))).cut(cyl('z', 32.5, 331, 405, 0, DY)).cut(box(-1, 1, -55, DY, 331, 405))
+for z in (348, 390): c = c.cut(cyl('x', 3, -48, 30, -49, z)).cut(cyl('x', 5.5, 30, 48, -49, z))
+for x, z in BOLTS: c = c.cut(cyl('y', 3.5, 14, 32, x, z))
+for _, x, z in SCREWS: c = c.cut(cyl('y', 4, 14, 32, x, z))
 c = c.cut(cyl('y', 3, 22, 32, *SB))
 cl = O('Spindle_clamp'); cl.Shape = c
-prop(cl, 'Spec', '6061 split clamp, bore D65 at (x0, y-12), rear wall 11.5 with an M6 tap for the pivot stud; tall ears 38x30x181 stand 2 mm off '
-                 'the slide. Fixed by 4 shim packs at the bolts')
+prop(cl, 'Spec', '6061 one-piece spindle bracket: back plate 156x181x18 standing 2 mm off the slide, split clamp ring D65 x 74 at (x0, y-12), '
+                 'rear wall 11.5 with an M6 tap for the pivot stud. Fixed by 4 shim packs at the bolts')
 tag('Spindle_clamp', 'spindle')
-for k, z in enumerate((345, 388), 1):
-    add('Spindle_pinch_screw_%d' % k, fuse(cyl('x', 3, -30, 30, -49, z), cyl('x', 5, 30, 36, -49, z)), G, 'M6 pinch screw, fixed torque before tramming', 'z', 'spindle')
+for k, z in enumerate((348, 390), 1):
+    add('Spindle_pinch_screw_%d' % k, fuse(cyl('x', 3, -38, 34, -49, z), cyl('x', 5, 34, 40, -49, z)), G, 'M6 pinch screw, fixed torque before tramming', 'z', 'spindle')
 brg = Part.read(os.path.join(ROOT, 'vendor', 'misumi', 'RBPB8', 'RBPB8.stp'))
 brg.translate(V(0, 0, 6)); brg.rotate(V(0, 0, 0), V(1, 0, 0), -90); brg.translate(V(SB[0], 40, SB[1]))   # inner ring y34..46, flush with the slide face
 add('Spindle_pivot_bearing', brg, G, 'spherical plain bearing MISUMI RBPB8 pressed into the Z slide at the centre behind the clamp body: fixes the '
@@ -198,10 +199,10 @@ for k, (x, z) in enumerate(BOLTS, 1):
     sh = box(x - 11, x + 11, 32, 34, z - 8, z + 8).cut(box(x - 3.5, x + 3.5, 32, 34, z - 8, z)).cut(cyl('y', 3.5, 32, 34, x, z))
     add('Spindle_shim_%d' % k, sh, G, 'ground shim pack 22x16, nominal 2.0, U-slot: fitted to the measured gap after adjusting, then the bolt is torqued '
         'and the face screws backed off', 'z', 'spindle')
-    add('Spindle_bolt_%d' % k, fuse(cyl('y', 5, -4, 2, x, z), cyl('y', 3, 2, 46, x, z)), G, 'M6 SHCS through ear and shim; ear hole D7', 'z', 'spindle')
+    add('Spindle_bolt_%d' % k, fuse(cyl('y', 5, 8, 14, x, z), cyl('y', 3, 14, 46, x, z)), G, 'M6 SHCS through back plate and shim; hole D7', 'z', 'spindle')
     cut('Z_slide_plate', cyl('y', 3, 34, 46, x, z))
 for nm, x, z in SCREWS:
-    add('Spindle_face_screw_' + nm, fuse(cyl('y', 4, -4, 34, x, z), cyl('y', 6.5, -4, 2, x, z)), G,
+    add('Spindle_face_screw_' + nm, fuse(cyl('y', 4, 8, 34, x, z), cyl('y', 6.5, 8, 14, x, z)), G,
         'differential push screw (M8x0.75 / M6x0.5 = 0.25 mm/rev) through the ear, tip on the slide face: the three set the 2 mm gap; '
         'top pair vs bottom = nod (lever about 124, 10 deg = 56 urad)', 'z', 'spindle')
 for sgn, T in ((1, 'R'), (-1, 'L')):
