@@ -63,10 +63,10 @@ for dy in (-250, 150):
         clear.append('dy%+d %-18s - %-18s %6.1f mm' % (dy, a, b, d(a, b, S)))
 for dx in (-150, 150):
     S = pose(0, dx, 0)
-    for a, b in (('X_motor', 'Guard_side_R'), ('Coolant_nozzle_1', 'Gantry_column_L'), ('Spindle_roll_screw_R', 'Guard_side_R')):
+    for a, b in (('X_motor', 'Guard_side_R'), ('Coolant_nozzle_1', 'Gantry_column_L'), ('Coolant_nozzle_2', 'Gantry_column_R')):
         clear.append('dx%+d %-18s - %-18s %6.1f mm' % (dx, a, b, d(a, b, S)))
 S = pose(0, 0, -50)
-for a, b in (('Coolant_nozzle_1', 'Work_table'), ('Coolant_nozzle_2', 'Work_table'), ('Tool_D5', 'Work_table')):
+for a, b in (('Coolant_nozzle_1', 'Work_table'), ('Coolant_nozzle_2', 'Work_table'), ('Coolant_nozzle_1', 'Spindle_body'), ('Tool_D5', 'Work_table')):
     clear.append('dz-50 %-18s - %-18s %6.1f mm' % (a, b, d(a, b, S)))
 tb = P['Tool_D5'].BoundBox
 clear.append('nozzle tip to tool tip at home: %.1f mm' % P['Coolant_nozzle_1'].distToShape(P['Tool_D5'])[0])

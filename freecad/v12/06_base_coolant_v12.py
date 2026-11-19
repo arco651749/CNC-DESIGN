@@ -51,39 +51,47 @@ def ext(label, b, spec='aluminium extrusion 40x40 (HFS8-4040), slot 8'):
     return add(label, s, spec)
 
 # ---------------- A1 frame
-LEGS = [(-440, -480), (440, -480), (-440, 40), (440, 40), (-440, 560), (440, 560)]
+LEGS = [(-440, -580), (440, -580), (-440, 40), (440, 40), (-440, 560), (440, 560)]
 for i, (x, y) in enumerate(LEGS, 1):
     ext('Base_leg_%d' % i, (x - 20, x + 20, y - 20, y + 20, FLOOR + 60, -130))
     add('Base_foot_%d' % i, cyl('z', 40, FLOOR, FLOOR + 15, x, y).fuse(cyl('z', 8, FLOOR + 15, FLOOR + 60, x, y)), 'levelling foot M16, pad D80')
-for zz, tag in ((-130, 'top'), (FLOOR + 90, 'low')):
-    ext('Base_%s_side_L' % tag, (-460, -420, -460, 540, zz, zz + 40)); ext('Base_%s_side_R' % tag, (420, 460, -460, 540, zz, zz + 40))
-    ext('Base_%s_front' % tag, (-460, 460, -500, -460, zz, zz + 40))
-    if tag == 'top': ext('Base_top_rear', (-460, 460, 540, 580, zz, zz + 40))   # no low rear beam: the tank slides out at the rear
+# top ring sits on the leg tops; low ring runs between the legs (no low rear beam: the tank slides out at the rear)
+ext('Base_top_side_L', (-460, -420, -560, 540, -130, -90)); ext('Base_top_side_R', (420, 460, -560, 540, -130, -90))
+ext('Base_top_front', (-460, 460, -600, -560, -130, -90)); ext('Base_top_rear', (-460, 460, 540, 580, -130, -90))
+LZ = FLOOR + 90
+ext('Base_low_front', (-420, 420, -600, -560, LZ, LZ + 40))
+for T, x0, x1 in (('L', -460, -420), ('R', 420, 460)):
+    ext('Base_low_side_%s1' % T, (x0, x1, -560, 20, LZ, LZ + 40)); ext('Base_low_side_%s2' % T, (x0, x1, 60, 540, LZ, LZ + 40))
 for k, y in enumerate((-120, 168), 1):                       # cross beams under the machine risers
     ext('Base_cross_%d' % k, (-420, 420, y - 20, y + 20, -130, -90))
 # ---------------- A2 coolant pan (sheet SUS304 t1.5, corners folded and sealed with silicone)
-pan = box(-455, 455, -495, 575, -90, -30).cut(box(-453.5, 453.5, -493.5, 573.5, -88.5, -30)).cut(cyl('z', 20, -90, -88.5, 0, 470))
+pan = box(-455, 455, -595, 575, -90, -30).cut(box(-453.5, 453.5, -593.5, 573.5, -88.5, -30)).cut(cyl('z', 20, -90, -88.5, 0, 470))
 MOUNT = [(-340, -120), (340, -120), (-240, 168), (240, 168)]
-for x, y in MOUNT: pan = pan.cut(cyl('z', 6.5, -90, -88.5, x, y))
-add('Coolant_pan', pan, 'SUS304 t1.5 pan 910x1070x60, floor slope 1:100 to the drain D40 at the rear centre; corners folded, sealed with silicone')
-for i, (x, y) in enumerate(((-453.5, -493.5), (453.5, -493.5), (-453.5, 573.5), (453.5, 573.5)), 1):
-    add('Coolant_silicone_%d' % i, cyl('z', 3, -88.5, -30, x, y).common(box(-453.5, 453.5, -493.5, 573.5, -90, 0)), 'silicone bead in the pan corner')
+for x, y in MOUNT:
+    for dx in (-20, 20): pan = pan.cut(cyl('z', 4.5, -90, -88.5, x + dx, y))
+add('Coolant_pan', pan, 'SUS304 t1.5 pan 910x1170x60, floor slope 1:100 to the drain D40 at the rear centre; corners folded, sealed with silicone')
+for i, (x, y) in enumerate(((-453.5, -593.5), (453.5, -593.5), (-453.5, 573.5), (453.5, 573.5)), 1):
+    add('Coolant_silicone_%d' % i, cyl('z', 3, -88.5, -30, x, y).common(box(-453.5, 453.5, -593.5, 573.5, -90, 0)), 'silicone bead in the pan corner')
 # ---------------- A3 risers + the 4 bolts that join B to A
 for i, (x, y) in enumerate(MOUNT, 1):
-    add('Base_riser_%d' % i, box(x - 30, x + 30, y - 30, y + 30, -88.5, -20).cut(cyl('z', 6.5, -88.5, -20, x, y)),
-        'steel riser 60x60x68.5 on the pan floor, bolted through to the cross beam; silicone ring under it seals the pan hole')
-    add('Base_mount_bolt_%d' % i, cyl('z', 6, -128, 0, x, y).fuse(cyl('z', 9, 0, 12, x, y)),
-        'M12x130 SHCS: datum plate (B) + riser + pan + cross beam, into a T-nut (joins B to A)')
+    r = box(x - 30, x + 30, y - 30, y + 30, -88.5, -20).cut(cyl('z', 6, -40, -20, x, y))
+    for dx in (-20, 20): r = r.cut(cyl('z', 7, -29, -20, x + dx, y)).cut(cyl('z', 4.5, -88.5, -29, x + dx, y))
+    add('Base_riser_%d' % i, r, 'steel riser 60x60x68.5 on the pan floor: M12 tap for the machine, 2 counterbored M8 holes to the cross beam; '
+        'silicone ring under it seals the pan holes')
+    add('Base_mount_bolt_%d' % i, cyl('z', 6, -40, 0, x, y).fuse(cyl('z', 9, 0, 12, x, y)), 'M12x40 SHCS: datum plate (B) into the riser tap (joins B to A)')
+    for k, dx in enumerate((-20, 20), 1):
+        add('Base_riser_bolt_%d_%d' % (i, k), cyl('z', 4, -99, -29, x + dx, y).fuse(cyl('z', 6.5, -29, -21, x + dx, y)),
+            'M8x70 SHCS, counterbored in the riser, through the pan into a T-nut in the cross-beam slot')
     s = cyl('z', 6.5, -20, 0, x, y); o = O('Datum_base_plate'); o.Shape = o.Shape.cut(s)
 # ---------------- A4 splash guards
 for sx, T in ((1, 'R'), (-1, 'L')):
-    side = box(450 if sx > 0 else -451.2, 451.2 if sx > 0 else -450, -490, 570, -60, 450).cut(box(-460, 460, -300, 250, 120, 400))
+    side = box(450 if sx > 0 else -451.2, 451.2 if sx > 0 else -450, -590, 570, -60, 450).cut(box(-460, 460, -300, 250, 120, 400))
     add('Guard_side_' + T, side, 'SUS304 t1.2 side guard, stands inside the pan wall (splash runs into the pan); window cut-out 550x280')
     add('Guard_window_' + T, box(451.2 if sx > 0 else -455.2, 455.2 if sx > 0 else -451.2, -310, 260, 110, 410), 'PC t4 window, bolted with a rubber seal')
-    for y in (-490, 550):
+    for y in (-590, 550):
         add('Guard_post_%s_%d' % (T, y), box(430 if sx > 0 else -450, 450 if sx > 0 else -430, y, y + 20, -88.5, 450), 'extrusion 20x20 corner post, sealed with silicone to the panels')
 add('Guard_rear', box(-450, 450, 570, 571.2, -60, 450), 'SUS304 t1.2 rear guard')
-add('Guard_front_lip', box(-450, 450, -491.2, -490, -60, 60), 'SUS304 t1.2 low front lip (loading side open)')
+add('Guard_front_lip', box(-450, 450, -591.2, -590, -60, 60), 'SUS304 t1.2 low front lip (loading side open), 35 mm ahead of the Y rail ends at the load position')
 # ---------------- A5 tank, filter, pump, hose
 TZ0, TZ1 = FLOOR + 60, FLOOR + 360
 tank = box(-300, 300, 0, 520, TZ0, TZ1).cut(box(-297, 297, 3, 517, TZ0 + 3, TZ1))
@@ -95,14 +103,14 @@ add('Coolant_filter_basket', box(-80, 80, 400, 510, TZ1 - 60, TZ1).cut(box(-78, 
 add('Coolant_drain_pipe', cyl('z', 20, TZ1, -90, 0, 470).cut(cyl('z', 18, TZ1, -90, 0, 470)), 'drain pipe D40 from the pan into the filter basket')
 add('Coolant_pump', cyl('z', 45, TZ1 - 160, TZ1, -200, 90).fuse(cyl('z', 55, TZ1, TZ1 + 110, -200, 90)), 'immersion pump 90 W, 25 L/min, 0.2 MPa, clean side')
 P0 = (-200, 90, TZ1 + 110)
-for k, (a, b) in enumerate(((P0, (-200, 90, -330)), ((-200, 90, -330), (-475, 90, -330)), ((-475, 90, -330), (-475, 90, 470)), ((-475, 90, 470), (-440, 90, 470))), 1):
+for k, (a, b) in enumerate(((P0, (-200, 90, -290)), ((-200, 90, -290), (-475, 90, -290)), ((-475, 90, -290), (-475, 90, 470)), ((-475, 90, 470), (-440, 90, 470))), 1):
     add('Coolant_hose_%d' % k, seg(a, b, 6), 'supply hose 12 mm: pump -> up the left side outside the guard -> bulkhead at the guard top -> X drag chain -> nozzles')
 # nozzles on the spindle clamp block (move with Z)
-add('Coolant_nozzle_block', box(-58, -48, -52, -32, 372, 392), 'nozzle block on the left face of the spindle clamp (2 x Loc-Line 1/4)', 'z')
-for k, dy in enumerate((-6, 6), 1):
-    pts = [(-53, -42 + dy, 372), (-38, -34 + dy, 300), (-16, -24 + dy, 215)]
-    s = seg(pts[0], pts[1], 4).fuse(seg(pts[1], pts[2], 3.5))
-    add('Coolant_nozzle_%d' % k, s, 'segmented coolant nozzle 1/4, aimed at the tool', 'z')
+for k, sx in enumerate((-1, 1), 1):                         # one each side of the clamp block, kept clear of the spindle body
+    add('Coolant_nozzle_block_%d' % k, box(48 * sx if sx > 0 else -58, 58 if sx > 0 else -48, -52, -32, 372, 392),
+        'nozzle block on the side face of the spindle clamp (Loc-Line 1/4)', 'z')
+    pts = [(53 * sx, -44, 372), (62 * sx, -56, 290), (22 * sx, -40, 210)]
+    add('Coolant_nozzle_%d' % k, seg(pts[0], pts[1], 4).fuse(seg(pts[1], pts[2], 3.5)), 'segmented coolant nozzle 1/4, out first then down, aimed at the tool', 'z')
 
 doc.recompute()
 doc.saveAs(os.path.join(OUT, 'CNC_v12_base.FCStd'))

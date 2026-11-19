@@ -1,4 +1,4 @@
-parts=312 size=15282993
+parts=323 size=15502523
 Datum_base_plate g='' r='' tris=25292
 Y_rail_L g='y' r='' tris=8600
 Y_block_L1 g='' r='' tris=44982
@@ -296,31 +296,41 @@ Base_top_side_L g='base' r='' tris=76
 Base_top_side_R g='base' r='' tris=76
 Base_top_front g='base' r='' tris=76
 Base_top_rear g='base' r='' tris=76
-Base_low_side_L g='base' r='' tris=76
-Base_low_side_R g='base' r='' tris=76
 Base_low_front g='base' r='' tris=76
+Base_low_side_L1 g='base' r='' tris=76
+Base_low_side_L2 g='base' r='' tris=76
+Base_low_side_R1 g='base' r='' tris=76
+Base_low_side_R2 g='base' r='' tris=76
 Base_cross_1 g='base' r='' tris=76
 Base_cross_2 g='base' r='' tris=76
-Coolant_pan g='base' r='' tris=2568
+Coolant_pan g='base' r='' tris=4600
 Coolant_silicone_1 g='base' r='' tris=132
 Coolant_silicone_2 g='base' r='' tris=132
 Coolant_silicone_3 g='base' r='' tris=132
 Coolant_silicone_4 g='base' r='' tris=132
-Base_riser_1 g='base' r='' tris=520
+Base_riser_1 g='base' r='' tris=2540
 Base_mount_bolt_1 g='base' r='' tris=1004
-Base_riser_2 g='base' r='' tris=520
+Base_riser_bolt_1_1 g='base' r='' tris=1004
+Base_riser_bolt_1_2 g='base' r='' tris=1004
+Base_riser_2 g='base' r='' tris=2540
 Base_mount_bolt_2 g='base' r='' tris=1004
-Base_riser_3 g='base' r='' tris=520
+Base_riser_bolt_2_1 g='base' r='' tris=1004
+Base_riser_bolt_2_2 g='base' r='' tris=1004
+Base_riser_3 g='base' r='' tris=2540
 Base_mount_bolt_3 g='base' r='' tris=1004
-Base_riser_4 g='base' r='' tris=520
+Base_riser_bolt_3_1 g='base' r='' tris=1004
+Base_riser_bolt_3_2 g='base' r='' tris=1004
+Base_riser_4 g='base' r='' tris=2540
 Base_mount_bolt_4 g='base' r='' tris=1004
+Base_riser_bolt_4_1 g='base' r='' tris=1004
+Base_riser_bolt_4_2 g='base' r='' tris=1004
 Guard_side_R g='base' r='' tris=32
 Guard_window_R g='base' r='' tris=12
-Guard_post_R_-490 g='base' r='' tris=12
+Guard_post_R_-590 g='base' r='' tris=12
 Guard_post_R_550 g='base' r='' tris=12
 Guard_side_L g='base' r='' tris=32
 Guard_window_L g='base' r='' tris=12
-Guard_post_L_-490 g='base' r='' tris=12
+Guard_post_L_-590 g='base' r='' tris=12
 Guard_post_L_550 g='base' r='' tris=12
 Guard_rear g='base' r='' tris=12
 Guard_front_lip g='base' r='' tris=12
@@ -337,9 +347,10 @@ Coolant_hose_1 g='base' r='' tris=500
 Coolant_hose_2 g='base' r='' tris=500
 Coolant_hose_3 g='base' r='' tris=500
 Coolant_hose_4 g='base' r='' tris=500
-Coolant_nozzle_block g='z' r='' tris=12
-Coolant_nozzle_1 g='z' r='' tris=1016
-Coolant_nozzle_2 g='z' r='' tris=1016
+Coolant_nozzle_block_1 g='z' r='' tris=12
+Coolant_nozzle_1 g='z' r='' tris=962
+Coolant_nozzle_block_2 g='z' r='' tris=12
+Coolant_nozzle_2 g='z' r='' tris=964
 pivots replaced=1: piv.y.position.set(-0.0,0,45.0);gY.add(piv.y);piv.x.position.set(0,207.0,360.0);gS.add(piv.x);piv.z.position.set(-0.0,79.0,0);gX.add(piv.z);
 work piece on fixture plate replaced=1
 base hooks: group 1 map 1 button 1 camera 1
