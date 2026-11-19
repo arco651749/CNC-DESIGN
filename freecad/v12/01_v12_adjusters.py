@@ -234,7 +234,14 @@ def refs(prefix, face, pin_r, ecc_r, scr_r, master, slave, at, pin_h, parent, mo
         add('%s_ecc_pin_%d' % (prefix, i), fuse(hd, sh), G, 'eccentric pin, shifts the slave rail', motion, 'rails'); cut(parent, sh)
         for side, cc in (('M', master[1]), ('S', slave[1])):
             hd, sh = stud(scr_r, scr_r / 2.0, cc, t, 2.5)
-            add('%s_side_screw_%s%d' % (prefix, side, i), fuse(hd, sh), G, 'side screw opposite the pin', motion, 'rails'); cut(parent, sh)
+            add('%s_side_screw_%s%d' % (prefix, side, i), fuse(hd, sh), G, SIDE_SPEC[prefix], motion, 'rails'); cut(parent, sh)
+SIDE_SPEC = {   # BOM: rail side-press screws, opposite each pin (cone of a countersunk screw bears on the rail side)
+    'X': 'ISO 10642 hex socket countersunk M4x10, 10.9 black oxide; tapped M4 in the X plate, countersink 0.5 deep, axis 3.75 from the rail side; '
+         'the cone touches the rail 0.6..2.0 above the base (flat side band of SX2RNL28: 0.6..6.0)',
+    'Z': 'ISO 10642 hex socket countersunk M4x10, 10.9 black oxide; tapped M4 in the Z plate, countersink 0.5 deep, axis 3.75 from the rail side; '
+         'the cone touches the rail 0.6..2.0 above the base (flat side band of SX2RNL28: 0.6..6.0)',
+    'Y': 'ISO 10642 hex socket countersunk M6x12, 10.9 black oxide; tapped M6 in the table underside, countersink 0.5 deep, axis 6.0 from the rail side; '
+         'the cone touches the rail 1.5..3.2 above the base (flat side band of C-HLG45: 1.5..7.1)'}
 _c = lambda r, h0, h1, c, t: cyl('y', r, h0, h1, t, c)
 refs('X', 162, 3, 5, 4, (237, 264), (455, 484), (-240, 0, 240), 4.5, 'X_base_plate', '')
 _c = lambda r, h0, h1, c, t: cyl('y', r, h0, h1, c, t)
