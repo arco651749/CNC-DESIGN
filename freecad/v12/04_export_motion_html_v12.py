@@ -66,7 +66,7 @@ html2, nwp = re.subn(r"const tt=bb\['Work_table'\]\.max\.z", "const tt=bb['Fixtu
 log.append('work piece on fixture plate replaced=%d' % nwp)
 html2 = re.sub(r'<title>[^<]*</title>', '<title>CNC v12 動作模擬</title>', html2, count=1)
 html2 = re.sub(r'<div class="sub">.*?</div>',
-               '<div class="sub">v12 生產狀態（校正工具組已拆下；綠色為灌注的環氧樹脂墊；龍門一柱定一柱推、X 底板一端銷一端頂、Z 板與主軸夾座各一顆球面軸承；主軸前移 12 mm）· 拖曳旋轉、滾輪縮放</div>', html2, count=1)
+               '<div class="sub">v12 生產狀態（校正工具組已拆下；綠色為灌注的環氧樹脂墊；龍門一柱定一柱推、X 底板一端銷一端頂、Z 板與主軸夾座各一顆球面軸承；主軸前移 20 mm）· 拖曳旋轉、滾輪縮放</div>', html2, count=1)
 open(OUT, 'w', encoding='utf-8', newline='\n').write(html2)
 log.insert(0, 'parts=%d size=%d' % (len(out), len(html2)))
 open(LOG, 'w', encoding='utf-8').write('\n'.join(log))

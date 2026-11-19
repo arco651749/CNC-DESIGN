@@ -1,10 +1,10 @@
-v12 = v10 + owner architecture.  new parts: 129, alignment kit: 29, epoxy pads: 14
+v12 = v10 + owner architecture.  new parts: 134, alignment kit: 29, epoxy pads: 14
 
 Column_foot_R              -  yaw           x[  280.0,  360.0] y[  -28.0,  182.0] z[    0.0,   18.0]  OK
 X_base_plate               -  xlevel        x[ -360.0,  360.0] y[  162.0,  182.0] z[  230.0,  490.0]  OK
 X_carriage_plate           -  ztram         x[ -120.0,  120.0] y[  104.0,  121.0] z[  222.0,  710.0]  OK
-Spindle_clamp              -  spindle       x[  -78.0,   78.0] y[  -55.0,   32.0] z[  319.0,  500.0]  OK
-Spindle_body               -  spindle       x[  -32.5,   32.5] y[  -44.5,   20.5] z[  221.0,  409.0]  OK
+Spindle_clamp              -  spindle       x[  -48.0,   48.0] y[  -63.0,   20.0] z[  331.0,  405.0]  OK
+Spindle_body               -  spindle       x[  -32.5,   32.5] y[  -52.5,   12.5] z[  221.0,  409.0]  OK
 Foot_bolt_R1               -  yaw           x[  289.5,  302.5] y[  165.5,  178.5] z[  -14.0,   26.0]  OK
 Foot_bolt_R2               -  yaw           x[  337.5,  350.5] y[  165.5,  178.5] z[  -14.0,   26.0]  OK
 Foot_bolt_R3               -  yaw           x[  313.5,  326.5] y[  -19.5,   -6.5] z[  -14.0,   26.0]  OK
@@ -73,21 +73,26 @@ Z_roll_block_L             x  ztram    KIT  x[ -142.0, -124.0] y[  104.0,  122.0
 Z_roll_screw_L             x  ztram    KIT  x[ -150.0, -120.0] y[  107.0,  118.0] z[  674.5,  685.5]  OK
 Z_roll_block_bolt_L1       x  ztram    KIT  x[ -137.2, -128.8] y[   99.0,  132.0] z[  665.8,  674.2]  OK
 Z_roll_block_bolt_L2       x  ztram    KIT  x[ -137.2, -128.8] y[   99.0,  132.0] z[  685.8,  694.2]  OK
-Spindle_pinch_screw_1      z  spindle       x[  -38.0,   40.0] y[  -54.0,  -44.0] z[  343.0,  353.0]  OK
-Spindle_pinch_screw_2      z  spindle       x[  -38.0,   40.0] y[  -54.0,  -44.0] z[  385.0,  395.0]  OK
+Spindle_mount_plate        z  spindle       x[  -78.0,   78.0] y[   20.0,   32.0] z[  319.0,  500.0]  OK
+Spindle_pinch_screw_1      z  spindle       x[  -38.0,   40.0] y[  -62.0,  -52.0] z[  350.0,  360.0]  OK
+Spindle_pinch_screw_2      z  spindle       x[  -38.0,   40.0] y[  -62.0,  -52.0] z[  376.0,  386.0]  OK
+Spindle_clamp_bolt_1       z  spindle       x[  -46.0,  -36.0] y[  -63.0,   30.0] z[  335.0,  345.0]  OK
+Spindle_clamp_bolt_2       z  spindle       x[   36.0,   46.0] y[  -63.0,   30.0] z[  335.0,  345.0]  OK
+Spindle_clamp_bolt_3       z  spindle       x[  -46.0,  -36.0] y[  -63.0,   30.0] z[  391.0,  401.0]  OK
+Spindle_clamp_bolt_4       z  spindle       x[   36.0,   46.0] y[  -63.0,   30.0] z[  391.0,  401.0]  OK
 Spindle_pivot_bearing      z  spindle       x[  -12.5,   12.5] y[   32.1,   47.9] z[  353.5,  378.5]  OK
-Spindle_pivot_stud         z  spindle       x[   -4.0,    4.0] y[   22.0,   46.0] z[  362.0,  370.0]  OK
+Spindle_pivot_stud         z  spindle       x[   -4.0,    4.0] y[   20.0,   46.0] z[  362.0,  370.0]  OK
 Spindle_shim_1             z  spindle       x[  -74.0,  -52.0] y[   32.0,   34.0] z[  387.0,  403.0]  OK
-Spindle_bolt_1             z  spindle       x[  -68.0,  -58.0] y[    8.0,   46.0] z[  390.0,  400.0]  OK
+Spindle_bolt_1             z  spindle       x[  -68.0,  -58.0] y[   14.0,   46.0] z[  390.0,  400.0]  OK
 Spindle_shim_2             z  spindle       x[   52.0,   74.0] y[   32.0,   34.0] z[  387.0,  403.0]  OK
-Spindle_bolt_2             z  spindle       x[   58.0,   68.0] y[    8.0,   46.0] z[  390.0,  400.0]  OK
+Spindle_bolt_2             z  spindle       x[   58.0,   68.0] y[   14.0,   46.0] z[  390.0,  400.0]  OK
 Spindle_shim_3             z  spindle       x[  -74.0,  -52.0] y[   32.0,   34.0] z[  447.0,  463.0]  OK
-Spindle_bolt_3             z  spindle       x[  -68.0,  -58.0] y[    8.0,   46.0] z[  450.0,  460.0]  OK
+Spindle_bolt_3             z  spindle       x[  -68.0,  -58.0] y[   14.0,   46.0] z[  450.0,  460.0]  OK
 Spindle_shim_4             z  spindle       x[   52.0,   74.0] y[   32.0,   34.0] z[  447.0,  463.0]  OK
-Spindle_bolt_4             z  spindle       x[   58.0,   68.0] y[    8.0,   46.0] z[  450.0,  460.0]  OK
-Spindle_face_screw_TL      z  spindle  KIT  x[  -69.5,  -56.5] y[    8.0,   34.0] z[  483.5,  496.5]  OK
-Spindle_face_screw_TR      z  spindle  KIT  x[   56.5,   69.5] y[    8.0,   34.0] z[  483.5,  496.5]  OK
-Spindle_face_screw_BR      z  spindle  KIT  x[   56.5,   69.5] y[    8.0,   34.0] z[  328.5,  341.5]  OK
+Spindle_bolt_4             z  spindle       x[   58.0,   68.0] y[   14.0,   46.0] z[  450.0,  460.0]  OK
+Spindle_face_screw_TL      z  spindle  KIT  x[  -69.5,  -56.5] y[   14.0,   34.0] z[  483.5,  496.5]  OK
+Spindle_face_screw_TR      z  spindle  KIT  x[   56.5,   69.5] y[   14.0,   34.0] z[  483.5,  496.5]  OK
+Spindle_face_screw_BR      z  spindle  KIT  x[   56.5,   69.5] y[   14.0,   34.0] z[  328.5,  341.5]  OK
 Spindle_roll_block_R       z  spindle  KIT  x[   80.0,   98.0] y[   14.0,   34.0] z[  474.0,  504.0]  OK
 Spindle_roll_screw_R       z  spindle  KIT  x[   78.0,  104.0] y[   19.0,   29.0] z[  484.0,  494.0]  OK
 Spindle_roll_block_bolt_R  z  spindle  KIT  x[   85.5,   92.5] y[   10.0,   46.0] z[  496.5,  503.5]  OK
