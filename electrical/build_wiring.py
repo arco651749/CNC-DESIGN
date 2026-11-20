@@ -215,7 +215,12 @@ VFD = S.add(PhotoBlock("VFD", "VFD 台達 MS300 變頻器（實物照；照片�
     _v("ACM", 300, 507, "top", "ACM"), _v("AVI", 320, 507, "top", "AVI"),
     _v("MI1", 235, 590, "bottom", "MI1"), _v("DCM", 418, 590, "bottom", "DCM")], title_dy=2.0))
 VPE = blk("VPE", "VPE 接地端子 (PE)", 690.0, 405.0, left=[("PE", 1)], right=[("RPE", 1, "PE")], w=20.32)
-SP = blk("SP", "主軸 0.8kW 風冷電主軸 (3相)", 790.0, 405.0, left=[("U", 1), ("V", 2), ("W", 3), ("PE", 4)], w=24.0)
+PH_A = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "vendor", "ato", "photos")
+S.photo(Photo(os.path.join(PH_A, "STF65-0.8-ER11_side.jpeg"), 800.0, 355.0, 0.07))      # context picture, no pins
+# rear 4-pin aviation socket, zoomed (pixel positions in the crop starting at 20,300); pin 1 U, 2 V, 3 W, 4 PE (ATO drawing)
+sph = S.photo(Photo(os.path.join(PH_A, "STF65-0.8-ER11_rear_socket.jpeg"), 800.0, 410.0, 0.35, crop=(20, 300, 110, 370)))
+SP = S.add(PhotoBlock("SP", "SP 主軸 STF65-0.8-ER11 後端插頭", sph,
+    [("U", 51.3, 27.5, "top", "1 U"), ("V", 48.2, 35.8, "left", "2 V"), ("W", 54.2, 45.4, "bottom", "3 W"), ("PE", 56.8, 37.0, "right", "4 PE")], title_dy=22.0))
 # per-drive protection: Shihlin BM30-SN MCCB (20 A, provisional: MS300 1.5 kW single-phase input current not verified) and SD-P11 contactor
 qph = S.photo(Photo(os.path.join(PH_SH, "BM30-SN.jpg"), 368.0, 412.0, K_SH))
 QF3 = S.add(PhotoBlock("QF3", "QF3 BM30-SN 2P 20A（暫定）", qph,
@@ -234,10 +239,10 @@ S.stub(VFD["U"], "SP_U", UCL, 6.0, THICK); S.stub(VFD["V"], "SP_V", BLK, 10.0, T
 S.stub(VFD["AVI"], "SPD_0-10V", ANA, 10.0); S.stub(VFD["ACM"], "SPD_GND", BLK, 15.0)
 S.stub(VFD["MI1"], "VFD_FWD", ORG, 22.0); S.stub(VFD["DCM"], "VFD_COM", BLK, 18.0)
 S.stub(VPE["PE"], "PE", GRN, R)
-S.stub(VPE["RPE"], "SP_PE", GRN, 7.62, THICK); S.stub(SP["PE"], "SP_PE", GRN, 7.62, THICK)
-for pid, net, col in (("U", "SP_U", UCL), ("V", "SP_V", BLK), ("W", "SP_W", GRY)):
-    S.stub(SP[pid], net, col, 7.62, THICK)
-S.text("單相機種用 R/L1、S/L2 接電；T/L3 不接。控制端子位置為在照片上量測，接線前以機身絲印為準。\nDCM 有兩個（+24V 右邊），MI1 為多功能輸入 1（出廠為 FWD/STOP）。", 705.0, 440.0, 1.2)
+S.stub(VPE["RPE"], "SP_PE", GRN, 7.62, THICK); S.stub(SP["PE"], "SP_PE", GRN, 8.0, THICK)
+for pid, net, col, ln in (("U", "SP_U", UCL, 8.0), ("V", "SP_V", BLK, 8.0), ("W", "SP_W", GRY, 4.0)):
+    S.stub(SP[pid], net, col, ln, THICK)
+S.text("變頻器：單相機種用 R/L1、S/L2 接電，T/L3 不接；DCM 有兩個（+24V 右邊）；\n控制端子位置為在照片上量測，接線前以機身絲印為準。\n主軸插頭（ATO 尺寸圖）：1=U、2=V、3=W、4=接地；4 個針孔與號碼的\n對應在照片上看不出來，圖上位置為示意，以插頭上的鋼印號碼為準。", 705.0, 428.0, 1.2)
 
 # ------------------------------------------------------------------ 6. 24V supplies, e-stop circuit
 QF4 = blk("QF4", "QF4 24V電源/幫浦 MCCB 2P 6A", 50.8, 358.14, left=[("L1i", 1, "L1"), ("L2i", 2, "L2")], right=[("L1o", 1, "L1"), ("L2o", 2, "L2")], w=20.32)
