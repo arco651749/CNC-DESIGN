@@ -60,8 +60,27 @@ SVX, SVY, SVZ = servo("X", 35.56), servo("Y", 137.16), servo("Z", 238.76, True)
 MX, MY, MZ = motor("X", 35.56), motor("Y", 137.16), motor("Z", 238.76, True)
 SV = {"X": SVX, "Y": SVY, "Z": SVZ}; MT = {"X": MX, "Y": MY, "Z": MZ}
 
+# CN1 control wiring lands on a TB40-MRJ4A terminal block per axis (terminal number = CN1 pin number);
+# a CN1-to-terminal-block cable joins the block to CN1 one to one.
+TBN = {}
+for ax, top in (("X", 35.56), ("Y", 137.16), ("Z", 238.76)):
+    cols = [("PP", "10 PP", 1, ORG), ("PG", "11 PG", 2, ORG), ("NP", "35 NP", 3, PUR), ("NG", "36 NG", 4, PUR),
+            ("DICOM", "20 DICOM", 6, RED), ("DOCOM", "46 DOCOM", 7, BLK), ("EM2", "42 EM2", 8, ORG),
+            ("SON", "15 SON", 9, YEL), ("ALM", "48 ALM", 10, PUR)]
+    if ax == "Z": cols.append(("MBR", "23 MBR", 11, PUR))
+    tb = blk("TB" + ax, "TB%s TB40-MRJ4A 端子台 (%s軸)" % (ax, ax), 424.18, top + 6 * R,
+             left=[(pid, r, lab) for pid, lab, r, _ in cols], right=[(pid + "c", r, lab) for pid, lab, r, _ in cols], w=30.48)
+    TBN[ax] = tb
+    for pid, lab, r, col in cols:
+        S.conn("CN1_%s_%s" % (ax, pid), col, [tb[pid + "c"], SV[ax][pid]])
+    S.text("號碼＝CN1 腳號，以排線接 CN1", 409.0, tb.top + tb.h + 3.0, 1.2)
+    for pid, net in (("DICOM", "+24V3"), ("DOCOM", "0V3"), ("EM2", "EM2_COM"), ("ALM", "ALM_" + ax), ("MBR", "MBR_Z")):
+        if pid in tb.pins: S.stub(tb[pid], net, dict((c[0], c[3]) for c in cols)[pid])
+    for pid in ("PP", "PG", "NP", "NG", "SON"):
+        S.stub(tb[pid], "%s_%s" % (ax, pid), dict((c[0], c[3]) for c in cols)[pid])
+
 # main power, single phase: contactor L1/L2 -> drive L1/L3 (L2 left open, manual 3.3.1)
-lanes = {"X": None, "Y": (411.48, 408.94), "Z": (406.4, 403.86)}
+lanes = {"X": None, "Y": (374.38, 371.84), "Z": (368.3, 365.76)}
 for ax in "XYZ":
     ln = lanes[ax]
     S.conn("L1_SRV_" + ax, BRN, [KM1[ax]["L1o"], SV[ax]["L1"]], lane=ln[0] if ln else None, width=THICK)
@@ -69,14 +88,11 @@ for ax in "XYZ":
 for ax in "XYZ":
     s, m = SV[ax], MT[ax]
     S.stub(s["L11"], "L1_CTL_" + ax, BRN); S.stub(s["L21"], "L2_CTL_" + ax, BLU); S.stub(s["PE"], "PE", GRN)
-    S.stub(s["DICOM"], "+24V3", RED); S.stub(s["DOCOM"], "0V3", BLK); S.stub(s["EM2"], "EM2_COM", ORG)
-    S.stub(s["ALM"], "ALM_" + ax, PUR)
     S.conn("%s_U" % ax, UCL, [s["U"], m["U"]], width=THICK)
     S.conn("%s_V" % ax, BLK, [s["V"], m["V"]], width=THICK)
     S.conn("%s_W" % ax, GRY, [s["W"], m["W"]], width=THICK)
     S.conn("%s_MPE" % ax, GRN, [s["MPE"], m["PE"]], width=THICK)
     S.conn("%s_ENC" % ax, TEL, [s["ENC"], m["ENC"]])
-S.stub(SVZ["MBR"], "MBR_Z", PUR)
 # Z brake: MBR drives relay KA3 coil, KA3 switches 24V to the motor brake
 KA3 = blk("KA3", "KA3 Z軸煞車繼電器", 533.4, 274.32, left=[("A1", 1), ("A2", 2), ("COM", 3)], right=[("NO", 2)], w=15.24)
 S.stub(KA3["A1"], "+24V3", RED); S.stub(KA3["A2"], "MBR_Z", PUR); S.stub(KA3["COM"], "+24V3", RED)
@@ -118,11 +134,9 @@ for ax in "XYZ":
     S.conn("%s_EN" % ax, YEL, [BD["%s_EN" % ax], IFB["%s_EN" % ax]])
     S.conn("%s_GND" % ax, BLK, [BD["%s_GND" % ax], IFB["%s_GND" % ax]])
 S.stub(IFB["V5"], "+5V", RED); S.stub(IFB["G5"], "0V1", BLK); S.stub(IFB["G3"], "0V3", BLK)
-lane = 360.68
 for ax in "XYZ":
     for n, col in (("PP", ORG), ("PG", ORG), ("NP", PUR), ("NG", PUR), ("SON", YEL)):
-        S.conn("%s_%s" % (ax, n), col, [IFB["%s_%s" % (ax, n)], SV[ax][n]], lane=lane)
-        lane += 2.54
+        S.stub(IFB["%s_%s" % (ax, n)], "%s_%s" % (ax, n), col)
 # board power / spindle analog / ethernet
 S.stub(BD["PWR_P"], "+24V1", RED); S.stub(BD["PWR_G"], "0V1", BLK)
 S.stub(BD["S010"], "SPD_0-10V", ANA); S.stub(BD["SGND"], "SPD_GND", BLK)

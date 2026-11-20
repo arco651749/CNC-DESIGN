@@ -219,89 +219,99 @@ SERVO_ROWS = [  # (connector, pin, function, pid or None, static text for X/Y/Z 
     ("CN3 / CN5", "—", "RS-422 / USB（試機設定用）", None, "未接"),
 ]
 
+PHOTOS = os.path.join(HERE, "..", "vendor", "mitsubishi", "photos")
+TB_NUM = {"PP": "10", "PG": "11", "NP": "35", "NG": "36", "DICOM": "20", "DOCOM": "46", "EM2": "42", "SON": "15", "ALM": "48", "MBR": "23"}
+
 def make_servo_card():
     axes = {a: next(b for b in B.S.blocks if b.ref == "SV" + a) for a in "XYZ"}
+    tbs = {a: next(b for b in B.S.blocks if b.ref == "TB" + a) for a in "XYZ"}
     motors = {a: "M" + a for a in "XYZ"}
     fig = plt.figure(figsize=(16.54, 11.69), dpi=110)
     fig.text(0.02, 0.965, "三菱 MR-J4-40A 伺服驅動器接線卡  代號 SVX / SVY / SVZ", fontsize=18, weight="bold", va="top")
-    fig.text(0.02, 0.938, "零件接線卡　｜　單相 220V　｜　圖：三菱 MR-J4-A 使用說明書 SH-030107-V（第 3-29、9-3 頁）", fontsize=9.5, color="#444", va="top")
-    # ---- figure A: front view + CN1 pin layout, with the pins we use marked
-    ax = fig.add_axes([0.02, 0.43, 0.41, 0.49])
-    pa = _page_png(112); ax.imshow(pa.crop((150, 215, 990, 1065))); ax.axis("off")
-    ox, oy = 150, 215
-    for n, c in ((10, "#e6007e"), (11, "#e6007e"), (35, "#e6007e"), (36, "#e6007e"), (15, "#00863d"), (20, "#c47a00"), (21, "#c47a00"),
-                 (42, "#c40000"), (46, "#555"), (47, "#555"), (48, "#7a00a8"), (23, "#00a0a0")):
-        x, y = _cn1_xy(n); ax.add_patch(plt.Circle((x - ox, y - oy), 17, fill=False, ec=c, lw=2.4))
-    ax.add_patch(Rectangle((180 - ox, 560 - oy), 215, 120, fill=False, ec="#0060c0", lw=2.4)); ax.text(185 - ox, 722 - oy, "▲ 藍框＝CN2 編碼器", color="#0060c0", fontsize=9, weight="bold", va="bottom")
-    ax.add_patch(Rectangle((510 - ox, 650 - oy), 95, 115, fill=False, ec="#8a6000", lw=2.4)); ax.text(430 - ox, 800 - oy, "▲ 褐框＝CN4 電池", color="#8a6000", fontsize=9, weight="bold", va="bottom")
-    fig.text(0.02, 0.425, "圈起的 CN1 腳：粉紅＝脈衝 10/11/35/36　綠＝SON 15　橙＝DICOM 20/21　紅＝EM2 42\n灰＝DOCOM 46/47　紫＝ALM 48　青＝MBR 23（僅 Z 軸）", fontsize=7.8, color="#333", va="top", linespacing=1.5)
-    # ---- figure B: power connector pin list
-    bx = fig.add_axes([0.02, 0.085, 0.17, 0.30])
-    pb = _page_png(374); bx.imshow(pb.crop((100, 815, 520, 1240))); bx.axis("off")
-    ox2, oy2 = 100, 815
-    for name, y, c in (("L1", 860, "#8a3c00"), ("L3", 901, "#0000dc"), ("L11", 1068, "#8a3c00"), ("L21", 1088, "#0000dc"),
-                       ("U", 1128, "#c83200"), ("V", 1148, "#000"), ("W", 1168, "#6e6e6e")):
-        bx.add_patch(Rectangle((128 - ox2, y - 11 - oy2), 32, 22, fill=False, ec=c, lw=2.2))
-    for y in (1005, 1046): bx.add_patch(Rectangle((128 - ox2, y - 11 - oy2), 32, 22, fill=False, ec="#999", lw=1.6, ls="--"))
-    for x in (144, 176): bx.add_patch(Rectangle((x - 17 - ox2, 1213 - 14 - oy2), 34, 28, fill=False, ec="#008800", lw=2.2))
-    fig.text(0.02, 0.083, "實線＝要接線；虛線＝出廠短接，保持原狀；PE 兩個螺絲都可接地", fontsize=7.8, color="#333", va="top")
-    # ---- notes next to figure B
+    fig.text(0.02, 0.938, "零件接線卡　｜　單相 220V　｜　控制線接端子台 TB40-MRJ4A（號碼＝CN1 腳號）　｜　腳位依三菱手冊 SH-030107-V", fontsize=9.5, color="#444", va="top")
+    # ---- A: Mitsubishi catalogue view of MR-J4-A (supplied), power connectors and CN1/CN2/CN4 marked
+    ax = fig.add_axes([0.02, 0.565, 0.225, 0.35])
+    ax.imshow(Image.open(os.path.join(PHOTOS, "mrj4a_catalog_view.jpg")).convert("RGB")); ax.axis("off")
+    for (x0, y0, x1, y1, lab, c) in ((283, 180, 338, 318, "CNP1", "#8a3c00"), (283, 335, 338, 438, "CNP2", "#0000c0"), (283, 445, 338, 518, "CNP3", "#c83200"),
+                                     (336, 330, 384, 512, "CN1", "#e6007e"), (308, 520, 386, 552, "CN2", "#0060c0"), (338, 590, 370, 622, "CN4", "#8a6000")):
+        ax.add_patch(Rectangle((x0, y0), x1 - x0, y1 - y0, fill=False, ec=c, lw=2.2))
+        if lab == "CN1": ax.text(x1 + 6, y0 + 8, lab, color=c, fontsize=8.5, weight="bold", va="top")
+        else: ax.text(224, (y0 + y1) / 2, lab, color=c, fontsize=8.5, weight="bold", va="center", ha="right")
+    fig.text(0.02, 0.562, "圖：三菱目錄的 MR-J4-A 外觀圖（你提供）。框＝電源端子 CNP1/2/3、\n控制接頭 CN1、編碼器 CN2、電池 CN4。", fontsize=7.8, color="#555", va="top", linespacing=1.4)
+    # ---- B: TB40-MRJ4A terminal block photo with the terminals we use circled
+    bx = fig.add_axes([0.25, 0.665, 0.18, 0.255])
+    bx.imshow(Image.open(os.path.join(PHOTOS, "tb40_mrj4a_terminal_block.png")).convert("RGBA")); bx.axis("off")
+    top_row = {"15": 38, "16": 62, "17": 82, "18": 105, "19": 127, "41": 148, "42": 170, "43": 191, "44": 212, "45": 233, "47": 255, "12": 277,
+               "20": 299, "46": 320, "33": 342, "34": 364, "35": 386, "36": 407, "10": 428, "11": 451}
+    bot_row = {"21": 49, "22": 71, "23": 92, "24": 114, "25": 135, "48": 157, "49": 179, "01": 200, "02": 222, "03": 244,
+               "27": 265, "28": 287, "29": 309, "30": 331, "04": 353, "05": 374, "06": 396, "07": 418, "08": 440, "09": 461}
+    for n, c in (("10", "#e6007e"), ("11", "#e6007e"), ("35", "#e6007e"), ("36", "#e6007e"), ("15", "#00863d"), ("20", "#c47a00"),
+                 ("42", "#c40000"), ("46", "#555555"), ("48", "#7a00a8"), ("23", "#00a0a0")):
+        x, y = (top_row[n], 279) if n in top_row else (bot_row[n], 326)
+        bx.add_patch(plt.Circle((x, y), 15, fill=False, ec=c, lw=2.4))
+    fig.text(0.25, 0.662, "TB40-MRJ4A 端子台（你提供的照片）。圈＝我們用到的端子。\n粉紅＝脈衝 10/11/35/36　綠＝SON 15　橙＝DICOM 20　紅＝EM2 42\n灰＝DOCOM 46　紫＝ALM 48　青＝MBR 23（僅 Z 軸）", fontsize=7.4, color="#444", va="top", linespacing=1.4)
+    cx_ = fig.add_axes([0.25, 0.535, 0.18, 0.06])
+    cx_.imshow(Image.open(os.path.join(PHOTOS, "cn1_to_tb40_cable.jpg")).convert("RGB")); cx_.axis("off")
+    fig.text(0.25, 0.532, "CN1 轉端子台排線（你提供的照片）\n一端接驅動器 CN1，另一端接端子台。", fontsize=7.4, color="#444", va="top", linespacing=1.4)
+    # ---- notes under the pictures
     notes = [
+        ("接線方式", True),
+        ("- 控制線（脈衝、SON、EM2、DICOM、DOCOM、ALM、MBR）全部接在端子台上，不直接接 CN1。", False),
+        ("- 端子台號碼＝CN1 腳號（依照片）；接線前請用三用電表量排線確認一對一。", False),
+        ("- 端子台只有 40 點，缺 13、14、26、31、32、37～40、50；我們用的腳都有。", False),
+        ("- CN4 電池接頭：1 BAT、2 LG（取自三菱 MR-J4-B 目錄圖，電池接頭相同，請對照手冊 11.8）。", False),
         ("安裝與接線（手冊 9-3、3.3.3、11.9）", True),
         ("- 外形 寬 40 × 高 168 mm，M5 螺絲 ×2，孔距 156±0.5 mm，重 1.0 kg。", False),
         ("- 電源接頭 CNP1/2/3 要拔下來再接線；每個孔只插 1 條線或 1 個端子。", False),
-        ("- 線徑：L1/L3 2 mm²（AWG14）；L11/L21 1.25～2 mm²；U/V/W AWG18～14。", False),
-        ("- 剝線 9 mm，開孔工具 JST J-FAT-OT；CN1 屏蔽層接到接地板並固定在接頭外殼。", False),
+        ("- 線徑：L1/L3 2 mm²（AWG14）；L11/L21 1.25～2 mm²；U/V/W AWG18～14；", False),
+        ("  剝線 9 mm，開孔工具 JST J-FAT-OT。", False),
         ("- 脈衝線 PP/PG、NP/NG 各一對屏蔽雙絞線，長度 10 m 以內（手冊 3.9.2）。", False),
         ("試機要設的參數（名稱依手冊）", True),
         ("- PA13：指令脈衝形式與邏輯（對照 IFB1 輸出極性）。", False),
         ("- PA06 / PA07：電子齒輪 CMX/CDV = 4194304 ÷ 5000 = 524288/625，", False),
-        ("  使 5,000 脈衝 = 馬達 1 轉（22 位元編碼器 4194304 脈衝/轉）。", False),
-        ("  CMX/CDV 的允許範圍：1/10 < CMX/CDV < 4000。", False),
+        ("  使 5,000 脈衝 = 馬達 1 轉（22 位元編碼器 4194304 脈衝/轉）；範圍 1/10 < CMX/CDV < 4000。", False),
         ("- PD24：把 CN1-23 設成 MBR（Z 軸）；PC16：煞車動作延遲。", False),
         ("- PA03：加電池並要用絕對位置時才設定；grblHAL 不支援 ABS 傳送，暫不啟用。", False),
     ]
-    y = 0.375
+    y = 0.50
     for t, hdr in notes:
-        fig.text(0.205, y, t, fontsize=9.8 if hdr else 8.2, weight="bold" if hdr else None, va="top"); y -= 0.0235 if hdr else 0.0195
+        fig.text(0.02, y, t, fontsize=9.8 if hdr else 8.2, weight="bold" if hdr else None, va="top"); y -= 0.0235 if hdr else 0.0195
     # ---- table
     tx = 0.455; cx = [tx, tx + 0.052, tx + 0.205, tx + 0.232, tx + 0.325, tx + 0.418]
     top = 0.925
-    hx = [cx[0], cx[1], cx[1] + 0.045, cx[3], cx[4], cx[5]]
+    hx = [cx[0], cx[1], cx[1] + 0.052, cx[3], cx[4], cx[5]]
     for i, h in enumerate(("接頭", "腳位", "功能", "X 軸 (SVX) 接到", "Y 軸 (SVY) 接到", "Z 軸 (SVZ) 接到")):
         fig.text(hx[i], top, h, fontsize=8.8, weight="bold", va="top")
-    # shift header for 'function' column
     y = top - 0.026
     fig.add_artist(plt.Line2D([tx - 0.004, 0.985], [y + 0.004, y + 0.004], color="#888", lw=0.8))
     rh = 0.0207; last = None
     for conn, pin, fn, pid, static in SERVO_ROWS:
         if conn != last:
             y -= 0.003; last = conn
-        fig.text(cx[0], y, conn, fontsize=8, weight="bold", va="top"); fig.text(cx[1], y, pin, fontsize=7.8, va="top")
-        # function text placed in its own column (between pin and X) -> compact layout: put function under pin column width
-        fig.text(cx[1] + 0.045, y, fn, fontsize=7.6, va="top")
-        col = None
+        shown_pin = pin if pid not in TB_NUM else "%s → TB%s" % (pin, TB_NUM[pid])
+        fig.text(cx[0], y, conn, fontsize=8, weight="bold", va="top"); fig.text(cx[1], y, shown_pin, fontsize=7.4, va="top")
+        fig.text(cx[1] + 0.052, y, fn, fontsize=7.4, va="top")
         for k, a in enumerate("XYZ"):
             blk = axes[a]
-            if pid and pid in blk.pins and getattr(blk.pins[pid], "net", None):
-                if pid == "MPE":
-                    txt = "%s[PE]、盤面 PE" % motors[a]
-                else:
-                    txt = dests(blk, blk.pins[pid], limit=3)
-                col = col or wirecolor.get(blk.pins[pid].net)
+            if pid in TB_NUM and pid in tbs[a].pins:
+                src = dests(tbs[a], tbs[a].pins[pid], limit=2).split("（")[0]
+                txt = "TB%s #%s ← %s" % (a, TB_NUM[pid], src)
+                USED.add(tbs[a])
+            elif pid and pid in blk.pins and getattr(blk.pins[pid], "net", None):
+                txt = "%s[PE]、盤面 PE" % motors[a] if pid == "MPE" else dests(blk, blk.pins[pid], limit=3)
             else:
                 txt = static or "不用"
-            fig.text(cx[3 + k] + 0.0, y, txt, fontsize=7.6, va="top")
+            fig.text(cx[3 + k], y, txt, fontsize=7.4, va="top")
         y -= rh
     legend = "零件代號：" + "；".join("%s＝%s" % (disp(b), b.title.split(" ", 1)[1] if " " in b.title else b.title)
                                        for b in sorted(USED, key=lambda b: disp(b)))
-    fig.text(tx, 0.285, textwrap.fill(legend, 100), fontsize=7.6, color="#333", va="top", linespacing=1.3)
+    fig.text(tx, 0.255, textwrap.fill(legend, 100), fontsize=7.4, color="#333", va="top", linespacing=1.3)
     chk = [("上電前檢查（手冊 3.3、4.1.2、11.8）", True),
            ("- L1/L3 接單相電源、L2 空接；L11/L21 有電；P3-P4 與 P+/D 的出廠短接片還在。", False),
            ("- DICOM 接 +24V、DOCOM 接 0V、EM2 對 0V 閉合；CN8 的 STO 短路接頭插著。", False),
            ("- 上電後正常時 ALM 約 2.5～3.5 秒後導通；報警時 ALM 斷開。", False),
            ("- 換電池只在控制電源開著時做（斷電換會丟絕對位置）；換前先關主電源並等 15 分鐘到 CHARGE 燈熄滅。", False)]
-    yy = 0.205
+    yy = 0.165
     for t, hdr in chk:
         fig.text(tx, yy, t, fontsize=9.6 if hdr else 8.2, weight="bold" if hdr else None, va="top"); yy -= 0.024 if hdr else 0.0195
     fig.text(tx, 0.03, "※ 「接到」欄來自配線圖（CNC_wiring.kicad_sch）的網表。腳位與參數來自手冊；馬達線與編碼器線為原廠現成線，不另畫。", fontsize=8, color="#a00", va="bottom")
