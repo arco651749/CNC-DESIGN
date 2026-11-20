@@ -3,6 +3,8 @@
 由 `freecad/v12/09_dxf_extract_v12.py`（抽取）與 `10_dxf_write_v12.py`（輸出）產生。單位 mm，每個視圖原點在左下角。
 定位銷、樞軸銷、靠銷、偏心銷與球面軸承的孔標 H7（紅色圖層），並寫公差上下限；標「ream at assembly」的孔在組裝調整後現場配鉸。
 
+**未完成**：3 個螺帽座缺螺帽法蘭孔與安裝孔，3 個馬達座缺馬達法蘭螺絲孔（模型還沒畫），DXF 標題欄有紅字 NOT FINAL，這 6 件先不要發包。
+
 | 零件 | 數量 | 外形 (x×y×z) | 孔數 | H7 孔 | 規格 |
 |---|---|---|---|---|---|
 | Datum_base_plate | 1 | 720x327x20 | 34 | 6 | Q235 t20 720x327 milled datum plate (single face): Y block seats, Y nu |
@@ -17,12 +19,12 @@
 | Z_slide_plate | 1 | 220x28x230 | 23 | 1 | steel t28, pocket for the Z nut |
 | Z_spacer_L | 1 | 50x14x230 | 8 | 0 | steel spacer bar t14 |
 | Z_spacer_R | 1 | 50x14x230 | 8 | 0 | steel spacer bar t14 |
-| Z_motor_plate | 1 | 120x90x38 | 5 | 0 | block 120x90x38: front part bolted to carriage FRONT face with 4xM6 (s |
-| Z_nut_housing | 1 | 52x39.59x32 | 1 | 0 | Z nut housing (CNC): wraps the nut body, flange on its top face, bolte |
-| X_nut_bracket | 1 | 37x95.6x52 | 1 | 0 | nut housing (CNC): wraps the C-KBS1505 nut body, flange bolted to the  |
-| Y_nut_bracket | 1 | 52x32x67.59 | 1 | 0 | Y nut housing (CNC): wraps the C-KBS1505 nut body, flange on its +y fa |
-| X_motor_block | 1 | 38x67x76 | 5 | 0 | Z-style block in the 7 mm pocket of the X base plate REAR face, 4xM6 ( |
-| Y_motor_block | 1 | 120x38x95 | 5 | 0 | Z-style block: bolted UP into table underside 4xM6 (same face as rails |
+| Z_motor_plate **(未完成)** | 1 | 120x90x38 | 5 | 1 | block 120x90x38: front part bolted to carriage FRONT face with 4xM6 (s |
+| Z_nut_housing **(未完成)** | 1 | 52x39.59x32 | 1 | 0 | Z nut housing (CNC): wraps the nut body, flange on its top face, bolte |
+| X_nut_bracket **(未完成)** | 1 | 37x95.6x52 | 1 | 0 | nut housing (CNC): wraps the C-KBS1505 nut body, flange bolted to the  |
+| Y_nut_bracket **(未完成)** | 1 | 52x32x67.59 | 1 | 0 | Y nut housing (CNC): wraps the C-KBS1505 nut body, flange on its +y fa |
+| X_motor_block **(未完成)** | 1 | 38x67x76 | 5 | 1 | Z-style block in the 7 mm pocket of the X base plate REAR face, 4xM6 ( |
+| Y_motor_block **(未完成)** | 1 | 120x38x95 | 5 | 1 | Z-style block: bolted UP into table underside 4xM6 (same face as rails |
 | Spindle_clamp | 1 | 96x83x74 | 7 | 0 | 6061 clamp block 96x83x74: bore D65 at (x0, y-20), rear wall 7.5, fron |
 | Spindle_mount_plate | 1 | 156x12x181 | 12 | 0 | flat steel plate 156x181x12, ground both faces, all holes from the fro |
 | Base_riser_1 | 4 | 60x60x68.5 | 3 | 0 | steel riser 60x60x68.5 on the pan floor: M12 tap for the machine, 2 co |

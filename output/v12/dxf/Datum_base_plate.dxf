@@ -489,7 +489,7 @@ $SKPOLY
   9
 $TDCREATE
  40
-2461365.1056712964
+2461365.114224537
   9
 $TDUCREATE
  40
@@ -497,7 +497,7 @@ $TDUCREATE
   9
 $TDUPDATE
  40
-2461365.1056712964
+2461365.114224537
   9
 $TDUUPDATE
  40
@@ -549,7 +549,7 @@ $SPLINESEGS
   9
 $HANDSEED
   5
-146
+147
   9
 $SURFTAB1
  70
@@ -929,11 +929,11 @@ $PSTYLEMODE
   9
 $FINGERPRINTGUID
   2
-{A4687B9C-5CC1-45CD-982D-32B46E80238F}
+{D6689BB6-C21B-4B9A-8EFA-77B1F8E05749}
   9
 $VERSIONGUID
   2
-{C199B579-6C93-42AF-87F7-D3C3BA21C6C6}
+{7E0D7A22-A4BD-48C8-8505-291176C24C28}
   9
 $EXTNAMES
 290
@@ -1323,9 +1323,9 @@ ISM
   0
 CLASS
   1
-LAYOUT
+ACDBPLACEHOLDER
   2
-AcDbLayout
+AcDbPlaceHolder
   3
 ObjectDBX Classes
  90
@@ -1339,9 +1339,9 @@ ObjectDBX Classes
   0
 CLASS
   1
-ACDBPLACEHOLDER
+LAYOUT
   2
-AcDbPlaceHolder
+AcDbLayout
   3
 ObjectDBX Classes
  90
@@ -3253,7 +3253,7 @@ ACAD
   0
 APPID
   5
-143
+144
 330
 3
 100
@@ -3267,7 +3267,7 @@ HATCHBACKGROUNDCOLOR
   0
 APPID
   5
-144
+145
 330
 3
 100
@@ -9363,17 +9363,17 @@ AcDbText
  10
 0.0
  20
--12.0
+-10.0
  30
 0.0
  40
 4.0
   1
-VIEW Z (along Z axis, section at mid depth)  720 x 327
+VIEW Z  720 x 327
  11
 0.0
  21
--12.0
+-10.0
  31
 0.0
 100
@@ -9387,23 +9387,23 @@ TEXT
 100
 AcDbEntity
   8
-TABLE
+TEXT
 100
 AcDbText
  10
-780.0
+0.0
  20
-327.0
+-16.0
  30
 0.0
  40
-4.0
+2.5
   1
-PART  Datum_base_plate   QTY 1   v12   2026-11-20
+looking along Z, section at mid depth
  11
-780.0
+0.0
  21
-327.0
+-16.0
  31
 0.0
 100
@@ -9421,19 +9421,19 @@ TABLE
 100
 AcDbText
  10
-780.0
+760.0
  20
-320.0
+327.0
  30
 0.0
  40
 4.0
   1
-SIZE  720 x 327 x 20 mm
+PART  Datum_base_plate   QTY 1   v12   2026-11-20
  11
-780.0
+760.0
  21
-320.0
+327.0
  31
 0.0
 100
@@ -9451,19 +9451,19 @@ TABLE
 100
 AcDbText
  10
-780.0
+760.0
  20
-313.0
+320.0
  30
 0.0
  40
 4.0
   1
-SPEC  Q235 t20 720x327 milled datum plate (single face): Y block seats, Y nut seat, column feet
+SIZE  720 x 327 x 20 mm (x y z)
  11
-780.0
+760.0
  21
-313.0
+320.0
  31
 0.0
 100
@@ -9481,19 +9481,19 @@ TABLE
 100
 AcDbText
  10
-780.0
+760.0
  20
-306.0
+313.0
  30
 0.0
  40
 4.0
   1
-Units mm. General tolerance ISO 2768-m. H7 holes: see limits.
+SPEC  Q235 t20 720x327 milled datum plate (single face): Y block seats, Y nut seat, column feet
  11
-780.0
+760.0
  21
-306.0
+313.0
  31
 0.0
 100
@@ -9511,19 +9511,19 @@ TABLE
 100
 AcDbText
  10
-780.0
+760.0
  20
-299.0
+306.0
  30
 0.0
  40
 4.0
   1
-
+Units mm. General tolerance ISO 2768-m. H7 holes: see limits.
  11
-780.0
+760.0
  21
-299.0
+306.0
  31
 0.0
 100
@@ -9541,19 +9541,19 @@ TABLE
 100
 AcDbText
  10
-780.0
+760.0
  20
-292.0
+299.0
  30
 0.0
  40
-3.5
+4.0
   1
-HOLE TABLE
+
  11
-780.0
+760.0
  21
-292.0
+299.0
  31
 0.0
 100
@@ -9571,19 +9571,19 @@ TABLE
 100
 AcDbText
  10
-780.0
+760.0
  20
-285.0
+292.0
  30
 0.0
  40
 3.5
   1
-A   x4   %%c13 thru
+HOLE TABLE
  11
-780.0
+760.0
  21
-285.0
+292.0
  31
 0.0
 100
@@ -9597,23 +9597,23 @@ TEXT
 100
 AcDbEntity
   8
-H7
+TABLE
 100
 AcDbText
  10
-780.0
+760.0
  20
-278.0
+285.0
  30
 0.0
  40
 3.5
   1
-B   x4   %%c8 H7 (+0.015/0) depth 8
+A   x4   %%c13 thru
  11
-780.0
+760.0
  21
-278.0
+285.0
  31
 0.0
 100
@@ -9627,23 +9627,23 @@ TEXT
 100
 AcDbEntity
   8
-TABLE
+H7
 100
 AcDbText
  10
-780.0
+760.0
  20
-271.0
+278.0
  30
 0.0
  40
 3.5
   1
-C   x16  %%c11 depth 13.5, c-bore %%c17 depth 6.5 (from top)
+B   x4   %%c8 H7 (+0.015/0) depth 8 (from top)
  11
-780.0
+760.0
  21
-271.0
+278.0
  31
 0.0
 100
@@ -9661,19 +9661,19 @@ TABLE
 100
 AcDbText
  10
-780.0
+760.0
  20
-264.0
+271.0
  30
 0.0
  40
 3.5
   1
-D   x6   M8 tap depth 14 (from top)
+C   x16  %%c11 thru, c-bore %%c17 depth 6.5 (c-bore on bottom)
  11
-780.0
+760.0
  21
-264.0
+271.0
  31
 0.0
 100
@@ -9691,19 +9691,19 @@ TABLE
 100
 AcDbText
  10
-780.0
+760.0
  20
-257.0
+264.0
  30
 0.0
  40
 3.5
   1
-E   x2   M5 tap depth 10 (from top)
+D   x6   M8 tap depth 14 (from top)
  11
-780.0
+760.0
  21
-257.0
+264.0
  31
 0.0
 100
@@ -9717,23 +9717,23 @@ TEXT
 100
 AcDbEntity
   8
-H7
+TABLE
 100
 AcDbText
  10
-780.0
+760.0
  20
-250.0
+257.0
  30
 0.0
  40
 3.5
   1
-F   x1   %%c10 H7 (+0.015/0) depth 12
+E   x2   M5 tap depth 10 (from top)
  11
-780.0
+760.0
  21
-250.0
+257.0
  31
 0.0
 100
@@ -9751,7 +9751,37 @@ H7
 100
 AcDbText
  10
-780.0
+760.0
+ 20
+250.0
+ 30
+0.0
+ 40
+3.5
+  1
+F   x1   %%c10 H7 (+0.015/0) depth 12 (from top)
+ 11
+760.0
+ 21
+250.0
+ 31
+0.0
+100
+AcDbText
+  0
+TEXT
+  5
+143
+330
+17
+100
+AcDbEntity
+  8
+H7
+100
+AcDbText
+ 10
+760.0
  20
 243.0
  30
@@ -9759,9 +9789,9 @@ AcDbText
  40
 3.5
   1
-G   x1   %%c10 H7 (+0.015/0) depth 12, ream at assembly (pre-drill %%c9.5)
+G   x1   %%c10 H7 (+0.015/0) depth 12, ream at assembly (pre-drill %%c9.5) (from top)
  11
-780.0
+760.0
  21
 243.0
  31
@@ -10859,7 +10889,7 @@ CREATED_BY_EZDXF
   3
 WRITTEN_BY_EZDXF
 350
-145
+146
   0
 DICTIONARYVAR
   5
@@ -10871,7 +10901,7 @@ DictionaryVariables
 280
 0
   1
-1.4.5 @ 2026-11-20T02:32:10.383598+00:00
+1.4.5 @ 2026-11-20T02:44:29.678518+00:00
   0
 VISUALSTYLE
   5
@@ -11575,7 +11605,7 @@ X-Ray
   0
 DICTIONARYVAR
   5
-145
+146
 330
 2D
 100
@@ -11583,7 +11613,7 @@ DictionaryVariables
 280
 0
   1
-1.4.5 @ 2026-11-20T02:32:10.390471+00:00
+1.4.5 @ 2026-11-20T02:44:29.686810+00:00
   0
 ENDSEC
   0

@@ -489,7 +489,7 @@ $SKPOLY
   9
 $TDCREATE
  40
-2461365.1056712964
+2461365.114224537
   9
 $TDUCREATE
  40
@@ -497,7 +497,7 @@ $TDUCREATE
   9
 $TDUPDATE
  40
-2461365.1056712964
+2461365.114224537
   9
 $TDUUPDATE
  40
@@ -549,7 +549,7 @@ $SPLINESEGS
   9
 $HANDSEED
   5
-133
+134
   9
 $SURFTAB1
  70
@@ -929,11 +929,11 @@ $PSTYLEMODE
   9
 $FINGERPRINTGUID
   2
-{9F38F924-115A-45CF-81E1-3919795BDF9C}
+{54587FEA-38C5-4A52-B41C-10746C63D968}
   9
 $VERSIONGUID
   2
-{7F0CCFFF-2F5A-4C07-96F7-D813BD890043}
+{341982A9-8607-4E31-9E69-28D549B62EF4}
   9
 $EXTNAMES
 290
@@ -1323,9 +1323,9 @@ ISM
   0
 CLASS
   1
-LAYOUT
+ACDBPLACEHOLDER
   2
-AcDbLayout
+AcDbPlaceHolder
   3
 ObjectDBX Classes
  90
@@ -1339,9 +1339,9 @@ ObjectDBX Classes
   0
 CLASS
   1
-ACDBPLACEHOLDER
+LAYOUT
   2
-AcDbPlaceHolder
+AcDbLayout
   3
 ObjectDBX Classes
  90
@@ -3253,7 +3253,7 @@ ACAD
   0
 APPID
   5
-130
+131
 330
 3
 100
@@ -3267,7 +3267,7 @@ HATCHBACKGROUNDCOLOR
   0
 APPID
   5
-131
+132
 330
 3
 100
@@ -8965,17 +8965,17 @@ AcDbText
  10
 0.0
  20
--12.0
+-10.0
  30
 0.0
  40
 4.0
   1
-VIEW Y (along Y axis, section at mid depth)  284 x 484
+VIEW Y  284 x 484
  11
 0.0
  21
--12.0
+-10.0
  31
 0.0
 100
@@ -8989,23 +8989,23 @@ TEXT
 100
 AcDbEntity
   8
-TABLE
+TEXT
 100
 AcDbText
  10
-344.0
+0.0
  20
-484.0
+-16.0
  30
 0.0
  40
-4.0
+2.5
   1
-PART  X_saddle_plate   QTY 1   v12   2026-11-20
+looking along Y, section at mid depth
  11
-344.0
+0.0
  21
-484.0
+-16.0
  31
 0.0
 100
@@ -9023,19 +9023,19 @@ TABLE
 100
 AcDbText
  10
-344.0
+324.0
  20
-477.0
+484.0
  30
 0.0
  40
 4.0
   1
-SIZE  284 x 12 x 484 mm
+PART  X_saddle_plate   QTY 1   v12   2026-11-20
  11
-344.0
+324.0
  21
-477.0
+484.0
  31
 0.0
 100
@@ -9053,19 +9053,19 @@ TABLE
 100
 AcDbText
  10
-344.0
+324.0
  20
-470.0
+477.0
  30
 0.0
  40
 4.0
   1
-SPEC  saddle, steel t12 with two ears above the columns: bolted to the 4 X blocks and the X nut bracket
+SIZE  284 x 12 x 484 mm (x y z)
  11
-344.0
+324.0
  21
-470.0
+477.0
  31
 0.0
 100
@@ -9083,19 +9083,19 @@ TABLE
 100
 AcDbText
  10
-344.0
+324.0
  20
-463.0
+470.0
  30
 0.0
  40
 4.0
   1
-Units mm. General tolerance ISO 2768-m. H7 holes: see limits.
+SPEC  saddle, steel t12 with two ears above the columns: bolted to the 4 X blocks and the X nut bracket
  11
-344.0
+324.0
  21
-463.0
+470.0
  31
 0.0
 100
@@ -9113,19 +9113,19 @@ TABLE
 100
 AcDbText
  10
-344.0
+324.0
  20
-456.0
+463.0
  30
 0.0
  40
 4.0
   1
-
+Units mm. General tolerance ISO 2768-m. H7 holes: see limits.
  11
-344.0
+324.0
  21
-456.0
+463.0
  31
 0.0
 100
@@ -9143,19 +9143,19 @@ TABLE
 100
 AcDbText
  10
-344.0
+324.0
  20
-449.0
+456.0
  30
 0.0
  40
-3.5
+4.0
   1
-HOLE TABLE
+
  11
-344.0
+324.0
  21
-449.0
+456.0
  31
 0.0
 100
@@ -9173,19 +9173,19 @@ TABLE
 100
 AcDbText
  10
-344.0
+324.0
  20
-442.0
+449.0
  30
 0.0
  40
 3.5
   1
-A   x4   M5 tap depth 10 (from bottom)
+HOLE TABLE
  11
-344.0
+324.0
  21
-442.0
+449.0
  31
 0.0
 100
@@ -9203,19 +9203,19 @@ TABLE
 100
 AcDbText
  10
-344.0
+324.0
  20
-435.0
+442.0
  30
 0.0
  40
 3.5
   1
-B   x6   M6 tap depth 10 (from bottom)
+A   x4   M5 tap depth 10 (from front)
  11
-344.0
+324.0
  21
-435.0
+442.0
  31
 0.0
 100
@@ -9233,19 +9233,19 @@ TABLE
 100
 AcDbText
  10
-344.0
+324.0
  20
-428.0
+435.0
  30
 0.0
  40
 3.5
   1
-C   x16  %%c5.5 depth 8, c-bore %%c9.5 depth 4 (from top)
+B   x6   M6 tap depth 10 (from front)
  11
-344.0
+324.0
  21
-428.0
+435.0
  31
 0.0
 100
@@ -9259,11 +9259,41 @@ TEXT
 100
 AcDbEntity
   8
+TABLE
+100
+AcDbText
+ 10
+324.0
+ 20
+428.0
+ 30
+0.0
+ 40
+3.5
+  1
+C   x16  %%c5.5 thru, c-bore %%c9.5 depth 4 (c-bore on front)
+ 11
+324.0
+ 21
+428.0
+ 31
+0.0
+100
+AcDbText
+  0
+TEXT
+  5
+130
+330
+17
+100
+AcDbEntity
+  8
 H7
 100
 AcDbText
  10
-344.0
+324.0
  20
 421.0
  30
@@ -9273,7 +9303,7 @@ AcDbText
   1
 D   x1   %%c22 H7 (+0.021/0) thru
  11
-344.0
+324.0
  21
 421.0
  31
@@ -10371,7 +10401,7 @@ CREATED_BY_EZDXF
   3
 WRITTEN_BY_EZDXF
 350
-132
+133
   0
 DICTIONARYVAR
   5
@@ -10383,7 +10413,7 @@ DictionaryVariables
 280
 0
   1
-1.4.5 @ 2026-11-20T02:32:10.616708+00:00
+1.4.5 @ 2026-11-20T02:44:29.884891+00:00
   0
 VISUALSTYLE
   5
@@ -11087,7 +11117,7 @@ X-Ray
   0
 DICTIONARYVAR
   5
-132
+133
 330
 2D
 100
@@ -11095,7 +11125,7 @@ DictionaryVariables
 280
 0
   1
-1.4.5 @ 2026-11-20T02:32:10.626126+00:00
+1.4.5 @ 2026-11-20T02:44:29.896923+00:00
   0
 ENDSEC
   0

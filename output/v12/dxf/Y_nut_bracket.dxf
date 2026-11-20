@@ -489,7 +489,7 @@ $SKPOLY
   9
 $TDCREATE
  40
-2461365.1056712964
+2461365.1142361113
   9
 $TDUCREATE
  40
@@ -497,7 +497,7 @@ $TDUCREATE
   9
 $TDUPDATE
  40
-2461365.1056712964
+2461365.1142361113
   9
 $TDUUPDATE
  40
@@ -549,7 +549,7 @@ $SPLINESEGS
   9
 $HANDSEED
   5
-AC
+AE
   9
 $SURFTAB1
  70
@@ -929,11 +929,11 @@ $PSTYLEMODE
   9
 $FINGERPRINTGUID
   2
-{D168C898-164E-4A64-B32A-E5A2752AA240}
+{C913D646-8B1D-4044-8B58-77DBD5104D26}
   9
 $VERSIONGUID
   2
-{3B2A7829-5498-41D7-9F2C-E06E4FDFEA8B}
+{372279E8-C74A-42C9-8A8B-4F470670DA03}
   9
 $EXTNAMES
 290
@@ -1323,9 +1323,9 @@ ISM
   0
 CLASS
   1
-LAYOUT
+ACDBPLACEHOLDER
   2
-AcDbLayout
+AcDbPlaceHolder
   3
 ObjectDBX Classes
  90
@@ -1339,9 +1339,9 @@ ObjectDBX Classes
   0
 CLASS
   1
-ACDBPLACEHOLDER
+LAYOUT
   2
-AcDbPlaceHolder
+AcDbLayout
   3
 ObjectDBX Classes
  90
@@ -3253,7 +3253,7 @@ ACAD
   0
 APPID
   5
-A9
+AB
 330
 3
 100
@@ -3267,7 +3267,7 @@ HATCHBACKGROUNDCOLOR
   0
 APPID
   5
-AA
+AC
 330
 3
 100
@@ -5777,17 +5777,17 @@ AcDbText
  10
 0.0
  20
--12.0
+-10.0
  30
 0.0
  40
 4.0
   1
-VIEW Y (along Y axis, section at mid depth)  52 x 67.59
+VIEW Y  52 x 67.59
  11
 0.0
  21
--12.0
+-10.0
  31
 0.0
 100
@@ -5801,23 +5801,23 @@ A2
 100
 AcDbEntity
   8
-TABLE
+TEXT
 100
 AcDbText
  10
-112.0
+0.0
  20
-67.59
+-16.0
  30
 0.0
  40
-4.0
+2.5
   1
-PART  Y_nut_bracket   QTY 1   v12   2026-11-20
+looking along Y, section at mid depth
  11
-112.0
+0.0
  21
-67.59
+-16.0
  31
 0.0
 100
@@ -5835,19 +5835,19 @@ TABLE
 100
 AcDbText
  10
-112.0
+102.0
  20
-60.59
+67.59
  30
 0.0
  40
 4.0
   1
-SIZE  52 x 32 x 67.59 mm
+PART  Y_nut_bracket   QTY 1   v12   2026-11-20
  11
-112.0
+102.0
  21
-60.59
+67.59
  31
 0.0
 100
@@ -5865,19 +5865,19 @@ TABLE
 100
 AcDbText
  10
-112.0
+102.0
  20
-53.59
+60.59
  30
 0.0
  40
 4.0
   1
-SPEC  Y nut housing (CNC): wraps the C-KBS1505 nut body, flange on its +y face, bolted down into the datum plate (sa
+SIZE  52 x 32 x 67.59 mm (x y z)
  11
-112.0
+102.0
  21
-53.59
+60.59
  31
 0.0
 100
@@ -5895,19 +5895,19 @@ TABLE
 100
 AcDbText
  10
-112.0
+102.0
  20
-46.59
+53.59
  30
 0.0
  40
 4.0
   1
-Units mm. General tolerance ISO 2768-m. H7 holes: see limits.
+SPEC  Y nut housing (CNC): wraps the C-KBS1505 nut body, flange on its +y face, bolted down into the datum plate (sa
  11
-112.0
+102.0
  21
-46.59
+53.59
  31
 0.0
 100
@@ -5925,19 +5925,19 @@ TABLE
 100
 AcDbText
  10
-112.0
+102.0
  20
-39.59
+46.59
  30
 0.0
  40
 4.0
   1
-
+Units mm. General tolerance ISO 2768-m. H7 holes: see limits.
  11
-112.0
+102.0
  21
-39.59
+46.59
  31
 0.0
 100
@@ -5951,23 +5951,23 @@ A7
 100
 AcDbEntity
   8
-TABLE
+H7
 100
 AcDbText
  10
-112.0
+102.0
  20
-32.59
+39.59
  30
 0.0
  40
-3.5
+4.0
   1
-HOLE TABLE
+NOT FINAL: nut-flange bolt holes and the mounting bolt holes are not modelled yet
  11
-112.0
+102.0
  21
-32.59
+39.59
  31
 0.0
 100
@@ -5985,7 +5985,37 @@ TABLE
 100
 AcDbText
  10
-112.0
+102.0
+ 20
+32.59
+ 30
+0.0
+ 40
+3.5
+  1
+
+ 11
+102.0
+ 21
+32.59
+ 31
+0.0
+100
+AcDbText
+  0
+TEXT
+  5
+A9
+330
+17
+100
+AcDbEntity
+  8
+TABLE
+100
+AcDbText
+ 10
+102.0
  20
 25.590000000000003
  30
@@ -5993,11 +6023,41 @@ AcDbText
  40
 3.5
   1
-A   x1   %%c28.2 thru
+HOLE TABLE
  11
-112.0
+102.0
  21
 25.590000000000003
+ 31
+0.0
+100
+AcDbText
+  0
+TEXT
+  5
+AA
+330
+17
+100
+AcDbEntity
+  8
+TABLE
+100
+AcDbText
+ 10
+102.0
+ 20
+18.590000000000003
+ 30
+0.0
+ 40
+3.5
+  1
+A   x1   %%c28.2 thru
+ 11
+102.0
+ 21
+18.590000000000003
  31
 0.0
 100
@@ -7093,7 +7153,7 @@ CREATED_BY_EZDXF
   3
 WRITTEN_BY_EZDXF
 350
-AB
+AD
   0
 DICTIONARYVAR
   5
@@ -7105,7 +7165,7 @@ DictionaryVariables
 280
 0
   1
-1.4.5 @ 2026-11-20T02:32:10.730500+00:00
+1.4.5 @ 2026-11-20T02:44:30.028837+00:00
   0
 VISUALSTYLE
   5
@@ -7809,7 +7869,7 @@ X-Ray
   0
 DICTIONARYVAR
   5
-AB
+AD
 330
 2D
 100
@@ -7817,7 +7877,7 @@ DictionaryVariables
 280
 0
   1
-1.4.5 @ 2026-11-20T02:32:10.734238+00:00
+1.4.5 @ 2026-11-20T02:44:30.033795+00:00
   0
 ENDSEC
   0

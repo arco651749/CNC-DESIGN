@@ -489,7 +489,7 @@ $SKPOLY
   9
 $TDCREATE
  40
-2461365.1056712964
+2461365.114224537
   9
 $TDUCREATE
  40
@@ -497,7 +497,7 @@ $TDUCREATE
   9
 $TDUPDATE
  40
-2461365.1056712964
+2461365.114224537
   9
 $TDUUPDATE
  40
@@ -549,7 +549,7 @@ $SPLINESEGS
   9
 $HANDSEED
   5
-157
+158
   9
 $SURFTAB1
  70
@@ -929,11 +929,11 @@ $PSTYLEMODE
   9
 $FINGERPRINTGUID
   2
-{96891EE9-0C19-4B4A-A360-70FA51CCEEAD}
+{65D04B0A-1A9E-4612-B787-07601989D90A}
   9
 $VERSIONGUID
   2
-{1223E4D5-72EF-445F-9EAE-E0740AD2A1CD}
+{A6FB715D-4F1A-4FF8-B806-424E383AE351}
   9
 $EXTNAMES
 290
@@ -1323,9 +1323,9 @@ ISM
   0
 CLASS
   1
-LAYOUT
+ACDBPLACEHOLDER
   2
-AcDbLayout
+AcDbPlaceHolder
   3
 ObjectDBX Classes
  90
@@ -1339,9 +1339,9 @@ ObjectDBX Classes
   0
 CLASS
   1
-ACDBPLACEHOLDER
+LAYOUT
   2
-AcDbPlaceHolder
+AcDbLayout
   3
 ObjectDBX Classes
  90
@@ -3253,7 +3253,7 @@ ACAD
   0
 APPID
   5
-154
+155
 330
 3
 100
@@ -3267,7 +3267,7 @@ HATCHBACKGROUNDCOLOR
   0
 APPID
   5
-155
+156
 330
 3
 100
@@ -9795,17 +9795,17 @@ AcDbText
  10
 0.0
  20
--12.0
+-10.0
  30
 0.0
  40
 4.0
   1
-VIEW Y (along Y axis, section at mid depth)  240 x 488
+VIEW Y  240 x 488
  11
 0.0
  21
--12.0
+-10.0
  31
 0.0
 100
@@ -9819,23 +9819,23 @@ TEXT
 100
 AcDbEntity
   8
-TABLE
+TEXT
 100
 AcDbText
  10
-300.0
+0.0
  20
-488.0
+-16.0
  30
 0.0
  40
-4.0
+2.5
   1
-PART  X_carriage_plate   QTY 1   v12   2026-11-20
+looking along Y, section at mid depth
  11
-300.0
+0.0
  21
-488.0
+-16.0
  31
 0.0
 100
@@ -9853,19 +9853,19 @@ TABLE
 100
 AcDbText
  10
-300.0
+280.0
  20
-481.0
+488.0
  30
 0.0
  40
 4.0
   1
-SIZE  240 x 17 x 488 mm
+PART  X_carriage_plate   QTY 1   v12   2026-11-20
  11
-300.0
+280.0
  21
-481.0
+488.0
  31
 0.0
 100
@@ -9883,19 +9883,19 @@ TABLE
 100
 AcDbText
  10
-300.0
+280.0
  20
-474.0
+481.0
  30
 0.0
  40
 4.0
   1
-SPEC  Z plate, steel t17 240x488: Z rails, Z screw, Z motor plate. 1 mm off the saddle, on a D12 ball; frozen by 6 e
+SIZE  240 x 17 x 488 mm (x y z)
  11
-300.0
+280.0
  21
-474.0
+481.0
  31
 0.0
 100
@@ -9913,19 +9913,19 @@ TABLE
 100
 AcDbText
  10
-300.0
+280.0
  20
-467.0
+474.0
  30
 0.0
  40
 4.0
   1
-Units mm. General tolerance ISO 2768-m. H7 holes: see limits.
+SPEC  Z plate, steel t17 240x488: Z rails, Z screw, Z motor plate. 1 mm off the saddle, D8 pin (H7 hole) in the RBPB
  11
-300.0
+280.0
  21
-467.0
+474.0
  31
 0.0
 100
@@ -9943,19 +9943,19 @@ TABLE
 100
 AcDbText
  10
-300.0
+280.0
  20
-460.0
+467.0
  30
 0.0
  40
 4.0
   1
-
+Units mm. General tolerance ISO 2768-m. H7 holes: see limits.
  11
-300.0
+280.0
  21
-460.0
+467.0
  31
 0.0
 100
@@ -9973,19 +9973,19 @@ TABLE
 100
 AcDbText
  10
-300.0
+280.0
  20
-453.0
+460.0
  30
 0.0
  40
-3.5
+4.0
   1
-HOLE TABLE
+
  11
-300.0
+280.0
  21
-453.0
+460.0
  31
 0.0
 100
@@ -10003,19 +10003,19 @@ TABLE
 100
 AcDbText
  10
-300.0
+280.0
  20
-446.0
+453.0
  30
 0.0
  40
 3.5
   1
-A   x6   %%c7 thru
+HOLE TABLE
  11
-300.0
+280.0
  21
-446.0
+453.0
  31
 0.0
 100
@@ -10033,19 +10033,19 @@ TABLE
 100
 AcDbText
  10
-300.0
+280.0
  20
-439.0
+446.0
  30
 0.0
  40
 3.5
   1
-B   x6   %%c3 thru
+A   x6   %%c7 thru
  11
-300.0
+280.0
  21
-439.0
+446.0
  31
 0.0
 100
@@ -10063,19 +10063,19 @@ TABLE
 100
 AcDbText
  10
-300.0
+280.0
  20
-432.0
+439.0
  30
 0.0
  40
 3.5
   1
-C   x6   M4 tap depth 8 (from bottom)
+B   x6   %%c3 thru (epoxy fill / vent)
  11
-300.0
+280.0
  21
-432.0
+439.0
  31
 0.0
 100
@@ -10093,19 +10093,19 @@ TABLE
 100
 AcDbText
  10
-300.0
+280.0
  20
-425.0
+432.0
  30
 0.0
  40
 3.5
   1
-D   x14  M5 tap depth 9 (from bottom)
+C   x6   M4 tap depth 8 (from front)
  11
-300.0
+280.0
  21
-425.0
+432.0
  31
 0.0
 100
@@ -10119,23 +10119,23 @@ TEXT
 100
 AcDbEntity
   8
-H7
+TABLE
 100
 AcDbText
  10
-300.0
+280.0
  20
-418.0
+425.0
  30
 0.0
  40
 3.5
   1
-E   x6   %%c6 H7 (+0.012/0) depth 8
+D   x14  M5 tap depth 9 (from front)
  11
-300.0
+280.0
  21
-418.0
+425.0
  31
 0.0
 100
@@ -10149,23 +10149,23 @@ TEXT
 100
 AcDbEntity
   8
-TABLE
+H7
 100
 AcDbText
  10
-300.0
+280.0
  20
-411.0
+418.0
  30
 0.0
  40
 3.5
   1
-F   x2   M8x0.75 tap thru
+E   x6   %%c6 H7 (+0.012/0) depth 8 (from front)
  11
-300.0
+280.0
  21
-411.0
+418.0
  31
 0.0
 100
@@ -10183,19 +10183,19 @@ TABLE
 100
 AcDbText
  10
-300.0
+280.0
  20
-404.0
+411.0
  30
 0.0
  40
 3.5
   1
-G   x1   M8 tap thru
+F   x2   M8x0.75 tap thru
  11
-300.0
+280.0
  21
-404.0
+411.0
  31
 0.0
 100
@@ -10209,11 +10209,41 @@ TEXT
 100
 AcDbEntity
   8
+TABLE
+100
+AcDbText
+ 10
+280.0
+ 20
+404.0
+ 30
+0.0
+ 40
+3.5
+  1
+G   x1   M8 tap thru
+ 11
+280.0
+ 21
+404.0
+ 31
+0.0
+100
+AcDbText
+  0
+TEXT
+  5
+154
+330
+17
+100
+AcDbEntity
+  8
 H7
 100
 AcDbText
  10
-300.0
+280.0
  20
 397.0
  30
@@ -10221,9 +10251,9 @@ AcDbText
  40
 3.5
   1
-H   x1   %%c8 H7 (+0.015/0) depth 13
+H   x1   %%c8 H7 (+0.015/0) depth 13 (from rear)
  11
-300.0
+280.0
  21
 397.0
  31
@@ -11321,7 +11351,7 @@ CREATED_BY_EZDXF
   3
 WRITTEN_BY_EZDXF
 350
-156
+157
   0
 DICTIONARYVAR
   5
@@ -11333,7 +11363,7 @@ DictionaryVariables
 280
 0
   1
-1.4.5 @ 2026-11-20T02:32:10.636897+00:00
+1.4.5 @ 2026-11-20T02:44:29.916125+00:00
   0
 VISUALSTYLE
   5
@@ -12037,7 +12067,7 @@ X-Ray
   0
 DICTIONARYVAR
   5
-156
+157
 330
 2D
 100
@@ -12045,7 +12075,7 @@ DictionaryVariables
 280
 0
   1
-1.4.5 @ 2026-11-20T02:32:10.643937+00:00
+1.4.5 @ 2026-11-20T02:44:29.926048+00:00
   0
 ENDSEC
   0

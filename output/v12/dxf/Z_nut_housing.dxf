@@ -489,7 +489,7 @@ $SKPOLY
   9
 $TDCREATE
  40
-2461365.1056712964
+2461365.1142361113
   9
 $TDUCREATE
  40
@@ -497,7 +497,7 @@ $TDUCREATE
   9
 $TDUPDATE
  40
-2461365.1056712964
+2461365.1142361113
   9
 $TDUUPDATE
  40
@@ -549,7 +549,7 @@ $SPLINESEGS
   9
 $HANDSEED
   5
-AC
+AE
   9
 $SURFTAB1
  70
@@ -929,11 +929,11 @@ $PSTYLEMODE
   9
 $FINGERPRINTGUID
   2
-{5181E554-E0EA-4A9C-8FEE-F81E98240FED}
+{50A54351-B014-4214-8758-626D71AE0ED2}
   9
 $VERSIONGUID
   2
-{A442F4DE-F5C4-4DEE-BA01-ADF8A17F4A53}
+{A49463C7-1134-4C6E-B57A-D9735EC9B299}
   9
 $EXTNAMES
 290
@@ -1323,9 +1323,9 @@ ISM
   0
 CLASS
   1
-LAYOUT
+ACDBPLACEHOLDER
   2
-AcDbLayout
+AcDbPlaceHolder
   3
 ObjectDBX Classes
  90
@@ -1339,9 +1339,9 @@ ObjectDBX Classes
   0
 CLASS
   1
-ACDBPLACEHOLDER
+LAYOUT
   2
-AcDbPlaceHolder
+AcDbLayout
   3
 ObjectDBX Classes
  90
@@ -3253,7 +3253,7 @@ ACAD
   0
 APPID
   5
-A9
+AB
 330
 3
 100
@@ -3267,7 +3267,7 @@ HATCHBACKGROUNDCOLOR
   0
 APPID
   5
-AA
+AC
 330
 3
 100
@@ -5777,17 +5777,17 @@ AcDbText
  10
 0.0
  20
--12.0
+-10.0
  30
 0.0
  40
 4.0
   1
-VIEW Z (along Z axis, section at mid depth)  52 x 39.59
+VIEW Z  52 x 39.59
  11
 0.0
  21
--12.0
+-10.0
  31
 0.0
 100
@@ -5801,23 +5801,23 @@ A2
 100
 AcDbEntity
   8
-TABLE
+TEXT
 100
 AcDbText
  10
-112.0
+0.0
  20
-39.59
+-16.0
  30
 0.0
  40
-4.0
+2.5
   1
-PART  Z_nut_housing   QTY 1   v12   2026-11-20
+looking along Z, section at mid depth
  11
-112.0
+0.0
  21
-39.59
+-16.0
  31
 0.0
 100
@@ -5835,19 +5835,19 @@ TABLE
 100
 AcDbText
  10
-112.0
+102.0
  20
-32.59
+56.0
  30
 0.0
  40
 4.0
   1
-SIZE  52 x 39.59 x 32 mm
+PART  Z_nut_housing   QTY 1   v12   2026-11-20
  11
-112.0
+102.0
  21
-32.59
+56.0
  31
 0.0
 100
@@ -5865,19 +5865,19 @@ TABLE
 100
 AcDbText
  10
-112.0
+102.0
  20
-25.590000000000003
+49.0
  30
 0.0
  40
 4.0
   1
-SPEC  Z nut housing (CNC): wraps the nut body, flange on its top face, bolted to the slide rear face
+SIZE  52 x 39.59 x 32 mm (x y z)
  11
-112.0
+102.0
  21
-25.590000000000003
+49.0
  31
 0.0
 100
@@ -5895,19 +5895,19 @@ TABLE
 100
 AcDbText
  10
-112.0
+102.0
  20
-18.590000000000003
+42.0
  30
 0.0
  40
 4.0
   1
-Units mm. General tolerance ISO 2768-m. H7 holes: see limits.
+SPEC  Z nut housing (CNC): wraps the nut body, flange on its top face, bolted to the slide rear face
  11
-112.0
+102.0
  21
-18.590000000000003
+42.0
  31
 0.0
 100
@@ -5925,19 +5925,19 @@ TABLE
 100
 AcDbText
  10
-112.0
+102.0
  20
-11.590000000000003
+35.0
  30
 0.0
  40
 4.0
   1
-
+Units mm. General tolerance ISO 2768-m. H7 holes: see limits.
  11
-112.0
+102.0
  21
-11.590000000000003
+35.0
  31
 0.0
 100
@@ -5951,23 +5951,23 @@ A7
 100
 AcDbEntity
   8
-TABLE
+H7
 100
 AcDbText
  10
-112.0
+102.0
  20
-4.590000000000003
+28.0
  30
 0.0
  40
-3.5
+4.0
   1
-HOLE TABLE
+NOT FINAL: nut-flange bolt holes and the mounting bolt holes are not modelled yet
  11
-112.0
+102.0
  21
-4.590000000000003
+28.0
  31
 0.0
 100
@@ -5985,9 +5985,69 @@ TABLE
 100
 AcDbText
  10
-112.0
+102.0
  20
--2.4099999999999966
+21.0
+ 30
+0.0
+ 40
+3.5
+  1
+
+ 11
+102.0
+ 21
+21.0
+ 31
+0.0
+100
+AcDbText
+  0
+TEXT
+  5
+A9
+330
+17
+100
+AcDbEntity
+  8
+TABLE
+100
+AcDbText
+ 10
+102.0
+ 20
+14.0
+ 30
+0.0
+ 40
+3.5
+  1
+HOLE TABLE
+ 11
+102.0
+ 21
+14.0
+ 31
+0.0
+100
+AcDbText
+  0
+TEXT
+  5
+AA
+330
+17
+100
+AcDbEntity
+  8
+TABLE
+100
+AcDbText
+ 10
+102.0
+ 20
+7.0
  30
 0.0
  40
@@ -5995,9 +6055,9 @@ AcDbText
   1
 A   x1   %%c28.2 thru
  11
-112.0
+102.0
  21
--2.4099999999999966
+7.0
  31
 0.0
 100
@@ -7093,7 +7153,7 @@ CREATED_BY_EZDXF
   3
 WRITTEN_BY_EZDXF
 350
-AB
+AD
   0
 DICTIONARYVAR
   5
@@ -7105,7 +7165,7 @@ DictionaryVariables
 280
 0
   1
-1.4.5 @ 2026-11-20T02:32:10.708819+00:00
+1.4.5 @ 2026-11-20T02:44:30.004302+00:00
   0
 VISUALSTYLE
   5
@@ -7809,7 +7869,7 @@ X-Ray
   0
 DICTIONARYVAR
   5
-AB
+AD
 330
 2D
 100
@@ -7817,7 +7877,7 @@ DictionaryVariables
 280
 0
   1
-1.4.5 @ 2026-11-20T02:32:10.712208+00:00
+1.4.5 @ 2026-11-20T02:44:30.007938+00:00
   0
 ENDSEC
   0

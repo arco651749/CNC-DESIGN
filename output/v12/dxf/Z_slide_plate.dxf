@@ -489,7 +489,7 @@ $SKPOLY
   9
 $TDCREATE
  40
-2461365.1056712964
+2461365.114224537
   9
 $TDUCREATE
  40
@@ -497,7 +497,7 @@ $TDUCREATE
   9
 $TDUPDATE
  40
-2461365.1056712964
+2461365.114224537
   9
 $TDUUPDATE
  40
@@ -549,7 +549,7 @@ $SPLINESEGS
   9
 $HANDSEED
   5
-11B
+11C
   9
 $SURFTAB1
  70
@@ -929,11 +929,11 @@ $PSTYLEMODE
   9
 $FINGERPRINTGUID
   2
-{73620139-6618-4FD4-ABC5-7AB4367F989D}
+{DC882751-60A1-4DB0-9BF5-AD6793C0B5DC}
   9
 $VERSIONGUID
   2
-{FA029DA8-F02F-4508-A0D4-483A65D52171}
+{B75088C2-1767-4E91-BCA9-719B0532DBBB}
   9
 $EXTNAMES
 290
@@ -1323,9 +1323,9 @@ ISM
   0
 CLASS
   1
-LAYOUT
+ACDBPLACEHOLDER
   2
-AcDbLayout
+AcDbPlaceHolder
   3
 ObjectDBX Classes
  90
@@ -1339,9 +1339,9 @@ ObjectDBX Classes
   0
 CLASS
   1
-ACDBPLACEHOLDER
+LAYOUT
   2
-AcDbPlaceHolder
+AcDbLayout
   3
 ObjectDBX Classes
  90
@@ -3253,7 +3253,7 @@ ACAD
   0
 APPID
   5
-118
+119
 330
 3
 100
@@ -3267,7 +3267,7 @@ HATCHBACKGROUNDCOLOR
   0
 APPID
   5
-119
+11A
 330
 3
 100
@@ -8381,17 +8381,17 @@ AcDbText
  10
 0.0
  20
--12.0
+-10.0
  30
 0.0
  40
 4.0
   1
-VIEW Y (along Y axis, section at mid depth)  220 x 230
+VIEW Y  220 x 230
  11
 0.0
  21
--12.0
+-10.0
  31
 0.0
 100
@@ -8405,23 +8405,23 @@ TEXT
 100
 AcDbEntity
   8
-TABLE
+TEXT
 100
 AcDbText
  10
-280.0
+0.0
  20
-230.0
+-16.0
  30
 0.0
  40
-4.0
+2.5
   1
-PART  Z_slide_plate   QTY 1   v12   2026-11-20
+looking along Y, section at mid depth
  11
-280.0
+0.0
  21
-230.0
+-16.0
  31
 0.0
 100
@@ -8439,19 +8439,19 @@ TABLE
 100
 AcDbText
  10
-280.0
+260.0
  20
-223.0
+230.0
  30
 0.0
  40
 4.0
   1
-SIZE  220 x 28 x 230 mm
+PART  Z_slide_plate   QTY 1   v12   2026-11-20
  11
-280.0
+260.0
  21
-223.0
+230.0
  31
 0.0
 100
@@ -8469,19 +8469,19 @@ TABLE
 100
 AcDbText
  10
-280.0
+260.0
  20
-216.0
+223.0
  30
 0.0
  40
 4.0
   1
-SPEC  steel t28, pocket for the Z nut
+SIZE  220 x 28 x 230 mm (x y z)
  11
-280.0
+260.0
  21
-216.0
+223.0
  31
 0.0
 100
@@ -8499,19 +8499,19 @@ TABLE
 100
 AcDbText
  10
-280.0
+260.0
  20
-209.0
+216.0
  30
 0.0
  40
 4.0
   1
-Units mm. General tolerance ISO 2768-m. H7 holes: see limits.
+SPEC  steel t28, pocket for the Z nut
  11
-280.0
+260.0
  21
-209.0
+216.0
  31
 0.0
 100
@@ -8529,19 +8529,19 @@ TABLE
 100
 AcDbText
  10
-280.0
+260.0
  20
-202.0
+209.0
  30
 0.0
  40
 4.0
   1
-
+Units mm. General tolerance ISO 2768-m. H7 holes: see limits.
  11
-280.0
+260.0
  21
-202.0
+209.0
  31
 0.0
 100
@@ -8559,19 +8559,19 @@ TABLE
 100
 AcDbText
  10
-280.0
+260.0
  20
-195.0
+202.0
  30
 0.0
  40
-3.5
+4.0
   1
-HOLE TABLE
+
  11
-280.0
+260.0
  21
-195.0
+202.0
  31
 0.0
 100
@@ -8589,19 +8589,19 @@ TABLE
 100
 AcDbText
  10
-280.0
+260.0
  20
-188.0
+195.0
  30
 0.0
  40
 3.5
   1
-A   x16  %%c5.5 depth 20, c-bore %%c9.5 depth 8 (from top)
+HOLE TABLE
  11
-280.0
+260.0
  21
-188.0
+195.0
  31
 0.0
 100
@@ -8619,19 +8619,19 @@ TABLE
 100
 AcDbText
  10
-280.0
+260.0
  20
-181.0
+188.0
  30
 0.0
  40
 3.5
   1
-B   x4   M6 tap depth 12 (from bottom)
+A   x16  %%c5.5 thru, c-bore %%c9.5 depth 8 (c-bore on front)
  11
-280.0
+260.0
  21
-181.0
+188.0
  31
 0.0
 100
@@ -8649,19 +8649,19 @@ TABLE
 100
 AcDbText
  10
-280.0
+260.0
  20
-174.0
+181.0
  30
 0.0
  40
 3.5
   1
-C   x2   M4 tap depth 12 (from bottom)
+B   x4   M6 tap depth 12 (from front)
  11
-280.0
+260.0
  21
-174.0
+181.0
  31
 0.0
 100
@@ -8675,11 +8675,41 @@ TEXT
 100
 AcDbEntity
   8
+TABLE
+100
+AcDbText
+ 10
+260.0
+ 20
+174.0
+ 30
+0.0
+ 40
+3.5
+  1
+C   x2   M4 tap depth 12 (from front)
+ 11
+260.0
+ 21
+174.0
+ 31
+0.0
+100
+AcDbText
+  0
+TEXT
+  5
+118
+330
+17
+100
+AcDbEntity
+  8
 H7
 100
 AcDbText
  10
-280.0
+260.0
  20
 167.0
  30
@@ -8687,9 +8717,9 @@ AcDbText
  40
 3.5
   1
-D   x1   %%c22 H7 (+0.021/0) depth 12
+D   x1   %%c22 H7 (+0.021/0) depth 12 (from front)
  11
-280.0
+260.0
  21
 167.0
  31
@@ -9787,7 +9817,7 @@ CREATED_BY_EZDXF
   3
 WRITTEN_BY_EZDXF
 350
-11A
+11B
   0
 DICTIONARYVAR
   5
@@ -9799,7 +9829,7 @@ DictionaryVariables
 280
 0
   1
-1.4.5 @ 2026-11-20T02:32:10.656470+00:00
+1.4.5 @ 2026-11-20T02:44:29.944133+00:00
   0
 VISUALSTYLE
   5
@@ -10503,7 +10533,7 @@ X-Ray
   0
 DICTIONARYVAR
   5
-11A
+11B
 330
 2D
 100
@@ -10511,7 +10541,7 @@ DictionaryVariables
 280
 0
   1
-1.4.5 @ 2026-11-20T02:32:10.662000+00:00
+1.4.5 @ 2026-11-20T02:44:29.951555+00:00
   0
 ENDSEC
   0

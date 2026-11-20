@@ -489,7 +489,7 @@ $SKPOLY
   9
 $TDCREATE
  40
-2461365.1056712964
+2461365.114224537
   9
 $TDUCREATE
  40
@@ -497,7 +497,7 @@ $TDUCREATE
   9
 $TDUPDATE
  40
-2461365.1056712964
+2461365.114224537
   9
 $TDUUPDATE
  40
@@ -549,7 +549,7 @@ $SPLINESEGS
   9
 $HANDSEED
   5
-C8
+C9
   9
 $SURFTAB1
  70
@@ -929,11 +929,11 @@ $PSTYLEMODE
   9
 $FINGERPRINTGUID
   2
-{9899418E-C865-4DD5-93AC-933A42E2F87F}
+{8067C9B6-112D-470B-9FF1-7742A6DDB136}
   9
 $VERSIONGUID
   2
-{4E77A7CD-3A31-497C-BD23-C1427A2E0CE4}
+{88208070-8F9E-4198-A7AD-A57004E9C752}
   9
 $EXTNAMES
 290
@@ -1323,9 +1323,9 @@ ISM
   0
 CLASS
   1
-LAYOUT
+ACDBPLACEHOLDER
   2
-AcDbLayout
+AcDbPlaceHolder
   3
 ObjectDBX Classes
  90
@@ -1339,9 +1339,9 @@ ObjectDBX Classes
   0
 CLASS
   1
-ACDBPLACEHOLDER
+LAYOUT
   2
-AcDbPlaceHolder
+AcDbLayout
   3
 ObjectDBX Classes
  90
@@ -3253,7 +3253,7 @@ ACAD
   0
 APPID
   5
-C5
+C6
 330
 3
 100
@@ -3267,7 +3267,7 @@ HATCHBACKGROUNDCOLOR
   0
 APPID
   5
-C6
+C7
 330
 3
 100
@@ -6463,17 +6463,17 @@ AcDbText
  10
 0.0
  20
--12.0
+-10.0
  30
 0.0
  40
 4.0
   1
-VIEW Y (along Y axis, section at mid depth)  50 x 230
+VIEW Y  50 x 230
  11
 0.0
  21
--12.0
+-10.0
  31
 0.0
 100
@@ -6487,23 +6487,23 @@ BE
 100
 AcDbEntity
   8
-TABLE
+TEXT
 100
 AcDbText
  10
-110.0
+0.0
  20
-230.0
+-16.0
  30
 0.0
  40
-4.0
+2.5
   1
-PART  Z_spacer_L   QTY 1   v12   2026-11-20
+looking along Y, section at mid depth
  11
-110.0
+0.0
  21
-230.0
+-16.0
  31
 0.0
 100
@@ -6521,19 +6521,19 @@ TABLE
 100
 AcDbText
  10
-110.0
+102.0
  20
-223.0
+230.0
  30
 0.0
  40
 4.0
   1
-SIZE  50 x 14 x 230 mm
+PART  Z_spacer_L   QTY 1   v12   2026-11-20
  11
-110.0
+102.0
  21
-223.0
+230.0
  31
 0.0
 100
@@ -6551,19 +6551,19 @@ TABLE
 100
 AcDbText
  10
-110.0
+102.0
  20
-216.0
+223.0
  30
 0.0
  40
 4.0
   1
-SPEC  steel spacer bar t14
+SIZE  50 x 14 x 230 mm (x y z)
  11
-110.0
+102.0
  21
-216.0
+223.0
  31
 0.0
 100
@@ -6581,19 +6581,19 @@ TABLE
 100
 AcDbText
  10
-110.0
+102.0
  20
-209.0
+216.0
  30
 0.0
  40
 4.0
   1
-Units mm. General tolerance ISO 2768-m. H7 holes: see limits.
+SPEC  steel spacer bar t14
  11
-110.0
+102.0
  21
-209.0
+216.0
  31
 0.0
 100
@@ -6611,19 +6611,19 @@ TABLE
 100
 AcDbText
  10
-110.0
+102.0
  20
-202.0
+209.0
  30
 0.0
  40
 4.0
   1
-
+Units mm. General tolerance ISO 2768-m. H7 holes: see limits.
  11
-110.0
+102.0
  21
-202.0
+209.0
  31
 0.0
 100
@@ -6641,19 +6641,19 @@ TABLE
 100
 AcDbText
  10
-110.0
+102.0
  20
-195.0
+202.0
  30
 0.0
  40
-3.5
+4.0
   1
-HOLE TABLE
+
  11
-110.0
+102.0
  21
-195.0
+202.0
  31
 0.0
 100
@@ -6671,7 +6671,37 @@ TABLE
 100
 AcDbText
  10
-110.0
+102.0
+ 20
+195.0
+ 30
+0.0
+ 40
+3.5
+  1
+HOLE TABLE
+ 11
+102.0
+ 21
+195.0
+ 31
+0.0
+100
+AcDbText
+  0
+TEXT
+  5
+C5
+330
+17
+100
+AcDbEntity
+  8
+TABLE
+100
+AcDbText
+ 10
+102.0
  20
 188.0
  30
@@ -6681,7 +6711,7 @@ AcDbText
   1
 A   x8   %%c5.5 thru
  11
-110.0
+102.0
  21
 188.0
  31
@@ -7779,7 +7809,7 @@ CREATED_BY_EZDXF
   3
 WRITTEN_BY_EZDXF
 350
-C7
+C8
   0
 DICTIONARYVAR
   5
@@ -7791,7 +7821,7 @@ DictionaryVariables
 280
 0
   1
-1.4.5 @ 2026-11-20T02:32:10.672255+00:00
+1.4.5 @ 2026-11-20T02:44:29.963168+00:00
   0
 VISUALSTYLE
   5
@@ -8495,7 +8525,7 @@ X-Ray
   0
 DICTIONARYVAR
   5
-C7
+C8
 330
 2D
 100
@@ -8503,7 +8533,7 @@ DictionaryVariables
 280
 0
   1
-1.4.5 @ 2026-11-20T02:32:10.676811+00:00
+1.4.5 @ 2026-11-20T02:44:29.967567+00:00
   0
 ENDSEC
   0

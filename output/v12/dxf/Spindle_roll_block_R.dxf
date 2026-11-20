@@ -489,7 +489,7 @@ $SKPOLY
   9
 $TDCREATE
  40
-2461365.1056712964
+2461365.1142361113
   9
 $TDUCREATE
  40
@@ -497,7 +497,7 @@ $TDUCREATE
   9
 $TDUPDATE
  40
-2461365.1056712964
+2461365.1142361113
   9
 $TDUUPDATE
  40
@@ -549,7 +549,7 @@ $SPLINESEGS
   9
 $HANDSEED
   5
-C6
+C8
   9
 $SURFTAB1
  70
@@ -929,11 +929,11 @@ $PSTYLEMODE
   9
 $FINGERPRINTGUID
   2
-{27AD2A3E-939D-4C3D-83D3-EC1B4C7777ED}
+{1FD4F17B-B247-4EE7-9595-DEF2DD9BD693}
   9
 $VERSIONGUID
   2
-{4D7DB4EF-1751-4C10-B318-1E1C702A7135}
+{FD5CA9BA-300E-4788-8400-132F2BF02473}
   9
 $EXTNAMES
 290
@@ -1323,9 +1323,9 @@ ISM
   0
 CLASS
   1
-LAYOUT
+ACDBPLACEHOLDER
   2
-AcDbLayout
+AcDbPlaceHolder
   3
 ObjectDBX Classes
  90
@@ -1339,9 +1339,9 @@ ObjectDBX Classes
   0
 CLASS
   1
-ACDBPLACEHOLDER
+LAYOUT
   2
-AcDbPlaceHolder
+AcDbLayout
   3
 ObjectDBX Classes
  90
@@ -3253,7 +3253,7 @@ ACAD
   0
 APPID
   5
-C3
+C5
 330
 3
 100
@@ -3267,7 +3267,7 @@ HATCHBACKGROUNDCOLOR
   0
 APPID
   5
-C4
+C6
 330
 3
 100
@@ -5873,23 +5873,23 @@ AcDbText
  10
 0.0
  20
--12.0
+-10.0
  30
 0.0
  40
 4.0
   1
-VIEW X (along X axis, section at mid depth)  20 x 30
+VIEW X  20 x 30
  11
 0.0
  21
--12.0
+-10.0
  31
 0.0
 100
 AcDbText
   0
-LINE
+TEXT
   5
 A6
 330
@@ -5897,21 +5897,27 @@ A6
 100
 AcDbEntity
   8
-OUTLINE
+TEXT
 100
-AcDbLine
+AcDbText
  10
-80.0
+0.0
  20
-18.0
+-16.0
  30
 0.0
+ 40
+2.5
+  1
+looking along X, section at mid depth
  11
-98.0
+0.0
  21
-18.0
+-16.0
  31
 0.0
+100
+AcDbText
   0
 LINE
   5
@@ -5925,15 +5931,15 @@ OUTLINE
 100
 AcDbLine
  10
-80.0
+102.0
  20
 18.0
  30
 0.0
  11
-80.0
+120.0
  21
-30.0
+18.0
  31
 0.0
   0
@@ -5949,13 +5955,13 @@ OUTLINE
 100
 AcDbLine
  10
-98.0
+102.0
  20
-30.0
+18.0
  30
 0.0
  11
-80.0
+102.0
  21
 30.0
  31
@@ -5973,13 +5979,13 @@ OUTLINE
 100
 AcDbLine
  10
-98.0
+120.0
  20
-18.0
+30.0
  30
 0.0
  11
-98.0
+102.0
  21
 30.0
  31
@@ -5997,15 +6003,15 @@ OUTLINE
 100
 AcDbLine
  10
-98.0
+120.0
  20
-0.0
+18.0
  30
 0.0
  11
-80.0
+120.0
  21
-0.0
+30.0
  31
 0.0
   0
@@ -6021,15 +6027,15 @@ OUTLINE
 100
 AcDbLine
  10
-80.0
+120.0
  20
 0.0
  30
 0.0
  11
-80.0
+102.0
  21
-12.0
+0.0
  31
 0.0
   0
@@ -6045,13 +6051,13 @@ OUTLINE
 100
 AcDbLine
  10
-80.0
+102.0
  20
-12.0
+0.0
  30
 0.0
  11
-98.0
+102.0
  21
 12.0
  31
@@ -6069,13 +6075,13 @@ OUTLINE
 100
 AcDbLine
  10
-98.0
+102.0
  20
-0.0
+12.0
  30
 0.0
  11
-98.0
+120.0
  21
 12.0
  31
@@ -6089,19 +6095,19 @@ AE
 100
 AcDbEntity
   8
-POCKET
+OUTLINE
 100
 AcDbLine
  10
-98.0
+120.0
  20
 0.0
  30
 0.0
  11
-80.0
+120.0
  21
-0.0
+12.0
  31
 0.0
   0
@@ -6117,15 +6123,15 @@ POCKET
 100
 AcDbLine
  10
-80.0
+120.0
  20
 0.0
  30
 0.0
  11
-80.0
+102.0
  21
-30.0
+0.0
  31
 0.0
   0
@@ -6141,13 +6147,13 @@ POCKET
 100
 AcDbLine
  10
-98.0
+102.0
  20
-30.0
+0.0
  30
 0.0
  11
-80.0
+102.0
  21
 30.0
  31
@@ -6165,13 +6171,13 @@ POCKET
 100
 AcDbLine
  10
-98.0
+120.0
  20
-0.0
+30.0
  30
 0.0
  11
-98.0
+102.0
  21
 30.0
  31
@@ -6189,15 +6195,15 @@ POCKET
 100
 AcDbLine
  10
-98.0
+120.0
  20
 0.0
  30
 0.0
  11
-80.0
+120.0
  21
-0.0
+30.0
  31
 0.0
   0
@@ -6213,15 +6219,15 @@ POCKET
 100
 AcDbLine
  10
-80.0
+120.0
  20
 0.0
  30
 0.0
  11
-80.0
+102.0
  21
-30.0
+0.0
  31
 0.0
   0
@@ -6237,13 +6243,13 @@ POCKET
 100
 AcDbLine
  10
-98.0
+102.0
  20
-30.0
+0.0
  30
 0.0
  11
-80.0
+102.0
  21
 30.0
  31
@@ -6261,13 +6267,37 @@ POCKET
 100
 AcDbLine
  10
-98.0
+120.0
+ 20
+30.0
+ 30
+0.0
+ 11
+102.0
+ 21
+30.0
+ 31
+0.0
+  0
+LINE
+  5
+B6
+330
+17
+100
+AcDbEntity
+  8
+POCKET
+100
+AcDbLine
+ 10
+120.0
  20
 0.0
  30
 0.0
  11
-98.0
+120.0
  21
 30.0
  31
@@ -6275,7 +6305,7 @@ AcDbLine
   0
 CIRCLE
   5
-B6
+B7
 330
 17
 100
@@ -6285,37 +6315,13 @@ HOLE
 100
 AcDbCircle
  10
-89.0
+111.0
  20
 26.0
  30
 0.0
  40
 2.2
-  0
-LINE
-  5
-B7
-330
-17
-100
-AcDbEntity
-  8
-CENTER
-100
-AcDbLine
- 10
-84.8
- 20
-26.0
- 30
-0.0
- 11
-93.2
- 21
-26.0
- 31
-0.0
   0
 LINE
   5
@@ -6329,19 +6335,19 @@ CENTER
 100
 AcDbLine
  10
-89.0
+106.8
  20
-21.8
+26.0
  30
 0.0
  11
-89.0
+115.2
  21
-30.2
+26.0
  31
 0.0
   0
-TEXT
+LINE
   5
 B9
 330
@@ -6349,27 +6355,21 @@ B9
 100
 AcDbEntity
   8
-TEXT
+CENTER
 100
-AcDbText
+AcDbLine
  10
-92.2
+111.0
  20
-29.2
+21.8
  30
 0.0
- 40
-3.5
-  1
-B
  11
-92.2
+111.0
  21
-29.2
+30.2
  31
 0.0
-100
-AcDbText
   0
 TEXT
   5
@@ -6383,19 +6383,19 @@ TEXT
 100
 AcDbText
  10
-80.0
+114.2
  20
--12.0
+29.2
  30
 0.0
  40
-4.0
+3.5
   1
-VIEW Y (along Y axis, section at mid depth)  18 x 30
+B
  11
-80.0
+114.2
  21
--12.0
+29.2
  31
 0.0
 100
@@ -6409,23 +6409,23 @@ BB
 100
 AcDbEntity
   8
-TABLE
+TEXT
 100
 AcDbText
  10
-158.0
+102.0
  20
-30.0
+-10.0
  30
 0.0
  40
 4.0
   1
-PART  Spindle_roll_block_R   QTY 1   v12   2026-11-20
+VIEW Y  18 x 30
  11
-158.0
+102.0
  21
-30.0
+-10.0
  31
 0.0
 100
@@ -6439,23 +6439,23 @@ BC
 100
 AcDbEntity
   8
-TABLE
+TEXT
 100
 AcDbText
  10
-158.0
+102.0
  20
-23.0
+-16.0
  30
 0.0
  40
-4.0
+2.5
   1
-SIZE  18 x 20 x 30 mm
+looking along Y, section at mid depth
  11
-158.0
+102.0
  21
-23.0
+-16.0
  31
 0.0
 100
@@ -6473,19 +6473,19 @@ TABLE
 100
 AcDbText
  10
-158.0
+204.0
  20
-16.0
+63.0
  30
 0.0
  40
 4.0
   1
-SPEC  steel block beside the top of the ear
+PART  Spindle_roll_block_R   QTY 1   v12   2026-11-20
  11
-158.0
+204.0
  21
-16.0
+63.0
  31
 0.0
 100
@@ -6503,19 +6503,19 @@ TABLE
 100
 AcDbText
  10
-158.0
+204.0
  20
-9.0
+56.0
  30
 0.0
  40
 4.0
   1
-Units mm. General tolerance ISO 2768-m. H7 holes: see limits.
+SIZE  18 x 20 x 30 mm (x y z)
  11
-158.0
+204.0
  21
-9.0
+56.0
  31
 0.0
 100
@@ -6533,19 +6533,19 @@ TABLE
 100
 AcDbText
  10
-158.0
+204.0
  20
-2.0
+49.0
  30
 0.0
  40
 4.0
   1
-
+SPEC  steel block beside the top of the ear
  11
-158.0
+204.0
  21
-2.0
+49.0
  31
 0.0
 100
@@ -6563,19 +6563,19 @@ TABLE
 100
 AcDbText
  10
-158.0
+204.0
  20
--5.0
+42.0
  30
 0.0
  40
-3.5
+4.0
   1
-HOLE TABLE
+Units mm. General tolerance ISO 2768-m. H7 holes: see limits.
  11
-158.0
+204.0
  21
--5.0
+42.0
  31
 0.0
 100
@@ -6593,19 +6593,19 @@ TABLE
 100
 AcDbText
  10
-158.0
+204.0
  20
--12.0
+35.0
  30
 0.0
  40
-3.5
+4.0
   1
-A   x1   M6 tap thru
+
  11
-158.0
+204.0
  21
--12.0
+35.0
  31
 0.0
 100
@@ -6623,9 +6623,69 @@ TABLE
 100
 AcDbText
  10
-158.0
+204.0
  20
--19.0
+28.0
+ 30
+0.0
+ 40
+3.5
+  1
+HOLE TABLE
+ 11
+204.0
+ 21
+28.0
+ 31
+0.0
+100
+AcDbText
+  0
+TEXT
+  5
+C3
+330
+17
+100
+AcDbEntity
+  8
+TABLE
+100
+AcDbText
+ 10
+204.0
+ 20
+21.0
+ 30
+0.0
+ 40
+3.5
+  1
+A   x1   M6 tap thru
+ 11
+204.0
+ 21
+21.0
+ 31
+0.0
+100
+AcDbText
+  0
+TEXT
+  5
+C4
+330
+17
+100
+AcDbEntity
+  8
+TABLE
+100
+AcDbText
+ 10
+204.0
+ 20
+14.0
  30
 0.0
  40
@@ -6633,9 +6693,9 @@ AcDbText
   1
 B   x1   %%c4.4 thru
  11
-158.0
+204.0
  21
--19.0
+14.0
  31
 0.0
 100
@@ -7731,7 +7791,7 @@ CREATED_BY_EZDXF
   3
 WRITTEN_BY_EZDXF
 350
-C5
+C7
   0
 DICTIONARYVAR
   5
@@ -7743,7 +7803,7 @@ DictionaryVariables
 280
 0
   1
-1.4.5 @ 2026-11-20T02:32:10.871832+00:00
+1.4.5 @ 2026-11-20T02:44:30.205615+00:00
   0
 VISUALSTYLE
   5
@@ -8447,7 +8507,7 @@ X-Ray
   0
 DICTIONARYVAR
   5
-C5
+C7
 330
 2D
 100
@@ -8455,7 +8515,7 @@ DictionaryVariables
 280
 0
   1
-1.4.5 @ 2026-11-20T02:32:10.875602+00:00
+1.4.5 @ 2026-11-20T02:44:30.209559+00:00
   0
 ENDSEC
   0

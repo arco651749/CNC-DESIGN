@@ -489,7 +489,7 @@ $SKPOLY
   9
 $TDCREATE
  40
-2461365.1056712964
+2461365.1142361113
   9
 $TDUCREATE
  40
@@ -497,7 +497,7 @@ $TDUCREATE
   9
 $TDUPDATE
  40
-2461365.1056712964
+2461365.1142361113
   9
 $TDUUPDATE
  40
@@ -549,7 +549,7 @@ $SPLINESEGS
   9
 $HANDSEED
   5
-DA
+DB
   9
 $SURFTAB1
  70
@@ -929,11 +929,11 @@ $PSTYLEMODE
   9
 $FINGERPRINTGUID
   2
-{D14959F1-9360-40C7-A9D6-61A0573F3504}
+{842FFBF8-6F0D-42B4-8DEA-D7F69B2F3ED4}
   9
 $VERSIONGUID
   2
-{56454F9C-2FD1-4D8B-B1AE-0FD11127A128}
+{B364E35B-7A52-4CA8-8BFC-EFE92FD2DBB7}
   9
 $EXTNAMES
 290
@@ -1323,9 +1323,9 @@ ISM
   0
 CLASS
   1
-LAYOUT
+ACDBPLACEHOLDER
   2
-AcDbLayout
+AcDbPlaceHolder
   3
 ObjectDBX Classes
  90
@@ -1339,9 +1339,9 @@ ObjectDBX Classes
   0
 CLASS
   1
-ACDBPLACEHOLDER
+LAYOUT
   2
-AcDbPlaceHolder
+AcDbLayout
   3
 ObjectDBX Classes
  90
@@ -3253,7 +3253,7 @@ ACAD
   0
 APPID
   5
-D7
+D8
 330
 3
 100
@@ -3267,7 +3267,7 @@ HATCHBACKGROUNDCOLOR
   0
 APPID
   5
-D8
+D9
 330
 3
 100
@@ -6855,17 +6855,17 @@ AcDbText
  10
 0.0
  20
--12.0
+-10.0
  30
 0.0
  40
 4.0
   1
-VIEW Y (along Y axis, section at mid depth)  156 x 181
+VIEW Y  156 x 181
  11
 0.0
  21
--12.0
+-10.0
  31
 0.0
 100
@@ -6879,23 +6879,23 @@ CE
 100
 AcDbEntity
   8
-TABLE
+TEXT
 100
 AcDbText
  10
-216.0
+0.0
  20
-181.0
+-16.0
  30
 0.0
  40
-4.0
+2.5
   1
-PART  Spindle_mount_plate   QTY 1   v12   2026-11-20
+looking along Y, section at mid depth
  11
-216.0
+0.0
  21
-181.0
+-16.0
  31
 0.0
 100
@@ -6913,19 +6913,19 @@ TABLE
 100
 AcDbText
  10
-216.0
+196.0
  20
-174.0
+181.0
  30
 0.0
  40
 4.0
   1
-SIZE  156 x 12 x 181 mm
+PART  Spindle_mount_plate   QTY 1   v12   2026-11-20
  11
-216.0
+196.0
  21
-174.0
+181.0
  31
 0.0
 100
@@ -6943,19 +6943,19 @@ TABLE
 100
 AcDbText
  10
-216.0
+196.0
  20
-167.0
+174.0
  30
 0.0
  40
 4.0
   1
-SPEC  flat steel plate 156x181x12, ground both faces, all holes from the front: M6 tap for the pivot stud, 4 shim-bo
+SIZE  156 x 12 x 181 mm (x y z)
  11
-216.0
+196.0
  21
-167.0
+174.0
  31
 0.0
 100
@@ -6973,19 +6973,19 @@ TABLE
 100
 AcDbText
  10
-216.0
+196.0
  20
-160.0
+167.0
  30
 0.0
  40
 4.0
   1
-Units mm. General tolerance ISO 2768-m. H7 holes: see limits.
+SPEC  flat steel plate 156x181x12, ground both faces, all holes from the front: M6 tap for the pivot stud, 4 shim-bo
  11
-216.0
+196.0
  21
-160.0
+167.0
  31
 0.0
 100
@@ -7003,19 +7003,19 @@ TABLE
 100
 AcDbText
  10
-216.0
+196.0
  20
-153.0
+160.0
  30
 0.0
  40
 4.0
   1
-
+Units mm. General tolerance ISO 2768-m. H7 holes: see limits.
  11
-216.0
+196.0
  21
-153.0
+160.0
  31
 0.0
 100
@@ -7033,19 +7033,19 @@ TABLE
 100
 AcDbText
  10
-216.0
+196.0
  20
-146.0
+153.0
  30
 0.0
  40
-3.5
+4.0
   1
-HOLE TABLE
+
  11
-216.0
+196.0
  21
-146.0
+153.0
  31
 0.0
 100
@@ -7063,19 +7063,19 @@ TABLE
 100
 AcDbText
  10
-216.0
+196.0
  20
-139.0
+146.0
  30
 0.0
  40
 3.5
   1
-A   x3   M8x0.75 tap thru
+HOLE TABLE
  11
-216.0
+196.0
  21
-139.0
+146.0
  31
 0.0
 100
@@ -7093,19 +7093,19 @@ TABLE
 100
 AcDbText
  10
-216.0
+196.0
  20
-132.0
+139.0
  30
 0.0
  40
 3.5
   1
-B   x5   M6 tap thru
+A   x3   M8x0.75 tap thru
  11
-216.0
+196.0
  21
-132.0
+139.0
  31
 0.0
 100
@@ -7123,7 +7123,37 @@ TABLE
 100
 AcDbText
  10
-216.0
+196.0
+ 20
+132.0
+ 30
+0.0
+ 40
+3.5
+  1
+B   x5   M6 tap thru
+ 11
+196.0
+ 21
+132.0
+ 31
+0.0
+100
+AcDbText
+  0
+TEXT
+  5
+D7
+330
+17
+100
+AcDbEntity
+  8
+TABLE
+100
+AcDbText
+ 10
+196.0
  20
 125.0
  30
@@ -7133,7 +7163,7 @@ AcDbText
   1
 C   x4   %%c7 thru
  11
-216.0
+196.0
  21
 125.0
  31
@@ -8231,7 +8261,7 @@ CREATED_BY_EZDXF
   3
 WRITTEN_BY_EZDXF
 350
-D9
+DA
   0
 DICTIONARYVAR
   5
@@ -8243,7 +8273,7 @@ DictionaryVariables
 280
 0
   1
-1.4.5 @ 2026-11-20T02:32:10.782642+00:00
+1.4.5 @ 2026-11-20T02:44:30.109107+00:00
   0
 VISUALSTYLE
   5
@@ -8947,7 +8977,7 @@ X-Ray
   0
 DICTIONARYVAR
   5
-D9
+DA
 330
 2D
 100
@@ -8955,7 +8985,7 @@ DictionaryVariables
 280
 0
   1
-1.4.5 @ 2026-11-20T02:32:10.787011+00:00
+1.4.5 @ 2026-11-20T02:44:30.113457+00:00
   0
 ENDSEC
   0

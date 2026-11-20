@@ -489,7 +489,7 @@ $SKPOLY
   9
 $TDCREATE
  40
-2461365.1056712964
+2461365.114224537
   9
 $TDUCREATE
  40
@@ -497,7 +497,7 @@ $TDUCREATE
   9
 $TDUPDATE
  40
-2461365.1056712964
+2461365.114224537
   9
 $TDUUPDATE
  40
@@ -549,7 +549,7 @@ $SPLINESEGS
   9
 $HANDSEED
   5
-10E
+10F
   9
 $SURFTAB1
  70
@@ -929,11 +929,11 @@ $PSTYLEMODE
   9
 $FINGERPRINTGUID
   2
-{F476020D-224A-4745-A85B-AB3D1176B064}
+{9193CDB2-562E-4B3E-9665-A7A6BFFAFE06}
   9
 $VERSIONGUID
   2
-{2CF9E3F8-4638-400A-B836-4BA0AEBD6EE6}
+{0B33125C-0A0A-48CF-95D3-D92DCE41FE7B}
   9
 $EXTNAMES
 290
@@ -1323,9 +1323,9 @@ ISM
   0
 CLASS
   1
-LAYOUT
+ACDBPLACEHOLDER
   2
-AcDbLayout
+AcDbPlaceHolder
   3
 ObjectDBX Classes
  90
@@ -1339,9 +1339,9 @@ ObjectDBX Classes
   0
 CLASS
   1
-ACDBPLACEHOLDER
+LAYOUT
   2
-AcDbPlaceHolder
+AcDbLayout
   3
 ObjectDBX Classes
  90
@@ -3253,7 +3253,7 @@ ACAD
   0
 APPID
   5
-10B
+10C
 330
 3
 100
@@ -3267,7 +3267,7 @@ HATCHBACKGROUNDCOLOR
   0
 APPID
   5
-10C
+10D
 330
 3
 100
@@ -8119,17 +8119,17 @@ AcDbText
  10
 0.0
  20
--12.0
+-10.0
  30
 0.0
  40
 4.0
   1
-VIEW Z (along Z axis, section at mid depth)  440 x 473.5
+VIEW Z  440 x 473.5
  11
 0.0
  21
--12.0
+-10.0
  31
 0.0
 100
@@ -8143,23 +8143,23 @@ TEXT
 100
 AcDbEntity
   8
-TABLE
+TEXT
 100
 AcDbText
  10
-500.0
+0.0
  20
-473.5
+-16.0
  30
 0.0
  40
-4.0
+2.5
   1
-PART  Work_table   QTY 1   v12   2026-11-20
+looking along Z, section at mid depth
  11
-500.0
+0.0
  21
-473.5
+-16.0
  31
 0.0
 100
@@ -8177,19 +8177,19 @@ TABLE
 100
 AcDbText
  10
-500.0
+480.0
  20
-466.5
+473.5
  30
 0.0
  40
 4.0
   1
-SIZE  440 x 473.5 x 40 mm
+PART  Work_table   QTY 1   v12   2026-11-20
  11
-500.0
+480.0
  21
-466.5
+473.5
  31
 0.0
 100
@@ -8207,19 +8207,19 @@ TABLE
 100
 AcDbText
  10
-500.0
+480.0
  20
-459.5
+466.5
  30
 0.0
  40
 4.0
   1
-SPEC  440x473.5x40 (53.5 longer at rear), 5x T-slot 14, work area 300x300; underside: Y rails, C-TEK12, Y motor bloc
+SIZE  440 x 473.5 x 40 mm (x y z)
  11
-500.0
+480.0
  21
-459.5
+466.5
  31
 0.0
 100
@@ -8237,19 +8237,19 @@ TABLE
 100
 AcDbText
  10
-500.0
+480.0
  20
-452.5
+459.5
  30
 0.0
  40
 4.0
   1
-Units mm. General tolerance ISO 2768-m. H7 holes: see limits.
+SPEC  440x473.5x40 (53.5 longer at rear), 5x T-slot 14, work area 300x300; underside: Y rails, C-TEK12, Y motor bloc
  11
-500.0
+480.0
  21
-452.5
+459.5
  31
 0.0
 100
@@ -8267,19 +8267,19 @@ TABLE
 100
 AcDbText
  10
-500.0
+480.0
  20
-445.5
+452.5
  30
 0.0
  40
 4.0
   1
-
+Units mm. General tolerance ISO 2768-m. H7 holes: see limits.
  11
-500.0
+480.0
  21
-445.5
+452.5
  31
 0.0
 100
@@ -8297,19 +8297,19 @@ TABLE
 100
 AcDbText
  10
-500.0
+480.0
  20
-438.5
+445.5
  30
 0.0
  40
-3.5
+4.0
   1
-HOLE TABLE
+
  11
-500.0
+480.0
  21
-438.5
+445.5
  31
 0.0
 100
@@ -8327,19 +8327,19 @@ TABLE
 100
 AcDbText
  10
-500.0
+480.0
  20
-431.5
+438.5
  30
 0.0
  40
 3.5
   1
-A   x6   M6 tap depth 8 (from bottom)
+HOLE TABLE
  11
-500.0
+480.0
  21
-431.5
+438.5
  31
 0.0
 100
@@ -8357,19 +8357,19 @@ TABLE
 100
 AcDbText
  10
-500.0
+480.0
  20
-424.5
+431.5
  30
 0.0
  40
 3.5
   1
-B   x8   M12 tap depth 14 (from bottom)
+A   x6   M6 tap depth 8 (from bottom)
  11
-500.0
+480.0
  21
-424.5
+431.5
  31
 0.0
 100
@@ -8383,11 +8383,41 @@ TEXT
 100
 AcDbEntity
   8
+TABLE
+100
+AcDbText
+ 10
+480.0
+ 20
+424.5
+ 30
+0.0
+ 40
+3.5
+  1
+B   x8   M12 tap depth 14 (from bottom)
+ 11
+480.0
+ 21
+424.5
+ 31
+0.0
+100
+AcDbText
+  0
+TEXT
+  5
+10B
+330
+17
+100
+AcDbEntity
+  8
 H7
 100
 AcDbText
  10
-500.0
+480.0
  20
 417.5
  30
@@ -8395,9 +8425,9 @@ AcDbText
  40
 3.5
   1
-C   x6   %%c8 H7 (+0.015/0) depth 8
+C   x6   %%c8 H7 (+0.015/0) depth 8 (from bottom)
  11
-500.0
+480.0
  21
 417.5
  31
@@ -9495,7 +9525,7 @@ CREATED_BY_EZDXF
   3
 WRITTEN_BY_EZDXF
 350
-10D
+10E
   0
 DICTIONARYVAR
   5
@@ -9507,7 +9537,7 @@ DictionaryVariables
 280
 0
   1
-1.4.5 @ 2026-11-20T02:32:10.402724+00:00
+1.4.5 @ 2026-11-20T02:44:29.700346+00:00
   0
 VISUALSTYLE
   5
@@ -10211,7 +10241,7 @@ X-Ray
   0
 DICTIONARYVAR
   5
-10D
+10E
 330
 2D
 100
@@ -10219,7 +10249,7 @@ DictionaryVariables
 280
 0
   1
-1.4.5 @ 2026-11-20T02:32:10.408115+00:00
+1.4.5 @ 2026-11-20T02:44:29.705792+00:00
   0
 ENDSEC
   0

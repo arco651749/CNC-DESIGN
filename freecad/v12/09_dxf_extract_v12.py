@@ -46,6 +46,22 @@ for o in doc.Objects:
         spec = getattr(o, 'Spec', '') if 'Spec' in o.PropertiesList else ''
         for c in cylinders(o.Shape):
             if not c['hole']: SCREWS.append((n, spec, c))
+EPOXY = [o.Shape for o in doc.Objects if o.TypeId == 'Part::Feature' and 'epoxy' in o.Label.lower() and not o.Shape.isNull()]
+FACE = {'x': ('left', 'right'), 'y': ('front', 'rear'), 'z': ('bottom', 'top')}     # -Y = operator side
+COARSE = {3: .5, 4: .7, 5: .8, 6: 1, 8: 1.25, 10: 1.5, 12: 1.75}
+CLR = {3: 3.4, 4: 4.5, 5: 5.5, 6: 6.6, 8: 9, 10: 11, 12: 13.5}                 # ISO 273 medium
+def slit(S, ax, rr, rng, k):
+    # air gaps across the hole (both sides of the axis outside the material) -> list of (start, end)
+    u, v = UV[k]; gaps, g = [], None; t = rng[0] + 0.5
+    while t < rng[1] - 0.5:
+        p = ax(t); air = True
+        for dv in ((rr, 0), (-rr, 0), (0, rr), (0, -rr)):
+            q = App.Vector(p); setattr(q, u, getattr(q, u) + dv[0]); setattr(q, v, getattr(q, v) + dv[1])
+            if S.isInside(q, 0.01, True): air = False; break
+        if air and g is None: g = t
+        if not air and g is not None: gaps.append((g, t)); g = None
+        t += 0.25
+    return gaps
 def coaxial(h, c, tol_r=0.06):
     if h['k'] != c['k'] or abs(h['r'] - c['r']) > tol_r: return False
     d = h['c'] - c['c']; d = d - AX[h['k']] * d.dot(AX[h['k']])
@@ -71,6 +87,7 @@ for name, qty in PARTS:
     o = O(name); S = o.Shape; b = S.BoundBox
     size = {'x': b.XLength, 'y': b.YLength, 'z': b.ZLength}; lo = {'x': b.XMin, 'y': b.YMin, 'z': b.ZMin}; hi = {'x': b.XMax, 'y': b.YMax, 'z': b.ZMax}
     main = min('xyz', key=lambda q: size[q])
+    SPEC = getattr(o, 'Spec', '') if 'Spec' in o.PropertiesList else ''; EXTR = SPEC.startswith('HFS')
     cyl = [c for c in cylinders(S) if c['hole'] and c['r'] < 60]
     axes = [main] + [k for k in 'xyz' if k != main and any(c['k'] == k for c in cyl)]
     views = []
@@ -83,6 +100,8 @@ for name, qty in PARTS:
                 key = tuple(round(x, 1) for x in (w.BoundBox.XMin, w.BoundBox.XMax, w.BoundBox.YMin, w.BoundBox.YMax, w.BoundBox.ZMin, w.BoundBox.ZMax))
                 if key in seen: continue
                 seen.add(key); ents.append([tag, edges2d(w, k, off)])
+        if EXTR and k != 'z':                                 # extrusion side view: plain outline, the profile is bought
+            W, H = size[u], size[v]; ents = [['outline', [['L', (0, 0), (W, 0)], ['L', (W, 0), (W, H)], ['L', (W, H), (0, H)], ['L', (0, H), (0, 0)]]]]
         groups = {}                                           # holes along this axis, grouped by centre
         for c in cyl:
             if c['k'] != k: continue
@@ -95,30 +114,50 @@ for name, qty in PARTS:
                 q = round(c['r'], 3); e = rs.setdefault(q, {'r': c['r'], 'span': 0, 'rng': [1e9, -1e9], 'c': c['c'], 'k': k})
                 e['span'] += c['span']; e['rng'] = [min(e['rng'][0], c['rng'][0]), max(e['rng'][1], c['rng'][1])]
             full = sorted([e for e in rs.values() if e['span'] > 2 * math.pi - 0.15], key=lambda e: e['r'])
+            if EXTR and k == 'z': full = [e for e in full if e['rng'][1] - e['rng'][0] < 0.5 * size[k]]   # profile cores: not machined
             if not full: continue
-            m = full[0]; d = 2 * m['r']; through = m['rng'][0] <= lo[k] + 0.1 and m['rng'][1] >= hi[k] - 0.1
-            depth = m['rng'][1] - m['rng'][0]
-            side = 'top' if m['rng'][1] >= hi[k] - 0.1 else 'bottom'
-            pin = next((pn for pn, pc in PINS if coaxial(m, pc)), None)
-            scr = next(((sn, sp) for sn, sp, sc in SCREWS if coaxial(m, sc)), None)
+            ax = lambda t: App.Vector(*[t if q == k else (cu if q == u else cv) for q in 'xyz'])
+            ulo, uhi = min(e['rng'][0] for e in full), max(e['rng'][1] for e in full)
+            opn = lambda t, bnd: abs(t - bnd) < 0.1 or (not EXTR and not S.isInside(ax(t), 0.01, True))   # extrusion: the profile core is not an opening
+            open_lo, open_hi = opn(ulo - 0.3, lo[k] - 0.3), opn(uhi + 0.3, hi[k] + 0.3)
+            through = open_lo and open_hi
+            side = FACE[k][1] if open_hi else FACE[k][0]
+            pin = pinr = scr = None
+            for e in full:
+                pin = pin or next((pn for pn, pc in PINS if coaxial(e, pc)), None)
+                if pin and pinr is None: pinr = e
+                hit = next(((sn, sp) for sn, sp, sc in SCREWS if coaxial(e, sc)), None)
+                if hit and scr is None: scr, scre = hit, e
+            m = pinr or (scre if scr else full[0]); d = 2 * m['r']; depth = m['rng'][1] - m['rng'][0]
+            mthru = through
+            extra = [e for e in full if e is not m and e['r'] > m['r']]
+            note = ''
+            if not pin and not scr and any(es.isInside(ax(t), 0.01, True) for es in EPOXY for t in (ulo - 0.5, uhi + 0.5)): note = ' (epoxy fill / vent)'
             if pin:
-                t = h7lim(d); txt = 'Ø%g H7 (+%.3f/0)%s' % (round(d, 2), t, ' thru' if through else ' depth %g' % round(depth, 1))
+                t = h7lim(d); txt = 'Ø%g H7 (+%.3f/0)%s' % (round(d, 2), t, ' thru' if mthru else ' depth %g' % round(depth, 1))
                 if 'lock_dowel' in pin: txt += ', ream at assembly (pre-drill Ø%g)' % (round(d, 1) - 0.5)
                 cls = 'H7'
-            elif scr and not through or scr and scr[0].startswith(('Foot_col', 'X_plate_bolt', 'Base_mount', 'Spindle_clamp_bolt')) and False:
-                mm = re.search(r'M(\d+)x([\d.]+)', scr[1]); pitch = ''
-                if mm and float(mm.group(2)) < {4: .7, 5: .8, 6: 1, 8: 1.25, 10: 1.5, 12: 1.75}.get(int(mm.group(1)), 9): pitch = 'x%s' % mm.group(2)
-                txt = 'M%d%s tap depth %g' % (round(d), pitch, round(depth, 1)); cls = 'TAP'
             elif scr:
-                mm = re.search(r'M(\d+)x([\d.]+)', scr[1]); pitch = ''
-                if mm and float(mm.group(2)) < {4: .7, 5: .8, 6: 1, 8: 1.25, 10: 1.5, 12: 1.75}.get(int(mm.group(1)), 9): pitch = 'x%s' % mm.group(2)
-                txt = 'M%d%s tap thru' % (round(d), pitch); cls = 'TAP'
+                mm = re.search(r'M(\d+)x([\d.]+)', scr[1]); pitch = ''; M = round(d)
+                if mm and float(mm.group(2)) < COARSE.get(int(mm.group(1)), 9): pitch = 'x%s' % mm.group(2)
+                gaps = slit(S, ax, m['r'] + 0.8, m['rng'], k)
+                if gaps:                                       # screw crosses a slit (clamp): clearance on the head side, tap beyond
+                    g0, g1 = gaps[0]; head_hi = any(e['rng'][1] >= uhi - 0.05 for e in extra) if extra else open_hi
+                    tap = (m['rng'][0], g0) if head_hi else (g1, m['rng'][1])
+                    txt = 'Ø%g clearance up to the slit, then M%d%s tap depth %g' % (CLR.get(M, M + 0.6), M, pitch, round(tap[1] - tap[0], 1))
+                else:
+                    txt = 'M%d%s tap %s' % (M, pitch, 'thru' if mthru else 'depth %g' % round(depth, 1))
+                cls = 'TAP'
+            elif 'D50 H7' in SPEC and abs(d - 50.1) < 0.05:          # motor spigot bore: modelled 50.1, machined 50 H7
+                txt = 'Ø50 H7 (+0.025/0)%s (motor spigot)' % (' thru' if mthru else ' depth %g' % round(depth, 1)); cls = 'H7'
             else:
-                txt = 'Ø%g%s' % (round(d, 2), ' thru' if through else ' depth %g' % round(depth, 1)); cls = 'HOLE'
-            for e in full[1:]:                                # coaxial larger = counterbore
+                txt = 'Ø%g%s' % (round(d, 2), ' thru' if mthru else ' depth %g' % round(depth, 1)); cls = 'HOLE'
+            for e in extra:                                    # coaxial larger = counterbore
                 txt += ', c-bore Ø%g depth %g' % (round(2 * e['r'], 2), round(e['rng'][1] - e['rng'][0], 1))
-            if not through and cls != 'H7': txt += ' (from %s)' % side
-            holes.append({'u': round(cu - off[0], 3), 'v': round(cv - off[1], 3), 'r': round(m['r'], 3), 'big': round(full[-1]['r'], 3), 'cls': cls, 'txt': txt})
+            if not through: txt += ' (from %s)' % side
+            elif extra: txt += ' (c-bore on %s)' % (FACE[k][1] if extra[0]['rng'][1] >= uhi - 0.05 else FACE[k][0])
+            txt += note
+            holes.append({'u': round(cu - off[0], 3), 'v': round(cv - off[1], 3), 'r': round(m['r'], 3), 'big': round(max(e['r'] for e in full), 3), 'cls': cls, 'txt': txt})
         views.append({'axis': k, 'w': round(size[u], 2), 'h': round(size[v], 2), 'ents': ents, 'holes': holes})
     spec = getattr(o, 'Spec', '') if 'Spec' in o.PropertiesList else ''
     data.append({'name': name, 'qty': qty, 'size': [round(size[q], 2) for q in 'xyz'], 'spec': spec, 'views': views})

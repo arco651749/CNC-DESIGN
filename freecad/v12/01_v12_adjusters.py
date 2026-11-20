@@ -120,10 +120,10 @@ add('X_roll_jack', fuse(cyl('z', 4, 184, 230, 320, 172), cyl('z', 6.5, 186, 192,
 for k, x in enumerate((300, 340), 1):
     add('X_roll_bracket_bolt_%d' % k, fuse(cyl('y', 3, 157, 186, x, 208), cyl('y', 5, 186, 192, x, 208)), G, 'M6 SHCS + T-nut', '', 'xlevel')
 
-# ================================================================ 4. Z: saddle + Z plate on a steel ball, epoxy joint
+# ================================================================ 4. Z: saddle + Z plate on an RBPB8 spherical bearing, epoxy joint
 zp = O('X_carriage_plate')
 zp.Shape = box(-120, 120, 104, 121, 222, 710)
-prop(zp, 'Spec', 'Z plate, steel t17 240x488: Z rails, Z screw, Z motor plate. 1 mm off the saddle, on a D12 ball; frozen by 6 epoxy pads')
+prop(zp, 'Spec', 'Z plate, steel t17 240x488: Z rails, Z screw, Z motor plate. 1 mm off the saddle, D8 pin (H7 hole) in the RBPB8 spherical bearing of the saddle; frozen by 6 epoxy pads')
 tag('X_carriage_plate', 'ztram')
 sad = fuse(box(-120, 120, 122, 134, 222, 706), box(120, 142, 122, 134, 652, 706), box(-142, -120, 122, 134, 652, 706))
 add('X_saddle_plate', sad, '04 X-axis', 'saddle, steel t12 with two ears above the columns: bolted to the 4 X blocks and the X nut bracket', 'x', 'ztram')
