@@ -112,7 +112,8 @@ S.text("煞車線（HG-KR43B）：照片的馬達沒有煞車，B1/B2 位置為�
 # absolute-position backup batteries on CN4 of each drive (not connected to the controller)
 OLV = (150, 100, 0)
 for ax, top in AXES.items():
-    bt = blk("BT" + ax, "BT%s %s軸電池 (MR-BAT6V1SET)" % (ax, ax), 533.4, top + 13 * R, left=[("CN4", 1, "CN4")], w=20.32)
+    bph = S.photo(Photo(os.path.join(PH, "MR-BAT6V1SET_battery.jpg"), 540.0, top + 13 * R + 6.0, 0.14, crop=(0, 0, 295, 165)))
+    bt = S.add(PhotoBlock("BT" + ax, "BT%s %s軸電池 MR-BAT6V1SET（三菱目錄實物照）" % (ax, ax), bph, [("CN4", 56, 135, "left", "CN4")], title_dy=1.5))
     S.stub(SV[ax]["BAT"], "BAT_" + ax, OLV, LONG); S.stub(bt["CN4"], "BAT_" + ax, OLV)
     S.text("加電池：保存絕對位置以免做 home\n(須控制器支援 ABS 傳送；\ngrblHAL 暫不支援，仍保留原點感測器)", 497, top + 13 * R + 17.5, 1.3)
 
