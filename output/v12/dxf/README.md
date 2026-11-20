@@ -11,28 +11,28 @@
 
 標「ream at assembly」的孔在組裝調整後現場配鉸，不標孔位。
 
-**未完成**：3 個螺帽座缺螺帽法蘭孔與安裝孔，3 個馬達座缺馬達法蘭螺絲孔（模型還沒畫）。這 6 件的 DXF 標題欄有紅字 NOT FINAL，先不要發包。
+RBPB8 座孔 Ø22 H7：外環 h6，用固持膠（Loctite 641）黏固，不壓入。
 
 | 零件 | 數量 | 外形 X × Y × Z | 孔數 | H7 孔 | 研磨 | 規格 |
 |---|---|---|---|---|---|---|
-| Datum_base_plate | 1 | 720 × 327 × 20 | 34 | 6 | top face ground (Y block seats) | Q235 t20 720x327 datum plate, top face ground (Y block seats |
-| Work_table | 1 | 440 × 473.5 × 40 | 20 | 6 | Y slide table: BOTH faces ground - underside = Y rail face | 440x473.5x40 (53.5 longer at rear), 5x T-slot 14, work area  |
+| Datum_base_plate | 1 | 720 × 327 × 20 | 38 | 6 | top face ground (Y block seats) | Q235 t20 720x327 datum plate, top face ground (Y block seats |
+| Work_table | 1 | 440 × 473.5 × 40 | 24 | 6 | Y slide table: BOTH faces ground - underside = Y rail face | 440x473.5x40 (53.5 longer at rear), 5x T-slot 14, work area  |
 | Column_foot_L | 1 | 80 × 210 × 18 | 8 | 1 | — | steel foot t18, 80x210, front flange 30 (hold-down bolt, pus |
 | Column_foot_R | 1 | 80 × 210 × 18 | 9 | 1 | — | steel foot t18, 80x210, front flange 30 (hold-down bolt, pus |
 | Gantry_column_L | 1 | 80 × 160 × 472 | 5 | 1 | — | HFS8-80160-472 (z18..490) |
 | Gantry_column_R | 1 | 80 × 160 × 472 | 4 | 0 | — | HFS8-80160-472 (z18..490) |
-| X_base_plate | 1 | 720 × 20 × 260 | 53 | 7 | front face ground (X rail face) | steel t20 720x260 (z 230..490); X rails z 250 / 470 (spacing |
-| X_saddle_plate | 1 | 284 × 12 × 484 | 27 | 1 | rear face ground (X block face) | saddle, steel t12 with two ears above the columns: bolted to |
-| X_carriage_plate | 1 | 240 × 17 × 488 | 42 | 7 | front face ground (Z rail face) | Z plate, steel t17 240x488: Z rails, Z screw, Z motor plate. |
-| Z_slide_plate | 1 | 220 × 28 × 230 | 23 | 1 | rear face ground (spacer / Z block face) | steel t28, pocket for the Z nut |
+| X_base_plate | 1 | 720 × 20 × 260 | 57 | 7 | front face ground (X rail face) | steel t20 720x260 (z 230..490); X rails z 250 / 470 (spacing |
+| X_saddle_plate | 1 | 284 × 12 × 484 | 31 | 1 | rear face ground (X block face) | saddle, steel t12 with two ears above the columns: bolted to |
+| X_carriage_plate | 1 | 240 × 17 × 488 | 46 | 7 | front face ground (Z rail face) | Z plate, steel t17 240x488: Z rails, Z screw, Z motor plate. |
+| Z_slide_plate | 1 | 220 × 28 × 230 | 27 | 1 | rear face ground (spacer / Z block face) | steel t28, pocket for the Z nut |
 | Z_spacer_L | 1 | 50 × 14 × 230 | 8 | 0 | both faces ground | steel spacer bar t14 |
 | Z_spacer_R | 1 | 50 × 14 × 230 | 8 | 0 | both faces ground | steel spacer bar t14 |
-| Z_motor_plate **(未完成)** | 1 | 120 × 90 × 38 | 5 | 1 | — | block 120x90x38: front part bolted to carriage FRONT face wi |
-| Z_nut_housing **(未完成)** | 1 | 52 × 39.59 × 32 | 1 | 0 | — | Z nut housing (CNC): wraps the nut body, flange on its top f |
-| X_nut_bracket **(未完成)** | 1 | 37 × 95.6 × 52 | 1 | 0 | — | nut housing (CNC): wraps the C-KBS1505 nut body, flange bolt |
-| Y_nut_bracket **(未完成)** | 1 | 52 × 32 × 67.59 | 1 | 0 | — | Y nut housing (CNC): wraps the C-KBS1505 nut body, flange on |
-| X_motor_block **(未完成)** | 1 | 38 × 67 × 76 | 5 | 1 | — | Z-style block in the 7 mm pocket of the X base plate REAR fa |
-| Y_motor_block **(未完成)** | 1 | 120 × 38 × 95 | 5 | 1 | — | Z-style block: bolted UP into table underside 4xM6 (same fac |
+| Z_motor_plate | 1 | 120 × 90 × 38 | 9 | 1 | — | block 120x90x38: front part bolted to carriage FRONT face wi |
+| Z_nut_housing | 1 | 88 × 45.6 × 32 | 11 | 1 | — | Z nut housing (CNC, steel): wraps the nut body, nut flange o |
+| X_nut_bracket | 1 | 37 × 95.6 × 52 | 11 | 1 | — | nut housing (CNC): wraps the C-KBS1505 nut body, flange bolt |
+| Y_nut_bracket | 1 | 52 × 32 × 67.59 | 11 | 1 | — | Y nut housing (CNC): wraps the C-KBS1505 nut body, flange on |
+| X_motor_block | 1 | 38 × 67 × 76 | 9 | 1 | — | Z-style block in the 7 mm pocket of the X base plate REAR fa |
+| Y_motor_block | 1 | 120 × 38 × 95 | 9 | 1 | — | Z-style block: bolted UP into table underside 4xM6 (same fac |
 | Spindle_clamp | 1 | 96 × 83 × 74 | 7 | 1 | — | 6061 clamp block 96x83x74: bore D65 at (x0, y-20), rear wall |
 | Spindle_mount_plate | 1 | 156 × 12 × 181 | 12 | 0 | both faces ground | flat steel plate 156x181x12, ground both faces, all holes fr |
 | Base_riser_1 | 4 | 60 × 60 × 68.5 | 3 | 0 | — | steel riser 60x60x68.5 on the pan floor: M12 tap for the mac |

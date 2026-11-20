@@ -31,7 +31,7 @@ GRIND = {   # part: (faces, note)   faces as +/- axis, -Y = operator side
 }
 NUT = 'nut-flange bolt holes and the mounting bolt holes are not modelled yet'
 MOT = 'motor flange screw holes (4x on the motor PCD) are not modelled yet'
-INCOMPLETE = {'Z_nut_housing': NUT, 'X_nut_bracket': NUT, 'Y_nut_bracket': NUT, 'Z_motor_plate': MOT, 'X_motor_block': MOT, 'Y_motor_block': MOT}
+INCOMPLETE = {}
 T = lambda s: s.replace('Ø', '%%c')
 
 rows = []
@@ -153,7 +153,7 @@ md = ['# v12 CNC 加工件 DXF', '', '由 `freecad/v12/09_dxf_extract_v12.py`（
       '- 每組孔一條引線，寫規格（攻牙尺寸與牙距、給幾號螺絲的過孔、沉頭、深度、從哪一面）；',
       '- 研磨面在側視圖用紫色粗線加 GROUND 標出，並寫在註記欄。', '',
       '標「ream at assembly」的孔在組裝調整後現場配鉸，不標孔位。', '',
-      '**未完成**：3 個螺帽座缺螺帽法蘭孔與安裝孔，3 個馬達座缺馬達法蘭螺絲孔（模型還沒畫）。這 6 件的 DXF 標題欄有紅字 NOT FINAL，先不要發包。', '',
+      'RBPB8 座孔 Ø22 H7：外環 h6，用固持膠（Loctite 641）黏固，不壓入。', '',
       '| 零件 | 數量 | 外形 X × Y × Z | 孔數 | H7 孔 | 研磨 | 規格 |', '|---|---|---|---|---|---|---|']
 md += ['| %s | %d | %s | %d | %d | %s | %s |' % r for r in rows]
 open(os.path.join(OUT, 'README.md'), 'w', encoding='utf-8').write('\n'.join(md) + '\n')

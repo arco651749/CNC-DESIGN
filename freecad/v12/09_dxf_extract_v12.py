@@ -141,6 +141,7 @@ for name, qty in PARTS:
             if pin:
                 t = h7lim(d); txt = 'Ø%g H7 (+%.3f/0)%s' % (round(d, 2), t, ' thru' if mthru else ' depth %g' % round(depth, 1))
                 if 'lock_dowel' in pin: txt += ', ream at assembly (pre-drill Ø%g)' % (round(d, 1) - 0.5)
+                if 'pivot_bearing' in pin: note = '; RBPB8 ring h6: bond with retaining compound Loctite 641, no press fit'
                 cls = 'H7'
             elif scr:
                 mm = re.search(r'M(\d+)x([\d.]+)', scr[1]); pitch = ''; M = round(d)
@@ -155,6 +156,8 @@ for name, qty in PARTS:
                 cls = 'TAP'
             elif name == 'Spindle_clamp' and abs(d - 65) < 0.05:          # spindle bore: fit to the spindle body
                 txt = 'Ø65 H7 (+0.030/0) thru (spindle bore: bore before cutting the slit; axis perpendicular to the rear face 0.01)'; cls = 'H7'
+            elif re.match(r'[XYZ]_nut_(bracket|housing)$', name) and abs(d - 28.2) < 0.05:   # ball nut body: locates the nut on the screw axis
+                txt = 'Ø28 H7 (+0.021/0) thru (ball nut body Ø28; align the housing on its mounting screws)'; cls = 'H7'
             elif 'D50 H7' in SPEC and abs(d - 50.1) < 0.05:          # motor spigot bore: modelled 50.1, machined 50 H7
                 txt = 'Ø50 H7 (+0.025/0)%s (motor spigot)' % (' thru' if mthru else ' depth %g' % round(depth, 1)); cls = 'H7'
             else:

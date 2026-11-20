@@ -131,7 +131,7 @@ BC = (0, 466)                                                      # bearing cen
 brg = Part.read(os.path.join(ROOT, 'vendor', 'misumi', 'RBPB8', 'RBPB8.stp'))   # vendor model: axis Z, sphere centre (0, 0, -6)
 brg.translate(V(0, 0, 6)); brg.rotate(V(0, 0, 0), V(1, 0, 0), -90); brg.translate(V(BC[0], 128, BC[1]))   # axis -> Y, centre in the saddle
 add('Z_pivot_bearing', brg, G, 'spherical plain bearing MISUMI RBPB8, vendor STEP (D22 h6, d8 H7, B 9, B1 12, static radial 16.7 kN, '
-    'tilt 8 deg+), pressed into the saddle at its centre; takes only in-plane (radial) load', 'x', 'ztram')
+    'tilt 8 deg+), bonded into the saddle at its centre (H7 bore / h6 ring + retaining compound Loctite 641); takes only in-plane (radial) load', 'x', 'ztram')
 cut('X_saddle_plate', cyl('y', 11, 122, 134, *BC))
 pin = cyl('y', 4, 108, 134, *BC)
 add('Z_pivot_pin', pin, G, 'D8 pin pressed into the Z plate, slide fit (g6) in the bearing inner ring: fixes X and Z, leaves Y free', 'x', 'ztram')
@@ -198,7 +198,7 @@ for k, (x, z) in enumerate(CB, 1):
     add('Spindle_clamp_bolt_%d' % k, fuse(cyl('y', 5, -63, -57, x, z), cyl('y', 3, -57, 30, x, z)), G, 'M6x80 SHCS, clamp block to back plate', 'z', 'spindle')
 brg = Part.read(os.path.join(ROOT, 'vendor', 'misumi', 'RBPB8', 'RBPB8.stp'))
 brg.translate(V(0, 0, 6)); brg.rotate(V(0, 0, 0), V(1, 0, 0), -90); brg.translate(V(SB[0], 40, SB[1]))   # inner ring y34..46
-add('Spindle_pivot_bearing', brg, G, 'spherical plain bearing MISUMI RBPB8 pressed into the Z slide at the centre behind the back plate: fixes the '
+add('Spindle_pivot_bearing', brg, G, 'spherical plain bearing MISUMI RBPB8 bonded into the Z slide (H7 / h6 + Loctite 641) at the centre behind the back plate: fixes the '
     'bracket in X and Z, pivot for nod and roll; takes no thrust', 'z', 'spindle')
 cut('Z_slide_plate', cyl('y', 11, 34, 46, *SB))
 add('Spindle_pivot_stud', fuse(cyl('y', 3, 20, 32, *SB), cyl('y', 4, 32, 46, *SB)), G,
@@ -293,6 +293,85 @@ for T, xs in (('L', (-96, -64)), ('R', (64, 96))):          # Z blocks: M5 from 
                 add('Z_block_bolt_%s%d_%d_%d' % (T, n, x, z), fuse(cyl('y', 4.25, 37, 42, x, z), cyl('y', 2.07, 42, 82, x, z)), G,
                     'M5x40 SHCS from the slide front, counterbore 8, through slide and spacer, 6 into the block (fit before the spindle plate)', 'z', 'fasten')
                 cut('Z_slide_plate', cyl('y', 4.75, 34, 42, x, z), cyl('y', 2.75, 42, 62, x, z)); cut('Z_spacer_' + T, cyl('y', 2.75, 62, 76, x, z))
+
+# ================================================================ nut housings and motor blocks: flange screws and mounting screws
+# nut flange (C-KBS1505, read from the MISUMI STEP): 6 x D5.5 on PCD 38 -> M5x16 into taps in the housing face
+# motor flange (HG-KR43, read from the Mitsubishi STEP): 4 x D5.8 on PCD 70 (+-24.7) -> M5x16 into taps in the block face
+CHK = []
+def hole(label, *tools):                                    # cut + check the tool lies in material (no break-out, no clash)
+    o = O(label)
+    for t in tools: CHK.append((label, t.common(o.Shape).Volume / t.Volume))
+    cut(label, *tools)
+def screw(label, head, shank, spec, motion):
+    add(label, fuse(head, shank), G, spec, motion, 'fasten')
+PCD38 = [(19, 0), (-19, 0), (13.4, 13.4), (13.4, -13.4), (-13.4, 13.4), (-13.4, -13.4)]
+# Y nut bracket (fixed on the datum plate, nut flange on its +y face y-113..-103)
+for i, (a, b) in enumerate(PCD38, 1):
+    x, z = a, 45 + b
+    hole('Y_nut_bracket', cyl('y', 2.5, -123, -113, x, z))
+    screw('Y_nut_flange_bolt_%d' % i, cyl('y', 4.25, -103, -98, x, z), cyl('y', 2.5, -119, -103, x, z), 'M5x16 SHCS, nut flange into the housing (tap M5 depth 10)', '')
+for i, (x, y) in enumerate(((-18, -139), (18, -139), (-18, -119), (18, -119)), 1):
+    hole('Y_nut_bracket', cyl('z', 3, 0, 12, x, y))
+    hole('Datum_base_plate', cyl('z', 3.3, -13.5, 0, x, y), cyl('z', 5.5, -20, -13.5, x, y))
+    screw('Y_nut_mount_bolt_%d' % i, cyl('z', 5, -20, -14, x, y), cyl('z', 3, -14, 11, x, y), 'M6x25 SHCS from under the datum plate into the housing (tap M6 depth 12)', '')
+# X nut bracket (on the saddle rear face, nut flange on its +x face x11..21)
+for i, (a, b) in enumerate(PCD38, 1):
+    y, z = 207 + b, 360 + a
+    hole('X_nut_bracket', cyl('x', 2.5, 1, 11, y, z))
+    screw('X_nut_flange_bolt_%d' % i, cyl('x', 4.25, 21, 26, y, z), cyl('x', 2.5, 5, 21, y, z), 'M5x16 SHCS, nut flange into the housing (tap M5 depth 10)', 'x')
+for i, (x, z) in enumerate(((-19, 342), (4, 342), (-19, 378), (4, 378)), 1):
+    hole('X_nut_bracket', cyl('y', 3, 134, 148, x, z))
+    hole('X_saddle_plate', cyl('y', 3.3, 126.5, 134, x, z), cyl('y', 5.5, 122, 126.5, x, z))
+    screw('X_nut_mount_bolt_%d' % i, cyl('y', 5, 122.5, 126.5, x, z), cyl('y', 3, 126.5, 146.5, x, z),
+          'M6x20 low-head (DIN 7984) from the saddle front, head sunk in the saddle (fit before the Z plate)', 'x')
+# Z nut housing: widened to x+-44 so it bears on the slide rear face beside the nut pocket (pocket x+-28), front part sits in the pocket
+cut('Z_slide_plate', box(-28, 28, 54, 62, 455, 461))         # nut pocket 6 mm higher: room for the nut flange screw heads
+zh = O('Z_nut_housing')
+zh.Shape = fuse(box(-26, 26, 56, 101.6, 411, 443), box(-44, 44, 62, 101.6, 411, 443)).cut(cyl('z', 14.1, 411, 443, 0, 79))
+prop(zh, 'Spec', 'Z nut housing (CNC, steel): wraps the nut body, nut flange on its top face (6 x M5), wings x+-44 bolted to the slide rear face '
+     'with 4 x M6 low-head from the slide front; the front part sits in the slide pocket')
+for i, (a, b) in enumerate(PCD38, 1):
+    x, y = a, 79 + b
+    hole('Z_nut_housing', cyl('z', 2.5, 433, 443, x, y))
+    screw('Z_nut_flange_bolt_%d' % i, cyl('z', 4.25, 453, 458, x, y), cyl('z', 2.5, 437, 453, x, y), 'M5x16 SHCS, nut flange into the housing (tap M5 depth 10)', 'z')
+for i, (x, z) in enumerate(((-36, 418), (36, 418), (-36, 436), (36, 436)), 1):
+    hole('Z_nut_housing', cyl('y', 3, 62, 76, x, z))
+    hole('Z_slide_plate', cyl('y', 3.3, 38.5, 62, x, z), cyl('y', 5.5, 34, 38.5, x, z))
+    screw('Z_nut_mount_bolt_%d' % i, cyl('y', 5, 34.5, 38.5, x, z), cyl('y', 3, 38.5, 73.5, x, z),
+          'M6x35 low-head (DIN 7984) from the slide front, head sunk in the slide (fit before the spindle plate)', 'z')
+MOT = [(24.7, 24.7), (24.7, -24.7), (-24.7, 24.7), (-24.7, -24.7)]
+# Y motor block (rides with the table): motor flange on its +y face y279.5; 4 x M6 up into the table underside
+for i, (a, b) in enumerate(MOT, 1):
+    x, z = a, 45 + b
+    hole('Y_motor_block', cyl('y', 2.5, 269.5, 279.5, x, z))
+    screw('Y_motor_flange_bolt_%d' % i, cyl('y', 4.25, 286.5, 291.5, x, z), cyl('y', 2.5, 270.5, 286.5, x, z), 'M5x16 SHCS, motor flange into the block (tap M5 depth 10)', 'y')
+for i, x in enumerate((-50, -34, 34, 50), 1):
+    hole('Work_table', cyl('z', 3, 70, 82, x, 252.5))
+    screw('Y_motor_mount_bolt_%d' % i, cyl('z', 5, 9, 15, x, 252.5), cyl('z', 3, 15, 80, x, 252.5), 'M6x65 SHCS from below into the table (tap M6 depth 12)', 'y')
+# X motor block (in the pocket of the X plate rear face): mounting holes moved to x 278 / 293 so they clear the motor flange taps
+xb = O('X_motor_block'); s = box(271.5, 309.5, 175, 242, 322, 398).cut(cyl('x', 25.05, 271.5, 309.5, 207, 360))
+for x in (278, 293):
+    for z in (330, 390): s = s.cut(cyl('y', 3.3, 175, 242, x, z))
+xb.Shape = s
+for i, (a, b) in enumerate(MOT, 1):
+    y, z = 207 + a, 360 + b
+    hole('X_motor_block', cyl('x', 2.5, 299.5, 309.5, y, z))
+    screw('X_motor_flange_bolt_%d' % i, cyl('x', 4.25, 316.5, 321.5, y, z), cyl('x', 2.5, 300.5, 316.5, y, z), 'M5x16 SHCS, motor flange into the block (tap M5 depth 10)', '')
+k = 0
+for x in (278, 293):
+    for z in (330, 390):
+        k += 1; hole('X_base_plate', cyl('y', 3, 165, 175, x, z))
+        screw('X_motor_mount_bolt_%d' % k, cyl('y', 5, 242, 248, x, z), cyl('y', 3, 167, 242, x, z), 'M6x75 SHCS into the X plate rear face (tap M6 depth 10)', '')
+# Z motor plate (on the Z plate top): motor flange on its top face z726; 4 x M6 into the Z plate front face
+for i, (a, b) in enumerate(MOT, 1):
+    x, y = a, 79 + b
+    hole('Z_motor_plate', cyl('z', 2.5, 716, 726, x, y))
+    screw('Z_motor_flange_bolt_%d' % i, cyl('z', 4.25, 733, 738, x, y), cyl('z', 2.5, 717, 733, x, y), 'M5x16 SHCS, motor flange into the plate (tap M5 depth 10)', 'x')
+for i, x in enumerate((-50, -34, 34, 50), 1):
+    hole('X_carriage_plate', cyl('y', 3, 104, 116, x, 699))
+    screw('Z_motor_mount_bolt_%d' % i, cyl('y', 5, 38, 44, x, 699), cyl('y', 3, 44, 114, x, 699), 'M6x70 SHCS into the Z plate front face (tap M6 depth 12)', 'x')
+bad = [(l, round(r, 3)) for l, r in CHK if r < 0.98]
+print('HOLE_CHECK', len(CHK), 'tools, not fully in material:', bad)
 
 # ================================================================ removable alignment kit
 KIT_RX = r'^(Yaw_push|Yaw_pull|Yaw_block_bolt|X_roll_bracket|X_roll_jack|Z_face_screw|Z_roll_block|Z_roll_screw|Spindle_face_screw|Spindle_roll_block|Spindle_roll_screw)'

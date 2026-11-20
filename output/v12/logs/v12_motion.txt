@@ -1,9 +1,10 @@
-parts: 277   motion classes: static 109 / y 28 / x 82 / z 58
+parts: 331   motion classes: static 127 / y 36 / x 100 / z 68
 
-DESIGN CONTACTS AT HOME (overlap > 1 mm3, review): 4
+DESIGN CONTACTS AT HOME (overlap > 1 mm3, review): 5
   X_ball_nut x X_nut_bracket : 19 mm3
   X_ballscrew x X_support_fixed : 137 mm3
   Y_ballscrew x Y_support_fixed : 137 mm3
+  Z_ball_nut x Z_nut_housing : 19 mm3
   Z_ballscrew x Z_support_fixed : 137 mm3
 
 COLLISIONS AT TRAVEL ENDS (new vs home): 0

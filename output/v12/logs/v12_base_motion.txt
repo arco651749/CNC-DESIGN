@@ -1,6 +1,6 @@
-parts: 348   motion classes: static 176 / y 28 / x 82 / z 62
+parts: 403   motion classes: static 195 / y 36 / x 100 / z 72
 
-DESIGN CONTACTS AT HOME (overlap > 1 mm3, review): 9
+DESIGN CONTACTS AT HOME (overlap > 1 mm3, review): 10
   Coolant_hose_1 x Coolant_hose_2 : 288 mm3
   Coolant_hose_2 x Coolant_hose_3 : 288 mm3
   Coolant_hose_3 x Coolant_hose_4 : 288 mm3
@@ -9,6 +9,7 @@ DESIGN CONTACTS AT HOME (overlap > 1 mm3, review): 9
   X_ball_nut x X_nut_bracket : 19 mm3
   X_ballscrew x X_support_fixed : 137 mm3
   Y_ballscrew x Y_support_fixed : 137 mm3
+  Z_ball_nut x Z_nut_housing : 19 mm3
   Z_ballscrew x Z_support_fixed : 137 mm3
 
 COLLISIONS AT TRAVEL ENDS (new vs home): 0
