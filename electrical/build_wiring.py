@@ -73,11 +73,14 @@ def make_tb(ax, cy):
         net, col = TB_NET[pid]; S.stub(tb[pid], net.format(ax=ax), col)
     return tb
 
+# servo motor picture (Mitsubishi catalogue photo of an HG-KR053; the HG-KR43 is the same family and shape)
+K_MT = 0.1
 def motor(ax, top, brake=False):
-    left = [("U", 1), ("V", 2), ("W", 3), ("PE", 4), ("ENC", 6, "ENC CN2")]
-    if brake: left += [("B1", 9), ("B2", 10)]
-    name = "HG-KR43%s  %s軸馬達" % ("B(附煞車)" if brake else "", ax)
-    return blk("M" + ax, name, MOT_CX, top, left=left, w=30.48)
+    ph = S.photo(Photo(os.path.join(PH, "HG-KR053_servo_motor.jpg"), 602.0, top + 16.0, K_MT, crop=(0, 0, 575, 300)))
+    pins = [("U", 245, 32, "top", "U"), ("V", 275, 32, "top", "V"), ("W", 305, 32, "top", "W"), ("PE", 335, 32, "top", "PE"), ("ENC", 455, 42, "top", "ENC")]
+    if brake: pins += [("B1", 365, 60, "top", "B1"), ("B2", 395, 60, "top", "B2")]
+    name = "M%s HG-KR43%s %s軸馬達（三菱目錄實物照，照片為 HG-KR053）" % (ax, "B(附煞車)" if brake else "", ax)
+    return S.add(PhotoBlock("M" + ax, name, ph, pins, title_dy=15.5))
 
 SV = {a: make_sv(a, t) for a, t in AXES.items()}
 MT = {a: motor(a, t, a == "Z") for a, t in AXES.items()}
@@ -97,15 +100,15 @@ LONG = 10.16
 for ax in "XYZ":
     s, m = SV[ax], MT[ax]
     S.stub(s["L11"], "L1_CTL_" + ax, BRN, LONG); S.stub(s["L21"], "L2_CTL_" + ax, BLU, LONG); S.stub(s["PE"], "PE", GRN, LONG)
-    for pid, col in (("U", UCL), ("V", BLK), ("W", GRY)):
-        S.stub(s[pid], "%s_%s" % (ax, pid), col, LONG, THICK); S.stub(m[pid], "%s_%s" % (ax, pid), col, R, THICK)
-    S.stub(m["PE"], "PE", GRN)
-    S.stub(s["ENC"], ax + "_ENC", TEL, LONG); S.stub(m["ENC"], ax + "_ENC", TEL)
+    for pid, col, ln in (("U", UCL, 12.7), ("V", BLK, 10.16), ("W", GRY, 7.62)):
+        S.stub(s[pid], "%s_%s" % (ax, pid), col, LONG, THICK); S.stub(m[pid], "%s_%s" % (ax, pid), col, ln, THICK)
+    S.stub(m["PE"], "PE", GRN, 7.62)
+    S.stub(s["ENC"], ax + "_ENC", TEL, LONG); S.stub(m["ENC"], ax + "_ENC", TEL, 7.62)
 # Z brake: MBR drives relay KA3 coil, KA3 switches 24V to the motor brake
 KA3 = blk("KA3", "KA3 Z軸煞車繼電器", 533.4, 274.32, left=[("A1", 1), ("A2", 2), ("COM", 3)], right=[("NO", 2)], w=15.24)
 S.stub(KA3["A1"], "+24V3", RED); S.stub(KA3["A2"], "MBR_Z", PUR); S.stub(KA3["COM"], "+24V3", RED)
-S.conn("BRK_Z", RED, [KA3["NO"], MZ["B1"]])
-S.stub(MZ["B2"], "0V3", BLK)
+S.stub(KA3["NO"], "BRK_Z", RED); S.stub(MZ["B1"], "BRK_Z", RED, 10.16); S.stub(MZ["B2"], "0V3", BLK, 7.62)
+S.text("煞車線（HG-KR43B）：照片的馬達沒有煞車，B1/B2 位置為示意", 570.0, 238.76 + 36.0, 1.2)
 # absolute-position backup batteries on CN4 of each drive (not connected to the controller)
 OLV = (150, 100, 0)
 for ax, top in AXES.items():
