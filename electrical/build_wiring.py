@@ -203,34 +203,41 @@ S.stub(ALM["A1"], "+24V3", RED)
 for ax in "XYZ": S.stub(ALM["A2%s" % ax], "ALM_" + ax, PUR)
 
 # ------------------------------------------------------------------ 5. spindle VFD
-VFD = blk("VFD", "台達 MS300 變頻器 (單相230V，1.5kW級 VFD7A5MS21系列)", SRV_CX, 363.22,
-          left=[("RL1", 1, "R/L1"), ("SL2", 2, "S/L2"), ("PE", 3)],
-          right=[("U", 1), ("V", 2), ("W", 3), ("RPE", 4, "PE")], w=30.48)
-SP = blk("SP", "主軸 0.8kW 風冷電主軸 (3相)", MOT_CX, 363.22, left=[("U", 1), ("V", 2), ("W", 3), ("PE", 4)], w=30.48)
-QF3 = blk("QF3", "QF3 主軸 MCCB 2P 10A", 368.3, 363.22, left=[("L1i", 1, "L1"), ("L2i", 2, "L2")], right=[("L1o", 1, "L1"), ("L2o", 2, "L2")], w=20.32)
-KM2 = blk("KM2", "KM2 接觸器 (主軸)", 419.1, 363.22, left=[("L1i", 1, "L1"), ("L2i", 2, "L2")], right=[("L1o", 1, "L1"), ("L2o", 2, "L2")],
-          bottom=[("A1", -2.54), ("A2", 2.54)], w=20.32, tmode="above")
-S.stub(QF3["L1i"], "L1_IN", BRN, R, THICK); S.stub(QF3["L2i"], "L2_IN", BLU, R, THICK)
-S.conn("L1_KM2", BRN, [QF3["L1o"], KM2["L1i"]], width=THICK); S.conn("L2_KM2", BLU, [QF3["L2o"], KM2["L2i"]], width=THICK)
-S.conn("L1_VFD", BRN, [KM2["L1o"], VFD["RL1"]], width=THICK)
-S.conn("L2_VFD", BLU, [KM2["L2o"], VFD["SL2"]], width=THICK)
-S.stub(KM2["A1"], "KMCOIL", ORG); S.stub(KM2["A2"], "0V3", BLK)
-S.stub(VFD["PE"], "PE", GRN)
-# control terminals drawn on the real MS300 pictures from the Delta catalogue (pin px measured on the picture)
+# MS300 front view with the cover open (photo supplied by the user; label on it reads 460 V 3-phase, our drive is the 230 V 1-phase model)
 PH_D = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "vendor", "delta", "photos")
-PH_V1 = S.photo(Photo(os.path.join(PH_D, "MS300_control_terminals_front.png"), 735.0, 330.0, 0.2))
-VFA = S.add(PhotoBlock("VFA", "VFA MS300 控制端子（Delta 型錄實物照，正拍）：AVI、ACM、DCM", PH_V1,
-    [("AVI", 123.8, 160.0, "bottom", "AVI"), ("ACM", 102.5, 160.0, "bottom", "ACM"), ("DCM", 130.0, 62.0, "top", "DCM")], title_dy=2.0))
-PH_V2 = S.photo(Photo(os.path.join(PH_D, "MS300_control_terminals_angled.png"), 735.0, 400.0, 0.2))
-VFB = S.add(PhotoBlock("VFB", "VFB MS300 控制端子（Delta 型錄實物照，斜拍）：MI1", PH_V2,
-    [("MI1", 70.6, 148.0, "left", "MI1")], title_dy=2.0))
-S.stub(VFA["AVI"], "SPD_0-10V", ANA, 10.16); S.stub(VFA["ACM"], "SPD_GND", BLK, 15.24)
-S.stub(VFB["MI1"], "VFD_FWD", ORG, 8.0); S.stub(VFA["DCM"], "VFD_COM", BLK, 8.0)
-S.text("照片解析度低：MI1 位置為估計，DCM 在紅色接頭（STO 區）的第 4 個孔；\n接線前請以機身端子絲印為準（型錄第 13 頁）", 702.0, 425.0, 1.2)
-S.conn("SP_U", UCL, [VFD["U"], SP["U"]], width=THICK)
-S.conn("SP_V", BLK, [VFD["V"], SP["V"]], width=THICK)
-S.conn("SP_W", GRY, [VFD["W"], SP["W"]], width=THICK)
-S.conn("SP_PE", GRN, [VFD["RPE"], SP["PE"]], width=THICK)
+K_V = 0.12
+# pin = (id, x px, y px, side, label) on the uncropped 800 x 800 photo; crop starts at (190, 330)
+def _v(pid, x, y, side, lab): return (pid, x - 190, y - 330, side, lab)
+VFD_PH = S.photo(Photo(os.path.join(PH_D, "MS300_front_open.jpg"), 735.0, 360.0, K_V, crop=(190, 330, 610, 735)))
+VFD = S.add(PhotoBlock("VFD", "VFD 台達 MS300 變頻器（實物照；照片為460V三相機種，我們是單相230V機種）", VFD_PH, [
+    _v("RL1", 288, 655, "bottom", "R/L1"), _v("SL2", 336, 655, "bottom", "S/L2"),
+    _v("U", 435, 655, "bottom", "U/T1"), _v("V", 484, 655, "bottom", "V/T2"), _v("W", 534, 655, "bottom", "W/T3"),
+    _v("ACM", 300, 507, "top", "ACM"), _v("AVI", 320, 507, "top", "AVI"),
+    _v("MI1", 235, 590, "bottom", "MI1"), _v("DCM", 418, 590, "bottom", "DCM")], title_dy=2.0))
+VPE = blk("VPE", "VPE 接地端子 (PE)", 690.0, 405.0, left=[("PE", 1)], right=[("RPE", 1, "PE")], w=20.32)
+SP = blk("SP", "主軸 0.8kW 風冷電主軸 (3相)", 790.0, 405.0, left=[("U", 1), ("V", 2), ("W", 3), ("PE", 4)], w=24.0)
+# per-drive protection: Shihlin BM30-SN MCCB (20 A, provisional: MS300 1.5 kW single-phase input current not verified) and SD-P11 contactor
+qph = S.photo(Photo(os.path.join(PH_SH, "BM30-SN.jpg"), 368.0, 412.0, K_SH))
+QF3 = S.add(PhotoBlock("QF3", "QF3 BM30-SN 2P 20A（暫定）", qph,
+    [("L1i", 55, 45, "top", "L1"), ("L2i", 135, 48, "top", "L2"), ("L1o", 50, 415, "bottom", "T1"), ("L2o", 135, 410, "bottom", "T2")], title_dy=22.0))
+kph = S.photo(Photo(os.path.join(PH_SH, "SD-P11.jpg"), 398.0, 412.0, K_SH))
+KM2 = S.add(PhotoBlock("KM2", "KM2 SD-P11 DC24V", kph,
+    [("A1", 133, 143, "top", "A1"), ("A2", 188, 144, "top", "A2"), ("L1i", 76, 203, "top", "1L1"), ("L2i", 114, 203, "top", "3L2"),
+     ("L1o", 76, 372, "bottom", "2T1"), ("L2o", 114, 372, "bottom", "4T2")], title_dy=22.0))
+S.stub(QF3["L1i"], "L1_IN", BRN, 5.08, THICK); S.stub(QF3["L2i"], "L2_IN", BLU, 7.62, THICK)
+S.stub(QF3["L1o"], "L1_KM2", BRN, 5.08, THICK); S.stub(QF3["L2o"], "L2_KM2", BLU, 7.62, THICK)
+S.stub(KM2["L1i"], "L1_KM2", BRN, 5.08, THICK); S.stub(KM2["L2i"], "L2_KM2", BLU, 7.62, THICK)
+S.stub(KM2["L1o"], "L1_VFD", BRN, 5.08, THICK); S.stub(KM2["L2o"], "L2_VFD", BLU, 7.62, THICK)
+S.stub(KM2["A1"], "KMCOIL", ORG, 17.78); S.stub(KM2["A2"], "0V3", BLK, 10.16)
+S.stub(VFD["RL1"], "L1_VFD", BRN, 6.0, THICK); S.stub(VFD["SL2"], "L2_VFD", BLU, 10.0, THICK)
+S.stub(VFD["U"], "SP_U", UCL, 6.0, THICK); S.stub(VFD["V"], "SP_V", BLK, 10.0, THICK); S.stub(VFD["W"], "SP_W", GRY, 14.0, THICK)
+S.stub(VFD["AVI"], "SPD_0-10V", ANA, 10.0); S.stub(VFD["ACM"], "SPD_GND", BLK, 15.0)
+S.stub(VFD["MI1"], "VFD_FWD", ORG, 22.0); S.stub(VFD["DCM"], "VFD_COM", BLK, 18.0)
+S.stub(VPE["PE"], "PE", GRN, R)
+S.stub(VPE["RPE"], "SP_PE", GRN, 7.62, THICK); S.stub(SP["PE"], "SP_PE", GRN, 7.62, THICK)
+for pid, net, col in (("U", "SP_U", UCL), ("V", "SP_V", BLK), ("W", "SP_W", GRY)):
+    S.stub(SP[pid], net, col, 7.62, THICK)
+S.text("單相機種用 R/L1、S/L2 接電；T/L3 不接。控制端子位置為在照片上量測，接線前以機身絲印為準。\nDCM 有兩個（+24V 右邊），MI1 為多功能輸入 1（出廠為 FWD/STOP）。", 705.0, 440.0, 1.2)
 
 # ------------------------------------------------------------------ 6. 24V supplies, e-stop circuit
 QF4 = blk("QF4", "QF4 24V電源/幫浦 MCCB 2P 6A", 50.8, 358.14, left=[("L1i", 1, "L1"), ("L2i", 2, "L2")], right=[("L1o", 1, "L1"), ("L2o", 2, "L2")], w=20.32)
@@ -258,13 +265,12 @@ S.text("① 市電輸入 / 分路 / 接觸器", 20, 29, H, True)
 S.text("② 伺服驅動器 + 馬達 (X/Y/Z)", 400, 29, H, True)
 S.text("③ 控制板 RP23CNC + MR-J4 介面板", 20, 176, H, True)
 S.text("④ 繼電器輸出：主軸 / 冷卻 / 吹氣", 232, 162, H, True)
-S.text("⑤ 主軸變頻器 + 電主軸", 440, 355, H, True)
+S.text("⑤ 主軸變頻器 + 電主軸", 330, 352, H, True)
 S.text("⑥ 感測器 / 報警 / 急停輸入", 20, 345, H, True)
 S.text("⑦ 24V 電源 + 急停回路", 20, 389, H, True)
 for top in (35.56, 137.16, 238.76):
     S.text("動力線 U/V/W + PE (屏蔽，原廠線)", 497, top + 0.3, 1.4)
     S.text("編碼器線 (原廠)", 520, top + 28.6, 1.4)
-S.text("屏蔽線 3相 + PE", 513, 361.5, 1.4)
 S.text("煞車線 24V", 552, 281.8, 1.4)
 S.text("Cat5e 屏蔽", 134, 259.0, 1.4)
 
