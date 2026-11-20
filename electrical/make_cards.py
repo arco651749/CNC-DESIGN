@@ -12,7 +12,7 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from matplotlib import font_manager as fm
-from matplotlib.patches import Rectangle
+from matplotlib.patches import Rectangle, Polygon
 from PIL import Image
 import build_wiring as B
 
@@ -58,15 +58,20 @@ def dests(blk, pin, limit=5):
 PARTS = {}
 PARTS["BD"] = dict(
     title="RP23CNC V2.02 控制板（grblHAL）  代號 BD",
-    image=os.path.join(HERE, "..", "output", "electronics", "RP23CNC_top.png"),
-    crop=(120, 20, 1195, 1080),
-    image_note="圖：廠商 STEP 3D 模型的俯視渲染（KiCad 匯出），不是照片。端子左右順序以板上絲印為準。",
-    zones={  # letter: (x0, y0, x1, y1, name) in original image pixels
-        "A": (242, 37, 1072, 112, "上排螺絲端子（22 位）"),
-        "B": (242, 988, 1072, 1062, "下排螺絲端子（22 位）"),
-        "C": (1093, 175, 1170, 930, "右排螺絲端子（20 位）"),
-        "D": (738, 858, 822, 918, "伺服報警輸入排針（2×3，2.54 mm）"),
-        "E": (403, 205, 567, 452, "WIZ850io 乙太網路模組座（選配，必須是 W5500）"),
+    photo=dict(path=os.path.join(HERE, "..", "vendor", "rp23cnc", "photos", "RP23CNC_V2_photo.jpg"), ref_w=900,
+               polys={"A": [(55, 190), (462, 95), (472, 170), (70, 245)],
+                      "C": [(497, 105), (832, 238), (842, 268), (505, 170)],
+                      "B": [(422, 440), (858, 272), (890, 322), (432, 494)]},
+               badge={"A": (40, 175), "C": (845, 225), "B": (905, 305)},
+               note="圖：RP23CNC V2 加選配組裝套件的實物照片（作者實拍，來源 github.com/phil-barrett/RP23CNC）。\n後左長排＝上排 A、後右長排＝右排 C、前方長排＝下排 B。"),
+    ref=dict(path=os.path.join(HERE, "..", "vendor", "rp23cnc", "photos", "RP23CNC_V2.02_labelled_drawing.png"),
+             note="原廠製圖（非照片），只用來對照板上絲印與 D、E 位置。"),
+    zones={  # letter: (x0, y0, x1, y1, name) in the labelled drawing's pixels (1255 x 1262)
+        "A": (118, 10, 1228, 88, "上排螺絲端子（22 位）"),
+        "B": (118, 1180, 1228, 1255, "下排螺絲端子（22 位）"),
+        "C": (1164, 178, 1245, 1100, "右排螺絲端子（20 位）"),
+        "D": (718, 1010, 815, 1066, "伺服報警輸入排針（2×3，2.54 mm）"),
+        "E": (314, 209, 579, 523, "WIZ850io 乙太網路模組座（選配，必須是 W5500）"),
     },
     pinmap=[  # (zone, pid, silkscreen text on the board)
         ("A", "PWR_P", "+V（12/24V 主電源，標示在 GND 旁）"), ("A", "PWR_G", "GND（與 +V 同組）"),
@@ -103,26 +108,35 @@ def make_card(ref):
     fig = plt.figure(figsize=(16.54, 11.69), dpi=110)  # A3 landscape
     fig.text(0.02, 0.965, P["title"], fontsize=18, weight="bold", va="top")
     fig.text(0.02, 0.938, "零件接線卡　｜　專案：CNC 龍門銑床　｜　單相 220V　｜　圖紙版本 Rev A", fontsize=9.5, color="#444", va="top")
-    # ---- image with zone overlays
-    im = Image.open(P["image"]).convert("RGB")
-    x0, y0, x1, y1 = P["crop"]
-    ax = fig.add_axes([0.02, 0.42, 0.40, 0.50]); ax.imshow(im.crop(P["crop"])); ax.axis("off")
-    for letter, (a, b, c, d, name) in P["zones"].items():
-        ax.add_patch(Rectangle((a - x0, b - y0), c - a, d - b, fill=False, ec="#e6007e", lw=2.2))
-        ax.text(a - x0 - 4, b - y0 - 4, letter, color="white", fontsize=12, weight="bold", ha="right", va="bottom",
+    # ---- real photo (primary) with zone outlines, plus the author's labelled drawing for the silkscreen
+    ph = P["photo"]
+    im = Image.open(ph["path"]).convert("RGB")
+    ax = fig.add_axes([0.02, 0.565, 0.41, 0.345]); ax.imshow(im); ax.axis("off")
+    k = im.size[0] / ph["ref_w"]
+    for letter, pts in ph["polys"].items():
+        ax.add_patch(Polygon([(x * k, y * k) for x, y in pts], closed=True, fill=False, ec="#e6007e", lw=2.6))
+        bx, by = ph["badge"][letter]
+        ax.text(bx * k, by * k, letter, color="white", fontsize=12, weight="bold", ha="center", va="center",
                 bbox=dict(boxstyle="circle,pad=0.25", fc="#e6007e", ec="none"))
-    fig.text(0.02, 0.405, P["image_note"], fontsize=8, color="#555", va="top")
-    # zone legend
-    yy = 0.375
-    fig.text(0.02, yy, "圖中標示的區域", fontsize=10.5, weight="bold", va="top"); yy -= 0.022
-    for letter, (a, b, c, d, name) in P["zones"].items():
-        fig.text(0.02, yy, " %s " % letter, fontsize=9, color="white", weight="bold", va="top", bbox=dict(boxstyle="circle,pad=0.2", fc="#e6007e", ec="none"))
-        fig.text(0.04, yy, name, fontsize=9, va="top"); yy -= 0.021
-    yy -= 0.01
+    fig.text(0.02, 0.563, ph["note"], fontsize=8, color="#555", va="top", linespacing=1.4)
+    rf = P["ref"]
+    ri = Image.open(rf["path"]).convert("RGB")
+    rx = fig.add_axes([0.02, 0.295, 0.255, 0.255]); rx.imshow(ri); rx.axis("off")
+    for letter, (a_, b_, c_, d_, name) in P["zones"].items():
+        rx.add_patch(Rectangle((a_, b_), c_ - a_, d_ - b_, fill=False, ec="#e6007e", lw=1.8))
+        rx.text(a_ + 4, b_ + 4, letter, color="white", fontsize=9, weight="bold", ha="left", va="top",
+                bbox=dict(boxstyle="circle,pad=0.2", fc="#e6007e", ec="none"))
+    fig.text(0.02, 0.292, rf["note"], fontsize=7.6, color="#555", va="top")
+    yy = 0.555
+    fig.text(0.295, yy, "圖中標示的區域", fontsize=10.5, weight="bold", va="top"); yy -= 0.022
+    for letter, (a_, b_, c_, d_, name) in P["zones"].items():
+        fig.text(0.295, yy, " %s " % letter, fontsize=9, color="white", weight="bold", va="top", bbox=dict(boxstyle="circle,pad=0.2", fc="#e6007e", ec="none"))
+        fig.text(0.315, yy, textwrap.fill(name, 19), fontsize=8.6, va="top", linespacing=1.15); yy -= 0.021 * (textwrap.fill(name, 19).count("\n") + 1)
+    yy = 0.265
     for i, line in enumerate(P["setup"]):
-        wrapped = textwrap.fill(line, 50) if i else line
-        fig.text(0.02, yy, wrapped, fontsize=10.5 if i == 0 else 8.4, weight="bold" if i == 0 else None, va="top", linespacing=1.25)
-        yy -= 0.0165 * (wrapped.count("\n") + 1) + (0.006 if i else 0.008)
+        wrapped = textwrap.fill(line, 56) if i else line
+        fig.text(0.02, yy, wrapped, fontsize=10.2 if i == 0 else 8.0, weight="bold" if i == 0 else None, va="top", linespacing=1.2)
+        yy -= 0.0155 * (wrapped.count("\n") + 1) + (0.005 if i else 0.008)
     for line in P["caution"]:
         fig.text(0.445, 0.028, "※ " + textwrap.fill(line, 90), fontsize=8, color="#a00", va="bottom")
     # ---- table
