@@ -1,4 +1,4 @@
-v12 = v10 + owner architecture.  new parts: 285, alignment kit: 29, epoxy pads: 14
+v12 = v10 + owner architecture.  new parts: 297, alignment kit: 29, epoxy pads: 14
 
 Column_foot_R              -  yaw           x[  280.0,  360.0] y[  -28.0,  182.0] z[    0.0,   18.0]  OK
 X_base_plate               -  xlevel        x[ -360.0,  360.0] y[  162.0,  182.0] z[  230.0,  490.0]  OK
@@ -290,3 +290,15 @@ Camera_bracket_bolt_2      z  fasten        x[  -32.2,  -23.8] y[  -78.0,  -55.0
 Tool_mirror                y  camera        x[  -90.0,  -70.0] y[  135.0,  155.0] z[  130.0,  150.0]  OK
 Mirror_bracket             y  camera        x[  -95.0,  -65.0] y[  113.0,  155.0] z[  106.0,  142.0]  OK
 Mirror_bracket_bolt_1      y  fasten        x[  -89.0,  -71.0] y[  113.0,  131.0] z[   98.0,  130.0]  OK
+Probe_body                 z  probe         x[   78.5,  111.5] y[  -48.5,  -15.5] z[  195.0,  262.0]  OK
+Probe_bracket              z  probe         x[   80.0,  110.0] y[  -12.0,   34.0] z[  213.0,  420.0]  OK
+Probe_bracket_bolt_1       z  fasten        x[   84.8,   93.2] y[   19.0,   42.0] z[  335.8,  344.2]  OK
+Probe_bracket_bolt_2       z  fasten        x[   96.8,  105.2] y[   19.0,   42.0] z[  335.8,  344.2]  OK
+Probe_bracket_bolt_3       z  fasten        x[   84.8,   93.2] y[   19.0,   42.0] z[  375.8,  384.2]  OK
+Probe_bracket_bolt_4       z  fasten        x[   96.8,  105.2] y[   19.0,   42.0] z[  375.8,  384.2]  OK
+Probe_rail                 z  probe         x[   89.0,  101.0] y[   -8.0,    0.0] z[  228.0,  300.0]  OK
+Probe_block                z  probe         x[   82.0,  108.0] y[  -14.0,   -2.0] z[  260.0,  290.0]  OK
+Probe_holder               z  probe         x[   78.0,  112.0] y[  -50.0,  -10.0] z[  246.0,  300.0]  OK
+Probe_pinch_bolt           z  fasten        x[   74.0,  101.0] y[  -45.5,  -38.5] z[  249.5,  256.5]  OK
+Probe_solenoid             z  probe         x[   72.5,  117.5] y[  -40.0,    0.0] z[  296.0,  474.0]  OK
+Probe_stop_screw           z  probe         x[   90.4,   99.6] y[  -15.6,   -6.4] z[  207.0,  235.0]  OK

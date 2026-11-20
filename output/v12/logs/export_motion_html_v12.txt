@@ -1,4 +1,4 @@
-parts=317 size=15142444
+parts=329 size=15412663
 Datum_base_plate g='' r='' tris=27308
 Y_rail_L g='y' r='' tris=8600
 Y_block_L1 g='' r='' tris=41580
@@ -37,7 +37,7 @@ Z_rail_R g='x' r='' tris=7696
 Z_block_R1 g='z' r='' tris=19260
 Z_block_R2 g='z' r='' tris=19260
 Z_spacer_R g='z' r='' tris=4076
-Z_slide_plate g='z' r='' tris=23804
+Z_slide_plate g='z' r='' tris=25820
 Z_ballscrew g='x' r='z' tris=9194
 Z_ball_nut g='z' r='' tris=27976
 Z_support_fixed g='x' r='' tris=14600
@@ -345,5 +345,17 @@ Camera_bracket_bolt_2 g='z' r='' tris=1004
 Tool_mirror g='y' r='' tris=8
 Mirror_bracket g='y' r='' tris=994
 Mirror_bracket_bolt_1 g='y' r='' tris=1004
+Probe_body g='z' r='' tris=7832
+Probe_bracket g='z' r='' tris=2416
+Probe_bracket_bolt_1 g='z' r='' tris=1004
+Probe_bracket_bolt_2 g='z' r='' tris=1004
+Probe_bracket_bolt_3 g='z' r='' tris=1004
+Probe_bracket_bolt_4 g='z' r='' tris=1004
+Probe_rail g='z' r='' tris=12
+Probe_block g='z' r='' tris=28
+Probe_holder g='z' r='' tris=2066
+Probe_pinch_bolt g='z' r='' tris=1004
+Probe_solenoid g='z' r='' tris=1524
+Probe_stop_screw g='z' r='' tris=1508
 pivots replaced=1: piv.y.position.set(-0.0,0,45.0);gY.add(piv.y);piv.x.position.set(0,207.0,360.0);gS.add(piv.x);piv.z.position.set(-0.0,79.0,0);gX.add(piv.z);
 work piece on fixture plate replaced=1

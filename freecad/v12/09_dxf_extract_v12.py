@@ -18,7 +18,7 @@ PARTS = [('Datum_base_plate', 1), ('Work_table', 1), ('Column_foot_L', 1), ('Col
          ('Z_motor_plate', 1), ('Z_nut_housing', 1), ('X_nut_bracket', 1), ('Y_nut_bracket', 1), ('X_motor_block', 1), ('Y_motor_block', 1),
          ('Spindle_clamp', 1), ('Spindle_mount_plate', 1), ('Base_riser_1', 4),
          ('Yaw_push_block', 1), ('X_roll_bracket', 1), ('Z_roll_block_L', 1), ('Z_roll_block_R', 1), ('Spindle_roll_block_L', 1), ('Spindle_roll_block_R', 1),
-         ('Camera_bracket', 1), ('Mirror_bracket', 1)]
+         ('Camera_bracket', 1), ('Mirror_bracket', 1), ('Probe_bracket', 1), ('Probe_holder', 1)]
 AX = {'x': App.Vector(1, 0, 0), 'y': App.Vector(0, 1, 0), 'z': App.Vector(0, 0, 1)}
 UV = {'z': ('x', 'y'), 'y': ('x', 'z'), 'x': ('y', 'z')}
 comp = lambda v, a: getattr(v, a)

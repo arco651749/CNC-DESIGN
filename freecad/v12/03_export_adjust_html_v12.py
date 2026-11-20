@@ -33,6 +33,9 @@ def colour(n, adj):
     if n.startswith(('Camera_body', 'Camera_CS_C')): return [0.15, 0.3, 0.55]
     if n == 'Camera_light_guide': return [0.85, 0.85, 0.2]
     if n == 'Tool_mirror': return [0.75, 0.9, 1.0]
+    if n == 'Probe_body': return [0.12, 0.12, 0.13]
+    if n == 'Probe_solenoid': return [0.8, 0.82, 0.85]
+    if n in ('Probe_rail', 'Probe_block'): return [0.55, 0.58, 0.62]
     if n in old and n != 'Spindle_clamp': return old[n]
     if 'epoxy' in n: return [0.13, 0.62, 0.56]                                                  # cast epoxy: teal
     if re.search(r'(dowel|ref_pin|pivot_pin|roll_pin|Z_pivot_|pivot_bearing|pivot_stud)', n): return [0.16, 0.5, 0.78]      # pins and the ball: blue

@@ -24,7 +24,7 @@ RBPB8 座孔 Ø22 H7：外環 h6，用固持膠（Loctite 641）黏固，不壓�
 | X_base_plate | 1 | 720 × 20 × 260 | 57 | 7 | front face ground (X rail face) | steel t20 720x260 (z 230..490); X rails z 250 / 470 (spacing |
 | X_saddle_plate | 1 | 284 × 12 × 484 | 31 | 1 | rear face ground (X block face) | saddle, steel t12 with two ears above the columns: bolted to |
 | X_carriage_plate | 1 | 240 × 17 × 488 | 46 | 7 | front face ground (Z rail face) | Z plate, steel t17 240x488: Z rails, Z screw, Z motor plate. |
-| Z_slide_plate | 1 | 220 × 28 × 230 | 27 | 1 | rear face ground (spacer / Z block face) | steel t28, pocket for the Z nut |
+| Z_slide_plate | 1 | 220 × 28 × 230 | 31 | 1 | rear face ground (spacer / Z block face) | steel t28, pocket for the Z nut |
 | Z_spacer_L | 1 | 50 × 14 × 230 | 8 | 0 | both faces ground | steel spacer bar t14 |
 | Z_spacer_R | 1 | 50 × 14 × 230 | 8 | 0 | both faces ground | steel spacer bar t14 |
 | Z_motor_plate | 1 | 120 × 90 × 38 | 9 | 1 | — | block 120x90x38: front part bolted to carriage FRONT face wi |
@@ -44,3 +44,5 @@ RBPB8 座孔 Ø22 H7：外環 h6，用固持膠（Loctite 641）黏固，不壓�
 | Spindle_roll_block_R | 1 | 18 × 20 × 30 | 2 | 0 | — | steel block beside the top of the ear |
 | Camera_bracket | 1 | 66 × 57 × 62 | 4 | 0 | — | camera bracket (CNC, 6061): 2 x M5 on the left half of the s |
 | Mirror_bracket | 1 | 30 × 42 × 36 | 1 | 0 | — | prism holder (CNC, steel, base ground): fixed on the table T |
+| Probe_bracket | 1 | 30 × 46 × 207 | 4 | 0 | — | probe slide bracket (CNC, 6061): 4 x M5 on the Z slide front |
+| Probe_holder | 1 | 34 × 40 × 54 | 2 | 0 | — | probe holder (CNC, 6061): on the guide block, split D6 H7 cl |
