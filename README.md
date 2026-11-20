@@ -31,6 +31,8 @@
 
 `electrical/CNC_wiring.kicad_sch`：整機配線圖（A1），含單相 220V 分路與急停接觸器、三組 MR-J4-40A 與馬達線（含編碼器、Z 煞車）、主軸變頻器、三組獨立 24V 電源、RP23CNC 控制板與 MR-J4 介面板、原點感測器、伺服報警反相、冷卻幫浦與吹氣閥。圖上同名標籤代表同一條線；右下角與圖內備註列出假設與待核對事項。
 
+- 圖內嵌入實物圖片：RP23CNC 作者實拍照、MR-J4-A 三菱目錄外觀圖、TB40-MRJ4A 端子台照片；接點直接畫在照片的端子上（照片放在 `vendor/`，不提交，已內嵌在 `.kicad_sch`）
+- 之後只維護這一份 KiCad 檔；舊的分開接線卡（`electrical/cards/`、`make_cards.py`）不再更新
 - `electrical/CNC_wiring.pdf`、`CNC_wiring_preview.png`：匯出檔
 - `electrical/build_wiring.py`、`kicadgen.py`：產生器，改接線請改腳本再重跑，不要手改 `.kicad_sch`
 - 中文字型用 `WenQuanYi Zen Hei`；在別台機器可用環境變數 `WIRING_FONT="Microsoft JhengHei"` 重新產生

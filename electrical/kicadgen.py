@@ -86,11 +86,74 @@ class Block:
         o.append(')')
         return "\n".join(o)
 
+import io, base64
+from PIL import Image as _PILImage
+
+def r2(v): return round(v + 0.0, 2)
+
+class Photo:
+    """A bitmap placed on the sheet. cx,cy = centre (mm); mm_per_px = size of one (cropped) source pixel."""
+    def __init__(s, path, cx, cy, mm_per_px, crop=None, bg=(255, 255, 255)):
+        im = _PILImage.open(path).convert("RGBA")
+        base = _PILImage.new("RGBA", im.size, bg + (255,)); base.alpha_composite(im); im = base.convert("RGB")
+        if crop: im = im.crop(crop)
+        s.w_px, s.h_px = im.size
+        s.k = mm_per_px
+        s.cx, s.cy = r2(cx), r2(cy)
+        buf = io.BytesIO(); im.save(buf, "PNG", optimize=True); s.png = buf.getvalue()
+    def to_mm(s, px, py):
+        return r2(s.cx - s.w_px * s.k / 2 + px * s.k), r2(s.cy - s.h_px * s.k / 2 + py * s.k)
+    def sexpr(s):
+        b64 = base64.b64encode(s.png).decode()
+        data = "\n".join('      "%s"' % b64[i:i + 76] for i in range(0, len(b64), 76))
+        return '  (image (at %s %s) (scale %s) (uuid %s)\n    (data\n%s\n    )\n  )' % (f(s.cx), f(s.cy), f(s.k / (25.4 / 300)), uid(), data)
+
+class PhotoBlock(Block):
+    """Invisible-body symbol whose pins sit on terminals of a Photo (pin = (pid, px, py, side, label), px/py in the cropped photo)."""
+    def __init__(s, ref, title, photo, pins):
+        s.ref, s.title, s.photo, s.tmode = ref, title, photo, "above"
+        s.cx, s.cy = photo.cx, photo.cy
+        s.w, s.h = photo.w_px * photo.k, photo.h_px * photo.k
+        s.top = s.cy - s.h / 2
+        s.spec = dict(left=[], right=[], top=[], bottom=[])
+        s.pins = {}
+        for pid, px, py, side, lab in pins:
+            x, y = photo.to_mm(px, py)
+            s.pins[pid] = Pin(s, pid, side, x, y, lab)
+    @property
+    def bbox(s): return (1e9, 1e9, 1e9 + 1, 1e9 + 1)   # wires are meant to run over photos
+    def lib(s):
+        o = ['(symbol %s (pin_numbers hide) (pin_names (offset 0) hide) (in_bom no) (on_board no)' % q("BLK:" + s.ref)]
+        for k, v in (("Reference", s.ref), ("Value", s.title), ("Footprint", ""), ("Datasheet", "")):
+            o.append('  (property %s %s (at 0 0 0) (effects (font (size 1.27 1.27)) hide))' % (q(k), q(v)))
+        o.append('  (symbol %s' % q(s.ref + "_1_1"))
+        for n, p in enumerate(s.pins.values(), 1):
+            o.append('    (pin passive line (at %s %s 0) (length 0) (name %s %s) (number %s %s))' % (
+                f(r2(p.x - s.cx)), f(r2(s.cy - p.y)), q(p.label), eff(1.0, hide=True), q(str(n)), eff(1.0, hide=True)))
+        o.append('  )')
+        o.append(')')
+        return "\n".join(o)
+    def inst(s, root):
+        rd = s.ref if s.ref[-1].isdigit() else s.ref + "1"
+        tx, ty = s.cx - s.w / 2, s.top - 1.2
+        o = ['(symbol (lib_id %s) (at %s %s 0) (unit 1) (in_bom yes) (on_board yes) (dnp no) (uuid %s)' % (q("BLK:" + s.ref), f(s.cx), f(s.cy), uid())]
+        o.append('  (property "Reference" %s (at %s %s 0) %s)' % (q(rd), f(tx), f(ty), eff(1.4, True, "left bottom", hide=True)))
+        o.append('  (property "Value" %s (at %s %s 0) %s)' % (q(s.title), f(tx), f(ty), eff(1.5, True, "left bottom")))
+        o.append('  (property "Footprint" "" (at %s %s 0) (effects (font (size 1.27 1.27)) hide))' % (f(s.cx), f(s.cy)))
+        o.append('  (property "Datasheet" "" (at %s %s 0) (effects (font (size 1.27 1.27)) hide))' % (f(s.cx), f(s.cy)))
+        for i in range(len(s.pins)): o.append('  (pin %s (uuid %s))' % (q(str(i + 1)), uid()))
+        o.append('  (instances (project "CNC_wiring" (path "/%s" (reference %s) (unit 1))))' % (root, q(rd)))
+        o.append(')')
+        return "\n".join(o)
+
 class Sheet:
     def __init__(s, paper="A1"):
-        s.paper = paper; s.blocks = []; s.wires = []; s.labels = []; s.texts = []; s.frames = []; s.junctions = []
+        s.paper = paper; s.photos = []; s.blocks = []; s.wires = []; s.labels = []; s.texts = []; s.frames = []; s.junctions = []
         s.root = str(uuid.uuid5(NS, "root"))
     def add(s, b): s.blocks.append(b); return b
+    def photo(s, ph): s.photos.append(ph); return ph
+    def path(s, net, color, width, pts, pins):
+        s.poly(net, color, width, pts); s.pin_net(net, pins)
     def seg(s, net, color, width, x1, y1, x2, y2):
         x1, y1, x2, y2 = [round(v, 4) for v in (x1, y1, x2, y2)]
         if (x1, y1) == (x2, y2): return
@@ -208,6 +271,7 @@ class Sheet:
         o.append('  (lib_symbols')
         for b in s.blocks: o.append(b.lib())
         o.append('  )')
+        for ph in s.photos: o.append(ph.sexpr())
         for (x1, y1, x2, y2, name) in s.frames:
             o.append('  (polyline (pts (xy %s %s) (xy %s %s) (xy %s %s) (xy %s %s) (xy %s %s)) (stroke (width 0.2) (type dash) (color 120 120 120 1)) (uuid %s))' % (
                 f(x1), f(y1), f(x2), f(y1), f(x2), f(y2), f(x1), f(y2), f(x1), f(y1), uid()))

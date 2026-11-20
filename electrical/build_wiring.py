@@ -6,7 +6,7 @@ All layout numbers are mm on an A1 sheet; every pin sits on the 2.54 mm grid.
 """
 import sys, os
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from kicadgen import Block, Sheet, R
+from kicadgen import Block, Sheet, R, Photo, PhotoBlock
 
 S = Sheet("A1")
 BRN = (120, 60, 10); BLU = (0, 0, 220); GRN = (0, 140, 0); RED = (220, 0, 0); BLK = (0, 0, 0)
@@ -43,56 +43,64 @@ for ax in "XYZ":
     S.conn("L2_CTL_" + ax, BLU, [QF2[ax]["L2o"], KM1[ax]["L2i"]], width=THICK); S.label("L2_CTL_" + ax, "L2_CTL_" + ax, 241.3, y1 + R, 0)
     S.stub(KM1[ax]["A1"], "KMCOIL", ORG); S.stub(KM1[ax]["A2"], "0V3", BLK)
 
-# ------------------------------------------------------------------ 2. servo drives + motors
+# ------------------------------------------------------------------ 2. servo drives + terminal blocks + motors (real pictures)
 SRV_CX, MOT_CX = 469.9, 596.9
-def servo(ax, top, brake=False):
-    left = [("L1", 1), ("L3", 2), ("L11", 3), ("L21", 4), ("PE", 5), ("PP", 7, "PP 10"), ("PG", 8, "PG 11"), ("NP", 9, "NP 35"), ("NG", 10, "NG 36"),
-            ("DICOM", 12, "DICOM 20/21"), ("DOCOM", 13, "DOCOM 46/47"), ("EM2", 14, "EM2 42"), ("SON", 15, "SON 15"), ("ALM", 16, "ALM 48")]
-    if brake: left.append(("MBR", 17, "MBR 23"))
-    return blk("SV" + ax, "MR-J4-40A  %s軸 (SV%s)" % (ax, ax), SRV_CX, top, left=left,
-               right=[("U", 1), ("V", 2), ("W", 3), ("MPE", 4, "PE"), ("ENC", 6, "CN2 ENC"), ("BAT", 14, "CN4 BAT")], w=30.48)
+PH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "vendor", "mitsubishi", "photos")
+AXES = {"X": 35.56, "Y": 137.16, "Z": 238.76}   # top row of each axis block
+
+# MR-J4-A product picture, cropped to the drive; pin = (id, x px, y px, side, label) on the cropped picture
+K_SV = 0.17
+SV_PINS = [("L1", 48, 102, "left", "L1"), ("L3", 48, 160, "left", "L3"), ("L11", 48, 339, "left", "L11"), ("L21", 48, 360, "left", "L21"),
+           ("U", 48, 390, "left", "U"), ("V", 48, 418, "left", "V"), ("W", 48, 447, "left", "W"), ("PE", 13, 563, "left", "PE"),
+           ("ENC", 90, 472, "right", "CN2"), ("BAT", 105, 544, "right", "CN4")]
+def make_sv(ax, top):
+    ph = S.photo(Photo(os.path.join(PH, "mrj4a_catalog_view.jpg"), SRV_CX, top - 2.56 + 572 * K_SV / 2, K_SV, crop=(252, 62, 395, 634)))
+    return S.add(PhotoBlock("SV" + ax, "SV%s MR-J4-40A %s軸（實物圖）" % (ax, ax), ph, SV_PINS))
+
+# TB40-MRJ4A terminal block picture (terminal x in picture px; top row y=279, bottom row y=326; crop origin 20,120)
+K_TB = 0.1871
+TB_TOP = {"PP": (428, "10"), "PG": (451, "11"), "NP": (386, "35"), "NG": (407, "36"), "SON": (38, "15"),
+          "EM2": (170, "42"), "DICOM": (299, "20"), "DOCOM": (320, "46")}
+TB_BOT = {"ALM": (157, "48"), "MBR": (92, "23")}
+TB_NET = {"PP": ("{ax}_PP", ORG), "PG": ("{ax}_PG", ORG), "NP": ("{ax}_NP", PUR), "NG": ("{ax}_NG", PUR), "SON": ("{ax}_SON", YEL),
+          "EM2": ("EM2_COM", ORG), "DICOM": ("+24V3", RED), "DOCOM": ("0V3", BLK), "ALM": ("ALM_{ax}", PUR), "MBR": ("MBR_Z", PUR)}
+def make_tb(ax, cy):
+    ph = S.photo(Photo(os.path.join(PH, "tb40_mrj4a_terminal_block.png"), 405.0, cy, K_TB, crop=(20, 120, 468, 350)))
+    pins = [(pid, x - 20, 159, "top", num) for pid, (x, num) in TB_TOP.items()]
+    pins += [(pid, x - 20, 206, "bottom", num) for pid, (x, num) in TB_BOT.items() if pid != "MBR" or ax == "Z"]
+    tb = S.add(PhotoBlock("TB" + ax, "TB%s TB40-MRJ4A 端子台 %s軸（實物圖，號碼＝CN1 腳號）" % (ax, ax), ph, pins))
+    for pid in tb.pins:
+        net, col = TB_NET[pid]; S.stub(tb[pid], net.format(ax=ax), col)
+    return tb
+
 def motor(ax, top, brake=False):
     left = [("U", 1), ("V", 2), ("W", 3), ("PE", 4), ("ENC", 6, "ENC CN2")]
     if brake: left += [("B1", 9), ("B2", 10)]
     name = "HG-KR43%s  %s軸馬達" % ("B(附煞車)" if brake else "", ax)
     return blk("M" + ax, name, MOT_CX, top, left=left, w=30.48)
-SVX, SVY, SVZ = servo("X", 35.56), servo("Y", 137.16), servo("Z", 238.76, True)
-MX, MY, MZ = motor("X", 35.56), motor("Y", 137.16), motor("Z", 238.76, True)
-SV = {"X": SVX, "Y": SVY, "Z": SVZ}; MT = {"X": MX, "Y": MY, "Z": MZ}
 
-# CN1 control wiring lands on a TB40-MRJ4A terminal block per axis (terminal number = CN1 pin number);
-# a CN1-to-terminal-block cable joins the block to CN1 one to one.
-TBN = {}
-for ax, top in (("X", 35.56), ("Y", 137.16), ("Z", 238.76)):
-    cols = [("PP", "10 PP", 1, ORG), ("PG", "11 PG", 2, ORG), ("NP", "35 NP", 3, PUR), ("NG", "36 NG", 4, PUR),
-            ("DICOM", "20 DICOM", 6, RED), ("DOCOM", "46 DOCOM", 7, BLK), ("EM2", "42 EM2", 8, ORG),
-            ("SON", "15 SON", 9, YEL), ("ALM", "48 ALM", 10, PUR)]
-    if ax == "Z": cols.append(("MBR", "23 MBR", 11, PUR))
-    tb = blk("TB" + ax, "TB%s TB40-MRJ4A 端子台 (%s軸)" % (ax, ax), 424.18, top + 6 * R,
-             left=[(pid, r, lab) for pid, lab, r, _ in cols], right=[(pid + "c", r, lab) for pid, lab, r, _ in cols], w=30.48)
-    TBN[ax] = tb
-    for pid, lab, r, col in cols:
-        S.conn("CN1_%s_%s" % (ax, pid), col, [tb[pid + "c"], SV[ax][pid]])
-    S.text("號碼＝CN1 腳號，以排線接 CN1", 409.0, tb.top + tb.h + 3.0, 1.2)
-    for pid, net in (("DICOM", "+24V3"), ("DOCOM", "0V3"), ("EM2", "EM2_COM"), ("ALM", "ALM_" + ax), ("MBR", "MBR_Z")):
-        if pid in tb.pins: S.stub(tb[pid], net, dict((c[0], c[3]) for c in cols)[pid])
-    for pid in ("PP", "PG", "NP", "NG", "SON"):
-        S.stub(tb[pid], "%s_%s" % (ax, pid), dict((c[0], c[3]) for c in cols)[pid])
+SV = {a: make_sv(a, t) for a, t in AXES.items()}
+MT = {a: motor(a, t, a == "Z") for a, t in AXES.items()}
+MX, MY, MZ = MT["X"], MT["Y"], MT["Z"]
+SVX, SVY, SVZ = SV["X"], SV["Y"], SV["Z"]
+TBN = {a: make_tb(a, t + 69.44) for a, t in AXES.items()}
+S.text("控制線接在端子台上，端子台以排線接驅動器 CN1（號碼＝CN1 腳號）", 365.0, 120.0 + 13, 1.2)
 
-# main power, single phase: contactor L1/L2 -> drive L1/L3 (L2 left open, manual 3.3.1)
-lanes = {"X": None, "Y": (374.38, 371.84), "Z": (368.3, 365.76)}
+# main power, single phase: contactor L1/L2 -> drive L1/L3 (L2 left open, manual 3.3.1); CNP1 poles top to bottom: L1 L2 L3 N- P3 P4
+MIDS = {"X": (455.0, 452.0), "Y": (345.44, 342.9), "Z": (353.06, 350.52)}
 for ax in "XYZ":
-    ln = lanes[ax]
-    S.conn("L1_SRV_" + ax, BRN, [KM1[ax]["L1o"], SV[ax]["L1"]], lane=ln[0] if ln else None, width=THICK)
-    S.conn("L2_SRV_" + ax, BLU, [KM1[ax]["L2o"], SV[ax]["L3"]], lane=ln[1] if ln else None, width=THICK)
+    k1, k2, p1, p3 = KM1[ax]["L1o"], KM1[ax]["L2o"], SV[ax]["L1"], SV[ax]["L3"]
+    m1, m3 = MIDS[ax]
+    S.path("L1_SRV_" + ax, BRN, THICK, [(k1.x, k1.y), (m1, k1.y), (m1, p1.y), (p1.x, p1.y)], [k1, p1])
+    S.path("L2_SRV_" + ax, BLU, THICK, [(k2.x, k2.y), (m3, k2.y), (m3, p3.y), (p3.x, p3.y)], [k2, p3])
+LONG = 10.16
 for ax in "XYZ":
     s, m = SV[ax], MT[ax]
-    S.stub(s["L11"], "L1_CTL_" + ax, BRN); S.stub(s["L21"], "L2_CTL_" + ax, BLU); S.stub(s["PE"], "PE", GRN)
-    S.conn("%s_U" % ax, UCL, [s["U"], m["U"]], width=THICK)
-    S.conn("%s_V" % ax, BLK, [s["V"], m["V"]], width=THICK)
-    S.conn("%s_W" % ax, GRY, [s["W"], m["W"]], width=THICK)
-    S.conn("%s_MPE" % ax, GRN, [s["MPE"], m["PE"]], width=THICK)
-    S.conn("%s_ENC" % ax, TEL, [s["ENC"], m["ENC"]])
+    S.stub(s["L11"], "L1_CTL_" + ax, BRN, LONG); S.stub(s["L21"], "L2_CTL_" + ax, BLU, LONG); S.stub(s["PE"], "PE", GRN, LONG)
+    for pid, col in (("U", UCL), ("V", BLK), ("W", GRY)):
+        S.stub(s[pid], "%s_%s" % (ax, pid), col, LONG, THICK); S.stub(m[pid], "%s_%s" % (ax, pid), col, R, THICK)
+    S.stub(m["PE"], "PE", GRN)
+    S.stub(s["ENC"], ax + "_ENC", TEL, LONG); S.stub(m["ENC"], ax + "_ENC", TEL)
 # Z brake: MBR drives relay KA3 coil, KA3 switches 24V to the motor brake
 KA3 = blk("KA3", "KA3 Z軸煞車繼電器", 533.4, 274.32, left=[("A1", 1), ("A2", 2), ("COM", 3)], right=[("NO", 2)], w=15.24)
 S.stub(KA3["A1"], "+24V3", RED); S.stub(KA3["A2"], "MBR_Z", PUR); S.stub(KA3["COM"], "+24V3", RED)
@@ -100,27 +108,54 @@ S.conn("BRK_Z", RED, [KA3["NO"], MZ["B1"]])
 S.stub(MZ["B2"], "0V3", BLK)
 # absolute-position backup batteries on CN4 of each drive (not connected to the controller)
 OLV = (150, 100, 0)
-for ax, top in (("X", 35.56), ("Y", 137.16), ("Z", 238.76)):
+for ax, top in AXES.items():
     bt = blk("BT" + ax, "BT%s %s軸電池 (MR-BAT6V1SET)" % (ax, ax), 533.4, top + 13 * R, left=[("CN4", 1, "CN4")], w=20.32)
-    S.conn("BAT_" + ax, OLV, [SV[ax]["BAT"], bt["CN4"]])
+    S.stub(SV[ax]["BAT"], "BAT_" + ax, OLV, LONG); S.stub(bt["CN4"], "BAT_" + ax, OLV)
     S.text("加電池：保存絕對位置以免做 home\n(須控制器支援 ABS 傳送；\ngrblHAL 暫不支援，仍保留原點感測器)", 497, top + 13 * R + 17.5, 1.3)
 
 # ------------------------------------------------------------------ 3. controller RP23CNC + interface board
-BX, BT = 215.9, 256.54
-bt = lambda i: i * 5.08 - 22.86
-bb = lambda i: (i - 6.5) * 5.08
-BD = blk("BD", "RP23CNC 控制板", BX, BT, w=91.44, tmode="above",
-         left=[("ETH", 1, "ETH RJ45")],
-         right=[("X_STP", 1, "X STP"), ("X_DIR", 2, "X DIR"), ("X_EN", 3, "X EN"), ("X_GND", 4, "X GND"),
-                ("Y_STP", 6, "Y STP"), ("Y_DIR", 7, "Y DIR"), ("Y_EN", 8, "Y EN"), ("Y_GND", 9, "Y GND"),
-                ("Z_STP", 11, "Z STP"), ("Z_DIR", 12, "Z DIR"), ("Z_EN", 13, "Z EN"), ("Z_GND", 14, "Z GND")],
-         topp=[("PWR_P", bt(0), "+V MAIN"), ("PWR_G", bt(1), "GND MAIN"), ("S010", bt(2), "0-10V"), ("SGND", bt(3), "GND SPD"),
-               ("K1P", bt(4), "SPDL +V"), ("K1S", bt(5), "SPDL SIG"), ("K2P", bt(6), "FLOOD +V"), ("K2S", bt(7), "FLOOD SIG"),
-               ("K5P", bt(8), "MIST +V"), ("K5S", bt(9), "MIST SIG")],
-         bottom=[("ISO_P", bb(0), "ISO +V"), ("ISO_G", bb(1), "ISO GND"), ("ES_S", bb(2), "ESTOP SIG"), ("ES_G", bb(3), "ESTOP GND"),
-                 ("LXS", bb(4), "LIM X SIG"), ("LXG", bb(5), "LIM X GND"), ("LYS", bb(6), "LIM Y SIG"), ("LYG", bb(7), "LIM Y GND"),
-                 ("LZS", bb(8), "LIM Z SIG"), ("LZG", bb(9), "LIM Z GND"),
-                 ("AX", bb(10), "ALM X"), ("AY", bb(11), "ALM Y"), ("AZ", bb(12), "ALM Z"), ("AG", bb(13), "ALM GND")])
+BT = 256.54
+import numpy as np
+def _fit(pts):
+    """Projective 1-D interpolation of equally spaced terminals seen in perspective: x(i)=(a*i+b)/(c*i+1), shared c for x and y."""
+    A, b = [], []
+    for i, x, y in pts:
+        A.append([-i, -1, 0, 0, i * x]); b.append(-x)
+        A.append([0, 0, -i, -1, i * y]); b.append(-y)
+    ax_, bx, ay, by, c = np.linalg.lstsq(np.array(A, float), np.array(b, float), rcond=None)[0]
+    return lambda i: ((ax_ * i + bx) / (c * i + 1), (ay * i + by) / (c * i + 1))
+# screw-hole centres measured on the 1500-px-wide version of the photo: first/last holes of each strip
+F_A = _fit([(0, 120.8, 352.5), (1, 152.5, 343.3), (2, 184.2, 334.2), (20, 712.5, 175.8), (21, 740.0, 167.5)])      # top strip, 22 holes
+F_C = _fit([(0, 867.5, 183.3), (1, 891.7, 195.0), (2, 915.0, 205.8), (3, 940.0, 216.7), (18, 1330.8, 392.5), (19, 1358.3, 405.0)])  # right strip, 20 holes
+F_B = _fit([(0, 749.2, 700.8), (18, 1305.0, 494.2), (19, 1333.3, 483.3), (20, 1360.8, 473.3), (21, 1388.0, 461.7)])  # bottom strip, 22 holes
+K15 = 2048 / 1500.0
+def _px(f, i):
+    x, y = f(i); return x * K15, y * K15 - 200          # px in the cropped photo (crop starts at y=200)
+A_IDX = {"PWR_G": 0, "PWR_P": 1, "SGND": 6, "S010": 7, "K2S": 14, "K2P": 15, "K5S": 16, "K5P": 17, "K1S": 20, "K1P": 21}
+C_IDX = {"Z_GND": 8, "Z_STP": 9, "Z_DIR": 10, "Z_EN": 11, "Y_GND": 12, "Y_STP": 13, "Y_DIR": 14, "Y_EN": 15,
+         "X_GND": 16, "X_STP": 17, "X_DIR": 18, "X_EN": 19}    # terminal order top->bottom inside an axis: GND STEP DIR ENA (silkscreen)
+B_IDX = {"ISO_P": 0, "ISO_G": 1, "LZS": 6, "LZG": 7, "LYS": 8, "LYG": 9, "LXS": 10, "LXG": 11, "ES_S": 20, "ES_G": 21}
+ALARM_TIPS = {"AX": (1048, 499), "AZ": (1069, 491), "AY": (1069, 509), "AG": (1112, 494)}   # servo-alarm 2x3 header, pin tips (1500-px photo)
+bd_pins = [(pid, *_px(F_A, i), "top", pid) for pid, i in A_IDX.items()]
+bd_pins += [(pid, *_px(F_C, i), "right", pid) for pid, i in C_IDX.items()]
+bd_pins += [(pid, *_px(F_B, i), "bottom", pid) for pid, i in B_IDX.items()]
+bd_pins += [(pid, x * K15, y * K15 - 200, "bottom" if pid == "AY" else "top", pid) for pid, (x, y) in ALARM_TIPS.items()]
+bd_pins.append(("ETH", 340 * K15, 480 * K15 - 200, "left", "ETH"))
+PH_RP = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "vendor", "rp23cnc", "photos")
+BD_PH = S.photo(Photo(os.path.join(PH_RP, "RP23CNC_V2_photo.jpg"), 148.0, 236.45, 0.098, crop=(0, 200, 2048, 1250)))
+BD = S.add(PhotoBlock("BD", "RP23CNC V2 控制板（實物照片，螺絲孔位置為量測內插）", BD_PH, bd_pins))
+BD_NET = {"PWR_P": ("+24V1", RED), "PWR_G": ("0V1", BLK), "S010": ("SPD_0-10V", ANA), "SGND": ("SPD_GND", BLK),
+          "K1P": ("KA1_A1", RED), "K1S": ("KA1_A2", PUR), "K2P": ("KA2_A1", RED), "K2S": ("KA2_A2", PUR), "K5P": ("KA5_A1", RED), "K5S": ("KA5_A2", PUR),
+          "ISO_P": ("+24V2", RED), "ISO_G": ("0V2", BLK), "ES_S": ("ESTOP_SIG", PUR), "ES_G": ("ESTOP_GND", BLK),
+          "LXS": ("LIM_X_SIG", BLK), "LXG": ("LIM_X_GND", BLU), "LYS": ("LIM_Y_SIG", BLK), "LYG": ("LIM_Y_GND", BLU),
+          "LZS": ("LIM_Z_SIG", BLK), "LZG": ("LIM_Z_GND", BLU),
+          "AX": ("ALMIN_X", PUR), "AY": ("ALMIN_Y", PUR), "AZ": ("ALMIN_Z", PUR), "AG": ("ALMIN_G", BLK), "ETH": ("ETH", ANA)}
+for ax in "XYZ":
+    BD_NET.update({ax + "_STP": (ax + "_STP", ORG), ax + "_DIR": (ax + "_DIR", PUR), ax + "_EN": (ax + "_EN", YEL), ax + "_GND": (ax + "_GND", BLK)})
+STAG = [5.08, 10.16, 15.24, 20.32]
+for pid, (net, col) in BD_NET.items():
+    ln = STAG[C_IDX[pid] % 4] if pid in C_IDX else ({"AX": 5.08, "AZ": 10.16, "AY": 15.24, "AG": 5.08}.get(pid, 12.7 if pid in B_IDX else 5.08))
+    S.stub(BD[pid], net, col, ln)
 IFB = blk("IFB", "IFB1 MR-J4 介面板", 330.2, BT, w=40.64,
           left=[("X_STP", 1, "X STP"), ("X_DIR", 2, "X DIR"), ("X_EN", 3, "X EN"), ("X_GND", 4, "X GND"),
                 ("Y_STP", 6, "Y STP"), ("Y_DIR", 7, "Y DIR"), ("Y_EN", 8, "Y EN"), ("Y_GND", 9, "Y GND"),
@@ -129,27 +164,21 @@ IFB = blk("IFB", "IFB1 MR-J4 介面板", 330.2, BT, w=40.64,
           right=[("%s_%s" % (a, n), r0 + i + 1, "%s %s" % (a, n))
                  for a, r0 in (("X", 0), ("Y", 6), ("Z", 12)) for i, n in enumerate(("PP", "PG", "NP", "NG", "SON"))])
 for ax in "XYZ":
-    S.conn("%s_STP" % ax, ORG, [BD["%s_STP" % ax], IFB["%s_STP" % ax]])
-    S.conn("%s_DIR" % ax, PUR, [BD["%s_DIR" % ax], IFB["%s_DIR" % ax]])
-    S.conn("%s_EN" % ax, YEL, [BD["%s_EN" % ax], IFB["%s_EN" % ax]])
-    S.conn("%s_GND" % ax, BLK, [BD["%s_GND" % ax], IFB["%s_GND" % ax]])
+    for n in ("STP", "DIR", "EN", "GND"):
+        S.stub(IFB["%s_%s" % (ax, n)], BD_NET["%s_%s" % (ax, n)][0], BD_NET["%s_%s" % (ax, n)][1])
 S.stub(IFB["V5"], "+5V", RED); S.stub(IFB["G5"], "0V1", BLK); S.stub(IFB["G3"], "0V3", BLK)
 for ax in "XYZ":
     for n, col in (("PP", ORG), ("PG", ORG), ("NP", PUR), ("NG", PUR), ("SON", YEL)):
         S.stub(IFB["%s_%s" % (ax, n)], "%s_%s" % (ax, n), col)
-# board power / spindle analog / ethernet
-S.stub(BD["PWR_P"], "+24V1", RED); S.stub(BD["PWR_G"], "0V1", BLK)
-S.stub(BD["S010"], "SPD_0-10V", ANA); S.stub(BD["SGND"], "SPD_GND", BLK)
-LAN = blk("LAN", "LAN 交換器 / 監控 PC", 116.84, BT, right=[("RJ", 1, "RJ45")], w=20.32)
-S.conn("ETH", ANA, [LAN["RJ"], BD["ETH"]])
+LAN = blk("LAN", "LAN 交換器 / 監控 PC（接 WIZ850io 模組的 RJ45）", 100.33, 312.42, right=[("RJ", 1, "RJ45")], w=20.32)
+S.stub(LAN["RJ"], "ETH", ANA)
 
 # relays driven by the board relay outputs (coil between +V and SIG)
 KA1 = blk("KA1", "KA1 主軸 ON/OFF 繼電器", 304.8, 190.5, left=[("A1", 1), ("A2", 2)], right=[("COM", 1), ("NO", 2)], w=20.32)
 KA2 = blk("KA2", "KA2 冷卻幫浦繼電器", 304.8, 210.82, left=[("A1", 1), ("A2", 2)], right=[("COM", 1), ("NO", 2)], w=20.32)
 KA5 = blk("KA5", "KA5 吹氣閥繼電器", 304.8, 231.14, left=[("A1", 1), ("A2", 2)], right=[("COM", 1), ("NO", 2)], w=20.32)
-for k, (p, sg) in ((KA1, ("K1P", "K1S")), (KA2, ("K2P", "K2S")), (KA5, ("K5P", "K5S"))):
-    S.L("%s_A1" % k.ref, RED, BD[p], k["A1"])
-    S.L("%s_A2" % k.ref, PUR, BD[sg], k["A2"])
+for k in (KA1, KA2, KA5):
+    S.stub(k["A1"], k.ref + "_A1", RED); S.stub(k["A2"], k.ref + "_A2", PUR)
 S.stub(KA1["COM"], "VFD_COM", BLK); S.stub(KA1["NO"], "VFD_FWD", ORG)
 S.stub(KA2["COM"], "L1_AUX", BRN, R, THICK)
 S.stub(KA5["COM"], "+24V1", RED)
@@ -161,8 +190,6 @@ S.stub(SVL["N"], "0V1", BLK)
 S.conn("SV_PLUS", RED, [KA5["NO"], SVL["P"]], lane=345.44)
 
 # ------------------------------------------------------------------ 4. home sensors, e-stop input, servo alarms (board bottom)
-S.stub(BD["ISO_P"], "+24V2", RED); S.stub(BD["ISO_G"], "0V2", BLK)
-S.stub(BD["ES_S"], "ESTOP_SIG", PUR); S.stub(BD["ES_G"], "ESTOP_GND", BLK)
 ALM = blk("ALM", "KA4 伺服報警反相繼電器 (3路模組)", 292.1, 360.68,
           left=[("AG", 1, "COM GND"), ("AZ", 2, "NC Z"), ("AY", 3, "NC Y"), ("AX", 4, "NC X")],
           right=[("A1", 1, "A1 +24V"), ("A2X", 2, "A2 X"), ("A2Y", 3, "A2 Y"), ("A2Z", 4, "A2 Z")], w=25.4)
@@ -170,11 +197,10 @@ SENS = blk("SENS", "原點感測器 X/Y/Z (NPN 24V 3線 ×3)", 292.1, 401.32,
            left=[("ZBU", 1, "Z BU 0V"), ("ZBK", 2, "Z BK OUT"), ("YBU", 3, "Y BU 0V"), ("YBK", 4, "Y BK OUT"), ("XBU", 5, "X BU 0V"), ("XBK", 6, "X BK OUT")],
            right=[("XBN", 1, "X BN +24V"), ("YBN", 3, "Y BN +24V"), ("ZBN", 5, "Z BN +24V")], w=30.48)
 for ax in "XYZ":
-    S.L("LIM_%s_SIG" % ax, BLK, BD["L%sS" % ax], SENS["%sBK" % ax])
-    S.L("LIM_%s_GND" % ax, BLU, BD["L%sG" % ax], SENS["%sBU" % ax])
+    S.stub(SENS["%sBK" % ax], "LIM_%s_SIG" % ax, BLK); S.stub(SENS["%sBU" % ax], "LIM_%s_GND" % ax, BLU)
     S.stub(SENS["%sBN" % ax], "+24V2", BRN)
-for ax in "XYZ": S.L("ALMIN_%s" % ax, PUR, BD["A%s" % ax], ALM["A%s" % ax])
-S.L("ALMIN_G", BLK, BD["AG"], ALM["AG"])
+    S.stub(ALM["A%s" % ax], "ALMIN_" + ax, PUR)
+S.stub(ALM["AG"], "ALMIN_G", BLK)
 S.stub(ALM["A1"], "+24V3", RED)
 for ax in "XYZ": S.stub(ALM["A2%s" % ax], "ALM_" + ax, PUR)
 
@@ -223,7 +249,7 @@ S.conn("KMCOIL", ORG, [S2["B"], AUX["B"]], lane=228.6, label="KMCOIL")
 H = 2.6
 S.text("① 市電輸入 / 分路 / 接觸器", 20, 29, H, True)
 S.text("② 伺服驅動器 + 馬達 (X/Y/Z)", 400, 29, H, True)
-S.text("③ 控制板 RP23CNC + MR-J4 介面板", 130, 246, H, True)
+S.text("③ 控制板 RP23CNC + MR-J4 介面板", 47, 170, H, True)
 S.text("④ 繼電器輸出：主軸 / 冷卻 / 吹氣", 232, 162, H, True)
 S.text("⑤ 主軸變頻器 + 電主軸", 440, 355, H, True)
 S.text("⑥ 感測器 / 報警 / 急停輸入", 20, 345, H, True)
@@ -250,7 +276,7 @@ notes = (
 "假設與待核對事項\n"
 "1. 電源：單相 220V (現場已確認)，兩條相線標 L1/L2，不假設有 N。\n"
 "2. 容量為初估：PSU1 24V/3A、PSU2 24V/1A、PSU3 24V/5A；斷路器與接觸器額定值待負載核算。\n"
-"3. MR-J4-40A 單相 200-240V 接 L1 與 L3，L2 空接 (手冊 3.3.1)。手冊要求每台驅動器各配 1 個 MCCB 與 1 個接觸器 (11.10：30A 框 10A、保險絲 15A、接觸器 S-N10 等級)。L11/L21 取自接觸器之前。\n"
+"3. MR-J4-40A 單相 200-240V 接 L1 與 L3，L2 空接 (手冊 3.3.1)。手冊要求每台驅動器各配 1 個 MCCB 與 1 個接觸器 (11.10：30A 框 10A、保險絲 15A、接觸器 S-N10 等級)。L11/L21 取自接觸器之前。 CNP1 孔位由上而下：L1、L2、L3、N-、P3、P4 (手冊 9-3)，圖上標籤位置為示意。\n"
 "4. CN1 腳位依 MR-J4-A 手冊 3.4 節 (PP10 PG11 NP35 NG36 SON15 EM2 42 ALM48 DICOM20/21 DOCOM46/47)；MBR 非固定腳位，需設 Pr.PD24 讓 CN1-23 輸出 MBR。ALM 報警時斷開 (手冊 3.5)，與圖上反相處理一致。\n"
 "5. RP23CNC 的 STEP/DIR/EN 為 5V 單端：IFB1 內含 RS-422 線驅動 (差動 PP/PG、NP/NG) 與 EN→SON 光耦，需自製或選購。\n"
 "6. 伺服報警：假設 MR-J4 ALM 正常導通、報警斷開；KA4 反相後以 NC 接點吸入控制板 ALM 輸入 (待核對)。\n"
@@ -259,7 +285,8 @@ notes = (
 "9. 急停 S1：NC1 切斷 KM1/KM2 線圈，NC2 接 EM2，NO 接控制板 ESTOP。硬線切斷伺服與主軸，不依賴控制器。\n"
 "10. 感測器用 NPN 型 24V 近接開關 (控制板限位輸入為 NPN 或機械開關，不支援 PNP)。\n"
 "11. 佈線：動力線與信號線分槽、間距 100 mm 以上；馬達線、變頻器輸出線、脈衝線 (PP/PG、NP/NG 各一對) 用屏蔽雙絞線，屏蔽層單端接 PE；繼電器線圈與煞車並聯續流二極體。\n"
-"12. 電池 (MR-BAT6V1SET，CN4)：目的是保存絕對位置以免做 home。但驅動器要把位置交給控制器，須由控制器依 ABS 傳送協定讀取 (CN1 ABSM17/ABSR18/ABSB0 22/ABSB1 23/ABST25，Pr.PA03)；grblHAL 目前不支援，故暫時仍保留原點感測器。三軸也可改用 1 個 MR-BT6VCASE 加 5 顆 MR-BAT6V1 共用 (最多 8 軸)。"
+"12. 電池 (MR-BAT6V1SET，CN4)：目的是保存絕對位置以免做 home。但驅動器要把位置交給控制器，須由控制器依 ABS 傳送協定讀取 (CN1 ABSM17/ABSR18/ABSB0 22/ABSB1 23/ABST25，Pr.PA03)；grblHAL 目前不支援，故暫時仍保留原點感測器。三軸也可改用 1 個 MR-BT6VCASE 加 5 顆 MR-BAT6V1 共用 (最多 8 軸)。\n"
+"13. 貼圖說明：MR-J4 為三菱目錄外觀圖、端子台為 TB40-MRJ4A 照片、RP23CNC 為作者實拍照。圖上端子位置為在照片上量測，RP23CNC 螺絲孔為透視內插 (誤差約 1 mm)，接線時一切以實物絲印為準。"
 )
 S.text(notes, 345, 450, 1.5)
 rails = (
