@@ -43,4 +43,4 @@ RBPB8 座孔 Ø22 H7：外環 h6，用固持膠（Loctite 641）黏固，不壓�
 | Spindle_roll_block_L | 1 | 18 × 20 × 30 | 2 | 0 | — | steel block beside the top of the ear |
 | Spindle_roll_block_R | 1 | 18 × 20 × 30 | 2 | 0 | — | steel block beside the top of the ear |
 | Camera_bracket | 1 | 66 × 57 × 62 | 4 | 0 | — | camera bracket (CNC, 6061): 2 x M5 on the left half of the s |
-| Mirror_bracket | 1 | 30 × 36.95 × 38.95 | 1 | 0 | — | mirror block (CNC, steel, base ground): fixed on the table T |
+| Mirror_bracket | 1 | 31 × 42 × 46 | 1 | 0 | — | prism holder (CNC, steel, base ground): fixed on the table T |
