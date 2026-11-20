@@ -20,13 +20,21 @@ def blk(*a, **k): return S.add(Block(*a, **k))
 AC = blk("AC", "AC 220V 單相 市電", 38.1, 50.8, right=[("L1", 1), ("L2", 2), ("PE", 3)], w=30.48)
 QF1 = blk("QF1", "QF1 主斷路器 2P 20A", 88.9, 50.8, left=[("L1i", 1, "L1"), ("L2i", 2, "L2")], right=[("L1o", 1, "L1"), ("L2o", 2, "L2")], w=20.32)
 FL1 = blk("FL1", "FL1 EMI 濾波器", 139.7, 50.8, left=[("L1i", 1, "L1"), ("L2i", 2, "L2"), ("PE", 3)], right=[("L1o", 1, "L1"), ("L2o", 2, "L2")], w=20.32)
-SLOTS = {"X": 35.56, "Y": 73.66, "Z": 111.76}
+PH_SH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "vendor", "shihlin", "photos")
+K_SH = 0.06
+CY_SH = 50.0
+XPOS = {"X": 182.0, "Y": 258.0, "Z": 334.0}      # MCCB photo centre x of each axis; its contactor sits 30 mm to the right
 QF2, KM1 = {}, {}
-for ax, top in SLOTS.items():
-    QF2[ax] = blk("QF2" + ax, "QF2%s %s軸 MCCB 2P 10A" % (ax, ax), 203.2, top, left=[("L1i", 1, "L1"), ("L2i", 2, "L2")],
-                  right=[("L1o", 1, "L1"), ("L2o", 2, "L2")], w=20.32)
-    KM1[ax] = blk("KM1" + ax, "KM1%s %s軸 接觸器" % (ax, ax), 279.4, top, left=[("L1i", 1, "L1"), ("L2i", 2, "L2")],
-                  right=[("L1o", 1, "L1"), ("L2o", 2, "L2")], bottom=[("A1", -2.54), ("A2", 2.54)], w=20.32, tmode="above")
+for ax, x0 in XPOS.items():
+    qph = S.photo(Photo(os.path.join(PH_SH, "BM30-SN.jpg"), x0, CY_SH, K_SH))
+    # BM30-SN photo is 3-pole; the 2-pole model uses the two left poles. Wire cavities: top y=45, bottom y=415 (photo px)
+    QF2[ax] = S.add(PhotoBlock("QF2" + ax, "QF2%s BM30-SN 2P 10A" % ax, qph,
+        [("L1i", 55, 45, "top", "L1"), ("L2i", 135, 48, "top", "L2"), ("L1o", 50, 415, "bottom", "T1"), ("L2o", 135, 410, "bottom", "T2")], title_dy=22.0))
+    kph = S.photo(Photo(os.path.join(PH_SH, "SD-P11.jpg"), x0 + 30.0, CY_SH, K_SH))
+    KM1[ax] = S.add(PhotoBlock("KM1" + ax, "KM1%s SD-P11 DC24V" % ax, kph,
+        [("A1", 133, 143, "top", "A1"), ("A2", 188, 144, "top", "A2"), ("L1i", 76, 203, "top", "1L1"), ("L2i", 114, 203, "top", "3L2"),
+         ("L1o", 76, 372, "bottom", "2T1"), ("L2o", 114, 372, "bottom", "4T2")], title_dy=22.0))
+S.text("士林 BM30-SN 斷路器（照片為3極，2極機種取左邊兩極）＋ SD-P11 直流24V接觸器（A1 為 +，A2 為 -）；每軸一組", 172.0, 100.0, 1.2)
 
 S.conn("AC_L1", BRN, [AC["L1"], QF1["L1i"]], width=THICK)
 S.conn("AC_L2", BLU, [AC["L2"], QF1["L2i"]], width=THICK)
@@ -34,14 +42,14 @@ S.stub(AC["PE"], "PE", GRN)
 S.conn("F_L1", BRN, [QF1["L1o"], FL1["L1i"]], width=THICK)
 S.conn("F_L2", BLU, [QF1["L2o"], FL1["L2i"]], width=THICK)
 S.stub(FL1["PE"], "PE", GRN)
-S.conn("L1_IN", BRN, [FL1["L1o"]] + [QF2[a]["L1i"] for a in "XYZ"], lane=165.1, width=THICK); S.label("L1_IN", "L1_IN", 165.1, 98.04, 180)
-S.conn("L2_IN", BLU, [FL1["L2o"]] + [QF2[a]["L2i"] for a in "XYZ"], lane=170.18, width=THICK); S.label("L2_IN", "L2_IN", 170.18, 103.12, 0)
+S.stub(FL1["L1o"], "L1_IN", BRN, 7.62, THICK); S.stub(FL1["L2o"], "L2_IN", BLU, 7.62, THICK)
 for ax in "XYZ":
-    # MCCB out: servo control power L11/L21 (always on, before the contactor) + contactor input
-    y1 = SLOTS[ax] + R
-    S.conn("L1_CTL_" + ax, BRN, [QF2[ax]["L1o"], KM1[ax]["L1i"]], width=THICK); S.label("L1_CTL_" + ax, "L1_CTL_" + ax, 241.3, y1, 0)
-    S.conn("L2_CTL_" + ax, BLU, [QF2[ax]["L2o"], KM1[ax]["L2i"]], width=THICK); S.label("L2_CTL_" + ax, "L2_CTL_" + ax, 241.3, y1 + R, 0)
-    S.stub(KM1[ax]["A1"], "KMCOIL", ORG); S.stub(KM1[ax]["A2"], "0V3", BLK)
+    q, k = QF2[ax], KM1[ax]
+    S.stub(q["L1i"], "L1_IN", BRN, 5.08, THICK); S.stub(q["L2i"], "L2_IN", BLU, 7.62, THICK)
+    S.stub(q["L1o"], "L1_CTL_" + ax, BRN, 5.08, THICK); S.stub(q["L2o"], "L2_CTL_" + ax, BLU, 7.62, THICK)
+    S.stub(k["L1i"], "L1_CTL_" + ax, BRN, 5.08, THICK); S.stub(k["L2i"], "L2_CTL_" + ax, BLU, 7.62, THICK)
+    S.stub(k["L1o"], "L1_SRV_" + ax, BRN, 5.08, THICK); S.stub(k["L2o"], "L2_SRV_" + ax, BLU, 7.62, THICK)
+    S.stub(k["A1"], "KMCOIL", ORG, 17.78); S.stub(k["A2"], "0V3", BLK, 10.16)
 
 # ------------------------------------------------------------------ 2. servo drives + terminal blocks + motors (real pictures)
 SRV_CX, MOT_CX = 469.9, 596.9
@@ -89,13 +97,9 @@ SVX, SVY, SVZ = SV["X"], SV["Y"], SV["Z"]
 TBN = {a: make_tb(a, t + 69.44) for a, t in AXES.items()}
 S.text("控制線接在端子台上，端子台以排線接驅動器 CN1（號碼＝CN1 腳號）", 365.0, 120.0 + 13, 1.2)
 
-# main power, single phase: contactor L1/L2 -> drive L1/L3 (L2 left open, manual 3.3.1); CNP1 poles top to bottom: L1 L2 L3 N- P3 P4
-MIDS = {"X": (455.0, 452.0), "Y": (345.44, 342.9), "Z": (353.06, 350.52)}
+# main power, single phase: contactor T1/T2 -> drive L1/L3 (L2 left open, manual 3.3.1); CNP1 poles top to bottom: L1 L2 L3 N- P3 P4
 for ax in "XYZ":
-    k1, k2, p1, p3 = KM1[ax]["L1o"], KM1[ax]["L2o"], SV[ax]["L1"], SV[ax]["L3"]
-    m1, m3 = MIDS[ax]
-    S.path("L1_SRV_" + ax, BRN, THICK, [(k1.x, k1.y), (m1, k1.y), (m1, p1.y), (p1.x, p1.y)], [k1, p1])
-    S.path("L2_SRV_" + ax, BLU, THICK, [(k2.x, k2.y), (m3, k2.y), (m3, p3.y), (p3.x, p3.y)], [k2, p3])
+    S.stub(SV[ax]["L1"], "L1_SRV_" + ax, BRN, 10.16, THICK); S.stub(SV[ax]["L3"], "L2_SRV_" + ax, BLU, 13.0, THICK)
 LONG = 10.16
 for ax in "XYZ":
     s, m = SV[ax], MT[ax]
