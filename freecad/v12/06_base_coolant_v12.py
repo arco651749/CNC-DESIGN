@@ -101,8 +101,11 @@ for i, (x, y) in enumerate(((-260, 40), (260, 40), (-260, 480), (260, 480)), 1):
     add('Coolant_castor_%d' % i, cyl('z', 25, FLOOR, FLOOR + 60, x, y), 'castor D50')
 add('Coolant_filter_basket', box(-80, 80, 400, 510, TZ1 - 60, TZ1).cut(box(-78, 78, 402, 508, TZ1 - 58, TZ1)), '60-mesh filter basket under the drain, lifts out')
 add('Coolant_drain_pipe', cyl('z', 20, TZ1, -90, 0, 470).cut(cyl('z', 18, TZ1, -90, 0, 470)), 'drain pipe D40 from the pan into the filter basket')
-add('Coolant_pump', cyl('z', 45, TZ1 - 160, TZ1, -200, 90).fuse(cyl('z', 55, TZ1, TZ1 + 110, -200, 90)), 'immersion pump 90 W, 25 L/min, 0.2 MPa, clean side')
-P0 = (-200, 90, TZ1 + 110)
+add('Coolant_tank_lid', box(-300, 300, 0, 259, TZ1, TZ1 + 3).cut(cyl('z', 38, TZ1, TZ1 + 3, -200, 90)), 'SUS304 t3 lid over the clean side, carries the pump')
+add('Coolant_pump', cyl('z', 35, TZ1 - 150, TZ1, -200, 90).fuse(box(-260, -140, 30, 150, TZ1 + 3, TZ1 + 9)).fuse(cyl('z', 55, TZ1 + 9, TZ1 + 130, -200, 90)),
+    'MISUMI / TERAL VKP-055A immersion coolant pump, 3-phase 200-220 V, 60 W, 20 / 30 L/min at 50 / 60 Hz, total head 1.5-5 m, '
+    'immersion about 150 mm (same as VKP-053A / 065A; confirm on the TERAL outline drawing). Flow trimmed with a ball valve and a bypass to the tank')
+P0 = (-200, 90, TZ1 + 130)
 for k, (a, b) in enumerate(((P0, (-200, 90, -290)), ((-200, 90, -290), (-475, 90, -290)), ((-475, 90, -290), (-475, 90, 470)), ((-475, 90, 470), (-440, 90, 470))), 1):
     add('Coolant_hose_%d' % k, seg(a, b, 6), 'supply hose 12 mm: pump -> up the left side outside the guard -> bulkhead at the guard top -> X drag chain -> nozzles')
 # nozzles on the spindle clamp block (move with Z)
