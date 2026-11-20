@@ -1,4 +1,4 @@
-parts=392 size=15738360
+parts=390 size=15713374
 Datum_base_plate g='' r='' tris=29340
 Y_rail_L g='y' r='' tris=8600
 Y_block_L1 g='' r='' tris=41580
@@ -6,7 +6,7 @@ Y_block_L2 g='' r='' tris=41580
 Y_rail_R g='y' r='' tris=8600
 Y_block_R1 g='' r='' tris=41580
 Y_block_R2 g='' r='' tris=41580
-Work_table g='y' r='' tris=12188
+Work_table g='y' r='' tris=13196
 Y_ballscrew g='y' r='y' tris=9194
 Y_ball_nut g='' r='' tris=27976
 Y_nut_bracket g='' r='' tris=5560
@@ -334,20 +334,18 @@ Z_motor_mount_bolt_1 g='x' r='' tris=1004
 Z_motor_mount_bolt_2 g='x' r='' tris=1004
 Z_motor_mount_bolt_3 g='x' r='' tris=1004
 Z_motor_mount_bolt_4 g='x' r='' tris=1004
-Camera_lens g='z' r='' tris=27012
+Camera_lens g='z' r='' tris=27020
 Camera_CS_C_adapter g='z' r='' tris=1008
 Camera_body g='z' r='' tris=6144
 Camera_light_guide g='z' r='' tris=1004
-Camera_bracket g='z' r='' tris=3116
+Camera_bracket g='z' r='' tris=3068
 Camera_pinch_bolt g='z' r='' tris=1004
 Camera_bracket_bolt_1 g='z' r='' tris=1004
 Camera_bracket_bolt_2 g='z' r='' tris=1004
-Tool_mirror g='' r='' tris=12
-Mirror_bracket g='' r='' tris=2088
-Mirror_bracket_bolt_1 g='' r='' tris=1004
-Mirror_bracket_bolt_2 g='' r='' tris=1004
-Mirror_bracket_bolt_3 g='' r='' tris=1004
-Mirror_bracket_bolt_4 g='' r='' tris=1004
+Tool_mirror g='y' r='' tris=12
+Mirror_bracket g='y' r='' tris=1060
+Mirror_bracket_bolt_1 g='y' r='' tris=1004
+Mirror_bracket_bolt_2 g='y' r='' tris=1004
 Base_leg_1 g='base' r='' tris=76
 Base_foot_1 g='base' r='' tris=1004
 Base_leg_2 g='base' r='' tris=76

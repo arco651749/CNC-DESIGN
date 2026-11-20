@@ -1,4 +1,4 @@
-v12 = v10 + owner architecture.  new parts: 288, alignment kit: 29, epoxy pads: 14
+v12 = v10 + owner architecture.  new parts: 286, alignment kit: 29, epoxy pads: 14
 
 Column_foot_R              -  yaw           x[  280.0,  360.0] y[  -28.0,  182.0] z[    0.0,   18.0]  OK
 X_base_plate               -  xlevel        x[ -360.0,  360.0] y[  162.0,  182.0] z[  230.0,  490.0]  OK
@@ -279,17 +279,15 @@ Z_motor_mount_bolt_1       x  fasten        x[  -55.0,  -45.0] y[   38.0,  114.0
 Z_motor_mount_bolt_2       x  fasten        x[  -39.0,  -29.0] y[   38.0,  114.0] z[  694.0,  704.0]  OK
 Z_motor_mount_bolt_3       x  fasten        x[   29.0,   39.0] y[   38.0,  114.0] z[  694.0,  704.0]  OK
 Z_motor_mount_bolt_4       x  fasten        x[   45.0,   55.0] y[   38.0,  114.0] z[  694.0,  704.0]  OK
-Camera_lens                z  camera        x[  -97.5,  -62.5] y[  -46.0,   -2.5] z[  210.0,  349.1]  OK
-Camera_CS_C_adapter        z  camera        x[  -95.0,  -65.0] y[  -35.0,   -5.0] z[  345.1,  350.1]  OK
-Camera_body                z  camera        x[  -94.5,  -65.5] y[  -35.5,   -5.5] z[  350.1,  369.5]  OK
-Camera_light_guide         z  camera        x[  -85.5,  -74.5] y[ -116.0,  -66.0] z[  289.2,  300.2]  OK
-Camera_bracket             z  camera        x[ -110.0,  -60.0] y[  -48.0,   34.0] z[  310.0,  356.0]  OK
-Camera_pinch_bolt          z  fasten        x[  -94.0,  -72.0] y[  -46.5,  -39.5] z[  316.5,  323.5]  OK
-Camera_bracket_bolt_1      z  fasten        x[  -93.2,  -84.8] y[   19.0,   42.0] z[  317.8,  326.2]  OK
-Camera_bracket_bolt_2      z  fasten        x[  -93.2,  -84.8] y[   19.0,   42.0] z[  341.8,  350.2]  OK
-Tool_mirror                -  camera        x[ -239.2, -222.9] y[  -30.0,  -10.0] z[  135.8,  152.1]  OK
-Mirror_bracket             -  camera        x[ -352.0, -225.1] y[  -32.0,    2.0] z[  104.0,  168.0]  OK
-Mirror_bracket_bolt_1      -  fasten        x[ -345.0, -335.0] y[  -14.0,    6.0] z[  107.0,  117.0]  OK
-Mirror_bracket_bolt_2      -  fasten        x[ -345.0, -335.0] y[  -14.0,    6.0] z[  155.0,  165.0]  OK
-Mirror_bracket_bolt_3      -  fasten        x[ -305.0, -295.0] y[  -14.0,    6.0] z[  107.0,  117.0]  OK
-Mirror_bracket_bolt_4      -  fasten        x[ -305.0, -295.0] y[  -14.0,    6.0] z[  155.0,  165.0]  OK
+Camera_lens                z  camera        x[  -17.5,   17.5] y[ -126.0,  -82.5] z[  210.0,  349.1]  OK
+Camera_CS_C_adapter        z  camera        x[  -15.0,   15.0] y[ -115.0,  -85.0] z[  345.1,  350.1]  OK
+Camera_body                z  camera        x[  -14.5,   14.5] y[ -115.5,  -85.5] z[  350.1,  369.5]  OK
+Camera_light_guide         z  camera        x[   -5.5,    5.5] y[ -196.0, -146.0] z[  289.2,  300.2]  OK
+Camera_bracket             z  camera        x[ -110.0,   30.0] y[ -120.0,   34.0] z[  304.0,  356.0]  OK
+Camera_pinch_bolt          z  fasten        x[   20.5,   27.5] y[ -112.0,  -94.0] z[  308.5,  315.5]  OK
+Camera_bracket_bolt_1      z  fasten        x[ -101.2,  -92.8] y[   19.0,   42.0] z[  325.8,  334.2]  OK
+Camera_bracket_bolt_2      z  fasten        x[ -101.2,  -92.8] y[   19.0,   42.0] z[  345.8,  354.2]  OK
+Tool_mirror                y  camera        x[ -160.0, -140.0] y[ -239.2, -222.9] z[  135.8,  152.1]  OK
+Mirror_bracket             y  camera        x[ -180.0, -120.0] y[ -239.2, -210.0] z[   74.0,  149.9]  OK
+Mirror_bracket_bolt_1      y  fasten        x[ -173.0, -163.0] y[ -226.0, -200.0] z[   85.0,   95.0]  OK
+Mirror_bracket_bolt_2      y  fasten        x[ -137.0, -127.0] y[ -226.0, -200.0] z[   85.0,   95.0]  OK
