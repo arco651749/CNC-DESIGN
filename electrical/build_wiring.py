@@ -115,25 +115,25 @@ for ax, top in AXES.items():
 
 # ------------------------------------------------------------------ 3. controller RP23CNC + interface board
 BT = 256.54
-# RP23CNC V2.02 seen from straight above (author's labelled drawing, 1255 x 1262 px). Screw-hole centres detected in the image.
-TOP_X = [142.8, 188.0, 234.2, 279.2, 325.5, 370.8, 417.0, 462.1, 508.3, 553.5, 599.8, 644.9, 691.2, 736.2, 782.5, 827.8, 874.0, 919.1, 965.2, 1010.5, 1056.8, 1101.9]
-BOT_X = [144.2, 189.4, 235.6, 280.9, 326.9, 372.0, 418.1, 463.3, 509.3, 554.5, 600.7, 646.0, 692.0, 737.0, 783.2, 828.3, 874.4, 919.7, 965.8, 1011.0, 1057.0, 1102.2]
-RIGHT_Y = [200.0, 245.1, 291.3, 336.5, 382.7, 428.0, 474.1, 519.2, 565.3, 610.7, 656.9, 702.0, 748.1, 793.3, 839.6, 884.8, 930.9, 976.0, 1022.2, 1067.4]
-TOP_Y, BOT_Y, RIGHT_X = 62.0, 1201.1, 1190.6
+# RP23CNC V2.02 seen from straight above: real photo (2000 x 2000 px). Screw-head centres: linear fits to the detected heads of each strip.
+TOP_X = [334.8 + 67.18 * i for i in range(22)]       # top strip, 22 terminals, left to right
+BOT_X = [329.4 + 67.40 * i for i in range(22)]       # bottom strip, 22 terminals, left to right
+RIGHT_Y = [344.5 + 67.49 * i for i in range(20)]     # right strip, 20 terminals, top to bottom
+TOP_Y, BOT_Y, RIGHT_X = 136.0, 1824.0, 1883.0
 A_IDX = {"PWR_G": 0, "PWR_P": 1, "SGND": 6, "S010": 7, "K2S": 14, "K2P": 15, "K5S": 16, "K5P": 17, "K1S": 20, "K1P": 21}   # top strip, left to right
 C_IDX = {"Z_GND": 8, "Z_STP": 9, "Z_DIR": 10, "Z_EN": 11, "Y_GND": 12, "Y_STP": 13, "Y_DIR": 14, "Y_EN": 15,
          "X_GND": 16, "X_STP": 17, "X_DIR": 18, "X_EN": 19}    # right strip, top to bottom; inside an axis: GND STEP DIR ENA (silkscreen)
 B_IDX = {"ISO_P": 0, "ISO_G": 1, "LZS": 6, "LZG": 7, "LYS": 8, "LYG": 9, "LXS": 10, "LXG": 11, "ES_S": 20, "ES_G": 21}   # bottom strip, left to right
-# servo-alarm 2x3 header: top row X Z B, bottom row Y A Gnd (silkscreen)
-ALARM_PX = {"AX": (739.7, 1025.5, "top", 5.08), "AZ": (772.3, 1025.5, "top", 10.16), "AY": (739.7, 1058.0, "bottom", 5.08), "AG": (805.3, 1058.0, "bottom", 5.08)}
+# servo-alarm 2x3 header (pin-tip centres in the photo): top row X Z B, bottom row Y A Gnd (silkscreen)
+ALARM_PX = {"AX": (1213.0, 1563.0, "top", 5.08), "AZ": (1262.0, 1563.0, "top", 10.16), "AY": (1211.0, 1614.0, "bottom", 5.08), "AG": (1301.0, 1606.0, "bottom", 5.08)}
 bd_pins = [(pid, TOP_X[i], TOP_Y, "top", pid) for pid, i in A_IDX.items()]
 bd_pins += [(pid, RIGHT_X, RIGHT_Y[i], "right", pid) for pid, i in C_IDX.items()]
 bd_pins += [(pid, BOT_X[i], BOT_Y, "bottom", pid) for pid, i in B_IDX.items()]
 bd_pins += [(pid, x, y, side, pid) for pid, (x, y, side, _) in ALARM_PX.items()]
-bd_pins.append(("ETH", 230.0, 300.0, "left", "ETH"))
+bd_pins.append(("ETH", 538.0, 580.0, "left", "ETH"))
 PH_RP = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "vendor", "rp23cnc", "photos")
-BD_PH = S.photo(Photo(os.path.join(PH_RP, "RP23CNC_V2.02_labelled_drawing.png"), 145.0, 250.0, 5.08 / 45.6))
-BD = S.add(PhotoBlock("BD", "RP23CNC V2.02 控制板（原廠正上方圖，螺絲孔位置取自圖上）", BD_PH, bd_pins, title_dy=16.0))
+BD_PH = S.photo(Photo(os.path.join(PH_RP, "RP23CNC_V2.02_top_photo.jpg"), 148.0, 250.0, 0.0756))
+BD = S.add(PhotoBlock("BD", "RP23CNC V2.02 控制板（正上方實拍照，螺絲位置取自照片）", BD_PH, bd_pins, title_dy=16.0))
 BD_NET = {"PWR_P": ("+24V1", RED), "PWR_G": ("0V1", BLK), "S010": ("SPD_0-10V", ANA), "SGND": ("SPD_GND", BLK),
           "K1P": ("KA1_A1", RED), "K1S": ("KA1_A2", PUR), "K2P": ("KA2_A1", RED), "K2S": ("KA2_A2", PUR), "K5P": ("KA5_A1", RED), "K5S": ("KA5_A2", PUR),
           "ISO_P": ("+24V2", RED), "ISO_G": ("0V2", BLK), "ES_S": ("ESTOP_SIG", PUR), "ES_G": ("ESTOP_GND", BLK),
@@ -144,7 +144,7 @@ for ax in "XYZ":
     BD_NET.update({ax + "_STP": (ax + "_STP", ORG), ax + "_DIR": (ax + "_DIR", PUR), ax + "_EN": (ax + "_EN", YEL), ax + "_GND": (ax + "_GND", BLK)})
 STAG = [5.08, 10.16, 15.24, 20.32]
 for pid, (net, col) in BD_NET.items():
-    ln = 5.08 if pid in C_IDX else (ALARM_PX[pid][3] if pid in ALARM_PX else (8.0 if pid in B_IDX else (7.62 if pid in A_IDX else 12.7)))
+    ln = 5.08 if pid in C_IDX else (ALARM_PX[pid][3] if pid in ALARM_PX else (13.0 if pid in B_IDX else (7.62 if pid in A_IDX else 12.7)))
     S.stub(BD[pid], net, col, ln)
 IFB = blk("IFB", "IFB1 MR-J4 介面板", 330.2, BT, w=40.64,
           left=[("X_STP", 1, "X STP"), ("X_DIR", 2, "X DIR"), ("X_EN", 3, "X EN"), ("X_GND", 4, "X GND"),
