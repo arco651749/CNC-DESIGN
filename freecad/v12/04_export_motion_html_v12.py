@@ -14,6 +14,10 @@ LOG = os.path.join(ROOT, 'output', 'v12', 'logs', 'export_motion_html_v12.txt')
 
 
 def colour(n):   # same scheme as the adjuster tour page
+    if n.startswith('Camera_lens'): return [0.1, 0.1, 0.11]
+    if n.startswith(('Camera_body', 'Camera_CS_C')): return [0.15, 0.3, 0.55]
+    if n == 'Camera_light_guide': return [0.85, 0.85, 0.2]
+    if n == 'Tool_mirror': return [0.75, 0.9, 1.0]
     if 'epoxy' in n: return [0.13, 0.62, 0.56]
     if re.search(r'(bolt|pinch)', n): return [0.96, 0.78, 0.12]
     if re.search(r'(dowel|ref_pin|pivot_pin|roll_pin|Z_pivot_|pivot_bearing|pivot_stud)', n): return [0.16, 0.5, 0.78]
@@ -42,7 +46,7 @@ for o in doc.Objects:
     else:
         g = o.Motion if 'Motion' in o.PropertiesList else ''
         r, c = '', colour(name)
-    pts, tris = o.Shape.tessellate(0.15)
+    pts, tris = o.Shape.tessellate(1.0 if o.Label == 'Camera_lens' else (0.5 if re.search(r'(Camera_body|pivot_bearing|^[XYZ]_block_|ball_nut)', o.Label) else 0.15))
     if not tris:
         continue
     coords = [int(round(v * 10)) for p in pts for v in (p.x, p.y, p.z)]

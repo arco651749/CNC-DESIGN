@@ -32,6 +32,7 @@ NEW = []
 
 
 def box(x0, x1, y0, y1, z0, z1): return Part.makeBox(x1 - x0, y1 - y0, z1 - z0, V(x0, y0, z0))
+def zcyl(r, z0, z1, x=0, y=0): return Part.makeCylinder(r, z1 - z0, V(x, y, z0), V(0, 0, 1))
 def cyl(ax, r, a0, a1, p, q):
     if ax == 'x': return Part.makeCylinder(r, a1 - a0, V(a0, p, q), V(1, 0, 0))
     if ax == 'y': return Part.makeCylinder(r, a1 - a0, V(p, a0, q), V(0, 1, 0))
@@ -370,6 +371,63 @@ for i, (a, b) in enumerate(MOT, 1):
 for i, x in enumerate((-50, -34, 34, 50), 1):
     hole('X_carriage_plate', cyl('y', 3, 104, 116, x, 699))
     screw('Z_motor_mount_bolt_%d' % i, cyl('y', 5, 38, 44, x, 699), cyl('y', 3, 44, 114, x, 699), 'M6x70 SHCS into the Z plate front face (tap M6 depth 12)', 'x')
+# ================================================================ camera: looks down at the work, and at the tool through a fixed turning mirror
+# Basler daA2448-70uc (CS) + 5 mm CS->C ring + Moritex MML05-HR110D (0.5x object-side telecentric, WD 110, coaxial light port).
+# Camera axis D = 80 left of the spindle axis, same y (-20). Down: focus by Z (lens front 110 above the work).
+# Tool length: X to -150 puts the camera over a 45 deg mirror on the left column; the view turns +X onto the tool.
+# Path = (lens front - tip) + D = 110  ->  lens front 30 above the nominal tool tip; tool tip read at the mirror's sight line.
+import math
+gl = '11 Camera'
+g = doc.addObject('App::DocumentObjectGroup', 'G'); g.Label = gl; GROUPS[gl] = g
+CAMX, CAMY, D_CAM = -80.0, -20.0, 80.0
+TIP = O('Tool_D5').Shape.BoundBox.ZMin                         # 180 at home
+ZF = TIP + (110.0 - D_CAM)                                      # lens front
+def place(shape, rx180=True, rz=0.0, t=(0, 0, 0)):
+    s = shape.copy()
+    if rx180: s.rotate(V(0, 0, 0), V(1, 0, 0), 180)
+    if rz: s.rotate(V(0, 0, 0), V(0, 0, 1), rz)
+    s.translate(V(*t)); return s
+lens = Part.read(os.path.join(ROOT, 'vendor', 'moritex', 'MML05-HR110D', 'MML05-HR110D.step'))  # front z+91.47, C flange z-43.64, port +Y
+lens = place(lens, True, 0, (CAMX, CAMY, ZF + 91.47))          # front down at ZF, coaxial port toward -Y (front)
+ZC = ZF + 91.47 + 43.64                                         # C flange
+add('Camera_lens', lens, gl, 'Moritex MML05-HR110D telecentric 0.5x, WD 110+-5.5, DOF 3, C-mount, coaxial light port D8 H7 (vendor STEP)', 'z', 'camera')
+add('Camera_CS_C_adapter', place(zcyl_ring := Part.makeCylinder(15.0, 5.026, V(0, 0, 0)).cut(Part.makeCylinder(12.7, 5.026, V(0, 0, 0))), False, 0, (CAMX, CAMY, ZC)),
+    gl, 'Basler CS-mount to C-mount adapter ring 5 mm (2200002382)', 'z', 'camera')
+cam = Part.read(os.path.join(ROOT, 'vendor', 'basler', 'daA2448-70uc', 'daA2448-70uc_CS_from_drawing.step'))   # axis +Z, CS flange z0
+add('Camera_body', place(cam, True, -90, (CAMX, CAMY, ZC + 5.026)), gl,
+    'Basler dart R daA2448-70uc (CS-Mount), IMX548 1/1.8" 5 MP, USB3 toward the front; sensor long side along Y; '
+    'model from the Basler dimension drawing', 'z', 'camera')
+PZ = ZF + 91.47 - 6.8                                           # coaxial port centre height
+add('Camera_light_guide', fuse(cyl('y', 4, CAMY - 76, CAMY - 46, CAMX, PZ), cyl('y', 5.5, CAMY - 96, CAMY - 76, CAMX, PZ)), gl,
+    'light guide (fibre) end into the coaxial port D8 (to an LED light source)', 'z', 'camera')
+# camera bracket (CNC, 6061): back plate on the Z slide front face beside the spindle plate, arm forward, split ring on the D22 lens tube
+RZ0, RZ1 = 310.0, 330.0
+br = fuse(box(-110, -84, 24, 34, 310, 356), box(-110, -96, CAMY, 24, RZ0, RZ1), cyl('z', 20, RZ0, RZ1, CAMX, CAMY), box(-90, -70, -48, -36, RZ0 + 2, RZ1 - 2))
+br = br.cut(cyl('z', 11.0, RZ0, RZ1, CAMX, CAMY)).cut(box(CAMX - 0.5, CAMX + 0.5, -48, CAMY - 10, RZ0, RZ1))
+br = br.cut(cyl('x', 2.25, -90, CAMX - 0.5, -43, 320.0)).cut(cyl('x', 2.0, CAMX + 0.5, -70, -43, 320.0))
+add('Camera_bracket', br, gl, 'camera bracket (CNC, 6061): back plate 2 x M5 on the Z slide front face, split ring D22 on the lens tube, M4 pinch screw', 'z', 'camera')
+add('Camera_pinch_bolt', fuse(cyl('x', 3.5, -94, -90, -43, 320.0), cyl('x', 2.0, -90, -72, -43, 320.0)), gl, 'M4x18 SHCS, ring pinch screw', 'z', 'fasten')
+for i, z in enumerate((322, 346), 1):
+    hole('Z_slide_plate', cyl('y', 2.5, 34, 44, -89, z))
+    br = O('Camera_bracket'); br.Shape = br.Shape.cut(cyl('y', 2.75, 24, 34, -89, z))
+    add('Camera_bracket_bolt_%d' % i, fuse(cyl('y', 4.25, 19, 24, -89, z), cyl('y', 2.5, 24, 42, -89, z)), gl, 'M5x18 SHCS into the Z slide (tap M5 depth 10)', 'z', 'fasten')
+# turning mirror (static): under the camera when X = -150 (camera axis at x -230), sight line at z MZ, 45 deg, reflects down -> +X
+MX, MZ = CAMX - 150.0, 145.0
+mir = box(-10, 10, -10, 10, -3, 0); mir.rotate(V(0, 0, 0), V(0, 1, 0), 45); mir.translate(V(MX, CAMY, MZ))
+add('Tool_mirror', mir, gl, 'first-surface mirror 20x20x3 at 45 deg (or 20 mm right-angle prism): turns the camera view onto the tool for tool length', '', 'camera')
+c, o3 = 10 / math.sqrt(2), 3 / math.sqrt(2)
+E1, E2 = (MX - c - o3, MZ + c - o3), (MX + c - o3, MZ - c - o3)
+tri = Part.Face(Part.makePolygon([V(E1[0], -32, E1[1]), V(E2[0], -32, E2[1]), V(E1[0], -32, E2[1]), V(E1[0], -32, E1[1])])).extrude(V(0, 24, 0))
+mb = fuse(tri, box(-300, MX - 4, -30, -6, 124, 140), box(-352, -288, -8, 2, 104, 168))
+for x in (-340, -300):
+    for z in (112, 160): mb = mb.cut(cyl('y', 3.3, -8, 2, x, z))
+add('Mirror_bracket', mb, gl, 'mirror bracket (CNC, steel): plate on the LEFT column front face (4 x M6 + T-nuts), arm, 45 deg seat for the mirror', '', 'camera')
+k = 0
+for x in (-340, -300):
+    for z in (112, 160):
+        k += 1; add('Mirror_bracket_bolt_%d' % k, fuse(cyl('y', 5, -14, -8, x, z), cyl('y', 3, -8, 6, x, z)), gl, 'M6x14 SHCS + T-nut in the column front slot', '', 'fasten')
+print('CAMERA lens front z %.1f, tip %.1f, mirror sight line z %.1f, path %.1f' % (ZF, TIP, MZ, (ZF - TIP) + D_CAM))
+
 bad = [(l, round(r, 3)) for l, r in CHK if r < 0.98]
 print('HOLE_CHECK', len(CHK), 'tools, not fully in material:', bad)
 

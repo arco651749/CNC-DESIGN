@@ -29,6 +29,10 @@ def group(n):
         if re.match(rx, n): return k
     return 'base'
 def colour(n, adj):
+    if n.startswith('Camera_lens'): return [0.1, 0.1, 0.11]
+    if n.startswith(('Camera_body', 'Camera_CS_C')): return [0.15, 0.3, 0.55]
+    if n == 'Camera_light_guide': return [0.85, 0.85, 0.2]
+    if n == 'Tool_mirror': return [0.75, 0.9, 1.0]
     if n in old and n != 'Spindle_clamp': return old[n]
     if 'epoxy' in n: return [0.13, 0.62, 0.56]                                                  # cast epoxy: teal
     if re.search(r'(dowel|ref_pin|pivot_pin|roll_pin|Z_pivot_|pivot_bearing|pivot_stud)', n): return [0.16, 0.5, 0.78]      # pins and the ball: blue
@@ -44,7 +48,7 @@ doc = App.openDocument(os.path.join(ROOT, 'output', 'v12', 'CNC_v12.FCStd'))
 out = []
 for o in doc.Objects:
     if o.TypeId != 'Part::Feature' or o.Shape.isNull() or not o.Shape.Solids: continue
-    pts, tris = o.Shape.tessellate(0.15)
+    pts, tris = o.Shape.tessellate(1.0 if o.Label == 'Camera_lens' else (0.5 if re.search(r'(Camera_body|pivot_bearing|^[XYZ]_block_|ball_nut)', o.Label) else 0.15))
     if not tris: continue
     coords = [int(round(v * 10)) for p in pts for v in (p.x, p.y, p.z)]
     w = 1 if len(pts) < 65536 else 0

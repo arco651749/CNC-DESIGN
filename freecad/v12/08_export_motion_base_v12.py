@@ -14,6 +14,10 @@ LOG = os.path.join(ROOT, 'output', 'v12', 'logs', 'export_motion_html_v12_base.t
 
 
 def colour(n):   # same scheme as the adjuster tour page
+    if n.startswith('Camera_lens'): return [0.1, 0.1, 0.11]
+    if n.startswith(('Camera_body', 'Camera_CS_C')): return [0.15, 0.3, 0.55]
+    if n == 'Camera_light_guide': return [0.85, 0.85, 0.2]
+    if n == 'Tool_mirror': return [0.75, 0.9, 1.0]
     if n.startswith('Guard_window'): return [0.72, 0.84, 0.92]
     if n.startswith(('Coolant_pan', 'Guard_', 'Coolant_tank', 'Coolant_baffle', 'Coolant_filter', 'Coolant_drain')): return [0.84, 0.85, 0.86]
     if n.startswith('Coolant_silicone'): return [0.97, 0.97, 0.95]
@@ -51,7 +55,7 @@ for o in doc.Objects:
         g = o.Motion if 'Motion' in o.PropertiesList else ''
         if not g and getattr(o, 'Adj', '') == 'base': g = 'base'
         r, c = '', colour(name)
-    pts, tris = o.Shape.tessellate(0.15)
+    pts, tris = o.Shape.tessellate(1.0 if o.Label == 'Camera_lens' else (0.5 if re.search(r'(Camera_body|pivot_bearing|^[XYZ]_block_|ball_nut)', o.Label) else 0.15))
     if not tris:
         continue
     coords = [int(round(v * 10)) for p in pts for v in (p.x, p.y, p.z)]

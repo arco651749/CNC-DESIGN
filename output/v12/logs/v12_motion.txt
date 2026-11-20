@@ -1,4 +1,4 @@
-parts: 331   motion classes: static 127 / y 36 / x 100 / z 68
+parts: 345   motion classes: static 133 / y 36 / x 100 / z 76
 
 DESIGN CONTACTS AT HOME (overlap > 1 mm3, review): 5
   X_ball_nut x X_nut_bracket : 19 mm3
