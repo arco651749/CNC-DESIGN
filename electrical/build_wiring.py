@@ -196,7 +196,7 @@ for ax in "XYZ": S.stub(ALM["A2%s" % ax], "ALM_" + ax, PUR)
 
 # ------------------------------------------------------------------ 5. spindle VFD
 VFD = blk("VFD", "台達 MS300 變頻器 (單相230V，1.5kW級 VFD7A5MS21系列)", SRV_CX, 363.22,
-          left=[("RL1", 1, "R/L1"), ("SL2", 2, "S/L2"), ("PE", 3), ("AVI", 5), ("ACM", 6), ("MI1", 7), ("DCM", 8)],
+          left=[("RL1", 1, "R/L1"), ("SL2", 2, "S/L2"), ("PE", 3)],
           right=[("U", 1), ("V", 2), ("W", 3), ("RPE", 4, "PE")], w=30.48)
 SP = blk("SP", "主軸 0.8kW 風冷電主軸 (3相)", MOT_CX, 363.22, left=[("U", 1), ("V", 2), ("W", 3), ("PE", 4)], w=30.48)
 QF3 = blk("QF3", "QF3 主軸 MCCB 2P 10A", 368.3, 363.22, left=[("L1i", 1, "L1"), ("L2i", 2, "L2")], right=[("L1o", 1, "L1"), ("L2o", 2, "L2")], w=20.32)
@@ -208,8 +208,17 @@ S.conn("L1_VFD", BRN, [KM2["L1o"], VFD["RL1"]], width=THICK)
 S.conn("L2_VFD", BLU, [KM2["L2o"], VFD["SL2"]], width=THICK)
 S.stub(KM2["A1"], "KMCOIL", ORG); S.stub(KM2["A2"], "0V3", BLK)
 S.stub(VFD["PE"], "PE", GRN)
-S.stub(VFD["AVI"], "SPD_0-10V", ANA); S.stub(VFD["ACM"], "SPD_GND", BLK)
-S.stub(VFD["MI1"], "VFD_FWD", ORG); S.stub(VFD["DCM"], "VFD_COM", BLK)
+# control terminals drawn on the real MS300 pictures from the Delta catalogue (pin px measured on the picture)
+PH_D = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "vendor", "delta", "photos")
+PH_V1 = S.photo(Photo(os.path.join(PH_D, "MS300_control_terminals_front.png"), 735.0, 330.0, 0.2))
+VFA = S.add(PhotoBlock("VFA", "VFA MS300 控制端子（Delta 型錄實物照，正拍）：AVI、ACM、DCM", PH_V1,
+    [("AVI", 123.8, 160.0, "bottom", "AVI"), ("ACM", 102.5, 160.0, "bottom", "ACM"), ("DCM", 130.0, 62.0, "top", "DCM")], title_dy=2.0))
+PH_V2 = S.photo(Photo(os.path.join(PH_D, "MS300_control_terminals_angled.png"), 735.0, 400.0, 0.2))
+VFB = S.add(PhotoBlock("VFB", "VFB MS300 控制端子（Delta 型錄實物照，斜拍）：MI1", PH_V2,
+    [("MI1", 70.6, 148.0, "left", "MI1")], title_dy=2.0))
+S.stub(VFA["AVI"], "SPD_0-10V", ANA, 10.16); S.stub(VFA["ACM"], "SPD_GND", BLK, 15.24)
+S.stub(VFB["MI1"], "VFD_FWD", ORG, 8.0); S.stub(VFA["DCM"], "VFD_COM", BLK, 8.0)
+S.text("照片解析度低：MI1 位置為估計，DCM 在紅色接頭（STO 區）的第 4 個孔；\n接線前請以機身端子絲印為準（型錄第 13 頁）", 702.0, 425.0, 1.2)
 S.conn("SP_U", UCL, [VFD["U"], SP["U"]], width=THICK)
 S.conn("SP_V", BLK, [VFD["V"], SP["V"]], width=THICK)
 S.conn("SP_W", GRY, [VFD["W"], SP["W"]], width=THICK)
