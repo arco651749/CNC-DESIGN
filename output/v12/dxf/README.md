@@ -16,7 +16,7 @@ RBPB8 座孔 Ø22 H7：外環 h6，用固持膠（Loctite 641）黏固，不壓�
 | 零件 | 數量 | 外形 X × Y × Z | 孔數 | H7 孔 | 研磨 | 規格 |
 |---|---|---|---|---|---|---|
 | Datum_base_plate | 1 | 720 × 327 × 20 | 38 | 6 | top face ground (Y block seats) | Q235 t20 720x327 datum plate, top face ground (Y block seats |
-| Work_table | 1 | 440 × 473.5 × 40 | 26 | 6 | Y slide table: BOTH faces ground - underside = Y rail face | 440x473.5x40 (53.5 longer at rear), 5x T-slot 14, work area  |
+| Work_table | 1 | 440 × 473.5 × 40 | 24 | 6 | Y slide table: BOTH faces ground - underside = Y rail face | 440x473.5x40 (53.5 longer at rear), 5x T-slot 14, work area  |
 | Column_foot_L | 1 | 80 × 210 × 18 | 8 | 1 | — | steel foot t18, 80x210, front flange 30 (hold-down bolt, pus |
 | Column_foot_R | 1 | 80 × 210 × 18 | 9 | 1 | — | steel foot t18, 80x210, front flange 30 (hold-down bolt, pus |
 | Gantry_column_L | 1 | 80 × 160 × 472 | 5 | 1 | — | HFS8-80160-472 (z18..490) |
@@ -43,4 +43,4 @@ RBPB8 座孔 Ø22 H7：外環 h6，用固持膠（Loctite 641）黏固，不壓�
 | Spindle_roll_block_L | 1 | 18 × 20 × 30 | 2 | 0 | — | steel block beside the top of the ear |
 | Spindle_roll_block_R | 1 | 18 × 20 × 30 | 2 | 0 | — | steel block beside the top of the ear |
 | Camera_bracket | 1 | 66 × 57 × 62 | 4 | 0 | — | camera bracket (CNC, 6061): 2 x M5 on the left half of the s |
-| Mirror_bracket | 1 | 60 × 29.19 × 75.95 | 2 | 0 | — | mirror bracket (CNC, steel): plate on the table front end fa |
+| Mirror_bracket | 1 | 30 × 36.95 × 38.95 | 1 | 0 | — | mirror block (CNC, steel, base ground): fixed on the table T |
