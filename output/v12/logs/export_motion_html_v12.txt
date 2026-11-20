@@ -1,4 +1,4 @@
-parts=318 size=15160918
+parts=318 size=15161494
 Datum_base_plate g='' r='' tris=27308
 Y_rail_L g='y' r='' tris=8600
 Y_block_L1 g='' r='' tris=41580
@@ -37,7 +37,7 @@ Z_rail_R g='x' r='' tris=7696
 Z_block_R1 g='z' r='' tris=19260
 Z_block_R2 g='z' r='' tris=19260
 Z_spacer_R g='z' r='' tris=4076
-Z_slide_plate g='z' r='' tris=24812
+Z_slide_plate g='z' r='' tris=23804
 Z_ballscrew g='x' r='z' tris=9194
 Z_ball_nut g='z' r='' tris=27976
 Z_support_fixed g='x' r='' tris=14600
@@ -50,7 +50,7 @@ Spindle_plug g='z' r='' tris=12
 Spindle_nose g='z' r='' tris=500
 ER11_nut g='z' r='' tris=500
 Tool_D5 g='z' r='' tris=500
-Spindle_clamp g='z' r='' tris=7612
+Spindle_clamp g='z' r='' tris=8620
 Servo_amp_X g='' r='' tris=3138
 Servo_amp_Y g='' r='' tris=3138
 Servo_amp_Z g='' r='' tris=3138
@@ -338,7 +338,7 @@ Camera_lens g='z' r='' tris=27020
 Camera_CS_C_adapter g='z' r='' tris=1008
 Camera_body g='z' r='' tris=6144
 Camera_light_guide g='z' r='' tris=1004
-Camera_bracket g='z' r='' tris=3068
+Camera_bracket g='z' r='' tris=3116
 Camera_pinch_bolt g='z' r='' tris=1004
 Camera_bracket_bolt_1 g='z' r='' tris=1004
 Camera_bracket_bolt_2 g='z' r='' tris=1004

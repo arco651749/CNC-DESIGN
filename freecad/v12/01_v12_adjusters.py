@@ -403,22 +403,24 @@ add('Camera_body', place(cam, True, -90, (CAMX, CAMY, ZC + 5.026)), gl,
 PZ = ZF + 91.47 - 6.8                                           # coaxial port centre height
 add('Camera_light_guide', fuse(cyl('y', 4, CAMY - 76, CAMY - 46, CAMX, PZ), cyl('y', 5.5, CAMY - 96, CAMY - 76, CAMX, PZ)), gl,
     'light guide (fibre) end into the coaxial port D8 (to an LED light source)', 'z', 'camera')
-# camera bracket (CNC, 6061): back plate on the Z slide front face left of the spindle plate, arm forward beside the spindle (below the
-# spindle plate and clamp), cross bar to a split ring on the D22 lens tube in front of the spindle
-RZ0, RZ1 = 304.0, 320.0
-br = fuse(box(-110, -84, 24, 34, RZ0, 356), box(-100, -84, CAMY - 10, 24, RZ0, RZ1), box(-100, CAMX - 12, CAMY - 10, CAMY + 10, RZ0, RZ1),
+# camera bracket (CNC, 6061): short block bolted to the LEFT half of the spindle clamp front face (not across its slit), web forward,
+# split ring on the D22 lens tube. Bolts at x -28 avoid the clamp bolts (x+-41), the web and the pinch screws (z 355 / 381).
+CF = O('Spindle_clamp').Shape.BoundBox.YMin                   # clamp front face (-63)
+RZ0, RZ1 = 316.0, 336.0
+br = fuse(box(-36, -6, CF - 10, CF, 334, 378), box(-20, -6, CAMY + 12, CF, RZ0, RZ1), box(-20, -6, CAMY + 17, CF, RZ1, 345),   # top of the web clears the lens D29 ring
           cyl('z', 20, RZ0, RZ1, CAMX, CAMY), box(CAMX + 16, CAMX + 30, CAMY - 8, CAMY + 8, RZ0 + 2, RZ1 - 2))
-br = br.cut(cyl('z', 11.0, RZ0, RZ1, CAMX, CAMY)).cut(box(CAMX + 10, CAMX + 31, CAMY - 0.5, CAMY + 0.5, RZ0, RZ1))
+br = br.cut(cyl('z', 11.05, RZ0, RZ1, CAMX, CAMY)).cut(box(CAMX + 10, CAMX + 31, CAMY - 0.5, CAMY + 0.5, RZ0, RZ1))
 PZM = (RZ0 + RZ1) / 2
 br = br.cut(cyl('y', 2.25, CAMY - 8, CAMY - 0.5, CAMX + 24, PZM)).cut(cyl('y', 2.0, CAMY + 0.5, CAMY + 8, CAMX + 24, PZM))
-add('Camera_bracket', br, gl, 'camera bracket (CNC, 6061): back plate 2 x M5 on the Z slide front face, arm beside the spindle, split ring D22 '
-    'on the lens tube, M4 pinch screw', 'z', 'camera')
+add('Camera_bracket', br, gl, 'camera bracket (CNC, 6061): 2 x M5 on the left half of the spindle clamp front face, split ring D22 on the lens '
+    'tube, M4 pinch screw', 'z', 'camera')
 add('Camera_pinch_bolt', fuse(cyl('y', 3.5, CAMY - 12, CAMY - 8, CAMX + 24, PZM), cyl('y', 2.0, CAMY - 8, CAMY + 6, CAMX + 24, PZM)), gl,
     'M4x14 SHCS, ring pinch screw', 'z', 'fasten')
-for i, z in enumerate((330, 350), 1):
-    hole('Z_slide_plate', cyl('y', 2.5, 34, 44, -97, z))
-    bo = O('Camera_bracket'); bo.Shape = bo.Shape.cut(cyl('y', 2.75, 24, 34, -97, z))
-    add('Camera_bracket_bolt_%d' % i, fuse(cyl('y', 4.25, 19, 24, -97, z), cyl('y', 2.5, 24, 42, -97, z)), gl, 'M5x18 SHCS into the Z slide (tap M5 depth 10)', 'z', 'fasten')
+for i, z in enumerate((342, 368), 1):
+    hole('Spindle_clamp', cyl('y', 2.5, CF, CF + 10, -28, z))
+    bo = O('Camera_bracket'); bo.Shape = bo.Shape.cut(cyl('y', 2.75, CF - 10, CF, -28, z))
+    add('Camera_bracket_bolt_%d' % i, fuse(cyl('y', 4.25, CF - 15, CF - 10, -28, z), cyl('y', 2.5, CF - 10, CF + 8, -28, z)), gl,
+        'M5x18 SHCS into the spindle clamp front face (tap M5 depth 10)', 'z', 'fasten')
 # turning mirror on the table (moves in Y): at table x -150, 20 in front of the table front edge, sight line 35 above the table top
 TT = O('Work_table').Shape.BoundBox
 MX, MY, MZ = -150.0, TT.YMin - 20.0, TT.ZMax + 35.0
