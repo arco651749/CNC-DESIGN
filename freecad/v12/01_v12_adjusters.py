@@ -301,6 +301,10 @@ KIT = [l for l in NEW if re.match(KIT_RX, l)]
 for l in KIT:
     o = O(l); GROUPS[G].removeObject(o); G_KIT.addObject(o); prop(o, 'Kit', 'removable')
 
+# ground faces (the rail / block faces); the Y slide table is ground on both faces
+prop(O('Datum_base_plate'), 'Spec', 'Q235 t20 720x327 datum plate, top face ground (Y block seats): Y blocks, Y nut seat, column feet')
+prop(O('Work_table'), 'Spec', O('Work_table').Spec + '; Y slide table: both faces ground (rail face underside, work face top)')
+
 doc.recompute()
 doc.saveAs(os.path.join(OUT, 'CNC_v12.FCStd'))
 L = ['v12 = v10 + owner architecture.  new parts: %d, alignment kit: %d, epoxy pads: %d' % (len(NEW), len(KIT), sum(1 for l in NEW if 'epoxy' in l)), '']

@@ -62,6 +62,11 @@ def slit(S, ax, rr, rng, k):
         if not air and g is not None: gaps.append((g, t)); g = None
         t += 0.25
     return gaps
+def axis_in(h, c):
+    # c is a smaller cylinder on the same axis inside hole h
+    if h['k'] != c['k'] or c['r'] >= h['r'] - 0.05: return False
+    d = h['c'] - c['c']; d = d - AX[h['k']] * d.dot(AX[h['k']])
+    return d.Length < 0.2 and min(h['rng'][1], c['rng'][1]) - max(h['rng'][0], c['rng'][0]) > 0.3
 def coaxial(h, c, tol_r=0.06):
     if h['k'] != c['k'] or abs(h['r'] - c['r']) > tol_r: return False
     d = h['c'] - c['c']; d = d - AX[h['k']] * d.dot(AX[h['k']])
@@ -148,10 +153,20 @@ for name, qty in PARTS:
                 else:
                     txt = 'M%d%s tap %s' % (M, pitch, 'thru' if mthru else 'depth %g' % round(depth, 1))
                 cls = 'TAP'
+            elif name == 'Spindle_clamp' and abs(d - 65) < 0.05:          # spindle bore: fit to the spindle body
+                txt = 'Ø65 H7 (+0.030/0) thru (spindle bore: bore before cutting the slit; axis perpendicular to the rear face 0.01)'; cls = 'H7'
             elif 'D50 H7' in SPEC and abs(d - 50.1) < 0.05:          # motor spigot bore: modelled 50.1, machined 50 H7
                 txt = 'Ø50 H7 (+0.025/0)%s (motor spigot)' % (' thru' if mthru else ' depth %g' % round(depth, 1)); cls = 'H7'
             else:
                 txt = 'Ø%g%s' % (round(d, 2), ' thru' if mthru else ' depth %g' % round(depth, 1)); cls = 'HOLE'
+                thr = next(((sn, sp, sc) for sn, sp, sc in SCREWS if axis_in(m, sc)), None) if d < 20 else None   # screw through = clearance hole (not the ball screw)
+                if thr:
+                    ms = re.search(r'M(\d+)', thr[1]); M = int(ms.group(1)) if ms else round(2 * thr[2]['r'])
+                    lh = ' low-head DIN 7984' if re.search(r'low-head|low head|7984', thr[1], re.I) else (' countersunk' if '10642' in thr[1] else '')
+                    note = ' (for M%d%s)' % (M, lh) + note
+                elif not note:
+                    M = next((mm for mm, cd in CLR.items() if abs(cd - d) < 0.06), None)
+                    if M: note = ' (for M%d)' % M
             for e in extra:                                    # coaxial larger = counterbore
                 txt += ', c-bore Ø%g depth %g' % (round(2 * e['r'], 2), round(e['rng'][1] - e['rng'][0], 1))
             if not through: txt += ' (from %s)' % side
