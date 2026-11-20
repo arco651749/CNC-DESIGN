@@ -115,35 +115,25 @@ for ax, top in AXES.items():
 
 # ------------------------------------------------------------------ 3. controller RP23CNC + interface board
 BT = 256.54
-import numpy as np
-def _fit(pts):
-    """Projective 1-D interpolation of equally spaced terminals seen in perspective: x(i)=(a*i+b)/(c*i+1), shared c for x and y."""
-    A, b = [], []
-    for i, x, y in pts:
-        A.append([-i, -1, 0, 0, i * x]); b.append(-x)
-        A.append([0, 0, -i, -1, i * y]); b.append(-y)
-    ax_, bx, ay, by, c = np.linalg.lstsq(np.array(A, float), np.array(b, float), rcond=None)[0]
-    return lambda i: ((ax_ * i + bx) / (c * i + 1), (ay * i + by) / (c * i + 1))
-# screw-hole centres measured on the 1500-px-wide version of the photo: first/last holes of each strip
-F_A = _fit([(0, 120.8, 352.5), (1, 152.5, 343.3), (2, 184.2, 334.2), (20, 712.5, 175.8), (21, 740.0, 167.5)])      # top strip, 22 holes
-F_C = _fit([(0, 867.5, 183.3), (1, 891.7, 195.0), (2, 915.0, 205.8), (3, 940.0, 216.7), (18, 1330.8, 392.5), (19, 1358.3, 405.0)])  # right strip, 20 holes
-F_B = _fit([(0, 749.2, 700.8), (18, 1305.0, 494.2), (19, 1333.3, 483.3), (20, 1360.8, 473.3), (21, 1388.0, 461.7)])  # bottom strip, 22 holes
-K15 = 2048 / 1500.0
-def _px(f, i):
-    x, y = f(i); return x * K15, y * K15 - 200          # px in the cropped photo (crop starts at y=200)
-A_IDX = {"PWR_G": 0, "PWR_P": 1, "SGND": 6, "S010": 7, "K2S": 14, "K2P": 15, "K5S": 16, "K5P": 17, "K1S": 20, "K1P": 21}
+# RP23CNC V2.02 seen from straight above (author's labelled drawing, 1255 x 1262 px). Screw-hole centres detected in the image.
+TOP_X = [142.8, 188.0, 234.2, 279.2, 325.5, 370.8, 417.0, 462.1, 508.3, 553.5, 599.8, 644.9, 691.2, 736.2, 782.5, 827.8, 874.0, 919.1, 965.2, 1010.5, 1056.8, 1101.9]
+BOT_X = [144.2, 189.4, 235.6, 280.9, 326.9, 372.0, 418.1, 463.3, 509.3, 554.5, 600.7, 646.0, 692.0, 737.0, 783.2, 828.3, 874.4, 919.7, 965.8, 1011.0, 1057.0, 1102.2]
+RIGHT_Y = [200.0, 245.1, 291.3, 336.5, 382.7, 428.0, 474.1, 519.2, 565.3, 610.7, 656.9, 702.0, 748.1, 793.3, 839.6, 884.8, 930.9, 976.0, 1022.2, 1067.4]
+TOP_Y, BOT_Y, RIGHT_X = 62.0, 1201.1, 1190.6
+A_IDX = {"PWR_G": 0, "PWR_P": 1, "SGND": 6, "S010": 7, "K2S": 14, "K2P": 15, "K5S": 16, "K5P": 17, "K1S": 20, "K1P": 21}   # top strip, left to right
 C_IDX = {"Z_GND": 8, "Z_STP": 9, "Z_DIR": 10, "Z_EN": 11, "Y_GND": 12, "Y_STP": 13, "Y_DIR": 14, "Y_EN": 15,
-         "X_GND": 16, "X_STP": 17, "X_DIR": 18, "X_EN": 19}    # terminal order top->bottom inside an axis: GND STEP DIR ENA (silkscreen)
-B_IDX = {"ISO_P": 0, "ISO_G": 1, "LZS": 6, "LZG": 7, "LYS": 8, "LYG": 9, "LXS": 10, "LXG": 11, "ES_S": 20, "ES_G": 21}
-ALARM_TIPS = {"AX": (1048, 499), "AZ": (1069, 491), "AY": (1069, 509), "AG": (1112, 494)}   # servo-alarm 2x3 header, pin tips (1500-px photo)
-bd_pins = [(pid, *_px(F_A, i), "top", pid) for pid, i in A_IDX.items()]
-bd_pins += [(pid, *_px(F_C, i), "right", pid) for pid, i in C_IDX.items()]
-bd_pins += [(pid, *_px(F_B, i), "bottom", pid) for pid, i in B_IDX.items()]
-bd_pins += [(pid, x * K15, y * K15 - 200, "bottom" if pid == "AY" else "top", pid) for pid, (x, y) in ALARM_TIPS.items()]
-bd_pins.append(("ETH", 340 * K15, 480 * K15 - 200, "left", "ETH"))
+         "X_GND": 16, "X_STP": 17, "X_DIR": 18, "X_EN": 19}    # right strip, top to bottom; inside an axis: GND STEP DIR ENA (silkscreen)
+B_IDX = {"ISO_P": 0, "ISO_G": 1, "LZS": 6, "LZG": 7, "LYS": 8, "LYG": 9, "LXS": 10, "LXG": 11, "ES_S": 20, "ES_G": 21}   # bottom strip, left to right
+# servo-alarm 2x3 header: top row X Z B, bottom row Y A Gnd (silkscreen)
+ALARM_PX = {"AX": (739.7, 1025.5, "top", 5.08), "AZ": (772.3, 1025.5, "top", 10.16), "AY": (739.7, 1058.0, "bottom", 5.08), "AG": (805.3, 1058.0, "bottom", 5.08)}
+bd_pins = [(pid, TOP_X[i], TOP_Y, "top", pid) for pid, i in A_IDX.items()]
+bd_pins += [(pid, RIGHT_X, RIGHT_Y[i], "right", pid) for pid, i in C_IDX.items()]
+bd_pins += [(pid, BOT_X[i], BOT_Y, "bottom", pid) for pid, i in B_IDX.items()]
+bd_pins += [(pid, x, y, side, pid) for pid, (x, y, side, _) in ALARM_PX.items()]
+bd_pins.append(("ETH", 230.0, 300.0, "left", "ETH"))
 PH_RP = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "vendor", "rp23cnc", "photos")
-BD_PH = S.photo(Photo(os.path.join(PH_RP, "RP23CNC_V2_photo.jpg"), 148.0, 236.45, 0.098, crop=(0, 200, 2048, 1250)))
-BD = S.add(PhotoBlock("BD", "RP23CNC V2 控制板（實物照片，螺絲孔位置為量測內插）", BD_PH, bd_pins))
+BD_PH = S.photo(Photo(os.path.join(PH_RP, "RP23CNC_V2.02_labelled_drawing.png"), 145.0, 250.0, 5.08 / 45.6))
+BD = S.add(PhotoBlock("BD", "RP23CNC V2.02 控制板（原廠正上方圖，螺絲孔位置取自圖上）", BD_PH, bd_pins, title_dy=16.0))
 BD_NET = {"PWR_P": ("+24V1", RED), "PWR_G": ("0V1", BLK), "S010": ("SPD_0-10V", ANA), "SGND": ("SPD_GND", BLK),
           "K1P": ("KA1_A1", RED), "K1S": ("KA1_A2", PUR), "K2P": ("KA2_A1", RED), "K2S": ("KA2_A2", PUR), "K5P": ("KA5_A1", RED), "K5S": ("KA5_A2", PUR),
           "ISO_P": ("+24V2", RED), "ISO_G": ("0V2", BLK), "ES_S": ("ESTOP_SIG", PUR), "ES_G": ("ESTOP_GND", BLK),
@@ -154,7 +144,7 @@ for ax in "XYZ":
     BD_NET.update({ax + "_STP": (ax + "_STP", ORG), ax + "_DIR": (ax + "_DIR", PUR), ax + "_EN": (ax + "_EN", YEL), ax + "_GND": (ax + "_GND", BLK)})
 STAG = [5.08, 10.16, 15.24, 20.32]
 for pid, (net, col) in BD_NET.items():
-    ln = STAG[C_IDX[pid] % 4] if pid in C_IDX else ({"AX": 5.08, "AZ": 10.16, "AY": 15.24, "AG": 5.08}.get(pid, 12.7 if pid in B_IDX else 5.08))
+    ln = 5.08 if pid in C_IDX else (ALARM_PX[pid][3] if pid in ALARM_PX else (8.0 if pid in B_IDX else (7.62 if pid in A_IDX else 12.7)))
     S.stub(BD[pid], net, col, ln)
 IFB = blk("IFB", "IFB1 MR-J4 介面板", 330.2, BT, w=40.64,
           left=[("X_STP", 1, "X STP"), ("X_DIR", 2, "X DIR"), ("X_EN", 3, "X EN"), ("X_GND", 4, "X GND"),
@@ -170,7 +160,7 @@ S.stub(IFB["V5"], "+5V", RED); S.stub(IFB["G5"], "0V1", BLK); S.stub(IFB["G3"], 
 for ax in "XYZ":
     for n, col in (("PP", ORG), ("PG", ORG), ("NP", PUR), ("NG", PUR), ("SON", YEL)):
         S.stub(IFB["%s_%s" % (ax, n)], "%s_%s" % (ax, n), col)
-LAN = blk("LAN", "LAN 交換器 / 監控 PC（接 WIZ850io 模組的 RJ45）", 100.33, 312.42, right=[("RJ", 1, "RJ45")], w=20.32)
+LAN = blk("LAN", "LAN 交換器 / 監控 PC（接 WIZ850io 模組的 RJ45）", 38.1, 210.82, right=[("RJ", 1, "RJ45")], w=20.32)
 S.stub(LAN["RJ"], "ETH", ANA)
 
 # relays driven by the board relay outputs (coil between +V and SIG)
@@ -249,7 +239,7 @@ S.conn("KMCOIL", ORG, [S2["B"], AUX["B"]], lane=228.6, label="KMCOIL")
 H = 2.6
 S.text("① 市電輸入 / 分路 / 接觸器", 20, 29, H, True)
 S.text("② 伺服驅動器 + 馬達 (X/Y/Z)", 400, 29, H, True)
-S.text("③ 控制板 RP23CNC + MR-J4 介面板", 47, 170, H, True)
+S.text("③ 控制板 RP23CNC + MR-J4 介面板", 20, 176, H, True)
 S.text("④ 繼電器輸出：主軸 / 冷卻 / 吹氣", 232, 162, H, True)
 S.text("⑤ 主軸變頻器 + 電主軸", 440, 355, H, True)
 S.text("⑥ 感測器 / 報警 / 急停輸入", 20, 345, H, True)

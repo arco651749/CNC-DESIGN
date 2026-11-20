@@ -110,8 +110,8 @@ class Photo:
 
 class PhotoBlock(Block):
     """Invisible-body symbol whose pins sit on terminals of a Photo (pin = (pid, px, py, side, label), px/py in the cropped photo)."""
-    def __init__(s, ref, title, photo, pins):
-        s.ref, s.title, s.photo, s.tmode = ref, title, photo, "above"
+    def __init__(s, ref, title, photo, pins, title_dy=1.2):
+        s.ref, s.title, s.photo, s.tmode, s.title_dy = ref, title, photo, "above", title_dy
         s.cx, s.cy = photo.cx, photo.cy
         s.w, s.h = photo.w_px * photo.k, photo.h_px * photo.k
         s.top = s.cy - s.h / 2
@@ -135,7 +135,7 @@ class PhotoBlock(Block):
         return "\n".join(o)
     def inst(s, root):
         rd = s.ref if s.ref[-1].isdigit() else s.ref + "1"
-        tx, ty = s.cx - s.w / 2, s.top - 1.2
+        tx, ty = s.cx - s.w / 2, s.top - s.title_dy
         o = ['(symbol (lib_id %s) (at %s %s 0) (unit 1) (in_bom yes) (on_board yes) (dnp no) (uuid %s)' % (q("BLK:" + s.ref), f(s.cx), f(s.cy), uid())]
         o.append('  (property "Reference" %s (at %s %s 0) %s)' % (q(rd), f(tx), f(ty), eff(1.4, True, "left bottom", hide=True)))
         o.append('  (property "Value" %s (at %s %s 0) %s)' % (q(s.title), f(tx), f(ty), eff(1.5, True, "left bottom")))
