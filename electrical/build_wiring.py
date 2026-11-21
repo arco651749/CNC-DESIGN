@@ -230,15 +230,8 @@ SP = S.add(PhotoBlock("SP", "SP 主軸 STF65-0.8-ER11 後端插頭", sph,
 qph = S.photo(Photo(os.path.join(PH_SH, "BM30-SN.jpg"), 368.0, 412.0, K_SH))
 QF3 = S.add(PhotoBlock("QF3", "QF3 BM30-SN 2P 30A", qph,
     [("L1i", 55, 45, "top", "L1"), ("L2i", 135, 48, "top", "L2"), ("L1o", 50, 415, "bottom", "T1"), ("L2o", 135, 410, "bottom", "T2")], title_dy=22.0))
-kph = S.photo(Photo(os.path.join(PH_SH, "SD-P11.jpg"), 398.0, 412.0, K_SH))
-KM2 = S.add(PhotoBlock("KM2", "KM2 SD-P11 DC24V", kph,
-    [("A1", 133, 143, "top", "A1"), ("A2", 188, 144, "top", "A2"), ("L1i", 76, 203, "top", "1L1"), ("L2i", 114, 203, "top", "3L2"),
-     ("L1o", 76, 372, "bottom", "2T1"), ("L2o", 114, 372, "bottom", "4T2")], title_dy=22.0))
 S.stub(QF3["L1i"], "L1_IN", BRN, 5.08, THICK); S.stub(QF3["L2i"], "L2_IN", BLU, 7.62, THICK)
-S.stub(QF3["L1o"], "L1_KM2", BRN, 5.08, THICK); S.stub(QF3["L2o"], "L2_KM2", BLU, 7.62, THICK)
-S.stub(KM2["L1i"], "L1_KM2", BRN, 5.08, THICK); S.stub(KM2["L2i"], "L2_KM2", BLU, 7.62, THICK)
-S.stub(KM2["L1o"], "L1_VFD", BRN, 5.08, THICK); S.stub(KM2["L2o"], "L2_VFD", BLU, 7.62, THICK)
-S.stub(KM2["A1"], "KMCOIL", ORG, 17.78); S.stub(KM2["A2"], "0V3", BLK, 10.16)
+S.stub(QF3["L1o"], "L1_VFD", BRN, 5.08, THICK); S.stub(QF3["L2o"], "L2_VFD", BLU, 7.62, THICK)
 S.stub(VFD["RL1"], "L1_VFD", BRN, 6.0, THICK); S.stub(VFD["SL2"], "L2_VFD", BLU, 10.0, THICK)
 S.stub(VFD["U"], "SP_U", UCL, 6.0, THICK); S.stub(VFD["V"], "SP_V", BLK, 10.0, THICK); S.stub(VFD["W"], "SP_W", GRY, 14.0, THICK)
 S.stub(VFD["AVI"], "SPD_0-10V", ANA, 10.0); S.stub(VFD["ACM"], "SPD_GND", BLK, 15.0)
@@ -324,7 +317,7 @@ notes = (
 "6. 伺服報警：假設 MR-J4 ALM 正常導通、報警斷開；KA4 反相後以 NC 接點吸入控制板 ALM 輸入 (待核對)。\n"
 "7. grblHAL：$0=3 (脈衝寬度 µs，100 kHz 必須調小)；$14=70 (反轉 EStop/Feed Hold/Cycle Start)；0-10V 以 RV1 校準到 10V。\n"
 "8. 主軸 (台達 MS300 型錄第20頁)：0-10V 接 AVI/ACM；KA1 接點接 MI1 與 DCM (MI1 出廠為 FWD/STOP，輸入為 NPN/SINK 模式，接點短接 DCM 即動作)。S1/S2/+24V 的出廠短路片不可拆 (STO)。最高輸出 599 Hz，足以供 24,000 rpm (400 Hz)。頻率來源為 Pr.00-20 (Delta FAQ 確認為「主頻率指令來源」)，需改為外部類比 AVI；運轉指令來源 (我記得是 Pr.00-21) 需改為外部端子，兩者的設定值與 00-21 待核對完整使用手冊。\n"
-"9. 急停 S1：NC1 切斷 KM1/KM2 線圈，NC2 接 EM2，NO 接控制板 ESTOP。硬線切斷伺服與主軸，不依賴控制器。\n"
+"9. 急停 S1：NC1 切斷三個伺服接觸器 KM1X/Y/Z 的線圈，NC2 接 EM2，NO 接控制板 ESTOP。硬線切斷伺服；主軸沒有接觸器，急停時只靠控制器關閉主軸 ON/OFF (KA1)，變頻器本身仍有電。\n"
 "10. 感測器用 NPN 型 24V 近接開關 (控制板限位輸入為 NPN 或機械開關，不支援 PNP)。\n"
 "11. 佈線：動力線與信號線分槽、間距 100 mm 以上；馬達線、變頻器輸出線、脈衝線 (PP/PG、NP/NG 各一對) 用屏蔽雙絞線，屏蔽層單端接 PE；繼電器線圈與煞車並聯續流二極體。\n"
 "12. 電池 (MR-BAT6V1SET，CN4)：目的是保存絕對位置以免做 home。但驅動器要把位置交給控制器，須由控制器依 ABS 傳送協定讀取 (CN1 ABSM17/ABSR18/ABSB0 22/ABSB1 23/ABST25，Pr.PA03)；grblHAL 目前不支援，故暫時仍保留原點感測器。三軸也可改用 1 個 MR-BT6VCASE 加 5 顆 MR-BAT6V1 共用 (最多 8 軸)。\n"
@@ -336,7 +329,7 @@ rails = (
 "24V 分配\n"
 "+24V1/0V1 (PSU1)：控制板主電源、DC1 (5V)、KA1/KA2/KA5 線圈、SV1 吹氣閥。\n"
 "+24V2/0V2 (PSU2)：控制板隔離輸入、原點感測器 (BN)。\n"
-"+24V3/0V3 (PSU3)：MR-J4 DICOM/DOCOM、EM2/SON、Z 煞車、KA3/KA4 與 KM1/KM2 線圈、急停回路。\n"
+"+24V3/0V3 (PSU3)：MR-J4 DICOM/DOCOM、EM2/SON、Z 煞車、KA3/KA4 與 KM1X/Y/Z 線圈、急停回路。\n"
 "L1_AUX/L2_AUX：PSU1~3 輸入與冷卻幫浦 (經 KA2)。同名標籤代表同一條線。"
 )
 S.text(rails, 345, 531, 1.5)
