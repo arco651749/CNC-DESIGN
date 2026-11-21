@@ -168,7 +168,7 @@ for k in (KA1, KA2, KA5):
 S.stub(KA1["COM"], "VFD_COM", BLK); S.stub(KA1["NO"], "VFD_FWD", ORG)
 S.stub(KA2["COM"], "+24V1", RED, R)
 S.stub(KA5["COM"], "+24V1", RED)
-PUMP = blk("PUMP", "PUMP 冷卻泵 DC24V (約5 L/min，≤1.5A)", 304.8, 129.54, right=[("P", 1, "+"), ("N", 2, "-")], w=20.32)
+PUMP = blk("PUMP", "PUMP HONGYANG DT-48W 冷卻泵 DC24V（約 2 A，估算）", 304.8, 129.54, right=[("P", 1, "+"), ("N", 2, "-")], w=20.32)
 DP = blk("DP", "DP 飛輪二極體 1N4007", 304.8, 106.68, right=[("K", 1, "K 陰極(+)"), ("A", 2, "A 陽極(-)")], w=20.32)
 PH_PV = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "vendor", "parts", "photos")
 _sv = S.photo(Photo(os.path.join(PH_PV, "SMC_SY3120-5LZE-M5.jpg"), 330.0, 160.0, 0.11, crop=(0, 0, 271, 160)))
@@ -318,7 +318,7 @@ notes = (
 S.text(notes, 345, 450, 1.5)
 rails = (
 "24V 分配\n"
-"+24V1/0V1 (PSU1)：控制板主電源、DC1 (5V)、KA1/KA2/KA5 線圈、SV1 吹氣閥、冷卻泵 (DC24V，經 KA2，電流上限 1.5A)。\n"
+"+24V1/0V1 (PSU1)：控制板主電源、DC1 (5V)、KA1/KA2/KA5 線圈、SV1 吹氣閥、冷卻泵 HONGYANG DT-48W (DC24V，約 2A 估算，經 KA2)。\n"
 "+24V2/0V2 (PSU2)：控制板隔離輸入、原點感測器 (BN)。\n"
 "+24V3/0V3 (PSU3)：MR-J4 DICOM/DOCOM、EM2/SON、Z 煞車、KA3/KA4 與 KM1X/Y/Z 線圈、急停回路。\n"
 "L1_AUX/L2_AUX：PSU1~3 輸入。同名標籤代表同一條線。"
