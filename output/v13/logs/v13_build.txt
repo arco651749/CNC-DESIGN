@@ -7,11 +7,11 @@ stretch X_ballscrew        at x+-0: x -195.0..263.0 -> -272.5..340.5
 moved out: 58 parts (+x 39, -x 19); static parts crossing x+-255 not handled: none
 X screw fixed-supported: C-TEF12 at x -268.5, screw x -275.5..340.5 (L 616), thread end -258.5
 C-TEK12 mounting bolts added (X, Y, Z): [2, 2, 2]
-CAMERA (-77.5, -20), lens front z 220.0, tip 180.0, prism fold (-195, 206, 125), air path 110.0; measure at X -117.5, table -226, Z -55
+CAMERA (-72.5, -20), lens front z 235.0, tip 180.0, prism fold (-195, 206, 125), air path 120.0; measure at X -122.5, table -226, Z -55
 PROBE (77.5, -20) on an air slide, ball retracted z 221.0 (tool tip +41), extended z 161.0 (tool tip -19), stroke 60
-SPINDLE x -7.5, camera -77.5 (D 70), probe 77.5 (P 85); X travel +-227.5: spindle reach -235.0..220.0, camera -305.0..150.0, probe -150.0..305.0
+SPINDLE x -7.5, camera -72.5 (D 65), probe 77.5 (P 85); X travel +-227.5: spindle reach -235.0..220.0, camera -300.0..155.0, probe -150.0..305.0
 Z assembly lowered 25: 152 parts moved; tool tip z 155.0 (table top 110 -> Z -50 reaches 5.0 below it), Z plate bottom z 197.0
-  after the drop: lens front z 195.0, tool-setting pose X -117.5, table -226, Z -30.0
+  after the drop: lens front z 210.0, tool-setting pose X -122.5, table -226, Z -30.0
 HOLE_CHECK 36 tools, not fully in material: []
 
 Datum_base_plate           -  x[ -437.5,  437.5] y[ -145.0,  182.0] z[  -20.0,    0.0]  OK
@@ -41,20 +41,20 @@ Z_support_fixed_bolt_1     x  x[  -32.5,  -19.5] y[   53.0,  116.0] z[  597.0,  
 Z_support_fixed_bolt_2     x  x[   19.5,   32.5] y[   53.0,  116.0] z[  597.0,  610.0]  OK
 Spindle_clamp_dowel_1      z  x[  -51.5,  -45.5] y[   10.0,   30.0] z[  340.0,  346.0]  OK
 Spindle_clamp_dowel_2      z  x[   30.5,   36.5] y[   10.0,   30.0] z[  340.0,  346.0]  OK
-Camera_lens                z  x[ -103.5,  -60.0] y[  -37.5,   -2.5] z[  195.0,  334.1]  OK
-Camera_CS_C_adapter        z  x[  -92.5,  -62.5] y[  -35.0,   -5.0] z[  330.1,  335.1]  OK
-Camera_body                z  x[  -93.0,  -63.0] y[  -34.5,   -5.5] z[  335.1,  354.5]  OK
-Camera_light_guide         z  x[ -163.5,  -88.0] y[  -27.0,  -13.0] z[  272.9,  286.9]  OK
-Camera_air_ring            z  x[  -99.5,  -55.5] y[  -42.0,    2.0] z[  193.0,  203.0]  OK
-Camera_air_fitting         z  x[  -81.5,  -73.5] y[  -54.0,  -42.0] z[  194.0,  202.0]  OK
-Camera_bracket             z  x[  -95.5,  -59.5] y[  -52.0,   20.0] z[  263.0,  321.0]  OK
-Camera_pinch_bolt          z  x[  -89.5,  -71.5] y[  -47.5,  -40.5] z[  307.5,  314.5]  OK
-Camera_bracket_bolt_1      z  x[  -91.8,  -83.2] y[    8.5,   32.0] z[  270.8,  279.2]  OK
-Camera_bracket_bolt_2      z  x[  -71.8,  -63.2] y[    8.5,   32.0] z[  270.8,  279.2]  OK
+Camera_lens                z  x[  -99.5,  -50.0] y[  -42.5,    2.5] z[  210.0,  388.1]  OK
+Camera_CS_C_adapter        z  x[  -87.5,  -57.5] y[  -35.0,   -5.0] z[  384.1,  389.1]  OK
+Camera_body                z  x[  -88.0,  -58.0] y[  -34.5,   -5.5] z[  389.1,  408.5]  OK
+Camera_light_guide         z  x[ -159.5,  -84.0] y[  -27.0,  -13.0] z[  319.5,  333.5]  OK
+Camera_air_ring            z  x[  -98.0,  -47.0] y[  -45.5,    5.5] z[  208.0,  218.0]  OK
+Camera_air_fitting         z  x[  -76.5,  -68.5] y[  -57.5,  -45.5] z[  209.0,  217.0]  OK
+Camera_bracket             z  x[  -98.5,  -46.5] y[  -56.0,   20.0] z[  265.0,  295.0]  OK
+Camera_pinch_bolt          z  x[  -84.5,  -66.5] y[  -52.5,  -45.5] z[  276.5,  283.5]  OK
+Camera_bracket_bolt_1      z  x[  -86.8,  -78.2] y[    8.5,   32.0] z[  275.8,  284.2]  OK
+Camera_bracket_bolt_2      z  x[  -70.8,  -62.2] y[    8.5,   32.0] z[  275.8,  284.2]  OK
 Tool_mirror                y  x[ -205.0, -185.0] y[  196.0,  216.0] z[  115.0,  135.0]  OK
 Mirror_bracket             y  x[ -209.0, -115.0] y[  152.0,  224.0] z[  106.0,  127.0]  OK
-Mirror_bracket_bolt_1      y  x[ -135.0, -125.0] y[  189.0,  199.0] z[   96.0,  118.0]  OK
-Mirror_bracket_bolt_2      y  x[ -135.0, -125.0] y[  161.0,  171.0] z[   96.0,  118.0]  OK
+Mirror_bracket_bolt_1      y  x[ -135.0, -125.0] y[  185.0,  195.0] z[   96.0,  118.0]  OK
+Mirror_bracket_bolt_2      y  x[ -135.0, -125.0] y[  157.0,  167.0] z[   96.0,  118.0]  OK
 Mirror_cover               y  x[ -211.0, -181.0] y[  190.0,  218.0] z[  120.0,  139.5]  OK
 Mirror_cover_actuator      y  x[ -204.0, -186.0] y[  156.0,  190.0] z[  118.0,  134.0]  OK
 Probe_body                 z  x[   61.0,   94.0] y[  -36.5,   -3.5] z[  196.0,  263.0]  OK

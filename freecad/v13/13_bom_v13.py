@@ -12,6 +12,11 @@ OUT = os.path.join(ROOT, 'output', 'v13', 'CNC_v13_BOM.csv')
 
 # purchased items: model label -> details (kept here so a rebuild of the model never loses them)
 PURCHASE = {
+    'Camera_lens': {
+        'supplier': 'MORITEX', 'part_no': 'MML04-HR120D', 'link': 'https://www.moritex.com/Lens/215_9580.html',
+        'desc': 'object-side telecentric lens 0.4x, WD 120+-3.6, DOF 5.3, coaxial illumination port (D)',
+        'note': 'owner-selected (replaces MML05-HR110D: 10 more WD -> camera 15 higher). Datasheet, drawing and STEP in vendor/moritex/MML04-HR120D',
+    },
     'Probe_body': {
         'supplier': 'Amazon (XUNKUANER)', 'part_no': 'ASIN B0FWXWX7CT',
         'link': 'https://www.amazon.com/dp/B0FWXWX7CT',

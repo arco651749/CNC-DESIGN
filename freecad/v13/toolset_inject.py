@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """Injected into the v13 motion pages (04 / 08): camera field of view, a tool-setting button and the tool-setting light path.
-FOV: telecentric beam 13.4 x 11.2 (long side along X) from the lens front down WD 110, focal-plane patch; moves with Z.
+FOV: telecentric beam 16.8 x 14.0 (long side along X) from the lens front down WD 120 (MML04-HR120D), focal-plane patch; moves with Z.
 Tool setting: moves Z up, then X / Y, then Z down to the measuring pose (prism under the camera, tool tip at the fold height);
 the prism cover slides open (+Y 30) on the last move; there the light path is drawn (the straight-down FOV beam is hidden meanwhile): lens -> down to the prism -> turned 90 deg by the mirror-coated hypotenuse -> across to the tool.
 Optical axis = centre of the C-mount adapter ring (the lens box is off-centre because of its light port). All positions are read from the part bounding boxes in the page, so the page follows the model."""
@@ -8,7 +8,7 @@ import re
 
 JS_SETUP = r"""
 // ---- camera field of view (moves with Z) and tool-setting light path
-const lb=bb['Camera_lens'],ab=bb['Camera_CS_C_adapter'],LC={x:(ab.min.x+ab.max.x)/2,y:(ab.min.y+ab.max.y)/2,z:lb.min.z},FW=13.4,FH=11.2,WD=110;
+const lb=bb['Camera_lens'],ab=bb['Camera_CS_C_adapter'],LC={x:(ab.min.x+ab.max.x)/2,y:(ab.min.y+ab.max.y)/2,z:lb.min.z},FW=16.8,FH=14.0,WD=120;
 const fovG=new THREE.Group();gZ.add(fovG);
 const fovM=new THREE.MeshBasicMaterial({color:0x22b8e6,transparent:true,opacity:.16,depthWrite:false,side:THREE.DoubleSide});
 const fovB=new THREE.Mesh(new THREE.BoxGeometry(FW,FH,WD),fovM);fovB.position.set(LC.x,LC.y,LC.z-WD/2);fovG.add(fovB);
@@ -36,7 +36,7 @@ JS_STEP = (" if(goQ.length){const t=goQ[0],d=Math.hypot(t.x-P.x,t.y-P.y,t.z-P.z)
            "else P={x:P.x+(t.x-P.x)*v/d,y:P.y+(t.y-P.y)*v/d,z:P.z+(t.z-P.z)*v/d};setPose()}\n upLight();\n")
 JS_BUTTONS = ("function tsetMsg(){const dn=(LC.z+MEAS.z-MC.z).toFixed(0),ac=(tip.x+MEAS.x-MC.x).toFixed(0);"
               "return '對刀位置 X '+MEAS.x+'、Y '+MEAS.y+'、Z '+MEAS.z+'：相機往下看稜鏡（'+dn+' mm），斜邊鏡面把視線轉 90° 到刀具（'+ac+' mm），"
-              "光路 '+dn+' + '+ac+' = 110 = WD；刀尖在視野中心高度，紅線是視野中心'}"
+              "光路 '+dn+' + '+ac+' = '+WD+' = WD；刀尖在視野中心高度，紅線是視野中心'}"
               "btn('tset').onclick=()=>{manual('移動到對刀位置：先抬 Z，再走 X／Y，最後下 Z');tsetOn=true;probeT=0;btn('probe').textContent='探頭 伸出';"
               "btn('probe').classList.remove('on');const zs=Math.max(P.z,30);goQ=[{x:P.x,y:P.y,z:zs},{x:MEAS.x,y:MEAS.y,z:zs},{...MEAS}]};"
               "btn('fov').onclick=()=>{fovOn=!fovOn;btn('fov').textContent='視野 '+(fovOn?'開':'關');btn('fov').classList.toggle('on',fovOn)};"

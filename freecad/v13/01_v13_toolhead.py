@@ -11,7 +11,7 @@
                 Module plate = the v12 spindle back plate made wider (216 at the bottom): same RBPB8 pivot, shim packs and differential
                 screws, used for spindle tram ONLY; camera and probe offsets are calibrated after tramming. Shim bolts and the
                 bottom face screws are moved so they stay reachable from the front (between the tools).
-                Camera: lens front 40 above the tool tip (path 40 + 70 = 110 = WD), 4 above the spindle nose.
+                Camera: Moritex MML04-HR120D (WD 120), 65 from the spindle, lens front 55 above the tool tip (path 55 + 65 = 120 = WD).
   3 Prism       folds the view +X; holder on the table T-slot x -130 at the rear-left corner (prism x -195, y +200), outside
                 the work area, with a pneumatic flip cover. Tool measured at X -117.5, table -220, Z -40.
   4 Freeze fixes (design reviews): C-TEK12 mounting holes (X/Y/Z), table T-slots moved to x 0/+-65/+-130 with a DIN 650 section
@@ -164,7 +164,7 @@ z = O('Z_slide_plate')                                        # fill the v12 pro
 z.Shape = fuse(z.Shape, *[cyl('y', 2.5, 34, 44, x, zz) for x in (89, 101) for zz in (340, 380)])
 
 SX0, SY = -7.5, -20.0                                         # spindle axis
-CX, PX = SX0 - 70.0, SX0 + 85.0                               # camera, probe axes (-77.5, +77.5)
+CX, PX = SX0 - 65.0, SX0 + 85.0                               # camera (D 65, MML04-HR120D: Ø45 nose vs spindle, taper vs clamp), probe axes
 for l in ('Spindle_body', 'Spindle_fan_cover', 'Spindle_plug', 'Spindle_nose', 'ER11_nut', 'Tool_D5',
           'Spindle_pinch_screw_1', 'Spindle_pinch_screw_2') + tuple('Spindle_clamp_bolt_%d' % k for k in range(1, 5)):
     move(l, SX0)
@@ -188,7 +188,7 @@ spec('Spindle_clamp', '6061 clamp block 96x83x74: bore D65 H7 at (x-7.5, y-20), 
 SB = (0, 366)                                                 # pivot (RBPB8 in the Z slide, unchanged)
 BOLTS = [(-50, 305), (42, 305), (-50, 490), (50, 490)]        # shim bolts spread 185 apart (v13 review: 35 was too short for nod), front access
 SCREWS = [('TC', 0, 490), ('BL', -103, 330), ('BR', 103, 330)]  # differential face screws: outside the camera and the probe
-CAMB = [(CX - 10, 300), (CX + 10, 300)]                       # camera bracket: 2 x M5 low-head from the plate back
+CAMB = [(CX - 10, 305), (CX + 6, 305)]                        # camera bracket: 2 x M5 low-head from the plate back
 PRB = [(66, 300), (89, 300), (66, 400), (89, 400)]           # probe bracket: 4 x M5 low-head from the plate back
 pl = fuse(box(-78, 78, 20, 32, 319, 500), box(-108, 108, 20, 32, 288, 465))
 for x, zz in BOLTS: pl = pl.cut(cyl('y', 3.5, 20, 32, x, zz))
@@ -229,43 +229,44 @@ spec('X_roll_jack', 'M8x0.75 jack + jam nut under the right end of the X plate: 
 # ---------------------------------------------------------------- camera (left)
 import math
 gl = '11 Camera'
-ZF = TIP + (110.0 - (SX0 - CX))                               # lens front: tip + 40
+WDL = 120.0                                                     # lens working distance (MML04-HR120D)
+ZF = TIP + (WDL - (SX0 - CX))                                   # lens front: tip + 55 (path 55 + 65 = 120)
 def place(shape, rx180=True, rz=0.0, t=(0, 0, 0)):
     s = shape.copy()
     if rx180: s.rotate(V(0, 0, 0), V(1, 0, 0), 180)
     if rz: s.rotate(V(0, 0, 0), V(0, 0, 1), rz)
     s.translate(V(*t)); return s
-lens = Part.read(os.path.join(ROOT, 'vendor', 'moritex', 'MML05-HR110D', 'MML05-HR110D.step'))  # front z+91.47, C flange z-43.64, port +Y
-add('Camera_lens', place(lens, True, -90, (CX, SY, ZF + 91.47)), gl,
-    'Moritex MML05-HR110D telecentric 0.5x, WD 110+-5.5, DOF 3, C-mount, coaxial light port D8 H7 toward -X (vendor STEP). '
-    'Focus plane = lens front - 110: with Z +50 max the camera sees work tops 0..50 mm above the table (spec limit)', 'z', 'camera')
-ZC = ZF + 91.47 + 43.64
+lens = Part.read(os.path.join(ROOT, 'vendor', 'moritex', 'MML04-HR120D', 'MML04-HR120D.step'))  # front z+123.07, C flange z-51.03, port +Y at z 6.57
+add('Camera_lens', place(lens, True, -90, (CX, SY, ZF + 123.07)), gl,
+    'Moritex MML04-HR120D telecentric 0.4x, WD 120+-3.6, DOF 5.3, resolution 17.7 um, C-mount, coaxial light port D8 toward -X (vendor STEP). '
+    'Field of view with the daA2448 about 16.8 x 14.0. Focus plane = lens front - 120: with Z +50 max the camera sees work tops 0..30 mm above the table', 'z', 'camera')
+ZC = ZF + 174.1                                                 # C flange
 ring5 = Part.makeCylinder(15.0, 5.026, V(0, 0, 0)).cut(Part.makeCylinder(12.7, 5.026, V(0, 0, 0)))
 add('Camera_CS_C_adapter', place(ring5, False, 0, (CX, SY, ZC)), gl, 'Basler CS-mount to C-mount adapter ring 5 mm (2200002382)', 'z', 'camera')
 cam = Part.read(os.path.join(ROOT, 'vendor', 'basler', 'daA2448-70uc', 'daA2448-70uc_CS_from_drawing.step'))
 add('Camera_body', place(cam, True, -180, (CX, SY, ZC + 5.026)), gl,
     'Basler dart R daA2448-70uc (CS-Mount), IMX548 1/1.8" 5 MP, USB3 toward -X (outside); sensor long side along X '
     '(= along the tool axis in the folded view); model from the Basler dimension drawing', 'z', 'camera')
-PZ = ZF + 91.47 - 6.55                                          # coaxial port bore centre height (vendor STEP)
-add('Camera_light_guide', fuse(cyl('x', 3.98, CX - 26, CX - 10.5, SY, PZ), cyl('x', 7.0, CX - 46, CX - 20, SY, PZ),
-                               cyl('x', 5.5, CX - 86, CX - 46, SY, PZ)), gl,
-    'light guide (fibre) D8 ferrule pushed into the coaxial port D8 H7 to its stop, locked by its screw; cable to the LED light source', 'z', 'camera')
-ar = cyl('z', 22, ZF - 2, ZF + 8, CX, SY).cut(cyl('z', 17.6, ZF - 2, ZF + 8, CX, SY)).cut(cyl('z', 19.5, ZF - 2, ZF + 4, CX, SY))   # ring + annular air gallery
-ar = ar.cut(cyl('y', 2.0, SY - 22, SY - 18, CX, ZF + 3))
-add('Camera_air_ring', ar, gl, 'lens air ring (CNC, 6061) on the D35 lens nose, 2 x M3 set screws: clean dry air from an M5 push-in fitting blows across '
+PZ = ZF + 123.07 - 6.57                                         # coaxial port centre height (vendor STEP)
+add('Camera_light_guide', fuse(cyl('x', 3.98, CX - 27, CX - 11.5, SY, PZ), cyl('x', 7.0, CX - 47, CX - 27, SY, PZ),
+                               cyl('x', 5.5, CX - 87, CX - 47, SY, PZ)), gl,
+    'light guide (fibre) D8 ferrule pushed into the coaxial port D8 to its stop, locked by the M3 set screw; cable to the LED light source', 'z', 'camera')
+ar = cyl('z', 25.5, ZF - 2, ZF + 8, CX, SY).cut(cyl('z', 22.6, ZF - 2, ZF + 8, CX, SY)).cut(cyl('z', 24.0, ZF - 2, ZF + 4, CX, SY))   # ring + air gallery
+ar = ar.cut(cyl('y', 2.0, SY - 25.5, SY - 22, CX, ZF + 3))
+add('Camera_air_ring', ar, gl, 'lens air ring (CNC, 6061) on the D45 lens nose, 2 x M3 set screws: clean dry air from an M5 push-in fitting blows across '
     'the front glass (keeps coolant mist and chips off); no window, WD unchanged', 'z', 'camera')
-add('Camera_air_fitting', cyl('y', 4, SY - 34, SY - 22, CX, ZF + 3), gl, 'M5 push-in fitting for D4 tube (air ring)', 'z', 'camera')
-# bracket (CNC, 6061): split ring on the D22 lens tube, web back to a flange on the module plate (2 x M5 from the plate back)
-RZ0, RZ1 = ZF + 106, ZF + 126
+add('Camera_air_fitting', cyl('y', 4, SY - 37.5, SY - 25.5, CX, ZF + 3), gl, 'M5 push-in fitting for D4 tube (air ring)', 'z', 'camera')
+# bracket (CNC, 6061): split ring on the D45 lens barrel (below the spindle clamp), web back to a flange on the module plate (2 x M5 from the plate back)
+RZ0, RZ1 = ZF + 60, ZF + 80
 PZM = (RZ0 + RZ1) / 2
-br = fuse(cyl('z', 18, RZ0, RZ1, CX, SY), box(CX - 8, CX + 8, SY - 32, SY - 16, RZ0 + 2, RZ1 - 2),       # ring + pinch lug (front)
-          box(CX - 10, CX + 10, SY + 12, 8, RZ0, RZ1), box(CX - 10, CX + 10, -1, 8, 312, RZ0),         # web (above the D35 lens body)
-          box(CX - 17.5, CX + 17.5, 8, 20, 288, 322))                                                   # flange on the module plate
-br = br.cut(cyl('z', 11.05, RZ0, RZ1, CX, SY)).cut(box(CX - 0.5, CX + 0.5, SY - 33, SY - 10, RZ0, RZ1))
-br = br.cut(cyl('x', 2.25, CX - 8, CX - 0.5, SY - 24, PZM)).cut(cyl('x', 2.0, CX + 0.5, CX + 8, SY - 24, PZM))
-add('Camera_bracket', br, gl, 'camera bracket (CNC, 6061): flange on the module plate (2 x M5 low-head from the plate back), split ring D22 on the '
-    'lens tube, M4 pinch screw', 'z', 'camera')
-add('Camera_pinch_bolt', fuse(cyl('x', 3.5, CX - 12, CX - 8, SY - 24, PZM), cyl('x', 2.0, CX - 8, CX + 6, SY - 24, PZM)), gl,
+br = fuse(cyl('z', 26, RZ0, RZ1, CX, SY), box(CX - 8, CX + 8, SY - 36, SY - 22, RZ0 + 2, RZ1 - 2),       # ring + pinch lug (front)
+          box(CX - 10, CX + 10, 1, 8, RZ0, RZ1),                                                       # web
+          box(CX - 17.5, CX + 15, 8, 20, RZ0 - 5, RZ1 + 5))                                             # flange on the module plate
+br = br.cut(cyl('z', 22.55, RZ0, RZ1, CX, SY)).cut(box(CX - 0.5, CX + 0.5, SY - 37, SY - 20, RZ0, RZ1))
+br = br.cut(cyl('x', 2.25, CX - 8, CX - 0.5, SY - 29, PZM)).cut(cyl('x', 2.0, CX + 0.5, CX + 8, SY - 29, PZM))
+add('Camera_bracket', br, gl, 'camera bracket (CNC, 6061): flange on the module plate (2 x M5 low-head from the plate back), split ring D45 on the '
+    'lens barrel, M4 pinch screw', 'z', 'camera')
+add('Camera_pinch_bolt', fuse(cyl('x', 3.5, CX - 12, CX - 8, SY - 29, PZM), cyl('x', 2.0, CX - 8, CX + 6, SY - 29, PZM)), gl,
     'M4x14 SHCS, ring pinch screw', 'z', 'fasten')
 for i, (x, zz) in enumerate(CAMB, 1):
     hole('Camera_bracket', cyl('y', 2.5, 8, 20, x, zz))
@@ -293,7 +294,8 @@ mb = fuse(box(MX - 14, SX + 15, MY - 54, MY + 18, TT.ZMax, BT),                 
           box(SX - 6.95, SX + 6.95, MY - 54, MY + 18, TT.ZMax - 4, TT.ZMax),        # tenon key in the 14 mm slot neck
           box(MX - 14, MX - 10, MY - 12, MY + 12, BT, BT + 9))                       # lip: the prism's left face leans on it
 mb = mb.cut(box(MX - 10, MX + 10, MY - 10, MY + 10, ZB, BT))                         # prism pocket 3 deep
-MBB = [(SX, MY - 12), (SX, MY - 40)]                             # 2 x M6 low-head + T-nut, heads flush, off the beam band (y +-5.6)
+MBB = [(SX, MY - 16), (SX, MY - 44)]                             # 2 x M6 low-head + T-nut, heads flush, off the beam band
+mb = mb.cut(box(MX + 10, SX + 15, MY - 9, MY + 9, BT - 4, BT))   # relief under the across beam (FOV 16.8 x 14 at 0.4x)
 for x, y in MBB: mb = mb.cut(cyl('z', 3.3, TT.ZMax - 4, BT, x, y)).cut(cyl('z', 5.5, BT - 4, BT, x, y))
 add('Mirror_bracket', mb, gl, 'prism holder (CNC, steel t8, base ground): on the table T-slot x -130 at the rear-left corner (tenon key 14 h7, 2 x M6 low-head '
     '+ T-nut, heads flush), prism centre x -195; 3 mm pocket and left lip locate the glued 20 mm prism; station top 29.5 above the table', 'y', 'camera')

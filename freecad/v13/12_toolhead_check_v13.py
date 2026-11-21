@@ -27,7 +27,8 @@ out = []
 HEAD = [n for n in OBJ if n.startswith(('Camera', 'Tool_mirror', 'Mirror', 'Probe', 'Coolant_nozzle'))]
 for n in ('Spindle_body', 'Spindle_clamp', 'Spindle_nose'):
     if n not in HEAD: HEAD.append(n)
-SX0, SY, CX, PX = -7.5, -20.0, -77.5, 77.5
+SX0, SY, PX = -7.5, -20.0, 77.5
+ab_ = OBJ['Camera_CS_C_adapter'].Shape.BoundBox; CX = (ab_.XMin + ab_.XMax) / 2   # camera axis from the model
 pb_ = OBJ['Tool_mirror'].Shape.BoundBox                         # fold point from the model: prism centre, 10 above its bottom
 MX, MY, MZ = (pb_.XMin + pb_.XMax) / 2, (pb_.YMin + pb_.YMax) / 2, pb_.ZMin + 10.0
 MEAS = (MX - CX, SY - MY, MZ - OBJ['Tool_D5'].Shape.BoundBox.ZMin)   # (-117.5, -220, Z)
@@ -60,8 +61,9 @@ dx, dy, dz = MEAS
 OPEN = OBJ['Mirror_cover'].Shape.copy(); OPEN.translate(V(0, 30, 0))   # cover slid open
 S_OPEN = {'Mirror_cover': OPEN}
 lf = OBJ['Camera_lens'].Shape.BoundBox.ZMin + dz
-paths = {'down': Part.makeBox(13.4, 11.2, lf - 147.0, V(MX - 6.7, SY - 5.6, 147.0)),
-         'across': Part.makeBox((SX0 + dx - 2.5) - (MX + 6.7), 11.2, 13.4, V(MX + 6.7, SY - 5.6, MZ - 6.7))}
+FW, FH = 16.8, 14.0                                              # FOV of MML04-HR120D (0.4x) on the daA2448, long side along X / the tool
+paths = {'down': Part.makeBox(FW, FH, lf - (MZ + FW / 2), V(MX - FW / 2, SY - FH / 2, MZ + FW / 2)),
+         'across': Part.makeBox((SX0 + dx - 2.5) - (MX + FW / 2), FH, FW, V(MX + FW / 2, SY - FH / 2, MZ - FW / 2))}
 for k, p in paths.items():
     hits = [(m, round(vol(p, moved(m, dx, dy, dz, S_OPEN)), 1)) for m in OBJ if p.BoundBox.intersect(moved(m, dx, dy, dz, S_OPEN).BoundBox)]
     out.append('PATH %-6s %s' % (k, [h for h in hits if h[1] > 0.01] or 'clear'))
