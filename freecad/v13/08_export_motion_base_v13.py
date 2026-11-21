@@ -62,7 +62,7 @@ for o in doc.Objects:
         if not g and getattr(o, 'Adj', '') == 'base': g = 'base'
         r, c = '', colour(name)
         if name == 'X_support_float': c = old['X_support_fixed']['c']
-    pts, tris = o.Shape.tessellate(1.0 if o.Label == 'Camera_lens' else (0.8 if re.search(r'(Camera_body|pivot_bearing|^[XYZ]_block_|ball_nut)', o.Label) else 0.25))
+    pts, tris = o.Shape.tessellate(1.6 if o.Label == 'Camera_lens' else (0.8 if re.search(r'(Camera_body|pivot_bearing|^[XYZ]_block_|ball_nut)', o.Label) else 0.25))
     if not tris:
         continue
     coords = [int(round(v * 10)) for p in pts for v in (p.x, p.y, p.z)]

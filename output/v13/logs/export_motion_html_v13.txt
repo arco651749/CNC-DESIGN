@@ -1,4 +1,4 @@
-parts=363 size=15405169
+parts=365 size=15491163
 Datum_base_plate g='' r='' tris=27308
 Y_rail_L g='y' r='' tris=8600
 Y_block_L1 g='' r='' tris=36808
@@ -102,7 +102,7 @@ KIT (not shown) X_roll_bracket
 KIT (not shown) X_roll_jack
 KIT (not shown) X_roll_bracket_bolt_1
 KIT (not shown) X_roll_bracket_bolt_2
-X_saddle_plate g='x' r='' tris=25816
+X_saddle_plate g='x' r='' tris=25832
 Z_pivot_bearing g='x' r='' tris=26978
 Z_pivot_pin g='x' r='' tris=500
 Z_clamp_bolt_1 g='x' r='' tris=1004
@@ -364,19 +364,19 @@ Camera_pinch_bolt g='z' r='' tris=1004
 Camera_bracket_bolt_1 g='z' r='' tris=1004
 Camera_bracket_bolt_2 g='z' r='' tris=1004
 Tool_mirror g='y' r='' tris=8
-Mirror_bracket g='y' r='' tris=2104
+Mirror_bracket g='y' r='' tris=4182
 Mirror_bracket_bolt_1 g='y' r='' tris=1004
 Mirror_bracket_bolt_2 g='y' r='' tris=1004
-Mirror_cover g='y' r='' tris=44
+Mirror_cover g='y' r='' tris=42
 Mirror_cover_actuator g='y' r='' tris=516
 Probe_body g='z' r='' tris=7832
-Probe_slide_body g='z' r='' tris=2028
-Probe_slide_table g='z' r='' tris=2028
+Probe_slide_body g='z' r='' tris=3036
+Probe_slide_table g='z' r='' tris=2060
 Probe_reed_1 g='z' r='' tris=12
 Probe_air_fitting_1 g='z' r='' tris=500
 Probe_reed_2 g='z' r='' tris=12
 Probe_air_fitting_2 g='z' r='' tris=500
-Probe_bracket g='z' r='' tris=6092
+Probe_bracket g='z' r='' tris=8116
 Probe_bracket_bolt_1 g='z' r='' tris=1004
 Probe_bracket_bolt_2 g='z' r='' tris=1004
 Probe_bracket_bolt_3 g='z' r='' tris=1004
@@ -385,7 +385,9 @@ Probe_slide_bolt_1 g='z' r='' tris=1004
 Probe_slide_bolt_2 g='z' r='' tris=1004
 Probe_slide_bolt_3 g='z' r='' tris=1004
 Probe_slide_bolt_4 g='z' r='' tris=1004
-Probe_holder g='z' r='' tris=3564
+Probe_slide_bolt_5 g='z' r='' tris=1004
+Probe_slide_bolt_6 g='z' r='' tris=1004
+Probe_holder g='z' r='' tris=3560
 Probe_pinch_bolt g='z' r='' tris=1004
 Probe_holder_bolt_1 g='z' r='' tris=1004
 Probe_holder_bolt_2 g='z' r='' tris=1004

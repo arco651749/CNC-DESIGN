@@ -402,6 +402,9 @@ cut('X_carriage_plate', cyl('y', 4, 104, 121, 0, 236), cyl('y', 4, 104, 121, 0, 
 sd = O('X_saddle_plate')                                        # saddle taps for the top clamp bolts follow the plate
 sd.Shape = fuse(sd.Shape, *[cyl('y', 3, 122, 132, x, 696) for x in (-108, 108)])
 for x in (-108, 108): hole('X_saddle_plate', cyl('y', 3, 122, 132, x, 696 + DZA))
+zm = O('Z_motor_plate').Shape.BoundBox; sb_ = O('X_saddle_plate').Shape.BoundBox   # the Z motor plate now reaches over the saddle top
+cut('X_saddle_plate', box(zm.XMin - 4, zm.XMax + 4, sb_.YMin - 1, sb_.YMax + 1, zm.ZMin - 4, sb_.ZMax + 1))
+prop(sd, 'Spec', sd.Spec + '; v13: notch %.0f wide x %.0f deep in the top centre for the Z motor plate (4 clear)' % (zm.XLength + 8, sb_.ZMax - zm.ZMin + 4))
 prop(zp, 'Spec', zp.Spec + '; v13: Z assembly 25 lower on the saddle (plate z 197..685): RBPB8 pin 25 above the plate centre')
 LOG.append('Z assembly lowered %.0f: %d parts moved; tool tip z %.1f (table top %.0f -> Z -50 reaches %.1f below it), Z plate bottom z %.1f'
            % (-DZA, nz, O('Tool_D5').Shape.BoundBox.ZMin, TT.ZMax, TT.ZMax - (O('Tool_D5').Shape.BoundBox.ZMin - 50), zp.Shape.BoundBox.ZMin))

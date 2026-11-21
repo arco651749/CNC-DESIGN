@@ -489,7 +489,7 @@ $SKPOLY
   9
 $TDCREATE
  40
-2461366.5891087963
+2461366.640972222
   9
 $TDUCREATE
  40
@@ -497,7 +497,7 @@ $TDUCREATE
   9
 $TDUPDATE
  40
-2461366.5891087963
+2461366.640972222
   9
 $TDUUPDATE
  40
@@ -929,11 +929,11 @@ $PSTYLEMODE
   9
 $FINGERPRINTGUID
   2
-{1A982197-D33D-42B3-88AC-223EF1378894}
+{5F800CB3-4B2B-4208-8434-7B329C04A60C}
   9
 $VERSIONGUID
   2
-{D1EDF5BC-C9A4-4EE0-8FF7-4672F2ADC0D8}
+{308A686E-6BC5-4254-8FE0-9792D36292F1}
   9
 $EXTNAMES
 290
@@ -1323,9 +1323,9 @@ ISM
   0
 CLASS
   1
-ACDBPLACEHOLDER
+LAYOUT
   2
-AcDbPlaceHolder
+AcDbLayout
   3
 ObjectDBX Classes
  90
@@ -1339,9 +1339,9 @@ ObjectDBX Classes
   0
 CLASS
   1
-LAYOUT
+ACDBPLACEHOLDER
   2
-AcDbLayout
+AcDbPlaceHolder
   3
 ObjectDBX Classes
  90
@@ -9661,6 +9661,246 @@ HOLE
 100
 AcDbCircle
  10
+188.0
+ 20
+62.0
+ 30
+0.0
+ 40
+2.75
+  0
+CIRCLE
+  5
+113
+330
+17
+100
+AcDbEntity
+  8
+HOLE
+  6
+DASHED
+100
+AcDbCircle
+ 10
+188.0
+ 20
+62.0
+ 30
+0.0
+ 40
+5.0
+  0
+LINE
+  5
+114
+330
+17
+100
+AcDbEntity
+  8
+CENTER
+100
+AcDbLine
+ 10
+181.5
+ 20
+62.0
+ 30
+0.0
+ 11
+194.5
+ 21
+62.0
+ 31
+0.0
+  0
+LINE
+  5
+115
+330
+17
+100
+AcDbEntity
+  8
+CENTER
+100
+AcDbLine
+ 10
+188.0
+ 20
+55.5
+ 30
+0.0
+ 11
+188.0
+ 21
+68.5
+ 31
+0.0
+  0
+TEXT
+  5
+116
+330
+17
+100
+AcDbEntity
+  8
+HOLE
+100
+AcDbText
+ 10
+192.25
+ 20
+66.25
+ 30
+0.0
+ 40
+2.8000000000000003
+  1
+A
+ 11
+192.25
+ 21
+66.25
+ 31
+0.0
+100
+AcDbText
+  0
+CIRCLE
+  5
+117
+330
+17
+100
+AcDbEntity
+  8
+HOLE
+100
+AcDbCircle
+ 10
+211.0
+ 20
+62.0
+ 30
+0.0
+ 40
+2.75
+  0
+CIRCLE
+  5
+118
+330
+17
+100
+AcDbEntity
+  8
+HOLE
+  6
+DASHED
+100
+AcDbCircle
+ 10
+211.0
+ 20
+62.0
+ 30
+0.0
+ 40
+5.0
+  0
+LINE
+  5
+119
+330
+17
+100
+AcDbEntity
+  8
+CENTER
+100
+AcDbLine
+ 10
+204.5
+ 20
+62.0
+ 30
+0.0
+ 11
+217.5
+ 21
+62.0
+ 31
+0.0
+  0
+LINE
+  5
+11A
+330
+17
+100
+AcDbEntity
+  8
+CENTER
+100
+AcDbLine
+ 10
+211.0
+ 20
+55.5
+ 30
+0.0
+ 11
+211.0
+ 21
+68.5
+ 31
+0.0
+  0
+TEXT
+  5
+11B
+330
+17
+100
+AcDbEntity
+  8
+HOLE
+100
+AcDbText
+ 10
+215.25
+ 20
+66.25
+ 30
+0.0
+ 40
+2.8000000000000003
+  1
+A
+ 11
+215.25
+ 21
+66.25
+ 31
+0.0
+100
+AcDbText
+  0
+CIRCLE
+  5
+11C
+330
+17
+100
+AcDbEntity
+  8
+HOLE
+100
+AcDbCircle
+ 10
 155.5
  20
 108.0
@@ -9671,7 +9911,7 @@ AcDbCircle
   0
 LINE
   5
-113
+11D
 330
 17
 100
@@ -9695,7 +9935,7 @@ AcDbLine
   0
 LINE
   5
-114
+11E
 330
 17
 100
@@ -9719,7 +9959,7 @@ AcDbLine
   0
 TEXT
   5
-115
+11F
 330
 17
 100
@@ -9749,7 +9989,7 @@ AcDbText
   0
 CIRCLE
   5
-116
+120
 330
 17
 100
@@ -9769,7 +10009,7 @@ AcDbCircle
   0
 LINE
   5
-117
+121
 330
 17
 100
@@ -9793,7 +10033,7 @@ AcDbLine
   0
 LINE
   5
-118
+122
 330
 17
 100
@@ -9817,7 +10057,7 @@ AcDbLine
   0
 TEXT
   5
-119
+123
 330
 17
 100
@@ -9840,246 +10080,6 @@ C
 175.125
  21
 205.125
- 31
-0.0
-100
-AcDbText
-  0
-CIRCLE
-  5
-11A
-330
-17
-100
-AcDbEntity
-  8
-HOLE
-100
-AcDbCircle
- 10
-188.0
- 20
-112.0
- 30
-0.0
- 40
-2.75
-  0
-CIRCLE
-  5
-11B
-330
-17
-100
-AcDbEntity
-  8
-HOLE
-  6
-DASHED
-100
-AcDbCircle
- 10
-188.0
- 20
-112.0
- 30
-0.0
- 40
-5.0
-  0
-LINE
-  5
-11C
-330
-17
-100
-AcDbEntity
-  8
-CENTER
-100
-AcDbLine
- 10
-181.5
- 20
-112.0
- 30
-0.0
- 11
-194.5
- 21
-112.0
- 31
-0.0
-  0
-LINE
-  5
-11D
-330
-17
-100
-AcDbEntity
-  8
-CENTER
-100
-AcDbLine
- 10
-188.0
- 20
-105.5
- 30
-0.0
- 11
-188.0
- 21
-118.5
- 31
-0.0
-  0
-TEXT
-  5
-11E
-330
-17
-100
-AcDbEntity
-  8
-HOLE
-100
-AcDbText
- 10
-192.25
- 20
-116.25
- 30
-0.0
- 40
-2.8000000000000003
-  1
-A
- 11
-192.25
- 21
-116.25
- 31
-0.0
-100
-AcDbText
-  0
-CIRCLE
-  5
-11F
-330
-17
-100
-AcDbEntity
-  8
-HOLE
-100
-AcDbCircle
- 10
-211.0
- 20
-112.0
- 30
-0.0
- 40
-2.75
-  0
-CIRCLE
-  5
-120
-330
-17
-100
-AcDbEntity
-  8
-HOLE
-  6
-DASHED
-100
-AcDbCircle
- 10
-211.0
- 20
-112.0
- 30
-0.0
- 40
-5.0
-  0
-LINE
-  5
-121
-330
-17
-100
-AcDbEntity
-  8
-CENTER
-100
-AcDbLine
- 10
-204.5
- 20
-112.0
- 30
-0.0
- 11
-217.5
- 21
-112.0
- 31
-0.0
-  0
-LINE
-  5
-122
-330
-17
-100
-AcDbEntity
-  8
-CENTER
-100
-AcDbLine
- 10
-211.0
- 20
-105.5
- 30
-0.0
- 11
-211.0
- 21
-118.5
- 31
-0.0
-  0
-TEXT
-  5
-123
-330
-17
-100
-AcDbEntity
-  8
-HOLE
-100
-AcDbText
- 10
-215.25
- 20
-116.25
- 30
-0.0
- 40
-2.8000000000000003
-  1
-A
- 11
-215.25
- 21
-116.25
  31
 0.0
 100
@@ -12415,7 +12415,7 @@ DictionaryVariables
 280
 0
   1
-1.4.5 @ 2026-11-21T14:08:19.282022+00:00
+1.4.5 @ 2026-11-21T15:23:00.432317+00:00
   0
 VISUALSTYLE
   5
@@ -13127,7 +13127,7 @@ DictionaryVariables
 280
 0
   1
-1.4.5 @ 2026-11-21T14:08:19.295658+00:00
+1.4.5 @ 2026-11-21T15:23:00.441109+00:00
   0
 ENDSEC
   0
