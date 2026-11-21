@@ -17,8 +17,8 @@ ROWS = [
  ("控制", "BD", "RP23CNC 控制板", 1, "RP23CNC V2.02 (RP23U5XBB)，RP2354B，5 軸 grblHAL，12/24V 供電", "Brookwood Design (Tindie / 官網商店)", "已選定",
   "含基本組裝套件（排針、跳線）；STEP/DIR/EN 為 5V 單端，須外加 RS-422 驅動 (IFB1)。手冊 V2 user manual"),
  ("控制", "BD", "WIZ850io 乙太網路模組", 1, "WIZnet WIZ850io (必須 W5500)；WIZ820io / WIZ550io 不相容", "WIZnet", "已選定", "選配，多台並聯監控用"),
- ("控制", "IFB", "MR-J4 介面板 IFB1", 1, "3 軸 RS-422 差動線驅動 (如 AM26C31) PP/PG、NP/NG + EN→SON 光耦", "自製或另購", "待客戶決定",
-  "市面沒有現成品，要自製 PCB；手冊差動接收最高 4 Mpulse/s，線長 10 m 內"),
+ ("控制", "IFB", "MR-J4 介面板 IFB1", 1, "3 軸 STEP/DIR 轉 RS-422 差動線驅動 (如 AM26C31) → PP/PG、NP/NG，共 6 路（2 顆 4 路晶片）", "自製或另購", "待客戶決定",
+  "選項 C：EN→SON 電路不做，伺服 SON (CN1-15) 直接接 0V，伺服永遠開啟；因此板子只剩差動驅動。市面沒有現成三軸成品，可用 2 片 AM26C31 / AM26LS31 RS-422 模組拼；差動接收最高 4 Mpulse/s，線長 10 m 內"),
  ("控制", "LAN", "LAN 交換器 / 監控 PC", 1, "10/100 乙太網路", "客戶自備", "客戶自備", ""),
  # ---- AC / protection
  ("交流保護", "QF1", "主斷路器", 1, "士林 BM30-SN，2P 30A，30A 框，Icu 5 kA @ 220V", "士林電機 (SEEC)", "暫定",

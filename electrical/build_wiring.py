@@ -72,7 +72,7 @@ K_TB = 0.1871
 TB_TOP = {"PP": (428, "10"), "PG": (451, "11"), "NP": (386, "35"), "NG": (407, "36"), "SON": (38, "15"),
           "EM2": (170, "42"), "DICOM": (299, "20"), "DOCOM": (320, "46")}
 TB_BOT = {"ALM": (157, "48"), "MBR": (92, "23")}
-TB_NET = {"PP": ("{ax}_PP", ORG), "PG": ("{ax}_PG", ORG), "NP": ("{ax}_NP", PUR), "NG": ("{ax}_NG", PUR), "SON": ("{ax}_SON", YEL),
+TB_NET = {"PP": ("{ax}_PP", ORG), "PG": ("{ax}_PG", ORG), "NP": ("{ax}_NP", PUR), "NG": ("{ax}_NG", PUR), "SON": ("0V3", BLK),
           "EM2": ("EM2_COM", ORG), "DICOM": ("+24V3", RED), "DOCOM": ("0V3", BLK), "ALM": ("ALM_{ax}", PUR), "MBR": ("MBR_Z", PUR)}
 def make_tb(ax, cy):
     ph = S.photo(Photo(os.path.join(PH, "tb40_mrj4a_terminal_block.png"), 405.0, cy, K_TB, crop=(20, 120, 468, 350)))
@@ -131,8 +131,8 @@ BOT_X = [329.4 + 67.40 * i for i in range(22)]       # bottom strip, 22 terminal
 RIGHT_Y = [344.5 + 67.49 * i for i in range(20)]     # right strip, 20 terminals, top to bottom
 TOP_Y, BOT_Y, RIGHT_X = 136.0, 1824.0, 1883.0
 A_IDX = {"PWR_G": 0, "PWR_P": 1, "SGND": 6, "S010": 7, "K2S": 14, "K2P": 15, "K5S": 16, "K5P": 17, "K1S": 20, "K1P": 21}   # top strip, left to right
-C_IDX = {"Z_GND": 8, "Z_STP": 9, "Z_DIR": 10, "Z_EN": 11, "Y_GND": 12, "Y_STP": 13, "Y_DIR": 14, "Y_EN": 15,
-         "X_GND": 16, "X_STP": 17, "X_DIR": 18, "X_EN": 19}    # right strip, top to bottom; inside an axis: GND STEP DIR ENA (silkscreen)
+C_IDX = {"Z_GND": 8, "Z_STP": 9, "Z_DIR": 10, "Y_GND": 12, "Y_STP": 13, "Y_DIR": 14,
+         "X_GND": 16, "X_STP": 17, "X_DIR": 18}    # right strip, top to bottom; inside an axis: GND STEP DIR ENA (silkscreen)
 B_IDX = {"ISO_P": 0, "ISO_G": 1, "LZS": 6, "LZG": 7, "LYS": 8, "LYG": 9, "LXS": 10, "LXG": 11, "PRS": 12, "PRG": 13, "ES_S": 20, "ES_G": 21}   # bottom strip, left to right
 # servo-alarm 2x3 header (pin-tip centres in the photo): top row X Z B, bottom row Y A Gnd (silkscreen)
 ALARM_PX = {"AX": (1213.0, 1563.0, "top", 5.08), "AZ": (1262.0, 1563.0, "top", 10.16), "AY": (1211.0, 1614.0, "bottom", 5.08), "AG": (1301.0, 1606.0, "bottom", 5.08)}
@@ -151,24 +151,24 @@ BD_NET = {"PWR_P": ("+24V1", RED), "PWR_G": ("0V1", BLK), "S010": ("SPD_0-10V", 
           "LZS": ("LIM_Z_SIG", BLK), "LZG": ("LIM_Z_GND", BLU),
           "AX": ("ALMIN_X", PUR), "AY": ("ALMIN_Y", PUR), "AZ": ("ALMIN_Z", PUR), "AG": ("ALMIN_G", BLK), "ETH": ("ETH", ANA)}
 for ax in "XYZ":
-    BD_NET.update({ax + "_STP": (ax + "_STP", ORG), ax + "_DIR": (ax + "_DIR", PUR), ax + "_EN": (ax + "_EN", YEL), ax + "_GND": (ax + "_GND", BLK)})
+    BD_NET.update({ax + "_STP": (ax + "_STP", ORG), ax + "_DIR": (ax + "_DIR", PUR), ax + "_GND": (ax + "_GND", BLK)})
 STAG = [5.08, 10.16, 15.24, 20.32]
 for pid, (net, col) in BD_NET.items():
     ln = 5.08 if pid in C_IDX else (ALARM_PX[pid][3] if pid in ALARM_PX else (13.0 if pid in B_IDX else (7.62 if pid in A_IDX else 12.7)))
     S.stub(BD[pid], net, col, ln)
 IFB = blk("IFB", "IFB1 MR-J4 介面板", 330.2, BT, w=40.64,
-          left=[("X_STP", 1, "X STP"), ("X_DIR", 2, "X DIR"), ("X_EN", 3, "X EN"), ("X_GND", 4, "X GND"),
-                ("Y_STP", 6, "Y STP"), ("Y_DIR", 7, "Y DIR"), ("Y_EN", 8, "Y EN"), ("Y_GND", 9, "Y GND"),
-                ("Z_STP", 11, "Z STP"), ("Z_DIR", 12, "Z DIR"), ("Z_EN", 13, "Z EN"), ("Z_GND", 14, "Z GND"),
-                ("V5", 16, "+5V"), ("G5", 17, "GND5"), ("G3", 18, "0V3")],
+          left=[("X_STP", 1, "X STP"), ("X_DIR", 2, "X DIR"), ("X_GND", 3, "X GND"),
+                ("Y_STP", 5, "Y STP"), ("Y_DIR", 6, "Y DIR"), ("Y_GND", 7, "Y GND"),
+                ("Z_STP", 9, "Z STP"), ("Z_DIR", 10, "Z DIR"), ("Z_GND", 11, "Z GND"),
+                ("V5", 13, "+5V"), ("G5", 14, "GND5"), ("G3", 15, "0V3")],
           right=[("%s_%s" % (a, n), r0 + i + 1, "%s %s" % (a, n))
-                 for a, r0 in (("X", 0), ("Y", 6), ("Z", 12)) for i, n in enumerate(("PP", "PG", "NP", "NG", "SON"))])
+                 for a, r0 in (("X", 0), ("Y", 5), ("Z", 10)) for i, n in enumerate(("PP", "PG", "NP", "NG"))])
 for ax in "XYZ":
-    for n in ("STP", "DIR", "EN", "GND"):
+    for n in ("STP", "DIR", "GND"):
         S.stub(IFB["%s_%s" % (ax, n)], BD_NET["%s_%s" % (ax, n)][0], BD_NET["%s_%s" % (ax, n)][1])
 S.stub(IFB["V5"], "+5V", RED); S.stub(IFB["G5"], "0V1", BLK); S.stub(IFB["G3"], "0V3", BLK)
 for ax in "XYZ":
-    for n, col in (("PP", ORG), ("PG", ORG), ("NP", PUR), ("NG", PUR), ("SON", YEL)):
+    for n, col in (("PP", ORG), ("PG", ORG), ("NP", PUR), ("NG", PUR)):
         S.stub(IFB["%s_%s" % (ax, n)], "%s_%s" % (ax, n), col)
 LAN = blk("LAN", "LAN 交換器 / 監控 PC（接 WIZ850io 模組的 RJ45）", 38.1, 210.82, right=[("RJ", 1, "RJ45")], w=20.32)
 S.stub(LAN["RJ"], "ETH", ANA)
@@ -305,7 +305,7 @@ lx, ly = 650, 40
 S.text("線色圖例", lx, ly - 5, 2.2, True)
 legend = [("L1 相線", BRN), ("L2 相線", BLU), ("PE 接地", GRN), ("+24V", RED), ("0V / 負極", BLK),
           ("馬達 U", UCL), ("馬達 W", GRY), ("脈衝 PP/PG、STEP", ORG), ("方向 NP/NG、DIR、報警、SIG", PUR),
-          ("致能 EN / 伺服 SON", YEL), ("編碼器", TEL), ("類比 0-10V、乙太網路", ANA), ("絕對位置備份電池 (CN4)", OLV)]
+          ("伺服 SON（直接接 0V，常開）", BLK), ("編碼器", TEL), ("類比 0-10V、乙太網路", ANA), ("絕對位置備份電池 (CN4)", OLV)]
 for i, (t, c) in enumerate(legend):
     y = ly + i * 5.08
     S.seg("LEG%d" % i, c, 0.381, lx, y, lx + 12.7, y)
@@ -317,7 +317,7 @@ notes = (
 "2. 容量為初估：PSU1 24V/3A、PSU2 24V/1A、PSU3 24V/5A；斷路器與接觸器額定值待負載核算。\n"
 "3. MR-J4-40A 單相 200-240V 接 L1 與 L3，L2 空接 (手冊 3.3.1)。手冊要求每台驅動器各配 1 個 MCCB 與 1 個接觸器 (11.10：30A 框 10A、保險絲 15A、接觸器 S-N10 等級)。L11/L21 取自接觸器之前。 CNP1 孔位由上而下：L1、L2、L3、N-、P3、P4 (手冊 9-3)，圖上標籤位置為示意。\n"
 "4. CN1 腳位依 MR-J4-A 手冊 3.4 節 (PP10 PG11 NP35 NG36 SON15 EM2 42 ALM48 DICOM20/21 DOCOM46/47)；MBR 非固定腳位，需設 Pr.PD24 讓 CN1-23 輸出 MBR。ALM 報警時斷開 (手冊 3.5)，與圖上反相處理一致。\n"
-"5. RP23CNC 的 STEP/DIR/EN 為 5V 單端：IFB1 內含 RS-422 線驅動 (差動 PP/PG、NP/NG) 與 EN→SON 光耦，需自製或選購。\n"
+"5. RP23CNC 的 STEP/DIR/EN 為 5V 單端：IFB1 只做 RS-422 線驅動 (STEP/DIR 轉差動 PP/PG、NP/NG)，需自製或選購。控制板 EN 腳不接；伺服 SON (CN1-15) 直接接 0V 常開 (伺服永遠開啟)，grblHAL 端不用 EN。\n"
 "6. 伺服報警：假設 MR-J4 ALM 正常導通、報警斷開；KA4 反相後以 NC 接點吸入控制板 ALM 輸入 (待核對)。\n"
 "7. grblHAL：$0=3 (脈衝寬度 µs，100 kHz 必須調小)；$14=70 (反轉 EStop/Feed Hold/Cycle Start)；0-10V 以 RV1 校準到 10V。\n"
 "8. 主軸 (台達 MS300 型錄第20頁)：0-10V 接 AVI/ACM；KA1 接點接 MI1 與 DCM (MI1 出廠為 FWD/STOP，輸入為 NPN/SINK 模式，接點短接 DCM 即動作)。S1/S2/+24V 的出廠短路片不可拆 (STO)。最高輸出 599 Hz，足以供 24,000 rpm (400 Hz)。頻率來源為 Pr.00-20 (Delta FAQ 確認為「主頻率指令來源」)，需改為外部類比 AVI；運轉指令來源 (我記得是 Pr.00-21) 需改為外部端子，兩者的設定值與 00-21 待核對完整使用手冊。\n"
