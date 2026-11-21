@@ -96,6 +96,7 @@ for o in [o for o in doc.Objects if o.TypeId == 'Part::Feature']:
         continue
     move(n, d); moved[n] = d
 for n, xs in STRETCH.items(): stretch(n, xs)
+cut('X_base_plate', box(-181 - W, 166 + W, 162, 182, 330, 390))   # X nut bracket through-slot (v12: x -181..166) for the longer travel
 LOG.append('moved out: %d parts (+x %d, -x %d); static parts crossing x+-255 not handled: %s'
            % (len(moved), sum(1 for d in moved.values() if d > 0), sum(1 for d in moved.values() if d < 0), warn or 'none'))
 # X rails: two more holes per side on the 60 pitch (rail ends at +-347.5, end distance 17.5), tapped into the X plate
@@ -110,7 +111,7 @@ spec('X_rail_2', 'SX2RNL28-695 rail (between the columns), holes on the 60 pitch
 spec('X_ballscrew', 'C-KBS1505-613: thread to the C-TEK12 face, D12x36 (bearing + lock nut) + D10x27 (coupling), fixed-free. '
      'X travel +-227.5; check the critical speed of the 613 fixed-free screw (add a free-end support if needed)')
 spec('X_base_plate', 'steel t20 875x260 (z 230..490); X rails z 250 / 470 (spacing 220); X drive axis z 360 = midway between the rails. '
-     'Front face stepped 1 mm down outside x+-349.5: stands 1 mm off the columns, joined by 8 epoxy pads')
+     'Through-slot x -258.5..243.5, z 330..390 for the X nut bracket. Front face stepped 1 mm down outside x+-349.5: stands 1 mm off the columns, joined by 8 epoxy pads')
 spec('Datum_base_plate', 'Q235 t20 875x327 datum plate, top face ground (Y block seats): Y blocks, Y nut seat, column feet')
 
 # ================================================================ 2. tool-head module
