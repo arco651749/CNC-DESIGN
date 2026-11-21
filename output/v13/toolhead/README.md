@@ -11,7 +11,7 @@
 | 7 | Camera focus range | Spec limit: the camera sees work tops 0..25 mm above the table (focus plane = lens front − 110, Z +50 max; was 0..50 before item 11) |
 | 8 | Module stiffness / repeatability | Shim bolts spread to z 305 / 490 (185 apart, Z slide 30 longer at the bottom); spindle clamp located by 2 dowels D6 |
 | 9 | Optics protection | Sliding cover over the prism (lid + skirts on both X sides, compact cylinder, slides 30 toward +Y only for tool setting); lens air ring (no window, WD unchanged) |
-| 10 | Probe signal | grblHAL probe input, NC wiring; not the MR-J4 MSD latch (point-table mode cannot take the pulse train) |
+| 10 | Probe | XUNKUANER touch probe (Amazon ASIN B0FWXWX7CT, DC 5-24 V, NPN NO) to the grblHAL probe input; not the MR-J4 MSD latch (point-table mode cannot take the pulse train). Ball retracted level with the spindle body bottom (tip +41), extended 19 below the tip. BOM: `output/v13/CNC_v13_BOM.csv` |
 | 11 | Z height | Whole Z assembly 25 lower on the saddle: tool tip (stick-out 22) reaches −5..95 above the table, i.e. Z −50 goes 5 below the table top (set the Z soft limit / use a sacrificial plate). Gantry clearance for work + fixture passing under the Z plate: 87 (was 112). Prism station lowered (fold 15 above the table, station top 29.5) so the spindle body, lens and air ring clear it at Z −50; only the tool / nozzle tips can reach into it, like any fixture. Tool-setting pose Z −30 |
 
 Prism: reflects +X, on the table T-slot x −130 at the rear-left corner (fold point x −195, y 206, z 125 = 15 above the table), outside the work area.

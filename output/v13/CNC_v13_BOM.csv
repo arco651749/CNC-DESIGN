@@ -1,0 +1,158 @@
+﻿群組,零件,數量,類別,規格 / 說明,供應商,料號,連結,備註,模型件名
+01 Base,Datum_base_plate,1,自製 CNC 件（見 DXF）,"Q235 t20 875x327 datum plate, top face ground (Y block seats): Y blocks, Y nut seat, column feet",,,,,Datum_base_plate
+02 Y-axis,Work_table,1,自製 CNC 件（見 DXF）,"440x473.5x40 (53.5 longer at rear), 5x T-slot 14 DIN 650 (neck 14x12, head 24x11, depth 23) at x 0 / +-65 / +-130, work area 300x300; underside: Y rails, C-TEK12, Y motor block; Y slide table: both faces ground (rail face underside, work face top)",,,,,Work_table
+02 Y-axis,Y_ball_nut,1,外購件,"C-KBS1505 nut, fixed (y=-150)",,,,,Y_ball_nut
+02 Y-axis,Y_ballscrew,1,外購件,"C-KBS1505-538: thread to the C-TEK12 face, D12x36 (bearing + lock nut) + D10x27 (coupling), fixed-free",,,,,Y_ballscrew
+02 Y-axis,Y_block,4,外購件,"C-HLG45 standard block (fixed on datum plate, 4-M10x17 face down)",,,,,"Y_block_L1, Y_block_L2, Y_block_R1, Y_block_R2"
+02 Y-axis,Y_coupling,1,外購件,CPJC40-RD-10-14,,,,,Y_coupling
+02 Y-axis,Y_motor,1,外購件,"HG-KR43 400 W, rides with the table",,,,,Y_motor
+02 Y-axis,Y_motor_block,1,自製 CNC 件（見 DXF）,"Z-style block: bolted UP into table underside 4xM6 (same face as rails/TEK), lip against table rear end face carries the upper motor holes; D50 H7 through bore (motor spigot)",,,,,Y_motor_block
+02 Y-axis,Y_nut_bracket,1,自製 CNC 件（見 DXF）,"Y nut housing (CNC): wraps the C-KBS1505 nut body, flange on its +y face, bolted down into the datum plate (same face as the Y blocks)",,,,,Y_nut_bracket
+02 Y-axis,Y_rail,2,外購件,"C-HLG45 rail L700 (inverted: base bolted to table underside, M12x35 from rail top, P105 E35)",,,,,"Y_rail_L, Y_rail_R"
+02 Y-axis,Y_support_fixed,1,外購件,C-TEK12 fixed support (under table),,,,,Y_support_fixed
+03 Gantry,Column_foot,2,自製 CNC 件（見 DXF）,"steel foot t18, 80x210, front flange 30 (hold-down bolt, push-pull contact); full-face contact on the datum plate",,,,,"Column_foot_L, Column_foot_R"
+03 Gantry,Gantry_column,2,自製 CNC 件（見 DXF）,HFS8-80160-472 (z18..490),,,,,"Gantry_column_L, Gantry_column_R"
+03 Gantry,X_base_plate,1,自製 CNC 件（見 DXF）,"steel t20 875x260 (z 230..490); X rails z 250 / 470 (spacing 220); X drive axis z 360 = midway between the rails. Through-slot x -258.5..243.5, z 330..390 for the X nut bracket. Front face stepped 1 mm down outside x+-349.5: stands 1 mm off the columns, joined by 8 epoxy pads",,,,,X_base_plate
+04 X-axis,X_ball_nut,1,外購件,C-KBS1505 nut,,,,,X_ball_nut
+04 X-axis,X_ballscrew,1,外購件,"C-KBS1505-616, both ends machined: motor end D12x36 (C-TEK12 bearing + lock nut) + D10x27 (coupling), other end D10x17 (C-TEF12 bearing + snap ring); fixed-supported, X travel +-227.5. Critical speed about 5800 rpm (x0.8 = 4600) > 3000 rpm motor",,,,,X_ballscrew
+04 X-axis,X_block,4,外購件,SX2RNL28 block,,,,,"X_block_11, X_block_12, X_block_21, X_block_22"
+04 X-axis,X_carriage_plate,1,自製 CNC 件（見 DXF）,"Z plate, steel t17 240x488: Z rails, Z screw, Z motor plate. 1 mm off the saddle, D8 pin (H7 hole) in the RBPB8 spherical bearing of the saddle; frozen by 6 epoxy pads; v13: Z assembly 25 lower on the saddle (plate z 197..685): RBPB8 pin 25 above the plate centre",,,,,X_carriage_plate
+04 X-axis,X_coupling,1,外購件,CPJC40-RD-10-14,,,,,X_coupling
+04 X-axis,X_motor,1,外購件,"HG-KR43 400 W, direct (CPJC40), behind the X base plate",,,,,X_motor
+04 X-axis,X_motor_block,1,自製 CNC 件（見 DXF）,"Z-style block in the 7 mm pocket of the X base plate REAR face, 4xM6 (same face as C-TEK12); D50 H7 through bore (motor spigot)",,,,,X_motor_block
+04 X-axis,X_nut_bracket,1,自製 CNC 件（見 DXF）,"nut housing (CNC): wraps the C-KBS1505 nut body, flange bolted to the +x face; passes through the slot, 4 bolts into the carriage rear face",,,,,X_nut_bracket
+04 X-axis,X_rail,2,外購件,"SX2RNL28-695 rail (between the columns), holes on the 60 pitch x+-30..+-330",,,,,"X_rail_1, X_rail_2"
+04 X-axis,X_saddle_plate,1,自製 CNC 件（見 DXF）,"saddle, steel t12 with two ears above the columns: bolted to the 4 X blocks and the X nut bracket",,,,,X_saddle_plate
+04 X-axis,X_support_fixed,1,外購件,C-TEK12 fixed support on the X base plate REAR face,,,,,X_support_fixed
+04 X-axis,X_support_float,1,外購件,"MISUMI C-TEF12 support unit (supported side, bearing 6000ZZ, d10), vendor STEP: on the X plate rear face at the free end of the X screw, 2 x M8",,,,,X_support_float
+05 Z-axis,Z_ball_nut,1,外購件,C-KBS1505 nut (in slide pocket),,,,,Z_ball_nut
+05 Z-axis,Z_ballscrew,1,外購件,"C-KBS1505-393: thread to the C-TEK12 face, D12x36 (bearing + lock nut) + D10x27 (coupling), fixed-free",,,,,Z_ballscrew
+05 Z-axis,Z_block,4,外購件,SX2RNL28 block,,,,,"Z_block_L1, Z_block_L2, Z_block_R1, Z_block_R2"
+05 Z-axis,Z_coupling,1,外購件,CPJC40-RD-10-14,,,,,Z_coupling
+05 Z-axis,Z_motor,1,外購件,HG-KR43B 400 W with brake,,,,,Z_motor
+05 Z-axis,Z_motor_plate,1,自製 CNC 件（見 DXF）,"block 120x90x38: front part bolted to carriage FRONT face with 4xM6 (same face as rails/TEK), rear lip rests on carriage top edge and carries the rear motor holes; D50 H7 through bore (motor spigot)",,,,,Z_motor_plate
+05 Z-axis,Z_nut_housing,1,自製 CNC 件（見 DXF）,"Z nut housing (CNC, steel): wraps the nut body, nut flange on its top face (6 x M5), wings x+-44 bolted to the slide rear face with 4 x M6 low-head from the slide front; the front part sits in the slide pocket",,,,,Z_nut_housing
+05 Z-axis,Z_rail,2,外購件,SX2RNL28-380 rail,,,,,"Z_rail_L, Z_rail_R"
+05 Z-axis,Z_slide_plate,1,自製 CNC 件（見 DXF）,"steel t28, pocket for the Z nut; v13: 30 longer at the bottom (z 287..547 at home) for the lower shim bolts",,,,,Z_slide_plate
+05 Z-axis,Z_spacer,2,自製 CNC 件（見 DXF）,steel spacer bar t14,,,,,"Z_spacer_L, Z_spacer_R"
+05 Z-axis,Z_support_fixed,1,外購件,C-TEK12 fixed support (top),,,,,Z_support_fixed
+06 Spindle,ER11_nut,1,標準件 / 螺絲銷,ER11 nut D19 M13x0.75,,,,,ER11_nut
+06 Spindle,Spindle_body,1,自製 / 其他,"0.8 kW air-cooled D65x188, 24,000 rpm, 220 V 400 Hz (e.g. HQD GDF65-24Z/0.8)",,,,,Spindle_body
+06 Spindle,Spindle_clamp,1,自製 CNC 件（見 DXF）,"6061 clamp block 96x83x74: bore D65 H7 at (x-7.5, y-20), rear wall 7.5, front split with 2 M6 pinch screws; bolted to the module plate with 4 M6x85 from the front, located by 2 dowels D6 (H7 / m6) at (x-48.5 / 33.5, z 368); spindle turned so its plug faces forward",,,,,Spindle_clamp
+06 Spindle,Spindle_fan_cover,1,自製 / 其他,fan cover,,,,,Spindle_fan_cover
+06 Spindle,Spindle_nose,1,自製 / 其他,ER11 nose,,,,,Spindle_nose
+06 Spindle,Spindle_plug,1,自製 / 其他,aviation plug 4-pin,,,,,Spindle_plug
+06 Spindle,Tool_D5,1,自製 / 其他,end mill D5 (reference),,,,,Tool_D5
+07 Electrics,Electrical_panel,1,外購 / 板金 / 鋁擠,steel sheet t5 + 2 standoffs from the X base plate rear face (above the screw),,,,,Electrical_panel
+07 Electrics,Servo_amp_X,3,自製 / 其他,MR-J4-40A,,,,,"Servo_amp_X, Servo_amp_Y, Servo_amp_Z"
+08 Adjusters,Foot_bolt,3,標準件 / 螺絲銷,"M8 SHCS hold-down, hole D11.5: the right foot slides +-0.75 for yaw",,,,,"Foot_bolt_R1, Foot_bolt_R2, Foot_bolt_R3"
+08 Adjusters,Foot_bolt,3,標準件 / 螺絲銷,M8 SHCS hold-down,,,,,"Foot_bolt_L1, Foot_bolt_L2, Foot_bolt_L3"
+08 Adjusters,Foot_col_bolt,8,標準件 / 螺絲銷,M8 SHCS from below into the column end tap,,,,,"Foot_col_bolt_L1, Foot_col_bolt_L2, Foot_col_bolt_L3, Foot_col_bolt_L4, Foot_col_bolt_R1, Foot_col_bolt_R2, Foot_col_bolt_R3, Foot_col_bolt_R4"
+08 Adjusters,Spindle_bolt,4,標準件 / 螺絲銷,M6 SHCS through back plate and shim; hole D7,,,,,"Spindle_bolt_1, Spindle_bolt_2, Spindle_bolt_3, Spindle_bolt_4"
+08 Adjusters,Spindle_clamp_bolt,4,標準件 / 螺絲銷,"M6x85 SHCS, clamp block to module plate (tap M6 thru the plate, 8 engaged)",,,,,"Spindle_clamp_bolt_1, Spindle_clamp_bolt_2, Spindle_clamp_bolt_3, Spindle_clamp_bolt_4"
+08 Adjusters,Spindle_clamp_dowel,2,標準件 / 螺絲銷,dowel D6 m6x20 (ISO 8734): spindle clamp to module plate,,,,,"Spindle_clamp_dowel_1, Spindle_clamp_dowel_2"
+08 Adjusters,Spindle_mount_plate,1,自製 CNC 件（見 DXF）,"tool-head module plate, flat steel t12 (156 wide z 319..500 + 216 wide z 288..465), ground both faces, all holes from the front except 6 counterbores on the back: M6 tap for the pivot stud, 4 shim-bolt holes, 3 differential-screw taps, 4 M6 taps for the clamp block + 2 dowel holes D6 H7, 6 x M5 low-head holes (counterbored from the back) for the camera and probe brackets. Stands 2 mm off the slide on 4 shim packs at z 305 / 490 (185 apart)",,,,,Spindle_mount_plate
+08 Adjusters,Spindle_pinch_screw,2,標準件 / 螺絲銷,"M6 pinch screw, fixed torque before tramming",,,,,"Spindle_pinch_screw_1, Spindle_pinch_screw_2"
+08 Adjusters,Spindle_pivot_bearing,1,外購件,"spherical plain bearing MISUMI RBPB8 bonded into the Z slide (H7 / h6 + Loctite 641) at the centre behind the back plate: fixes the bracket in X and Z, pivot for nod and roll; takes no thrust",,,,,Spindle_pivot_bearing
+08 Adjusters,Spindle_pivot_stud,1,標準件 / 螺絲銷,"shouldered stud: M6 thread 12 into the steel back plate, D8 g6 shoulder sliding in the bearing inner ring",,,,,Spindle_pivot_stud
+08 Adjusters,Spindle_shim,4,標準件 / 螺絲銷,"ground shim pack 22x16, nominal 2.0, U-slot: fitted to the measured gap after adjusting, then the bolt is torqued and the face screws backed off",,,,,"Spindle_shim_1, Spindle_shim_2, Spindle_shim_3, Spindle_shim_4"
+08 Adjusters,X_block_bolt_11_-37,16,標準件 / 螺絲銷,"M5x14 low-head (DIN 7984) from the saddle front, head sunk 4 into the saddle (fit before the Z plate)",,,,,"X_block_bolt_11_-37_234, X_block_bolt_11_-37_266, X_block_bolt_11_-69_234, X_block_bolt_11_-69_266, X_block_bolt_12_37_234, X_block_bolt_12_37_266, X_block_bolt_12_69_234, X_block_bolt_12_69_266 ..."
+08 Adjusters,X_ecc_pin,9,標準件 / 螺絲銷,"eccentric pin, shifts the slave rail",,,,,"X_ecc_pin_1, X_ecc_pin_2, X_ecc_pin_3, Y_ecc_pin_1, Y_ecc_pin_2, Y_ecc_pin_3, Z_ecc_pin_1, Z_ecc_pin_2 ..."
+08 Adjusters,X_motor_mount_bolt,4,標準件 / 螺絲銷,M6x75 SHCS into the X plate rear face (tap M6 depth 10),,,,,"X_motor_mount_bolt_1, X_motor_mount_bolt_2, X_motor_mount_bolt_3, X_motor_mount_bolt_4"
+08 Adjusters,X_nut_mount_bolt,4,標準件 / 螺絲銷,"M6x20 low-head (DIN 7984) from the saddle front, head sunk in the saddle (fit before the Z plate)",,,,,"X_nut_mount_bolt_1, X_nut_mount_bolt_2, X_nut_mount_bolt_3, X_nut_mount_bolt_4"
+08 Adjusters,X_plate_bolt,8,標準件 / 螺絲銷,"M8 SHCS + T-nut, X plate to column; plate hole D10 (rotation range)",,,,,"X_plate_bolt_L1, X_plate_bolt_L2, X_plate_bolt_L3, X_plate_bolt_L4, X_plate_bolt_R1, X_plate_bolt_R2, X_plate_bolt_R3, X_plate_bolt_R4"
+08 Adjusters,X_rail_bolt,24,標準件 / 螺絲銷,"M5x16 SHCS in the rail counterbore, tapped 9 into the X plate",,,,,"X_rail_bolt_1_-150, X_rail_bolt_1_-210, X_rail_bolt_1_-270, X_rail_bolt_1_-30, X_rail_bolt_1_-330, X_rail_bolt_1_-90, X_rail_bolt_1_150, X_rail_bolt_1_210 ..."
+08 Adjusters,X_ref_pin,9,標準件 / 螺絲銷,"reference dowel, master rail leans on it",,,,,"X_ref_pin_1, X_ref_pin_2, X_ref_pin_3, Y_ref_pin_1, Y_ref_pin_2, Y_ref_pin_3, Z_ref_pin_1, Z_ref_pin_2 ..."
+08 Adjusters,X_roll_pin,1,標準件 / 螺絲銷,"dowel D10: the X plate turns on it (left column, centre of the joint; steel insert in the column slot)",,,,,X_roll_pin
+08 Adjusters,X_side_screw_M1,6,標準件 / 螺絲銷,"ISO 10642 hex socket countersunk M4x10, 10.9 black oxide; tapped M4 in the X plate, countersink 0.5 deep, axis 3.75 from the rail side; the cone touches the rail 0.6..2.0 above the base (flat side band of SX2RNL28: 0.6..6.0)",,,,,"X_side_screw_M1, X_side_screw_M2, X_side_screw_M3, X_side_screw_S1, X_side_screw_S2, X_side_screw_S3"
+08 Adjusters,X_support_fixed_bolt,2,標準件 / 螺絲銷,"M8x55 SHCS through the C-TEK12 housing into the X_base_plate (tap M8 depth 18, 12 engaged)",,,,,"X_support_fixed_bolt_1, X_support_fixed_bolt_2"
+08 Adjusters,X_support_float_bolt,2,標準件 / 螺絲銷,"M8x55 SHCS through the C-TEF12 housing into the X plate rear face (tap M8 depth 18, 12 engaged)",,,,,"X_support_float_bolt_1, X_support_float_bolt_2"
+08 Adjusters,Y_block_bolt_L1_-130_-102,16,標準件 / 螺絲銷,"M10x25 low-head (DIN 7984) from under the datum plate, 11 into the block tap",,,,,"Y_block_bolt_L1_-130_-102, Y_block_bolt_L1_-130_-42, Y_block_bolt_L1_-190_-102, Y_block_bolt_L1_-190_-42, Y_block_bolt_L2_-130_102, Y_block_bolt_L2_-130_42, Y_block_bolt_L2_-190_102, Y_block_bolt_L2_-190_42 ..."
+08 Adjusters,Y_block_ref_pin,4,標準件 / 螺絲銷,"reference dowel in the datum plate, master-side Y blocks lean on it",,,,,"Y_block_ref_pin_1, Y_block_ref_pin_2, Y_block_ref_pin_3, Y_block_ref_pin_4"
+08 Adjusters,X_motor_flange_bolt,8,標準件 / 螺絲銷,"M5x16 SHCS, motor flange into the block (tap M5 depth 10)",,,,,"X_motor_flange_bolt_1, X_motor_flange_bolt_2, X_motor_flange_bolt_3, X_motor_flange_bolt_4, Y_motor_flange_bolt_1, Y_motor_flange_bolt_2, Y_motor_flange_bolt_3, Y_motor_flange_bolt_4"
+08 Adjusters,Y_motor_mount_bolt,4,標準件 / 螺絲銷,M6x65 SHCS from below into the table (tap M6 depth 12),,,,,"Y_motor_mount_bolt_1, Y_motor_mount_bolt_2, Y_motor_mount_bolt_3, Y_motor_mount_bolt_4"
+08 Adjusters,X_nut_flange_bolt,18,標準件 / 螺絲銷,"M5x16 SHCS, nut flange into the housing (tap M5 depth 10)",,,,,"X_nut_flange_bolt_1, X_nut_flange_bolt_2, X_nut_flange_bolt_3, X_nut_flange_bolt_4, X_nut_flange_bolt_5, X_nut_flange_bolt_6, Y_nut_flange_bolt_1, Y_nut_flange_bolt_2 ..."
+08 Adjusters,Y_nut_mount_bolt,4,標準件 / 螺絲銷,M6x25 SHCS from under the datum plate into the housing (tap M6 depth 12),,,,,"Y_nut_mount_bolt_1, Y_nut_mount_bolt_2, Y_nut_mount_bolt_3, Y_nut_mount_bolt_4"
+08 Adjusters,Y_rail_bolt,8,標準件 / 螺絲銷,"M12x35 SHCS in the rail counterbore, tapped 14 into the table",,,,,"Y_rail_bolt_L1, Y_rail_bolt_L2, Y_rail_bolt_L3, Y_rail_bolt_L4, Y_rail_bolt_R1, Y_rail_bolt_R2, Y_rail_bolt_R3, Y_rail_bolt_R4"
+08 Adjusters,Y_side_screw_M1,6,標準件 / 螺絲銷,"ISO 10642 hex socket countersunk M6x12, 10.9 black oxide; tapped M6 in the table underside, countersink 0.5 deep, axis 6.0 from the rail side; the cone touches the rail 1.5..3.2 above the base (flat side band of C-HLG45: 1.5..7.1)",,,,,"Y_side_screw_M1, Y_side_screw_M2, Y_side_screw_M3, Y_side_screw_S1, Y_side_screw_S2, Y_side_screw_S3"
+08 Adjusters,Y_support_fixed_bolt,2,標準件 / 螺絲銷,"M8x55 SHCS through the C-TEK12 housing into the Work_table (tap M8 depth 18, 12 engaged)",,,,,"Y_support_fixed_bolt_1, Y_support_fixed_bolt_2"
+08 Adjusters,Yaw_lock_dowel,1,標準件 / 螺絲銷,"dowel D10x30, reamed through the right foot into the datum plate AFTER X perp Y is set",,,,,Yaw_lock_dowel
+08 Adjusters,Yaw_pivot_pin,1,標準件 / 螺絲銷,"dowel D10x30: the gantry turns about this pin (left foot, rear strip, open from above)",,,,,Yaw_pivot_pin
+08 Adjusters,Z_block_bolt_L1_-64,16,標準件 / 螺絲銷,"M5x40 SHCS from the slide front, counterbore 8, through slide and spacer, 6 into the block (fit before the spindle plate)",,,,,"Z_block_bolt_L1_-64_362, Z_block_bolt_L1_-64_394, Z_block_bolt_L1_-96_362, Z_block_bolt_L1_-96_394, Z_block_bolt_L2_-64_474, Z_block_bolt_L2_-64_506, Z_block_bolt_L2_-96_474, Z_block_bolt_L2_-96_506 ..."
+08 Adjusters,Z_clamp_bolt,6,標準件 / 螺絲銷,"M6 SHCS with disc springs, Z plate to saddle; plate hole D7. Snug while adjusting, torqued after the epoxy cures",,,,,"Z_clamp_bolt_1, Z_clamp_bolt_2, Z_clamp_bolt_3, Z_clamp_bolt_4, Z_clamp_bolt_5, Z_clamp_bolt_6"
+08 Adjusters,Z_motor_flange_bolt,4,標準件 / 螺絲銷,"M5x16 SHCS, motor flange into the plate (tap M5 depth 10)",,,,,"Z_motor_flange_bolt_1, Z_motor_flange_bolt_2, Z_motor_flange_bolt_3, Z_motor_flange_bolt_4"
+08 Adjusters,Z_motor_mount_bolt,4,標準件 / 螺絲銷,M6x70 SHCS into the Z plate front face (tap M6 depth 12),,,,,"Z_motor_mount_bolt_1, Z_motor_mount_bolt_2, Z_motor_mount_bolt_3, Z_motor_mount_bolt_4"
+08 Adjusters,Z_nut_mount_bolt,4,標準件 / 螺絲銷,"M6x35 low-head (DIN 7984) from the slide front, head sunk in the slide (fit before the spindle plate)",,,,,"Z_nut_mount_bolt_1, Z_nut_mount_bolt_2, Z_nut_mount_bolt_3, Z_nut_mount_bolt_4"
+08 Adjusters,Z_pivot_bearing,1,外購件,"spherical plain bearing MISUMI RBPB8, vendor STEP (D22 h6, d8 H7, B 9, B1 12, static radial 16.7 kN, tilt 8 deg+), bonded into the saddle at its centre (H7 bore / h6 ring + retaining compound Loctite 641); takes only in-plane (radial) load",,,,,Z_pivot_bearing
+08 Adjusters,Z_pivot_pin,1,標準件 / 螺絲銷,"D8 pin pressed into the Z plate, slide fit (g6) in the bearing inner ring: fixes X and Z, leaves Y free",,,,,Z_pivot_pin
+08 Adjusters,Z_rail_bolt_L,14,標準件 / 螺絲銷,"M5x16 SHCS in the rail counterbore, tapped 9 into the Z plate",,,,,"Z_rail_bolt_L_282, Z_rail_bolt_L_342, Z_rail_bolt_L_402, Z_rail_bolt_L_462, Z_rail_bolt_L_522, Z_rail_bolt_L_582, Z_rail_bolt_L_642, Z_rail_bolt_R_282 ..."
+08 Adjusters,Z_side_screw_M1,6,標準件 / 螺絲銷,"ISO 10642 hex socket countersunk M4x10, 10.9 black oxide; tapped M4 in the Z plate, countersink 0.5 deep, axis 3.75 from the rail side; the cone touches the rail 0.6..2.0 above the base (flat side band of SX2RNL28: 0.6..6.0)",,,,,"Z_side_screw_M1, Z_side_screw_M2, Z_side_screw_M3, Z_side_screw_S1, Z_side_screw_S2, Z_side_screw_S3"
+08 Adjusters,Z_support_fixed_bolt,2,標準件 / 螺絲銷,"M8x55 SHCS through the C-TEK12 housing into the X_carriage_plate (tap M8 depth 14, 12 engaged)",,,,,"Z_support_fixed_bolt_1, Z_support_fixed_bolt_2"
+09 Alignment kit,Spindle_face_screw_BL,1,標準件 / 螺絲銷（校正工具組，可重複使用）,"differential push screw (M8x0.75 / M6x0.5 = 0.25 mm/rev) through the module plate, tip on the slide face, outside the camera: the three set the 2 mm gap; top vs bottom pair = nod (lever 160, 10 deg = 43 urad)",,,,,Spindle_face_screw_BL
+09 Alignment kit,Spindle_face_screw_BR,1,標準件 / 螺絲銷（校正工具組，可重複使用）,"differential push screw (M8x0.75 / M6x0.5 = 0.25 mm/rev) through the module plate, tip on the slide face, outside the probe: the three set the 2 mm gap; top vs bottom pair = nod (lever 160, 10 deg = 43 urad)",,,,,Spindle_face_screw_BR
+09 Alignment kit,Spindle_face_screw_TC,1,標準件 / 螺絲銷（校正工具組，可重複使用）,"differential push screw (M8x0.75 / M6x0.5 = 0.25 mm/rev) through the module plate top, tip on the slide face: with BL / BR sets the 2 mm gap; top vs bottom pair = nod (lever 160, 10 deg = 43 urad)",,,,,Spindle_face_screw_TC
+09 Alignment kit,Spindle_roll_block,2,自製 CNC 件（見 DXF）（校正工具組，可重複使用）,steel block beside the top of the ear,,,,,"Spindle_roll_block_L, Spindle_roll_block_R"
+09 Alignment kit,Spindle_roll_block_bolt,2,標準件 / 螺絲銷（校正工具組，可重複使用）,M4 SHCS,,,,,"Spindle_roll_block_bolt_L, Spindle_roll_block_bolt_R"
+09 Alignment kit,Spindle_roll_screw,2,標準件 / 螺絲銷（校正工具組，可重複使用）,"opposed differential side screw (0.25 mm/rev) on the ear side, 123 above the pivot: roll. 10 deg = 56 urad",,,,,"Spindle_roll_screw_L, Spindle_roll_screw_R"
+09 Alignment kit,X_roll_bracket,1,自製 CNC 件（見 DXF）（校正工具組，可重複使用）,"steel block 60x24x32 on the right column rear face (T-slots), under the X plate",,,,,X_roll_bracket
+09 Alignment kit,X_roll_bracket_bolt,2,標準件 / 螺絲銷（校正工具組，可重複使用）,M6 SHCS + T-nut,,,,,"X_roll_bracket_bolt_1, X_roll_bracket_bolt_2"
+09 Alignment kit,X_roll_jack,1,標準件 / 螺絲銷（校正工具組，可重複使用）,"M8x0.75 jack + jam nut under the right end of the X plate: 10 deg = 26 urad (lever 795, v13 wider gantry)",,,,,X_roll_jack
+09 Alignment kit,Yaw_block_bolt,6,標準件 / 螺絲銷（校正工具組，可重複使用）,M5 SHCS,,,,,"Yaw_block_bolt_1, Yaw_block_bolt_2, Z_roll_block_bolt_L1, Z_roll_block_bolt_L2, Z_roll_block_bolt_R1, Z_roll_block_bolt_R2"
+09 Alignment kit,Yaw_pull_screw,1,標準件 / 螺絲銷（校正工具組，可重複使用）,M6x0.75 pull screw into a tap in the flange,,,,,Yaw_pull_screw
+09 Alignment kit,Yaw_push_block,1,自製 CNC 件（見 DXF）（校正工具組，可重複使用）,steel block 40x26x25 on the datum plate in front of the RIGHT foot flange,,,,,Yaw_push_block
+09 Alignment kit,Yaw_push_screw,1,標準件 / 螺絲銷（校正工具組，可重複使用）,"M6x0.75 push screw + jam nut: 10 deg = 26 urad (lever 787, v13 wider gantry)",,,,,Yaw_push_screw
+09 Alignment kit,Z_face_screw,2,標準件 / 螺絲銷（校正工具組，可重複使用）,"differential push screw (M8x0.75 outer / M6x0.5 inner = 0.25 mm/rev) through the Z plate, tip on the saddle, 234 above the bearing: top pair vs bottom screw = nod about X, left vs right = turn about Z (no effect on squareness). 10 deg = 30 urad",,,,,"Z_face_screw_L, Z_face_screw_R"
+09 Alignment kit,Z_face_screw_B,1,標準件 / 螺絲銷（校正工具組，可重複使用）,"differential push screw (M8x0.75 outer / M6x0.5 inner = 0.25 mm/rev) at the bottom centre, 230 below the bearing: with the two top screws it holds the Y gap; top pair vs this one = nod about X. 10 deg = 30 urad",,,,,Z_face_screw_B
+09 Alignment kit,Z_roll_block,2,自製 CNC 件（見 DXF）（校正工具組，可重複使用）,"steel block 18x18x32 on the saddle ear, beside the Z plate edge",,,,,"Z_roll_block_L, Z_roll_block_R"
+09 Alignment kit,Z_roll_screw,2,標準件 / 螺絲銷（校正工具組，可重複使用）,"opposed differential side screw (0.25 mm/rev), tip on the Z plate edge 214 above the bearing: roll about Y. 10 deg = 32 urad",,,,,"Z_roll_screw_L, Z_roll_screw_R"
+10 Epoxy pads,X_epoxy_pad,8,環氧樹脂（現場灌注）,injected metal-filled epoxy pad D30x1 round the bolt (fill hole and vent hole through the X plate),,,,,"X_epoxy_pad_L1, X_epoxy_pad_L2, X_epoxy_pad_L3, X_epoxy_pad_L4, X_epoxy_pad_R1, X_epoxy_pad_R2, X_epoxy_pad_R3, X_epoxy_pad_R4"
+10 Epoxy pads,Z_epoxy_pad,6,環氧樹脂（現場灌注）,injected epoxy pad D22x1 round the clamp bolt (fill hole through the Z plate),,,,,"Z_epoxy_pad_1, Z_epoxy_pad_2, Z_epoxy_pad_3, Z_epoxy_pad_4, Z_epoxy_pad_5, Z_epoxy_pad_6"
+11 Camera,Camera_CS_C_adapter,1,外購件,Basler CS-mount to C-mount adapter ring 5 mm (2200002382),,,,,Camera_CS_C_adapter
+11 Camera,Camera_air_fitting,1,自製 / 其他,M5 push-in fitting for D4 tube (air ring),,,,,Camera_air_fitting
+11 Camera,Camera_air_ring,1,自製 CNC 件（見 DXF）,"lens air ring (CNC, 6061) on the D35 lens nose, 2 x M3 set screws: clean dry air from an M5 push-in fitting blows across the front glass (keeps coolant mist and chips off); no window, WD unchanged",,,,,Camera_air_ring
+11 Camera,Camera_body,1,外購件,"Basler dart R daA2448-70uc (CS-Mount), IMX548 1/1.8"" 5 MP, USB3 toward -X (outside); sensor long side along X (= along the tool axis in the folded view); model from the Basler dimension drawing",,,,,Camera_body
+11 Camera,Camera_bracket,1,自製 CNC 件（見 DXF）,"camera bracket (CNC, 6061): flange on the module plate (2 x M5 low-head from the plate back), split ring D22 on the lens tube, M4 pinch screw",,,,,Camera_bracket
+11 Camera,Camera_bracket_bolt,2,標準件 / 螺絲銷,"M5x20 low-head (DIN 7984) from the module plate back into the bracket flange (M5 tap thru, tip 0.5 below the front); fitted on the bench before the module goes on",,,,,"Camera_bracket_bolt_1, Camera_bracket_bolt_2"
+11 Camera,Camera_lens,1,外購件,"Moritex MML05-HR110D telecentric 0.5x, WD 110+-5.5, DOF 3, C-mount, coaxial light port D8 H7 toward -X (vendor STEP). Focus plane = lens front - 110: with Z +50 max the camera sees work tops 0..25 mm above the table (spec limit)",,,,,Camera_lens
+11 Camera,Camera_light_guide,1,自製 / 其他,"light guide (fibre) D8 ferrule pushed into the coaxial port D8 H7 to its stop, locked by its screw; cable to the LED light source",,,,,Camera_light_guide
+11 Camera,Camera_pinch_bolt,1,標準件 / 螺絲銷,"M4x14 SHCS, ring pinch screw",,,,,Camera_pinch_bolt
+11 Camera,Mirror_bracket,1,自製 CNC 件（見 DXF）,"prism holder (CNC, steel t8, base ground): on the table T-slot x -130 at the rear-left corner (tenon key 14 h7, 2 x M6 low-head + T-nut, heads flush), prism centre x -195; 3 mm pocket and left lip locate the glued 20 mm prism; station top 29.5 above the table",,,,,Mirror_bracket
+11 Camera,Mirror_bracket_bolt,2,標準件 / 螺絲銷,"M6x20 low-head (DIN 7984) + T-nut (DIN 508, slot 14) into the table T-slot",,,,,"Mirror_bracket_bolt_1, Mirror_bracket_bolt_2"
+11 Camera,Mirror_cover,1,外購 / 板金 / 鋁擠,"prism cover (SUS t2, bent: lid + skirts on both X sides, rod tab), drawn closed: keeps coolant and chips off the coated hypotenuse (top and +X); slides 30 toward +Y, clear of the light path, only during tool setting",,,,,Mirror_cover
+11 Camera,Mirror_cover_actuator,1,外購件,"compact air cylinder bore 12 stroke 30 (e.g. SMC CQ2B12-30D, confirm the outline) on the holder base in front of the prism, rod on the cover tab; air via the Y drag chain",,,,,Mirror_cover_actuator
+11 Camera,Tool_mirror,1,自製 / 其他,"right-angle prism 20x20x20, mirror-coated hypotenuse used from outside (front-surface mirror), glued: bottom face in the holder pocket, left face against the lip; folds the view +X",,,,,Tool_mirror
+12 Probe,Probe_air_fitting,2,自製 / 其他,M5 push-in fitting for D4 tube (top end of the slide),,,,,"Probe_air_fitting_1, Probe_air_fitting_2"
+12 Probe,Probe_body,1,外購件,"3D touch probe / edge finder (尋邊器) for Mach3 / GRBL: repeatable, mm shank, tungsten-steel ball tip, DC 5-24 V, NPN NO. touch probe XUNKUANER (Amazon ASIN B0FWXWX7CT): shank D6x20, body D33x21, stylus 26 / ball D2, DC 5-24 V, NPN NO, to the grblHAL probe input (two-pass probing; NO cannot detect a broken wire: use an NC version if available, else check the input before each cycle). Not to the MR-J4: its MSD latch needs point-table mode, which cannot take the pulse train. Ball retracted level with the spindle body bottom (tool tip + 41), extended 19 below the tool tip",Amazon (XUNKUANER),ASIN B0FWXWX7CT,https://www.amazon.com/dp/B0FWXWX7CT,"owner-selected. NPN NO: a broken wire reads ""not triggered"" -> prefer an NC version if available, otherwise check the probe input before every probing cycle. Wire to the grblHAL probe input (not the MR-J4)",Probe_body
+12 Probe,Probe_bracket,1,自製 CNC 件（見 DXF）,"probe slide bracket (CNC, 6061) t8 on the module plate (4 x M5 low-head from the plate back); the air slide on its front (4 x M4 low-head from the back)",,,,,Probe_bracket
+12 Probe,Probe_bracket_bolt,4,標準件 / 螺絲銷,"M5x16 low-head (DIN 7984) from the module plate back into the bracket (M5 tap thru, tip 0.5 below the front); fitted on the bench",,,,,"Probe_bracket_bolt_1, Probe_bracket_bolt_2, Probe_bracket_bolt_3, Probe_bracket_bolt_4"
+12 Probe,Probe_holder,1,自製 CNC 件（見 DXF）,"probe holder (CNC, 6061): on the slide table (4 x M3), split D6 H7 clamp for the shank (M4 pinch)",,,,,Probe_holder
+12 Probe,Probe_holder_bolt,4,標準件 / 螺絲銷,"M3x8 SHCS, holder to slide table",,,,,"Probe_holder_bolt_1, Probe_holder_bolt_2, Probe_holder_bolt_3, Probe_holder_bolt_4"
+12 Probe,Probe_pinch_bolt,1,標準件 / 螺絲銷,"M4x20 SHCS, shank clamp",,,,,Probe_pinch_bolt
+12 Probe,Probe_reed_1,1,自製 / 其他,auto switch D-M9 (extended),,,,,Probe_reed_1
+12 Probe,Probe_reed_2,1,自製 / 其他,auto switch D-M9 (retracted): spindle enable + feed hold interlock,,,,,Probe_reed_2
+12 Probe,Probe_slide_body,1,外購件,"air slide table bore 10, stroke 60 (e.g. SMC MXH10-60 / CXSJ10-60; modelled as a 25 x 15 x 110 envelope, confirm on the SMC drawing), with the stroke adjuster at the extended end (sets the probe height); 5/2 single-solenoid valve, spring return = retract on power loss",,,,,Probe_slide_body
+12 Probe,Probe_slide_bolt,4,標準件 / 螺絲銷,M4x10 low-head (DIN 7984) from the bracket back into the slide body,,,,,"Probe_slide_bolt_1, Probe_slide_bolt_2, Probe_slide_bolt_3, Probe_slide_bolt_4"
+12 Probe,Probe_slide_table,1,自製 / 其他,air slide moving table (carries the probe holder),,,,,Probe_slide_table
+A Base (extrusion + sheet metal + coolant),Base_foot,6,外購 / 板金 / 鋁擠,"levelling foot M16, pad D80",,,,,"Base_foot_1, Base_foot_2, Base_foot_3, Base_foot_4, Base_foot_5, Base_foot_6"
+A Base (extrusion + sheet metal + coolant),Base_cross,17,外購件,"aluminium extrusion 40x40 (HFS8-4040), slot 8",,,,,"Base_cross_1, Base_cross_2, Base_leg_1, Base_leg_2, Base_leg_3, Base_leg_4, Base_leg_5, Base_leg_6 ..."
+A Base (extrusion + sheet metal + coolant),Base_mount_bolt,4,標準件 / 螺絲銷,M12x40 SHCS: datum plate (B) into the riser tap (joins B to A),,,,,"Base_mount_bolt_1, Base_mount_bolt_2, Base_mount_bolt_3, Base_mount_bolt_4"
+A Base (extrusion + sheet metal + coolant),Base_riser,4,自製 CNC 件（見 DXF）,"steel riser 60x60x68.5 on the pan floor: M12 tap for the machine, 2 counterbored M8 holes to the cross beam; silicone ring under it seals the pan holes",,,,,"Base_riser_1, Base_riser_2, Base_riser_3, Base_riser_4"
+A Base (extrusion + sheet metal + coolant),Base_riser_bolt,8,標準件 / 螺絲銷,"M8x70 SHCS, counterbored in the riser, through the pan into a T-nut in the cross-beam slot",,,,,"Base_riser_bolt_1_1, Base_riser_bolt_1_2, Base_riser_bolt_2_1, Base_riser_bolt_2_2, Base_riser_bolt_3_1, Base_riser_bolt_3_2, Base_riser_bolt_4_1, Base_riser_bolt_4_2"
+A Base (extrusion + sheet metal + coolant),Coolant_baffle,1,自製 / 其他,"settling baffle, overflow at the top: dirty side (rear) -> clean side (front)",,,,,Coolant_baffle
+A Base (extrusion + sheet metal + coolant),Coolant_castor,4,外購 / 板金 / 鋁擠,castor D50,,,,,"Coolant_castor_1, Coolant_castor_2, Coolant_castor_3, Coolant_castor_4"
+A Base (extrusion + sheet metal + coolant),Coolant_drain_pipe,1,外購 / 板金 / 鋁擠,drain pipe D40 from the pan into the filter basket,,,,,Coolant_drain_pipe
+A Base (extrusion + sheet metal + coolant),Coolant_filter_basket,1,外購 / 板金 / 鋁擠,"60-mesh filter basket under the drain, lifts out",,,,,Coolant_filter_basket
+A Base (extrusion + sheet metal + coolant),Coolant_hose,4,外購 / 板金 / 鋁擠,supply hose 12 mm: pump -> up the left side outside the guard -> bulkhead at the guard top -> X drag chain -> nozzles,,,,,"Coolant_hose_1, Coolant_hose_2, Coolant_hose_3, Coolant_hose_4"
+A Base (extrusion + sheet metal + coolant),Coolant_nozzle,2,自製 / 其他,"segmented coolant nozzle 1/4, down in front of the spindle then in, aimed at the tool",,,,,"Coolant_nozzle_1, Coolant_nozzle_2"
+A Base (extrusion + sheet metal + coolant),Coolant_nozzle_block,2,自製 / 其他,"nozzle block on the front face of the spindle clamp, beside the split (Loc-Line 1/4), 1 x M4 into the clamp",,,,,"Coolant_nozzle_block_1, Coolant_nozzle_block_2"
+A Base (extrusion + sheet metal + coolant),Coolant_nozzle_block_bolt,2,標準件 / 螺絲銷,"M4x18 SHCS, nozzle block to the spindle clamp front (tap M4 depth 8, between the pinch screws)",,,,,"Coolant_nozzle_block_bolt_1, Coolant_nozzle_block_bolt_2"
+A Base (extrusion + sheet metal + coolant),Coolant_pan,1,外購 / 板金 / 鋁擠,"SUS304 t1.5 pan 1065x1170x60, floor slope 1:100 to the drain D40 at the rear centre; corners folded, sealed with silicone",,,,,Coolant_pan
+A Base (extrusion + sheet metal + coolant),Coolant_pump,1,外購件,"MISUMI / TERAL VKP-055A immersion coolant pump, 3-phase 200-220 V, 60 W, 20 / 30 L/min at 50 / 60 Hz, total head 1.5-5 m, immersion about 150 mm (same as VKP-053A / 065A; confirm on the TERAL outline drawing). Flow trimmed with a ball valve and a bypass to the tank",,,,,Coolant_pump
+A Base (extrusion + sheet metal + coolant),Coolant_silicone,4,外購 / 板金 / 鋁擠,silicone bead in the pan corner,,,,,"Coolant_silicone_1, Coolant_silicone_2, Coolant_silicone_3, Coolant_silicone_4"
+A Base (extrusion + sheet metal + coolant),Coolant_tank,1,外購 / 板金 / 鋁擠,"SUS304 t3 tank 600x520x300, 90 L (fill 75 L), on castors, slides out at the rear (no rear low beam)",,,,,Coolant_tank
+A Base (extrusion + sheet metal + coolant),Coolant_tank_lid,1,外購 / 板金 / 鋁擠,"SUS304 t3 lid over the clean side, carries the pump",,,,,Coolant_tank_lid
+A Base (extrusion + sheet metal + coolant),Guard_front_lip,1,外購 / 板金 / 鋁擠,"SUS304 t1.2 low front lip (loading side open), 35 mm ahead of the Y rail ends at the load position",,,,,Guard_front_lip
+A Base (extrusion + sheet metal + coolant),Guard_post_L_-590,4,外購 / 板金 / 鋁擠,"extrusion 20x20 corner post, sealed with silicone to the panels",,,,,"Guard_post_L_-590, Guard_post_L_550, Guard_post_R_-590, Guard_post_R_550"
+A Base (extrusion + sheet metal + coolant),Guard_rear,1,外購 / 板金 / 鋁擠,SUS304 t1.2 rear guard,,,,,Guard_rear
+A Base (extrusion + sheet metal + coolant),Guard_side,2,外購 / 板金 / 鋁擠,"SUS304 t1.2 side guard, stands inside the pan wall (splash runs into the pan); window cut-out 550x280",,,,,"Guard_side_L, Guard_side_R"
+A Base (extrusion + sheet metal + coolant),Guard_window,2,外購 / 板金 / 鋁擠,"PC t4 window, bolted with a rubber seal",,,,,"Guard_window_L, Guard_window_R"

@@ -45,5 +45,5 @@ RBPB8 座孔 Ø22 H7：外環 h6，用固持膠（Loctite 641）黏固，不壓�
 | Camera_bracket | 1 | 36 × 72 × 58 | 4 | 0 | — | camera bracket (CNC, 6061): flange on the module plate (2 x  |
 | Camera_air_ring | 1 | 44 × 44 × 10 | 2 | 0 | — | lens air ring (CNC, 6061) on the D35 lens nose, 2 x M3 set s |
 | Mirror_bracket | 1 | 94 × 72 × 21 | 2 | 0 | — | prism holder (CNC, steel t8, base ground): on the table T-sl |
-| Probe_bracket | 1 | 32 × 8 × 134 | 8 | 0 | — | probe slide bracket (CNC, 6061) t8 on the module plate (4 x  |
+| Probe_bracket | 1 | 32 × 8 × 143 | 8 | 0 | — | probe slide bracket (CNC, 6061) t8 on the module plate (4 x  |
 | Probe_holder | 1 | 34 × 30 × 40 | 6 | 1 | — | probe holder (CNC, 6061): on the slide table (4 x M3), split |

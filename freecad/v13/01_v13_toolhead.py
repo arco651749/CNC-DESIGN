@@ -319,8 +319,8 @@ TIPR = O('Spindle_body').Shape.BoundBox.ZMin                    # retracted ball
 BB0 = TIPR + 26.0
 pb = fuse(cyl('z', 16.5, BB0, BB0 + 21, PX, SY), cyl('z', 3.0, BB0 + 21, BB0 + 41, PX, SY), cyl('z', 2.5, BB0 - 4, BB0, PX, SY),
           cyl('z', 0.75, TIPR + 1, BB0 - 4, PX, SY), Part.makeSphere(1.0, V(PX, SY, TIPR + 1)))
-add('Probe_body', pb, gp, 'touch probe: shank D6x20, body D33x21, stylus 26 / ball D2 (M2.5), NPN; wire its NC output to the grblHAL probe input '
-    '(wire break = triggered; two-pass probing). Not to the MR-J4: its MSD latch needs point-table mode, which cannot take the pulse train. '
+add('Probe_body', pb, gp, 'touch probe XUNKUANER (Amazon ASIN B0FWXWX7CT): shank D6x20, body D33x21, stylus 26 / ball D2, DC 5-24 V, NPN NO, to the grblHAL probe input '
+    '(two-pass probing; NO cannot detect a broken wire: use an NC version if available, else check the input before each cycle). Not to the MR-J4: its MSD latch needs point-table mode, which cannot take the pulse train. '
     'Ball retracted level with the spindle body bottom (tool tip + 41), extended 19 below the tool tip', 'z', 'probe')
 T0, LS = BB0 + 25, 110.0                                        # slide table bottom (retracted), slide length
 add('Probe_slide_body', box(PX - 12.5, PX + 12.5, -3, 12, T0, T0 + LS), gp,
