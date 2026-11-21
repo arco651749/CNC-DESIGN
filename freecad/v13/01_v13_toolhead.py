@@ -315,12 +315,13 @@ LOG.append('CAMERA (%.1f, %.0f), lens front z %.1f, tip %.1f, prism fold (%.0f, 
 # ---------------------------------------------------------------- probe (right)
 gp = '12 Probe'
 STROKE = 60.0
-TIPR = TIP - 10.0 + STROKE                                      # retracted ball bottom (tool tip + 50)
+TIPR = O('Spindle_body').Shape.BoundBox.ZMin                    # retracted ball level with the spindle body bottom (tool tip + 41)
 BB0 = TIPR + 26.0
 pb = fuse(cyl('z', 16.5, BB0, BB0 + 21, PX, SY), cyl('z', 3.0, BB0 + 21, BB0 + 41, PX, SY), cyl('z', 2.5, BB0 - 4, BB0, PX, SY),
           cyl('z', 0.75, TIPR + 1, BB0 - 4, PX, SY), Part.makeSphere(1.0, V(PX, SY, TIPR + 1)))
 add('Probe_body', pb, gp, 'touch probe: shank D6x20, body D33x21, stylus 26 / ball D2 (M2.5), NPN; wire its NC output to the grblHAL probe input '
-    '(wire break = triggered; two-pass probing). Not to the MR-J4: its MSD latch needs point-table mode, which cannot take the pulse train', 'z', 'probe')
+    '(wire break = triggered; two-pass probing). Not to the MR-J4: its MSD latch needs point-table mode, which cannot take the pulse train. '
+    'Ball retracted level with the spindle body bottom (tool tip + 41), extended 19 below the tool tip', 'z', 'probe')
 T0, LS = BB0 + 25, 110.0                                        # slide table bottom (retracted), slide length
 add('Probe_slide_body', box(PX - 12.5, PX + 12.5, -3, 12, T0, T0 + LS), gp,
     'air slide table bore 10, stroke 60 (e.g. SMC MXH10-60 / CXSJ10-60; modelled as a 25 x 15 x 110 envelope, confirm on the SMC drawing), with the stroke '

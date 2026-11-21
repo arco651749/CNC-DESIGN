@@ -88,8 +88,8 @@ html2, p3 = re.subn(r'(<button id="trail")', '<button id="probe">探頭 伸出</
 html2, p4 = re.subn(r"( ctl\.update\(\);R\.render\(scene,cam\);requestAnimationFrame\(step\)\})",
                     lambda m_: " {const d=probeT-probeZ;if(Math.abs(d)>0.01){probeZ+=Math.sign(d)*Math.min(Math.abs(d),dt/speed*240);gP.position.z=probeZ}}\n" + m_.group(1), html2, count=1)
 html2 = html2.replace("bg();setPose();", "btn('probe').onclick=()=>{probeT=probeT<0?0:-60;btn('probe').textContent=probeT<0?'探頭 縮回':'探頭 伸出';"
-                      "btn('probe').classList.toggle('on',probeT<0);st.textContent=probeT<0?'探頭伸出（氣壓滑台伸到行程調整擋）：球頭低於刀尖 10 mm'"
-                      ":'探頭縮回（閥斷電、彈簧復歸，滑台收回；收回開關＝主軸允許運轉）：球頭高於刀尖 50 mm'};bg();setPose();", 1)
+                      "btn('probe').classList.toggle('on',probeT<0);st.textContent=probeT<0?'探頭伸出（氣壓滑台伸到行程調整擋）：球頭低於刀尖 19 mm'"
+                      ":'探頭縮回（閥斷電、彈簧復歸，滑台收回；收回開關＝主軸允許運轉）：球頭高於刀尖 41 mm，與主軸本體底面同高'};bg();setPose();", 1)
 log.append('probe control injected: %d %d %d %d' % (p1, p2, p3, p4))
 _ns = {}; exec(open(os.path.join(ROOT, 'freecad', 'v13', 'toolset_inject.py'), encoding='utf-8').read(), _ns)
 html2, _n = _ns['inject'](html2); log.append('tool-setting / FOV injected: %s' % _n)
