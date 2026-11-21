@@ -183,11 +183,15 @@ S.stub(KA1["COM"], "VFD_COM", BLK); S.stub(KA1["NO"], "VFD_FWD", ORG)
 S.stub(KA2["COM"], "L1_AUX", BRN, R, THICK)
 S.stub(KA5["COM"], "+24V1", RED)
 PUMP = blk("PUMP", "冷卻幫浦 220V 單相", 304.8, 129.54, right=[("L2", 1), ("PE", 2), ("L1", 3)], w=20.32)
-SVL = blk("SVL", "SV1 吹氣電磁閥 24V", 304.8, 160.02, right=[("N", 1, "−"), ("P", 2, "+")], w=20.32)
+PH_PV = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "vendor", "parts", "photos")
+_sv = S.photo(Photo(os.path.join(PH_PV, "SMC_SY3120-5LZE-M5.jpg"), 330.0, 160.0, 0.11, crop=(0, 0, 271, 160)))
+# solenoid connector (L-type plug with leads) at the left end of the valve; air ports are not electrical
+SVL = S.add(PhotoBlock("SVL", "SVL SMC SY3120-5LZE-M5 吹氣電磁閥（24V，5 口 2 位）", _sv,
+    [("P", 46, 116, "left", "+"), ("N", 40, 140, "left", "-")], title_dy=2.0))
 S.stub(PUMP["L2"], "L2_AUX", BLU, R, THICK); S.stub(PUMP["PE"], "PE", GRN)
-S.conn("PUMP_L1", BRN, [KA2["NO"], PUMP["L1"]], lane=340.36, width=THICK)
-S.stub(SVL["N"], "0V1", BLK)
-S.conn("SV_PLUS", RED, [KA5["NO"], SVL["P"]], lane=345.44)
+S.stub(KA2["NO"], "PUMP_L1", BRN, 7.62, THICK); S.stub(PUMP["L1"], "PUMP_L1", BRN, 7.62, THICK)
+S.stub(SVL["N"], "0V1", BLK, 12.7)
+S.stub(SVL["P"], "SV_PLUS", RED, 7.62); S.stub(KA5["NO"], "SV_PLUS", RED)
 
 # ------------------------------------------------------------------ 4. home sensors, e-stop input, servo alarms (board bottom)
 ALM = blk("ALM", "KA4 伺服報警反相繼電器 (3路模組)", 292.1, 360.68,
