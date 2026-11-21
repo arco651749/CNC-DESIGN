@@ -1,19 +1,20 @@
-v13 = v12 + wider X + tool-head module.  new parts: 31
+v13 = v12 + wider X + tool-head module.  new parts: 34
 stretch Datum_base_plate   at x+-250: x -360.0..360.0 -> -437.5..437.5
 stretch X_base_plate       at x+-255: x -360.0..360.0 -> -437.5..437.5
 stretch X_rail_1           at x+-255: x -270.0..270.0 -> -347.5..347.5
 stretch X_rail_2           at x+-255: x -270.0..270.0 -> -347.5..347.5
 stretch X_ballscrew        at x+-0: x -195.0..263.0 -> -272.5..340.5
 moved out: 58 parts (+x 39, -x 19); static parts crossing x+-255 not handled: none
+X screw fixed-supported: C-TEF12 at x -268.5, screw x -275.5..340.5 (L 616), thread end -258.5
 CAMERA (-77.5, -20), lens front z 220.0, tip 180.0, prism fold (-195, 200, 140), air path 110.0; measure at X -117.5, table -220, Z -40
 PROBE (77.5, -20), ball retracted z 230.0 (tool tip +50), extended z 170.0 (tool tip -10), stroke 60, rail L99
 SPINDLE x -7.5, camera -77.5 (D 70), probe 77.5 (P 85); X travel +-227.5: spindle reach -235.0..220.0, camera -305.0..150.0, probe -150.0..305.0
-HOLE_CHECK 19 tools, not fully in material: []
+HOLE_CHECK 21 tools, not fully in material: []
 
 Datum_base_plate           -  x[ -437.5,  437.5] y[ -145.0,  182.0] z[  -20.0,    0.0]  OK
 X_base_plate               -  x[ -437.5,  437.5] y[  162.0,  182.0] z[  230.0,  490.0]  OK
 X_rail_1                   -  x[ -347.5,  347.5] y[  146.5,  162.0] z[  240.0,  260.0]  OK
-X_ballscrew                -  x[ -272.5,  340.5] y[  199.0,  215.0] z[  352.0,  368.0]  OK
+X_ballscrew                -  x[ -275.5,  340.5] y[  199.0,  215.0] z[  352.0,  368.0]  OK
 Gantry_column_L            -  x[ -437.5, -357.5] y[    2.0,  162.0] z[   18.0,  490.0]  OK
 Gantry_column_R            -  x[  357.5,  437.5] y[    2.0,  162.0] z[   18.0,  490.0]  OK
 Spindle_mount_plate        z  x[ -108.0,  108.0] y[   20.0,   32.0] z[  288.0,  500.0]  OK
@@ -26,6 +27,9 @@ X_rail_bolt_2_-330         -  x[ -334.2, -325.8] y[  150.0,  171.0] z[  465.8,  
 X_rail_bolt_2_-270         -  x[ -274.2, -265.8] y[  150.0,  171.0] z[  465.8,  474.2]  OK
 X_rail_bolt_2_270          -  x[  265.8,  274.2] y[  150.0,  171.0] z[  465.8,  474.2]  OK
 X_rail_bolt_2_330          -  x[  325.8,  334.2] y[  150.0,  171.0] z[  465.8,  474.2]  OK
+X_support_float            -  x[ -278.5, -258.5] y[  182.0,  225.0] z[  325.0,  395.0]  OK
+X_support_float_bolt_1     -  x[ -275.0, -262.0] y[  166.0,  233.0] z[  327.5,  340.5]  OK
+X_support_float_bolt_2     -  x[ -275.0, -262.0] y[  166.0,  233.0] z[  379.5,  392.5]  OK
 Camera_lens                z  x[ -103.5,  -60.0] y[  -37.5,   -2.5] z[  220.0,  359.1]  OK
 Camera_CS_C_adapter        z  x[  -92.5,  -62.5] y[  -35.0,   -5.0] z[  355.1,  360.1]  OK
 Camera_body                z  x[  -93.0,  -63.0] y[  -34.5,   -5.5] z[  360.1,  379.5]  OK

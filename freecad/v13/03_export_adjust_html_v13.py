@@ -21,7 +21,7 @@ RULES = [   # first match wins
     ('zp', r'^(X_carriage_plate|Z_rail_|Z_ballscrew|Z_support_fixed|Z_coupling|Z_motor|Z_ref_pin_|Z_ecc_pin_|Z_side_screw_|Z_clamp_bolt_|Z_face_screw_|Z_pivot_pin)'),
     ('x', r'^(X_saddle_plate|X_block_|X_ball_nut|X_nut_bracket|Z_roll_block|Z_roll_screw|Z_pivot_bearing|Z_epoxy_pad_)'),
     ('y', r'^(Y_rail|Work_table|Y_ballscrew|Y_support|Y_coupling|Y_motor|Y_ref_pin_|Y_ecc_pin_|Y_side_screw_)'),
-    ('xp', r'^(X_base_plate|X_rail_|X_ballscrew|X_support_fixed|X_coupling|X_motor|X_ref_pin_|X_ecc_pin_|X_side_screw_|X_plate_bolt_|X_epoxy_pad_|X_roll_pin|Servo_amp|Electrical_panel)'),
+    ('xp', r'^(X_base_plate|X_rail_|X_ballscrew|X_support_fixed|X_support_float|X_coupling|X_motor|X_ref_pin_|X_ecc_pin_|X_side_screw_|X_plate_bolt_|X_epoxy_pad_|X_roll_pin|Servo_amp|Electrical_panel)'),
     ('gan', r'^(Column_foot_|Gantry_column_|Foot_|X_roll_bracket|X_roll_jack|Yaw_lock_dowel)'),
 ]
 def group(n):
@@ -36,6 +36,7 @@ def colour(n, adj):
     if n == 'Probe_body': return [0.12, 0.12, 0.13]
     if n == 'Probe_solenoid': return [0.8, 0.82, 0.85]
     if n in ('Probe_rail', 'Probe_block'): return [0.55, 0.58, 0.62]
+    if n == 'X_support_float': return old['X_support_fixed']
     if n in old and n != 'Spindle_clamp': return old[n]
     if 'epoxy' in n: return [0.13, 0.62, 0.56]                                                  # cast epoxy: teal
     if re.search(r'(dowel|ref_pin|pivot_pin|roll_pin|Z_pivot_|pivot_bearing|pivot_stud)', n): return [0.16, 0.5, 0.78]      # pins and the ball: blue

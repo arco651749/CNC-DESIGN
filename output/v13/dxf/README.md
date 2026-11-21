@@ -21,7 +21,7 @@ RBPB8 座孔 Ø22 H7：外環 h6，用固持膠（Loctite 641）黏固，不壓�
 | Column_foot_R | 1 | 80 × 210 × 18 | 9 | 1 | — | steel foot t18, 80x210, front flange 30 (hold-down bolt, pus |
 | Gantry_column_L | 1 | 80 × 160 × 472 | 5 | 1 | — | HFS8-80160-472 (z18..490) |
 | Gantry_column_R | 1 | 80 × 160 × 472 | 4 | 0 | — | HFS8-80160-472 (z18..490) |
-| X_base_plate | 1 | 875 × 20 × 260 | 65 | 7 | front face ground (X rail face) | steel t20 875x260 (z 230..490); X rails z 250 / 470 (spacing |
+| X_base_plate | 1 | 875 × 20 × 260 | 67 | 7 | front face ground (X rail face) | steel t20 875x260 (z 230..490); X rails z 250 / 470 (spacing |
 | X_saddle_plate | 1 | 284 × 12 × 484 | 31 | 1 | rear face ground (X block face) | saddle, steel t12 with two ears above the columns: bolted to |
 | X_carriage_plate | 1 | 240 × 17 × 488 | 46 | 7 | front face ground (Z rail face) | Z plate, steel t17 240x488: Z rails, Z screw, Z motor plate. |
 | Z_slide_plate | 1 | 220 × 28 × 230 | 27 | 1 | rear face ground (spacer / Z block face) | steel t28, pocket for the Z nut |

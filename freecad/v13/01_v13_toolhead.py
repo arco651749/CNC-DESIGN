@@ -106,10 +106,25 @@ for r, z in ((1, 250), (2, 470)):
         hole('X_base_plate', cyl('y', 2.5, 162, 171, x, z))
         add('X_rail_bolt_%d_%d' % (r, x), fuse(cyl('y', 4.25, 150, 155, x, z), cyl('y', 2.5, 155, 171, x, z)), G,
             'M5x16 SHCS in the rail counterbore, tapped 9 into the X plate', '', 'fasten')
+# X screw: free end now supported (C-TEF12 on the X plate rear face, like the C-TEK12 at the motor end) -> fixed-supported
+XF = -268.5                                                   # support centre: 5 clear of the nut bracket at X -227.5, base past the slot end
+tef = Part.read(os.path.join(ROOT, 'vendor', 'misumi', 'C-TEF12', 'step', 'C-TEF12.stp')).Solids   # housing x0..20, base y0, axis (y25, z0)
+for k, so in enumerate(tef[:2]):                              # housing + bearing (the snap ring is left out)
+    so = so.copy(); so.translate(V(-10, -25, 0)); so.translate(V(XF, 207, 360)); tef[k] = so
+add('X_support_float', tef[0].fuse(tef[1]), '04 X-axis', 'MISUMI C-TEF12 support unit (supported side, bearing 6000ZZ, d10), vendor STEP: on the X plate rear '
+    'face at the free end of the X screw, 2 x M8', '', '')
+for k, zz in enumerate((334, 386), 1):
+    hole('X_base_plate', cyl('y', 4, 166, 182, XF, zz))
+    add('X_support_float_bolt_%d' % k, fuse(cyl('y', 6.5, 225, 233, XF, zz), cyl('y', 4, 166, 225, XF, zz)), G,
+        'M8x60 SHCS through the C-TEF12 housing into the X plate rear face (tap M8 depth 16)', '', 'fasten')
+o = O('X_ballscrew'); sb = o.Shape.BoundBox
+o.Shape = fuse(o.Shape.common(box(XF + 10, sb.XMax + 1, sb.YMin - 1, sb.YMax + 1, sb.ZMin - 1, sb.ZMax + 1)), cyl('x', 5, XF - 7, XF + 10, 207, 360))
+LOG.append('X screw fixed-supported: C-TEF12 at x %.1f, screw x %.1f..%.1f (L %.0f), thread end %.1f' % (XF, O('X_ballscrew').Shape.BoundBox.XMin,
+           O('X_ballscrew').Shape.BoundBox.XMax, O('X_ballscrew').Shape.BoundBox.XLength, XF + 10))
 spec('X_rail_1', 'SX2RNL28-695 rail (between the columns), holes on the 60 pitch x+-30..+-330')
 spec('X_rail_2', 'SX2RNL28-695 rail (between the columns), holes on the 60 pitch x+-30..+-330')
-spec('X_ballscrew', 'C-KBS1505-613: thread to the C-TEK12 face, D12x36 (bearing + lock nut) + D10x27 (coupling), fixed-free. '
-     'X travel +-227.5; check the critical speed of the 613 fixed-free screw (add a free-end support if needed)')
+spec('X_ballscrew', 'C-KBS1505-616, both ends machined: motor end D12x36 (C-TEK12 bearing + lock nut) + D10x27 (coupling), '
+     'other end D10x17 (C-TEF12 bearing + snap ring); fixed-supported, X travel +-227.5. Critical speed about 5800 rpm (x0.8 = 4600) > 3000 rpm motor')
 spec('X_base_plate', 'steel t20 875x260 (z 230..490); X rails z 250 / 470 (spacing 220); X drive axis z 360 = midway between the rails. '
      'Through-slot x -258.5..243.5, z 330..390 for the X nut bracket. Front face stepped 1 mm down outside x+-349.5: stands 1 mm off the columns, joined by 8 epoxy pads')
 spec('Datum_base_plate', 'Q235 t20 875x327 datum plate, top face ground (Y block seats): Y blocks, Y nut seat, column feet')

@@ -1,4 +1,4 @@
-parts=337 size=14830416
+parts=340 size=15090713
 Datum_base_plate g='' r='' tris=27308
 Y_rail_L g='y' r='' tris=8600
 Y_block_L1 g='' r='' tris=36808
@@ -24,7 +24,7 @@ X_rail_2 g='' r='' tris=13780
 X_block_21 g='x' r='' tris=16922
 X_block_22 g='x' r='' tris=16922
 X_carriage_plate g='x' r='' tris=23256
-X_ballscrew g='' r='x' tris=7682
+X_ballscrew g='' r='x' tris=2012
 X_ball_nut g='x' r='' tris=22048
 X_nut_bracket g='x' r='' tris=5560
 X_support_fixed g='' r='' tris=14420
@@ -55,7 +55,7 @@ Servo_amp_X g='' r='' tris=3138
 Servo_amp_Y g='' r='' tris=3138
 Servo_amp_Z g='' r='' tris=3138
 Y_motor_block g='y' r='' tris=4596
-X_base_plate g='' r='' tris=32940
+X_base_plate g='' r='' tris=33948
 X_coupling g='' r='x' tris=11908
 X_motor_block g='' r='' tris=4568
 Z_nut_housing g='z' r='' tris=5576
@@ -342,6 +342,9 @@ X_rail_bolt_2_-330 g='' r='' tris=1004
 X_rail_bolt_2_-270 g='' r='' tris=1004
 X_rail_bolt_2_270 g='' r='' tris=1004
 X_rail_bolt_2_330 g='' r='' tris=1004
+X_support_float g='' r='' tris=24322
+X_support_float_bolt_1 g='' r='' tris=1004
+X_support_float_bolt_2 g='' r='' tris=1004
 Camera_lens g='z' r='' tris=27020
 Camera_CS_C_adapter g='z' r='' tris=1008
 Camera_body g='z' r='' tris=4624
