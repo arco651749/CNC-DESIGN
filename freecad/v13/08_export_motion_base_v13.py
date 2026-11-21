@@ -104,6 +104,8 @@ html2 = html2.replace("bg();setPose();", "btn('probe').onclick=()=>{probeT=probe
                       "btn('probe').classList.toggle('on',probeT<0);st.textContent=probeT<0?'探頭伸出（電磁鐵通電，壓到擋塊）：球頭低於刀尖 10 mm'"
                       ":'探頭縮回（電磁鐵斷電，彈簧拉回）：球頭高於刀尖 50 mm'};bg();setPose();", 1)
 log.append('probe control injected: %d %d %d %d' % (p1, p2, p3, p4))
+_ns = {}; exec(open(os.path.join(ROOT, 'freecad', 'v13', 'toolset_inject.py'), encoding='utf-8').read(), _ns)
+html2, _n = _ns['inject'](html2); log.append('tool-setting / FOV injected: %s' % _n)
 html2 = html2.replace('<i>±150</i>', '<i>±227.5</i>', 1).replace('id="sx" type="range" min="-150" max="150" step="1"', 'id="sx" type="range" min="-227.5" max="227.5" step="0.5"', 1)
 open(OUT, 'w', encoding='utf-8', newline='\n').write(html2)
 log.insert(0, 'parts=%d size=%d' % (len(out), len(html2)))
