@@ -42,8 +42,8 @@ RBPB8 座孔 Ø22 H7：外環 h6，用固持膠（Loctite 641）黏固，不壓�
 | Z_roll_block_R | 1 | 18 × 18 × 32 | 3 | 0 | — | steel block 18x18x32 on the saddle ear, beside the Z plate e |
 | Spindle_roll_block_L | 1 | 18 × 20 × 30 | 2 | 0 | — | steel block beside the top of the ear |
 | Spindle_roll_block_R | 1 | 18 × 20 × 30 | 2 | 0 | — | steel block beside the top of the ear |
-| Camera_bracket | 1 | 36 × 72 × 58 | 4 | 0 | — | camera bracket (CNC, 6061): flange on the module plate (2 x  |
-| Camera_air_ring | 1 | 44 × 44 × 10 | 2 | 0 | — | lens air ring (CNC, 6061) on the D35 lens nose, 2 x M3 set s |
+| Camera_bracket | 1 | 52 × 76 × 30 | 4 | 0 | — | camera bracket (CNC, 6061): flange on the module plate (2 x  |
+| Camera_air_ring | 1 | 51 × 51 × 10 | 2 | 0 | — | lens air ring (CNC, 6061) on the D45 lens nose, 2 x M3 set s |
 | Mirror_bracket | 1 | 94 × 72 × 21 | 2 | 0 | — | prism holder (CNC, steel t8, base ground): on the table T-sl |
 | Probe_bracket | 1 | 32 × 8 × 143 | 8 | 0 | — | probe slide bracket (CNC, 6061) t8 on the module plate (4 x  |
 | Probe_holder | 1 | 34 × 30 × 40 | 6 | 1 | — | probe holder (CNC, 6061): on the slide table (4 x M3), split |

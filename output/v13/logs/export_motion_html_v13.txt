@@ -1,4 +1,4 @@
-parts=363 size=15458278
+parts=363 size=15405169
 Datum_base_plate g='' r='' tris=27308
 Y_rail_L g='y' r='' tris=8600
 Y_block_L1 g='' r='' tris=36808
@@ -353,18 +353,18 @@ Z_support_fixed_bolt_1 g='x' r='' tris=1004
 Z_support_fixed_bolt_2 g='x' r='' tris=1004
 Spindle_clamp_dowel_1 g='z' r='' tris=500
 Spindle_clamp_dowel_2 g='z' r='' tris=500
-Camera_lens g='z' r='' tris=27020
+Camera_lens g='z' r='' tris=22578
 Camera_CS_C_adapter g='z' r='' tris=1008
 Camera_body g='z' r='' tris=4624
 Camera_light_guide g='z' r='' tris=1508
-Camera_air_ring g='z' r='' tris=2170
+Camera_air_ring g='z' r='' tris=2174
 Camera_air_fitting g='z' r='' tris=500
-Camera_bracket g='z' r='' tris=3080
+Camera_bracket g='z' r='' tris=3076
 Camera_pinch_bolt g='z' r='' tris=1004
 Camera_bracket_bolt_1 g='z' r='' tris=1004
 Camera_bracket_bolt_2 g='z' r='' tris=1004
 Tool_mirror g='y' r='' tris=8
-Mirror_bracket g='y' r='' tris=2084
+Mirror_bracket g='y' r='' tris=2104
 Mirror_bracket_bolt_1 g='y' r='' tris=1004
 Mirror_bracket_bolt_2 g='y' r='' tris=1004
 Mirror_cover g='y' r='' tris=44
