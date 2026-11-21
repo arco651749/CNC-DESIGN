@@ -447,26 +447,28 @@ print('CAMERA layout B: camera (%.0f, %.0f), lens front z %.1f, tip %.1f, prism 
 
 # ================================================================ touch probe on a retractable slide (right of the spindle), push-pull solenoid
 # Probe: shank D6x20, body D33x21, stylus 26 (ball D2), NPN NO. Retracted (solenoid off, its spring): ball 15 above the tool tip.
-# Extended (solenoid on, its rear M6 stud pushes down): ball 10 below the tool tip, against an adjustable hard stop. Stroke 25.
+# Extended (solenoid on, its rear M6 stud pushes down): ball 10 below the tool tip, against an adjustable hard stop. Stroke 60 (solenoid).
 gp = '12 Probe'
 g = doc.addObject('App::DocumentObjectGroup', 'G'); g.Label = gp; GROUPS[gp] = g
 PX, PY = 95.0, -32.0                                            # probe axis
-TIPR = TIP + 15.0                                               # retracted ball bottom
+STROKE = 60.0                                                   # solenoid stroke
+TIPR = TIP - 10.0 + STROKE                                      # retracted ball bottom (tool tip + 50)
 BB0 = TIPR + 26.0                                               # probe body bottom
 pb = fuse(cyl('z', 16.5, BB0, BB0 + 21, PX, PY), cyl('z', 3.0, BB0 + 21, BB0 + 41, PX, PY), cyl('z', 2.5, BB0 - 4, BB0, PX, PY),
           cyl('z', 0.75, TIPR + 1, BB0 - 4, PX, PY), Part.makeSphere(1.0, V(PX, PY, TIPR + 1)))
 add('Probe_body', pb, gp, 'touch probe: shank D6x20, body D33x21, stylus 26 / ball D2 (M2.5), DC5-24V NPN NO; to the servo amplifier MSD input (CN1-10)', 'z', 'probe')
 # bracket (CNC, 6061): flange on the Z slide front face right of the spindle plate, plate carrying the rail and the solenoid
-br = fuse(box(80, 110, 24, 34, 320, 420), box(80, 84, 10, 34, 320, 420), box(106, 110, 10, 34, 320, 420), box(80, 110, 0, 10, 213, 420),
+br = fuse(box(80, 110, 24, 34, 320, 420), box(80, 84, 10, 34, 320, 420), box(106, 110, 10, 34, 320, 420), box(80, 110, 0, 10, 213, 460),
           box(86, 104, -12, 0, 213, 223))                       # stop block under the rail
 add('Probe_bracket', br, gp, 'probe slide bracket (CNC, 6061): 4 x M5 on the Z slide front face, rail face y0, solenoid face, hard-stop block', 'z', 'probe')
 for i, (x, z) in enumerate(((89, 340), (101, 340), (89, 380), (101, 380)), 1):     # clear of the Z block bolts (x 96, z 362.5/394.5)
     hole('Z_slide_plate', cyl('y', 2.5, 34, 44, x, z))
     bo = O('Probe_bracket'); bo.Shape = bo.Shape.cut(cyl('y', 2.75, 24, 34, x, z))
     add('Probe_bracket_bolt_%d' % i, fuse(cyl('y', 4.25, 19, 24, x, z), cyl('y', 2.5, 24, 42, x, z)), gp, 'M5x18 SHCS into the Z slide (tap M5 depth 10)', 'z', 'fasten')
-RZ0 = 228.0
-add('Probe_rail', box(PX - 6, PX + 6, -8, 0, RZ0, RZ0 + 72), gp, 'miniature linear guide rail, width 12, L72 (MISUMI miniature series), 2 x M3', 'z', 'probe')
 ZBK = BB0 + 41 - 2                                              # block bottom (retracted)
+RZ0 = 228.0
+RL = ZBK + 32 - RZ0
+add('Probe_rail', box(PX - 6, PX + 6, -8, 0, RZ0, RZ0 + RL), gp, 'miniature linear guide rail, width 12, L%.0f (MISUMI miniature series), M3' % RL, 'z', 'probe')
 add('Probe_block', box(PX - 13, PX + 13, -14, -2, ZBK, ZBK + 30).cut(box(PX - 6, PX + 6, -8, 0, ZBK, ZBK + 30)), gp, 'miniature linear guide block, width 26, L30', 'z', 'probe')
 hd = fuse(box(PX - 14, PX + 14, -19, -14, BB0 + 25, ZBK + 34), box(PX - 17, PX + 17, PY - 18, -14, BB0 + 25, BB0 + 39),
           box(PX - 10, PX + 10, -30, -10, ZBK + 34, ZBK + 40))
@@ -478,12 +480,12 @@ add('Probe_pinch_bolt', fuse(cyl('x', 3.5, PX - 21, PX - 17, PY - 10, BB0 + 32),
 SZ0 = ZBK + 44                                                  # solenoid body bottom
 sol = fuse(box(PX - 22.5, PX + 22.5, -40, 0, SZ0, SZ0 + 110), cyl('z', 6, SZ0 + 110, SZ0 + 170, PX, -20), cyl('z', 10, SZ0 + 166, SZ0 + 170, PX, -20),
            cyl('z', 3.0, ZBK + 36, SZ0, PX, -20))
-add('Probe_solenoid', sol, gp, 'push-pull frame solenoid 45 x 40 x 110 (stroke 25 assumed), spring end up, rear M6 stud down into the holder: '
+add('Probe_solenoid', sol, gp, 'push-pull frame solenoid 45 x 40 x 110, stroke 60, spring end up, rear M6 stud down into the holder: '
     'off = retracted by the spring (fail-safe), on = probe down onto the hard stop; mounted 4 x M4 (50 x 30) on the bracket', 'z', 'probe')
-add('Probe_stop_screw', fuse(cyl('z', 2.5, 207, ZBK - 25, PX, -11), cyl('z', 4.6, 209, 213, PX, -11)), gp,
+add('Probe_stop_screw', fuse(cyl('z', 2.5, 207, ZBK - STROKE, PX, -11), cyl('z', 4.6, 209, 213, PX, -11)), gp,
     'M5 stop screw + jam nut: sets the extended probe height (block bottom lands on it)', 'z', 'probe')
 O('Probe_bracket').Shape = O('Probe_bracket').Shape.cut(cyl('z', 2.5, 213, 223, PX, -11))    # M5 tap for the stop screw
-print('PROBE axis (%.0f, %.0f), ball retracted z %.1f (tool tip +15), extended z %.1f (tool tip -10), stroke 25' % (PX, PY, TIPR, TIPR - 25))
+print('PROBE axis (%.0f, %.0f), ball retracted z %.1f (tool tip %+.0f), extended z %.1f (tool tip %+.0f), stroke %.0f, rail L%.0f' % (PX, PY, TIPR, TIPR - TIP, TIPR - STROKE, TIPR - STROKE - TIP, STROKE, RL))
 
 bad = [(l, round(r, 3)) for l, r in CHK if r < 0.98]
 print('HOLE_CHECK', len(CHK), 'tools, not fully in material:', bad)

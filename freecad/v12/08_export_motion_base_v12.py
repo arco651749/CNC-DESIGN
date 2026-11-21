@@ -92,6 +92,18 @@ html2 = html2.replace("bg();setPose();", "let split=false;btn('split').onclick=(
 log.append('base hooks: group %d map %d button %d camera %d' % (n1, n2, n3, n4))
 html2 = re.sub(r'<div class="sub">.*?</div>',
                '<div class="sub">v12 裝在切削液底座上：A 底座（鋁擠＋板金＋集液盤＋液箱）、B CNC 本體，以 4 支 M12 鎖在墊高塊上。按「分開 A／B」看兩部分· 拖曳旋轉、滾輪縮放</div>', html2, count=1)
+# probe extend / retract control: the slide parts go into their own group under the Z group, animated by a button
+PROBE_JS_GROUP = ("const gP=new THREE.Group();gZ.add(gP);const PM=['Probe_body','Probe_holder','Probe_block','Probe_pinch_bolt'];"
+                  "for(const m of [...gZ.children])if(PM.includes(m.userData.n))gP.add(m);let probeT=0,probeZ=0;\n")
+html2, p1 = re.subn(r" if\(p\.r\)\{const pv=piv\[p\.r\];", " m.userData.n=p.n;\n if(p.r){const pv=piv[p.r];", html2, count=1)
+html2, p2 = re.subn(r"(// tool tip and a work piece on the table)", lambda m_: PROBE_JS_GROUP + m_.group(1), html2, count=1)
+html2, p3 = re.subn(r'(<button id="trail")', '<button id="probe">探頭 伸出</button>\\1', html2, count=1)
+html2, p4 = re.subn(r"( ctl\.update\(\);R\.render\(scene,cam\);requestAnimationFrame\(step\)\})",
+                    lambda m_: " {const d=probeT-probeZ;if(Math.abs(d)>0.01){probeZ+=Math.sign(d)*Math.min(Math.abs(d),dt/speed*240);gP.position.z=probeZ}}\n" + m_.group(1), html2, count=1)
+html2 = html2.replace("bg();setPose();", "btn('probe').onclick=()=>{probeT=probeT<0?0:-60;btn('probe').textContent=probeT<0?'探頭 縮回':'探頭 伸出';"
+                      "btn('probe').classList.toggle('on',probeT<0);st.textContent=probeT<0?'探頭伸出（電磁鐵通電，壓到擋塊）：球頭低於刀尖 10 mm'"
+                      ":'探頭縮回（電磁鐵斷電，彈簧拉回）：球頭高於刀尖 50 mm'};bg();setPose();", 1)
+log.append('probe control injected: %d %d %d %d' % (p1, p2, p3, p4))
 open(OUT, 'w', encoding='utf-8', newline='\n').write(html2)
 log.insert(0, 'parts=%d size=%d' % (len(out), len(html2)))
 open(LOG, 'w', encoding='utf-8').write('\n'.join(log))
