@@ -19,8 +19,11 @@ def colour(n):   # same scheme as the adjuster tour page
     if n == 'Camera_light_guide': return [0.85, 0.85, 0.2]
     if n == 'Tool_mirror': return [0.75, 0.9, 1.0]
     if n == 'Probe_body': return [0.12, 0.12, 0.13]
-    if n == 'Probe_solenoid': return [0.8, 0.82, 0.85]
-    if n in ('Probe_rail', 'Probe_block'): return [0.55, 0.58, 0.62]
+    if n in ('Probe_slide_body', 'Mirror_cover_actuator'): return [0.8, 0.82, 0.85]
+    if n == 'Probe_slide_table': return [0.55, 0.58, 0.62]
+    if n.startswith('Probe_reed'): return [0.85, 0.2, 0.2]
+    if n == 'Mirror_cover': return [0.62, 0.66, 0.7]
+    if n == 'Camera_air_ring': return [0.35, 0.38, 0.42]
     if n.startswith('Guard_window'): return [0.72, 0.84, 0.92]
     if n.startswith(('Coolant_pan', 'Guard_', 'Coolant_tank', 'Coolant_baffle', 'Coolant_filter', 'Coolant_drain')): return [0.84, 0.85, 0.86]
     if n.startswith('Coolant_silicone'): return [0.97, 0.97, 0.95]
@@ -59,7 +62,7 @@ for o in doc.Objects:
         if not g and getattr(o, 'Adj', '') == 'base': g = 'base'
         r, c = '', colour(name)
         if name == 'X_support_float': c = old['X_support_fixed']['c']
-    pts, tris = o.Shape.tessellate(1.0 if o.Label == 'Camera_lens' else (0.8 if re.search(r'(Camera_body|pivot_bearing|^[XYZ]_block_|ball_nut)', o.Label) else 0.2))
+    pts, tris = o.Shape.tessellate(1.0 if o.Label == 'Camera_lens' else (0.8 if re.search(r'(Camera_body|pivot_bearing|^[XYZ]_block_|ball_nut)', o.Label) else 0.25))
     if not tris:
         continue
     coords = [int(round(v * 10)) for p in pts for v in (p.x, p.y, p.z)]
@@ -94,7 +97,7 @@ log.append('base hooks: group %d map %d button %d camera %d' % (n1, n2, n3, n4))
 html2 = re.sub(r'<div class="sub">.*?</div>',
                '<div class="sub">v13 裝在切削液底座上（底座隨機台加寬 155）：A 底座、B CNC 本體（工具頭模組、X ±227.5）。按「分開 A／B」看兩部分 · 拖曳旋轉、滾輪縮放</div>', html2, count=1)
 # probe extend / retract control: the slide parts go into their own group under the Z group, animated by a button
-PROBE_JS_GROUP = ("const gP=new THREE.Group();gZ.add(gP);const PM=['Probe_body','Probe_holder','Probe_block','Probe_pinch_bolt'];"
+PROBE_JS_GROUP = ("const gP=new THREE.Group();gZ.add(gP);const PM=['Probe_body','Probe_holder','Probe_slide_table','Probe_pinch_bolt','Probe_holder_bolt_1','Probe_holder_bolt_2','Probe_holder_bolt_3','Probe_holder_bolt_4'];"
                   "for(const m of [...gZ.children])if(PM.includes(m.userData.n))gP.add(m);let probeT=0,probeZ=0;\n")
 html2, p1 = re.subn(r" if\(p\.r\)\{const pv=piv\[p\.r\];", " m.userData.n=p.n;\n if(p.r){const pv=piv[p.r];", html2, count=1)
 html2, p2 = re.subn(r"(// tool tip and a work piece on the table)", lambda m_: PROBE_JS_GROUP + m_.group(1), html2, count=1)
@@ -102,8 +105,8 @@ html2, p3 = re.subn(r'(<button id="trail")', '<button id="probe">探頭 伸出</
 html2, p4 = re.subn(r"( ctl\.update\(\);R\.render\(scene,cam\);requestAnimationFrame\(step\)\})",
                     lambda m_: " {const d=probeT-probeZ;if(Math.abs(d)>0.01){probeZ+=Math.sign(d)*Math.min(Math.abs(d),dt/speed*240);gP.position.z=probeZ}}\n" + m_.group(1), html2, count=1)
 html2 = html2.replace("bg();setPose();", "btn('probe').onclick=()=>{probeT=probeT<0?0:-60;btn('probe').textContent=probeT<0?'探頭 縮回':'探頭 伸出';"
-                      "btn('probe').classList.toggle('on',probeT<0);st.textContent=probeT<0?'探頭伸出（電磁鐵通電，壓到擋塊）：球頭低於刀尖 10 mm'"
-                      ":'探頭縮回（電磁鐵斷電，彈簧拉回）：球頭高於刀尖 50 mm'};bg();setPose();", 1)
+                      "btn('probe').classList.toggle('on',probeT<0);st.textContent=probeT<0?'探頭伸出（氣壓滑台伸到行程調整擋）：球頭低於刀尖 10 mm'"
+                      ":'探頭縮回（閥斷電、彈簧復歸，滑台收回；收回開關＝主軸允許運轉）：球頭高於刀尖 50 mm'};bg();setPose();", 1)
 log.append('probe control injected: %d %d %d %d' % (p1, p2, p3, p4))
 _ns = {}; exec(open(os.path.join(ROOT, 'freecad', 'v13', 'toolset_inject.py'), encoding='utf-8').read(), _ns)
 html2, _n = _ns['inject'](html2); log.append('tool-setting / FOV injected: %s' % _n)

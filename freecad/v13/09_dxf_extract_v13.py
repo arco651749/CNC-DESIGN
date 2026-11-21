@@ -18,7 +18,7 @@ PARTS = [('Datum_base_plate', 1), ('Work_table', 1), ('Column_foot_L', 1), ('Col
          ('Z_motor_plate', 1), ('Z_nut_housing', 1), ('X_nut_bracket', 1), ('Y_nut_bracket', 1), ('X_motor_block', 1), ('Y_motor_block', 1),
          ('Spindle_clamp', 1), ('Spindle_mount_plate', 1), ('Base_riser_1', 4),
          ('Yaw_push_block', 1), ('X_roll_bracket', 1), ('Z_roll_block_L', 1), ('Z_roll_block_R', 1), ('Spindle_roll_block_L', 1), ('Spindle_roll_block_R', 1),
-         ('Camera_bracket', 1), ('Mirror_bracket', 1), ('Probe_bracket', 1), ('Probe_holder', 1)]
+         ('Camera_bracket', 1), ('Camera_air_ring', 1), ('Mirror_bracket', 1), ('Probe_bracket', 1), ('Probe_holder', 1)]
 AX = {'x': App.Vector(1, 0, 0), 'y': App.Vector(0, 1, 0), 'z': App.Vector(0, 0, 1)}
 UV = {'z': ('x', 'y'), 'y': ('x', 'z'), 'x': ('y', 'z')}
 comp = lambda v, a: getattr(v, a)
@@ -40,7 +40,7 @@ PINS, SCREWS = [], []
 for o in doc.Objects:
     if o.TypeId != 'Part::Feature' or o.Shape.isNull(): continue
     n = o.Label
-    if re.search(r'(pivot_pin|lock_dowel|roll_pin|ref_pin_\d|ecc_pin_\d|pivot_bearing)', n):   # 'Spindle' contains 'pin': match whole names
+    if re.search(r'(pivot_pin|lock_dowel|roll_pin|ref_pin_\d|ecc_pin_\d|pivot_bearing|clamp_dowel_\d)', n):   # 'Spindle' contains 'pin': match whole names
         for c in cylinders(o.Shape):
             if not c['hole']: PINS.append((n, c))
     if re.search(r'(bolt|screw|jack|_stud)', n):
@@ -119,7 +119,7 @@ for name, qty in PARTS:
             for c in cs:
                 q = round(c['r'], 3); e = rs.setdefault(q, {'r': c['r'], 'span': 0, 'rng': [1e9, -1e9], 'c': c['c'], 'k': k})
                 e['span'] += c['span']; e['rng'] = [min(e['rng'][0], c['rng'][0]), max(e['rng'][1], c['rng'][1])]
-            full = sorted([e for e in rs.values() if e['span'] > 2 * math.pi - 0.15], key=lambda e: e['r'])
+            full = sorted([e for e in rs.values() if e['span'] > 2 * math.pi - max(0.15, 2 * math.asin(min(1.0, 0.6 / e['r'])))], key=lambda e: e['r'])   # a split clamp bore (slit <= 1.2) still counts
             if EXTR and k == 'z': full = [e for e in full if e['rng'][1] - e['rng'][0] < 0.5 * size[k]]   # profile cores: not machined
             if not full: continue
             ax = lambda t: App.Vector(*[t if q == k else (cu if q == u else cv) for q in 'xyz'])
@@ -155,6 +155,8 @@ for name, qty in PARTS:
                 else:
                     txt = 'M%d%s tap %s' % (M, pitch, 'thru' if mthru else 'depth %g' % round(depth, 1))
                 cls = 'TAP'
+            elif name == 'Probe_holder' and abs(d - 6) < 0.05 and k == 'z':   # probe shank: split clamp
+                txt = 'Ø6 H7 (+0.012/0) thru (probe shank; ream before cutting the slit)'; cls = 'H7'
             elif name == 'Spindle_clamp' and abs(d - 65) < 0.05:          # spindle bore: fit to the spindle body
                 txt = 'Ø65 H7 (+0.030/0) thru (spindle bore: bore before cutting the slit; axis perpendicular to the rear face 0.01)'; cls = 'H7'
             elif re.match(r'[XYZ]_nut_(bracket|housing)$', name) and abs(d - 28.2) < 0.05:   # ball nut body: locates the nut on the screw axis

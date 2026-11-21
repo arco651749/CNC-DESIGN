@@ -24,7 +24,7 @@ def vol(a, b):
     try: return a.common(b).Volume
     except Exception: return 0.0
 out = []
-HEAD = [n for n in OBJ if n.startswith(('Camera', 'Tool_mirror', 'Mirror_bracket', 'Probe', 'Coolant_nozzle'))]
+HEAD = [n for n in OBJ if n.startswith(('Camera', 'Tool_mirror', 'Mirror', 'Probe', 'Coolant_nozzle'))]
 SX0, SY, CX, PX = -7.5, -20.0, -77.5, 77.5
 MX, MY, MZ = -195.0, 200.0, 140.0
 MEAS = (MX - CX, SY - MY, MZ - 180.0)                            # (-117.5, -220, -40)
@@ -51,20 +51,22 @@ for dx, dz, dy in itertools.product((-227.5, MEAS[0], 0, 227.5), (-50, MEAS[2], 
 out += ['', 'CLASHES OVER 64 POSES: %d' % len(bad)] + ['  %s x %s at %s' % (a, b, p) for (a, b), p in sorted(bad.items())]
 # (2) light path at the measuring pose: FOV 13.4 (along X / along the tool) x 11.2
 dx, dy, dz = MEAS
+cb = OBJ['Mirror_cover'].Shape.BoundBox; OPEN = OBJ['Mirror_cover'].Shape.copy(); OPEN.rotate(V(cb.XMin, 0, cb.ZMax), V(0, 1, 0), -180)
+S_OPEN = {'Mirror_cover': OPEN}
 lf = OBJ['Camera_lens'].Shape.BoundBox.ZMin + dz
 paths = {'down': Part.makeBox(13.4, 11.2, lf - 147.0, V(MX - 6.7, SY - 5.6, 147.0)),
          'across': Part.makeBox((SX0 + dx - 2.5) - (MX + 6.7), 11.2, 13.4, V(MX + 6.7, SY - 5.6, MZ - 6.7))}
 for k, p in paths.items():
-    hits = [(m, round(vol(p, moved(m, dx, dy, dz)), 1)) for m in OBJ if p.BoundBox.intersect(moved(m, dx, dy, dz).BoundBox)]
+    hits = [(m, round(vol(p, moved(m, dx, dy, dz, S_OPEN)), 1)) for m in OBJ if p.BoundBox.intersect(moved(m, dx, dy, dz, S_OPEN).BoundBox)]
     out.append('PATH %-6s %s' % (k, [h for h in hits if h[1] > 0.01] or 'clear'))
 tip = moved('Tool_D5', dx, dy, dz).BoundBox
 out.append('measuring pose X %+.1f table %+.0f Z %+.0f: tool tip z %.1f at x %.1f, prism fold (%.0f, %.0f) -> table at y %.0f; air path %.1f'
            % (dx, dy, dz, tip.ZMin, (tip.XMin + tip.XMax) / 2, MX, MZ, MY + dy, (lf - MZ) + ((tip.XMin + tip.XMax) / 2 - MX)))
-for a in ('Camera_lens', 'Camera_bracket', 'Spindle_body', 'ER11_nut', 'Probe_body', 'Coolant_nozzle_1'):
-    out.append('  min gap %-18s - prism parts %.1f mm' % (a, min(moved(a, dx, dy, dz).distToShape(moved(b, dx, dy, dz))[0] for b in ('Tool_mirror', 'Mirror_bracket', 'Mirror_bracket_bolt_1'))))
+for a in ('Camera_lens', 'Camera_air_ring', 'Camera_bracket', 'Spindle_body', 'ER11_nut', 'Probe_body', 'Coolant_nozzle_1'):
+    out.append('  min gap %-18s - prism parts (cover open) %.1f mm' % (a, min(moved(a, dx, dy, dz).distToShape(moved(b, dx, dy, dz, S_OPEN))[0] for b in ('Tool_mirror', 'Mirror_bracket', 'Mirror_bracket_bolt_1', 'Mirror_cover', 'Mirror_cover_actuator'))))
 # (3) probe retracted / extended
-MOVE = ('Probe_body', 'Probe_holder', 'Probe_block', 'Probe_pinch_bolt')
-OK = {('Probe_block', 'Probe_rail'), ('Probe_holder', 'Probe_solenoid'), ('Probe_bracket', 'Probe_stop_screw'), ('Probe_body', 'Probe_holder'),
+MOVE = ('Probe_body', 'Probe_holder', 'Probe_slide_table', 'Probe_pinch_bolt') + tuple('Probe_holder_bolt_%d' % k for k in range(1, 5))
+OK = {('Probe_slide_body', 'Probe_slide_table'), ('Probe_block', 'Probe_rail'), ('Probe_holder', 'Probe_solenoid'), ('Probe_bracket', 'Probe_stop_screw'), ('Probe_body', 'Probe_holder'),
       ('Probe_holder', 'Probe_pinch_bolt'), ('Probe_bracket', 'Probe_rail'), ('Probe_block', 'Probe_holder'), ('Probe_bracket', 'Probe_bracket_bolt_1'),
       ('Probe_bracket', 'Probe_bracket_bolt_2'), ('Probe_bracket', 'Probe_bracket_bolt_3'), ('Probe_bracket', 'Probe_bracket_bolt_4')}
 for state, d in (('retracted', 0), ('extended', -60)):
@@ -77,7 +79,7 @@ for state, d in (('retracted', 0), ('extended', -60)):
             if not S[a].BoundBox.intersect(OBJ[b].Shape.BoundBox): continue
             v = vol(S[a], OBJ[b].Shape)
             if v > 0.5 and tuple(sorted((a, b))) not in OK: un.append((a, b, round(v, 1)))
-    out.append('PROBE %-9s ball z %.1f, block z %.1f..%.1f, stop top %.1f, unexpected contacts: %s' % (state, S['Probe_body'].BoundBox.ZMin,
-               S['Probe_block'].BoundBox.ZMin, S['Probe_block'].BoundBox.ZMax, OBJ['Probe_stop_screw'].Shape.BoundBox.ZMax, un or 'none'))
+    out.append('PROBE %-9s ball z %.1f, slide table z %.1f..%.1f (body %.1f..%.1f), unexpected contacts: %s' % (state, S['Probe_body'].BoundBox.ZMin,
+               S['Probe_slide_table'].BoundBox.ZMin, S['Probe_slide_table'].BoundBox.ZMax, OBJ['Probe_slide_body'].Shape.BoundBox.ZMin, OBJ['Probe_slide_body'].Shape.BoundBox.ZMax, un or 'none'))
 open(os.path.join(ROOT, 'output', 'v13', 'logs', 'v13_toolhead_check.txt'), 'w', encoding='utf-8').write('\n'.join(out))
 print('\n'.join(out))

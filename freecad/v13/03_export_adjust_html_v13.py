@@ -34,8 +34,10 @@ def colour(n, adj):
     if n == 'Camera_light_guide': return [0.85, 0.85, 0.2]
     if n == 'Tool_mirror': return [0.75, 0.9, 1.0]
     if n == 'Probe_body': return [0.12, 0.12, 0.13]
-    if n == 'Probe_solenoid': return [0.8, 0.82, 0.85]
-    if n in ('Probe_rail', 'Probe_block'): return [0.55, 0.58, 0.62]
+    if n in ('Probe_slide_body', 'Mirror_cover_actuator'): return [0.8, 0.82, 0.85]
+    if n == 'Probe_slide_table': return [0.55, 0.58, 0.62]
+    if n.startswith('Probe_reed'): return [0.85, 0.2, 0.2]
+    if n == 'Mirror_cover': return [0.62, 0.66, 0.7]
     if n == 'X_support_float': return old['X_support_fixed']
     if n in old and n != 'Spindle_clamp': return old[n]
     if 'epoxy' in n: return [0.13, 0.62, 0.56]                                                  # cast epoxy: teal
