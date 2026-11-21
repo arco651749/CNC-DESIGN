@@ -424,23 +424,24 @@ for i, z in enumerate((342, 368), 1):
         'M5x18 SHCS into the spindle clamp front face (tap M5 depth 10)', 'z', 'fasten')
 # turning prism on the table (moves in Y): right-angle prism 20x20x20 with a mirror-coated hypotenuse, used as a front-surface mirror
 # (light stays in air). Hypotenuse faces up and back toward the tool; the right-angle corner is front-bottom. Glued on a holder fixed on
-# the table T-slot x -80 at the REAR of the table (fold at y +145, just behind the work area): bottom face on the base, front face on a lip.
-# Measuring: X -80, table -245, tool over the rear extension of the table.
+# the table T-slot x -160 at the rear-left corner of the work area (prism x -150, y +145): bottom face on the base, front face on a lip.
+# Measuring: X -150, table -245, tool over the rear extension of the table.
 TT = O('Work_table').Shape.BoundBox
-MX, MY, MZ = -80.0, 145.0, TT.ZMax + 30.0                       # fold point = centre of the hypotenuse; sight line 30 above the table
+SX = -160.0                                                     # T-slot used (left slot)
+MX, MY, MZ = -150.0, 145.0, TT.ZMax + 30.0                      # fold point = centre of the hypotenuse, 10 right of the slot (camera reaches x -150)
 ZB = MZ - 10                                                    # prism bottom face
 pr = Part.Face(Part.makePolygon([V(MX - 10, MY - 10, ZB), V(MX - 10, MY - 10, ZB + 20), V(MX - 10, MY + 10, ZB), V(MX - 10, MY - 10, ZB)])).extrude(V(20, 0, 0))
 add('Tool_mirror', pr, gl, 'right-angle prism 20x20x20, mirror-coated hypotenuse used from outside (front-surface mirror), glued: bottom face on '
     'the holder base, front face against the lip', 'y', 'camera')
-YB = MY - 32
-mb = fuse(box(MX - 15, MX + 15, YB, MY + 10, TT.ZMax, ZB),                         # base (ground bottom), prism bottom face glued on top
-          box(MX - 6.95, MX + 6.95, YB, MY + 10, TT.ZMax - 4, TT.ZMax),              # tenon key in the 14 mm slot
+YB = MY - 36
+mb = fuse(box(SX - 15, MX + 15, YB, MY + 10, TT.ZMax, ZB),                         # base (ground bottom), prism bottom face glued on top
+          box(SX - 6.95, SX + 6.95, YB, MY + 10, TT.ZMax - 4, TT.ZMax),              # tenon key in the 14 mm slot
           box(MX - 12, MX + 12, MY - 14, MY - 10, ZB, ZB + 12))                      # lip: the prism's front face leans on it
-BY = YB + 9                                                     # M12 through the base, in front of the lip
-mb = mb.cut(cyl('z', 6.75, TT.ZMax - 4, ZB, MX, BY)).cut(cyl('z', 10, ZB - 12, ZB, MX, BY))
-add('Mirror_bracket', mb, gl, 'prism holder (CNC, steel, base ground): fixed on the table T-slot x -80 (tenon key 14 h7, 1 x M12 + T-nut); '
-    'top face and front lip locate the glued 20 mm prism', 'y', 'camera')
-add('Mirror_bracket_bolt_1', fuse(cyl('z', 9, ZB - 12, ZB, MX, BY), cyl('z', 6, TT.ZMax - 12, ZB - 12, MX, BY)), gl,
+BY = YB + 10                                                    # M12 in the slot, in front of the lip
+mb = mb.cut(cyl('z', 6.75, TT.ZMax - 4, ZB, SX, BY)).cut(cyl('z', 10, ZB - 12, ZB, SX, BY))
+add('Mirror_bracket', mb, gl, 'prism holder (CNC, steel, base ground): fixed on the table T-slot x -160 (tenon key 14 h7, 1 x M12 + T-nut), prism '
+    'centre 10 to the right (x -150); top face and front lip locate the glued 20 mm prism', 'y', 'camera')
+add('Mirror_bracket_bolt_1', fuse(cyl('z', 9, ZB - 12, ZB, SX, BY), cyl('z', 6, TT.ZMax - 12, ZB - 12, SX, BY)), gl,
     'M12x30 SHCS + T-nut (DIN 508, slot 14) into the table T-slot', 'y', 'fasten')
 print('CAMERA layout B: camera (%.0f, %.0f), lens front z %.1f, tip %.1f, prism fold (%.0f, %.0f, %.0f), air path %.1f, measure at X %.0f, table %+.0f'
       % (CAMX, CAMY, ZF, TIP, MX, MY, MZ, (ZF - TIP) + D_CAM, MX - SPX, CAMY - MY))

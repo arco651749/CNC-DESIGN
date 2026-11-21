@@ -1,4 +1,4 @@
-parts=329 size=15413371
+parts=329 size=15414180
 Datum_base_plate g='' r='' tris=27308
 Y_rail_L g='y' r='' tris=8600
 Y_block_L1 g='' r='' tris=41580
@@ -343,7 +343,7 @@ Camera_pinch_bolt g='z' r='' tris=1004
 Camera_bracket_bolt_1 g='z' r='' tris=1004
 Camera_bracket_bolt_2 g='z' r='' tris=1004
 Tool_mirror g='y' r='' tris=8
-Mirror_bracket g='y' r='' tris=994
+Mirror_bracket g='y' r='' tris=1062
 Mirror_bracket_bolt_1 g='y' r='' tris=1004
 Probe_body g='z' r='' tris=7832
 Probe_bracket g='z' r='' tris=2424
