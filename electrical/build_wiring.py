@@ -18,9 +18,11 @@ def blk(*a, **k): return S.add(Block(*a, **k))
 
 # ------------------------------------------------------------------ 1. AC in -> breakers -> contactors
 AC = blk("AC", "AC 220V 單相 市電", 38.1, 50.8, right=[("L1", 1), ("L2", 2), ("PE", 3)], w=30.48)
-QF1 = blk("QF1", "QF1 BM30-SN 2P 30A", 88.9, 50.8, left=[("L1i", 1, "L1"), ("L2i", 2, "L2")], right=[("L1o", 1, "L1"), ("L2o", 2, "L2")], w=20.32)
 PH_SH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "vendor", "shihlin", "photos")
 K_SH = 0.06
+_q1 = S.photo(Photo(os.path.join(PH_SH, "BM30-SN.jpg"), 100.0, 50.0, K_SH))
+QF1 = S.add(PhotoBlock("QF1", "QF1 BM30-SN 2P 30A（主斷路器）", _q1,
+    [("L1i", 55, 45, "top", "L1"), ("L2i", 135, 48, "top", "L2"), ("L1o", 50, 415, "bottom", "T1"), ("L2o", 135, 410, "bottom", "T2")], title_dy=22.0))
 CY_SH = 50.0
 XPOS = {"X": 182.0, "Y": 258.0, "Z": 334.0}      # MCCB photo centre x of each axis; its contactor sits 30 mm to the right
 QF2, KM1 = {}, {}
@@ -35,10 +37,10 @@ for ax, x0 in XPOS.items():
          ("L1o", 76, 372, "bottom", "2T1"), ("L2o", 114, 372, "bottom", "4T2")], title_dy=22.0))
 S.text("士林 BM30-SN 斷路器（照片為3極，2極機種取左邊兩極）＋ SD-P11 直流24V接觸器（A1 為 +，A2 為 -）；每軸一組", 172.0, 138.0, 1.2)
 
-S.conn("AC_L1", BRN, [AC["L1"], QF1["L1i"]], width=THICK)
-S.conn("AC_L2", BLU, [AC["L2"], QF1["L2i"]], width=THICK)
+S.stub(AC["L1"], "AC_L1", BRN, 7.62, THICK); S.stub(AC["L2"], "AC_L2", BLU, 7.62, THICK)
+S.stub(QF1["L1i"], "AC_L1", BRN, 5.08, THICK); S.stub(QF1["L2i"], "AC_L2", BLU, 7.62, THICK)
 S.stub(AC["PE"], "PE", GRN)
-S.stub(QF1["L1o"], "L1_IN", BRN, 10.16, THICK); S.stub(QF1["L2o"], "L2_IN", BLU, 10.16, THICK)
+S.stub(QF1["L1o"], "L1_IN", BRN, 5.08, THICK); S.stub(QF1["L2o"], "L2_IN", BLU, 7.62, THICK)
 for ax in "XYZ":
     q, k = QF2[ax], KM1[ax]
     S.stub(q["L1i"], "L1_IN", BRN, 5.08, THICK); S.stub(q["L2i"], "L2_IN", BLU, 7.62, THICK)
@@ -248,9 +250,11 @@ for pid, net, col, ln in (("U", "SP_U", UCL, 8.0), ("V", "SP_V", BLK, 8.0), ("W"
 S.text("變頻器：單相機種用 R/L1、S/L2 接電，T/L3 不接；DCM 有兩個（+24V 右邊）；\n控制端子位置為在照片上量測，接線前以機身絲印為準。\n主軸插頭（ATO 尺寸圖）：1=U、2=V、3=W、4=接地；4 個針孔與號碼的\n對應在照片上看不出來，圖上位置為示意，以插頭上的鋼印號碼為準。", 705.0, 428.0, 1.2)
 
 # ------------------------------------------------------------------ 6. 24V supplies, e-stop circuit
-QF4 = blk("QF4", "QF4 BM30-SN 2P 5A", 50.8, 358.14, left=[("L1i", 1, "L1"), ("L2i", 2, "L2")], right=[("L1o", 1, "L1"), ("L2o", 2, "L2")], w=20.32)
-S.stub(QF4["L1i"], "L1_IN", BRN, R, THICK); S.stub(QF4["L2i"], "L2_IN", BLU, R, THICK)
-S.stub(QF4["L1o"], "L1_AUX", BRN, R, THICK); S.stub(QF4["L2o"], "L2_AUX", BLU, R, THICK)
+_q4 = S.photo(Photo(os.path.join(PH_SH, "BM30-SN.jpg"), 50.8, 372.0, K_SH))
+QF4 = S.add(PhotoBlock("QF4", "QF4 BM30-SN 2P 5A", _q4,
+    [("L1i", 55, 45, "top", "L1"), ("L2i", 135, 48, "top", "L2"), ("L1o", 50, 415, "bottom", "T1"), ("L2o", 135, 410, "bottom", "T2")], title_dy=22.0))
+S.stub(QF4["L1i"], "L1_IN", BRN, 5.08, THICK); S.stub(QF4["L2i"], "L2_IN", BLU, 7.62, THICK)
+S.stub(QF4["L1o"], "L1_AUX", BRN, 5.08, THICK); S.stub(QF4["L2o"], "L2_AUX", BLU, 7.62, THICK)
 PSU1 = blk("PSU1", "PSU1 SDR-75-24 24V 3.2A", 50.8, 396.24, left=[("L1", 1), ("L2", 2), ("PE", 3)], right=[("P", 1, "+24V"), ("N", 2, "0V")], w=20.32)
 PSU2 = blk("PSU2", "PSU2 HDR-30-24 24V 1.5A", 50.8, 441.96, left=[("L1", 1), ("L2", 2), ("PE", 3)], right=[("P", 1, "+24V"), ("N", 2, "0V")], w=20.32)
 PSU3 = blk("PSU3", "PSU3 SDR-120-24 24V 5A", 50.8, 487.68, left=[("L1", 1), ("L2", 2), ("PE", 3)], right=[("P", 1, "+24V"), ("N", 2, "0V")], w=20.32)
