@@ -72,7 +72,7 @@ K_TB = 0.1871
 TB_TOP = {"PP": (428, "10"), "NP": (386, "35"), "OPC": (277, "12"), "SON": (38, "15"),
           "EM2": (170, "42"), "DICOM": (299, "20"), "DOCOM": (320, "46")}
 TB_BOT = {"ALM": (157, "48"), "MBR": (92, "23")}
-TB_NET = {"PP": ("{ax}_PP", ORG), "NP": ("{ax}_NP", PUR), "OPC": ("+24V3", RED), "SON": ("0V3", BLK),
+TB_NET = {"PP": ("{ax}_PP", ORG), "NP": ("{ax}_NP", PUR), "OPC": ("+5V", RED), "SON": ("0V3", BLK),
           "EM2": ("EM2_COM", ORG), "DICOM": ("+24V3", RED), "DOCOM": ("0V3", BLK), "ALM": ("ALM_{ax}", PUR), "MBR": ("MBR_Z", PUR)}
 def make_tb(ax, cy):
     ph = S.photo(Photo(os.path.join(PH, "tb40_mrj4a_terminal_block.png"), 405.0, cy, K_TB, crop=(20, 120, 468, 350)))
@@ -151,25 +151,11 @@ BD_NET = {"PWR_P": ("+24V1", RED), "PWR_G": ("0V1", BLK), "S010": ("SPD_0-10V", 
           "LZS": ("LIM_Z_SIG", BLK), "LZG": ("LIM_Z_GND", BLU),
           "AX": ("ALMIN_X", PUR), "AY": ("ALMIN_Y", PUR), "AZ": ("ALMIN_Z", PUR), "AG": ("ALMIN_G", BLK), "ETH": ("ETH", ANA)}
 for ax in "XYZ":
-    BD_NET.update({ax + "_STP": (ax + "_STP", ORG), ax + "_DIR": (ax + "_DIR", PUR), ax + "_GND": (ax + "_GND", BLK)})
+    BD_NET.update({ax + "_STP": (ax + "_PP", ORG), ax + "_DIR": (ax + "_NP", PUR), ax + "_GND": ("0V3", BLK)})
 STAG = [5.08, 10.16, 15.24, 20.32]
 for pid, (net, col) in BD_NET.items():
     ln = 5.08 if pid in C_IDX else (ALARM_PX[pid][3] if pid in ALARM_PX else (13.0 if pid in B_IDX else (7.62 if pid in A_IDX else 12.7)))
     S.stub(BD[pid], net, col, ln)
-IFB = blk("IFB", "IFB1 開集極驅動板 (5V→24V，6路)", 330.2, BT, w=40.64,
-          left=[("X_STP", 1, "X STP"), ("X_DIR", 2, "X DIR"), ("X_GND", 3, "X GND"),
-                ("Y_STP", 5, "Y STP"), ("Y_DIR", 6, "Y DIR"), ("Y_GND", 7, "Y GND"),
-                ("Z_STP", 9, "Z STP"), ("Z_DIR", 10, "Z DIR"), ("Z_GND", 11, "Z GND"),
-                ("V5", 13, "+5V"), ("G5", 14, "GND5"), ("G3", 15, "0V3")],
-          right=[("%s_%s" % (a, n), r0 + i + 1, "%s %s" % (a, n))
-                 for a, r0 in (("X", 0), ("Y", 3), ("Z", 6)) for i, n in enumerate(("PP", "NP"))])
-for ax in "XYZ":
-    for n in ("STP", "DIR", "GND"):
-        S.stub(IFB["%s_%s" % (ax, n)], BD_NET["%s_%s" % (ax, n)][0], BD_NET["%s_%s" % (ax, n)][1])
-S.stub(IFB["V5"], "+5V", RED); S.stub(IFB["G5"], "0V1", BLK); S.stub(IFB["G3"], "0V3", BLK)
-for ax in "XYZ":
-    for n, col in (("PP", ORG), ("NP", PUR)):
-        S.stub(IFB["%s_%s" % (ax, n)], "%s_%s" % (ax, n), col)
 LAN = blk("LAN", "LAN 交換器 / 監控 PC（接 WIZ850io 模組的 RJ45）", 38.1, 210.82, right=[("RJ", 1, "RJ45")], w=20.32)
 S.stub(LAN["RJ"], "ETH", ANA)
 
@@ -264,7 +250,7 @@ def make_psu(ref, title, cy, p, n):
 make_psu("PSU1", "PSU1 SDR-75-24（24V 3.2A，照片同款）", 424.0, "+24V1", "0V1")
 make_psu("PSU2", "PSU2 SDR-75-24（24V 3.2A）", 476.0, "+24V2", "0V2")
 make_psu("PSU3", "PSU3 SDR-120-24（24V 5A；照片為同系列 SDR-75）", 528.0, "+24V3", "0V3")
-DC1 = blk("DC1", "DC1 DC-DC 24V→5V 1A", 127.0, 396.24, left=[("P", 1, "+24V"), ("N", 2, "0V")], right=[("P5", 1, "+5V"), ("N5", 2, "0V")], w=20.32)
+DC1 = blk("DC1", "DC1 DC-DC 24V→5V 1A（供伺服 OPC）", 127.0, 396.24, left=[("P", 1, "+24V"), ("N", 2, "0V")], right=[("P5", 1, "+5V"), ("N5", 2, "0V")], w=20.32)
 S.stub(DC1["P"], "+24V1", RED); S.stub(DC1["N"], "0V1", BLK); S.stub(DC1["P5"], "+5V", RED); S.stub(DC1["N5"], "0V1", BLK)
 S1 = blk("S1", "S1 急停按鈕 (2NC+1NO)", 127.0, 462.28, left=[("A1", 1, "NC1"), ("A2", 2, "NC2"), ("A3", 3, "NO")], right=[("B1", 1, "NC1"), ("B2", 2, "NC2"), ("B3", 3, "NO")], w=20.32)
 S2 = blk("S2", "S2 啟動按鈕 (NO)", 203.2, 462.28, left=[("A", 1)], right=[("B", 1)], w=20.32)
@@ -317,7 +303,7 @@ notes = (
 "2. 容量為初估：PSU1 24V/3A、PSU2 24V/1A、PSU3 24V/5A；斷路器與接觸器額定值待負載核算。\n"
 "3. MR-J4-40A 單相 200-240V 接 L1 與 L3，L2 空接 (手冊 3.3.1)。手冊要求每台驅動器各配 1 個 MCCB 與 1 個接觸器 (11.10：30A 框 10A、保險絲 15A、接觸器 S-N10 等級)。L11/L21 取自接觸器之前。 CNP1 孔位由上而下：L1、L2、L3、N-、P3、P4 (手冊 9-3)，圖上標籤位置為示意。\n"
 "4. CN1 腳位依 MR-J4-A 手冊 3.4 節 (PP10 PG11 NP35 NG36 SON15 EM2 42 ALM48 DICOM20/21 DOCOM46/47)；MBR 非固定腳位，需設 Pr.PD24 讓 CN1-23 輸出 MBR。ALM 報警時斷開 (手冊 3.5)，與圖上反相處理一致。\n"
-"5. RP23CNC 的 STEP/DIR/EN 為 5V 單端：改用開集極脈衝輸入 (手冊 3.9.2：OPC 接 +24V，PP/NP 以電晶體下拉到 0V，最高 200 kpulse/s，邊緣 <0.2 µs)；IFB1 是 6 路 5V→24V 開集極驅動 (快速 NPN 或 MOSFET，不建議 ULN2003)，脈衝與方向為「脈衝加符號」形式 (PA13 設定)。每步 0.005 mm 時 100 mm/s 只需 20 kHz。控制板 EN 腳不接；伺服 SON (CN1-15) 直接接 0V 常開 (伺服永遠開啟)，grblHAL 端不用 EN。\n"
+"5. 脈衝直接驅動 MR-J4 開集極輸入，不用中間板：控制板 STEP→PP (CN1-10)、DIR→NP (CN1-35)，OPC (CN1-12) 接 +5V (DC1)，控制板軸 GND 接 0V3 共地；控制板輸出拉低時電流由 OPC 經驅動器內光耦流入控制板。手冊 3.9.2：開集極最高 200 kpulse/s；RP23CNC 手冊：STEP/DIR 輸出為 5V，可驅動光耦隔離驅動器輸入。每步 0.005 mm 時 100 mm/s 只需 20 kHz。未驗證：光耦在 5V 供電下的導通電流（手冊只給 24V 條件，約 20 mA），須實機量測，不良時要加電晶體驅動。EN 腳不接；SON (CN1-15) 直接接 0V (伺服永遠開啟)；PA13 設「脈衝加符號」、邏輯依實測；脈衝電子齒輪 CMX/CDV = 524288/125 (每轉 1000 脈衝)。\n"
 "6. 伺服報警：假設 MR-J4 ALM 正常導通、報警斷開；KA4 反相後以 NC 接點吸入控制板 ALM 輸入 (待核對)。\n"
 "7. grblHAL：$0=3 (脈衝寬度 µs，100 kHz 必須調小)；$14=70 (反轉 EStop/Feed Hold/Cycle Start)；0-10V 以 RV1 校準到 10V。\n"
 "8. 主軸 (台達 MS300 型錄第20頁)：0-10V 接 AVI/ACM；KA1 接點接 MI1 與 DCM (MI1 出廠為 FWD/STOP，輸入為 NPN/SINK 模式，接點短接 DCM 即動作)。S1/S2/+24V 的出廠短路片不可拆 (STO)。最高輸出 599 Hz，足以供 24,000 rpm (400 Hz)。頻率來源為 Pr.00-20 (Delta FAQ 確認為「主頻率指令來源」)，需改為外部類比 AVI；運轉指令來源 (我記得是 Pr.00-21) 需改為外部端子，兩者的設定值與 00-21 待核對完整使用手冊。\n"
@@ -345,5 +331,5 @@ if __name__ == "__main__":
     print("verify:", "OK" if not errs else "%d problems" % len(errs))
     out = os.path.join(os.path.dirname(os.path.abspath(__file__)), "CNC_wiring.kicad_sch")
     S.write(out, "CNC 龍門銑床 電氣配線圖",
-            ["單相 220V (已確認)；L1/L2 為兩條相線；MR-J4 端子名稱依原廠手冊確認", "控制器 RP23CNC V2.02 (grblHAL)；脈衝以開集極方式由 IFB1 驅動板提供", "Rev A 2026-11-13"])
+            ["單相 220V (已確認)；L1/L2 為兩條相線；MR-J4 端子名稱依原廠手冊確認", "控制器 RP23CNC V2.02 (grblHAL)；脈衝直接以開集極方式驅動伺服 (無中間板)", "Rev A 2026-11-13"])
     print("wrote", out)
