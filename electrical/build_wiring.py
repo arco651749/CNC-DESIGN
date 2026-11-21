@@ -248,7 +248,7 @@ def make_psu(ref, title, cy, p, n):
          ("PE", 268, 792, "bottom", "PE"), ("L2", 300, 790, "bottom", "N"), ("L1", 330, 788, "bottom", "L")], title_dy=2.0))
     S.stub(b_["L1"], "L1_AUX", BRN, 4.0, THICK); S.stub(b_["L2"], "L2_AUX", BLU, 6.0, THICK); S.stub(b_["PE"], "PE", GRN, 8.0)
     S.stub(b_["P"], p, RED, 4.0); S.stub(b_["N"], n, BLK, 6.0)
-make_psu("PSU1", "PSU1 SDR-75-24（24V 3.2A，照片同款）", 424.0, "+24V1", "0V1")
+make_psu("PSU1", "PSU1 SDR-120-24（24V 5A；照片為同系列 SDR-75）", 424.0, "+24V1", "0V1")
 make_psu("PSU2", "PSU2 SDR-75-24（24V 3.2A）", 476.0, "+24V2", "0V2")
 make_psu("PSU3", "PSU3 SDR-120-24（24V 5A；照片為同系列 SDR-75）", 528.0, "+24V3", "0V3")
 DC1 = blk("DC1", "DC1 DC-DC 24V→5V 1A（供伺服 OPC）", 127.0, 396.24, left=[("P", 1, "+24V"), ("N", 2, "0V")], right=[("P5", 1, "+5V"), ("N5", 2, "0V")], w=20.32)

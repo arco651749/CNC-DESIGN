@@ -566,7 +566,7 @@
 )
 (symbol "BLK:PSU1" (pin_numbers hide) (pin_names (offset 0) hide) (in_bom no) (on_board no)
   (property "Reference" "PSU1" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))
-  (property "Value" "PSU1 SDR-75-24（24V 3.2A，照片同款）" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))
+  (property "Value" "PSU1 SDR-120-24（24V 5A；照片為同系列 SDR-75）" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))
   (property "Footprint" "" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))
   (property "Datasheet" "" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))
   (symbol "PSU1_1_1"
@@ -172920,7 +172920,7 @@
 )
 (symbol (lib_id "BLK:PSU1") (at 50.8 424 0) (unit 1) (in_bom yes) (on_board yes) (dnp no) (uuid f8497563-3863-5e05-9df6-e12499243031)
   (property "Reference" "PSU1" (at 40.675 402.2 0) (effects (font (face "WenQuanYi Zen Hei") (size 1.4 1.4) bold) (justify left bottom) hide))
-  (property "Value" "PSU1 SDR-75-24（24V 3.2A，照片同款）" (at 40.675 402.2 0) (effects (font (face "WenQuanYi Zen Hei") (size 1.5 1.5) bold) (justify left bottom)))
+  (property "Value" "PSU1 SDR-120-24（24V 5A；照片為同系列 SDR-75）" (at 40.675 402.2 0) (effects (font (face "WenQuanYi Zen Hei") (size 1.5 1.5) bold) (justify left bottom)))
   (property "Footprint" "" (at 50.8 424 0) (effects (font (size 1.27 1.27)) hide))
   (property "Datasheet" "" (at 50.8 424 0) (effects (font (size 1.27 1.27)) hide))
   (pin "1" (uuid 85e3fb0e-d363-59c3-9b30-0172331cc619))
