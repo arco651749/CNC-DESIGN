@@ -13,7 +13,11 @@ doc = App.openDocument(os.path.join(ROOT, 'output', 'v13', 'CNC_v13_base.FCStd')
 SKIP = ('Servo_amp', 'Electrical_panel')
 OBJ = {o.Label: o for o in doc.Objects if o.TypeId == 'Part::Feature' and not o.Label.startswith(SKIP)}
 P = {n: o.Shape for n, o in OBJ.items()}
-ALLOWED = set()
+TOOLSIDE = ('Tool_D5', 'ER11_nut', 'Coolant_nozzle_1', 'Coolant_nozzle_2')
+FIXT = ('Work_table', 'Tool_mirror', 'Mirror_bracket', 'Mirror_bracket_bolt_1', 'Mirror_bracket_bolt_2', 'Mirror_cover', 'Mirror_cover_actuator')
+# v13: the tool reaches 5 below the table top at Z -50 (owner), and the tool / nozzle tips can reach into the prism station like into any
+# fixture on the table: reported as ALLOWED, everything else is a collision
+ALLOWED = {tuple(sorted((a, b))) for a in TOOLSIDE for b in FIXT}
 
 def cls(n):
     o = OBJ[n]

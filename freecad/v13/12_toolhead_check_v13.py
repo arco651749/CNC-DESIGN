@@ -25,6 +25,8 @@ def vol(a, b):
     except Exception: return 0.0
 out = []
 HEAD = [n for n in OBJ if n.startswith(('Camera', 'Tool_mirror', 'Mirror', 'Probe', 'Coolant_nozzle'))]
+for n in ('Spindle_body', 'Spindle_clamp', 'Spindle_nose'):
+    if n not in HEAD: HEAD.append(n)
 SX0, SY, CX, PX = -7.5, -20.0, -77.5, 77.5
 MX, MY, MZ = -195.0, 200.0, 140.0
 MEAS = (MX - CX, SY - MY, MZ - OBJ['Tool_D5'].Shape.BoundBox.ZMin)   # (-117.5, -220, Z)
@@ -37,7 +39,9 @@ for n in HEAD:
         v = vol(OBJ[n].Shape, OBJ[m].Shape)
         if v > 0.5: home[(n, m)] = round(v, 1)
 out.append('CONTACTS AT HOME (tool-head parts): %d' % len(home)); out += ['  %s x %s : %s mm3' % (a, b, v) for (a, b), v in sorted(home.items())]
-bad = {}
+TOOLSIDE = ('Tool_D5', 'ER11_nut', 'Coolant_nozzle_1', 'Coolant_nozzle_2')
+FIXT = ('Work_table', 'Tool_mirror', 'Mirror_bracket', 'Mirror_bracket_bolt_1', 'Mirror_bracket_bolt_2', 'Mirror_cover', 'Mirror_cover_actuator')
+bad, fixt = {}, {}
 for dx, dz, dy in itertools.product((-227.5, MEAS[0], 0, 227.5), (-50, MEAS[2], 0, 50), (-250, MEAS[1], 0, 150)):
     for n in HEAD:
         a = moved(n, dx, dy, dz)
@@ -47,11 +51,12 @@ for dx, dz, dy in itertools.product((-227.5, MEAS[0], 0, 227.5), (-50, MEAS[2], 
             b = moved(m, dx, dy, dz)
             if not a.BoundBox.intersect(b.BoundBox): continue
             v = vol(a, b)
-            if v > 1: bad.setdefault(tuple(sorted((n, m))), (dx, dy, dz, round(v, 1)))
+            if v > 1: (fixt if (n in TOOLSIDE and m in FIXT) or (m in TOOLSIDE and n in FIXT) else bad).setdefault(tuple(sorted((n, m))), (dx, dy, dz, round(v, 1)))
 out += ['', 'CLASHES OVER 64 POSES: %d' % len(bad)] + ['  %s x %s at %s' % (a, b, p) for (a, b), p in sorted(bad.items())]
+out += ['TOOL / NOZZLE TIPS INTO THE TABLE OR THE PRISM STATION (allowed, like any fixture): %d' % len(fixt)] + ['  %s x %s at %s' % (a, b, p) for (a, b), p in sorted(fixt.items())]
 # (2) light path at the measuring pose: FOV 13.4 (along X / along the tool) x 11.2
 dx, dy, dz = MEAS
-cb = OBJ['Mirror_cover'].Shape.BoundBox; OPEN = OBJ['Mirror_cover'].Shape.copy(); OPEN.rotate(V(cb.XMin, 0, cb.ZMax), V(0, 1, 0), -180)
+OPEN = OBJ['Mirror_cover'].Shape.copy(); OPEN.translate(V(0, 30, 0))   # cover slid open
 S_OPEN = {'Mirror_cover': OPEN}
 lf = OBJ['Camera_lens'].Shape.BoundBox.ZMin + dz
 paths = {'down': Part.makeBox(13.4, 11.2, lf - 147.0, V(MX - 6.7, SY - 5.6, 147.0)),

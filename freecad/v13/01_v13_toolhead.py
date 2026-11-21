@@ -281,28 +281,33 @@ for x in TSLOT: s_ = s_.cut(box(x - 7, x + 7, TT.YMin, TT.YMax, 98, 110)).cut(bo
 t_.Shape = s_
 prop(t_, 'Spec', t_.Spec.replace('5x T-slot 14', '5x T-slot 14 DIN 650 (neck 14x12, head 24x11, depth 23) at x 0 / +-65 / +-130'))
 SX = -130.0                                                     # T-slot used (left slot)
-MX, MY, MZ = -195.0, 200.0, TT.ZMax + 30.0                       # fold point, rear-left corner outside the 300 x 300 work area
-ZB = MZ - 10
+# v13 (Z assembly 25 lower): the station must stay below the spindle body at Z -50 (36 above the table) -> fold point 15 above the
+# table, prism in a 3 mm pocket, sliding cover (no flip: a rotary actuator on the hinge would stand too high). Station top 29.5.
+MX, MY, MZ = -195.0, 206.0, TT.ZMax + 15.0                       # fold point, rear-left corner outside the 300 x 300 work area
+ZB = MZ - 10                                                    # prism bottom (in the pocket)
+BT = TT.ZMax + 8                                                # base top
 pr = Part.Face(Part.makePolygon([V(MX - 10, MY - 10, ZB), V(MX - 10, MY - 10, ZB + 20), V(MX + 10, MY - 10, ZB), V(MX - 10, MY - 10, ZB)])).extrude(V(0, 20, 0))
-add('Tool_mirror', pr, gl, 'right-angle prism 20x20x20, mirror-coated hypotenuse used from outside (front-surface mirror), glued: bottom face on '
-    'the holder base, left face against the lip; folds the view +X', 'y', 'camera')
-mb = fuse(box(MX - 14, SX + 15, MY - 14, MY + 14, TT.ZMax, ZB),                    # base (ground bottom), prism glued on top
-          box(MX - 24, MX - 4, MY + 14, MY + 32, TT.ZMax, ZB),                      # pad for the cover actuator
-          box(SX - 6.95, SX + 6.95, MY - 14, MY + 14, TT.ZMax - 4, TT.ZMax),        # tenon key in the 14 mm slot
-          box(MX - 14, MX - 10, MY - 12, MY + 12, ZB, ZB + 12))                      # lip: the prism's left face leans on it
-mb = mb.cut(cyl('z', 6.75, TT.ZMax - 4, ZB, SX, MY)).cut(cyl('z', 10, ZB - 12, ZB, SX, MY))
-add('Mirror_bracket', mb, gl, 'prism holder (CNC, steel, base ground): on the table T-slot x -130 at the rear-left corner (tenon key 14 h7, 1 x M12 + '
-    'T-nut, head flush under the reflected beam), prism centre at x -195; top face and left lip locate the glued 20 mm prism', 'y', 'camera')
-add('Mirror_bracket_bolt_1', fuse(cyl('z', 9, ZB - 12, ZB, SX, MY), cyl('z', 6, TT.ZMax - 12, ZB - 12, SX, MY)), gl,
-    'M12x30 SHCS + T-nut (DIN 508, slot 14) into the table T-slot', 'y', 'fasten')
-HX, HZ = MX - 16, ZB + 24.5                                       # cover hinge (axis along Y)
-SK = HZ - 12.0                                                    # skirt bottom: 12 high, so the flipped cover stays well below the lens
-cv = fuse(box(MX - 16, MX + 14, MY - 14, MY + 14, ZB + 22, HZ), box(MX + 12, MX + 14, MY - 14, MY + 14, SK, HZ),
-          box(MX - 16, MX + 14, MY - 14, MY - 12, SK, HZ), box(MX - 16, MX + 14, MY + 12, MY + 14, SK, HZ))
-add('Mirror_cover', cv, gl, 'prism cover (SUS t2, bent; lid + 12 mm skirts), drawn closed: keeps coolant and chips off the coated hypotenuse; flips 180 deg about its '
-    'left edge onto the -X side for measuring (open only during tool setting)', 'y', 'camera')
-add('Mirror_cover_actuator', box(HX - 8, HX + 8, MY + 14, MY + 32, HZ - 12, HZ + 8), gl,
-    'rotary actuator 180 deg, bore 10 (e.g. SMC CRQ2B10-180, confirm the outline), shaft on the cover hinge; air via the Y drag chain', 'y', 'camera')
+add('Tool_mirror', pr, gl, 'right-angle prism 20x20x20, mirror-coated hypotenuse used from outside (front-surface mirror), glued: bottom face in the '
+    'holder pocket, left face against the lip; folds the view +X', 'y', 'camera')
+mb = fuse(box(MX - 14, SX + 15, MY - 54, MY + 18, TT.ZMax, BT),                    # base t8 (ground bottom)
+          box(SX - 6.95, SX + 6.95, MY - 54, MY + 18, TT.ZMax - 4, TT.ZMax),        # tenon key in the 14 mm slot neck
+          box(MX - 14, MX - 10, MY - 12, MY + 12, BT, BT + 9))                       # lip: the prism's left face leans on it
+mb = mb.cut(box(MX - 10, MX + 10, MY - 10, MY + 10, ZB, BT))                         # prism pocket 3 deep
+MBB = [(SX, MY - 12), (SX, MY - 40)]                             # 2 x M6 low-head + T-nut, heads flush, off the beam band (y +-5.6)
+for x, y in MBB: mb = mb.cut(cyl('z', 3.3, TT.ZMax - 4, BT, x, y)).cut(cyl('z', 5.5, BT - 4, BT, x, y))
+add('Mirror_bracket', mb, gl, 'prism holder (CNC, steel t8, base ground): on the table T-slot x -130 at the rear-left corner (tenon key 14 h7, 2 x M6 low-head '
+    '+ T-nut, heads flush), prism centre x -195; 3 mm pocket and left lip locate the glued 20 mm prism; station top 29.5 above the table', 'y', 'camera')
+for k, (x, y) in enumerate(MBB, 1):
+    add('Mirror_bracket_bolt_%d' % k, fuse(cyl('z', 5, BT - 4, BT, x, y), cyl('z', 3, TT.ZMax - 14, BT - 4, x, y)), gl,
+        'M6x20 low-head (DIN 7984) + T-nut (DIN 508, slot 14) into the table T-slot', 'y', 'fasten')
+CZ = BT + 21.5                                                  # cover lid top (station top)
+cv = fuse(box(MX - 16, MX + 14, MY - 16, MY + 12, CZ - 2.5, CZ), box(MX - 16, MX - 14, MY - 16, MY + 12, BT + 9.5, CZ),
+          box(MX + 12, MX + 14, MY - 16, MY + 12, BT + 2, CZ), box(MX - 4, MX + 4, MY - 16, MY - 14, BT + 10, CZ - 2.5))
+add('Mirror_cover', cv, gl, 'prism cover (SUS t2, bent: lid + skirts on both X sides, rod tab), drawn closed: keeps coolant and chips off the coated '
+    'hypotenuse (top and +X); slides 30 toward +Y, clear of the light path, only during tool setting', 'y', 'camera')
+add('Mirror_cover_actuator', fuse(box(MX - 9, MX + 9, MY - 50, MY - 20, BT, BT + 16), cyl('y', 3, MY - 20, MY - 16, MX, BT + 13)), gl,
+    'compact air cylinder bore 12 stroke 30 (e.g. SMC CQ2B12-30D, confirm the outline) on the holder base in front of the prism, rod on the cover tab; '
+    'air via the Y drag chain', 'y', 'camera')
 MEAS = (MX - CX, SY - MY, MZ - TIP)                               # carriage dx, table dy, dz at the measuring pose
 LOG.append('CAMERA (%.1f, %.0f), lens front z %.1f, tip %.1f, prism fold (%.0f, %.0f, %.0f), air path %.1f; measure at X %+.1f, table %+.0f, Z %+.0f'
            % (CX, SY, ZF, TIP, MX, MY, MZ, (ZF - TIP) + (SX0 - CX), *MEAS))

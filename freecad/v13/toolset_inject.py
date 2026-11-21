@@ -2,7 +2,7 @@
 """Injected into the v13 motion pages (04 / 08): camera field of view, a tool-setting button and the tool-setting light path.
 FOV: telecentric beam 13.4 x 11.2 (long side along X) from the lens front down WD 110, focal-plane patch; moves with Z.
 Tool setting: moves Z up, then X / Y, then Z down to the measuring pose (prism under the camera, tool tip at the fold height);
-the prism cover flips open on the last move; there the light path is drawn (the straight-down FOV beam is hidden meanwhile): lens -> down to the prism -> turned 90 deg by the mirror-coated hypotenuse -> across to the tool.
+the prism cover slides open (+Y 30) on the last move; there the light path is drawn (the straight-down FOV beam is hidden meanwhile): lens -> down to the prism -> turned 90 deg by the mirror-coated hypotenuse -> across to the tool.
 Optical axis = centre of the C-mount adapter ring (the lens box is off-centre because of its light port). All positions are read from the part bounding boxes in the page, so the page follows the model."""
 import re
 
@@ -22,13 +22,11 @@ const lpM=new THREE.MeshBasicMaterial({color:0xff3b30,transparent:true,opacity:.
 const lpV=new THREE.Mesh(new THREE.BoxGeometry(FW,FH,1),lpM),lpH=new THREE.Mesh(new THREE.BoxGeometry(1,FH,FW),lpM);lp.add(lpV,lpH);
 const lpL=new THREE.Line(new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(),new THREE.Vector3(),new THREE.Vector3()]),new THREE.LineBasicMaterial({color:0xd0021b}));lp.add(lpL);
 const lpD=new THREE.Mesh(new THREE.SphereGeometry(1.6,16,12),new THREE.MeshBasicMaterial({color:0xd0021b}));lp.add(lpD);
-let goQ=[],tsetOn=false,fovOn=true,covA=0;
-const covM=gY.children.find(m=>m.userData&&m.userData.n==='Mirror_cover'),covP=new THREE.Group();
-if(covM){const cb=bb['Mirror_cover'];covP.position.set(cb.min.x,(cb.min.y+cb.max.y)/2,cb.max.z);gY.add(covP);const t=covP.position;
- covM.geometry.translate(-t.x,-t.y,-t.z);if(covM.children[0])covM.children[0].geometry.translate(-t.x,-t.y,-t.z);covP.add(covM)}
+let goQ=[],tsetOn=false,fovOn=true,covS=0;
+const covM=gY.children.find(m=>m.userData&&m.userData.n==='Mirror_cover'),COVS=30;
 function atMeas(){return Math.abs(P.x-MEAS.x)<.3&&Math.abs(P.y-MEAS.y)<.3&&Math.abs(P.z-MEAS.z)<.3}
-function upLight(){const open=tsetOn&&(atMeas()||goQ.length==1);const ct=open?-Math.PI:0,dc=ct-covA;if(Math.abs(dc)>1e-3){covA+=Math.sign(dc)*Math.min(Math.abs(dc),0.06);covP.rotation.y=covA}
- lp.visible=tsetOn&&atMeas()&&Math.abs(covA+Math.PI)<0.05;fovG.visible=fovOn&&!lp.visible;if(!lp.visible)return;
+function upLight(){const open=tsetOn&&(atMeas()||goQ.length==1);const ct=open?COVS:0,dc=ct-covS;if(Math.abs(dc)>1e-3&&covM){covS+=Math.sign(dc)*Math.min(Math.abs(dc),0.6);covM.position.y=covS}
+ lp.visible=tsetOn&&atMeas()&&covS>COVS-0.5;fovG.visible=fovOn&&!lp.visible;if(!lp.visible)return;
  const lx=LC.x+P.x,ly=LC.y,lz=LC.z+P.z,fx=MC.x,fy=MC.y+P.y,fz=MC.z,tx=tip.x+P.x-2.5;
  lpV.scale.z=lz-fz;lpV.position.set(lx,ly,(lz+fz)/2);lpH.scale.x=tx-fx;lpH.position.set((fx+tx)/2,fy,fz);
  lpL.geometry.setFromPoints([new THREE.Vector3(lx,ly,lz),new THREE.Vector3(fx,fy,fz),new THREE.Vector3(tx,fy,fz)]);lpD.position.set(fx,fy,fz)}

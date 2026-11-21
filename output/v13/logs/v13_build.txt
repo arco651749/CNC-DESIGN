@@ -1,4 +1,4 @@
-v13 = v12 + wider X + tool-head module.  new parts: 56
+v13 = v12 + wider X + tool-head module.  new parts: 57
 stretch Datum_base_plate   at x+-250: x -360.0..360.0 -> -437.5..437.5
 stretch X_base_plate       at x+-255: x -360.0..360.0 -> -437.5..437.5
 stretch X_rail_1           at x+-255: x -270.0..270.0 -> -347.5..347.5
@@ -7,11 +7,11 @@ stretch X_ballscrew        at x+-0: x -195.0..263.0 -> -272.5..340.5
 moved out: 58 parts (+x 39, -x 19); static parts crossing x+-255 not handled: none
 X screw fixed-supported: C-TEF12 at x -268.5, screw x -275.5..340.5 (L 616), thread end -258.5
 C-TEK12 mounting bolts added (X, Y, Z): [2, 2, 2]
-CAMERA (-77.5, -20), lens front z 220.0, tip 180.0, prism fold (-195, 200, 140), air path 110.0; measure at X -117.5, table -220, Z -40
+CAMERA (-77.5, -20), lens front z 220.0, tip 180.0, prism fold (-195, 206, 125), air path 110.0; measure at X -117.5, table -226, Z -55
 PROBE (77.5, -20) on an air slide, ball retracted z 230.0 (tool tip +50), extended z 170.0 (tool tip -10), stroke 60
 SPINDLE x -7.5, camera -77.5 (D 70), probe 77.5 (P 85); X travel +-227.5: spindle reach -235.0..220.0, camera -305.0..150.0, probe -150.0..305.0
 Z assembly lowered 25: 152 parts moved; tool tip z 155.0 (table top 110 -> Z -50 reaches 5.0 below it), Z plate bottom z 197.0
-  after the drop: lens front z 195.0, tool-setting pose X -117.5, table -220, Z -15.0
+  after the drop: lens front z 195.0, tool-setting pose X -117.5, table -226, Z -30.0
 HOLE_CHECK 36 tools, not fully in material: []
 
 Datum_base_plate           -  x[ -437.5,  437.5] y[ -145.0,  182.0] z[  -20.0,    0.0]  OK
@@ -51,11 +51,12 @@ Camera_bracket             z  x[  -95.5,  -59.5] y[  -52.0,   20.0] z[  263.0,  
 Camera_pinch_bolt          z  x[  -89.5,  -71.5] y[  -47.5,  -40.5] z[  307.5,  314.5]  OK
 Camera_bracket_bolt_1      z  x[  -91.8,  -83.2] y[    8.5,   32.0] z[  270.8,  279.2]  OK
 Camera_bracket_bolt_2      z  x[  -71.8,  -63.2] y[    8.5,   32.0] z[  270.8,  279.2]  OK
-Tool_mirror                y  x[ -205.0, -185.0] y[  190.0,  210.0] z[  130.0,  150.0]  OK
-Mirror_bracket             y  x[ -219.0, -115.0] y[  186.0,  232.0] z[  106.0,  142.0]  OK
-Mirror_bracket_bolt_1      y  x[ -139.0, -121.0] y[  191.0,  209.0] z[   98.0,  130.0]  OK
-Mirror_cover               y  x[ -211.0, -181.0] y[  186.0,  214.0] z[  142.5,  154.5]  OK
-Mirror_cover_actuator      y  x[ -219.0, -203.0] y[  214.0,  232.0] z[  142.5,  162.5]  OK
+Tool_mirror                y  x[ -205.0, -185.0] y[  196.0,  216.0] z[  115.0,  135.0]  OK
+Mirror_bracket             y  x[ -209.0, -115.0] y[  152.0,  224.0] z[  106.0,  127.0]  OK
+Mirror_bracket_bolt_1      y  x[ -135.0, -125.0] y[  189.0,  199.0] z[   96.0,  118.0]  OK
+Mirror_bracket_bolt_2      y  x[ -135.0, -125.0] y[  161.0,  171.0] z[   96.0,  118.0]  OK
+Mirror_cover               y  x[ -211.0, -181.0] y[  190.0,  218.0] z[  120.0,  139.5]  OK
+Mirror_cover_actuator      y  x[ -204.0, -186.0] y[  156.0,  190.0] z[  118.0,  134.0]  OK
 Probe_body                 z  x[   61.0,   94.0] y[  -36.5,   -3.5] z[  205.0,  272.0]  OK
 Probe_slide_body           z  x[   65.0,   90.0] y[   -3.0,   12.0] z[  256.0,  366.0]  OK
 Probe_slide_table          z  x[   65.0,   90.0] y[   -8.0,   -3.0] z[  256.0,  366.0]  OK
