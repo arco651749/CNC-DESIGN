@@ -46,3 +46,4 @@ output/v12/fea/*.cvg
 output/v12/fea/*.dat
 output/v12/fea/*.sta
 output/v12/fea/spooles.out
+output/v13/logs/run_*.err
