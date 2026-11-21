@@ -6,7 +6,7 @@ OUT = os.path.join(os.path.dirname(__file__), '..', '..', 'output', 'v13', 'tool
 # ---- concept numbers (mm, machine frame of v12: spindle axis x0 y-20, tool tip z180 at home)
 SY = -20.0; TIP = 180.0
 CX = -70.0                      # camera axis (left)
-PX = 75.0                       # probe axis (right)
+PX = 85.0                       # probe axis (right)  -- decided: option C 70/85
 WD = 110.0
 H = WD - abs(CX)                # lens front above tool tip -> path = H + D = 110
 LF = TIP + H                    # lens front z
@@ -90,7 +90,7 @@ def front():
     v.line(-195, TIP, 170, TIP, C['grn'], 1, '5 4'); v.text(-195, TIP, '刀尖 z180', 10, C['grn'], 'start', dy=-4)
     v.line(CX - 25, LF, CX + 25, LF, C['red'], 1, '3 3')
     v.dim(CX, 166, 0, 166, '70', horiz=True)
-    v.dim(0, 154, PX, 154, '75', horiz=True)
+    v.dim(0, 154, PX, 154, '%d' % PX, horiz=True)
     v.dim(CX - 30, TIP, CX - 30, LF, 'h=%d' % H, horiz=False)
     v.text(PX + 22, BALL_R, '球 +50（收）', 10, C['red'], 'start', dy=4)
     v.text(PX + 22, BALL_E, '球 −10（伸）', 10, C['red'], 'start', dy=4)
@@ -164,10 +164,10 @@ def svg(view_t):
 def main():
     os.makedirs(OUT, exist_ok=True)
     notes = ('<ul style="font:13px/1.6 sans-serif;margin:6px 24px 14px;color:#222">'
-             f'<li>模組 = 一塊底板（取代 Spindle_mount_plate，保留樞軸＋滾轉微調）＋主軸夾座＋相機座＋探棒滑台＋電磁鐵，桌上先組好、先量好三個偏移量，再整組裝上 Z 滑台（H7 定位銷 ×2）。</li>'
+             f'<li>模組 = 一塊底板（取代 Spindle_mount_plate，保留樞軸＋滾轉微調，只為主軸調垂直度）＋主軸夾座＋相機座＋探棒滑台＋電磁鐵，桌上先組好、整組裝上 Z 滑台；調完主軸垂直度後，再校正相機、探棒對主軸的偏移量。</li>'
              f'<li>相機在左 {abs(CX):.0f}、探棒在右 {PX:.0f}，三個中心都在 y −20。相機距離 D={abs(CX):.0f} → 鏡頭前緣高刀尖 {H:.0f}（光路 {H:.0f}+{abs(CX):.0f}=110），鏡頭不會低於主軸鼻端。</li>'
              '<li>稜鏡改成往 +X 反射，固定在台面左緣：量刀時 X 到 −135，稜鏡完全在工作區外。</li>'
-             '<li>代價：每個工具都有 X 偏移，在 X ±150 下，相機看不到工作區最右邊 70、探棒碰不到最左邊 75 → v13 要不要把 X 行程加長？</li>'
+             '<li>代價：每個工具都有 X 偏移 → 已決定 X 行程加長 155（70+85），三樣都能走遍工作區。</li>'
              '<li>外罩：相機、電磁鐵用鈑金罩包住，鏡頭前加保護玻璃＋吹氣；線材集中到模組頂部一個接頭板。</li></ul>')
     html = ('<!doctype html><html><head><meta charset="utf-8"><title>v13 工具頭模組</title></head>'
             '<body style="margin:0;background:#fff">'
