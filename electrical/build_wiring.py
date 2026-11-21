@@ -131,7 +131,7 @@ TOP_Y, BOT_Y, RIGHT_X = 136.0, 1824.0, 1883.0
 A_IDX = {"PWR_G": 0, "PWR_P": 1, "SGND": 6, "S010": 7, "K2S": 14, "K2P": 15, "K5S": 16, "K5P": 17, "K1S": 20, "K1P": 21}   # top strip, left to right
 C_IDX = {"Z_GND": 8, "Z_STP": 9, "Z_DIR": 10, "Z_EN": 11, "Y_GND": 12, "Y_STP": 13, "Y_DIR": 14, "Y_EN": 15,
          "X_GND": 16, "X_STP": 17, "X_DIR": 18, "X_EN": 19}    # right strip, top to bottom; inside an axis: GND STEP DIR ENA (silkscreen)
-B_IDX = {"ISO_P": 0, "ISO_G": 1, "LZS": 6, "LZG": 7, "LYS": 8, "LYG": 9, "LXS": 10, "LXG": 11, "ES_S": 20, "ES_G": 21}   # bottom strip, left to right
+B_IDX = {"ISO_P": 0, "ISO_G": 1, "LZS": 6, "LZG": 7, "LYS": 8, "LYG": 9, "LXS": 10, "LXG": 11, "PRS": 12, "PRG": 13, "ES_S": 20, "ES_G": 21}   # bottom strip, left to right
 # servo-alarm 2x3 header (pin-tip centres in the photo): top row X Z B, bottom row Y A Gnd (silkscreen)
 ALARM_PX = {"AX": (1213.0, 1563.0, "top", 5.08), "AZ": (1262.0, 1563.0, "top", 10.16), "AY": (1211.0, 1614.0, "bottom", 5.08), "AG": (1301.0, 1606.0, "bottom", 5.08)}
 bd_pins = [(pid, TOP_X[i], TOP_Y, "top", pid) for pid, i in A_IDX.items()]
@@ -144,7 +144,7 @@ BD_PH = S.photo(Photo(os.path.join(PH_RP, "RP23CNC_V2.02_top_photo.jpg"), 148.0,
 BD = S.add(PhotoBlock("BD", "RP23CNC V2.02 控制板（正上方實拍照，螺絲位置取自照片）", BD_PH, bd_pins, title_dy=16.0))
 BD_NET = {"PWR_P": ("+24V1", RED), "PWR_G": ("0V1", BLK), "S010": ("SPD_0-10V", ANA), "SGND": ("SPD_GND", BLK),
           "K1P": ("KA1_A1", RED), "K1S": ("KA1_A2", PUR), "K2P": ("KA2_A1", RED), "K2S": ("KA2_A2", PUR), "K5P": ("KA5_A1", RED), "K5S": ("KA5_A2", PUR),
-          "ISO_P": ("+24V2", RED), "ISO_G": ("0V2", BLK), "ES_S": ("ESTOP_SIG", PUR), "ES_G": ("ESTOP_GND", BLK),
+          "ISO_P": ("+24V2", RED), "ISO_G": ("0V2", BLK), "ES_S": ("ESTOP_SIG", PUR), "ES_G": ("ESTOP_GND", BLK), "PRS": ("PROBE_SIG", BLK), "PRG": ("PROBE_GND", BLU),
           "LXS": ("LIM_X_SIG", BLK), "LXG": ("LIM_X_GND", BLU), "LYS": ("LIM_Y_SIG", BLK), "LYG": ("LIM_Y_GND", BLU),
           "LZS": ("LIM_Z_SIG", BLK), "LZG": ("LIM_Z_GND", BLU),
           "AX": ("ALMIN_X", PUR), "AY": ("ALMIN_Y", PUR), "AZ": ("ALMIN_Z", PUR), "AG": ("ALMIN_G", BLK), "ETH": ("ETH", ANA)}
@@ -199,6 +199,9 @@ for ax in "XYZ":
     S.stub(SENS["%sBN" % ax], "+24V2", BRN)
     S.stub(ALM["A%s" % ax], "ALMIN_" + ax, PUR)
 S.stub(ALM["AG"], "ALMIN_G", BLK)
+# tool/workpiece probe: NPN 3-wire, 24 V, on the board's PROBE input (G38.x). Same wiring as the home sensors.
+PRB = blk("PRB", "PRB 探針 (NPN 24V 3線)", 292.1, 445.0, left=[("BU", 1, "BU 0V"), ("BK", 2, "BK OUT")], right=[("BN", 1, "BN +24V")], w=25.4)
+S.stub(PRB["BK"], "PROBE_SIG", BLK); S.stub(PRB["BU"], "PROBE_GND", BLU); S.stub(PRB["BN"], "+24V2", BRN)
 S.stub(ALM["A1"], "+24V3", RED)
 for ax in "XYZ": S.stub(ALM["A2%s" % ax], "ALM_" + ax, PUR)
 
@@ -304,7 +307,8 @@ notes = (
 "10. 感測器用 NPN 型 24V 近接開關 (控制板限位輸入為 NPN 或機械開關，不支援 PNP)。\n"
 "11. 佈線：動力線與信號線分槽、間距 100 mm 以上；馬達線、變頻器輸出線、脈衝線 (PP/PG、NP/NG 各一對) 用屏蔽雙絞線，屏蔽層單端接 PE；繼電器線圈與煞車並聯續流二極體。\n"
 "12. 電池 (MR-BAT6V1SET，CN4)：目的是保存絕對位置以免做 home。但驅動器要把位置交給控制器，須由控制器依 ABS 傳送協定讀取 (CN1 ABSM17/ABSR18/ABSB0 22/ABSB1 23/ABST25，Pr.PA03)；grblHAL 目前不支援，故暫時仍保留原點感測器。三軸也可改用 1 個 MR-BT6VCASE 加 5 顆 MR-BAT6V1 共用 (最多 8 軸)。\n"
-"13. 貼圖說明：MR-J4 為三菱目錄外觀圖、端子台為 TB40-MRJ4A 照片、RP23CNC 為作者實拍照。圖上端子位置為在照片上量測，RP23CNC 螺絲孔為透視內插 (誤差約 1 mm)，接線時一切以實物絲印為準。"
+"13. 貼圖說明：MR-J4 為三菱目錄外觀圖、端子台為 TB40-MRJ4A 照片、RP23CNC 為作者實拍照。圖上端子位置為在照片上量測，RP23CNC 螺絲孔為透視內插 (誤差約 1 mm)，接線時一切以實物絲印為準。\n"
+"14. 探針：NPN 三線 24V (棕 +24V、藍 0V、黑 OUT) 接控制板 PROBE 輸入，與原點感測器共用 PSU2；grblHAL 用 G38.2 等指令探測，常開/常閉由探針反相設定決定 ($6，待核對)。控制板探針輸入不支援 PNP。"
 )
 S.text(notes, 345, 450, 1.5)
 rails = (
