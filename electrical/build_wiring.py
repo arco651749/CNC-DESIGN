@@ -281,16 +281,16 @@ S.text("② 伺服驅動器 + 馬達 (X/Y/Z)", 400, 29, H, True)
 S.text("③ 控制板 RP23CNC + MR-J4 介面板", 20, 176, H, True)
 S.text("④ 繼電器輸出：主軸 / 冷卻 / 吹氣", 232, 162, H, True)
 # reference pictures of chosen parts without pin drawing (relay, socket, e-stop, start button)
-RX, RY = 100.0, 560.0
+RX, RY = 100.0, 556.0
 from PIL import Image as _I
 for name, w, lab in (("Omron_MY2N-GS_relay.jpg", 0.1, "繼電器 MY2N-GS"), ("Omron_PYFZ-08_socket.jpg", 0.03, "底座 PYFZ-08"),
-                     ("Auspicious_estop_2block.jpg", 0.06, "急停按鈕 S1"), ("IDEC_YW1L_green_button.jpg", 0.04, "啟動鈕 S2")):
+                     ("Auspicious_estop_2block.jpg", 0.06, "急停按鈕 S1"), ("IDEC_YW1L_green_button.jpg", 0.04, "啟動鈕 S2"), ("Autonics_PR12_sensor.jpg", 0.07, "感測器 PR12-4DN")):
     pth = os.path.join(PH_P, name)
     iw, ih = _I.open(pth).size
     S.photo(Photo(pth, RX + iw * w / 2, RY, w))
     S.text(lab, RX, RY + ih * w / 2 + 3.0, 1.2)
     RX += iw * w + 8.0
-S.text("選用零件參考照（未畫針腳）：繼電器 KA1～KA5 與底座、急停按鈕 S1、啟動按鈕 S2", 100.0, 537.0, 1.3)
+S.text("選用零件參考照（未畫針腳）：繼電器 KA1～KA5 與底座、急停按鈕 S1、啟動按鈕 S2、原點感測器", 100.0, 537.0, 1.3)
 S.text("⑤ 主軸變頻器 + 電主軸", 330, 352, H, True)
 S.text("⑥ 感測器 / 報警 / 急停輸入", 20, 345, H, True)
 S.text("⑦ 24V 電源 + 急停回路", 20, 389, H, True)
