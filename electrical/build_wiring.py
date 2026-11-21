@@ -255,12 +255,18 @@ QF4 = S.add(PhotoBlock("QF4", "QF4 BM30-SN 2P 5A", _q4,
     [("L1i", 55, 45, "top", "L1"), ("L2i", 135, 48, "top", "L2"), ("L1o", 50, 415, "bottom", "T1"), ("L2o", 135, 410, "bottom", "T2")], title_dy=22.0))
 S.stub(QF4["L1i"], "L1_IN", BRN, 5.08, THICK); S.stub(QF4["L2i"], "L2_IN", BLU, 7.62, THICK)
 S.stub(QF4["L1o"], "L1_AUX", BRN, 5.08, THICK); S.stub(QF4["L2o"], "L2_AUX", BLU, 7.62, THICK)
-PSU1 = blk("PSU1", "PSU1 SDR-75-24 24V 3.2A", 50.8, 396.24, left=[("L1", 1), ("L2", 2), ("PE", 3)], right=[("P", 1, "+24V"), ("N", 2, "0V")], w=20.32)
-PSU2 = blk("PSU2", "PSU2 HDR-30-24 24V 1.5A", 50.8, 441.96, left=[("L1", 1), ("L2", 2), ("PE", 3)], right=[("P", 1, "+24V"), ("N", 2, "0V")], w=20.32)
-PSU3 = blk("PSU3", "PSU3 SDR-120-24 24V 5A", 50.8, 487.68, left=[("L1", 1), ("L2", 2), ("PE", 3)], right=[("P", 1, "+24V"), ("N", 2, "0V")], w=20.32)
-for i, p in enumerate((PSU1, PSU2, PSU3), 1):
-    S.stub(p["L1"], "L1_AUX", BRN, R, THICK); S.stub(p["L2"], "L2_AUX", BLU, R, THICK); S.stub(p["PE"], "PE", GRN)
-    S.stub(p["P"], "+24V%d" % i, RED); S.stub(p["N"], "0V%d" % i, BLK)
+PH_P = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "vendor", "parts", "photos")
+K_P = 0.045
+def make_psu(ref, title, cy, p, n):
+    ph = S.photo(Photo(os.path.join(PH_P, "MeanWell_SDR-75-24.jpg"), 50.8, cy, K_P))
+    # SDR-75-24 photo (450 x 880): top terminals -V -V +V +V (y~258), bottom terminals PE N L (y~790)
+    b_ = S.add(PhotoBlock(ref, title, ph, [("P", 356, 258, "top", "+V"), ("N", 270, 258, "top", "-V"),
+         ("PE", 268, 792, "bottom", "PE"), ("L2", 300, 790, "bottom", "N"), ("L1", 330, 788, "bottom", "L")], title_dy=2.0))
+    S.stub(b_["L1"], "L1_AUX", BRN, 4.0, THICK); S.stub(b_["L2"], "L2_AUX", BLU, 6.0, THICK); S.stub(b_["PE"], "PE", GRN, 8.0)
+    S.stub(b_["P"], p, RED, 4.0); S.stub(b_["N"], n, BLK, 6.0)
+make_psu("PSU1", "PSU1 SDR-75-24（24V 3.2A，照片同款）", 424.0, "+24V1", "0V1")
+make_psu("PSU2", "PSU2 SDR-75-24（24V 3.2A）", 476.0, "+24V2", "0V2")
+make_psu("PSU3", "PSU3 SDR-120-24（24V 5A；照片為同系列 SDR-75）", 528.0, "+24V3", "0V3")
 DC1 = blk("DC1", "DC1 DC-DC 24V→5V 1A", 127.0, 396.24, left=[("P", 1, "+24V"), ("N", 2, "0V")], right=[("P5", 1, "+5V"), ("N5", 2, "0V")], w=20.32)
 S.stub(DC1["P"], "+24V1", RED); S.stub(DC1["N"], "0V1", BLK); S.stub(DC1["P5"], "+5V", RED); S.stub(DC1["N5"], "0V1", BLK)
 S1 = blk("S1", "S1 急停按鈕 (2NC+1NO)", 127.0, 462.28, left=[("A1", 1, "NC1"), ("A2", 2, "NC2"), ("A3", 3, "NO")], right=[("B1", 1, "NC1"), ("B2", 2, "NC2"), ("B3", 3, "NO")], w=20.32)
@@ -277,6 +283,17 @@ S.text("① 市電輸入 / 分路 / 接觸器", 20, 29, H, True)
 S.text("② 伺服驅動器 + 馬達 (X/Y/Z)", 400, 29, H, True)
 S.text("③ 控制板 RP23CNC + MR-J4 介面板", 20, 176, H, True)
 S.text("④ 繼電器輸出：主軸 / 冷卻 / 吹氣", 232, 162, H, True)
+# reference pictures of chosen parts without pin drawing (relay, socket, e-stop, start button)
+RX, RY = 100.0, 560.0
+from PIL import Image as _I
+for name, w, lab in (("Omron_MY2N-GS_relay.jpg", 0.1, "繼電器 MY2N-GS"), ("Omron_PYFZ-08_socket.jpg", 0.03, "底座 PYFZ-08"),
+                     ("Auspicious_estop_2block.jpg", 0.06, "急停按鈕 S1"), ("IDEC_YW1L_green_button.jpg", 0.04, "啟動鈕 S2")):
+    pth = os.path.join(PH_P, name)
+    iw, ih = _I.open(pth).size
+    S.photo(Photo(pth, RX + iw * w / 2, RY, w))
+    S.text(lab, RX, RY + ih * w / 2 + 3.0, 1.2)
+    RX += iw * w + 8.0
+S.text("選用零件參考照（未畫針腳）：繼電器 KA1～KA5 與底座、急停按鈕 S1、啟動按鈕 S2", 100.0, 537.0, 1.3)
 S.text("⑤ 主軸變頻器 + 電主軸", 330, 352, H, True)
 S.text("⑥ 感測器 / 報警 / 急停輸入", 20, 345, H, True)
 S.text("⑦ 24V 電源 + 急停回路", 20, 389, H, True)
@@ -312,7 +329,6 @@ notes = (
 "11. 佈線：動力線與信號線分槽、間距 100 mm 以上；馬達線、變頻器輸出線、脈衝線 (PP/PG、NP/NG 各一對) 用屏蔽雙絞線，屏蔽層單端接 PE；繼電器線圈與煞車並聯續流二極體。\n"
 "12. 電池 (MR-BAT6V1SET，CN4)：目的是保存絕對位置以免做 home。但驅動器要把位置交給控制器，須由控制器依 ABS 傳送協定讀取 (CN1 ABSM17/ABSR18/ABSB0 22/ABSB1 23/ABST25，Pr.PA03)；grblHAL 目前不支援，故暫時仍保留原點感測器。三軸也可改用 1 個 MR-BT6VCASE 加 5 顆 MR-BAT6V1 共用 (最多 8 軸)。\n"
 "13. 貼圖說明：MR-J4 為三菱目錄外觀圖、端子台為 TB40-MRJ4A 照片、RP23CNC 為作者實拍照。圖上端子位置為在照片上量測，RP23CNC 螺絲孔為透視內插 (誤差約 1 mm)，接線時一切以實物絲印為準。\n"
-"14. 探針：NPN 三線 24V (棕 +24V、藍 0V、黑 OUT) 接控制板 PROBE 輸入，與原點感測器共用 PSU2；grblHAL 用 G38.2 等指令探測，常開/常閉由探針反相設定決定 ($6，待核對)。控制板探針輸入不支援 PNP。\n"
 "14. 探針：球頭 3D 觸發式探頭 (型號待確認，規格與 PGFUN CNC 3D touch probe 相符：球頭 2 mm、柄徑 6 mm、DC5-24V、NPN)，接常閉輸出：紅 +24V、黃 OUT、黑 0V，接控制板 PROBE 輸入，與原點感測器共用 PSU2。常閉：正常時 OUT 對 0V 導通 (LED 亮)，觸發或斷線時斷開 → grblHAL 探針反相設 $6=1 (待核對)；G38.2 等指令探測。控制板探針輸入不支援 PNP。"
 )
 S.text(notes, 345, 450, 1.5)
