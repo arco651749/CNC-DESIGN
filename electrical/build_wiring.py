@@ -200,7 +200,7 @@ for ax in "XYZ":
     S.stub(ALM["A%s" % ax], "ALMIN_" + ax, PUR)
 S.stub(ALM["AG"], "ALMIN_G", BLK)
 # tool/workpiece probe: NPN 3-wire, 24 V, on the board's PROBE input (G38.x). Same wiring as the home sensors.
-PRB = blk("PRB", "PRB 探針 (NPN 24V 3線)", 292.1, 445.0, left=[("BU", 1, "BU 0V"), ("BK", 2, "BK OUT")], right=[("BN", 1, "BN +24V")], w=25.4)
+PRB = blk("PRB", "PRB 3D 觸發式探頭 (PGFUN 類，NPN 常閉，DC5-24V)", 292.1, 445.0, left=[("BU", 1, "BK 0V"), ("BK", 2, "YE OUT(NC)")], right=[("BN", 1, "RD +24V")], w=25.4)
 S.stub(PRB["BK"], "PROBE_SIG", BLK); S.stub(PRB["BU"], "PROBE_GND", BLU); S.stub(PRB["BN"], "+24V2", BRN)
 S.stub(ALM["A1"], "+24V3", RED)
 for ax in "XYZ": S.stub(ALM["A2%s" % ax], "ALM_" + ax, PUR)
@@ -308,7 +308,8 @@ notes = (
 "11. 佈線：動力線與信號線分槽、間距 100 mm 以上；馬達線、變頻器輸出線、脈衝線 (PP/PG、NP/NG 各一對) 用屏蔽雙絞線，屏蔽層單端接 PE；繼電器線圈與煞車並聯續流二極體。\n"
 "12. 電池 (MR-BAT6V1SET，CN4)：目的是保存絕對位置以免做 home。但驅動器要把位置交給控制器，須由控制器依 ABS 傳送協定讀取 (CN1 ABSM17/ABSR18/ABSB0 22/ABSB1 23/ABST25，Pr.PA03)；grblHAL 目前不支援，故暫時仍保留原點感測器。三軸也可改用 1 個 MR-BT6VCASE 加 5 顆 MR-BAT6V1 共用 (最多 8 軸)。\n"
 "13. 貼圖說明：MR-J4 為三菱目錄外觀圖、端子台為 TB40-MRJ4A 照片、RP23CNC 為作者實拍照。圖上端子位置為在照片上量測，RP23CNC 螺絲孔為透視內插 (誤差約 1 mm)，接線時一切以實物絲印為準。\n"
-"14. 探針：NPN 三線 24V (棕 +24V、藍 0V、黑 OUT) 接控制板 PROBE 輸入，與原點感測器共用 PSU2；grblHAL 用 G38.2 等指令探測，常開/常閉由探針反相設定決定 ($6，待核對)。控制板探針輸入不支援 PNP。"
+"14. 探針：NPN 三線 24V (棕 +24V、藍 0V、黑 OUT) 接控制板 PROBE 輸入，與原點感測器共用 PSU2；grblHAL 用 G38.2 等指令探測，常開/常閉由探針反相設定決定 ($6，待核對)。控制板探針輸入不支援 PNP。\n"
+"14. 探針：球頭 3D 觸發式探頭 (型號待確認，規格與 PGFUN CNC 3D touch probe 相符：球頭 2 mm、柄徑 6 mm、DC5-24V、NPN)，接常閉輸出：紅 +24V、黃 OUT、黑 0V，接控制板 PROBE 輸入，與原點感測器共用 PSU2。常閉：正常時 OUT 對 0V 導通 (LED 亮)，觸發或斷線時斷開 → grblHAL 探針反相設 $6=1 (待核對)；G38.2 等指令探測。控制板探針輸入不支援 PNP。"
 )
 S.text(notes, 345, 450, 1.5)
 rails = (
