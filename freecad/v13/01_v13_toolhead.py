@@ -233,8 +233,8 @@ pb = fuse(cyl('z', 16.5, BB0, BB0 + 21, PX, SY), cyl('z', 3.0, BB0 + 21, BB0 + 4
 add('Probe_body', pb, gp, 'touch probe: shank D6x20, body D33x21, stylus 26 / ball D2 (M2.5), DC5-24V NPN NO; to the servo amplifier MSD input (CN1-10)', 'z', 'probe')
 ZBK = BB0 + 41 - 2                                              # guide block bottom (retracted)
 SYS = -10.5                                                     # solenoid axis y
-br = fuse(box(56, 95, 12, 20, 213, 460), box(56, 59.5, 3, 12, 213, 330), box(91.5, 95, 3, 12, 213, 330),   # plate + 2 ribs
-          box(PX - 9, PX + 9, -4, 12, 213, 223))                                                         # hard-stop block under the rail
+br = fuse(box(56, 95, 12, 20, 203, 460), box(56, 59.5, 3, 12, 203, 330), box(91.5, 95, 3, 12, 203, 330),   # plate + 2 ribs
+          box(PX - 9, PX + 9, -3, 12, 203, 213))                                       # hard-stop block, below the extended holder
 add('Probe_bracket', br, gp, 'probe slide bracket (CNC, 6061) t8 on the module plate (4 x M5 low-head from the plate back): rail face y12, solenoid '
     'face, hard-stop block', 'z', 'probe')
 for i, (x, zz) in enumerate(PRB, 1):
@@ -257,9 +257,9 @@ sol = fuse(box(PX - 20, PX + 20, 12 - 45, 12, SZ0, SZ0 + 110), cyl('z', 6, SZ0 +
            cyl('z', 3.0, ZBK + 36, SZ0, PX, SYS))
 add('Probe_solenoid', sol, gp, 'push-pull frame solenoid 40 x 45 x 110 (40 along X), stroke 60, spring end up, rear M6 stud down into the holder: '
     'off = retracted by the spring (fail-safe), on = probe down onto the hard stop; mounted 4 x M4 on the bracket', 'z', 'probe')
-add('Probe_stop_screw', fuse(cyl('z', 2.5, 207, ZBK - STROKE, PX, 1), cyl('z', 4.6, 209, 213, PX, 1)), gp,
+add('Probe_stop_screw', fuse(cyl('z', 2.5, 197, ZBK - STROKE, PX, 1), cyl('z', 4.6, 199, 203, PX, 1)), gp,
     'M5 stop screw + jam nut: sets the extended probe height (block bottom lands on it)', 'z', 'probe')
-hole('Probe_bracket', cyl('z', 2.5, 213, 223, PX, 1))
+hole('Probe_bracket', cyl('z', 2.5, 203, 213, PX, 1))
 LOG.append('PROBE (%.1f, %.0f), ball retracted z %.1f (tool tip %+.0f), extended z %.1f (tool tip %+.0f), stroke %.0f, rail L%.0f'
            % (PX, SY, TIPR, TIPR - TIP, TIPR - STROKE, TIPR - STROKE - TIP, STROKE, RL))
 LOG.append('SPINDLE x %.1f, camera %.1f (D %.0f), probe %.1f (P %.0f); X travel +-%.1f: spindle reach %.1f..%.1f, camera %.1f..%.1f, probe %.1f..%.1f'
