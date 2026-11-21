@@ -1,0 +1,40 @@
+parts: 434   motion classes: static 203 / y 39 / x 100 / z 92
+
+DESIGN CONTACTS AT HOME (overlap > 1 mm3, review): 10
+  Coolant_hose_1 x Coolant_hose_2 : 288 mm3
+  Coolant_hose_2 x Coolant_hose_3 : 288 mm3
+  Coolant_hose_3 x Coolant_hose_4 : 288 mm3
+  Coolant_nozzle_1 x Coolant_nozzle_block_1 : 1 mm3
+  Coolant_nozzle_2 x Coolant_nozzle_block_2 : 1 mm3
+  X_ball_nut x X_nut_bracket : 19 mm3
+  X_ballscrew x X_support_fixed : 137 mm3
+  Y_ballscrew x Y_support_fixed : 137 mm3
+  Z_ball_nut x Z_nut_housing : 19 mm3
+  Z_ballscrew x Z_support_fixed : 137 mm3
+
+COLLISIONS AT TRAVEL ENDS (new vs home): 0
+
+ALLOWED:
+
+CLEARANCES:
+  dy-250 Work_table         - Guard_front_lip     130.4 mm
+  dy-250 Y_motor            - Guard_rear          442.2 mm
+  dy-250 Y_ballscrew        - Guard_rear          587.0 mm
+  dy-250 Y_ballscrew        - Guard_front_lip      35.0 mm
+  dy-250 Work_table         - Coolant_pan         158.5 mm
+  dy+150 Work_table         - Guard_front_lip     530.1 mm
+  dy+150 Y_motor            - Guard_rear           42.2 mm
+  dy+150 Y_ballscrew        - Guard_rear          187.0 mm
+  dy+150 Y_ballscrew        - Guard_front_lip     435.0 mm
+  dy+150 Work_table         - Coolant_pan         158.5 mm
+  dx-227 X_motor            - Guard_side_R         43.0 mm
+  dx-227 Coolant_nozzle_1   - Gantry_column_L     112.6 mm
+  dx-227 Coolant_nozzle_2   - Gantry_column_R     563.2 mm
+  dx+227 X_motor            - Guard_side_R         43.0 mm
+  dx+227 Coolant_nozzle_1   - Gantry_column_L     548.3 mm
+  dx+227 Coolant_nozzle_2   - Gantry_column_R     125.4 mm
+  dz-50 Coolant_nozzle_1   - Work_table           45.0 mm
+  dz-50 Coolant_nozzle_2   - Work_table           45.0 mm
+  dz-50 Coolant_nozzle_1   - Spindle_body          3.3 mm
+  dz-50 Tool_D5            - Work_table           20.0 mm
+  nozzle tip to tool tip at home: 21.9 mm

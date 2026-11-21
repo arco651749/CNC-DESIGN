@@ -40,6 +40,6 @@ for o in doc.Objects:
                 'p': base64.b64encode(struct.pack('<%dh' % len(coords), *coords)).decode('ascii'),
                 'i': base64.b64encode(struct.pack(('<%dH' if w else '<%dI') % len(idx), *idx)).decode('ascii'), 'w': w, 'nt': len(tris)})
 page = open(TPL, encoding='utf-8').read()
-page = page.replace('<!--THREE-->', three, 1).replace('/*DATA*/', 'const DATA=' + json.dumps(out, ensure_ascii=False, separators=(',', ':')) + ';', 1)
+page = page.replace('v12 · 第 4 層', 'v13 · 第 4 層', 1).replace('<!--THREE-->', three, 1).replace('/*DATA*/', 'const DATA=' + json.dumps(out, ensure_ascii=False, separators=(',', ':')) + ';', 1)
 open(OUT, 'w', encoding='utf-8', newline='\n').write(page)
 print('parts=%d size=%d' % (len(out), len(page)))

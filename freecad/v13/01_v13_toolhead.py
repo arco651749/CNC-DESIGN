@@ -200,9 +200,9 @@ add('Camera_bracket', br, gl, 'camera bracket (CNC, 6061): flange on the module 
 add('Camera_pinch_bolt', fuse(cyl('x', 3.5, CX - 12, CX - 8, SY - 24, PZM), cyl('x', 2.0, CX - 8, CX + 6, SY - 24, PZM)), gl,
     'M4x14 SHCS, ring pinch screw', 'z', 'fasten')
 for i, (x, zz) in enumerate(CAMB, 1):
-    hole('Camera_bracket', cyl('y', 2.5, 8.5, 20, x, zz))
-    add('Camera_bracket_bolt_%d' % i, fuse(cyl('y', 4.25, 28.5, 32, x, zz), cyl('y', 2.5, 9, 28.5, x, zz)), gl,
-        'M5x20 low-head (DIN 7984) from the module plate back into the bracket flange (tap M5); fitted on the bench before the module goes on', 'z', 'fasten')
+    hole('Camera_bracket', cyl('y', 2.5, 8, 20, x, zz))
+    add('Camera_bracket_bolt_%d' % i, fuse(cyl('y', 4.25, 28.5, 32, x, zz), cyl('y', 2.5, 8.5, 28.5, x, zz)), gl,
+        'M5x20 low-head (DIN 7984) from the module plate back into the bracket flange (M5 tap thru, tip 0.5 below the front); fitted on the bench before the module goes on', 'z', 'fasten')
 # prism on the table (moves in Y): mirror-coated hypotenuse used from outside, folds the view +X onto the tool 70 to the right
 TT = O('Work_table').Shape.BoundBox
 SX = -160.0                                                     # T-slot used (left slot)
@@ -238,9 +238,9 @@ br = fuse(box(56, 95, 12, 20, 203, 460), box(56, 59.5, 3, 12, 203, 330), box(91.
 add('Probe_bracket', br, gp, 'probe slide bracket (CNC, 6061) t8 on the module plate (4 x M5 low-head from the plate back): rail face y12, solenoid '
     'face, hard-stop block', 'z', 'probe')
 for i, (x, zz) in enumerate(PRB, 1):
-    hole('Probe_bracket', cyl('y', 2.5, 12.5, 20, x, zz))
-    add('Probe_bracket_bolt_%d' % i, fuse(cyl('y', 4.25, 28.5, 32, x, zz), cyl('y', 2.5, 13, 28.5, x, zz)), gp,
-        'M5x16 low-head (DIN 7984) from the module plate back into the bracket (tap M5); fitted on the bench', 'z', 'fasten')
+    hole('Probe_bracket', cyl('y', 2.5, 12, 20, x, zz))
+    add('Probe_bracket_bolt_%d' % i, fuse(cyl('y', 4.25, 28.5, 32, x, zz), cyl('y', 2.5, 12.5, 28.5, x, zz)), gp,
+        'M5x16 low-head (DIN 7984) from the module plate back into the bracket (M5 tap thru, tip 0.5 below the front); fitted on the bench', 'z', 'fasten')
 RZ0P = 228.0
 RL = ZBK + 32 - RZ0P
 add('Probe_rail', box(PX - 6, PX + 6, 4, 12, RZ0P, RZ0P + RL), gp, 'miniature linear guide rail, width 12, L%.0f (MISUMI miniature series), M3' % RL, 'z', 'probe')

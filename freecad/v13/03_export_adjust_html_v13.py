@@ -51,7 +51,7 @@ doc = App.openDocument(os.path.join(ROOT, 'output', 'v13', 'CNC_v13.FCStd'))
 out = []
 for o in doc.Objects:
     if o.TypeId != 'Part::Feature' or o.Shape.isNull() or not o.Shape.Solids: continue
-    pts, tris = o.Shape.tessellate(1.0 if o.Label == 'Camera_lens' else (0.5 if re.search(r'(Camera_body|pivot_bearing|^[XYZ]_block_|ball_nut)', o.Label) else 0.15))
+    pts, tris = o.Shape.tessellate(1.0 if o.Label == 'Camera_lens' else (0.8 if re.search(r'(Camera_body|pivot_bearing|^[XYZ]_block_|ball_nut)', o.Label) else 0.2))
     if not tris: continue
     coords = [int(round(v * 10)) for p in pts for v in (p.x, p.y, p.z)]
     w = 1 if len(pts) < 65536 else 0
@@ -62,6 +62,7 @@ for o in doc.Objects:
                 'i': base64.b64encode(struct.pack(('<%dH' if w else '<%dI') % len(idx), *idx)).decode('ascii'), 'w': w, 'nt': len(tris)})
 page = open(TPL, encoding='utf-8').read()
 assert '<!--THREE-->' in page and '/*DATA*/' in page
+page = page.replace('<title>v12 調整機構</title>', '<title>v13 調整機構</title>', 1)
 page = page.replace('<!--THREE-->', three, 1).replace('/*DATA*/', 'const DATA=' + json.dumps(out, ensure_ascii=False, separators=(',', ':')) + ';', 1)
 open(OUT, 'w', encoding='utf-8', newline='\n').write(page)
 print('parts=%d size=%d' % (len(out), len(page)))
