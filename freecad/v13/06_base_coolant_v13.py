@@ -119,14 +119,15 @@ for k, (a, b) in enumerate(((P0, (-200, 90, -290)), ((-200, 90, -290), (HX, 90, 
     add('Coolant_hose_%d' % k, seg(a, b, 6), 'supply hose 12 mm: pump -> up the left side outside the guard -> bulkhead at the guard top -> X drag chain -> nozzles')
 # nozzles on the spindle clamp FRONT face (v13: the clamp sides face the camera and the probe); move with Z
 SX0, SY = -7.5, -20.0
+DZN = O('Spindle_clamp').Shape.BoundBox.ZMin - 331.0           # clamp height offset (v13: Z assembly 25 lower)
 for k, sx in enumerate((-1, 1), 1):
     x0 = SX0 + 28 * sx
-    add('Coolant_nozzle_block_%d' % k, box(x0 - 5, x0 + 5, -73, -63, 360, 380).cut(cyl('y', 2.25, -73, -63, x0, 370)),
+    add('Coolant_nozzle_block_%d' % k, box(x0 - 5, x0 + 5, -73, -63, 360 + DZN, 380 + DZN).cut(cyl('y', 2.25, -73, -63, x0, 370 + DZN)),
         'nozzle block on the front face of the spindle clamp, beside the split (Loc-Line 1/4), 1 x M4 into the clamp', 'z')
-    add('Coolant_nozzle_block_bolt_%d' % k, cyl('y', 3.5, -77, -73, x0, 370).fuse(cyl('y', 2.0, -73, -55, x0, 370)),
+    add('Coolant_nozzle_block_bolt_%d' % k, cyl('y', 3.5, -77, -73, x0, 370 + DZN).fuse(cyl('y', 2.0, -73, -55, x0, 370 + DZN)),
         'M4x18 SHCS, nozzle block to the spindle clamp front (tap M4 depth 8, between the pinch screws)', 'z')
-    o = O('Spindle_clamp'); o.Shape = o.Shape.cut(cyl('y', 2.0, -63, -55, x0, 370))
-    pts = [(x0, -68, 362), (SX0 + 30 * sx, -68, 300), (SX0 + 30 * sx, -68, 228), (SX0 + 14 * sx, -40, 208)]
+    o = O('Spindle_clamp'); o.Shape = o.Shape.cut(cyl('y', 2.0, -63, -55, x0, 370 + DZN))
+    pts = [(x0, -68, 362 + DZN), (SX0 + 30 * sx, -68, 300 + DZN), (SX0 + 30 * sx, -68, 228 + DZN), (SX0 + 14 * sx, -40, 208 + DZN)]
     add('Coolant_nozzle_%d' % k, fuse(seg(pts[0], pts[1], 4), seg(pts[1], pts[2], 3.5), seg(pts[2], pts[3], 3.5)),
         'segmented coolant nozzle 1/4, down in front of the spindle then in, aimed at the tool', 'z')
 

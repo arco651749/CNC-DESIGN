@@ -27,7 +27,7 @@ out = []
 HEAD = [n for n in OBJ if n.startswith(('Camera', 'Tool_mirror', 'Mirror', 'Probe', 'Coolant_nozzle'))]
 SX0, SY, CX, PX = -7.5, -20.0, -77.5, 77.5
 MX, MY, MZ = -195.0, 200.0, 140.0
-MEAS = (MX - CX, SY - MY, MZ - 180.0)                            # (-117.5, -220, -40)
+MEAS = (MX - CX, SY - MY, MZ - OBJ['Tool_D5'].Shape.BoundBox.ZMin)   # (-117.5, -220, Z)
 # (1) tool-head parts vs all others (same-class pairs only checked once, at home)
 home = {}
 for n in HEAD:

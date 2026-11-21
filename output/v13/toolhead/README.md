@@ -8,13 +8,14 @@
 | 4 | X screw | Fixed-supported: C-TEK12 (motor end) + C-TEF12 at x −268.5, C-KBS1505-616 |
 | 5 | Probe drive | Air slide (bore 10, stroke 60) with 2 auto switches; retracted switch = spindle enable / feed hold interlock; spring-return valve retracts on power loss |
 | 6 | Spindle plug | Spindle turned 90°, plug faces forward (−Y) |
-| 7 | Camera focus range | Spec limit: the camera sees work tops 0..50 mm above the table (focus plane = lens front − 110, Z +50 max) |
+| 7 | Camera focus range | Spec limit: the camera sees work tops 0..25 mm above the table (focus plane = lens front − 110, Z +50 max; was 0..50 before item 11) |
 | 8 | Module stiffness / repeatability | Shim bolts spread to z 305 / 490 (185 apart, Z slide 30 longer at the bottom); spindle clamp located by 2 dowels D6 |
 | 9 | Optics protection | Pneumatic flip cover over the prism (open only for tool setting); lens air ring (no window, WD unchanged) |
 | 10 | Probe signal | grblHAL probe input, NC wiring; not the MR-J4 MSD latch (point-table mode cannot take the pulse train) |
+| 11 | Z height | Whole Z assembly 25 lower on the saddle: tool tip (stick-out 22) reaches −5..95 above the table, i.e. Z −50 goes 5 below the table top (set the Z soft limit / use a sacrificial plate). Gantry clearance for work + fixture passing under the Z plate: 87 (was 112). Tool-setting pose Z −15 |
 
 Prism: reflects +X, on the table T-slot x −130 at the rear-left corner (fold point x −195, y 200, z 140), outside the work area.
-Tool measured at X −117.5, table −220, Z −40.
+Tool measured at X −117.5, table −220, Z −15 (stick-out 22).
 
 Table T-slots: DIN 650 14 at x 0 / ±65 / ±130 (moved from ±80 / ±160, clear of the Y rail M12 taps).
 

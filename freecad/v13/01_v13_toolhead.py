@@ -18,6 +18,7 @@
                 (clear of the Y rail taps), spindle turned 90 deg (plug forward), clamp bolts M6x85 + 2 dowels, module shim bolts
                 spread to z 305 / 490 (Z slide 30 longer at the bottom), probe on an air slide (retract switch = spindle interlock),
                 lens air ring, rail holes to the vendor size, text fixes.
+  5 Z assembly 25 lower on the saddle: tool tip range -5..95 above the table (Z -50 reaches the table top), camera sees work tops 0..25.
 Run:  freecadcmd freecad/v13/01_v13_toolhead.py      Out: output/v13/CNC_v13.FCStd, output/v13/logs/v13_build.txt"""
 import os, re
 import FreeCAD as App, Part
@@ -350,6 +351,35 @@ LOG.append('PROBE (%.1f, %.0f) on an air slide, ball retracted z %.1f (tool tip 
            % (PX, SY, TIPR, TIPR - TIP, TIPR - STROKE, TIPR - STROKE - TIP, STROKE))
 LOG.append('SPINDLE x %.1f, camera %.1f (D %.0f), probe %.1f (P %.0f); X travel +-%.1f: spindle reach %.1f..%.1f, camera %.1f..%.1f, probe %.1f..%.1f'
            % (SX0, CX, SX0 - CX, PX, PX - SX0, 150 + W, SX0 - 150 - W, SX0 + 150 + W, CX - 150 - W, CX + 150 + W, PX - 150 - W, PX + 150 + W))
+
+# ================================================================ 5. Z assembly 25 lower (owner: the tool must reach the table top at Z -50)
+# The Z plate (X_carriage_plate) drops 25 on the saddle with everything on it: Z rails / screw / support / motor, the Z slide and the
+# tool-head module. Parts that tie the plate to the SADDLE keep their saddle positions where possible:
+#   clamp bolts at z 240 / 620 and the bottom face screw stay (plate holes moved), the top clamp bolts and top face screws move with the
+#   plate (696 -> 671, 700 -> 675: the plate top is now 685; saddle taps re-cut), the RBPB8 bearing and its pin stay in the saddle
+#   (pin hole in the plate moved 25 up: the pivot is now 25 above the plate centre), the side roll blocks stay on the saddle ears.
+DZA = -25.0
+ZMOVE = ('X_carriage_plate', 'Z_rail', 'Z_ballscrew', 'Z_support_fixed', 'Z_coupling', 'Z_motor', 'Z_ref_pin', 'Z_ecc_pin', 'Z_side_screw',
+         'Z_face_screw_L', 'Z_face_screw_R', 'Z_clamp_bolt_3', 'Z_clamp_bolt_6', 'Z_epoxy_pad_3', 'Z_epoxy_pad_6')
+nz = 0
+for o in [o for o in doc.Objects if o.TypeId == 'Part::Feature']:
+    if cls(o) == 'z' or o.Label.startswith(ZMOVE):
+        s_ = o.Shape.copy(); s_.translate(V(0, 0, DZA)); o.Shape = s_; nz += 1
+zp = O('X_carriage_plate')                                      # plate holes for the parts that stayed with the saddle
+zp.Shape = fuse(zp.Shape, *[cyl('y', 3.5, 104, 121, x, zz + DZA) for x in (-108, 108) for zz in (240, 620)],
+                *[cyl('y', 1.5, 104, 121, x, zz + 8 + DZA) for x in (-108, 108) for zz in (240, 620)],
+                cyl('y', 4, 104, 121, 0, 236 + DZA), cyl('y', 4, 104, 121, 0, 466 + DZA))
+for x in (-108, 108):
+    for zz in (240, 620): cut('X_carriage_plate', cyl('y', 3.5, 104, 121, x, zz), cyl('y', 1.5, 104, 121, x, zz + 8))
+cut('X_carriage_plate', cyl('y', 4, 104, 121, 0, 236), cyl('y', 4, 104, 121, 0, 466))
+sd = O('X_saddle_plate')                                        # saddle taps for the top clamp bolts follow the plate
+sd.Shape = fuse(sd.Shape, *[cyl('y', 3, 122, 132, x, 696) for x in (-108, 108)])
+for x in (-108, 108): hole('X_saddle_plate', cyl('y', 3, 122, 132, x, 696 + DZA))
+prop(zp, 'Spec', zp.Spec + '; v13: Z assembly 25 lower on the saddle (plate z 197..685): RBPB8 pin 25 above the plate centre')
+LOG.append('Z assembly lowered %.0f: %d parts moved; tool tip z %.1f (table top %.0f -> Z -50 reaches %.1f below it), Z plate bottom z %.1f'
+           % (-DZA, nz, O('Tool_D5').Shape.BoundBox.ZMin, TT.ZMax, TT.ZMax - (O('Tool_D5').Shape.BoundBox.ZMin - 50), zp.Shape.BoundBox.ZMin))
+LOG.append('  after the drop: lens front z %.1f, tool-setting pose X %+.1f, table %+.0f, Z %+.1f' % (O('Camera_lens').Shape.BoundBox.ZMin, MEAS[0], MEAS[1], MZ - O('Tool_D5').Shape.BoundBox.ZMin))
+spec('Camera_lens', O('Camera_lens').Spec.replace('sees work tops 0..50 mm above the table', 'sees work tops 0..25 mm above the table'))
 
 bad = [(l, round(r, 3)) for l, r in CHK if r < 0.98]
 LOG.append('HOLE_CHECK %d tools, not fully in material: %s' % (len(CHK), bad))
