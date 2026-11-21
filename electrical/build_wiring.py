@@ -18,8 +18,7 @@ def blk(*a, **k): return S.add(Block(*a, **k))
 
 # ------------------------------------------------------------------ 1. AC in -> breakers -> contactors
 AC = blk("AC", "AC 220V 單相 市電", 38.1, 50.8, right=[("L1", 1), ("L2", 2), ("PE", 3)], w=30.48)
-QF1 = blk("QF1", "QF1 主斷路器 2P 20A", 88.9, 50.8, left=[("L1i", 1, "L1"), ("L2i", 2, "L2")], right=[("L1o", 1, "L1"), ("L2o", 2, "L2")], w=20.32)
-FL1 = blk("FL1", "FL1 EMI 濾波器", 139.7, 50.8, left=[("L1i", 1, "L1"), ("L2i", 2, "L2"), ("PE", 3)], right=[("L1o", 1, "L1"), ("L2o", 2, "L2")], w=20.32)
+QF1 = blk("QF1", "QF1 BM30-SN 2P 30A", 88.9, 50.8, left=[("L1i", 1, "L1"), ("L2i", 2, "L2")], right=[("L1o", 1, "L1"), ("L2o", 2, "L2")], w=20.32)
 PH_SH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "vendor", "shihlin", "photos")
 K_SH = 0.06
 CY_SH = 50.0
@@ -34,21 +33,22 @@ for ax, x0 in XPOS.items():
     KM1[ax] = S.add(PhotoBlock("KM1" + ax, "KM1%s SD-P11 DC24V" % ax, kph,
         [("A1", 133, 143, "top", "A1"), ("A2", 188, 144, "top", "A2"), ("L1i", 76, 203, "top", "1L1"), ("L2i", 114, 203, "top", "3L2"),
          ("L1o", 76, 372, "bottom", "2T1"), ("L2o", 114, 372, "bottom", "4T2")], title_dy=22.0))
-S.text("士林 BM30-SN 斷路器（照片為3極，2極機種取左邊兩極）＋ SD-P11 直流24V接觸器（A1 為 +，A2 為 -）；每軸一組", 172.0, 100.0, 1.2)
+S.text("士林 BM30-SN 斷路器（照片為3極，2極機種取左邊兩極）＋ SD-P11 直流24V接觸器（A1 為 +，A2 為 -）；每軸一組", 172.0, 138.0, 1.2)
 
 S.conn("AC_L1", BRN, [AC["L1"], QF1["L1i"]], width=THICK)
 S.conn("AC_L2", BLU, [AC["L2"], QF1["L2i"]], width=THICK)
 S.stub(AC["PE"], "PE", GRN)
-S.conn("F_L1", BRN, [QF1["L1o"], FL1["L1i"]], width=THICK)
-S.conn("F_L2", BLU, [QF1["L2o"], FL1["L2i"]], width=THICK)
-S.stub(FL1["PE"], "PE", GRN)
-S.stub(FL1["L1o"], "L1_IN", BRN, 7.62, THICK); S.stub(FL1["L2o"], "L2_IN", BLU, 7.62, THICK)
+S.stub(QF1["L1o"], "L1_IN", BRN, 10.16, THICK); S.stub(QF1["L2o"], "L2_IN", BLU, 10.16, THICK)
 for ax in "XYZ":
     q, k = QF2[ax], KM1[ax]
     S.stub(q["L1i"], "L1_IN", BRN, 5.08, THICK); S.stub(q["L2i"], "L2_IN", BLU, 7.62, THICK)
     S.stub(q["L1o"], "L1_CTL_" + ax, BRN, 5.08, THICK); S.stub(q["L2o"], "L2_CTL_" + ax, BLU, 7.62, THICK)
     S.stub(k["L1i"], "L1_CTL_" + ax, BRN, 5.08, THICK); S.stub(k["L2i"], "L2_CTL_" + ax, BLU, 7.62, THICK)
-    S.stub(k["L1o"], "L1_SRV_" + ax, BRN, 5.08, THICK); S.stub(k["L2o"], "L2_SRV_" + ax, BLU, 7.62, THICK)
+    S.stub(k["L1o"], "L1_FLT_" + ax, BRN, 5.08, THICK); S.stub(k["L2o"], "L2_FLT_" + ax, BLU, 7.62, THICK)
+    flt = blk("FL2" + ax, "FL2%s HF3010A-UN + RSPD-500-U4" % ax, XPOS[ax] - 5.0, 92.0, left=[("L1i", 1, "LINE L1"), ("L2i", 2, "LINE L2")],
+              right=[("L1o", 1, "LOAD L1"), ("L2o", 2, "LOAD L2")], w=20.32)
+    S.stub(flt["L1i"], "L1_FLT_" + ax, BRN, 5.08, THICK); S.stub(flt["L2i"], "L2_FLT_" + ax, BLU, 5.08, THICK)
+    S.stub(flt["L1o"], "L1_SRV_" + ax, BRN, 5.08, THICK); S.stub(flt["L2o"], "L2_SRV_" + ax, BLU, 5.08, THICK)
     S.stub(k["A1"], "KMCOIL", ORG, 17.78); S.stub(k["A2"], "0V3", BLK, 10.16)
 
 # ------------------------------------------------------------------ 2. servo drives + terminal blocks + motors (real pictures)
@@ -212,7 +212,7 @@ K_V = 0.12
 # pin = (id, x px, y px, side, label) on the uncropped 800 x 800 photo; crop starts at (190, 330)
 def _v(pid, x, y, side, lab): return (pid, x - 190, y - 330, side, lab)
 VFD_PH = S.photo(Photo(os.path.join(PH_D, "MS300_front_open.jpg"), 735.0, 360.0, K_V, crop=(190, 330, 610, 735)))
-VFD = S.add(PhotoBlock("VFD", "VFD 台達 MS300 變頻器（實物照；照片為460V三相機種，我們是單相230V機種）", VFD_PH, [
+VFD = S.add(PhotoBlock("VFD", "VFD 台達 MS300 VFD7A5MS21AFSAA（實物照；照片為460V三相機種，我們是單相230V、內建濾波器機種）", VFD_PH, [
     _v("RL1", 288, 655, "bottom", "R/L1"), _v("SL2", 336, 655, "bottom", "S/L2"),
     _v("U", 435, 655, "bottom", "U/T1"), _v("V", 484, 655, "bottom", "V/T2"), _v("W", 534, 655, "bottom", "W/T3"),
     _v("ACM", 300, 507, "top", "ACM"), _v("AVI", 320, 507, "top", "AVI"),
@@ -226,7 +226,7 @@ SP = S.add(PhotoBlock("SP", "SP 主軸 STF65-0.8-ER11 後端插頭", sph,
     [("U", 51.3, 27.5, "top", "1 U"), ("V", 48.2, 35.8, "left", "2 V"), ("W", 54.2, 45.4, "bottom", "3 W"), ("PE", 56.8, 37.0, "right", "4 PE")], title_dy=22.0))
 # per-drive protection: Shihlin BM30-SN MCCB (20 A, provisional: MS300 1.5 kW single-phase input current not verified) and SD-P11 contactor
 qph = S.photo(Photo(os.path.join(PH_SH, "BM30-SN.jpg"), 368.0, 412.0, K_SH))
-QF3 = S.add(PhotoBlock("QF3", "QF3 BM30-SN 2P 20A（暫定）", qph,
+QF3 = S.add(PhotoBlock("QF3", "QF3 BM30-SN 2P 30A", qph,
     [("L1i", 55, 45, "top", "L1"), ("L2i", 135, 48, "top", "L2"), ("L1o", 50, 415, "bottom", "T1"), ("L2o", 135, 410, "bottom", "T2")], title_dy=22.0))
 kph = S.photo(Photo(os.path.join(PH_SH, "SD-P11.jpg"), 398.0, 412.0, K_SH))
 KM2 = S.add(PhotoBlock("KM2", "KM2 SD-P11 DC24V", kph,
@@ -248,12 +248,12 @@ for pid, net, col, ln in (("U", "SP_U", UCL, 8.0), ("V", "SP_V", BLK, 8.0), ("W"
 S.text("變頻器：單相機種用 R/L1、S/L2 接電，T/L3 不接；DCM 有兩個（+24V 右邊）；\n控制端子位置為在照片上量測，接線前以機身絲印為準。\n主軸插頭（ATO 尺寸圖）：1=U、2=V、3=W、4=接地；4 個針孔與號碼的\n對應在照片上看不出來，圖上位置為示意，以插頭上的鋼印號碼為準。", 705.0, 428.0, 1.2)
 
 # ------------------------------------------------------------------ 6. 24V supplies, e-stop circuit
-QF4 = blk("QF4", "QF4 24V電源/幫浦 MCCB 2P 6A", 50.8, 358.14, left=[("L1i", 1, "L1"), ("L2i", 2, "L2")], right=[("L1o", 1, "L1"), ("L2o", 2, "L2")], w=20.32)
+QF4 = blk("QF4", "QF4 BM30-SN 2P 5A", 50.8, 358.14, left=[("L1i", 1, "L1"), ("L2i", 2, "L2")], right=[("L1o", 1, "L1"), ("L2o", 2, "L2")], w=20.32)
 S.stub(QF4["L1i"], "L1_IN", BRN, R, THICK); S.stub(QF4["L2i"], "L2_IN", BLU, R, THICK)
 S.stub(QF4["L1o"], "L1_AUX", BRN, R, THICK); S.stub(QF4["L2o"], "L2_AUX", BLU, R, THICK)
-PSU1 = blk("PSU1", "PSU1 24V 3A (控制板/繼電器/5V)", 50.8, 396.24, left=[("L1", 1), ("L2", 2), ("PE", 3)], right=[("P", 1, "+24V"), ("N", 2, "0V")], w=20.32)
-PSU2 = blk("PSU2", "PSU2 24V 1A (隔離輸入/感測器)", 50.8, 441.96, left=[("L1", 1), ("L2", 2), ("PE", 3)], right=[("P", 1, "+24V"), ("N", 2, "0V")], w=20.32)
-PSU3 = blk("PSU3", "PSU3 24V 5A (伺服I/O/煞車/急停)", 50.8, 487.68, left=[("L1", 1), ("L2", 2), ("PE", 3)], right=[("P", 1, "+24V"), ("N", 2, "0V")], w=20.32)
+PSU1 = blk("PSU1", "PSU1 SDR-75-24 24V 3.2A", 50.8, 396.24, left=[("L1", 1), ("L2", 2), ("PE", 3)], right=[("P", 1, "+24V"), ("N", 2, "0V")], w=20.32)
+PSU2 = blk("PSU2", "PSU2 HDR-30-24 24V 1.5A", 50.8, 441.96, left=[("L1", 1), ("L2", 2), ("PE", 3)], right=[("P", 1, "+24V"), ("N", 2, "0V")], w=20.32)
+PSU3 = blk("PSU3", "PSU3 SDR-120-24 24V 5A", 50.8, 487.68, left=[("L1", 1), ("L2", 2), ("PE", 3)], right=[("P", 1, "+24V"), ("N", 2, "0V")], w=20.32)
 for i, p in enumerate((PSU1, PSU2, PSU3), 1):
     S.stub(p["L1"], "L1_AUX", BRN, R, THICK); S.stub(p["L2"], "L2_AUX", BLU, R, THICK); S.stub(p["PE"], "PE", GRN)
     S.stub(p["P"], "+24V%d" % i, RED); S.stub(p["N"], "0V%d" % i, BLK)
