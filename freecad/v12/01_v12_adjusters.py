@@ -433,11 +433,11 @@ ZB = MZ - 10                                                    # prism bottom f
 pr = Part.Face(Part.makePolygon([V(MX - 10, MY - 10, ZB), V(MX - 10, MY - 10, ZB + 20), V(MX - 10, MY + 10, ZB), V(MX - 10, MY - 10, ZB)])).extrude(V(20, 0, 0))
 add('Tool_mirror', pr, gl, 'right-angle prism 20x20x20, mirror-coated hypotenuse used from outside (front-surface mirror), glued: bottom face on '
     'the holder base, front face against the lip', 'y', 'camera')
-YB = MY - 36
-mb = fuse(box(SX - 15, MX + 15, YB, MY + 10, TT.ZMax, ZB),                         # base (ground bottom), prism bottom face glued on top
-          box(SX - 6.95, SX + 6.95, YB, MY + 10, TT.ZMax - 4, TT.ZMax),              # tenon key in the 14 mm slot
+YB0, YB1 = MY - 14, MY + 42                                      # base runs from the lip back toward the gantry (out of the work area)
+mb = fuse(box(SX - 15, MX + 15, YB0, YB1, TT.ZMax, ZB),                           # base (ground bottom), prism bottom face glued on top
+          box(SX - 6.95, SX + 6.95, YB0, YB1, TT.ZMax - 4, TT.ZMax),               # tenon key in the 14 mm slot
           box(MX - 12, MX + 12, MY - 14, MY - 10, ZB, ZB + 12))                      # lip: the prism's front face leans on it
-BY = YB + 10                                                    # M12 in the slot, in front of the lip
+BY = MY + 30                                                    # M12 in the slot, BEHIND the prism (head flush, under the reflected beam)
 mb = mb.cut(cyl('z', 6.75, TT.ZMax - 4, ZB, SX, BY)).cut(cyl('z', 10, ZB - 12, ZB, SX, BY))
 add('Mirror_bracket', mb, gl, 'prism holder (CNC, steel, base ground): fixed on the table T-slot x -160 (tenon key 14 h7, 1 x M12 + T-nut), prism '
     'centre 10 to the right (x -150); top face and front lip locate the glued 20 mm prism', 'y', 'camera')
