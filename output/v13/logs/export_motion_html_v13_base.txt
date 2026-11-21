@@ -1,4 +1,4 @@
-parts=436 size=15961817
+parts=437 size=15992089
 Datum_base_plate g='' r='' tris=29340
 Y_rail_L g='y' r='' tris=8600
 Y_block_L1 g='' r='' tris=36808
@@ -23,7 +23,7 @@ X_block_12 g='x' r='' tris=16922
 X_rail_2 g='' r='' tris=12756
 X_block_21 g='x' r='' tris=16922
 X_block_22 g='x' r='' tris=16922
-X_carriage_plate g='x' r='' tris=24264
+X_carriage_plate g='x' r='' tris=24268
 X_ballscrew g='' r='x' tris=2012
 X_ball_nut g='x' r='' tris=22048
 X_nut_bracket g='x' r='' tris=5560
@@ -364,10 +364,11 @@ Camera_pinch_bolt g='z' r='' tris=1004
 Camera_bracket_bolt_1 g='z' r='' tris=1004
 Camera_bracket_bolt_2 g='z' r='' tris=1004
 Tool_mirror g='y' r='' tris=8
-Mirror_bracket g='y' r='' tris=1072
+Mirror_bracket g='y' r='' tris=2084
 Mirror_bracket_bolt_1 g='y' r='' tris=1004
-Mirror_cover g='y' r='' tris=28
-Mirror_cover_actuator g='y' r='' tris=12
+Mirror_bracket_bolt_2 g='y' r='' tris=1004
+Mirror_cover g='y' r='' tris=44
+Mirror_cover_actuator g='y' r='' tris=516
 Probe_body g='z' r='' tris=7832
 Probe_slide_body g='z' r='' tris=2028
 Probe_slide_table g='z' r='' tris=2028

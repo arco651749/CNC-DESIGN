@@ -28,7 +28,8 @@ HEAD = [n for n in OBJ if n.startswith(('Camera', 'Tool_mirror', 'Mirror', 'Prob
 for n in ('Spindle_body', 'Spindle_clamp', 'Spindle_nose'):
     if n not in HEAD: HEAD.append(n)
 SX0, SY, CX, PX = -7.5, -20.0, -77.5, 77.5
-MX, MY, MZ = -195.0, 200.0, 140.0
+pb_ = OBJ['Tool_mirror'].Shape.BoundBox                         # fold point from the model: prism centre, 10 above its bottom
+MX, MY, MZ = (pb_.XMin + pb_.XMax) / 2, (pb_.YMin + pb_.YMax) / 2, pb_.ZMin + 10.0
 MEAS = (MX - CX, SY - MY, MZ - OBJ['Tool_D5'].Shape.BoundBox.ZMin)   # (-117.5, -220, Z)
 # (1) tool-head parts vs all others (same-class pairs only checked once, at home)
 home = {}
