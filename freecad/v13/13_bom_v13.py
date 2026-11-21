@@ -13,10 +13,11 @@ OUT = os.path.join(ROOT, 'output', 'v13', 'CNC_v13_BOM.csv')
 # purchased items: model label -> details (kept here so a rebuild of the model never loses them)
 PURCHASE = {
     'Probe_slide_body': {
-        'supplier': 'SMC', 'part_no': 'MXH10-60Z (+ stroke adjuster option, 2 x D-M9 auto switch)',
-        'link': 'https://ca01.smcworld.com/catalog/en/actuator/MXH-Z-2-E/7-4-2-p0021-0038-MXH_en/data/7-4-2-p0021-0038-MXH_en.pdf',
-        'desc': 'compact slide bore 10, stroke 60 (catalog p.31: section 20 x 46, body 95, overall 106.5 retracted, table 99 x 19, ports M5)',
-        'note': 'probe up / down; mounted on its side on the probe bracket. Valve: 5/2 single solenoid, spring return (retract on power loss)',
+        'supplier': 'SMC', 'part_no': 'MXH2 10-60-M9NW (2 x D-M9NW auto switch)',
+        'link': 'https://static.smc.eu/pdf/MXH2-B_EU.pdf',
+        'desc': 'compact slide bore 10, stroke 60 (MXH2 catalog p.13: section 20 x 46, body 95, overall 106.5 retracted, table 104 x 19, ports M5)',
+        'note': 'probe up / down, mounted on its side on the probe bracket. Replaces MXH-Z (SMC: discontinued end of March 2027). '
+                'Extended = end of stroke; probe height set in the shank clamp. Valve: 5/2 single solenoid, spring return (retract on power loss)',
     },
     'Mirror_cover_actuator': {
         'supplier': 'SMC', 'part_no': 'CDQ2B12-30DZ (+ 1 x D-M9 auto switch = cover open)',

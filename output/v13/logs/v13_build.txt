@@ -58,8 +58,8 @@ Mirror_bracket_bolt_2      y  x[ -135.0, -125.0] y[  179.0,  189.0] z[   96.0,  
 Mirror_cover               y  x[ -221.0, -181.0] y[  212.0,  240.0] z[  120.0,  139.5]  OK
 Mirror_cover_actuator      y  x[ -233.5, -200.5] y[  150.5,  212.0] z[  113.0,  138.0]  OK
 Probe_body                 z  x[   61.0,   94.0] y[  -36.5,   -3.5] z[  196.0,  263.0]  OK
-Probe_slide_body           z  x[   48.5,   88.5] y[   -8.0,   12.0] z[  251.5,  346.5]  OK
-Probe_slide_table          z  x[   53.5,   94.5] y[   -8.0,   12.0] z[  244.0,  343.0]  OK
+Probe_slide_body           z  x[   48.5,   88.0] y[   -8.0,   12.0] z[  251.5,  346.5]  OK
+Probe_slide_table          z  x[   53.5,   94.5] y[   -8.0,   12.0] z[  244.0,  348.0]  OK
 Probe_reed_1               z  x[   56.5,   74.5] y[  -10.5,   -8.0] z[  308.5,  320.5]  OK
 Probe_air_fitting_1        z  x[   57.0,   62.0] y[   -0.5,    4.5] z[  346.5,  355.5]  OK
 Probe_reed_2               z  x[   56.5,   74.5] y[  -10.5,   -8.0] z[  326.5,  338.5]  OK
