@@ -13,16 +13,17 @@ OUT = os.path.join(ROOT, 'output', 'v13', 'CNC_v13_BOM.csv')
 # purchased items: model label -> details (kept here so a rebuild of the model never loses them)
 PURCHASE = {
     'Probe_slide_body': {
-        'supplier': 'SMC', 'part_no': 'MXH2 10-60-M9NW (2 x D-M9NW auto switch)',
-        'link': 'https://static.smc.eu/pdf/MXH2-B_EU.pdf',
-        'desc': 'compact slide bore 10, stroke 60 (MXH2 catalog p.13: section 20 x 46, body 95, overall 106.5 retracted, table 104 x 19, ports M5)',
-        'note': 'probe up / down, mounted on its side on the probe bracket. Replaces MXH-Z (SMC: discontinued end of March 2027). '
-                'Extended = end of stroke; probe height set in the shank clamp. Valve: 5/2 single solenoid, spring return (retract on power loss)',
+        'supplier': 'SMC', 'part_no': 'MXH10-60Z-M9NW (2 x D-M9NW auto switch)',
+        'link': 'https://motion.com/products/sku/06714549',
+        'desc': 'compact slide bore 10, stroke 60 (MXH catalog p.31: section 20 x 47, body 95, overall 106.5 retracted, table 99 x 19, ports M5); vendor STEP in vendor/smc/MXH10-60Z',
+        'note': 'owner-selected (replaces MXH2 10-60). SMC lists MXH-Z as discontinued end of March 2027: order spares in time, MXH2 10-60 is the '
+                'successor (table 5 longer). Probe up / down, mounted on its side on the probe bracket. Extended = end of stroke; probe height set '
+                'in the shank clamp. Valve: 5/2 single solenoid, spring return (retract on power loss)',
     },
     'Mirror_cover_actuator': {
         'supplier': 'SMC', 'part_no': 'CDQ2B12-30DZ (+ 1 x D-M9 auto switch = cover open)',
         'link': 'https://ca01.smcworld.com/catalog/en/actuator/CQ2-CDQ2-Z-E/6-2-1-p0763-0980-cq2_en/data/6-2-1-p0763-0980-cq2_en.pdf',
-        'desc': 'compact cylinder bore 12, stroke 30, with magnet (catalog p.787: body 33 x 25 x 58, rod D6 / M3 internal thread, ports M5)',
+        'desc': 'compact cylinder bore 12, stroke 30, with magnet (catalog p.787: square 25 x 58, rod D6 / M3 internal thread, 2 x through-holes D3.5 on the diagonal, ports M5); vendor STEP in vendor/smc/CDQ2B12-30DZ',
         'note': 'slides the prism cover 30 toward +Y for tool setting; air via the Y drag chain',
     },
     'Camera_lens': {

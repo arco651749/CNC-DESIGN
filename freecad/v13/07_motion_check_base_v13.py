@@ -15,7 +15,8 @@ OBJ = {o.Label: o for o in doc.Objects if o.TypeId == 'Part::Feature' and not o.
 P = {n: o.Shape for n, o in OBJ.items()}
 TOOLSIDE = ('Tool_D5', 'ER11_nut', 'Coolant_nozzle_1', 'Coolant_nozzle_2')
 FIXT = ('Work_table', 'Tool_mirror', 'Mirror_bracket', 'Mirror_bracket_bolt_1', 'Mirror_bracket_bolt_2', 'Mirror_cover', 'Mirror_cover_actuator',
-        'Mirror_cover_fitting_1', 'Mirror_cover_fitting_2', 'Mirror_cover_tube_1', 'Mirror_cover_tube_2')
+        'Mirror_cover_fitting_1', 'Mirror_cover_fitting_2', 'Mirror_cover_tube_1', 'Mirror_cover_tube_2',
+        'Mirror_cover_cyl_bolt_1', 'Mirror_cover_cyl_bolt_2')
 # v13: the tool reaches 5 below the table top at Z -50 (owner), and the tool / nozzle tips can reach into the prism station like into any
 # fixture on the table: reported as ALLOWED, everything else is a collision
 ALLOWED = {tuple(sorted((a, b))) for a in TOOLSIDE for b in FIXT}

@@ -60,12 +60,16 @@ def hole(label, *tools):                                    # cut + check the to
 def move(label, dx):
     o = O(label); s = o.Shape.copy(); s.translate(V(dx, 0, 0)); o.Shape = s
 def spec(label, text): prop(O(label), 'Spec', text)
+KQ2 = Part.read(os.path.join(ROOT, 'vendor', 'smc', 'KQ2H04-M5A', 'KQ2H04-M5A.stp'))   # vendor STEP: axis +Y, seat face y 0, M5 thread y -3..0, top y 14.7
 def push_in(ax, sgn, p, q, a0, tube=25.0, tdep=4.0):
-    """SMC KQ2H04-M5A straight push-in fitting on an M5 port face at a0 (axis ax, pointing sgn): hex body ~D9.2 x 13 + D4 tube stub.
-    Returns (fitting, tube, port) solids; port = the M5 tapped hole to cut into the part."""
+    """SMC KQ2H04-M5A straight push-in fitting (vendor STEP: M5 thread 3 long, hex 8, release button D7.9, 14.7 above the seat) on an M5
+    port face at a0 (axis ax, pointing sgn) + D4 tube stub. Returns (fitting, tube, port); port = the M5 tap (depth tdep > thread 3) to cut."""
     def c(r, u0, u1):
         u0, u1 = sorted((a0 + sgn * u0, a0 + sgn * u1)); return cyl(ax, r, u0, u1, p, q)
-    return fuse(c(2.5, -tdep, 0.0), c(4.6, 0.0, 8.0), c(4.0, 8.0, 13.0)), c(2.0, 13.0, 13.0 + tube), c(2.5, -tdep, 0.0)
+    d = {'x': V(sgn, 0, 0), 'y': V(0, sgn, 0), 'z': V(0, 0, sgn)}[ax]
+    pt = {'x': V(a0, p, q), 'y': V(p, a0, q), 'z': V(p, q, a0)}[ax]
+    f = KQ2.copy(); f.Placement = App.Placement(pt, App.Rotation(V(0, 1, 0), d))
+    return f, c(2.0, 14.7, 14.7 + tube), c(2.5, -tdep, 0.0)
 
 def cls(o):                                                 # motion class, same rules as the motion check
     n = o.Label
@@ -257,11 +261,12 @@ PZ = ZF + 123.07 - 6.57                                         # coaxial port c
 add('Camera_light_guide', fuse(cyl('x', 3.98, CX - 27, CX - 11.5, SY, PZ), cyl('x', 7.0, CX - 47, CX - 27, SY, PZ),
                                cyl('x', 5.5, CX - 87, CX - 47, SY, PZ)), gl,
     'light guide (fibre) D8 ferrule pushed into the coaxial port D8 to its stop, locked by the M3 set screw; cable to the LED light source', 'z', 'camera')
-ar = cyl('z', 25.5, ZF - 2, ZF + 8, CX, SY).cut(cyl('z', 22.6, ZF - 2, ZF + 8, CX, SY)).cut(cyl('z', 24.0, ZF - 2, ZF + 4, CX, SY))   # ring + air gallery
-ar = ar.cut(cyl('y', 2.0, SY - 25.5, SY - 22, CX, ZF + 3))
-add('Camera_air_ring', ar, gl, 'lens air ring (CNC, 6061) on the D45 lens nose, 2 x M3 set screws: clean dry air from an M5 push-in fitting blows across '
+ar = fuse(cyl('z', 25.5, ZF - 2, ZF + 8, CX, SY), box(CX - 6, CX + 6, SY - 29.5, SY - 24, ZF - 2, ZF + 8))   # ring + port boss (M5 tap 4 > thread 3)
+ar = ar.cut(cyl('z', 22.6, ZF - 2, ZF + 8, CX, SY)).cut(cyl('z', 24.0, ZF - 2, ZF + 4, CX, SY))                # bore + air gallery
+ar = ar.cut(cyl('y', 2.0, SY - 25.5, SY - 22, CX, ZF + 3))           # D4 drill below the M5 tap into the gallery
+add('Camera_air_ring', ar, gl, 'lens air ring (CNC, 6061) on the D45 lens nose, 2 x M3 set screws, port boss 12 x 12 with M5 tap depth 4: clean dry air from an M5 push-in fitting blows across '
     'the front glass (keeps coolant mist and chips off); no window, WD unchanged', 'z', 'camera')
-fit_, tub_, port_ = push_in('y', -1, CX, ZF + 3, SY - 25.5, tdep=2.5); cut('Camera_air_ring', port_)
+fit_, tub_, port_ = push_in('y', -1, CX, ZF + 3, SY - 29.5); hole('Camera_air_ring', port_)
 add('Camera_air_fitting', fit_, gl, 'SMC KQ2H04-M5A push-in fitting (M5, tube D4) on the lens air ring', 'z', 'camera')
 add('Camera_air_tube', tub_, gl, 'polyurethane tube D4 (stub)', 'z', 'camera')
 # bracket (CNC, 6061): split ring on the D45 lens barrel (below the spindle clamp), web back to a flange on the module plate (2 x M5 from the plate back)
@@ -300,13 +305,13 @@ add('Tool_mirror', pr, gl, 'right-angle prism 20x20x20, mirror-coated hypotenuse
     'holder pocket, left face against the lip; folds the view +X', 'y', 'camera')
 XC = MX - 22                                                     # cover cylinder axis x (outside the lip and the cover skirt)
 mb = fuse(box(MX - 14, SX + 15, MY - 50, MY + 18, TT.ZMax, BT),                    # base t8 (ground bottom)
-          box(XC - 16.5, XC + 16.5, MY - 82.5, MY - 19.5, TT.ZMax, TT.ZMax + 3),     # cylinder seat t3 (overhangs the table edge)
-          box(XC - 16.5, XC + 16.5, MY - 82.5, MY - 77.5, TT.ZMax + 3, TT.ZMax + 28),  # end plate for the cylinder (axial through-holes)
+          box(XC - 16.5, XC + 16.5, MY - 83.5, MY - 19.5, TT.ZMax, TT.ZMax + 3),     # cylinder seat t3 (overhangs the table edge)
+          box(XC - 16.5, XC + 16.5, MY - 83.5, MY - 77.5, TT.ZMax + 3, TT.ZMax + 28),  # end plate t6 for the cylinder (2 x M3 tapped through)
           box(SX - 6.95, SX + 6.95, MY - 50, MY + 18, TT.ZMax - 4, TT.ZMax),        # tenon key in the 14 mm slot neck
           box(MX - 14, MX - 10, MY - 12, MY + 12, BT, BT + 9))                       # lip: the prism's left face leans on it
 mb = mb.cut(box(XC - 16.5, XC + 16.5, MY - 77.5, MY - 19.5, TT.ZMax + 3, BT))       # cylinder pocket
-for dx_ in (-7.75, 7.75):
-    for dz_ in (-7.75, 7.75): mb = mb.cut(cyl('y', 1.5, MY - 82.5, MY - 77.5, XC + dx_, TT.ZMax + 15.5 + dz_))   # 4 x M3 into the cylinder
+CYH = [(XC - 7.78, TT.ZMax + 15.5 + 7.78), (XC + 7.78, TT.ZMax + 15.5 - 7.78)]   # CDQ2B12 through-holes on the body diagonal (M 22)
+for x_, z_ in CYH: mb = mb.cut(cyl('y', 1.5, MY - 83.5, MY - 77.5, x_, z_))           # 2 x M3 tapped through the end plate (t6)
 mb = mb.cut(box(MX - 10, MX + 10, MY - 10, MY + 10, ZB, BT))                         # prism pocket 3 deep
 MBB = [(SX, MY - 16), (SX, MY - 44)]                             # 2 x M6 low-head + T-nut, heads flush, off the beam band
 mb = mb.cut(box(MX + 10, SX + 15, MY - 9, MY + 9, BT - 4, BT))   # relief under the across beam (FOV 16.8 x 14 at 0.4x)
@@ -321,13 +326,20 @@ cv = fuse(box(MX - 16, MX + 14, MY - 16, MY + 12, CZ - 2.5, CZ), box(MX - 16, MX
           box(MX + 12, MX + 14, MY - 16, MY + 12, BT + 2, CZ), box(XC - 4, MX - 16, MY - 16, MY - 12, TT.ZMax + 11, CZ))   # + side arm to the rod
 add('Mirror_cover', cv, gl, 'prism cover (SUS t2, bent: lid + skirts on both X sides, side arm to the cylinder rod), drawn closed: keeps coolant and '
     'chips off the coated hypotenuse (top and +X); slides 30 toward +Y, clear of the light path, only during tool setting', 'y', 'camera')
-add('Mirror_cover_actuator', fuse(box(XC - 16.5, XC + 16.5, MY - 77.5, MY - 19.5, TT.ZMax + 3, TT.ZMax + 28), cyl('y', 3, MY - 19.5, MY - 16, XC, TT.ZMax + 15.5)), gl,
-    'SMC CDQ2B12-30DZ compact cylinder bore 12 stroke 30 with magnet (catalog: body 33 x 25 x 58, rod D6 / M3 internal thread, ports M5), '
-    'axial through-holes onto the holder end plate (4 x M3), rod on the cover arm, ports on the outer (-X) face; auto switch D-M9 = cover open; '
-    'air via the Y drag chain', 'y', 'camera')
-for k, yy in enumerate((MY - 77.5 + 9, MY - 19.5 - 9), 1):
-    fit_, tub_, port_ = push_in('x', -1, yy, TT.ZMax + 15.5, XC - 16.5); hole('Mirror_cover_actuator', port_)
-    add('Mirror_cover_fitting_%d' % k, fit_, gl, 'SMC KQ2H04-M5A push-in fitting (M5, tube D4) on the cover cylinder port (outer face)', 'y', 'camera')
+cq = Part.read(os.path.join(ROOT, 'vendor', 'smc', 'CDQ2B12-30DZ', 'CDQ2B12-30DZ.stp'))   # axis z, body z -29..29, rod end +z, ports on +x
+cq.rotate(V(0, 0, 0), V(0, 0, 1), 180); cq.rotate(V(0, 0, 0), V(1, 0, 0), -90)          # -> rod toward +Y, ports on the -X face
+cq.translate(V(XC, MY - 48.5, TT.ZMax + 15.5))
+add('Mirror_cover_actuator', cq, gl,
+    'SMC CDQ2B12-30DZ compact cylinder bore 12 stroke 30 with magnet, vendor STEP (catalog p.787: square 25, body 58 = B 28 + stroke, rod D6 '
+    'protrudes 3.5, M3 internal thread depth 6, 2 x D3.5 through-holes with D6.5 c-bores both ends on the diagonal (M 22), ports M5 at 11 from '
+    'the rod end / 6.5 from the head end); head end on the holder end plate (2 x M3 through the body), rod on the cover arm, ports on the outer '
+    '(-X) face; auto switch D-M9 = cover open; air via the Y drag chain', 'y', 'camera')
+for k, (x_, z_) in enumerate(CYH, 1):
+    add('Mirror_cover_cyl_bolt_%d' % k, fuse(cyl('y', 2.75, MY - 23, MY - 20, x_, z_), cyl('y', 1.5, MY - 83, MY - 23, x_, z_)), gl,
+        'M3x60 SHCS through the cylinder (head in the rod-end c-bore) into the holder end plate (M3 tapped through t6, 6 engaged)', 'y', 'fasten')
+for k, yy in enumerate((MY - 77.5 + 6.5, MY - 19.5 - 11), 1):   # ports in the vendor STEP (M5, 5.5 deep)
+    fit_, tub_, port_ = push_in('x', -1, yy, TT.ZMax + 15.5, XC - 12.5)
+    add('Mirror_cover_fitting_%d' % k, fit_, gl, 'SMC KQ2H04-M5A push-in fitting (M5, tube D4) on the cover cylinder port (outer face), vendor STEP', 'y', 'camera')
     add('Mirror_cover_tube_%d' % k, tub_, gl, 'polyurethane tube D4 (stub; to the Y drag chain)', 'y', 'camera')
 MEAS = (MX - CX, SY - MY, MZ - TIP)                               # carriage dx, table dy, dz at the measuring pose
 LOG.append('CAMERA (%.1f, %.0f), lens front z %.1f, tip %.1f, prism fold (%.0f, %.0f, %.0f), air path %.1f; measure at X %+.1f, table %+.0f, Z %+.0f'
@@ -343,56 +355,60 @@ pb = fuse(cyl('z', 16.5, BB0, BB0 + 21, PX, SY), cyl('z', 3.0, BB0 + 21, BB0 + 4
 add('Probe_body', pb, gp, 'touch probe XUNKUANER (Amazon ASIN B0FWXWX7CT): shank D6x20, body D33x21, stylus 26 / ball D2, DC 5-24 V, NPN NO, to the grblHAL probe input '
     '(two-pass probing; NO cannot detect a broken wire: use an NC version if available, else check the input before each cycle). Not to the MR-J4: its MSD latch needs point-table mode, which cannot take the pulse train. '
     'Ball retracted level with the spindle body bottom (tool tip + 41), extended 19 below the tool tip', 'z', 'probe')
-# SMC MXH2 10-60 compact slide (MXH2 catalog p.13, bore 10; replaces MXH-Z, discontinued end of March 2027): section 20 wide x 46 high (table
-# 6.5), body 35 + stroke = 95 long, overall 46.5 + stroke, table LT 104 x 19 with 6 x M4 taps, body side through-taps 2 x 3 x M5, ports M5. Mounted on its SIDE (lateral):
-# the 20 width along Y on the bracket, the 46 height along X with the table facing -X (spindle side) and the body bottom with the cylinder
-# ports facing +X (room for the fittings), length vertical; the table + rod-end plate move
-# down 60 to extend the probe. The probe hangs under the rod-end plate (front mounting face, 4 x M4 depth 7.5, rows 11 x 18) on a small clamp
-# block: the probe force goes straight along the stroke into the plate, no lever arm.
+# SMC MXH10-60Z compact slide (owner: MXH10-60Z instead of MXH2 10-60; vendor STEP, catalog MXH p.31, bore 10): section 20 wide x 47 high
+# (table 6), body 35 + stroke = 95, overall 46.5 + stroke = 106.5 retracted, table LT 99 x 19 with 6 x M4 taps, body 3 x M5 through-taps
+# (c-bore D7.5 depth 4.4 both sides), ports M5 (head end, 6.5 / 26.5 from the body bottom). Mounted on its SIDE (lateral):
+# the 20 width along Y on the bracket, the height along X with the table facing -X (spindle side) and the body bottom with the cylinder
+# ports facing +X (room for the fittings), length vertical, head end up; the table + rod-end plate move down 60 to extend the probe.
+# The probe hangs under the rod-end plate (front mounting face, 4 x M4 depth 7.5, rows 11 x 18) on a small clamp block: the probe force goes
+# straight along the stroke into the plate, no lever arm.
 T0 = BB0 + 42                                                   # rod-end plate bottom face (retracted): the probe shank (top BB0+41) just below it
-XB, XT = 48.5, 94.5                                             # slide body bottom face / table top face (x)
+XB, XT = 48.5, 95.5                                             # table top face / body bottom face (x)
 YS0, YS1 = -8.0, 12.0                                           # slide width along Y (back on the bracket front y 12)
-ZB0, ZB1 = T0 + 7.5, T0 + 7.5 + 95.0                             # body (fixed)
-add('Probe_slide_body', box(XB + 6.5, XT, YS0, YS1, ZB0, ZB1), gp,
-    'SMC MXH2 10-60-M9NW compact slide, bore 10, stroke 60 (catalog: section 20 x 46, body 95, overall 106.5 retracted, table 104 x 19); '
-    'mounted on its side, table toward the spindle, ports outward (6 x M5 into the body side taps from the bracket back); extended = end of stroke (rubber bumper), the probe height is set '
-    'in the shank clamp; 5/2 single-solenoid valve, spring return = retract on power loss', 'z', 'probe')
-add('Probe_slide_table', fuse(box(XB, XB + 6.5, YS0 + 0.5, YS1 - 0.5, T0, T0 + 104), box(XB, XT, YS0, YS1, T0, T0 + 7.5)), gp,
-    'MXH2 10 table + rod-end plate (moves 60 down to extend the probe); the probe hangs under the rod-end plate (4 x M4)', 'z', 'probe')
+MXH = Part.read(os.path.join(ROOT, 'vendor', 'smc', 'MXH10-60Z', 'MXH10-60Z.step')).Solids   # body, table; table top x -30.5, body bottom x 16.5,
+for so in MXH:                                                  # rod-end plate face z 59, head end z -47.5 -> x + 79, y 2 - y, z T0 + 59 - z
+    so.rotate(V(0, 0, 0), V(1, 0, 0), 180); so.translate(V(79, 2, T0 + 59))
+mxb, mxt = MXH
+ZB0, ZB1 = T0 + 11.5, T0 + 106.5                                 # body (fixed)
+SLB = [(XT - 28, T0 + 16.5), (XT - 28, T0 + 76.5), (XT - 5, T0 + 16.5)]   # body through-taps (vendor STEP)
+for x, zz in SLB: mxb = mxb.cut(cyl('y', 2.5, -3.6, 7.6, x, zz))   # M5 thread to nominal (STEP shows the D4.2 pilot)
+for x, y in [(XB + 21.5, 2 - 5.5), (XB + 21.5, 2 + 5.5), (XB + 39.5, 2 - 5.5), (XB + 39.5, 2 + 5.5)]:
+    mxt = mxt.cut(cyl('z', 2.0, T0, T0 + 7.3, x, y))           # rod-end plate M4 taps to nominal
+add('Probe_slide_body', mxb, gp,
+    'SMC MXH10-60Z-M9NW compact slide, bore 10, stroke 60, vendor STEP (catalog MXH p.31: section 20 x 47, body 95, overall 106.5 retracted, '
+    'table 99 x 19); mounted on its side, table toward the spindle, ports up / outward (3 x M5 into the body through-taps from the bracket back); '
+    'extended = end of stroke (rubber bumper), the probe height is set in the shank clamp; 5/2 single-solenoid valve, spring return = retract on power loss', 'z', 'probe')
+add('Probe_slide_table', mxt, gp,
+    'SMC MXH10-60Z table + rod-end plate (part of the slide, vendor STEP; moves 60 down to extend the probe); the probe hangs under the rod-end plate (4 x M4)', 'z', 'probe')
 for k, zz in enumerate((ZB1 - 32, ZB1 - 14), 1):
-    add('Probe_reed_%d' % k, box(XT - 26, XT - 8, YS0 - 2.5, YS0, zz - 6, zz + 6), gp,
-        ('auto switch D-M9 (retracted): spindle enable + feed hold interlock' if k == 2 else 'auto switch D-M9 (extended)'), 'z', 'probe')
-    fit_, tub_, port_ = push_in('z', 1, (XT - 6.5, XT - 26.5)[k - 1], 2.0, ZB1); hole('Probe_slide_body', port_)
-    add('Probe_air_fitting_%d' % k, fit_, gp, 'SMC KQ2H04-M5A push-in fitting (M5, tube D4) on the MXH2 head-end port (catalog: 6.5 / 26.5 from the body bottom)', 'z', 'probe')
+    add('Probe_reed_%d' % k, box(XT - 25.5, XT - 7.5, YS0 - 2.5, YS0, zz - 6, zz + 6), gp,
+        ('auto switch D-M9NW (retracted): spindle enable + feed hold interlock' if k == 2 else 'auto switch D-M9NW (extended)'), 'z', 'probe')
+    fit_, tub_, port_ = push_in('z', 1, (XT - 6.5, XT - 26.5)[k - 1], 2.0, ZB1); cut('Probe_slide_body', port_)
+    add('Probe_air_fitting_%d' % k, fit_, gp, 'SMC KQ2H04-M5A push-in fitting (M5, tube D4) on the MXH head-end port (catalog: 6.5 / 26.5 from the body bottom), vendor STEP', 'z', 'probe')
     add('Probe_air_tube_%d' % k, tub_, gp, 'polyurethane tube D4 (stub; routed up to the Z drag chain)', 'z', 'probe')
 br = box(XB, 96.0, 12, 20, ZB0 - 6, ZB1 + 6)
-add('Probe_bracket', br, gp, 'probe slide bracket (CNC, 6061) t8 on the module plate (4 x M5 low-head from the plate back); the MXH2 on its front '
-    '(6 x M5 low-head from the back into the slide body side taps)', 'z', 'probe')
+add('Probe_bracket', br, gp, 'probe slide bracket (CNC, 6061) t8 on the module plate (4 x M5 low-head from the plate back); the MXH10 on its front '
+    '(3 x M5 low-head from the back into the slide body through-taps)', 'z', 'probe')
 for i_, (x, zz) in enumerate(PRB, 1):
     hole('Probe_bracket', cyl('y', 2.5, 12, 20, x, zz))
     add('Probe_bracket_bolt_%d' % i_, fuse(cyl('y', 4.25, 28.5, 32, x, zz), cyl('y', 2.5, 12.5, 28.5, x, zz)), gp,
         'M5x16 low-head (DIN 7984) from the module plate back into the bracket (M5 tap thru, tip 0.5 below the front); fitted on the bench', 'z', 'fasten')
-k_ = 0
-for x in (XT - 5, XT - 28):                                      # MXH body side taps: rows 5 / 28 from the body bottom (+X), 3 along the length
-    for zz in (ZB0 + 12, ZB0 + 47.5, ZB0 + 83):
-        k_ += 1
-        cut('Probe_bracket', cyl('y', 2.75, 12, 16.5, x, zz), cyl('y', 4.75, 16.5, 20, x, zz))
-        hole('Probe_slide_body', cyl('y', 2.5, 4, 12, x, zz))
-        add('Probe_slide_bolt_%d' % k_, fuse(cyl('y', 4.25, 16.5, 20, x, zz), cyl('y', 2.5, 4.5, 16.5, x, zz)), gp,
-            'M5x12 low-head (DIN 7984) from the bracket back into the MXH2 body side tap', 'z', 'fasten')
+for k_, (x, zz) in enumerate(SLB, 1):
+    cut('Probe_bracket', cyl('y', 2.75, 12, 16.5, x, zz), cyl('y', 4.75, 16.5, 20, x, zz))
+    add('Probe_slide_bolt_%d' % k_, fuse(cyl('y', 4.25, 16.5, 20, x, zz), cyl('y', 2.5, -3.5, 16.5, x, zz)), gp,
+        'M5x20 low-head (DIN 7984) from the bracket back into the MXH10 body through-tap (past the 4.4 c-bore, 11 engaged)', 'z', 'fasten')
 HT = 14.0                                                       # clamp block height
 EPH = [(XB + 21.5, 2 - 5.5), (XB + 21.5, 2 + 5.5), (XB + 39.5, 2 - 5.5), (XB + 39.5, 2 + 5.5)]   # end-plate taps (rows from the table side)
 hd = box(XB + 2, PX + 17, SY - 18, YS1, T0 - HT, T0)            # clamp block under the rod-end plate
 hd = hd.cut(cyl('z', 3.0, T0 - HT, T0, PX, SY)).cut(box(PX - 0.5, PX + 0.5, SY - 18, SY, T0 - HT, T0))      # D6 H7 bore + slit
 hd = hd.cut(cyl('x', 2.25, PX + 0.5, PX + 17, SY - 10, T0 - HT / 2)).cut(cyl('x', 2.0, PX - 6, PX - 0.5, SY - 10, T0 - HT / 2))   # pinch from +X (head outside)
 for x, y in EPH: hd = hd.cut(cyl('z', 2.25, T0 - HT + 4.5, T0, x, y)).cut(cyl('z', 3.75, T0 - HT, T0 - HT + 4.5, x, y))
-add('Probe_holder', hd, gp, 'probe clamp block (CNC, 6061) under the MXH2 rod-end plate (front mounting face, 4 x M4 from below), split D6 H7 bore for the '
+add('Probe_holder', hd, gp, 'probe clamp block (CNC, 6061) under the MXH10 rod-end plate (front mounting face, 4 x M4 from below), split D6 H7 bore for the '
     'shank (M4 pinch): the probe height is set here', 'z', 'probe')
 add('Probe_pinch_bolt', fuse(cyl('x', 3.5, PX + 17, PX + 21, SY - 10, T0 - HT / 2), cyl('x', 2.0, PX - 6, PX + 17, SY - 10, T0 - HT / 2)), gp, 'M4x20 SHCS, shank clamp (head on the +X side)', 'z', 'fasten')
 for i_, (x, y) in enumerate(EPH, 1):
-    hole('Probe_slide_table', cyl('z', 2.0, T0, T0 + 7, x, y))
     add('Probe_holder_bolt_%d' % i_, fuse(cyl('z', 3.5, T0 - HT + 0.5, T0 - HT + 4.5, x, y), cyl('z', 2.0, T0 - HT + 4.5, T0 + 6.5, x, y)), gp,
-        'M4x16 SHCS from below, clamp block into the MXH2 rod-end plate (tap M4 depth 7.5)', 'z', 'fasten')
+        'M4x16 SHCS from below, clamp block into the MXH10 rod-end plate (tap M4 depth 7.5)', 'z', 'fasten')
 ZBK = T0
 LOG.append('PROBE (%.1f, %.0f) on an air slide, ball retracted z %.1f (tool tip %+.0f), extended z %.1f (tool tip %+.0f), stroke %.0f'
            % (PX, SY, TIPR, TIPR - TIP, TIPR - STROKE, TIPR - STROKE - TIP, STROKE))
