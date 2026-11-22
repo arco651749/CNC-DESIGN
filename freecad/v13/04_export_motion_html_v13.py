@@ -14,6 +14,8 @@ LOG = os.path.join(ROOT, 'output', 'v13', 'logs', 'export_motion_html_v13.txt')
 
 
 def colour(n):   # same scheme as the adjuster tour page
+    if re.search(r'(air_fitting|cover_fitting)', n): return [0.12, 0.12, 0.13]      # push-in fittings: black resin
+    if re.search(r'(air_tube|cover_tube)', n): return [0.15, 0.42, 0.85]            # D4 air tube: blue
     if n.startswith('Camera_lens'): return [0.1, 0.1, 0.11]
     if n.startswith(('Camera_body', 'Camera_CS_C')): return [0.15, 0.3, 0.55]
     if n == 'Camera_light_guide': return [0.85, 0.85, 0.2]
