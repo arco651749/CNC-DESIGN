@@ -80,9 +80,13 @@ for (grp, _), r in sorted(rows.items(), key=lambda kv: (kv[0][0], base(kv[1]['it
     o = r['obj']; items = sorted(r['items'])
     name = base(items[0]) if len(items) > 1 else items[0]
     p = next((PURCHASE[i] for i in items if i in PURCHASE), None)
+    m = re.match(r'MISUMI (HFS8-4040-\d+) ', r['spec'])
+    if not p and m:                                             # base frame extrusions: part number from the spec (length in the name)
+        p = {'supplier': 'MISUMI', 'part_no': m.group(1), 'link': 'https://tw.misumi-ec.com/vona2/result/?Keyword=' + m.group(1), 'desc': '',
+             'note': 'HFS8 series, 40 x 40, slot 8; vendor STEP (600 long) in vendor/misumi/HFS8-4040-600, the section is used for every length'}
     kit = 'Kit' in o.PropertiesList and o.Kit
     out.append({'群組': grp, '零件': name, '數量': len(items), '類別': category(o, r['spec']) + ('（校正工具組，可重複使用）' if kit else ''),
-                '規格 / 說明': (p['desc'] + '. ' if p else '') + r['spec'],
+                '規格 / 說明': (p['desc'] + '. ' if p and p['desc'] else '') + r['spec'],
                 '供應商': p['supplier'] if p else '', '料號': p['part_no'] if p else '', '連結': p['link'] if p else '',
                 '備註': p['note'] if p else '', '模型件名': ', '.join(items) if len(items) <= 8 else ', '.join(items[:8]) + ' ...'})
 with open(OUT, 'w', encoding='utf-8-sig', newline='') as f:

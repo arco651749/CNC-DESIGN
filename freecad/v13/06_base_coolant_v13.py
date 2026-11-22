@@ -42,17 +42,18 @@ GA = doc.addObject('App::DocumentObjectGroup', 'A'); GA.Label = 'A Base (extrusi
 def add(label, shape, spec, motion=''):
     o = doc.addObject('Part::Feature', label); o.Label = label; o.Shape = shape
     prop(o, 'Spec', spec); prop(o, 'Motion', motion); prop(o, 'Adj', 'base'); GA.addObject(o); NEW.append(label); return o
-def ext(label, b, spec='aluminium extrusion 40x40 (HFS8-4040), slot 8'):
+_hfs = Part.read(os.path.join(ROOT, 'vendor', 'misumi', 'HFS8-4040-600', 'step', 'HFS8-4040-600.stp'))   # vendor STEP: along x 0..600, section in yz
+HFS_SEC = Part.makeFace(_hfs.slice(V(1, 0, 0), 300.0), 'Part::FaceMakerBullseye'); HFS_SEC.translate(V(-300, 0, 0))   # section at x 0, centred
+def ext(label, b):
+    """MISUMI HFS8-4040 cut to length: the vendor section (slot 8, centre hole, 4 corner cavities) extruded along the long side of box b"""
     x0, x1, y0, y1, z0, z1 = b
-    s = box(x0, x1, y0, y1, z0, z1)
     L = [x1 - x0, y1 - y0, z1 - z0]; ax = L.index(max(L))
     cx, cy, cz = (x0 + x1) / 2, (y0 + y1) / 2, (z0 + z1) / 2
-    for k in range(4):                                       # four T-slots along the long axis
-        if ax == 2: sl = [box(cx - 4, cx + 4, y0, y0 + 9, z0, z1), box(cx - 4, cx + 4, y1 - 9, y1, z0, z1), box(x0, x0 + 9, cy - 4, cy + 4, z0, z1), box(x1 - 9, x1, cy - 4, cy + 4, z0, z1)][k]
-        elif ax == 0: sl = [box(x0, x1, cy - 4, cy + 4, z0, z0 + 9), box(x0, x1, cy - 4, cy + 4, z1 - 9, z1), box(x0, x1, y0, y0 + 9, cz - 4, cz + 4), box(x0, x1, y1 - 9, y1, cz - 4, cz + 4)][k]
-        else: sl = [box(cx - 4, cx + 4, y0, y1, z0, z0 + 9), box(cx - 4, cx + 4, y0, y1, z1 - 9, z1), box(x0, x0 + 9, y0, y1, cz - 4, cz + 4), box(x1 - 9, x1, y0, y1, cz - 4, cz + 4)][k]
-        s = s.cut(sl)
-    return add(label, s, spec)
+    f = HFS_SEC.copy()
+    if ax == 0: f.translate(V(x0, cy, cz)); d = V(L[0], 0, 0)
+    elif ax == 1: f.rotate(V(0, 0, 0), V(0, 0, 1), 90); f.translate(V(cx, y0, cz)); d = V(0, L[1], 0)
+    else: f.rotate(V(0, 0, 0), V(0, 1, 0), 90); f.translate(V(cx, cy, z0)); d = V(0, 0, L[2])
+    return add(label, f.extrude(d), 'MISUMI HFS8-4040-%d aluminium extrusion 40x40, slot 8, cut to length (section from the vendor STEP)' % round(max(L)))
 
 # ---------------- A1 frame
 W = 77.5                                                     # v13: machine 155 wider in X -> frame, pan and guards 77.5 wider per side
