@@ -1,0 +1,15 @@
+﻿"Symbol";"Value";"Unit";
+"SUPPLIER_NAME";"Motion";"";
+"Motion_Internal_Description";"MXH10-60Z COMPACT SLIDE TABLE";"";
+"TraceParts.PartVersion";"1.0.2";"";
+"SUPPLIER";"SMC";"";
+"TraceParts.PartNumber";"90-09092020-028463";"";
+"TraceParts.PartLanguage";"en";"";
+"DESIGN";"MXH10-60Z COMPACT SLIDE TABLE";"";
+"Part_Number_ProductPage_URL";"https://motion.com/products/sku/06714549";"";
+"TraceParts.PartTitle";"MXH10-60Z";"";
+"REFERENCE";"MXH10-60Z";"";
+"TRACEPARTS";"TRACEPARTS";"";
+"Part_Number_EShop_URL";"https://motion.com/products/sku/06714549";"";
+"SUPPLIER_PART_NUMBER";"06714549";"";
+"TraceParts.InstanceId";"90-09092020-02846336FDR7KA1GQNQOJK3QTZMLD2H";"";
