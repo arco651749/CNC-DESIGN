@@ -42,7 +42,8 @@ for n in HEAD:
         if v > 0.5: home[(n, m)] = round(v, 1)
 out.append('CONTACTS AT HOME (tool-head parts): %d' % len(home)); out += ['  %s x %s : %s mm3' % (a, b, v) for (a, b), v in sorted(home.items())]
 TOOLSIDE = ('Tool_D5', 'ER11_nut', 'Coolant_nozzle_1', 'Coolant_nozzle_2')
-FIXT = ('Work_table', 'Tool_mirror', 'Mirror_bracket', 'Mirror_bracket_bolt_1', 'Mirror_bracket_bolt_2', 'Mirror_cover', 'Mirror_cover_actuator')
+FIXT = ('Work_table', 'Tool_mirror', 'Mirror_bracket', 'Mirror_bracket_bolt_1', 'Mirror_bracket_bolt_2', 'Mirror_cover', 'Mirror_cover_actuator',
+        'Mirror_cover_fitting_1', 'Mirror_cover_fitting_2', 'Mirror_cover_tube_1', 'Mirror_cover_tube_2')
 bad, fixt = {}, {}
 for dx, dz, dy in itertools.product((-227.5, MEAS[0], 0, 227.5), (-50, MEAS[2], 0, 50), (-250, MEAS[1], 0, 150)):
     for n in HEAD:

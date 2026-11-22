@@ -60,6 +60,12 @@ def hole(label, *tools):                                    # cut + check the to
 def move(label, dx):
     o = O(label); s = o.Shape.copy(); s.translate(V(dx, 0, 0)); o.Shape = s
 def spec(label, text): prop(O(label), 'Spec', text)
+def push_in(ax, sgn, p, q, a0, tube=25.0, tdep=4.0):
+    """SMC KQ2H04-M5A straight push-in fitting on an M5 port face at a0 (axis ax, pointing sgn): hex body ~D9.2 x 13 + D4 tube stub.
+    Returns (fitting, tube, port) solids; port = the M5 tapped hole to cut into the part."""
+    def c(r, u0, u1):
+        u0, u1 = sorted((a0 + sgn * u0, a0 + sgn * u1)); return cyl(ax, r, u0, u1, p, q)
+    return fuse(c(2.5, -tdep, 0.0), c(4.6, 0.0, 8.0), c(4.0, 8.0, 13.0)), c(2.0, 13.0, 13.0 + tube), c(2.5, -tdep, 0.0)
 
 def cls(o):                                                 # motion class, same rules as the motion check
     n = o.Label
@@ -255,7 +261,9 @@ ar = cyl('z', 25.5, ZF - 2, ZF + 8, CX, SY).cut(cyl('z', 22.6, ZF - 2, ZF + 8, C
 ar = ar.cut(cyl('y', 2.0, SY - 25.5, SY - 22, CX, ZF + 3))
 add('Camera_air_ring', ar, gl, 'lens air ring (CNC, 6061) on the D45 lens nose, 2 x M3 set screws: clean dry air from an M5 push-in fitting blows across '
     'the front glass (keeps coolant mist and chips off); no window, WD unchanged', 'z', 'camera')
-add('Camera_air_fitting', cyl('y', 4, SY - 37.5, SY - 25.5, CX, ZF + 3), gl, 'M5 push-in fitting for D4 tube (air ring)', 'z', 'camera')
+fit_, tub_, port_ = push_in('y', -1, CX, ZF + 3, SY - 25.5, tdep=2.5); cut('Camera_air_ring', port_)
+add('Camera_air_fitting', fit_, gl, 'SMC KQ2H04-M5A push-in fitting (M5, tube D4) on the lens air ring', 'z', 'camera')
+add('Camera_air_tube', tub_, gl, 'polyurethane tube D4 (stub)', 'z', 'camera')
 # bracket (CNC, 6061): split ring on the D45 lens barrel (below the spindle clamp), web back to a flange on the module plate (2 x M5 from the plate back)
 RZ0, RZ1 = ZF + 60, ZF + 80
 PZM = (RZ0 + RZ1) / 2
@@ -315,7 +323,12 @@ add('Mirror_cover', cv, gl, 'prism cover (SUS t2, bent: lid + skirts on both X s
     'chips off the coated hypotenuse (top and +X); slides 30 toward +Y, clear of the light path, only during tool setting', 'y', 'camera')
 add('Mirror_cover_actuator', fuse(box(XC - 16.5, XC + 16.5, MY - 77.5, MY - 19.5, TT.ZMax + 3, TT.ZMax + 28), cyl('y', 3, MY - 19.5, MY - 16, XC, TT.ZMax + 15.5)), gl,
     'SMC CDQ2B12-30DZ compact cylinder bore 12 stroke 30 with magnet (catalog: body 33 x 25 x 58, rod D6 / M3 internal thread, ports M5), '
-    'axial through-holes onto the holder end plate (4 x M3), rod on the cover arm; auto switch D-M9 = cover open; air via the Y drag chain', 'y', 'camera')
+    'axial through-holes onto the holder end plate (4 x M3), rod on the cover arm, ports on the outer (-X) face; auto switch D-M9 = cover open; '
+    'air via the Y drag chain', 'y', 'camera')
+for k, yy in enumerate((MY - 77.5 + 9, MY - 19.5 - 9), 1):
+    fit_, tub_, port_ = push_in('x', -1, yy, TT.ZMax + 15.5, XC - 16.5); hole('Mirror_cover_actuator', port_)
+    add('Mirror_cover_fitting_%d' % k, fit_, gl, 'SMC KQ2H04-M5A push-in fitting (M5, tube D4) on the cover cylinder port (outer face)', 'y', 'camera')
+    add('Mirror_cover_tube_%d' % k, tub_, gl, 'polyurethane tube D4 (stub; to the Y drag chain)', 'y', 'camera')
 MEAS = (MX - CX, SY - MY, MZ - TIP)                               # carriage dx, table dy, dz at the measuring pose
 LOG.append('CAMERA (%.1f, %.0f), lens front z %.1f, tip %.1f, prism fold (%.0f, %.0f, %.0f), air path %.1f; measure at X %+.1f, table %+.0f, Z %+.0f'
            % (CX, SY, ZF, TIP, MX, MY, MZ, (ZF - TIP) + (SX0 - CX), *MEAS))
@@ -349,7 +362,9 @@ add('Probe_slide_table', fuse(box(XB, XB + 6.5, YS0 + 0.5, YS1 - 0.5, T0, T0 + 1
 for k, zz in enumerate((ZB1 - 32, ZB1 - 14), 1):
     add('Probe_reed_%d' % k, box(XT - 26, XT - 8, YS0 - 2.5, YS0, zz - 6, zz + 6), gp,
         ('auto switch D-M9 (retracted): spindle enable + feed hold interlock' if k == 2 else 'auto switch D-M9 (extended)'), 'z', 'probe')
-    add('Probe_air_fitting_%d' % k, cyl('z', 2.5, ZB1, ZB1 + 9, XT - 7, 2 - 6.5 + 13 * (k - 1)), gp, 'M5 push-in fitting for D4 tube (head-end ports, body-bottom side = +X, outward)', 'z', 'probe')
+    fit_, tub_, port_ = push_in('z', 1, (XT - 6.5, XT - 26.5)[k - 1], 2.0, ZB1); hole('Probe_slide_body', port_)
+    add('Probe_air_fitting_%d' % k, fit_, gp, 'SMC KQ2H04-M5A push-in fitting (M5, tube D4) on the MXH2 head-end port (catalog: 6.5 / 26.5 from the body bottom)', 'z', 'probe')
+    add('Probe_air_tube_%d' % k, tub_, gp, 'polyurethane tube D4 (stub; routed up to the Z drag chain)', 'z', 'probe')
 br = box(XB, 96.0, 12, 20, ZB0 - 6, ZB1 + 6)
 add('Probe_bracket', br, gp, 'probe slide bracket (CNC, 6061) t8 on the module plate (4 x M5 low-head from the plate back); the MXH2 on its front '
     '(6 x M5 low-head from the back into the slide body side taps)', 'z', 'probe')
