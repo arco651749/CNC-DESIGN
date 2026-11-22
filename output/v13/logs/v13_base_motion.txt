@@ -1,4 +1,4 @@
-parts: 471   motion classes: static 208 / y 48 / x 102 / z 113
+parts: 470   motion classes: static 208 / y 50 / x 102 / z 110
 
 DESIGN CONTACTS AT HOME (overlap > 1 mm3, review): 10
   Coolant_hose_1 x Coolant_hose_2 : 288 mm3
@@ -15,7 +15,8 @@ DESIGN CONTACTS AT HOME (overlap > 1 mm3, review): 10
 COLLISIONS AT TRAVEL ENDS (new vs home): 0
 
 ALLOWED:
-  Coolant_nozzle_2 x Mirror_cover_actuator : [(-250, -227.5, -50, 285)]
+  Coolant_nozzle_2 x Mirror_cover_actuator : [(-250, -227.5, -50, 188)]
+  Coolant_nozzle_2 x Mirror_cover_cyl_bolt_1 : [(-250, -227.5, -50, 7)]
   Tool_D5 x Work_table : [(-250, 227.5, -50, 49), (150, 227.5, -50, 49)]
 
 CLEARANCES:
