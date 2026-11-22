@@ -62,15 +62,49 @@ LEGS = [(-BX, -580), (BX, -580), (-BX, 40), (BX, 40), (-BX, 560), (BX, 560)]
 for i, (x, y) in enumerate(LEGS, 1):
     ext('Base_leg_%d' % i, (x - 20, x + 20, y - 20, y + 20, FLOOR + 60, -130))
     add('Base_foot_%d' % i, cyl('z', 40, FLOOR, FLOOR + 15, x, y).fuse(cyl('z', 8, FLOOR + 15, FLOOR + 60, x, y)), 'levelling foot M16, pad D80')
-# top ring sits on the leg tops; low ring runs between the legs (no low rear beam: the tank slides out at the rear)
-ext('Base_top_side_L', (-BX - 20, -BX + 20, -560, 540, -130, -90)); ext('Base_top_side_R', (BX - 20, BX + 20, -560, 540, -130, -90))
-ext('Base_top_front', (-BX - 20, BX + 20, -600, -560, -130, -90)); ext('Base_top_rear', (-BX - 20, BX + 20, 540, 580, -130, -90))
+# top ring: the two side beams run full length on the 6 leg tops; front / rear / cross beams butt into the side beams. Low ring runs between
+# the legs (no low rear beam: the tank slides out at the rear). Joints: hidden end-tap (M8 into the centre hole of the butting member, SHCS
+# through a counterbored cross hole of the through member). Layout so that no two joint bolts meet inside one member: front / rear top beams
+# 40 inside the corner legs (their bolts clear the vertical leg bolts), low front and the rear low sides 40 higher than the front low sides.
+ext('Base_top_side_L', (-BX - 20, -BX + 20, -600, 580, -130, -90)); ext('Base_top_side_R', (BX - 20, BX + 20, -600, 580, -130, -90))
+YF, YR = -540, 520                                           # front / rear top beam axes
+ext('Base_top_front', (-BX + 20, BX - 20, YF - 20, YF + 20, -130, -90)); ext('Base_top_rear', (-BX + 20, BX - 20, YR - 20, YR + 20, -130, -90))
 LZ = FLOOR + 90
-ext('Base_low_front', (-BX + 20, BX - 20, -600, -560, LZ, LZ + 40))
+ext('Base_low_front', (-BX + 20, BX - 20, -600, -560, LZ + 40, LZ + 80))
 for T, x0, x1 in (('L', -BX - 20, -BX + 20), ('R', BX - 20, BX + 20)):
-    ext('Base_low_side_%s1' % T, (x0, x1, -560, 20, LZ, LZ + 40)); ext('Base_low_side_%s2' % T, (x0, x1, 60, 540, LZ, LZ + 40))
+    ext('Base_low_side_%s1' % T, (x0, x1, -560, 20, LZ, LZ + 40)); ext('Base_low_side_%s2' % T, (x0, x1, 60, 540, LZ + 40, LZ + 80))
 for k, y in enumerate((-120, 168), 1):                       # cross beams under the machine risers
     ext('Base_cross_%d' % k, (-BX + 20, BX - 20, y - 20, y + 20, -130, -90))
+# hidden end-tap joints: M8x50 SHCS in a D14 x 8.5 counterbore + D9 cross hole through the 40 of the through member, into the M8 end tap
+# (depth 22) of the butting member: 18.5 engaged (2.3 d in aluminium), tap 3.5 deeper than the bolt tip. Heads 0.5 below the face.
+MACH = {}
+def joint(thru, butt, ax, a_head, a_face, p, q):
+    sg = 1 if a_face > a_head else -1
+    def c(r, u0, u1):
+        u0, u1 = sorted((a_head + sg * u0, a_head + sg * u1)); return cyl(ax, r, u0, u1, p, q)
+    o = O(thru); o.Shape = o.Shape.cut(c(7, 0, 8.5)).cut(c(4.5, 8.5, 40))
+    o = O(butt); o.Shape = o.Shape.cut(c(4, 40, 62))
+    MACH.setdefault(thru, []).append('x'); MACH.setdefault(butt, []).append('t')
+    k = len([n for n in NEW if n.startswith('Base_frame_bolt_')]) + 1
+    add('Base_frame_bolt_%d' % k, fuse(c(6.5, 0.5, 8.5), c(4, 8.5, 58.5)),
+        'M8x50 SHCS (DIN 912), hidden end-tap joint: through the counterbored cross hole (D14 x 8.5 + D9) of one extrusion into the M8 end tap '
+        '(depth 22) of the butting one, 18.5 engaged')
+for i, (x, y) in enumerate(LEGS, 1):                          # side beams on the leg tops (heads flush under the pan)
+    joint('Base_top_side_%s' % ('L' if x < 0 else 'R'), 'Base_leg_%d' % i, 'z', -90, -130, x, y)
+for T, sx in (('L', -1), ('R', 1)):
+    for butt, y in (('Base_top_front', YF), ('Base_top_rear', YR), ('Base_cross_1', -120), ('Base_cross_2', 168)):
+        joint('Base_top_side_' + T, butt, 'x', sx * (BX + 20), sx * (BX - 20), y, -110)
+    i0 = 1 if sx < 0 else 2                                   # legs: 1/2 front, 3/4 middle, 5/6 rear (odd = left)
+    joint('Base_leg_%d' % i0, 'Base_low_front', 'x', sx * (BX + 20), sx * (BX - 20), -580, LZ + 60)
+    joint('Base_leg_%d' % i0, 'Base_low_side_%s1' % T, 'y', -600, -560, sx * BX, LZ + 20)
+    joint('Base_leg_%d' % (i0 + 2), 'Base_low_side_%s1' % T, 'y', 60, 20, sx * BX, LZ + 20)
+    joint('Base_leg_%d' % (i0 + 2), 'Base_low_side_%s2' % T, 'y', 20, 60, sx * BX, LZ + 60)
+    joint('Base_leg_%d' % (i0 + 4), 'Base_low_side_%s2' % T, 'y', 580, 540, sx * BX, LZ + 60)
+for n, m in MACH.items():                                     # MISUMI additional machining in the spec (BOM groups same length + machining)
+    t, x_ = m.count('t'), m.count('x')
+    prop(O(n), 'Spec', O(n).Spec.replace('cut to length', 'cut to length, machining: ' + ', '.join(
+        ([('M8 end tap depth 22 x %d' % t)] if t else []) + ([('cross hole D9 + c-bore D14 x 8.5 x %d' % x_)] if x_ else []))))
+
 # ---------------- A2 coolant pan (sheet SUS304 t1.5, corners folded and sealed with silicone)
 PX_ = 455 + W                                                # pan half width
 pan = box(-PX_, PX_, -595, 575, -90, -30).cut(box(-PX_ + 1.5, PX_ - 1.5, -593.5, 573.5, -88.5, -30)).cut(cyl('z', 20, -90, -88.5, 0, 470))
