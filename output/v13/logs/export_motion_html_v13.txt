@@ -1,4 +1,4 @@
-parts=365 size=15515067
+parts=372 size=15643721
 Datum_base_plate g='' r='' tris=27308
 Y_rail_L g='y' r='' tris=8600
 Y_block_L1 g='' r='' tris=36808
@@ -357,8 +357,9 @@ Camera_lens g='z' r='' tris=22578
 Camera_CS_C_adapter g='z' r='' tris=1008
 Camera_body g='z' r='' tris=4624
 Camera_light_guide g='z' r='' tris=1508
-Camera_air_ring g='z' r='' tris=2174
-Camera_air_fitting g='z' r='' tris=500
+Camera_air_ring g='z' r='' tris=2276
+Camera_air_fitting g='z' r='' tris=1508
+Camera_air_tube g='z' r='' tris=500
 Camera_bracket g='z' r='' tris=3076
 Camera_pinch_bolt g='z' r='' tris=1004
 Camera_bracket_bolt_1 g='z' r='' tris=1004
@@ -368,14 +369,20 @@ Mirror_bracket g='y' r='' tris=4182
 Mirror_bracket_bolt_1 g='y' r='' tris=1004
 Mirror_bracket_bolt_2 g='y' r='' tris=1004
 Mirror_cover g='y' r='' tris=42
-Mirror_cover_actuator g='y' r='' tris=516
+Mirror_cover_actuator g='y' r='' tris=1524
+Mirror_cover_fitting_1 g='y' r='' tris=1508
+Mirror_cover_tube_1 g='y' r='' tris=500
+Mirror_cover_fitting_2 g='y' r='' tris=1508
+Mirror_cover_tube_2 g='y' r='' tris=500
 Probe_body g='z' r='' tris=7832
-Probe_slide_body g='z' r='' tris=3036
+Probe_slide_body g='z' r='' tris=4044
 Probe_slide_table g='z' r='' tris=2044
 Probe_reed_1 g='z' r='' tris=12
-Probe_air_fitting_1 g='z' r='' tris=500
+Probe_air_fitting_1 g='z' r='' tris=1508
+Probe_air_tube_1 g='z' r='' tris=500
 Probe_reed_2 g='z' r='' tris=12
-Probe_air_fitting_2 g='z' r='' tris=500
+Probe_air_fitting_2 g='z' r='' tris=1508
+Probe_air_tube_2 g='z' r='' tris=500
 Probe_bracket g='z' r='' tris=8116
 Probe_bracket_bolt_1 g='z' r='' tris=1004
 Probe_bracket_bolt_2 g='z' r='' tris=1004

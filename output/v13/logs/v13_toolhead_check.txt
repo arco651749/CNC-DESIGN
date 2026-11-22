@@ -1,0 +1,20 @@
+CONTACTS AT HOME (tool-head parts): 2
+  Coolant_nozzle_1 x Coolant_nozzle_block_1 : 100.6 mm3
+  Coolant_nozzle_2 x Coolant_nozzle_block_2 : 100.6 mm3
+
+CLASHES OVER 64 POSES: 0
+TOOL / NOZZLE TIPS INTO THE TABLE OR THE PRISM STATION (allowed, like any fixture): 2
+  Coolant_nozzle_2 x Mirror_cover_actuator at (-227.5, -250, -50, 284.7)
+  Mirror_bracket x Tool_D5 at (-122.5, -250, -50, 157.1)
+PATH down   clear
+PATH across clear
+measuring pose X -122.5 table -248 Z -30: tool tip z 125.0 at x -130.0, prism fold (-195, 125) -> table at y -20; air path 120.0
+  min gap Camera_lens        - prism parts (cover open) 40.5 mm
+  min gap Camera_air_ring    - prism parts (cover open) 38.5 mm
+  min gap Camera_bracket     - prism parts (cover open) 95.5 mm
+  min gap Spindle_body       - prism parts (cover open) 33.4 mm
+  min gap ER11_nut           - prism parts (cover open) 29.0 mm
+  min gap Probe_body         - prism parts (cover open) 84.9 mm
+  min gap Coolant_nozzle_1   - prism parts (cover open) 32.0 mm
+PROBE retracted ball z 196.0, slide table z 264.0..368.0 (body 271.5..366.5), unexpected contacts: none
+PROBE extended  ball z 136.0, slide table z 204.0..308.0 (body 271.5..366.5), unexpected contacts: none

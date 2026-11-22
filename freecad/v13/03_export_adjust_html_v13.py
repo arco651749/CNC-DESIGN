@@ -54,7 +54,7 @@ doc = App.openDocument(os.path.join(ROOT, 'output', 'v13', 'CNC_v13.FCStd'))
 out = []
 for o in doc.Objects:
     if o.TypeId != 'Part::Feature' or o.Shape.isNull() or not o.Shape.Solids: continue
-    pts, tris = o.Shape.tessellate(1.0 if o.Label == 'Camera_lens' else (0.8 if re.search(r'(Camera_body|pivot_bearing|^[XYZ]_block_|ball_nut)', o.Label) else 0.2))
+    pts, tris = o.Shape.tessellate(1.6 if o.Label == 'Camera_lens' else (1.0 if re.search(r'(Camera_body|pivot_bearing|^[XYZ]_block_|ball_nut)', o.Label) else 0.2))
     if not tris: continue
     coords = [int(round(v * 10)) for p in pts for v in (p.x, p.y, p.z)]
     w = 1 if len(pts) < 65536 else 0
