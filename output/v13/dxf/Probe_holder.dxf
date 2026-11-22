@@ -489,7 +489,7 @@ $SKPOLY
   9
 $TDCREATE
  40
-2461367.068796296
+2461367.9861921296
   9
 $TDUCREATE
  40
@@ -497,7 +497,7 @@ $TDUCREATE
   9
 $TDUPDATE
  40
-2461367.068796296
+2461367.9861921296
   9
 $TDUUPDATE
  40
@@ -929,11 +929,11 @@ $PSTYLEMODE
   9
 $FINGERPRINTGUID
   2
-{C849E95C-A247-4B77-AB6B-7C4AE275FF0F}
+{9665520F-A588-4D67-91EA-EB03199EE20A}
   9
 $VERSIONGUID
   2
-{6B811AFF-4522-452C-825A-1CEA43AAFB70}
+{0621D9E4-18D0-4FBA-BB97-F757D6B5FCA2}
   9
 $EXTNAMES
 290
@@ -1323,9 +1323,9 @@ ISM
   0
 CLASS
   1
-ACDBPLACEHOLDER
+LAYOUT
   2
-AcDbPlaceHolder
+AcDbLayout
   3
 ObjectDBX Classes
  90
@@ -1339,9 +1339,9 @@ ObjectDBX Classes
   0
 CLASS
   1
-LAYOUT
+ACDBPLACEHOLDER
   2
-AcDbLayout
+AcDbPlaceHolder
   3
 ObjectDBX Classes
  90
@@ -9713,7 +9713,7 @@ AcDbText
  40
 2.5
   1
-SPEC  probe clamp block (CNC, 6061) under the MXH2 rod-end plate (front mounting face, 4 x M4 from below), split D6 
+SPEC  probe clamp block (CNC, 6061) under the MXH10 rod-end plate (front mounting face, 4 x M4 from below), split D6
  11
 206.5
  21
@@ -11035,7 +11035,7 @@ DictionaryVariables
 280
 0
   1
-1.4.5 @ 2026-11-22T01:39:04.903365+00:00
+1.4.5 @ 2026-11-22T23:40:07.391821+00:00
   0
 VISUALSTYLE
   5
@@ -11747,7 +11747,7 @@ DictionaryVariables
 280
 0
   1
-1.4.5 @ 2026-11-22T01:39:04.910404+00:00
+1.4.5 @ 2026-11-22T23:40:07.399581+00:00
   0
 ENDSEC
   0
