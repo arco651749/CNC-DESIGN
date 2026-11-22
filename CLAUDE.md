@@ -48,5 +48,5 @@ F. Interference and protection
 
 - Language with the owner: Traditional Chinese.
 - Push to the session branch after each change; merge to `main` only when the owner says 「併到main」.
-- Build chain (v13): `01_v13_toolhead.py` -> `06_base_coolant_v13.py` -> checks `02` / `07` / `12` -> pages `03` / `04` / `05` / `08`
-  -> DXF `09` / `10` -> BOM `13`. Run FreeCAD scripts with `CNC_ROOT=$PWD /opt/freecad/bin/freecadcmd <script>`.
+- Build chain (v14, in `freecad/v14/`, output in `output/v14/`; v13 is frozen): `01_v14_toolhead.py` -> `06_base_coolant_v14.py` -> checks
+  `02` / `07` / `12` -> pages `03` / `04` / `05` / `08` -> DXF `09` / `10` -> BOM `13`. Run FreeCAD scripts with `CNC_ROOT=$PWD /opt/freecad/bin/freecadcmd <script>`.
