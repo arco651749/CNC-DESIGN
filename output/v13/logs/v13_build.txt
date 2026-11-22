@@ -76,7 +76,7 @@ Probe_slide_bolt_4         z  x[   72.2,   80.8] y[    4.5,   20.0] z[  279.2,  
 Probe_slide_bolt_5         z  x[   72.2,   80.8] y[    4.5,   20.0] z[  314.8,  323.2]  OK
 Probe_slide_bolt_6         z  x[   72.2,   80.8] y[    4.5,   20.0] z[  350.2,  358.8]  OK
 Probe_holder               z  x[   50.5,   94.5] y[  -38.0,   12.0] z[  250.0,  264.0]  OK
-Probe_pinch_bolt           z  x[   56.5,   83.5] y[  -33.5,  -26.5] z[  253.5,  260.5]  OK
+Probe_pinch_bolt           z  x[   71.5,   98.5] y[  -33.5,  -26.5] z[  253.5,  260.5]  OK
 Probe_holder_bolt_1        z  x[   69.5,   76.5] y[   -7.0,    0.0] z[  250.5,  270.5]  OK
 Probe_holder_bolt_2        z  x[   69.5,   76.5] y[    4.0,   11.0] z[  250.5,  270.5]  OK
 Probe_holder_bolt_3        z  x[   51.5,   58.5] y[   -7.0,    0.0] z[  250.5,  270.5]  OK

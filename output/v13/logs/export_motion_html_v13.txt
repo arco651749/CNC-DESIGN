@@ -1,4 +1,4 @@
-parts=365 size=15491163
+parts=365 size=15515067
 Datum_base_plate g='' r='' tris=27308
 Y_rail_L g='y' r='' tris=8600
 Y_block_L1 g='' r='' tris=36808
@@ -371,7 +371,7 @@ Mirror_cover g='y' r='' tris=42
 Mirror_cover_actuator g='y' r='' tris=516
 Probe_body g='z' r='' tris=7832
 Probe_slide_body g='z' r='' tris=3036
-Probe_slide_table g='z' r='' tris=2060
+Probe_slide_table g='z' r='' tris=2044
 Probe_reed_1 g='z' r='' tris=12
 Probe_air_fitting_1 g='z' r='' tris=500
 Probe_reed_2 g='z' r='' tris=12
@@ -387,7 +387,7 @@ Probe_slide_bolt_3 g='z' r='' tris=1004
 Probe_slide_bolt_4 g='z' r='' tris=1004
 Probe_slide_bolt_5 g='z' r='' tris=1004
 Probe_slide_bolt_6 g='z' r='' tris=1004
-Probe_holder g='z' r='' tris=3560
+Probe_holder g='z' r='' tris=5564
 Probe_pinch_bolt g='z' r='' tris=1004
 Probe_holder_bolt_1 g='z' r='' tris=1004
 Probe_holder_bolt_2 g='z' r='' tris=1004

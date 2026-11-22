@@ -368,11 +368,11 @@ HT = 14.0                                                       # clamp block he
 EPH = [(XT - 21.5, 2 - 5.5), (XT - 21.5, 2 + 5.5), (XT - 39.5, 2 - 5.5), (XT - 39.5, 2 + 5.5)]   # end-plate taps (catalog end view)
 hd = box(XB + 2, PX + 17, SY - 18, YS1, T0 - HT, T0)            # clamp block under the rod-end plate
 hd = hd.cut(cyl('z', 3.0, T0 - HT, T0, PX, SY)).cut(box(PX - 0.5, PX + 0.5, SY - 18, SY, T0 - HT, T0))      # D6 H7 bore + slit
-hd = hd.cut(cyl('x', 2.25, PX - 17, PX - 0.5, SY - 10, T0 - HT / 2)).cut(cyl('x', 2.0, PX + 0.5, PX + 6, SY - 10, T0 - HT / 2))
+hd = hd.cut(cyl('x', 2.25, PX + 0.5, PX + 17, SY - 10, T0 - HT / 2)).cut(cyl('x', 2.0, PX - 6, PX - 0.5, SY - 10, T0 - HT / 2))   # pinch from +X (head outside)
 for x, y in EPH: hd = hd.cut(cyl('z', 2.25, T0 - HT + 4.5, T0, x, y)).cut(cyl('z', 3.75, T0 - HT, T0 - HT + 4.5, x, y))
 add('Probe_holder', hd, gp, 'probe clamp block (CNC, 6061) under the MXH2 rod-end plate (front mounting face, 4 x M4 from below), split D6 H7 bore for the '
     'shank (M4 pinch): the probe height is set here', 'z', 'probe')
-add('Probe_pinch_bolt', fuse(cyl('x', 3.5, PX - 21, PX - 17, SY - 10, T0 - HT / 2), cyl('x', 2.0, PX - 17, PX + 6, SY - 10, T0 - HT / 2)), gp, 'M4x20 SHCS, shank clamp', 'z', 'fasten')
+add('Probe_pinch_bolt', fuse(cyl('x', 3.5, PX + 17, PX + 21, SY - 10, T0 - HT / 2), cyl('x', 2.0, PX - 6, PX + 17, SY - 10, T0 - HT / 2)), gp, 'M4x20 SHCS, shank clamp (head on the +X side)', 'z', 'fasten')
 for i_, (x, y) in enumerate(EPH, 1):
     hole('Probe_slide_table', cyl('z', 2.0, T0, T0 + 7, x, y))
     add('Probe_holder_bolt_%d' % i_, fuse(cyl('z', 3.5, T0 - HT + 0.5, T0 - HT + 4.5, x, y), cyl('z', 2.0, T0 - HT + 4.5, T0 + 6.5, x, y)), gp,
