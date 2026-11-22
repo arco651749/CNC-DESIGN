@@ -1,0 +1,42 @@
+parts: 490   motion classes: static 228 / y 50 / x 102 / z 110
+
+DESIGN CONTACTS AT HOME (overlap > 1 mm3, review): 10
+  Coolant_hose_1 x Coolant_hose_2 : 288 mm3
+  Coolant_hose_2 x Coolant_hose_3 : 288 mm3
+  Coolant_hose_3 x Coolant_hose_4 : 288 mm3
+  Coolant_nozzle_1 x Coolant_nozzle_block_1 : 101 mm3
+  Coolant_nozzle_2 x Coolant_nozzle_block_2 : 101 mm3
+  X_ball_nut x X_nut_bracket : 19 mm3
+  X_ballscrew x X_support_fixed : 137 mm3
+  Y_ballscrew x Y_support_fixed : 137 mm3
+  Z_ball_nut x Z_nut_housing : 19 mm3
+  Z_ballscrew x Z_support_fixed : 137 mm3
+
+COLLISIONS AT TRAVEL ENDS (new vs home): 0
+
+ALLOWED:
+  Mirror_bracket x Tool_D5 : [(-250, -182.5, -50, 79)]
+  Tool_D5 x Work_table : [(-250, -182.5, -50, 98), (-250, 182.5, -50, 98), (150, -182.5, -50, 98), (150, 182.5, -50, 98)]
+
+CLEARANCES:
+  dy-250 Work_table         - Guard_front_lip     130.4 mm
+  dy-250 Y_motor            - Guard_rear          442.2 mm
+  dy-250 Y_ballscrew        - Guard_rear          587.0 mm
+  dy-250 Y_ballscrew        - Guard_front_lip      35.0 mm
+  dy-250 Work_table         - Coolant_pan         158.5 mm
+  dy+150 Work_table         - Guard_front_lip     530.1 mm
+  dy+150 Y_motor            - Guard_rear           42.2 mm
+  dy+150 Y_ballscrew        - Guard_rear          187.0 mm
+  dy+150 Y_ballscrew        - Guard_front_lip     435.0 mm
+  dy+150 Work_table         - Coolant_pan         158.5 mm
+  dx-182 X_motor            - Guard_side_R         43.0 mm
+  dx-182 Coolant_nozzle_1   - Gantry_column_L     190.0 mm
+  dx-182 Coolant_nozzle_2   - Gantry_column_R     404.5 mm
+  dx+182 X_motor            - Guard_side_R         43.0 mm
+  dx+182 Coolant_nozzle_1   - Gantry_column_L     552.7 mm
+  dx+182 Coolant_nozzle_2   - Gantry_column_R      39.8 mm
+  dz-50 Coolant_nozzle_1   - Work_table           20.3 mm
+  dz-50 Coolant_nozzle_2   - Work_table           20.3 mm
+  dz-50 Coolant_nozzle_1   - Spindle_body          5.0 mm
+  dz-50 Tool_D5            - Work_table            0.0 mm
+  nozzle tip to tool tip at home: 25.6 mm
