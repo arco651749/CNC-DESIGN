@@ -1,0 +1,2 @@
+cabinet top z=-150, top ring bottom z=-130, gap 20 mm
+interferences: 0

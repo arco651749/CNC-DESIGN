@@ -1,0 +1,124 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1020" height="770" viewBox="0 0 1020 770" font-family="Noto Sans CJK TC, sans-serif">
+<rect width="100%" height="100%" fill="#fff"/>
+<text x="70" y="30" font-size="20" font-weight="bold">電控箱安裝板佈置（880 × 480 mm 安裝板，箱體 940 × 540 × 250）</text>
+<text x="70" y="50" font-size="12" fill="#555">視角：開門正面。* 為估算尺寸，下單前以廠商圖面確認。灰條 = 35 mm DIN 軌，綠條 = 配線槽</text>
+<rect x="70" y="70" width="880" height="480" fill="#f2f2f2" stroke="#222" stroke-width="2"/>
+<rect x="80" y="80" width="860" height="18" fill="#cfe8cf" stroke="#6a6"/>
+<text x="84" y="93" font-size="10" fill="#363">duct</text>
+<rect x="80" y="146" width="860" height="9" fill="#999"/>
+<text x="62" y="196" font-size="10" fill="#555" transform="rotate(-90 62 196)">DIN 1  breakers + contactors + 24 V</text>
+<rect x="80" y="196" width="860" height="18" fill="#cfe8cf" stroke="#6a6"/>
+<text x="84" y="209" font-size="10" fill="#363">duct</text>
+<rect x="80" y="252" width="860" height="9" fill="#999"/>
+<text x="62" y="291" font-size="10" fill="#555" transform="rotate(-90 62 291)">DIN 2  relays + terminals</text>
+<rect x="80" y="291" width="860" height="18" fill="#cfe8cf" stroke="#6a6"/>
+<text x="84" y="304" font-size="10" fill="#363">duct</text>
+<text x="62" y="505" font-size="10" fill="#555" transform="rotate(-90 62 505)">plate  drives, VFD, filters, controller</text>
+<rect x="80" y="508" width="860" height="18" fill="#cfe8cf" stroke="#6a6"/>
+<rect x="80.0" y="105.0" width="50" height="91" fill="#e3b341" fill-opacity="0.85" stroke="#222"/>
+<text x="105.0" y="150.5" font-size="9" text-anchor="middle" font-weight="bold">QF1*</text>
+<text x="105.0" y="161.5" font-size="8" text-anchor="middle" fill="#222">50x91</text>
+<rect x="136.0" y="105.0" width="50" height="91" fill="#e3b341" fill-opacity="0.85" stroke="#222"/>
+<text x="161.0" y="150.5" font-size="9" text-anchor="middle" font-weight="bold">QF2X*</text>
+<text x="161.0" y="161.5" font-size="8" text-anchor="middle" fill="#222">50x91</text>
+<rect x="192.0" y="105.0" width="50" height="91" fill="#e3b341" fill-opacity="0.85" stroke="#222"/>
+<text x="217.0" y="150.5" font-size="9" text-anchor="middle" font-weight="bold">QF2Y*</text>
+<text x="217.0" y="161.5" font-size="8" text-anchor="middle" fill="#222">50x91</text>
+<rect x="248.0" y="105.0" width="50" height="91" fill="#e3b341" fill-opacity="0.85" stroke="#222"/>
+<text x="273.0" y="150.5" font-size="9" text-anchor="middle" font-weight="bold">QF2Z*</text>
+<text x="273.0" y="161.5" font-size="8" text-anchor="middle" fill="#222">50x91</text>
+<rect x="304.0" y="105.0" width="50" height="91" fill="#e3b341" fill-opacity="0.85" stroke="#222"/>
+<text x="329.0" y="150.5" font-size="9" text-anchor="middle" font-weight="bold">QF3*</text>
+<text x="329.0" y="161.5" font-size="8" text-anchor="middle" fill="#222">50x91</text>
+<rect x="360.0" y="105.0" width="50" height="91" fill="#e3b341" fill-opacity="0.85" stroke="#222"/>
+<text x="385.0" y="150.5" font-size="9" text-anchor="middle" font-weight="bold">QF4*</text>
+<text x="385.0" y="161.5" font-size="8" text-anchor="middle" fill="#222">50x91</text>
+<rect x="416.0" y="105.0" width="45" height="80" fill="#58a6ff" fill-opacity="0.85" stroke="#222"/>
+<text x="438.5" y="145.0" font-size="9" text-anchor="middle" font-weight="bold">KM1X*</text>
+<text x="438.5" y="156.0" font-size="8" text-anchor="middle" fill="#222">45x80</text>
+<rect x="467.0" y="105.0" width="45" height="80" fill="#58a6ff" fill-opacity="0.85" stroke="#222"/>
+<text x="489.5" y="145.0" font-size="9" text-anchor="middle" font-weight="bold">KM1Y*</text>
+<text x="489.5" y="156.0" font-size="8" text-anchor="middle" fill="#222">45x80</text>
+<rect x="518.0" y="105.0" width="45" height="80" fill="#58a6ff" fill-opacity="0.85" stroke="#222"/>
+<text x="540.5" y="145.0" font-size="9" text-anchor="middle" font-weight="bold">KM1Z*</text>
+<text x="540.5" y="156.0" font-size="8" text-anchor="middle" fill="#222">45x80</text>
+<rect x="569.0" y="105.0" width="25" height="55" fill="#8b949e" fill-opacity="0.85" stroke="#222"/>
+<text x="581.5" y="132.5" font-size="9" text-anchor="middle" font-weight="bold">DC1*</text>
+<text x="581.5" y="143.5" font-size="8" text-anchor="middle" fill="#222">25x55</text>
+<rect x="80.0" y="221.0" width="28" height="62" fill="#d2a8ff" fill-opacity="0.85" stroke="#222"/>
+<text x="94.0" y="252.0" font-size="9" text-anchor="middle" font-weight="bold">KA1*</text>
+<text x="94.0" y="263.0" font-size="8" text-anchor="middle" fill="#222">28x62</text>
+<rect x="114.0" y="221.0" width="28" height="62" fill="#d2a8ff" fill-opacity="0.85" stroke="#222"/>
+<text x="128.0" y="252.0" font-size="9" text-anchor="middle" font-weight="bold">KA2*</text>
+<text x="128.0" y="263.0" font-size="8" text-anchor="middle" fill="#222">28x62</text>
+<rect x="148.0" y="221.0" width="28" height="62" fill="#d2a8ff" fill-opacity="0.85" stroke="#222"/>
+<text x="162.0" y="252.0" font-size="9" text-anchor="middle" font-weight="bold">KA3*</text>
+<text x="162.0" y="263.0" font-size="8" text-anchor="middle" fill="#222">28x62</text>
+<rect x="182.0" y="221.0" width="28" height="62" fill="#d2a8ff" fill-opacity="0.85" stroke="#222"/>
+<text x="196.0" y="252.0" font-size="9" text-anchor="middle" font-weight="bold">KA4*</text>
+<text x="196.0" y="263.0" font-size="8" text-anchor="middle" fill="#222">28x62</text>
+<rect x="216.0" y="221.0" width="28" height="62" fill="#d2a8ff" fill-opacity="0.85" stroke="#222"/>
+<text x="230.0" y="252.0" font-size="9" text-anchor="middle" font-weight="bold">KA5*</text>
+<text x="230.0" y="263.0" font-size="8" text-anchor="middle" fill="#222">28x62</text>
+<rect x="250.0" y="221.0" width="28" height="62" fill="#d2a8ff" fill-opacity="0.85" stroke="#222"/>
+<text x="264.0" y="252.0" font-size="9" text-anchor="middle" font-weight="bold">KA6*</text>
+<text x="264.0" y="263.0" font-size="8" text-anchor="middle" fill="#222">28x62</text>
+<rect x="284.0" y="221.0" width="28" height="62" fill="#d2a8ff" fill-opacity="0.85" stroke="#222"/>
+<text x="298.0" y="252.0" font-size="9" text-anchor="middle" font-weight="bold">KA7*</text>
+<text x="298.0" y="263.0" font-size="8" text-anchor="middle" fill="#222">28x62</text>
+<rect x="318.0" y="221.0" width="125" height="70" fill="#ffa657" fill-opacity="0.85" stroke="#222"/>
+<text x="380.5" y="256.0" font-size="11" text-anchor="middle" font-weight="bold">TBX*</text>
+<text x="380.5" y="267.0" font-size="8" text-anchor="middle" fill="#222">125x70</text>
+<rect x="449.0" y="221.0" width="125" height="70" fill="#ffa657" fill-opacity="0.85" stroke="#222"/>
+<text x="511.5" y="256.0" font-size="11" text-anchor="middle" font-weight="bold">TBY*</text>
+<text x="511.5" y="267.0" font-size="8" text-anchor="middle" fill="#222">125x70</text>
+<rect x="580.0" y="221.0" width="125" height="70" fill="#ffa657" fill-opacity="0.85" stroke="#222"/>
+<text x="642.5" y="256.0" font-size="11" text-anchor="middle" font-weight="bold">TBZ*</text>
+<text x="642.5" y="267.0" font-size="8" text-anchor="middle" fill="#222">125x70</text>
+<rect x="711.0" y="221.0" width="150" height="45" fill="#ffa657" fill-opacity="0.85" stroke="#222"/>
+<text x="786.0" y="243.5" font-size="11" text-anchor="middle" font-weight="bold">X1*</text>
+<text x="786.0" y="254.5" font-size="8" text-anchor="middle" fill="#222">150x45</text>
+<rect x="80.0" y="331.0" width="58" height="114" fill="#79c0ff" fill-opacity="0.85" stroke="#222"/>
+<text x="109.0" y="388.0" font-size="9" text-anchor="middle" font-weight="bold">FL2X*</text>
+<text x="109.0" y="399.0" font-size="8" text-anchor="middle" fill="#222">58x114</text>
+<rect x="144.0" y="331.0" width="58" height="114" fill="#79c0ff" fill-opacity="0.85" stroke="#222"/>
+<text x="173.0" y="388.0" font-size="9" text-anchor="middle" font-weight="bold">FL2Y*</text>
+<text x="173.0" y="399.0" font-size="8" text-anchor="middle" fill="#222">58x114</text>
+<rect x="208.0" y="331.0" width="58" height="114" fill="#79c0ff" fill-opacity="0.85" stroke="#222"/>
+<text x="237.0" y="388.0" font-size="9" text-anchor="middle" font-weight="bold">FL2Z*</text>
+<text x="237.0" y="399.0" font-size="8" text-anchor="middle" fill="#222">58x114</text>
+<rect x="272.0" y="331.0" width="50" height="168" fill="#f85149" fill-opacity="0.85" stroke="#222"/>
+<text x="297.0" y="415.0" font-size="9" text-anchor="middle" font-weight="bold">SVX</text>
+<text x="297.0" y="426.0" font-size="8" text-anchor="middle" fill="#222">50x168</text>
+<rect x="334.0" y="331.0" width="50" height="168" fill="#f85149" fill-opacity="0.85" stroke="#222"/>
+<text x="359.0" y="415.0" font-size="9" text-anchor="middle" font-weight="bold">SVY</text>
+<text x="359.0" y="426.0" font-size="8" text-anchor="middle" fill="#222">50x168</text>
+<rect x="396.0" y="331.0" width="50" height="168" fill="#f85149" fill-opacity="0.85" stroke="#222"/>
+<text x="421.0" y="415.0" font-size="9" text-anchor="middle" font-weight="bold">SVZ</text>
+<text x="421.0" y="426.0" font-size="8" text-anchor="middle" fill="#222">50x168</text>
+<rect x="458.0" y="331.0" width="72" height="174" fill="#ff7b72" fill-opacity="0.85" stroke="#222"/>
+<text x="494.0" y="418.0" font-size="11" text-anchor="middle" font-weight="bold">VFD*</text>
+<text x="494.0" y="429.0" font-size="8" text-anchor="middle" fill="#222">72x174</text>
+<rect x="536.0" y="331.0" width="63" height="125" fill="#3fb950" fill-opacity="0.85" stroke="#222"/>
+<text x="567.5" y="393.5" font-size="11" text-anchor="middle" font-weight="bold">PSU1*</text>
+<text x="567.5" y="404.5" font-size="8" text-anchor="middle" fill="#222">63x125</text>
+<rect x="605.0" y="331.0" width="63" height="125" fill="#3fb950" fill-opacity="0.85" stroke="#222"/>
+<text x="636.5" y="393.5" font-size="11" text-anchor="middle" font-weight="bold">PSU3*</text>
+<text x="636.5" y="404.5" font-size="8" text-anchor="middle" fill="#222">63x125</text>
+<rect x="674.0" y="331.0" width="53" height="125" fill="#3fb950" fill-opacity="0.85" stroke="#222"/>
+<text x="700.5" y="393.5" font-size="9" text-anchor="middle" font-weight="bold">PSU2*</text>
+<text x="700.5" y="404.5" font-size="8" text-anchor="middle" fill="#222">53x125</text>
+<rect x="733.0" y="331.0" width="160" height="100" fill="#56d364" fill-opacity="0.85" stroke="#222"/>
+<text x="813.0" y="381.0" font-size="11" text-anchor="middle" font-weight="bold">BD*</text>
+<text x="813.0" y="392.0" font-size="8" text-anchor="middle" fill="#222">160x100</text>
+<text x="510" y="568" font-size="12" text-anchor="middle">880</text><line x1="70" y1="558" x2="950" y2="558" stroke="#222"/>
+<text x="70" y="590" font-size="11" fill="#333" font-family="monospace">R1 DIN 1  breakers + contactors + 24 V           width used  514 / 860   height  91</text>
+<text x="70" y="604" font-size="11" fill="#333" font-family="monospace">R2 DIN 2  relays + terminals                     width used  781 / 860   height  70</text>
+<text x="70" y="618" font-size="11" fill="#333" font-family="monospace">R3 plate  drives, VFD, filters, controller       width used  813 / 860   height 174</text>
+<text x="70" y="632" font-size="11" fill="#333" font-family="monospace">total plate height used 470 / 480</text>
+<text x="70" y="646" font-size="11" fill="#333" font-family="monospace">SVX clearance above 40 mm, below 51 mm to plate edge (manual: 40 mm)</text>
+<text x="70" y="660" font-size="11" fill="#333" font-family="monospace">SVY clearance above 40 mm, below 51 mm to plate edge (manual: 40 mm)</text>
+<text x="70" y="674" font-size="11" fill="#333" font-family="monospace">SVZ clearance above 40 mm, below 51 mm to plate edge (manual: 40 mm)</text>
+<text x="70" y="688" font-size="11" fill="#333" font-family="monospace"></text>
+<text x="70" y="702" font-size="11" fill="#333" font-family="monospace">* = 估算尺寸（approx）。M = 三菱手冊值（MR-J4-40A 50×168×135）</text>
+</svg>

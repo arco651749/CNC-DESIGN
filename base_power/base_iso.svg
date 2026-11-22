@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1143" height="1016" viewBox="0 0 1143 1016" font-family="Noto Sans CJK TC, sans-serif"><rect width="100%" height="100%" fill="#fff"/>
+<text x="20" y="28" font-size="18" font-weight="bold">底座 + 電控箱（等角視圖，右前上方）</text>
+<polygon points="559.8,453.9 594.9,470.4 629.9,453.9 594.9,437.4" fill="#444444" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<polygon points="559.8,462.1 594.9,478.6 594.9,470.4 559.8,453.9" fill="#363636" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<polygon points="594.9,478.6 629.9,462.1 629.9,453.9 594.9,470.4" fill="#2a2a2a" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<polygon points="577.3,100.8 594.9,109.0 612.4,100.8 594.9,92.6" fill="#b8bcc4" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<polygon points="577.3,429.3 594.9,437.5 594.9,109.0 577.3,100.8" fill="#93969c" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<polygon points="594.9,437.5 612.4,429.3 612.4,100.8 594.9,109.0" fill="#727479" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<polygon points="331.8,560.9 366.9,577.4 402.0,560.9 366.9,544.5" fill="#444444" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<polygon points="331.8,569.1 366.9,585.6 366.9,577.4 331.8,560.9" fill="#363636" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<polygon points="366.9,585.6 402.0,569.1 402.0,560.9 366.9,577.4" fill="#2a2a2a" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<polygon points="349.3,207.8 366.9,216.1 384.4,207.8 366.9,199.6" fill="#b8bcc4" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<polygon points="349.3,536.3 366.9,544.5 366.9,216.1 349.3,207.8" fill="#93969c" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<polygon points="366.9,544.5 384.4,536.3 384.4,207.8 366.9,216.1" fill="#727479" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<polygon points="577.3,78.9 1048.6,300.2 1066.1,291.9 594.9,70.7" fill="#b8bcc4" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<polygon points="577.3,100.8 1048.6,322.1 1048.6,300.2 577.3,78.9" fill="#93969c" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<polygon points="1048.6,322.1 1066.1,313.8 1066.1,291.9 1048.6,300.2" fill="#727479" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<polygon points="95.1,633.8 112.6,642.0 594.9,415.6 577.3,407.4" fill="#b8bcc4" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<polygon points="95.1,655.7 112.6,663.9 112.6,642.0 95.1,633.8" fill="#93969c" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<polygon points="112.6,663.9 594.9,437.5 594.9,415.6 112.6,642.0" fill="#727479" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<polygon points="95.1,305.3 112.6,313.5 594.9,87.1 577.3,78.9" fill="#b8bcc4" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<polygon points="95.1,327.2 112.6,335.4 112.6,313.5 95.1,305.3" fill="#93969c" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<polygon points="112.6,335.4 594.9,109.0 594.9,87.1 112.6,313.5" fill="#727479" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<polygon points="444.7,425.1 707.7,548.6 935.7,441.5 672.7,318.0" fill="#6e7681" fill-opacity="0.55" stroke="#222" stroke-width="0.6"/>
+<polygon points="444.7,589.3 707.7,712.8 707.7,548.6 444.7,425.1" fill="#585e67" fill-opacity="0.55" stroke="#222" stroke-width="0.6"/>
+<polygon points="707.7,712.8 935.7,605.8 935.7,441.5 707.7,548.6" fill="#44494f" fill-opacity="0.55" stroke="#222" stroke-width="0.6"/>
+<text x="690.2" y="425.3" font-size="12" font-weight="bold" fill="#000">coolant tank</text>
+<polygon points="423.0,167.8 859.2,372.6 876.8,364.4 440.5,159.6" fill="#b8bcc4" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<polygon points="423.0,189.7 859.2,394.5 859.2,372.6 423.0,167.8" fill="#93969c" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<polygon points="859.2,394.5 876.8,386.3 876.8,364.4 859.2,372.6" fill="#727479" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<polygon points="1013.5,666.9 1048.6,683.4 1083.7,666.9 1048.6,650.5" fill="#444444" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<polygon points="1013.5,675.1 1048.6,691.6 1048.6,683.4 1013.5,666.9" fill="#363636" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<polygon points="1048.6,691.6 1083.7,675.1 1083.7,666.9 1048.6,683.4" fill="#2a2a2a" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<polygon points="1031.1,313.8 1048.6,322.1 1066.1,313.8 1048.6,305.6" fill="#b8bcc4" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<polygon points="1031.1,642.3 1048.6,650.5 1048.6,322.1 1031.1,313.8" fill="#93969c" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<polygon points="1048.6,650.5 1066.1,642.3 1066.1,313.8 1048.6,322.1" fill="#727479" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<polygon points="81.9,310.8 548.8,530.0 1061.8,289.2 594.9,70.0" fill="#7d8590" fill-opacity="0.50" stroke="#222" stroke-width="0.6"/>
+<polygon points="81.9,313.5 548.8,532.7 548.8,530.0 81.9,310.8" fill="#646a73" fill-opacity="0.50" stroke="#222" stroke-width="0.6"/>
+<polygon points="548.8,532.7 1061.8,291.9 1061.8,289.2 548.8,530.0" fill="#4d5259" fill-opacity="0.50" stroke="#222" stroke-width="0.6"/>
+<polygon points="208.0,229.5 576.2,402.4 905.0,248.0 536.8,75.2" fill="#58a6ff" fill-opacity="0.18" stroke="#222" stroke-width="0.6"/>
+<polygon points="208.0,297.9 576.2,470.8 576.2,402.4 208.0,229.5" fill="#4684cc" fill-opacity="0.18" stroke="#222" stroke-width="0.6"/>
+<polygon points="576.2,470.8 905.0,316.5 905.0,248.0 576.2,402.4" fill="#36669e" fill-opacity="0.18" stroke="#222" stroke-width="0.6"/>
+<text x="556.5" y="230.8" font-size="12" font-weight="bold" fill="#000">machine (mechanical session)</text>
+<polygon points="60.0,688.5 95.1,705.0 130.1,688.5 95.1,672.1" fill="#444444" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<polygon points="60.0,696.7 95.1,713.2 95.1,705.0 60.0,688.5" fill="#363636" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<polygon points="95.1,713.2 130.1,696.7 130.1,688.5 95.1,705.0" fill="#2a2a2a" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<polygon points="77.5,335.4 95.1,343.7 112.6,335.4 95.1,327.2" fill="#b8bcc4" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<polygon points="77.5,663.9 95.1,672.1 95.1,343.7 77.5,335.4" fill="#93969c" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<polygon points="95.1,672.1 112.6,663.9 112.6,335.4 95.1,343.7" fill="#727479" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<polygon points="296.7,227.1 733.0,431.9 750.5,423.7 314.3,218.9" fill="#b8bcc4" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<polygon points="296.7,249.0 733.0,453.8 733.0,431.9 296.7,227.1" fill="#93969c" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<polygon points="733.0,453.8 750.5,445.6 750.5,423.7 733.0,431.9" fill="#727479" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<polygon points="204.7,598.8 640.9,803.6 658.4,795.3 222.2,590.5" fill="#d29922" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<polygon points="204.7,620.7 640.9,825.5 640.9,803.6 204.7,598.8" fill="#a87a1b" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<polygon points="640.9,825.5 658.4,817.2 658.4,795.3 640.9,803.6" fill="#825e15" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<text x="431.5" y="689.1" font-size="12" font-weight="bold" fill="#000">cross rail</text>
+<polygon points="133.4,347.9 545.5,541.4 655.1,490.0 243.0,296.5" fill="#cfd8dc" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<polygon points="133.4,643.5 545.5,837.0 545.5,541.4 133.4,347.9" fill="#a5acb0" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<polygon points="545.5,837.0 655.1,785.6 655.1,490.0 545.5,541.4" fill="#808588" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<text x="394.3" y="410.9" font-size="12" font-weight="bold" fill="#000">electrical cabinet</text>
+<polygon points="785.6,773.9 820.6,790.4 855.7,773.9 820.6,757.5" fill="#444444" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<polygon points="785.6,782.2 820.6,798.6 820.6,790.4 785.6,773.9" fill="#363636" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<polygon points="820.6,798.6 855.7,782.2 855.7,773.9 820.6,790.4" fill="#2a2a2a" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<polygon points="803.1,420.9 820.6,429.1 838.2,420.9 820.6,412.6" fill="#b8bcc4" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<polygon points="803.1,749.3 820.6,757.5 820.6,429.1 803.1,420.9" fill="#93969c" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<polygon points="820.6,757.5 838.2,749.3 838.2,420.9 820.6,429.1" fill="#727479" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<polygon points="130.1,633.8 566.4,838.6 583.9,830.3 147.7,625.5" fill="#d29922" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<polygon points="130.1,655.7 566.4,860.5 566.4,838.6 130.1,633.8" fill="#a87a1b" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<polygon points="566.4,860.5 583.9,852.2 583.9,830.3 566.4,838.6" fill="#825e15" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<text x="357.0" y="724.0" font-size="12" font-weight="bold" fill="#000">cross rail</text>
+<polygon points="548.8,846.8 566.4,855.0 1048.6,628.6 1031.1,620.4" fill="#b8bcc4" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<polygon points="548.8,868.7 566.4,876.9 566.4,855.0 548.8,846.8" fill="#93969c" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<polygon points="566.4,876.9 1048.6,650.5 1048.6,628.6 566.4,855.0" fill="#727479" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<polygon points="548.8,518.3 566.4,526.6 1048.6,300.2 1031.1,291.9" fill="#b8bcc4" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<polygon points="548.8,540.2 566.4,548.5 566.4,526.6 548.8,518.3" fill="#93969c" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<polygon points="566.4,548.5 1048.6,322.1 1048.6,300.2 566.4,526.6" fill="#727479" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<polygon points="77.5,313.5 548.8,534.8 566.4,526.6 95.1,305.3" fill="#b8bcc4" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<polygon points="77.5,335.4 548.8,556.7 548.8,534.8 77.5,313.5" fill="#93969c" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<polygon points="548.8,556.7 566.4,548.5 566.4,526.6 548.8,534.8" fill="#727479" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<polygon points="513.8,901.6 548.8,918.0 583.9,901.6 548.8,885.1" fill="#444444" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<polygon points="513.8,909.8 548.8,926.2 548.8,918.0 513.8,901.6" fill="#363636" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<polygon points="548.8,926.2 583.9,909.8 583.9,901.6 548.8,918.0" fill="#2a2a2a" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<polygon points="531.3,548.5 548.8,556.7 566.4,548.5 548.8,540.2" fill="#b8bcc4" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<polygon points="531.3,876.9 548.8,885.2 548.8,556.7 531.3,548.5" fill="#93969c" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<polygon points="548.8,885.2 566.4,876.9 566.4,548.5 548.8,556.7" fill="#727479" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+</svg>
