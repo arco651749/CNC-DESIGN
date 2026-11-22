@@ -189,7 +189,7 @@ SB = (0, 366)                                                 # pivot (RBPB8 in 
 BOLTS = [(-50, 305), (42, 305), (-50, 490), (50, 490)]        # shim bolts spread 185 apart (v13 review: 35 was too short for nod), front access
 SCREWS = [('TC', 0, 490), ('BL', -103, 330), ('BR', 103, 330)]  # differential face screws: outside the camera and the probe
 CAMB = [(CX - 10, 305), (CX + 6, 305)]                        # camera bracket: 2 x M5 low-head from the plate back
-PRB = [(66, 300), (89, 300), (66, 350), (89, 350)]           # probe bracket: 4 x M5 low-head from the plate back
+PRB = [(78, 300), (78, 360), (56, 330), (56, 375)]           # probe bracket: 4 x M5 low-head from the plate back (clear of the slide screws)
 pl = fuse(box(-78, 78, 20, 32, 319, 500), box(-108, 108, 20, 32, 288, 465))
 for x, zz in BOLTS: pl = pl.cut(cyl('y', 3.5, 20, 32, x, zz))
 for _, x, zz in SCREWS: pl = pl.cut(cyl('y', 4, 20, 32, x, zz))
@@ -332,23 +332,24 @@ add('Probe_body', pb, gp, 'touch probe XUNKUANER (Amazon ASIN B0FWXWX7CT): shank
     'Ball retracted level with the spindle body bottom (tool tip + 41), extended 19 below the tool tip', 'z', 'probe')
 # SMC MXH2 10-60 compact slide (MXH2 catalog p.13, bore 10; replaces MXH-Z, discontinued end of March 2027): section 20 wide x 46 high (table
 # 6.5), body 35 + stroke = 95 long, overall 46.5 + stroke, table LT 104 x 19 with 6 x M4 taps, body side through-taps 2 x 3 x M5, ports M5. Mounted on its SIDE (lateral):
-# the 20 width along Y on the bracket, the 46 height along X with the table facing +X, length vertical; the table + rod-end plate move
+# the 20 width along Y on the bracket, the 46 height along X with the table facing -X (spindle side) and the body bottom with the cylinder
+# ports facing +X (room for the fittings), length vertical; the table + rod-end plate move
 # down 60 to extend the probe. The probe hangs under the rod-end plate (front mounting face, 4 x M4 depth 7.5, rows 11 x 18) on a small clamp
 # block: the probe force goes straight along the stroke into the plate, no lever arm.
 T0 = BB0 + 42                                                   # rod-end plate bottom face (retracted): the probe shank (top BB0+41) just below it
 XB, XT = 48.5, 94.5                                             # slide body bottom face / table top face (x)
 YS0, YS1 = -8.0, 12.0                                           # slide width along Y (back on the bracket front y 12)
 ZB0, ZB1 = T0 + 7.5, T0 + 7.5 + 95.0                             # body (fixed)
-add('Probe_slide_body', box(XB, XT - 6.5, YS0, YS1, ZB0, ZB1), gp,
+add('Probe_slide_body', box(XB + 6.5, XT, YS0, YS1, ZB0, ZB1), gp,
     'SMC MXH2 10-60-M9NW compact slide, bore 10, stroke 60 (catalog: section 20 x 46, body 95, overall 106.5 retracted, table 104 x 19); '
-    'mounted on its side (6 x M5 into the body side taps from the bracket back); extended = end of stroke (rubber bumper), the probe height is set '
+    'mounted on its side, table toward the spindle, ports outward (6 x M5 into the body side taps from the bracket back); extended = end of stroke (rubber bumper), the probe height is set '
     'in the shank clamp; 5/2 single-solenoid valve, spring return = retract on power loss', 'z', 'probe')
-add('Probe_slide_table', fuse(box(XT - 6.5, XT, YS0 + 0.5, YS1 - 0.5, T0, T0 + 104), box(XB, XT, YS0, YS1, T0, T0 + 7.5)), gp,
+add('Probe_slide_table', fuse(box(XB, XB + 6.5, YS0 + 0.5, YS1 - 0.5, T0, T0 + 104), box(XB, XT, YS0, YS1, T0, T0 + 7.5)), gp,
     'MXH2 10 table + rod-end plate (moves 60 down to extend the probe); the probe hangs under the rod-end plate (4 x M4)', 'z', 'probe')
 for k, zz in enumerate((ZB1 - 32, ZB1 - 14), 1):
-    add('Probe_reed_%d' % k, box(XB + 8, XB + 26, YS0 - 2.5, YS0, zz - 6, zz + 6), gp,
+    add('Probe_reed_%d' % k, box(XT - 26, XT - 8, YS0 - 2.5, YS0, zz - 6, zz + 6), gp,
         ('auto switch D-M9 (retracted): spindle enable + feed hold interlock' if k == 2 else 'auto switch D-M9 (extended)'), 'z', 'probe')
-    add('Probe_air_fitting_%d' % k, cyl('z', 2.5, ZB1, ZB1 + 9, XB + 11 + 16 * (k - 1), 2), gp, 'M5 push-in fitting for D4 tube (head end of the slide)', 'z', 'probe')
+    add('Probe_air_fitting_%d' % k, cyl('z', 2.5, ZB1, ZB1 + 9, XT - 7, 2 - 6.5 + 13 * (k - 1)), gp, 'M5 push-in fitting for D4 tube (head-end ports, body-bottom side = +X, outward)', 'z', 'probe')
 br = box(XB, 96.0, 12, 20, ZB0 - 6, ZB1 + 6)
 add('Probe_bracket', br, gp, 'probe slide bracket (CNC, 6061) t8 on the module plate (4 x M5 low-head from the plate back); the MXH2 on its front '
     '(6 x M5 low-head from the back into the slide body side taps)', 'z', 'probe')
@@ -357,7 +358,7 @@ for i_, (x, zz) in enumerate(PRB, 1):
     add('Probe_bracket_bolt_%d' % i_, fuse(cyl('y', 4.25, 28.5, 32, x, zz), cyl('y', 2.5, 12.5, 28.5, x, zz)), gp,
         'M5x16 low-head (DIN 7984) from the module plate back into the bracket (M5 tap thru, tip 0.5 below the front); fitted on the bench', 'z', 'fasten')
 k_ = 0
-for x in (XB + 5, XB + 28):                                      # MXH body side taps: rows 5 / 28 from the body bottom, 3 along the length
+for x in (XT - 5, XT - 28):                                      # MXH body side taps: rows 5 / 28 from the body bottom (+X), 3 along the length
     for zz in (ZB0 + 12, ZB0 + 47.5, ZB0 + 83):
         k_ += 1
         cut('Probe_bracket', cyl('y', 2.75, 12, 16.5, x, zz), cyl('y', 4.75, 16.5, 20, x, zz))
@@ -365,7 +366,7 @@ for x in (XB + 5, XB + 28):                                      # MXH body side
         add('Probe_slide_bolt_%d' % k_, fuse(cyl('y', 4.25, 16.5, 20, x, zz), cyl('y', 2.5, 4.5, 16.5, x, zz)), gp,
             'M5x12 low-head (DIN 7984) from the bracket back into the MXH2 body side tap', 'z', 'fasten')
 HT = 14.0                                                       # clamp block height
-EPH = [(XT - 21.5, 2 - 5.5), (XT - 21.5, 2 + 5.5), (XT - 39.5, 2 - 5.5), (XT - 39.5, 2 + 5.5)]   # end-plate taps (catalog end view)
+EPH = [(XB + 21.5, 2 - 5.5), (XB + 21.5, 2 + 5.5), (XB + 39.5, 2 - 5.5), (XB + 39.5, 2 + 5.5)]   # end-plate taps (rows from the table side)
 hd = box(XB + 2, PX + 17, SY - 18, YS1, T0 - HT, T0)            # clamp block under the rod-end plate
 hd = hd.cut(cyl('z', 3.0, T0 - HT, T0, PX, SY)).cut(box(PX - 0.5, PX + 0.5, SY - 18, SY, T0 - HT, T0))      # D6 H7 bore + slit
 hd = hd.cut(cyl('x', 2.25, PX + 0.5, PX + 17, SY - 10, T0 - HT / 2)).cut(cyl('x', 2.0, PX - 6, PX - 0.5, SY - 10, T0 - HT / 2))   # pinch from +X (head outside)
