@@ -54,6 +54,7 @@ for g in doc.Objects:
 def category(o, spec):
     n = o.Label
     if n in PURCHASE: return '外購件'
+    if n == 'Probe_slide_table': return '外購件（含於 MXH10-60Z，不另購）'
     if 'epoxy' in n.lower(): return '環氧樹脂（現場灌注）'
     if n in DXF_PARTS or re.sub(r'_\d+$', '', n) in DXF_PARTS: return '自製 CNC 件（見 DXF）'
     if re.search(r'(bolt|screw|_pin|dowel|stud|jack|_nut$|shim)', n, re.I) and not re.search(r'(ballscrew|ball_nut)', n): return '標準件 / 螺絲銷'
