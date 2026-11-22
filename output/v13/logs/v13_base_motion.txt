@@ -1,4 +1,4 @@
-parts: 470   motion classes: static 208 / y 50 / x 102 / z 110
+parts: 494   motion classes: static 232 / y 50 / x 102 / z 110
 
 DESIGN CONTACTS AT HOME (overlap > 1 mm3, review): 10
   Coolant_hose_1 x Coolant_hose_2 : 288 mm3
