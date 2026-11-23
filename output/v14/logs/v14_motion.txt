@@ -1,4 +1,4 @@
-parts: 386   motion classes: static 136 / y 50 / x 102 / z 98
+parts: 391   motion classes: static 136 / y 50 / x 102 / z 103
 
 DESIGN CONTACTS AT HOME (overlap > 1 mm3, review): 5
   X_ball_nut x X_nut_bracket : 19 mm3
@@ -25,27 +25,27 @@ CLEARANCES:
   home  Spindle_clamp          - Z_slide_plate            14.0 mm
   home  Spindle_clamp          - Spindle_plug              2.0 mm
   home  Spindle_roll_block_R   - Spindle_clamp            69.0 mm
-  home  Z_face_screw_R         - Z_motor_plate            23.5 mm
+  home  Z_face_screw_R         - Z_motor_plate             3.5 mm
   home  Tool_D5                - Work_table               45.0 mm
   home  ER11_nut               - Work_table               67.0 mm
   dx-182 X_saddle_plate         - Gantry_column_L          10.0 mm
   dx-182 X_saddle_plate         - Gantry_column_R         375.0 mm
   dx-182 Z_roll_screw_L         - Gantry_column_L         184.5 mm
-  dx-182 Z_roll_screw_R         - Gantry_column_R         392.4 mm
-  dx-182 Spindle_roll_screw_R   - Gantry_column_R         391.0 mm
-  dx-182 Spindle_roll_screw_L   - Gantry_column_L          26.0 mm
+  dx-182 Z_roll_screw_R         - Gantry_column_R         410.1 mm
+  dx-182 Spindle_roll_screw_R   - Gantry_column_R         411.0 mm
+  dx-182 Spindle_roll_screw_L   - Gantry_column_L          46.0 mm
   dx+182 X_saddle_plate         - Gantry_column_L         375.0 mm
   dx+182 X_saddle_plate         - Gantry_column_R          10.0 mm
-  dx+182 Z_roll_screw_L         - Gantry_column_L         392.4 mm
+  dx+182 Z_roll_screw_L         - Gantry_column_L         410.1 mm
   dx+182 Z_roll_screw_R         - Gantry_column_R         184.5 mm
-  dx+182 Spindle_roll_screw_R   - Gantry_column_R          26.0 mm
-  dx+182 Spindle_roll_screw_L   - Gantry_column_L         391.0 mm
+  dx+182 Spindle_roll_screw_R   - Gantry_column_R          46.0 mm
+  dx+182 Spindle_roll_screw_L   - Gantry_column_L         411.0 mm
   dz-50 Tool_D5                - Work_table                0.0 mm
   dz-50 Spindle_clamp          - Work_table              146.0 mm
-  dz-50 Spindle_roll_screw_R   - Z_support_fixed         188.2 mm
+  dz-50 Spindle_roll_screw_R   - Z_support_fixed         182.8 mm
   dz-50 Z_face_screw_R         - Z_slide_plate           199.8 mm
   dz+50 Tool_D5                - Work_table               95.0 mm
   dz+50 Spindle_clamp          - Work_table              246.0 mm
-  dz+50 Spindle_roll_screw_R   - Z_support_fixed         102.3 mm
+  dz+50 Spindle_roll_screw_R   - Z_support_fixed          92.2 mm
   dz+50 Z_face_screw_R         - Z_slide_plate           103.0 mm
   tool y -20.0 covers table y -170.0 .. 230.0
