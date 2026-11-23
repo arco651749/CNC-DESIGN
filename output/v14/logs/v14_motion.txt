@@ -1,8 +1,6 @@
 parts: 387   motion classes: static 136 / y 50 / x 102 / z 99
 
-DESIGN CONTACTS AT HOME (overlap > 1 mm3, review): 7
-  Probe_slide_body x Spindle_plug : 132 mm3
-  Probe_slide_table x Spindle_plug : 939 mm3
+DESIGN CONTACTS AT HOME (overlap > 1 mm3, review): 5
   X_ball_nut x X_nut_bracket : 19 mm3
   X_ballscrew x X_support_fixed : 137 mm3
   Y_ballscrew x Y_support_fixed : 137 mm3

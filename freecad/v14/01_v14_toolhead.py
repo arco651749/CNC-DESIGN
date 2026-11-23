@@ -322,10 +322,10 @@ CYH = [(XC - 7.78, ZCY + 7.78), (XC + 7.78, ZCY - 7.78)]   # CDQ2B12 through-hol
 for x_, z_ in CYH: mb = mb.cut(cyl('y', 1.5, MY - 83.5, MY - 77.5, x_, z_))           # 2 x M3 tapped through the end plate (t6)
 mb = mb.cut(box(MX - 10, MX + 10, MY - 10, MY + 10, ZB, BT))                         # prism window through the base
 MBB = [(SX, MY - 16), (SX, MY - 44)]                             # 2 x M6 low-head + T-nut, heads flush, off the beam band
-mb = mb.cut(box(MX + 10, SX + 15, MY - 9, MY + 9, BT - 4, BT))   # relief under the across beam (FOV 16.8 x 14 at 0.4x)
+mb = mb.cut(box(MX + 10, SX, MY - 9, MY + 9, TT.ZMax, BT))   # window under the across beam, through the base (fold 10, FOV 16.8 high: beam bottom 1.6 above the table)
 for x, y in MBB: mb = mb.cut(cyl('z', 3.3, TT.ZMax - 4, BT, x, y)).cut(cyl('z', 5.5, BT - 4, BT, x, y))
 add('Mirror_bracket', mb, gl, 'prism holder (CNC, steel t8, base ground): on the table T-slot x -130 at the rear-left corner (tenon key 14 h7, 2 x M6 low-head '
-    '+ T-nut, heads flush), prism centre x -195; window through the base (prism glued on the table top) and the left lip locate the 20 mm prism; station top 25 above the table', 'y', 'camera')
+    '+ T-nut, heads flush), prism centre x -195; window through the base (prism glued on the table top) and the left lip locate the 20 mm prism, a slot 18 wide through the base under the light path to the tool; station top 25 above the table', 'y', 'camera')
 for k, (x, y) in enumerate(MBB, 1):
     add('Mirror_bracket_bolt_%d' % k, fuse(cyl('z', 5, BT - 4, BT, x, y), cyl('z', 3, TT.ZMax - 14, BT - 4, x, y)), gl,
         'M6x20 low-head (DIN 7984) + T-nut (DIN 508, slot 14) into the table T-slot', 'y', 'fasten')

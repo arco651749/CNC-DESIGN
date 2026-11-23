@@ -1,13 +1,11 @@
 parts: 485   motion classes: static 228 / y 50 / x 102 / z 105
 
-DESIGN CONTACTS AT HOME (overlap > 1 mm3, review): 12
+DESIGN CONTACTS AT HOME (overlap > 1 mm3, review): 10
   Coolant_hose_1 x Coolant_hose_2 : 288 mm3
   Coolant_hose_2 x Coolant_hose_3 : 288 mm3
   Coolant_hose_3 x Coolant_hose_4 : 288 mm3
   Coolant_nozzle_1 x Coolant_nozzle_block_1 : 101 mm3
   Coolant_nozzle_2 x Coolant_nozzle_block_2 : 101 mm3
-  Probe_slide_body x Spindle_plug : 132 mm3
-  Probe_slide_table x Spindle_plug : 939 mm3
   X_ball_nut x X_nut_bracket : 19 mm3
   X_ballscrew x X_support_fixed : 137 mm3
   Y_ballscrew x Y_support_fixed : 137 mm3
