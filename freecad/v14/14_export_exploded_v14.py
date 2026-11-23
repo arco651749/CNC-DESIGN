@@ -25,11 +25,15 @@ CL = {'base': ('A 切削液底座（鋁擠、水盤、水箱）', (0, 0, -700), 
       'colR': ('龍門立柱（右）', (300, 0, -120), [0.55, 0.6, 0.66]),
       'xs': ('X 軸（底板、滑軌、螺桿、馬達）', (0, 380, 220), [0.3, 0.5, 0.75]),
       'elec': ('電控', (0, 650, 280), [0.3, 0.3, 0.32]),
-      'x': ('X 滑座＋Z 軸板', (0, 0, 260), [0.45, 0.62, 0.78]),
-      'z': ('Z 滑座', (0, -260, 360), [0.6, 0.72, 0.85]),
-      'head': ('工具頭模組板＋主軸', (0, -500, 380), [0.4, 0.45, 0.52]),
-      'cam': ('相機模組', (-220, -700, 380), [0.15, 0.6, 0.55]),
-      'probe': ('探針模組', (180, -820, 380), [0.85, 0.5, 0.1])}
+      'xblk': ('X 滑塊＋X 螺帽座', (0, 160, 260), [0.36, 0.52, 0.7]),
+      'saddle': ('X 滑座板（含 Z 軸板的滾動調整）', (0, 0, 260), [0.45, 0.62, 0.78]),
+      'zplate': ('Z 軸板（含夾緊、推頂、定位銷）', (0, -140, 260), [0.52, 0.68, 0.84]),
+      'zrail': ('Z 滑軌', (0, -240, 260), [0.4, 0.55, 0.72]),
+      'zdrive': ('Z 螺桿、支撐座、馬達座、馬達', (0, -140, 480), [0.3, 0.42, 0.58]),
+      'z': ('Z 滑座（滑塊、墊塊、螺帽座）', (0, -360, 260), [0.6, 0.72, 0.85]),
+      'head': ('工具頭模組板＋主軸', (0, -500, 260), [0.4, 0.45, 0.52]),
+      'cam': ('相機模組', (-220, -640, 260), [0.15, 0.6, 0.55]),
+      'probe': ('探針模組', (180, -760, 260), [0.85, 0.5, 0.1])}
 def cluster(o):
     n = o.Label; c = cls(o)
     if n.startswith('Guard_'): return 'guard'
@@ -41,7 +45,12 @@ def cluster(o):
         if n.startswith('Probe'): return 'probe'
         if n.startswith(('Spindle', 'ER11', 'Tool')): return 'head'
         return 'z'
-    if c == 'x': return 'x'
+    if c == 'x':
+        if n.startswith(('X_block', 'X_ball_nut', 'X_nut')): return 'xblk'
+        if n.startswith(('Z_rail',)): return 'zrail'
+        if n.startswith(('Z_ballscrew', 'Z_support', 'Z_coupling', 'Z_motor')): return 'zdrive'
+        if n.startswith(('X_carriage_plate', 'Z_clamp', 'Z_epoxy', 'Z_face_screw', 'Z_side_screw', 'Z_ref_pin', 'Z_ecc_pin', 'Z_pivot_pin')): return 'zplate'
+        return 'saddle'
     if n.startswith(('Servo_amp', 'Electrical')): return 'elec'
     if n.startswith(('Gantry_column', 'Column_foot', 'Foot_')): return 'colL' if o.Shape.BoundBox.Center.x < 0 else 'colR'
     b = o.Shape.BoundBox
