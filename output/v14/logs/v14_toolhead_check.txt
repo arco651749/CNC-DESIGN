@@ -4,9 +4,9 @@ CONTACTS AT HOME (tool-head parts): 2
 
 CLASHES OVER 64 POSES: 0
 TOOL / NOZZLE TIPS INTO THE TABLE OR THE PRISM STATION (allowed, like any fixture): 1
-  Mirror_bracket x Tool_D5 at (-182.5, -250, -50, 78.5)
+  Mirror_bracket x Tool_D5 at (-162.5, -250, -50, 157.1)
 PATH down   clear
-PATH across [('Mirror_bracket', 1764.0)]
+PATH across clear
 measuring pose X -162.5 table -248 Z -35: tool tip z 120.0 at x -130.0, prism fold (-195, 120) -> table at y -20; air path 120.0
   min gap Camera_lens        - prism parts (cover open) 40.2 mm
   min gap Camera_air_ring    - prism parts (cover open) 38.1 mm

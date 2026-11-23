@@ -15,7 +15,6 @@ DESIGN CONTACTS AT HOME (overlap > 1 mm3, review): 10
 COLLISIONS AT TRAVEL ENDS (new vs home): 0
 
 ALLOWED:
-  Mirror_bracket x Tool_D5 : [(-250, -182.5, -50, 79)]
   Tool_D5 x Work_table : [(-250, -182.5, -50, 98), (-250, 182.5, -50, 98), (150, -182.5, -50, 98), (150, 182.5, -50, 98)]
 
 CLEARANCES:
