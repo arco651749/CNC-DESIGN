@@ -1,4 +1,4 @@
-parts=460 size=18623286
+parts=459 size=18581281
 Datum_base_plate g='' r='' tris=29340
 Y_rail_L g='y' r='' tris=8600
 Y_block_L1 g='' r='' tris=34084
@@ -50,7 +50,7 @@ Spindle_plug g='z' r='' tris=12
 Spindle_nose g='z' r='' tris=500
 ER11_nut g='z' r='' tris=500
 Tool_D5 g='z' r='' tris=500
-Spindle_clamp g='z' r='' tris=9108
+Spindle_clamp g='z' r='' tris=8604
 Servo_amp_X g='' r='' tris=3138
 Servo_amp_Y g='' r='' tris=3138
 Servo_amp_Z g='' r='' tris=3138
@@ -353,7 +353,7 @@ Camera_lens g='z' r='' tris=18548
 Camera_CS_C_adapter g='z' r='' tris=1008
 Camera_body g='z' r='' tris=4032
 Camera_light_guide g='z' r='' tris=1508
-Camera_air_ring g='z' r='' tris=2540
+Camera_air_ring g='z' r='' tris=2550
 Camera_air_fitting g='z' r='' tris=5252
 Camera_air_tube g='z' r='' tris=500
 Camera_bracket g='z' r='' tris=3076
@@ -383,8 +383,7 @@ Probe_air_fitting_2 g='z' r='' tris=5252
 Probe_air_tube_2 g='z' r='' tris=500
 Probe_slide_bolt_1 g='z' r='' tris=1004
 Probe_slide_bolt_2 g='z' r='' tris=1004
-Probe_slide_bolt_3 g='z' r='' tris=1004
-Probe_holder g='z' r='' tris=5580
+Probe_holder g='z' r='' tris=3588
 Probe_pinch_bolt g='z' r='' tris=1004
 Probe_holder_bolt_1 g='z' r='' tris=1004
 Probe_holder_bolt_2 g='z' r='' tris=1004

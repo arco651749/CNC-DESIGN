@@ -33,7 +33,7 @@ RBPB8 座孔 Ø22 H7：外環 h6，用固持膠（Loctite 641）黏固，不壓�
 | Y_nut_bracket | 1 | 52 × 32 × 67.59 | 11 | 1 | — | Y nut housing (CNC): wraps the C-KBS1505 nut body, flange on |
 | X_motor_block | 1 | 38 × 67 × 76 | 9 | 1 | — | Z-style block in the 7 mm pocket of the X base plate REAR fa |
 | Y_motor_block | 1 | 120 × 38 × 95 | 9 | 1 | — | Z-style block: bolted UP into table underside 4xM6 (same fac |
-| Spindle_clamp | 1 | 96 × 83 × 74 | 14 | 3 | — | 6061 clamp block 96x83x74: bore D65 H7 at (x+32.5, y-20), re |
+| Spindle_clamp | 1 | 96 × 83 × 74 | 13 | 3 | — | 6061 clamp block 96x83x74: bore D65 H7 at (x+32.5, y-20), re |
 | Spindle_mount_plate | 1 | 216 × 12 × 212 | 16 | 2 | both faces ground | tool-head module plate, flat steel t12 (156 wide z 319..500  |
 | Base_riser_1 | 4 | 60 × 60 × 68.5 | 3 | 0 | — | steel riser 60x60x68.5 on the pan floor: M12 tap for the mac |
 | Yaw_push_block | 1 | 40 × 26 × 25 | 4 | 0 | — | steel block 40x26x25 on the datum plate in front of the RIGH |
@@ -43,6 +43,6 @@ RBPB8 座孔 Ø22 H7：外環 h6，用固持膠（Loctite 641）黏固，不壓�
 | Spindle_roll_block_L | 1 | 18 × 20 × 30 | 2 | 0 | — | steel block beside the top of the ear |
 | Spindle_roll_block_R | 1 | 18 × 20 × 30 | 2 | 0 | — | steel block beside the top of the ear |
 | Camera_bracket | 1 | 52 × 76 × 30 | 4 | 0 | — | camera bracket (CNC, 6061): flange on the module plate (2 x  |
-| Camera_air_ring | 1 | 51 × 55 × 10 | 2 | 0 | — | lens air ring (CNC, 6061) on the D45 lens nose, 2 x M3 set s |
+| Camera_air_ring | 1 | 55 × 51 × 10 | 2 | 0 | — | lens air ring (CNC, 6061) on the D45 lens nose, 2 x M3 set s |
 | Mirror_bracket | 1 | 118.5 × 101.5 × 29 | 4 | 0 | — | prism holder (CNC, steel t8, base ground): on the table T-sl |
-| Probe_holder | 1 | 44 × 50 × 52.5 | 6 | 1 | — | probe clamp block (CNC, 6061) 52 high under the MXH10 rod-en |
+| Probe_holder | 1 | 16 × 22 × 103.5 | 6 | 1 | — | probe plate (CNC, 6061 t8, 19 wide, 104 long) on the MXH10 t |
