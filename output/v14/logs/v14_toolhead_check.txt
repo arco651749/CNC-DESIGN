@@ -13,7 +13,7 @@ measuring pose X -162.5 table -248 Z -35: tool tip z 120.0 at x -130.0, prism fo
   min gap Camera_bracket     - prism parts (cover open) 95.5 mm
   min gap Spindle_body       - prism parts (cover open) 33.4 mm
   min gap ER11_nut           - prism parts (cover open) 24.0 mm
-  min gap Probe_body         - prism parts (cover open) 44.5 mm
+  min gap Probe_body         - prism parts (cover open) 30.6 mm
   min gap Coolant_nozzle_1   - prism parts (cover open) 30.0 mm
 PROBE retracted ball z 190.0, slide table z 296.5..395.5 (body 303.8..403.0), unexpected contacts: none
 PROBE extended  ball z 130.0, slide table z 236.5..335.5 (body 303.8..403.0), unexpected contacts: none
