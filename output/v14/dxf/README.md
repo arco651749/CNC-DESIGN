@@ -8,9 +8,9 @@
 - H7 孔：孔徑與公差上下限，孔位從左下兩邊標尺寸，位置公差 ±0.02（基準邊要加工成直角）；
 - 每組孔一條引線，寫規格（攻牙尺寸與牙距、給幾號螺絲的過孔、沉頭、深度、從哪一面）；
 - 研磨面在側視圖用紫色粗線加 GROUND 標出，並寫在註記欄；
-- 每個孔都有編號（A1、A2…），孔位表列出每個孔在該視圖的 X、Y（從左下角量）；
-- 圓弧、搪孔、半圓座標 R／直徑與圓心，口袋標大小與左下角位置；
-- 標題欄寫材質、表面處理、基準（A＝最大面，B／C＝各視圖下緣／左緣）與該零件的加工註記（例如成對加工）。
+- 只標外觀尺寸、精度孔（H7）、螺絲孔和研磨面；精度孔和螺絲孔有編號（A1、A2…），孔位表列出 X、Y（從該視圖左下角量）；
+- 研磨：只有 Y 軸滑台（Work_table）兩面研磨，其他零件只磨線軌安裝面；
+- 標題欄寫材質、表面處理與該零件的加工註記（例如成對加工）。
 
 標「ream at assembly」的孔在組裝調整後現場配鉸，不標孔位。
 
@@ -28,8 +28,8 @@ RBPB8 座孔 Ø22 H7：外環 h6，用固持膠（Loctite 641）黏固，不壓�
 | X_saddle_plate | 1 | 284 × 12 × 484 | 31 | 1 | rear face ground (X block face) | saddle, steel t12 with two ears above the columns: bolted to |
 | X_carriage_plate | 1 | 200 × 17 × 488 | 48 | 7 | front face ground (Z rail face) | Z plate, steel t17 200x488: Z rails, Z screw, Z motor plate. |
 | Z_slide_plate | 1 | 180 × 28 × 260 | 27 | 1 | rear face ground (spacer / Z block face) | steel t28, pocket for the Z nut; v13: 30 longer at the botto |
-| Z_spacer_L | 1 | 50 × 14 × 230 | 8 | 0 | both faces ground | steel spacer bar t14 |
-| Z_spacer_R | 1 | 50 × 14 × 230 | 8 | 0 | both faces ground | steel spacer bar t14 |
+| Z_spacer_L | 1 | 50 × 14 × 230 | 8 | 0 | Z block face ground | steel spacer bar t14 |
+| Z_spacer_R | 1 | 50 × 14 × 230 | 8 | 0 | Z block face ground | steel spacer bar t14 |
 | Z_motor_plate | 1 | 120 × 90 × 38 | 9 | 1 | — | block 120x90x38: front part bolted to carriage FRONT face wi |
 | Z_nut_housing | 1 | 52 × 45.6 × 32 | 11 | 1 | — | Z nut housing (CNC, steel) 52 x 45.6 x 32 = the nut flange o |
 | X_nut_bracket | 1 | 37 × 95.6 × 52 | 11 | 1 | — | nut housing (CNC): wraps the C-KBS1505 nut body, flange bolt |
@@ -37,7 +37,7 @@ RBPB8 座孔 Ø22 H7：外環 h6，用固持膠（Loctite 641）黏固，不壓�
 | X_motor_block | 1 | 38 × 67 × 76 | 9 | 1 | — | Z-style block in the 7 mm pocket of the X base plate REAR fa |
 | Y_motor_block | 1 | 120 × 38 × 95 | 9 | 1 | — | Z-style block: bolted UP into table underside 4xM6 (same fac |
 | Spindle_clamp | 1 | 96 × 83 × 74 | 13 | 3 | — | 6061 clamp block 96x83x74: bore D65 H7 at (x+32.5, y-20), re |
-| Spindle_mount_plate | 1 | 176 × 12 × 212 | 16 | 2 | both faces ground | tool-head module plate, flat steel t12 (116 wide z 288..500  |
+| Spindle_mount_plate | 1 | 176 × 12 × 212 | 16 | 2 | — | tool-head module plate, flat steel t12 (116 wide z 288..500  |
 | Base_riser_1 | 4 | 60 × 60 × 68.5 | 3 | 0 | — | steel riser 60x60x68.5 on the pan floor: M12 tap for the mac |
 | Yaw_push_block | 1 | 40 × 26 × 25 | 4 | 0 | — | steel block 40x26x25 on the datum plate in front of the RIGH |
 | X_roll_bracket | 1 | 60 × 24 × 32 | 3 | 0 | — | steel block 60x24x32 on the right column rear face (T-slots) |

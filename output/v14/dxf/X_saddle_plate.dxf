@@ -489,7 +489,7 @@ $SKPOLY
   9
 $TDCREATE
  40
-2461368.4222569442
+2461368.4278587964
   9
 $TDUCREATE
  40
@@ -497,7 +497,7 @@ $TDUCREATE
   9
 $TDUPDATE
  40
-2461368.4222569442
+2461368.4278587964
   9
 $TDUUPDATE
  40
@@ -549,7 +549,7 @@ $SPLINESEGS
   9
 $HANDSEED
   5
-1C5
+1C0
   9
 $SURFTAB1
  70
@@ -929,11 +929,11 @@ $PSTYLEMODE
   9
 $FINGERPRINTGUID
   2
-{9293A5A4-CC2F-4AA8-88EA-4A84C7340B88}
+{79B3F784-6E7D-44ED-AB29-C128E56E3FAB}
   9
 $VERSIONGUID
   2
-{24E20E21-9994-49D2-B3E8-668589AD71DE}
+{44839C49-B7FC-43A6-9121-BA9932C1A75A}
   9
 $EXTNAMES
 290
@@ -1323,9 +1323,9 @@ ISM
   0
 CLASS
   1
-ACDBPLACEHOLDER
+LAYOUT
   2
-AcDbPlaceHolder
+AcDbLayout
   3
 ObjectDBX Classes
  90
@@ -1339,9 +1339,9 @@ ObjectDBX Classes
   0
 CLASS
   1
-LAYOUT
+ACDBPLACEHOLDER
   2
-AcDbLayout
+AcDbPlaceHolder
   3
 ObjectDBX Classes
  90
@@ -3301,7 +3301,7 @@ ACAD
   0
 APPID
   5
-1C2
+1BD
 330
 3
 100
@@ -3315,7 +3315,7 @@ HATCHBACKGROUNDCOLOR
   0
 APPID
   5
-1C3
+1BE
 330
 3
 100
@@ -8005,7 +8005,7 @@ AcDbText
  40
 3.5
   1
-A1
+A
  11
 96.5625
  21
@@ -8203,7 +8203,7 @@ AcDbText
  40
 3.5
   1
-A2
+A
  11
 96.5625
  21
@@ -8323,7 +8323,7 @@ AcDbText
  40
 3.5
   1
-A3
+A
  11
 128.5625
  21
@@ -8443,7 +8443,7 @@ AcDbText
  40
 3.5
   1
-A4
+A
  11
 128.5625
  21
@@ -8563,7 +8563,7 @@ AcDbText
  40
 3.5
   1
-B1
+B
  11
 147.625
  21
@@ -8683,7 +8683,7 @@ AcDbText
  40
 3.5
   1
-A5
+A
  11
 96.5625
  21
@@ -8803,7 +8803,7 @@ AcDbText
  40
 3.5
   1
-A6
+A
  11
 96.5625
  21
@@ -8923,7 +8923,7 @@ AcDbText
  40
 3.5
   1
-A7
+A
  11
 128.5625
  21
@@ -9043,7 +9043,7 @@ AcDbText
  40
 3.5
   1
-A8
+A
  11
 128.5625
  21
@@ -9163,7 +9163,7 @@ AcDbText
  40
 3.5
   1
-B2
+B
  11
 147.625
  21
@@ -9283,7 +9283,7 @@ AcDbText
  40
 3.5
   1
-B3
+B
  11
 170.625
  21
@@ -9403,7 +9403,7 @@ AcDbText
  40
 3.5
   1
-A9
+A
  11
 203.5625
  21
@@ -9523,7 +9523,7 @@ AcDbText
  40
 3.5
   1
-A10
+A
  11
 203.5625
  21
@@ -9643,7 +9643,7 @@ AcDbText
  40
 3.5
   1
-A11
+A
  11
 235.5625
  21
@@ -9763,7 +9763,7 @@ AcDbText
  40
 3.5
   1
-A12
+A
  11
 235.5625
  21
@@ -9883,7 +9883,7 @@ AcDbText
  40
 3.5
   1
-B4
+B
  11
 170.625
  21
@@ -10257,7 +10257,7 @@ AcDbText
  40
 3.5
   1
-A13
+A
  11
 203.5625
  21
@@ -10377,7 +10377,7 @@ AcDbText
  40
 3.5
   1
-A14
+A
  11
 203.5625
  21
@@ -10497,7 +10497,7 @@ AcDbText
  40
 3.5
   1
-A15
+A
  11
 235.5625
  21
@@ -10617,7 +10617,7 @@ AcDbText
  40
 3.5
   1
-A16
+A
  11
 235.5625
  21
@@ -12389,7 +12389,7 @@ AcDbText
  40
 5.0
   1
-DATUMS  A = largest face; B / C = lower / left edge of each view (machined square to A). Positions below are from B / C.
+Hole positions are from the lower-left edges of each view (datum edges machined square).
  11
 404.0
  21
@@ -12689,7 +12689,7 @@ AcDbText
  40
 5.0
   1
-HOLE POSITIONS  (view: hole = X, Y from the lower-left corner of that view)
+PRECISION / TAPPED HOLE POSITIONS  (view: hole = X, Y from the lower-left corner of that view)
  11
 404.0
  21
@@ -12719,7 +12719,7 @@ AcDbText
  40
 5.0
   1
-VIEW Y  A1=(72.50, 12.00)   A2=(72.50, 44.00)   A3=(104.50, 12.00)   A4=(104.50, 44.00)
+VIEW Y  C1=(142.00, 244.00)   D1=(29.00, 468.00)   D2=(29.00, 448.00)   E1=(54.00, 449.00)
  11
 404.0
  21
@@ -12749,7 +12749,7 @@ AcDbText
  40
 5.0
   1
-         B1=(123.00, 120.00)   A5=(72.50, 232.00)   A6=(72.50, 264.00)   A7=(104.50, 232.00)
+         E2=(54.00, 398.00)   E3=(54.00, 18.00)   E4=(230.00, 449.00)   D3=(255.00, 468.00)
  11
 404.0
  21
@@ -12779,161 +12779,11 @@ AcDbText
  40
 5.0
   1
-         A8=(104.50, 264.00)   B2=(123.00, 156.00)   B3=(146.00, 120.00)   A9=(179.50, 12.00)
- 11
-404.0
- 21
-377.0
- 31
-0.0
-100
-AcDbText
-  0
-TEXT
-  5
-1BD
-330
-17
-100
-AcDbEntity
-  8
-TABLE
-100
-AcDbText
- 10
-404.0
- 20
-369.0
- 30
-0.0
- 40
-5.0
-  1
-         A10=(179.50, 44.00)   A11=(211.50, 12.00)   A12=(211.50, 44.00)   B4=(146.00, 156.00)
- 11
-404.0
- 21
-369.0
- 31
-0.0
-100
-AcDbText
-  0
-TEXT
-  5
-1BE
-330
-17
-100
-AcDbEntity
-  8
-TABLE
-100
-AcDbText
- 10
-404.0
- 20
-361.0
- 30
-0.0
- 40
-5.0
-  1
-         C1=(142.00, 244.00)   A13=(179.50, 232.00)   A14=(179.50, 264.00)   A15=(211.50, 232.00)
- 11
-404.0
- 21
-361.0
- 31
-0.0
-100
-AcDbText
-  0
-TEXT
-  5
-1BF
-330
-17
-100
-AcDbEntity
-  8
-TABLE
-100
-AcDbText
- 10
-404.0
- 20
-353.0
- 30
-0.0
- 40
-5.0
-  1
-         A16=(211.50, 264.00)   D1=(29.00, 468.00)   D2=(29.00, 448.00)   E1=(54.00, 449.00)
- 11
-404.0
- 21
-353.0
- 31
-0.0
-100
-AcDbText
-  0
-TEXT
-  5
-1C0
-330
-17
-100
-AcDbEntity
-  8
-TABLE
-100
-AcDbText
- 10
-404.0
- 20
-345.0
- 30
-0.0
- 40
-5.0
-  1
-         E2=(54.00, 398.00)   E3=(54.00, 18.00)   E4=(230.00, 449.00)   D3=(255.00, 468.00)
- 11
-404.0
- 21
-345.0
- 31
-0.0
-100
-AcDbText
-  0
-TEXT
-  5
-1C1
-330
-17
-100
-AcDbEntity
-  8
-TABLE
-100
-AcDbText
- 10
-404.0
- 20
-337.0
- 30
-0.0
- 40
-5.0
-  1
          D4=(255.00, 448.00)   E5=(230.00, 398.00)   E6=(230.00, 18.00)
  11
 404.0
  21
-337.0
+377.0
  31
 0.0
 100
@@ -14029,7 +13879,7 @@ CREATED_BY_EZDXF
   3
 WRITTEN_BY_EZDXF
 350
-1C4
+1BF
   0
 DICTIONARYVAR
   5
@@ -14041,7 +13891,7 @@ DictionaryVariables
 280
 0
   1
-1.4.5 @ 2026-11-23T10:08:03.013801+00:00
+1.4.5 @ 2026-11-23T10:16:07.450005+00:00
   0
 VISUALSTYLE
   5
@@ -14745,7 +14595,7 @@ X-Ray
   0
 DICTIONARYVAR
   5
-1C4
+1BF
 330
 2D
 100
@@ -14753,7 +14603,7 @@ DictionaryVariables
 280
 0
   1
-1.4.5 @ 2026-11-23T10:08:03.023113+00:00
+1.4.5 @ 2026-11-23T10:16:07.468425+00:00
   0
 ENDSEC
   0

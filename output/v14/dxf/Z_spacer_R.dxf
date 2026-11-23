@@ -489,7 +489,7 @@ $SKPOLY
   9
 $TDCREATE
  40
-2461368.4222569442
+2461368.4278587964
   9
 $TDUCREATE
  40
@@ -497,7 +497,7 @@ $TDUCREATE
   9
 $TDUPDATE
  40
-2461368.4222569442
+2461368.4278587964
   9
 $TDUUPDATE
  40
@@ -549,7 +549,7 @@ $SPLINESEGS
   9
 $HANDSEED
   5
-10B
+105
   9
 $SURFTAB1
  70
@@ -929,11 +929,11 @@ $PSTYLEMODE
   9
 $FINGERPRINTGUID
   2
-{A5A4672F-8959-4C3C-A6E4-F785B1D35691}
+{A3D13008-DBF9-474B-BE6F-A08B092D9E53}
   9
 $VERSIONGUID
   2
-{4DB9A651-BA09-4E48-851C-B7925611A188}
+{B2C7DF0D-62F2-4A60-8F58-88D815A73C01}
   9
 $EXTNAMES
 290
@@ -1323,9 +1323,9 @@ ISM
   0
 CLASS
   1
-ACDBPLACEHOLDER
+LAYOUT
   2
-AcDbPlaceHolder
+AcDbLayout
   3
 ObjectDBX Classes
  90
@@ -1339,9 +1339,9 @@ ObjectDBX Classes
   0
 CLASS
   1
-LAYOUT
+ACDBPLACEHOLDER
   2
-AcDbLayout
+AcDbPlaceHolder
   3
 ObjectDBX Classes
  90
@@ -3301,7 +3301,7 @@ ACAD
   0
 APPID
   5
-108
+102
 330
 3
 100
@@ -3315,7 +3315,7 @@ HATCHBACKGROUNDCOLOR
   0
 APPID
   5
-109
+103
 330
 3
 100
@@ -6863,7 +6863,7 @@ AcDbText
  40
 2.4499999999999997
   1
-A1
+A
  11
 25.5625
  21
@@ -7039,7 +7039,7 @@ AcDbText
  40
 2.4499999999999997
   1
-A2
+A
  11
 25.5625
  21
@@ -7137,7 +7137,7 @@ AcDbText
  40
 2.4499999999999997
   1
-A3
+A
  11
 25.5625
  21
@@ -7235,7 +7235,7 @@ AcDbText
  40
 2.4499999999999997
   1
-A4
+A
  11
 25.5625
  21
@@ -7333,7 +7333,7 @@ AcDbText
  40
 2.4499999999999997
   1
-A5
+A
  11
 57.5625
  21
@@ -7431,7 +7431,7 @@ AcDbText
  40
 2.4499999999999997
   1
-A6
+A
  11
 57.5625
  21
@@ -7529,7 +7529,7 @@ AcDbText
  40
 2.4499999999999997
   1
-A7
+A
  11
 57.5625
  21
@@ -7627,7 +7627,7 @@ AcDbText
  40
 2.4499999999999997
   1
-A8
+A
  11
 57.5625
  21
@@ -7803,11 +7803,11 @@ AcDbPolyline
  10
 14.0
  20
--57.2
+-40.8
  10
 64.0
  20
--57.2
+-40.8
   0
 TEXT
   5
@@ -7823,7 +7823,7 @@ AcDbText
  10
 11.0
  20
--63.5
+-38.699999999999996
  30
 0.0
  40
@@ -7833,13 +7833,13 @@ GROUND flatness 0.01
  11
 11.0
  21
--63.5
+-38.699999999999996
  31
 0.0
 100
 AcDbText
   0
-LWPOLYLINE
+TEXT
   5
 F5
 330
@@ -7847,69 +7847,13 @@ F5
 100
 AcDbEntity
   8
-GRIND
-100
-AcDbPolyline
- 90
-2
- 70
-0
- 43
-0.875
- 10
-14.0
- 20
--40.8
- 10
-64.0
- 20
--40.8
-  0
-TEXT
-  5
-F6
-330
-17
-100
-AcDbEntity
-  8
-GRIND
-100
-AcDbText
- 10
-11.0
- 20
--38.699999999999996
- 30
-0.0
- 40
-2.8000000000000003
-  1
-GROUND flatness 0.01
- 11
-11.0
- 21
--38.699999999999996
- 31
-0.0
-100
-AcDbText
-  0
-TEXT
-  5
-F7
-330
-17
-100
-AcDbEntity
-  8
 TEXT
 100
 AcDbText
  10
 14.0
  20
--70.7
+-63.7
  30
 0.0
  40
@@ -7919,7 +7863,7 @@ VIEW Z  50 x 14
  11
 14.0
  21
--70.7
+-63.7
  31
 0.0
 100
@@ -7927,7 +7871,7 @@ AcDbText
   0
 TEXT
   5
-F8
+F6
 330
 17
 100
@@ -7939,7 +7883,7 @@ AcDbText
  10
 14.0
  20
--75.6
+-68.6
  30
 0.0
  40
@@ -7949,7 +7893,7 @@ looking along Z
  11
 14.0
  21
--75.6
+-68.6
  31
 0.0
 100
@@ -7957,7 +7901,7 @@ AcDbText
   0
 TEXT
   5
-F9
+F7
 330
 17
 100
@@ -7987,7 +7931,7 @@ AcDbText
   0
 TEXT
   5
-FA
+F8
 330
 17
 100
@@ -8017,7 +7961,7 @@ AcDbText
   0
 TEXT
   5
-FB
+F9
 330
 17
 100
@@ -8047,7 +7991,7 @@ AcDbText
   0
 TEXT
   5
-FC
+FA
 330
 17
 100
@@ -8077,7 +8021,7 @@ AcDbText
   0
 TEXT
   5
-FD
+FB
 330
 17
 100
@@ -8107,7 +8051,7 @@ AcDbText
   0
 TEXT
   5
-FE
+FC
 330
 17
 100
@@ -8137,7 +8081,7 @@ AcDbText
   0
 TEXT
   5
-FF
+FD
 330
 17
 100
@@ -8155,7 +8099,7 @@ AcDbText
  40
 3.5
   1
-DATUMS  A = largest face; B / C = lower / left edge of each view (machined square to A). Positions below are from B / C.
+Hole positions are from the lower-left edges of each view (datum edges machined square).
  11
 123.5
  21
@@ -8167,7 +8111,7 @@ AcDbText
   0
 TEXT
   5
-100
+FE
 330
 17
 100
@@ -8185,7 +8129,7 @@ AcDbText
  40
 3.5
   1
-GRIND: both faces ground, t14 -0/+0.005, grind L and R together (same thickness)
+GRIND: Z block face ground, flatness 0.01
  11
 123.5
  21
@@ -8197,7 +8141,7 @@ AcDbText
   0
 TEXT
   5
-101
+FF
 330
 17
 100
@@ -8227,7 +8171,7 @@ AcDbText
   0
 TEXT
   5
-102
+100
 330
 17
 100
@@ -8257,7 +8201,7 @@ AcDbText
   0
 TEXT
   5
-103
+101
 330
 17
 100
@@ -8280,126 +8224,6 @@ A   x8   %%c5.5 thru (for M5)
 123.5
  21
 195.0
- 31
-0.0
-100
-AcDbText
-  0
-TEXT
-  5
-104
-330
-17
-100
-AcDbEntity
-  8
-TABLE
-100
-AcDbText
- 10
-123.5
- 20
-189.39999999999998
- 30
-0.0
- 40
-3.5
-  1
-
- 11
-123.5
- 21
-189.39999999999998
- 31
-0.0
-100
-AcDbText
-  0
-TEXT
-  5
-105
-330
-17
-100
-AcDbEntity
-  8
-TABLE
-100
-AcDbText
- 10
-123.5
- 20
-183.8
- 30
-0.0
- 40
-3.5
-  1
-HOLE POSITIONS  (view: hole = X, Y from the lower-left corner of that view)
- 11
-123.5
- 21
-183.8
- 31
-0.0
-100
-AcDbText
-  0
-TEXT
-  5
-106
-330
-17
-100
-AcDbEntity
-  8
-TABLE
-100
-AcDbText
- 10
-123.5
- 20
-178.2
- 30
-0.0
- 40
-3.5
-  1
-VIEW Y  A1=(9.00, 45.50)   A2=(9.00, 77.50)   A3=(9.00, 157.50)   A4=(9.00, 189.50)
- 11
-123.5
- 21
-178.2
- 31
-0.0
-100
-AcDbText
-  0
-TEXT
-  5
-107
-330
-17
-100
-AcDbEntity
-  8
-TABLE
-100
-AcDbText
- 10
-123.5
- 20
-172.6
- 30
-0.0
- 40
-3.5
-  1
-         A5=(41.00, 45.50)   A6=(41.00, 77.50)   A7=(41.00, 157.50)   A8=(41.00, 189.50)
- 11
-123.5
- 21
-172.6
  31
 0.0
 100
@@ -9495,7 +9319,7 @@ CREATED_BY_EZDXF
   3
 WRITTEN_BY_EZDXF
 350
-10A
+104
   0
 DICTIONARYVAR
   5
@@ -9507,7 +9331,7 @@ DictionaryVariables
 280
 0
   1
-1.4.5 @ 2026-11-23T10:08:03.146213+00:00
+1.4.5 @ 2026-11-23T10:16:07.560259+00:00
   0
 VISUALSTYLE
   5
@@ -10211,7 +10035,7 @@ X-Ray
   0
 DICTIONARYVAR
   5
-10A
+104
 330
 2D
 100
@@ -10219,7 +10043,7 @@ DictionaryVariables
 280
 0
   1
-1.4.5 @ 2026-11-23T10:08:03.152299+00:00
+1.4.5 @ 2026-11-23T10:16:07.566259+00:00
   0
 ENDSEC
   0

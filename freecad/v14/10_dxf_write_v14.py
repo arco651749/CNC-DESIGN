@@ -5,9 +5,8 @@ Every drawing carries:
   - H7 holes: size + limits in the callout, position dimensioned from the lower-left edges with a position tolerance
   - every hole group: a leader callout with its spec (tap size and pitch, clearance for which screw, counterbore, depth, face)
   - ground faces: marked on the edge view (heavy magenta line, GROUND) and listed in the notes
-  - v14: every hole numbered (A1, A2 ...) with its X / Y position from the lower-left corner of its view in a position table;
-    arcs, bores and half seats called out (R / diameter + centre), pockets with their size and corner; material, finish,
-    datums and part-specific machining notes in the title block
+  - v14 (owner): only overall size, precision (H7) holes, tapped holes and ground faces are marked; precision and tapped holes are
+    numbered (A1, A2 ...) with their X / Y position from the lower-left corner of their view; material and part notes in the title block
 Layers: OUTLINE, POCKET (dashed), HOLE, H7 (red), CENTER, DIM, GRIND (magenta), TEXT, TABLE.
 Run:  python freecad/v14/10_dxf_write_v14.py      Out: output/v14/dxf/<part>.dxf, README.md (DXF_PREVIEW_DIR=... also writes PNGs)"""
 import os, json, string, datetime
@@ -28,10 +27,9 @@ GRIND = {   # part: (faces, note)   faces as +/- axis, -Y = operator side
     'X_carriage_plate': (['-y'], 'front face ground (Z rail face), ' + FLAT),
     'X_saddle_plate': (['+y'], 'rear face ground (X block face), ' + FLAT),
     'Z_slide_plate': (['+y'], 'rear face ground (spacer / Z block face), ' + FLAT),
-    'Z_spacer_L': (['-y', '+y'], 'both faces ground, t14 -0/+0.005, grind L and R together (same thickness)'),
-    'Z_spacer_R': (['-y', '+y'], 'both faces ground, t14 -0/+0.005, grind L and R together (same thickness)'),
-    'Spindle_mount_plate': (['-y', '+y'], 'both faces ground, %s, parallelism 0.01' % FLAT),
-}
+    'Z_spacer_L': (['+y'], 'Z block face ground, ' + FLAT),
+    'Z_spacer_R': (['+y'], 'Z block face ground, ' + FLAT),
+}   # owner: only the Y slide table is ground on both faces; every other part only on its linear-guide face
 NUT = 'nut-flange bolt holes and the mounting bolt holes are not modelled yet'
 MOT = 'motor flange screw holes (4x on the motor PCD) are not modelled yet'
 INCOMPLETE = {}
@@ -99,30 +97,6 @@ for p in D:
                     try: ConstructionArc.from_3p(P(e[1]), P(e[3]), P(e[2])).add_to_layout(msp, dxfattribs=at)
                     except Exception: msp.add_lwpolyline([P(e[1]), P(e[2]), P(e[3])], dxfattribs=at)
                 else: msp.add_lwpolyline([P(q) for q in e[1]], dxfattribs=at)
-        # features: bores / arcs / half seats that are not holes, pockets (size + lower-left corner)
-        hc = [(h['u'], h['v'], h['r'], h['big']) for h in v['holes']]
-        isho = lambda cx, cy, r: any(abs(cx - a) < 0.1 and abs(cy - b) < 0.1 and (abs(r - r1) < 0.1 or abs(r - r2) < 0.1) for a, b, r1, r2 in hc)
-        for tag, ents in v['ents']:
-            for e in ents:
-                try:
-                    if e[0] == 'C': cx, cy, r, lp, full = e[1][0], e[1][1], e[2], (e[1][0] + e[2] * 0.7, e[1][1] + e[2] * 0.7), True
-                    elif e[0] == 'A':
-                        ca = ConstructionArc.from_3p(e[1], e[3], e[2]); cx, cy, r, lp, full = ca.center.x, ca.center.y, ca.radius, tuple(e[2]), False
-                    elif e[0] == 'P' and tag != 'outline':
-                        us_ = [q[0] for q in e[1]]; vs_ = [q[1] for q in e[1]]
-                        pw, ph = max(us_) - min(us_), max(vs_) - min(vs_)
-                        if pw > 1 and ph > 1:
-                            FEAT.append((AXN[v['axis']], 'pocket %.1f x %.1f' % (pw, ph), min(us_), min(vs_)))
-                            text('pocket %.1f x %.1f' % (pw, ph), P(((min(us_) + max(us_)) / 2 - 4 * th, (min(vs_) + max(vs_)) / 2)), th * 0.7, 'DIM')
-                        continue
-                    else: continue
-                except Exception: continue
-                if r < 0.6 or isho(cx, cy, r): continue
-                lab = ('Ø%.2f' % (2 * r)) if full else ('R%.2f' % r)
-                if any(f[1] == lab and abs(f[2] - cx) < 0.1 and abs(f[3] - cy) < 0.1 for f in FEAT): continue
-                FEAT.append((AXN[v['axis']], lab, cx, cy))
-                q = P(lp); msp.add_line(q, (q[0] + 2 * th, q[1] + 2 * th), dxfattribs={'layer': 'DIM'})
-                text(lab + ('' if full else ' (Ø%.2f)' % (2 * r)), (q[0] + 2.3 * th, q[1] + 2 * th), th * 0.8, 'DIM')
         # overall size: width above, height on the left (once per axis)
         if u_ax not in dimmed: dim((ox, oy + H + 3 * th), P((0, H)), P((W, H)), 0); dimmed.add(u_ax)
         if v_ax not in dimmed: dim((ox - 3 * th, oy), P((0, 0)), P((0, H)), 90); dimmed.add(v_ax)
@@ -140,8 +114,10 @@ for p in D:
             if h['big'] > h['r'] + 0.01: msp.add_circle(c, h['big'], dxfattribs={'layer': L, 'linetype': 'DASHED'})
             k = h['big'] + 1.5
             msp.add_line((c[0] - k, c[1]), (c[0] + k, c[1]), dxfattribs={'layer': 'CENTER'}); msp.add_line((c[0], c[1] - k), (c[0], c[1] + k), dxfattribs={'layer': 'CENTER'})
-            cnt[code[0]] = cnt.get(code[0], 0) + 1; lab = '%s%d' % (code[0], cnt[code[0]])
-            POS.append((AXN[v['axis']], lab, h['u'], h['v']))
+            if h['cls'] == 'H7' or 'tap' in h['txt']:          # owner: positions only for precision and tapped holes
+                cnt[code[0]] = cnt.get(code[0], 0) + 1; lab = '%s%d' % (code[0], cnt[code[0]])
+                POS.append((AXN[v['axis']], lab, h['u'], h['v']))
+            else: lab = code[0]
             text(lab, (c[0] + h['big'] * 0.75 + 0.5, c[1] + h['big'] * 0.75 + 0.5), th * 0.7, L)
             if rep.get(h['txt']) == id(h):                     # one leader callout per hole group
                 r0 = h['big'] * 0.707; q = (c[0] + r0, c[1] - r0); gi = list(codes).index(h['txt']) % 4; e1 = (q[0] + (2.5 + 1.5 * gi) * th, q[1] - (2.5 + 1.5 * gi) * th)
@@ -181,20 +157,18 @@ for p in D:
              'Units mm. General tolerance ISO 2768-m. Break sharp edges 0.3.',
              'H7 holes: limits in the callout; position +-%.2f from the lower-left edges (datum edges machined square).' % POS_TOL,
              material(p['spec'], p['name']),
-             'DATUMS  A = largest face; B / C = lower / left edge of each view (machined square to A). Positions below are from B / C.']
+             'Hole positions are from the lower-left edges of each view (datum edges machined square).']
     if p['name'] in SPECIAL: lines.append('NOTE  ' + SPECIAL[p['name']])
     if gnote: lines.append('GRIND: ' + gnote)
     if p['name'] in INCOMPLETE: lines.append('NOT FINAL: ' + INCOMPLETE[p['name']])
     lines += ['', 'HOLE TABLE']
     for txt, (code, n, cls, _) in codes.items(): lines.append('%-3s x%-3d %s' % (code, n, txt))
     if POS:
-        lines += ['', 'HOLE POSITIONS  (view: hole = X, Y from the lower-left corner of that view)']
+        lines += ['', 'PRECISION / TAPPED HOLE POSITIONS  (view: hole = X, Y from the lower-left corner of that view)']
         for va in sorted({q[0] for q in POS}):
             it = ['%s=(%.2f, %.2f)' % (q[1], q[2], q[3]) for q in POS if q[0] == va]
             for i in range(0, len(it), 4): lines.append(('VIEW %s  ' % va if i == 0 else '         ') + '   '.join(it[i:i + 4]))
-    if FEAT:
-        lines += ['', 'FEATURES  (bores, arcs, pockets: size, centre or lower-left corner)']
-        for q in FEAT: lines.append('VIEW %s  %s at (%.2f, %.2f)' % (q[0], q[1], q[2], q[3]))
+
     for i, t in enumerate(lines):
         lay = 'H7' if (' H7 (' in t or t.startswith('NOT FINAL')) else ('GRIND' if t.startswith('GRIND') else 'TABLE')
         text(t, (tx, ty - 1.6 * th * i), th, lay)
@@ -209,9 +183,9 @@ md = ['# v14 CNC 加工件 DXF', '', '由 `freecad/v14/09_dxf_extract_v14.py`（
       '- H7 孔：孔徑與公差上下限，孔位從左下兩邊標尺寸，位置公差 ±%.2f（基準邊要加工成直角）；' % POS_TOL,
       '- 每組孔一條引線，寫規格（攻牙尺寸與牙距、給幾號螺絲的過孔、沉頭、深度、從哪一面）；',
       '- 研磨面在側視圖用紫色粗線加 GROUND 標出，並寫在註記欄；',
-      '- 每個孔都有編號（A1、A2…），孔位表列出每個孔在該視圖的 X、Y（從左下角量）；',
-      '- 圓弧、搪孔、半圓座標 R／直徑與圓心，口袋標大小與左下角位置；',
-      '- 標題欄寫材質、表面處理、基準（A＝最大面，B／C＝各視圖下緣／左緣）與該零件的加工註記（例如成對加工）。', '',
+      '- 只標外觀尺寸、精度孔（H7）、螺絲孔和研磨面；精度孔和螺絲孔有編號（A1、A2…），孔位表列出 X、Y（從該視圖左下角量）；',
+      '- 研磨：只有 Y 軸滑台（Work_table）兩面研磨，其他零件只磨線軌安裝面；',
+      '- 標題欄寫材質、表面處理與該零件的加工註記（例如成對加工）。', '',
       '標「ream at assembly」的孔在組裝調整後現場配鉸，不標孔位。', '',
       'RBPB8 座孔 Ø22 H7：外環 h6，用固持膠（Loctite 641）黏固，不壓入。', '',
       '| 零件 | 數量 | 外形 X × Y × Z | 孔數 | H7 孔 | 研磨 | 規格 |', '|---|---|---|---|---|---|---|']

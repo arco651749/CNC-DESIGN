@@ -489,7 +489,7 @@ $SKPOLY
   9
 $TDCREATE
  40
-2461368.4222569442
+2461368.4278587964
   9
 $TDUCREATE
  40
@@ -497,7 +497,7 @@ $TDUCREATE
   9
 $TDUPDATE
  40
-2461368.4222569442
+2461368.4278587964
   9
 $TDUUPDATE
  40
@@ -929,11 +929,11 @@ $PSTYLEMODE
   9
 $FINGERPRINTGUID
   2
-{BE889F7C-470A-4D53-BF32-D802EB8830A6}
+{3F3B6FF4-AC7A-4483-BA68-DC982112D4D9}
   9
 $VERSIONGUID
   2
-{17C5B1A6-7B5E-40AD-A59E-177F787D8361}
+{759D3471-8689-4E3B-9E1E-5AB190FC142C}
   9
 $EXTNAMES
 290
@@ -1323,9 +1323,9 @@ ISM
   0
 CLASS
   1
-ACDBPLACEHOLDER
+LAYOUT
   2
-AcDbPlaceHolder
+AcDbLayout
   3
 ObjectDBX Classes
  90
@@ -1339,9 +1339,9 @@ ObjectDBX Classes
   0
 CLASS
   1
-LAYOUT
+ACDBPLACEHOLDER
   2
-AcDbLayout
+AcDbPlaceHolder
   3
 ObjectDBX Classes
  90
@@ -7379,7 +7379,7 @@ AcDbText
  40
 1.75
   1
-A1
+A
  11
 138.25
  21
@@ -7753,7 +7753,7 @@ AcDbText
  40
 1.75
   1
-A2
+A
  11
 178.25
  21
@@ -8023,7 +8023,7 @@ AcDbText
  40
 2.5
   1
-DATUMS  A = largest face; B / C = lower / left edge of each view (machined square to A). Positions below are from B / C.
+Hole positions are from the lower-left edges of each view (datum edges machined square).
  11
 225.0
  21
@@ -8203,7 +8203,7 @@ AcDbText
  40
 2.5
   1
-HOLE POSITIONS  (view: hole = X, Y from the lower-left corner of that view)
+PRECISION / TAPPED HOLE POSITIONS  (view: hole = X, Y from the lower-left corner of that view)
  11
 225.0
  21
@@ -8233,7 +8233,7 @@ AcDbText
  40
 2.5
   1
-VIEW Z  A1=(10.00, 30.00)   B1=(30.00, 30.00)   A2=(50.00, 30.00)
+VIEW Z  B1=(30.00, 30.00)
  11
 225.0
  21
@@ -9345,7 +9345,7 @@ DictionaryVariables
 280
 0
   1
-1.4.5 @ 2026-11-23T10:08:03.318784+00:00
+1.4.5 @ 2026-11-23T10:16:07.745207+00:00
   0
 VISUALSTYLE
   5
@@ -10057,7 +10057,7 @@ DictionaryVariables
 280
 0
   1
-1.4.5 @ 2026-11-23T10:08:03.324584+00:00
+1.4.5 @ 2026-11-23T10:16:07.750135+00:00
   0
 ENDSEC
   0

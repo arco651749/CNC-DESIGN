@@ -489,7 +489,7 @@ $SKPOLY
   9
 $TDCREATE
  40
-2461368.4222569442
+2461368.4278587964
   9
 $TDUCREATE
  40
@@ -497,7 +497,7 @@ $TDUCREATE
   9
 $TDUPDATE
  40
-2461368.4222569442
+2461368.4278587964
   9
 $TDUUPDATE
  40
@@ -549,7 +549,7 @@ $SPLINESEGS
   9
 $HANDSEED
   5
-119
+118
   9
 $SURFTAB1
  70
@@ -929,11 +929,11 @@ $PSTYLEMODE
   9
 $FINGERPRINTGUID
   2
-{0DAB621E-7759-4EE3-889D-12B0220D26BF}
+{4D229280-96E9-4FEB-99B8-5C98FBC9D3A2}
   9
 $VERSIONGUID
   2
-{BAD19240-A363-453F-96C7-AA1BFA3811BD}
+{862AA5C3-F679-46D0-9A73-7C50E231002C}
   9
 $EXTNAMES
 290
@@ -1323,9 +1323,9 @@ ISM
   0
 CLASS
   1
-ACDBPLACEHOLDER
+LAYOUT
   2
-AcDbPlaceHolder
+AcDbLayout
   3
 ObjectDBX Classes
  90
@@ -1339,9 +1339,9 @@ ObjectDBX Classes
   0
 CLASS
   1
-LAYOUT
+ACDBPLACEHOLDER
   2
-AcDbLayout
+AcDbPlaceHolder
   3
 ObjectDBX Classes
  90
@@ -3301,7 +3301,7 @@ ACAD
   0
 APPID
   5
-116
+115
 330
 3
 100
@@ -3315,7 +3315,7 @@ HATCHBACKGROUNDCOLOR
   0
 APPID
   5
-117
+116
 330
 3
 100
@@ -7055,7 +7055,7 @@ AcDbText
  40
 1.75
   1
-A1
+A
  11
 16.5625
  21
@@ -7231,7 +7231,7 @@ AcDbText
  40
 1.75
   1
-A2
+A
  11
 48.5625
  21
@@ -8099,7 +8099,7 @@ AcDbText
  40
 1.75
   1
-C1
+C
  11
 133.625
  21
@@ -8447,7 +8447,7 @@ AcDbText
  40
 2.5
   1
-DATUMS  A = largest face; B / C = lower / left edge of each view (machined square to A). Positions below are from B / C.
+Hole positions are from the lower-left edges of each view (datum edges machined square).
  11
 185.0
  21
@@ -8657,7 +8657,7 @@ AcDbText
  40
 2.5
   1
-HOLE POSITIONS  (view: hole = X, Y from the lower-left corner of that view)
+PRECISION / TAPPED HOLE POSITIONS  (view: hole = X, Y from the lower-left corner of that view)
  11
 185.0
  21
@@ -8687,41 +8687,11 @@ AcDbText
  40
 2.5
   1
-VIEW Y  B1=(12.00, 12.00)   C1=(28.00, 12.00)
+VIEW Y  B1=(12.00, 12.00)
  11
 185.0
  21
 4.0
- 31
-0.0
-100
-AcDbText
-  0
-TEXT
-  5
-115
-330
-17
-100
-AcDbEntity
-  8
-TABLE
-100
-AcDbText
- 10
-185.0
- 20
-0.0
- 30
-0.0
- 40
-2.5
-  1
-VIEW Z  A1=(4.00, 13.00)   A2=(36.00, 13.00)
- 11
-185.0
- 21
-0.0
  31
 0.0
 100
@@ -9817,7 +9787,7 @@ CREATED_BY_EZDXF
   3
 WRITTEN_BY_EZDXF
 350
-118
+117
   0
 DICTIONARYVAR
   5
@@ -9829,7 +9799,7 @@ DictionaryVariables
 280
 0
   1
-1.4.5 @ 2026-11-23T10:08:03.333597+00:00
+1.4.5 @ 2026-11-23T10:16:07.760742+00:00
   0
 VISUALSTYLE
   5
@@ -10533,7 +10503,7 @@ X-Ray
   0
 DICTIONARYVAR
   5
-118
+117
 330
 2D
 100
@@ -10541,7 +10511,7 @@ DictionaryVariables
 280
 0
   1
-1.4.5 @ 2026-11-23T10:08:03.339532+00:00
+1.4.5 @ 2026-11-23T10:16:07.767017+00:00
   0
 ENDSEC
   0

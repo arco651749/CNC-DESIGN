@@ -44,6 +44,13 @@ F. Interference and protection
 15. **Read the whole check report.** After every sweep review "DESIGN CONTACTS AT HOME" as well as the travel-end collisions; a new
     contact at home is a design error until explained.
 
+G. 2D drawings (owner)
+16. **A part drawing marks only what the shop needs:** overall dimensions, precision holes (H7 etc.: size, tolerance, position from
+    the datum edges), tapped holes (thread, depth, position) and ground faces (which face, flatness). No position dimensions for plain
+    clearance holes, no extra feature tables. Output: DXF per part (`09` extract in FreeCAD, `10` write with plain Python + ezdxf).
+17. **Grinding:** only the Y slide table (`Work_table`) is ground on both faces. Every other part is ground only on its linear-guide
+    face (rail seat / block seat); parts without a guide face are not ground.
+
 ## Working rules
 
 - Language with the owner: Traditional Chinese.

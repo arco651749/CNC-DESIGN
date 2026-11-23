@@ -489,7 +489,7 @@ $SKPOLY
   9
 $TDCREATE
  40
-2461368.4222569442
+2461368.4278587964
   9
 $TDUCREATE
  40
@@ -497,7 +497,7 @@ $TDUCREATE
   9
 $TDUPDATE
  40
-2461368.4222569442
+2461368.4278587964
   9
 $TDUUPDATE
  40
@@ -549,7 +549,7 @@ $SPLINESEGS
   9
 $HANDSEED
   5
-10D
+10C
   9
 $SURFTAB1
  70
@@ -929,11 +929,11 @@ $PSTYLEMODE
   9
 $FINGERPRINTGUID
   2
-{8826C067-F6CC-46FF-A8A6-27019FA7F92B}
+{B0F4682E-54AF-4776-B49C-958E2702F617}
   9
 $VERSIONGUID
   2
-{C865F735-FA87-4916-8632-416A2E271114}
+{5D760474-8768-4CCC-909F-D17355AE726B}
   9
 $EXTNAMES
 290
@@ -1323,9 +1323,9 @@ ISM
   0
 CLASS
   1
-ACDBPLACEHOLDER
+LAYOUT
   2
-AcDbPlaceHolder
+AcDbLayout
   3
 ObjectDBX Classes
  90
@@ -1339,9 +1339,9 @@ ObjectDBX Classes
   0
 CLASS
   1
-LAYOUT
+ACDBPLACEHOLDER
   2
-AcDbLayout
+AcDbPlaceHolder
   3
 ObjectDBX Classes
  90
@@ -3301,7 +3301,7 @@ ACAD
   0
 APPID
   5
-10A
+109
 330
 3
 100
@@ -3315,7 +3315,7 @@ HATCHBACKGROUNDCOLOR
   0
 APPID
   5
-10B
+10A
 330
 3
 100
@@ -7725,7 +7725,7 @@ AcDbText
  40
 1.75
   1
-B1
+B
  11
 92.0625
  21
@@ -7901,7 +7901,7 @@ AcDbText
  40
 1.75
   1
-B2
+B
  11
 92.0625
  21
@@ -8171,7 +8171,7 @@ AcDbText
  40
 2.5
   1
-DATUMS  A = largest face; B / C = lower / left edge of each view (machined square to A). Positions below are from B / C.
+Hole positions are from the lower-left edges of each view (datum edges machined square).
  11
 141.0
  21
@@ -8351,7 +8351,7 @@ AcDbText
  40
 2.5
   1
-HOLE POSITIONS  (view: hole = X, Y from the lower-left corner of that view)
+PRECISION / TAPPED HOLE POSITIONS  (view: hole = X, Y from the lower-left corner of that view)
  11
 141.0
  21
@@ -8386,36 +8386,6 @@ VIEW X  A1=(8.50, 16.00)
 141.0
  21
 4.0
- 31
-0.0
-100
-AcDbText
-  0
-TEXT
-  5
-109
-330
-17
-100
-AcDbEntity
-  8
-TABLE
-100
-AcDbText
- 10
-141.0
- 20
-0.0
- 30
-0.0
- 40
-2.5
-  1
-VIEW Y  B1=(9.00, 6.00)   B2=(9.00, 26.00)
- 11
-141.0
- 21
-0.0
  31
 0.0
 100
@@ -9511,7 +9481,7 @@ CREATED_BY_EZDXF
   3
 WRITTEN_BY_EZDXF
 350
-10C
+10B
   0
 DICTIONARYVAR
   5
@@ -9523,7 +9493,7 @@ DictionaryVariables
 280
 0
   1
-1.4.5 @ 2026-11-23T10:08:03.364045+00:00
+1.4.5 @ 2026-11-23T10:16:07.794063+00:00
   0
 VISUALSTYLE
   5
@@ -10227,7 +10197,7 @@ X-Ray
   0
 DICTIONARYVAR
   5
-10C
+10B
 330
 2D
 100
@@ -10235,7 +10205,7 @@ DictionaryVariables
 280
 0
   1
-1.4.5 @ 2026-11-23T10:08:03.369836+00:00
+1.4.5 @ 2026-11-23T10:16:07.799693+00:00
   0
 ENDSEC
   0

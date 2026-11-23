@@ -489,7 +489,7 @@ $SKPOLY
   9
 $TDCREATE
  40
-2461368.42224537
+2461368.4278587964
   9
 $TDUCREATE
  40
@@ -497,7 +497,7 @@ $TDUCREATE
   9
 $TDUPDATE
  40
-2461368.42224537
+2461368.4278587964
   9
 $TDUUPDATE
  40
@@ -929,11 +929,11 @@ $PSTYLEMODE
   9
 $FINGERPRINTGUID
   2
-{17429C21-F033-4521-B335-7E78EE41C307}
+{587AB851-D186-49F5-A841-4B0FD9704B98}
   9
 $VERSIONGUID
   2
-{5DFAB895-CD1A-40DD-95F9-A6849D13E70D}
+{ABBA7D09-AD3F-4FFF-8204-0A1CE7821597}
   9
 $EXTNAMES
 290
@@ -1323,9 +1323,9 @@ ISM
   0
 CLASS
   1
-ACDBPLACEHOLDER
+LAYOUT
   2
-AcDbPlaceHolder
+AcDbLayout
   3
 ObjectDBX Classes
  90
@@ -1339,9 +1339,9 @@ ObjectDBX Classes
   0
 CLASS
   1
-LAYOUT
+ACDBPLACEHOLDER
   2
-AcDbLayout
+AcDbPlaceHolder
   3
 ObjectDBX Classes
  90
@@ -12963,7 +12963,7 @@ AcDbText
  40
 5.0
   1
-DATUMS  A = largest face; B / C = lower / left edge of each view (machined square to A). Positions below are from B / C.
+Hole positions are from the lower-left edges of each view (datum edges machined square).
  11
 590.0
  21
@@ -13263,7 +13263,7 @@ AcDbText
  40
 5.0
   1
-HOLE POSITIONS  (view: hole = X, Y from the lower-left corner of that view)
+PRECISION / TAPPED HOLE POSITIONS  (view: hole = X, Y from the lower-left corner of that view)
  11
 590.0
  21
@@ -14585,7 +14585,7 @@ DictionaryVariables
 280
 0
   1
-1.4.5 @ 2026-11-23T10:08:02.780868+00:00
+1.4.5 @ 2026-11-23T10:16:07.227710+00:00
   0
 VISUALSTYLE
   5
@@ -15297,7 +15297,7 @@ DictionaryVariables
 280
 0
   1
-1.4.5 @ 2026-11-23T10:08:02.790975+00:00
+1.4.5 @ 2026-11-23T10:16:07.238485+00:00
   0
 ENDSEC
   0

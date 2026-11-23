@@ -226,7 +226,7 @@ for x, zz in CAMB: pl = pl.cut(cyl('y', 2.75, 20, 28, x, zz)).cut(cyl('y', 5, 28
 pl = pl.cut(cyl('y', 3, 20, 32, *SB))
 for x, zz in DW: pl = pl.cut(cyl('y', 3, 20, 30, x, zz))
 O('Spindle_mount_plate').Shape = pl
-spec('Spindle_mount_plate', 'tool-head module plate, flat steel t12 (116 wide z 288..500 + 176 wide z 288..405), ground both faces, all holes from '
+spec('Spindle_mount_plate', 'tool-head module plate, flat steel t12 (116 wide z 288..500 + 176 wide z 288..405), not ground (no guide face; owner: only the Y slide table is ground on both faces), all holes from '
      'the front except 6 counterbores on the back: M6 tap for the pivot stud, 4 shim-bolt holes, 3 differential-screw taps, 4 M6 taps for the '
      'clamp block (from the back, c-bored) + 2 dowel holes D6 H7, 2 x M5 low-head holes (counterbored from the back) for the camera bracket. Stands 2 mm off the '
      'slide on 4 shim packs at z 305 / 490 (185 apart)')

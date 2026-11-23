@@ -489,7 +489,7 @@ $SKPOLY
   9
 $TDCREATE
  40
-2461368.4222569442
+2461368.4278587964
   9
 $TDUCREATE
  40
@@ -497,7 +497,7 @@ $TDUCREATE
   9
 $TDUPDATE
  40
-2461368.4222569442
+2461368.4278587964
   9
 $TDUUPDATE
  40
@@ -549,7 +549,7 @@ $SPLINESEGS
   9
 $HANDSEED
   5
-12A
+125
   9
 $SURFTAB1
  70
@@ -929,11 +929,11 @@ $PSTYLEMODE
   9
 $FINGERPRINTGUID
   2
-{E8042C95-5177-41BE-8E64-C6121D4B29BB}
+{1838DB62-4410-4B05-ADAE-CD375A981A42}
   9
 $VERSIONGUID
   2
-{6F358738-24C7-4988-9EBC-4BD41C2AD2A9}
+{6AC9F22B-15F9-43C2-95B8-9D28E9E7CB33}
   9
 $EXTNAMES
 290
@@ -1323,9 +1323,9 @@ ISM
   0
 CLASS
   1
-ACDBPLACEHOLDER
+LAYOUT
   2
-AcDbPlaceHolder
+AcDbLayout
   3
 ObjectDBX Classes
  90
@@ -1339,9 +1339,9 @@ ObjectDBX Classes
   0
 CLASS
   1
-LAYOUT
+ACDBPLACEHOLDER
   2
-AcDbLayout
+AcDbPlaceHolder
   3
 ObjectDBX Classes
  90
@@ -3301,7 +3301,7 @@ ACAD
   0
 APPID
   5
-127
+122
 330
 3
 100
@@ -3315,7 +3315,7 @@ HATCHBACKGROUNDCOLOR
   0
 APPID
   5
-128
+123
 330
 3
 100
@@ -8489,63 +8489,9 @@ AcDbArc
  51
 89.36296943164587
   0
-LINE
+TEXT
   5
 110
-330
-17
-100
-AcDbEntity
-  8
-DIM
-100
-AcDbLine
- 10
-232.033
- 20
-17.643
- 30
-0.0
- 11
-237.033
- 21
-22.643
- 31
-0.0
-  0
-TEXT
-  5
-111
-330
-17
-100
-AcDbEntity
-  8
-DIM
-100
-AcDbText
- 10
-237.783
- 20
-22.643
- 30
-0.0
- 40
-2.0
-  1
-R22.55 (%%c45.10)
- 11
-237.783
- 21
-22.643
- 31
-0.0
-100
-AcDbText
-  0
-TEXT
-  5
-112
 330
 17
 100
@@ -8575,7 +8521,7 @@ AcDbText
   0
 TEXT
   5
-113
+111
 330
 17
 100
@@ -8605,7 +8551,7 @@ AcDbText
   0
 TEXT
   5
-114
+112
 330
 17
 100
@@ -8635,7 +8581,7 @@ AcDbText
   0
 TEXT
   5
-115
+113
 330
 17
 100
@@ -8665,7 +8611,7 @@ AcDbText
   0
 TEXT
   5
-116
+114
 330
 17
 100
@@ -8695,7 +8641,7 @@ AcDbText
   0
 TEXT
   5
-117
+115
 330
 17
 100
@@ -8725,7 +8671,7 @@ AcDbText
   0
 TEXT
   5
-118
+116
 330
 17
 100
@@ -8755,7 +8701,7 @@ AcDbText
   0
 TEXT
   5
-119
+117
 330
 17
 100
@@ -8785,7 +8731,7 @@ AcDbText
   0
 TEXT
   5
-11A
+118
 330
 17
 100
@@ -8803,7 +8749,7 @@ AcDbText
  40
 2.5
   1
-DATUMS  A = largest face; B / C = lower / left edge of each view (machined square to A). Positions below are from B / C.
+Hole positions are from the lower-left edges of each view (datum edges machined square).
  11
 286.5
  21
@@ -8815,7 +8761,7 @@ AcDbText
   0
 TEXT
   5
-11B
+119
 330
 17
 100
@@ -8845,7 +8791,7 @@ AcDbText
   0
 TEXT
   5
-11C
+11A
 330
 17
 100
@@ -8875,7 +8821,7 @@ AcDbText
   0
 TEXT
   5
-11D
+11B
 330
 17
 100
@@ -8905,7 +8851,7 @@ AcDbText
   0
 TEXT
   5
-11E
+11C
 330
 17
 100
@@ -8935,7 +8881,7 @@ AcDbText
   0
 TEXT
   5
-11F
+11D
 330
 17
 100
@@ -8965,7 +8911,7 @@ AcDbText
   0
 TEXT
   5
-120
+11E
 330
 17
 100
@@ -8995,7 +8941,7 @@ AcDbText
   0
 TEXT
   5
-121
+11F
 330
 17
 100
@@ -9013,7 +8959,7 @@ AcDbText
  40
 2.5
   1
-HOLE POSITIONS  (view: hole = X, Y from the lower-left corner of that view)
+PRECISION / TAPPED HOLE POSITIONS  (view: hole = X, Y from the lower-left corner of that view)
  11
 286.5
  21
@@ -9025,7 +8971,7 @@ AcDbText
   0
 TEXT
   5
-122
+120
 330
 17
 100
@@ -9055,7 +9001,7 @@ AcDbText
   0
 TEXT
   5
-123
+121
 330
 17
 100
@@ -9078,96 +9024,6 @@ VIEW Y  B1=(8.75, 20.00)   B2=(20.75, 20.00)
 286.5
  21
 28.5
- 31
-0.0
-100
-AcDbText
-  0
-TEXT
-  5
-124
-330
-17
-100
-AcDbEntity
-  8
-TABLE
-100
-AcDbText
- 10
-286.5
- 20
-24.5
- 30
-0.0
- 40
-2.5
-  1
-
- 11
-286.5
- 21
-24.5
- 31
-0.0
-100
-AcDbText
-  0
-TEXT
-  5
-125
-330
-17
-100
-AcDbEntity
-  8
-TABLE
-100
-AcDbText
- 10
-286.5
- 20
-20.5
- 30
-0.0
- 40
-2.5
-  1
-FEATURES  (bores, arcs, pockets: size, centre or lower-left corner)
- 11
-286.5
- 21
-20.5
- 31
-0.0
-100
-AcDbText
-  0
-TEXT
-  5
-126
-330
-17
-100
-AcDbEntity
-  8
-TABLE
-100
-AcDbText
- 10
-286.5
- 20
-16.5
- 30
-0.0
- 40
-2.5
-  1
-VIEW Z  R22.55 at (-0.25, 33.50)
- 11
-286.5
- 21
-16.5
  31
 0.0
 100
@@ -10263,7 +10119,7 @@ CREATED_BY_EZDXF
   3
 WRITTEN_BY_EZDXF
 350
-129
+124
   0
 DICTIONARYVAR
   5
@@ -10275,7 +10131,7 @@ DictionaryVariables
 280
 0
   1
-1.4.5 @ 2026-11-23T10:08:03.422166+00:00
+1.4.5 @ 2026-11-23T10:16:07.862541+00:00
   0
 VISUALSTYLE
   5
@@ -10979,7 +10835,7 @@ X-Ray
   0
 DICTIONARYVAR
   5
-129
+124
 330
 2D
 100
@@ -10987,7 +10843,7 @@ DictionaryVariables
 280
 0
   1
-1.4.5 @ 2026-11-23T10:08:03.428349+00:00
+1.4.5 @ 2026-11-23T10:16:07.871275+00:00
   0
 ENDSEC
   0

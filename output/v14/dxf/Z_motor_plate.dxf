@@ -489,7 +489,7 @@ $SKPOLY
   9
 $TDCREATE
  40
-2461368.4222569442
+2461368.4278587964
   9
 $TDUCREATE
  40
@@ -497,7 +497,7 @@ $TDUCREATE
   9
 $TDUPDATE
  40
-2461368.4222569442
+2461368.4278587964
   9
 $TDUUPDATE
  40
@@ -549,7 +549,7 @@ $SPLINESEGS
   9
 $HANDSEED
   5
-146
+145
   9
 $SURFTAB1
  70
@@ -929,11 +929,11 @@ $PSTYLEMODE
   9
 $FINGERPRINTGUID
   2
-{EC099B18-F960-4F98-AE89-A0E71568AAB5}
+{C3C94767-2B94-4ACD-B178-C4574F69E6AA}
   9
 $VERSIONGUID
   2
-{47807C60-AEFC-44B8-86ED-B3EF96288E6A}
+{455ACA88-4416-4A7E-ADD9-5119CDA62FAC}
   9
 $EXTNAMES
 290
@@ -1323,9 +1323,9 @@ ISM
   0
 CLASS
   1
-ACDBPLACEHOLDER
+LAYOUT
   2
-AcDbPlaceHolder
+AcDbLayout
   3
 ObjectDBX Classes
  90
@@ -1339,9 +1339,9 @@ ObjectDBX Classes
   0
 CLASS
   1
-LAYOUT
+ACDBPLACEHOLDER
   2
-AcDbLayout
+AcDbPlaceHolder
   3
 ObjectDBX Classes
  90
@@ -3301,7 +3301,7 @@ ACAD
   0
 APPID
   5
-143
+142
 330
 3
 100
@@ -3315,7 +3315,7 @@ HATCHBACKGROUNDCOLOR
   0
 APPID
   5
-144
+143
 330
 3
 100
@@ -8867,7 +8867,7 @@ AcDbText
  40
 1.75
   1
-C1
+C
  11
 202.975
  21
@@ -9043,7 +9043,7 @@ AcDbText
  40
 1.75
   1
-C2
+C
  11
 218.975
  21
@@ -9141,7 +9141,7 @@ AcDbText
  40
 1.75
   1
-C3
+C
  11
 286.975
  21
@@ -9239,7 +9239,7 @@ AcDbText
  40
 1.75
   1
-C4
+C
  11
 302.975
  21
@@ -9509,7 +9509,7 @@ AcDbText
  40
 2.5
   1
-DATUMS  A = largest face; B / C = lower / left edge of each view (machined square to A). Positions below are from B / C.
+Hole positions are from the lower-left edges of each view (datum edges machined square).
  11
 352.5
  21
@@ -9719,7 +9719,7 @@ AcDbText
  40
 2.5
   1
-HOLE POSITIONS  (view: hole = X, Y from the lower-left corner of that view)
+PRECISION / TAPPED HOLE POSITIONS  (view: hole = X, Y from the lower-left corner of that view)
  11
 352.5
  21
@@ -9749,7 +9749,7 @@ AcDbText
  40
 2.5
   1
-VIEW Y  C1=(10.00, 11.00)   C2=(26.00, 11.00)   C3=(94.00, 11.00)   C4=(110.00, 11.00)
+VIEW Z  A1=(35.30, 10.30)   A2=(84.70, 10.30)   A3=(35.30, 59.70)   B1=(60.00, 35.00)
  11
 352.5
  21
@@ -9779,41 +9779,11 @@ AcDbText
  40
 2.5
   1
-VIEW Z  A1=(35.30, 10.30)   A2=(84.70, 10.30)   A3=(35.30, 59.70)   B1=(60.00, 35.00)
- 11
-352.5
- 21
-52.5
- 31
-0.0
-100
-AcDbText
-  0
-TEXT
-  5
-142
-330
-17
-100
-AcDbEntity
-  8
-TABLE
-100
-AcDbText
- 10
-352.5
- 20
-48.5
- 30
-0.0
- 40
-2.5
-  1
          A4=(84.70, 59.70)
  11
 352.5
  21
-48.5
+52.5
  31
 0.0
 100
@@ -10909,7 +10879,7 @@ CREATED_BY_EZDXF
   3
 WRITTEN_BY_EZDXF
 350
-145
+144
   0
 DICTIONARYVAR
   5
@@ -10921,7 +10891,7 @@ DictionaryVariables
 280
 0
   1
-1.4.5 @ 2026-11-23T10:08:03.161178+00:00
+1.4.5 @ 2026-11-23T10:16:07.575372+00:00
   0
 VISUALSTYLE
   5
@@ -11625,7 +11595,7 @@ X-Ray
   0
 DICTIONARYVAR
   5
-145
+144
 330
 2D
 100
@@ -11633,7 +11603,7 @@ DictionaryVariables
 280
 0
   1
-1.4.5 @ 2026-11-23T10:08:03.168192+00:00
+1.4.5 @ 2026-11-23T10:16:07.582808+00:00
   0
 ENDSEC
   0
