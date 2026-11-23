@@ -1,4 +1,4 @@
-v14 = v12 + wider X (+65) + L-shaped tool-head module.  new parts: 56
+v14 = v12 + wider X (+65) + L-shaped tool-head module.  new parts: 55
 stretch Datum_base_plate   at x+-250: x -360.0..360.0 -> -392.5..392.5
 stretch X_base_plate       at x+-255: x -360.0..360.0 -> -392.5..392.5
 stretch X_rail_1           at x+-255: x -270.0..270.0 -> -302.5..302.5
@@ -8,11 +8,11 @@ moved out: 58 parts (+x 39, -x 19); static parts crossing x+-255 not handled: no
 X screw fixed-supported: C-TEF12 at x -223.5, screw x -230.5..295.5 (L 526), thread end -213.5
 C-TEK12 mounting bolts added (X, Y, Z): [2, 2, 2]
 CAMERA (-32.5, -20), lens front z 235.0, tip 180.0, prism fold (-195, 228, 120), air path 120.0; measure at X -162.5, table -248, Z -60
-PROBE (6.5, -95) on an air slide bolted to the spindle clamp front, ball retracted z 215.0 (tool tip +35), extended z 155.0 (tool tip -25), stroke 60, clamp block 52 high, slide holes z 338.0 / 398.0 on the clamp z 331..405
-SPINDLE x 32.5, camera -32.5 (D 65), probe (6.5, -95); X travel +-182.5: spindle reach -150.0..215.0, camera -215.0..150.0, probe -176.0..189.0; probe needs table +75..-225 (travel +150..-250)
-Z assembly lowered 25: 149 parts moved; tool tip z 155.0 (table top 110 -> Z -50 reaches 5.0 below it), Z plate bottom z 197.0
+PROBE (-23.5, -73) on an air slide bolted to the spindle clamp front, ball retracted z 215.0 (tool tip +35), extended z 155.0 (tool tip -25), stroke 60, plate 104 long, slide holes z 338.0 / 398.0 on the clamp z 331..405
+SPINDLE x 32.5, camera -32.5 (D 65), probe (-23.5, -73); X travel +-182.5: spindle reach -150.0..215.0, camera -215.0..150.0, probe -206.0..159.0; probe needs table +97..-203 (travel +150..-250)
+Z assembly lowered 25: 148 parts moved; tool tip z 155.0 (table top 110 -> Z -50 reaches 5.0 below it), Z plate bottom z 197.0
   after the drop: lens front z 210.0, tool-setting pose X -162.5, table -248, Z -35.0
-HOLE_CHECK 24 tools, not fully in material: []
+HOLE_CHECK 23 tools, not fully in material: []
 
 Datum_base_plate           -  x[ -392.5,  392.5] y[ -145.0,  182.0] z[  -20.0,    0.0]  OK
 X_base_plate               -  x[ -392.5,  392.5] y[  162.0,  182.0] z[  230.0,  490.0]  OK
@@ -41,9 +41,9 @@ Camera_lens                z  x[  -59.5,  -10.0] y[  -42.5,    2.5] z[  210.0,  
 Camera_CS_C_adapter        z  x[  -47.5,  -17.5] y[  -35.0,   -5.0] z[  384.1,  389.1]  OK
 Camera_body                z  x[  -48.0,  -18.0] y[  -34.5,   -5.5] z[  389.1,  408.5]  OK
 Camera_light_guide         z  x[ -119.5,  -44.0] y[  -27.0,  -13.0] z[  319.5,  333.5]  OK
-Camera_air_ring            z  x[  -58.0,   -7.0] y[  -49.5,    5.5] z[  208.0,  218.0]  OK
-Camera_air_fitting         z  x[  -37.1,  -27.9] y[  -64.2,  -46.5] z[  208.4,  217.6]  OK
-Camera_air_tube            z  x[  -34.5,  -30.5] y[  -89.2,  -64.2] z[  211.0,  215.0]  OK
+Camera_air_ring            z  x[  -62.0,   -7.0] y[  -45.5,    5.5] z[  208.0,  218.0]  OK
+Camera_air_fitting         z  x[  -76.7,  -59.0] y[  -24.6,  -15.4] z[  208.4,  217.6]  OK
+Camera_air_tube            z  x[ -101.7,  -76.7] y[  -22.0,  -18.0] z[  211.0,  215.0]  OK
 Camera_bracket             z  x[  -58.5,   -6.5] y[  -56.0,   20.0] z[  265.0,  295.0]  OK
 Camera_pinch_bolt          z  x[  -44.5,  -26.5] y[  -52.5,  -45.5] z[  276.5,  283.5]  OK
 Camera_bracket_bolt_1      z  x[  -46.8,  -38.2] y[    8.5,   32.0] z[  275.8,  284.2]  OK
@@ -60,21 +60,20 @@ Mirror_cover_fitting_1     y  x[ -244.2, -226.5] y[  152.4,  161.6] z[  117.9,  
 Mirror_cover_tube_1        y  x[ -269.2, -244.2] y[  155.0,  159.0] z[  120.5,  124.5]  OK
 Mirror_cover_fitting_2     y  x[ -244.2, -226.5] y[  192.9,  202.1] z[  117.9,  127.1]  OK
 Mirror_cover_tube_2        y  x[ -269.2, -244.2] y[  195.5,  199.5] z[  120.5,  124.5]  OK
-Probe_body                 z  x[  -10.0,   23.0] y[ -111.5,  -78.5] z[  190.0,  257.0]  OK
+Probe_body                 z  x[  -40.0,   -7.0] y[  -89.5,  -56.5] z[  190.0,  257.0]  OK
 Probe_slide_body           z  x[  -11.5,   27.5] y[  -83.0,  -63.0] z[  303.8,  403.0]  OK
-Probe_slide_table          z  x[  -10.5,   35.5] y[  -82.5,  -63.5] z[  296.5,  395.5]  OK
-Probe_reed_1               z  x[   -4.0,   14.0] y[  -85.5,  -83.0] z[  365.0,  377.0]  OK
-Probe_air_fitting_1        z  x[   -9.6,   -0.4] y[  -77.6,  -68.4] z[  400.0,  417.7]  OK
-Probe_air_tube_1           z  x[   -7.0,   -3.0] y[  -75.0,  -71.0] z[  417.7,  442.7]  OK
-Probe_reed_2               z  x[   -4.0,   14.0] y[  -85.5,  -83.0] z[  383.0,  395.0]  OK
-Probe_air_fitting_2        z  x[   10.4,   19.6] y[  -77.6,  -68.4] z[  400.0,  417.7]  OK
-Probe_air_tube_2           z  x[   13.0,   17.0] y[  -75.0,  -71.0] z[  417.7,  442.7]  OK
-Probe_slide_bolt_1         z  x[   13.0,   20.0] y[  -81.4,  -53.6] z[  309.5,  316.5]  OK
-Probe_slide_bolt_2         z  x[   13.0,   20.0] y[  -81.4,  -53.6] z[  369.5,  376.5]  OK
-Probe_slide_bolt_3         z  x[  -10.0,   -3.0] y[  -81.4,  -53.6] z[  309.5,  316.5]  OK
-Probe_holder               z  x[  -10.5,   33.5] y[ -113.0,  -63.0] z[  244.0,  296.5]  OK
-Probe_pinch_bolt           z  x[  -14.5,   12.5] y[ -108.5, -101.5] z[  247.5,  254.5]  OK
-Probe_holder_bolt_1        z  x[   10.5,   17.5] y[  -82.0,  -75.0] z[  282.5,  303.0]  OK
-Probe_holder_bolt_2        z  x[   10.5,   17.5] y[  -71.0,  -64.0] z[  282.5,  303.0]  OK
-Probe_holder_bolt_3        z  x[   -7.5,   -0.5] y[  -82.0,  -75.0] z[  282.5,  303.0]  OK
-Probe_holder_bolt_4        z  x[   -7.5,   -0.5] y[  -71.0,  -64.0] z[  282.5,  303.0]  OK
+Probe_slide_table          z  x[  -19.5,   26.5] y[  -82.5,  -63.5] z[  296.5,  395.5]  OK
+Probe_reed_1               z  x[    2.0,   20.0] y[  -85.5,  -83.0] z[  365.0,  377.0]  OK
+Probe_air_fitting_1        z  x[   16.4,   25.6] y[  -77.6,  -68.4] z[  400.0,  417.7]  OK
+Probe_air_tube_1           z  x[   19.0,   23.0] y[  -75.0,  -71.0] z[  417.7,  442.7]  OK
+Probe_reed_2               z  x[    2.0,   20.0] y[  -85.5,  -83.0] z[  383.0,  395.0]  OK
+Probe_air_fitting_2        z  x[   -3.6,    5.6] y[  -77.6,  -68.4] z[  400.0,  417.7]  OK
+Probe_air_tube_2           z  x[   -1.0,    3.0] y[  -75.0,  -71.0] z[  417.7,  442.7]  OK
+Probe_slide_bolt_1         z  x[   -4.0,    3.0] y[  -81.4,  -53.6] z[  309.5,  316.5]  OK
+Probe_slide_bolt_2         z  x[   -4.0,    3.0] y[  -81.4,  -53.6] z[  369.5,  376.5]  OK
+Probe_holder               z  x[  -31.5,  -15.5] y[  -84.0,  -62.0] z[  244.0,  347.5]  OK
+Probe_pinch_bolt           z  x[  -35.5,  -17.5] y[  -82.0,  -75.0] z[  249.5,  256.5]  OK
+Probe_holder_bolt_1        z  x[  -31.5,  -15.5] y[  -82.0,  -75.0] z[  304.0,  311.0]  OK
+Probe_holder_bolt_2        z  x[  -31.5,  -15.5] y[  -71.0,  -64.0] z[  304.0,  311.0]  OK
+Probe_holder_bolt_3        z  x[  -31.5,  -15.5] y[  -82.0,  -75.0] z[  334.0,  341.0]  OK
+Probe_holder_bolt_4        z  x[  -31.5,  -15.5] y[  -71.0,  -64.0] z[  334.0,  341.0]  OK
