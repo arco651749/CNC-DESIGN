@@ -489,7 +489,7 @@ $SKPOLY
   9
 $TDCREATE
  40
-2461368.374097222
+2461368.4222569442
   9
 $TDUCREATE
  40
@@ -497,7 +497,7 @@ $TDUCREATE
   9
 $TDUPDATE
  40
-2461368.374097222
+2461368.4222569442
   9
 $TDUUPDATE
  40
@@ -549,7 +549,7 @@ $SPLINESEGS
   9
 $HANDSEED
   5
-107
+10D
   9
 $SURFTAB1
  70
@@ -929,11 +929,11 @@ $PSTYLEMODE
   9
 $FINGERPRINTGUID
   2
-{27D813CA-B36E-4124-8A40-12837F71A712}
+{AE189D87-98E2-4524-88B6-4554948C7C7D}
   9
 $VERSIONGUID
   2
-{05874C47-A680-46D3-A3CE-F069616DF588}
+{E65B60A1-9D82-4E9B-A21C-E3169A45AEDB}
   9
 $EXTNAMES
 290
@@ -3301,7 +3301,7 @@ ACAD
   0
 APPID
   5
-104
+10A
 330
 3
 100
@@ -3315,7 +3315,7 @@ HATCHBACKGROUNDCOLOR
   0
 APPID
   5
-105
+10B
 330
 3
 100
@@ -6957,9 +6957,9 @@ AcDbText
  30
 0.0
  40
-2.0
+1.75
   1
-A
+A1
  11
 22.975
  21
@@ -7133,9 +7133,9 @@ AcDbText
  30
 0.0
  40
-2.0
+1.75
   1
-A
+A2
  11
 62.975
  21
@@ -7825,9 +7825,9 @@ AcDbText
  30
 0.0
  40
-2.0
+1.75
   1
-B
+B1
  11
 156.0
  21
@@ -8145,7 +8145,7 @@ AcDbText
  40
 2.5
   1
-
+MATERIAL  steel (Q235 / S45C as in the spec); FINISH  black oxide, ground faces bare + rust oil
  11
 225.0
  21
@@ -8175,7 +8175,7 @@ AcDbText
  40
 2.5
   1
-HOLE TABLE
+DATUMS  A = largest face; B / C = lower / left edge of each view (machined square to A). Positions below are from B / C.
  11
 225.0
  21
@@ -8205,7 +8205,7 @@ AcDbText
  40
 2.5
   1
-A   x2   %%c6.6 thru (for M6)
+
  11
 225.0
  21
@@ -8235,11 +8235,191 @@ AcDbText
  40
 2.5
   1
-B   x1   M8x0.75 tap thru
+HOLE TABLE
  11
 225.0
  21
 24.0
+ 31
+0.0
+100
+AcDbText
+  0
+TEXT
+  5
+104
+330
+17
+100
+AcDbEntity
+  8
+TABLE
+100
+AcDbText
+ 10
+225.0
+ 20
+20.0
+ 30
+0.0
+ 40
+2.5
+  1
+A   x2   %%c6.6 thru (for M6)
+ 11
+225.0
+ 21
+20.0
+ 31
+0.0
+100
+AcDbText
+  0
+TEXT
+  5
+105
+330
+17
+100
+AcDbEntity
+  8
+TABLE
+100
+AcDbText
+ 10
+225.0
+ 20
+16.0
+ 30
+0.0
+ 40
+2.5
+  1
+B   x1   M8x0.75 tap thru
+ 11
+225.0
+ 21
+16.0
+ 31
+0.0
+100
+AcDbText
+  0
+TEXT
+  5
+106
+330
+17
+100
+AcDbEntity
+  8
+TABLE
+100
+AcDbText
+ 10
+225.0
+ 20
+12.0
+ 30
+0.0
+ 40
+2.5
+  1
+
+ 11
+225.0
+ 21
+12.0
+ 31
+0.0
+100
+AcDbText
+  0
+TEXT
+  5
+107
+330
+17
+100
+AcDbEntity
+  8
+TABLE
+100
+AcDbText
+ 10
+225.0
+ 20
+8.0
+ 30
+0.0
+ 40
+2.5
+  1
+HOLE POSITIONS  (view: hole = X, Y from the lower-left corner of that view)
+ 11
+225.0
+ 21
+8.0
+ 31
+0.0
+100
+AcDbText
+  0
+TEXT
+  5
+108
+330
+17
+100
+AcDbEntity
+  8
+TABLE
+100
+AcDbText
+ 10
+225.0
+ 20
+4.0
+ 30
+0.0
+ 40
+2.5
+  1
+VIEW Y  A1=(10.00, 16.00)   A2=(50.00, 16.00)
+ 11
+225.0
+ 21
+4.0
+ 31
+0.0
+100
+AcDbText
+  0
+TEXT
+  5
+109
+330
+17
+100
+AcDbEntity
+  8
+TABLE
+100
+AcDbText
+ 10
+225.0
+ 20
+0.0
+ 30
+0.0
+ 40
+2.5
+  1
+VIEW Z  B1=(30.00, 10.00)
+ 11
+225.0
+ 21
+0.0
  31
 0.0
 100
@@ -9335,7 +9515,7 @@ CREATED_BY_EZDXF
   3
 WRITTEN_BY_EZDXF
 350
-106
+10C
   0
 DICTIONARYVAR
   5
@@ -9347,7 +9527,7 @@ DictionaryVariables
 280
 0
   1
-1.4.5 @ 2026-11-23T08:58:42.116415+00:00
+1.4.5 @ 2026-11-23T10:08:03.348652+00:00
   0
 VISUALSTYLE
   5
@@ -10051,7 +10231,7 @@ X-Ray
   0
 DICTIONARYVAR
   5
-106
+10C
 330
 2D
 100
@@ -10059,7 +10239,7 @@ DictionaryVariables
 280
 0
   1
-1.4.5 @ 2026-11-23T08:58:42.122862+00:00
+1.4.5 @ 2026-11-23T10:08:03.354316+00:00
   0
 ENDSEC
   0

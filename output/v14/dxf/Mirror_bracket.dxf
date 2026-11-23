@@ -489,7 +489,7 @@ $SKPOLY
   9
 $TDCREATE
  40
-2461368.374097222
+2461368.4222569442
   9
 $TDUCREATE
  40
@@ -497,7 +497,7 @@ $TDUCREATE
   9
 $TDUPDATE
  40
-2461368.374097222
+2461368.4222569442
   9
 $TDUUPDATE
  40
@@ -549,7 +549,7 @@ $SPLINESEGS
   9
 $HANDSEED
   5
-10D
+114
   9
 $SURFTAB1
  70
@@ -929,11 +929,11 @@ $PSTYLEMODE
   9
 $FINGERPRINTGUID
   2
-{E2FA3FB1-ACB9-48F5-9D29-44A0F6AE9EB8}
+{CF778A7D-79F8-49BD-A8D4-735806FE3919}
   9
 $VERSIONGUID
   2
-{542DE23B-3AE4-411C-A7C1-693000011D90}
+{F0E0CE7C-E4EC-4D89-8109-1ADF1B0D7022}
   9
 $EXTNAMES
 290
@@ -3301,7 +3301,7 @@ ACAD
   0
 APPID
   5
-10A
+111
 330
 3
 100
@@ -3315,7 +3315,7 @@ HATCHBACKGROUNDCOLOR
   0
 APPID
   5
-10B
+112
 330
 3
 100
@@ -6979,9 +6979,9 @@ AcDbText
  30
 0.0
  40
-2.0
+1.75
   1
-A
+A1
  11
 118.125
  21
@@ -7177,9 +7177,9 @@ AcDbText
  30
 0.0
  40
-2.0
+1.75
   1
-A
+A2
  11
 118.125
  21
@@ -7869,9 +7869,9 @@ AcDbText
  30
 0.0
  40
-2.0
+1.75
   1
-B
+B1
  11
 191.345
  21
@@ -8045,9 +8045,9 @@ AcDbText
  30
 0.0
  40
-2.0
+1.75
   1
-B
+B2
  11
 206.905
  21
@@ -8287,7 +8287,7 @@ AcDbText
  40
 2.5
   1
-
+MATERIAL  steel (Q235 / S45C as in the spec); FINISH  black oxide, ground faces bare + rust oil
  11
 342.0
  21
@@ -8317,7 +8317,7 @@ AcDbText
  40
 2.5
   1
-HOLE TABLE
+DATUMS  A = largest face; B / C = lower / left edge of each view (machined square to A). Positions below are from B / C.
  11
 342.0
  21
@@ -8347,7 +8347,7 @@ AcDbText
  40
 2.5
   1
-A   x2   %%c6.6 thru, c-bore %%c11 depth 4 (c-bore on top) (for M6 low-head DIN 7984)
+NOTE  window through the base for the prism and slot 18 wide through the base under the light path; tenon key 14 h7
  11
 342.0
  21
@@ -8377,11 +8377,221 @@ AcDbText
  40
 2.5
   1
-B   x2   M3 tap thru
+
  11
 342.0
  21
 84.5
+ 31
+0.0
+100
+AcDbText
+  0
+TEXT
+  5
+10A
+330
+17
+100
+AcDbEntity
+  8
+TABLE
+100
+AcDbText
+ 10
+342.0
+ 20
+80.5
+ 30
+0.0
+ 40
+2.5
+  1
+HOLE TABLE
+ 11
+342.0
+ 21
+80.5
+ 31
+0.0
+100
+AcDbText
+  0
+TEXT
+  5
+10B
+330
+17
+100
+AcDbEntity
+  8
+TABLE
+100
+AcDbText
+ 10
+342.0
+ 20
+76.5
+ 30
+0.0
+ 40
+2.5
+  1
+A   x2   %%c6.6 thru, c-bore %%c11 depth 4 (c-bore on top) (for M6 low-head DIN 7984)
+ 11
+342.0
+ 21
+76.5
+ 31
+0.0
+100
+AcDbText
+  0
+TEXT
+  5
+10C
+330
+17
+100
+AcDbEntity
+  8
+TABLE
+100
+AcDbText
+ 10
+342.0
+ 20
+72.5
+ 30
+0.0
+ 40
+2.5
+  1
+B   x2   M3 tap thru
+ 11
+342.0
+ 21
+72.5
+ 31
+0.0
+100
+AcDbText
+  0
+TEXT
+  5
+10D
+330
+17
+100
+AcDbEntity
+  8
+TABLE
+100
+AcDbText
+ 10
+342.0
+ 20
+68.5
+ 30
+0.0
+ 40
+2.5
+  1
+
+ 11
+342.0
+ 21
+68.5
+ 31
+0.0
+100
+AcDbText
+  0
+TEXT
+  5
+10E
+330
+17
+100
+AcDbEntity
+  8
+TABLE
+100
+AcDbText
+ 10
+342.0
+ 20
+64.5
+ 30
+0.0
+ 40
+2.5
+  1
+HOLE POSITIONS  (view: hole = X, Y from the lower-left corner of that view)
+ 11
+342.0
+ 21
+64.5
+ 31
+0.0
+100
+AcDbText
+  0
+TEXT
+  5
+10F
+330
+17
+100
+AcDbEntity
+  8
+TABLE
+100
+AcDbText
+ 10
+342.0
+ 20
+60.5
+ 30
+0.0
+ 40
+2.5
+  1
+VIEW Y  B1=(8.72, 24.28)   B2=(24.28, 8.72)
+ 11
+342.0
+ 21
+60.5
+ 31
+0.0
+100
+AcDbText
+  0
+TEXT
+  5
+110
+330
+17
+100
+AcDbEntity
+  8
+TABLE
+100
+AcDbText
+ 10
+342.0
+ 20
+56.5
+ 30
+0.0
+ 40
+2.5
+  1
+VIEW Z  A1=(103.50, 39.50)   A2=(103.50, 67.50)
+ 11
+342.0
+ 21
+56.5
  31
 0.0
 100
@@ -9477,7 +9687,7 @@ CREATED_BY_EZDXF
   3
 WRITTEN_BY_EZDXF
 350
-10C
+113
   0
 DICTIONARYVAR
   5
@@ -9489,7 +9699,7 @@ DictionaryVariables
 280
 0
   1
-1.4.5 @ 2026-11-23T08:58:42.262245+00:00
+1.4.5 @ 2026-11-23T10:08:03.493490+00:00
   0
 VISUALSTYLE
   5
@@ -10193,7 +10403,7 @@ X-Ray
   0
 DICTIONARYVAR
   5
-10C
+113
 330
 2D
 100
@@ -10201,7 +10411,7 @@ DictionaryVariables
 280
 0
   1
-1.4.5 @ 2026-11-23T08:58:42.268117+00:00
+1.4.5 @ 2026-11-23T10:08:03.500116+00:00
   0
 ENDSEC
   0

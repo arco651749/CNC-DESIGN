@@ -489,7 +489,7 @@ $SKPOLY
   9
 $TDCREATE
  40
-2461368.374085648
+2461368.4222569442
   9
 $TDUCREATE
  40
@@ -497,7 +497,7 @@ $TDUCREATE
   9
 $TDUPDATE
  40
-2461368.374085648
+2461368.4222569442
   9
 $TDUUPDATE
  40
@@ -549,7 +549,7 @@ $SPLINESEGS
   9
 $HANDSEED
   5
-151
+159
   9
 $SURFTAB1
  70
@@ -929,11 +929,11 @@ $PSTYLEMODE
   9
 $FINGERPRINTGUID
   2
-{AB146E6E-4C23-4184-A931-4F2B5F17EE75}
+{A5DCE4AB-9843-4411-8CE9-B0A4786CCB8F}
   9
 $VERSIONGUID
   2
-{A21AF9E1-BE60-4EAD-84D7-7A590DF29094}
+{3903F66A-1FA8-426B-864D-A6C4E1E7891C}
   9
 $EXTNAMES
 290
@@ -3301,7 +3301,7 @@ ACAD
   0
 APPID
   5
-14E
+156
 330
 3
 100
@@ -3315,7 +3315,7 @@ HATCHBACKGROUNDCOLOR
   0
 APPID
   5
-14F
+157
 330
 3
 100
@@ -7597,9 +7597,9 @@ AcDbText
  30
 0.0
  40
-2.0
+1.75
   1
-A
+A1
  11
 24.975
  21
@@ -7695,9 +7695,9 @@ AcDbText
  30
 0.0
  40
-2.0
+1.75
   1
-A
+A2
  11
 19.375
  21
@@ -7871,9 +7871,9 @@ AcDbText
  30
 0.0
  40
-2.0
+1.75
   1
-A
+A3
  11
 51.775
  21
@@ -7969,9 +7969,9 @@ AcDbText
  30
 0.0
  40
-2.0
+1.75
   1
-B
+B1
  11
 47.075
  21
@@ -8145,9 +8145,9 @@ AcDbText
  30
 0.0
  40
-2.0
+1.75
   1
-A
+A4
  11
 57.375
  21
@@ -8243,9 +8243,9 @@ AcDbText
  30
 0.0
  40
-2.0
+1.75
   1
-A
+A5
  11
 24.975
  21
@@ -8341,9 +8341,9 @@ AcDbText
  30
 0.0
  40
-2.0
+1.75
   1
-A
+A6
  11
 51.775
  21
@@ -9293,9 +9293,9 @@ AcDbText
  30
 0.0
  40
-2.0
+1.75
   1
-C
+C1
  11
 131.75
  21
@@ -9469,9 +9469,9 @@ AcDbText
  30
 0.0
  40
-2.0
+1.75
   1
-C
+C2
  11
 131.75
  21
@@ -9567,9 +9567,9 @@ AcDbText
  30
 0.0
  40
-2.0
+1.75
   1
-C
+C3
  11
 169.75
  21
@@ -9665,9 +9665,9 @@ AcDbText
  30
 0.0
  40
-2.0
+1.75
   1
-C
+C4
  11
 169.75
  21
@@ -9907,7 +9907,7 @@ AcDbText
  40
 2.5
   1
-
+MATERIAL  steel (Q235 / S45C as in the spec); FINISH  black oxide, ground faces bare + rust oil
  11
 216.5
  21
@@ -9937,7 +9937,7 @@ AcDbText
  40
 2.5
   1
-HOLE TABLE
+DATUMS  A = largest face; B / C = lower / left edge of each view (machined square to A). Positions below are from B / C.
  11
 216.5
  21
@@ -9967,7 +9967,7 @@ AcDbText
  40
 2.5
   1
-A   x6   M5 tap depth 10 (from top)
+NOTE  bore D28.2 for the nut body; flange taps on the top face, M6 taps in the front face
  11
 216.5
  21
@@ -9985,7 +9985,7 @@ TEXT
 100
 AcDbEntity
   8
-H7
+TABLE
 100
 AcDbText
  10
@@ -9997,7 +9997,7 @@ AcDbText
  40
 2.5
   1
-B   x1   %%c28 H7 (+0.021/0) thru (ball nut body %%c28; align the housing on its mounting screws)
+
  11
 216.5
  21
@@ -10027,11 +10027,251 @@ AcDbText
  40
 2.5
   1
-C   x4   M6 tap depth 20 (from front)
+HOLE TABLE
  11
 216.5
  21
 32.099999999999994
+ 31
+0.0
+100
+AcDbText
+  0
+TEXT
+  5
+14E
+330
+17
+100
+AcDbEntity
+  8
+TABLE
+100
+AcDbText
+ 10
+216.5
+ 20
+28.099999999999994
+ 30
+0.0
+ 40
+2.5
+  1
+A   x6   M5 tap depth 10 (from top)
+ 11
+216.5
+ 21
+28.099999999999994
+ 31
+0.0
+100
+AcDbText
+  0
+TEXT
+  5
+14F
+330
+17
+100
+AcDbEntity
+  8
+H7
+100
+AcDbText
+ 10
+216.5
+ 20
+24.099999999999994
+ 30
+0.0
+ 40
+2.5
+  1
+B   x1   %%c28 H7 (+0.021/0) thru (ball nut body %%c28; align the housing on its mounting screws)
+ 11
+216.5
+ 21
+24.099999999999994
+ 31
+0.0
+100
+AcDbText
+  0
+TEXT
+  5
+150
+330
+17
+100
+AcDbEntity
+  8
+TABLE
+100
+AcDbText
+ 10
+216.5
+ 20
+20.099999999999994
+ 30
+0.0
+ 40
+2.5
+  1
+C   x4   M6 tap depth 20 (from front)
+ 11
+216.5
+ 21
+20.099999999999994
+ 31
+0.0
+100
+AcDbText
+  0
+TEXT
+  5
+151
+330
+17
+100
+AcDbEntity
+  8
+TABLE
+100
+AcDbText
+ 10
+216.5
+ 20
+16.099999999999994
+ 30
+0.0
+ 40
+2.5
+  1
+
+ 11
+216.5
+ 21
+16.099999999999994
+ 31
+0.0
+100
+AcDbText
+  0
+TEXT
+  5
+152
+330
+17
+100
+AcDbEntity
+  8
+TABLE
+100
+AcDbText
+ 10
+216.5
+ 20
+12.099999999999994
+ 30
+0.0
+ 40
+2.5
+  1
+HOLE POSITIONS  (view: hole = X, Y from the lower-left corner of that view)
+ 11
+216.5
+ 21
+12.099999999999994
+ 31
+0.0
+100
+AcDbText
+  0
+TEXT
+  5
+153
+330
+17
+100
+AcDbEntity
+  8
+TABLE
+100
+AcDbText
+ 10
+216.5
+ 20
+8.099999999999994
+ 30
+0.0
+ 40
+2.5
+  1
+VIEW Y  C1=(7.00, 6.00)   C2=(7.00, 18.00)   C3=(45.00, 6.00)   C4=(45.00, 18.00)
+ 11
+216.5
+ 21
+8.099999999999994
+ 31
+0.0
+100
+AcDbText
+  0
+TEXT
+  5
+154
+330
+17
+100
+AcDbEntity
+  8
+TABLE
+100
+AcDbText
+ 10
+216.5
+ 20
+4.099999999999994
+ 30
+0.0
+ 40
+2.5
+  1
+VIEW Z  A1=(12.60, 9.60)   A2=(7.00, 23.00)   A3=(39.40, 9.60)   B1=(26.00, 23.00)
+ 11
+216.5
+ 21
+4.099999999999994
+ 31
+0.0
+100
+AcDbText
+  0
+TEXT
+  5
+155
+330
+17
+100
+AcDbEntity
+  8
+TABLE
+100
+AcDbText
+ 10
+216.5
+ 20
+0.09999999999999432
+ 30
+0.0
+ 40
+2.5
+  1
+         A4=(45.00, 23.00)   A5=(12.60, 36.40)   A6=(39.40, 36.40)
+ 11
+216.5
+ 21
+0.09999999999999432
  31
 0.0
 100
@@ -11127,7 +11367,7 @@ CREATED_BY_EZDXF
   3
 WRITTEN_BY_EZDXF
 350
-150
+158
   0
 DICTIONARYVAR
   5
@@ -11139,7 +11379,7 @@ DictionaryVariables
 280
 0
   1
-1.4.5 @ 2026-11-23T08:58:41.882798+00:00
+1.4.5 @ 2026-11-23T10:08:03.178543+00:00
   0
 VISUALSTYLE
   5
@@ -11843,7 +12083,7 @@ X-Ray
   0
 DICTIONARYVAR
   5
-150
+158
 330
 2D
 100
@@ -11851,7 +12091,7 @@ DictionaryVariables
 280
 0
   1
-1.4.5 @ 2026-11-23T08:58:41.895293+00:00
+1.4.5 @ 2026-11-23T10:08:03.185930+00:00
   0
 ENDSEC
   0

@@ -489,7 +489,7 @@ $SKPOLY
   9
 $TDCREATE
  40
-2461368.374085648
+2461368.4222569442
   9
 $TDUCREATE
  40
@@ -497,7 +497,7 @@ $TDUCREATE
   9
 $TDUPDATE
  40
-2461368.374085648
+2461368.4222569442
   9
 $TDUUPDATE
  40
@@ -549,7 +549,7 @@ $SPLINESEGS
   9
 $HANDSEED
   5
-1B9
+1C5
   9
 $SURFTAB1
  70
@@ -929,11 +929,11 @@ $PSTYLEMODE
   9
 $FINGERPRINTGUID
   2
-{34794774-81B0-4870-9735-F84646249144}
+{9293A5A4-CC2F-4AA8-88EA-4A84C7340B88}
   9
 $VERSIONGUID
   2
-{E2FFD23E-99FA-4E7A-A87B-88D8931A8B99}
+{24E20E21-9994-49D2-B3E8-668589AD71DE}
   9
 $EXTNAMES
 290
@@ -3301,7 +3301,7 @@ ACAD
   0
 APPID
   5
-1B6
+1C2
 330
 3
 100
@@ -3315,7 +3315,7 @@ HATCHBACKGROUNDCOLOR
   0
 APPID
   5
-1B7
+1C3
 330
 3
 100
@@ -8003,9 +8003,9 @@ AcDbText
  30
 0.0
  40
-4.0
+3.5
   1
-A
+A1
  11
 96.5625
  21
@@ -8201,9 +8201,9 @@ AcDbText
  30
 0.0
  40
-4.0
+3.5
   1
-A
+A2
  11
 96.5625
  21
@@ -8321,9 +8321,9 @@ AcDbText
  30
 0.0
  40
-4.0
+3.5
   1
-A
+A3
  11
 128.5625
  21
@@ -8441,9 +8441,9 @@ AcDbText
  30
 0.0
  40
-4.0
+3.5
   1
-A
+A4
  11
 128.5625
  21
@@ -8561,9 +8561,9 @@ AcDbText
  30
 0.0
  40
-4.0
+3.5
   1
-B
+B1
  11
 147.625
  21
@@ -8681,9 +8681,9 @@ AcDbText
  30
 0.0
  40
-4.0
+3.5
   1
-A
+A5
  11
 96.5625
  21
@@ -8801,9 +8801,9 @@ AcDbText
  30
 0.0
  40
-4.0
+3.5
   1
-A
+A6
  11
 96.5625
  21
@@ -8921,9 +8921,9 @@ AcDbText
  30
 0.0
  40
-4.0
+3.5
   1
-A
+A7
  11
 128.5625
  21
@@ -9041,9 +9041,9 @@ AcDbText
  30
 0.0
  40
-4.0
+3.5
   1
-A
+A8
  11
 128.5625
  21
@@ -9161,9 +9161,9 @@ AcDbText
  30
 0.0
  40
-4.0
+3.5
   1
-B
+B2
  11
 147.625
  21
@@ -9281,9 +9281,9 @@ AcDbText
  30
 0.0
  40
-4.0
+3.5
   1
-B
+B3
  11
 170.625
  21
@@ -9401,9 +9401,9 @@ AcDbText
  30
 0.0
  40
-4.0
+3.5
   1
-A
+A9
  11
 203.5625
  21
@@ -9521,9 +9521,9 @@ AcDbText
  30
 0.0
  40
-4.0
+3.5
   1
-A
+A10
  11
 203.5625
  21
@@ -9641,9 +9641,9 @@ AcDbText
  30
 0.0
  40
-4.0
+3.5
   1
-A
+A11
  11
 235.5625
  21
@@ -9761,9 +9761,9 @@ AcDbText
  30
 0.0
  40
-4.0
+3.5
   1
-A
+A12
  11
 235.5625
  21
@@ -9881,9 +9881,9 @@ AcDbText
  30
 0.0
  40
-4.0
+3.5
   1
-B
+B4
  11
 170.625
  21
@@ -10057,9 +10057,9 @@ AcDbText
  30
 0.0
  40
-4.0
+3.5
   1
-C
+C1
  11
 170.75
  21
@@ -10255,9 +10255,9 @@ AcDbText
  30
 0.0
  40
-4.0
+3.5
   1
-A
+A13
  11
 203.5625
  21
@@ -10375,9 +10375,9 @@ AcDbText
  30
 0.0
  40
-4.0
+3.5
   1
-A
+A14
  11
 203.5625
  21
@@ -10495,9 +10495,9 @@ AcDbText
  30
 0.0
  40
-4.0
+3.5
   1
-A
+A15
  11
 235.5625
  21
@@ -10615,9 +10615,9 @@ AcDbText
  30
 0.0
  40
-4.0
+3.5
   1
-A
+A16
  11
 235.5625
  21
@@ -10713,9 +10713,9 @@ AcDbText
  30
 0.0
  40
-4.0
+3.5
   1
-D
+D1
  11
 51.375
  21
@@ -10889,9 +10889,9 @@ AcDbText
  30
 0.0
  40
-4.0
+3.5
   1
-D
+D2
  11
 51.375
  21
@@ -10987,9 +10987,9 @@ AcDbText
  30
 0.0
  40
-4.0
+3.5
   1
-E
+E1
  11
 76.75
  21
@@ -11085,9 +11085,9 @@ AcDbText
  30
 0.0
  40
-4.0
+3.5
   1
-E
+E2
  11
 76.75
  21
@@ -11183,9 +11183,9 @@ AcDbText
  30
 0.0
  40
-4.0
+3.5
   1
-E
+E3
  11
 76.75
  21
@@ -11281,9 +11281,9 @@ AcDbText
  30
 0.0
  40
-4.0
+3.5
   1
-E
+E4
  11
 252.75
  21
@@ -11457,9 +11457,9 @@ AcDbText
  30
 0.0
  40
-4.0
+3.5
   1
-D
+D3
  11
 277.375
  21
@@ -11555,9 +11555,9 @@ AcDbText
  30
 0.0
  40
-4.0
+3.5
   1
-D
+D4
  11
 277.375
  21
@@ -11653,9 +11653,9 @@ AcDbText
  30
 0.0
  40
-4.0
+3.5
   1
-E
+E5
  11
 252.75
  21
@@ -11751,9 +11751,9 @@ AcDbText
  30
 0.0
  40
-4.0
+3.5
   1
-E
+E6
  11
 252.75
  21
@@ -12347,7 +12347,7 @@ TEXT
 100
 AcDbEntity
   8
-GRIND
+TABLE
 100
 AcDbText
  10
@@ -12359,7 +12359,7 @@ AcDbText
  40
 5.0
   1
-GRIND: rear face ground (X block face), flatness 0.01
+MATERIAL  steel (Q235 / S45C as in the spec); FINISH  black oxide, ground faces bare + rust oil
  11
 404.0
  21
@@ -12389,7 +12389,7 @@ AcDbText
  40
 5.0
   1
-
+DATUMS  A = largest face; B / C = lower / left edge of each view (machined square to A). Positions below are from B / C.
  11
 404.0
  21
@@ -12407,7 +12407,7 @@ TEXT
 100
 AcDbEntity
   8
-TABLE
+GRIND
 100
 AcDbText
  10
@@ -12419,7 +12419,7 @@ AcDbText
  40
 5.0
   1
-HOLE TABLE
+GRIND: rear face ground (X block face), flatness 0.01
  11
 404.0
  21
@@ -12449,7 +12449,7 @@ AcDbText
  40
 5.0
   1
-A   x16  %%c5.5 thru, c-bore %%c9.5 depth 4 (c-bore on front) (for M5 low-head DIN 7984)
+
  11
 404.0
  21
@@ -12479,7 +12479,7 @@ AcDbText
  40
 5.0
   1
-B   x4   %%c6.6 thru, c-bore %%c11 depth 4.5 (c-bore on front) (for M6 low-head DIN 7984)
+HOLE TABLE
  11
 404.0
  21
@@ -12497,7 +12497,7 @@ TEXT
 100
 AcDbEntity
   8
-H7
+TABLE
 100
 AcDbText
  10
@@ -12509,7 +12509,7 @@ AcDbText
  40
 5.0
   1
-C   x1   %%c22 H7 (+0.021/0) thru; RBPB8 ring h6: bond with retaining compound Loctite 641, no press fit
+A   x16  %%c5.5 thru, c-bore %%c9.5 depth 4 (c-bore on front) (for M5 low-head DIN 7984)
  11
 404.0
  21
@@ -12539,7 +12539,7 @@ AcDbText
  40
 5.0
   1
-D   x4   M5 tap depth 10 (from front)
+B   x4   %%c6.6 thru, c-bore %%c11 depth 4.5 (c-bore on front) (for M6 low-head DIN 7984)
  11
 404.0
  21
@@ -12557,7 +12557,7 @@ TEXT
 100
 AcDbEntity
   8
-TABLE
+H7
 100
 AcDbText
  10
@@ -12569,11 +12569,371 @@ AcDbText
  40
 5.0
   1
-E   x6   M6 tap depth 10 (from front)
+C   x1   %%c22 H7 (+0.021/0) thru; RBPB8 ring h6: bond with retaining compound Loctite 641, no press fit
  11
 404.0
  21
 433.0
+ 31
+0.0
+100
+AcDbText
+  0
+TEXT
+  5
+1B6
+330
+17
+100
+AcDbEntity
+  8
+TABLE
+100
+AcDbText
+ 10
+404.0
+ 20
+425.0
+ 30
+0.0
+ 40
+5.0
+  1
+D   x4   M5 tap depth 10 (from front)
+ 11
+404.0
+ 21
+425.0
+ 31
+0.0
+100
+AcDbText
+  0
+TEXT
+  5
+1B7
+330
+17
+100
+AcDbEntity
+  8
+TABLE
+100
+AcDbText
+ 10
+404.0
+ 20
+417.0
+ 30
+0.0
+ 40
+5.0
+  1
+E   x6   M6 tap depth 10 (from front)
+ 11
+404.0
+ 21
+417.0
+ 31
+0.0
+100
+AcDbText
+  0
+TEXT
+  5
+1B8
+330
+17
+100
+AcDbEntity
+  8
+TABLE
+100
+AcDbText
+ 10
+404.0
+ 20
+409.0
+ 30
+0.0
+ 40
+5.0
+  1
+
+ 11
+404.0
+ 21
+409.0
+ 31
+0.0
+100
+AcDbText
+  0
+TEXT
+  5
+1B9
+330
+17
+100
+AcDbEntity
+  8
+TABLE
+100
+AcDbText
+ 10
+404.0
+ 20
+401.0
+ 30
+0.0
+ 40
+5.0
+  1
+HOLE POSITIONS  (view: hole = X, Y from the lower-left corner of that view)
+ 11
+404.0
+ 21
+401.0
+ 31
+0.0
+100
+AcDbText
+  0
+TEXT
+  5
+1BA
+330
+17
+100
+AcDbEntity
+  8
+TABLE
+100
+AcDbText
+ 10
+404.0
+ 20
+393.0
+ 30
+0.0
+ 40
+5.0
+  1
+VIEW Y  A1=(72.50, 12.00)   A2=(72.50, 44.00)   A3=(104.50, 12.00)   A4=(104.50, 44.00)
+ 11
+404.0
+ 21
+393.0
+ 31
+0.0
+100
+AcDbText
+  0
+TEXT
+  5
+1BB
+330
+17
+100
+AcDbEntity
+  8
+TABLE
+100
+AcDbText
+ 10
+404.0
+ 20
+385.0
+ 30
+0.0
+ 40
+5.0
+  1
+         B1=(123.00, 120.00)   A5=(72.50, 232.00)   A6=(72.50, 264.00)   A7=(104.50, 232.00)
+ 11
+404.0
+ 21
+385.0
+ 31
+0.0
+100
+AcDbText
+  0
+TEXT
+  5
+1BC
+330
+17
+100
+AcDbEntity
+  8
+TABLE
+100
+AcDbText
+ 10
+404.0
+ 20
+377.0
+ 30
+0.0
+ 40
+5.0
+  1
+         A8=(104.50, 264.00)   B2=(123.00, 156.00)   B3=(146.00, 120.00)   A9=(179.50, 12.00)
+ 11
+404.0
+ 21
+377.0
+ 31
+0.0
+100
+AcDbText
+  0
+TEXT
+  5
+1BD
+330
+17
+100
+AcDbEntity
+  8
+TABLE
+100
+AcDbText
+ 10
+404.0
+ 20
+369.0
+ 30
+0.0
+ 40
+5.0
+  1
+         A10=(179.50, 44.00)   A11=(211.50, 12.00)   A12=(211.50, 44.00)   B4=(146.00, 156.00)
+ 11
+404.0
+ 21
+369.0
+ 31
+0.0
+100
+AcDbText
+  0
+TEXT
+  5
+1BE
+330
+17
+100
+AcDbEntity
+  8
+TABLE
+100
+AcDbText
+ 10
+404.0
+ 20
+361.0
+ 30
+0.0
+ 40
+5.0
+  1
+         C1=(142.00, 244.00)   A13=(179.50, 232.00)   A14=(179.50, 264.00)   A15=(211.50, 232.00)
+ 11
+404.0
+ 21
+361.0
+ 31
+0.0
+100
+AcDbText
+  0
+TEXT
+  5
+1BF
+330
+17
+100
+AcDbEntity
+  8
+TABLE
+100
+AcDbText
+ 10
+404.0
+ 20
+353.0
+ 30
+0.0
+ 40
+5.0
+  1
+         A16=(211.50, 264.00)   D1=(29.00, 468.00)   D2=(29.00, 448.00)   E1=(54.00, 449.00)
+ 11
+404.0
+ 21
+353.0
+ 31
+0.0
+100
+AcDbText
+  0
+TEXT
+  5
+1C0
+330
+17
+100
+AcDbEntity
+  8
+TABLE
+100
+AcDbText
+ 10
+404.0
+ 20
+345.0
+ 30
+0.0
+ 40
+5.0
+  1
+         E2=(54.00, 398.00)   E3=(54.00, 18.00)   E4=(230.00, 449.00)   D3=(255.00, 468.00)
+ 11
+404.0
+ 21
+345.0
+ 31
+0.0
+100
+AcDbText
+  0
+TEXT
+  5
+1C1
+330
+17
+100
+AcDbEntity
+  8
+TABLE
+100
+AcDbText
+ 10
+404.0
+ 20
+337.0
+ 30
+0.0
+ 40
+5.0
+  1
+         D4=(255.00, 448.00)   E5=(230.00, 398.00)   E6=(230.00, 18.00)
+ 11
+404.0
+ 21
+337.0
  31
 0.0
 100
@@ -13669,7 +14029,7 @@ CREATED_BY_EZDXF
   3
 WRITTEN_BY_EZDXF
 350
-1B8
+1C4
   0
 DICTIONARYVAR
   5
@@ -13681,7 +14041,7 @@ DictionaryVariables
 280
 0
   1
-1.4.5 @ 2026-11-23T08:58:41.682236+00:00
+1.4.5 @ 2026-11-23T10:08:03.013801+00:00
   0
 VISUALSTYLE
   5
@@ -14385,7 +14745,7 @@ X-Ray
   0
 DICTIONARYVAR
   5
-1B8
+1C4
 330
 2D
 100
@@ -14393,7 +14753,7 @@ DictionaryVariables
 280
 0
   1
-1.4.5 @ 2026-11-23T08:58:41.698301+00:00
+1.4.5 @ 2026-11-23T10:08:03.023113+00:00
   0
 ENDSEC
   0

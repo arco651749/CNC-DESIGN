@@ -489,7 +489,7 @@ $SKPOLY
   9
 $TDCREATE
  40
-2461368.374097222
+2461368.4222569442
   9
 $TDUCREATE
  40
@@ -497,7 +497,7 @@ $TDUCREATE
   9
 $TDUPDATE
  40
-2461368.374097222
+2461368.4222569442
   9
 $TDUUPDATE
  40
@@ -549,7 +549,7 @@ $SPLINESEGS
   9
 $HANDSEED
   5
-13D
+144
   9
 $SURFTAB1
  70
@@ -929,11 +929,11 @@ $PSTYLEMODE
   9
 $FINGERPRINTGUID
   2
-{D6E4DDBF-72E1-440B-8663-D16B024937F9}
+{94D8D028-4F2E-4733-9844-FDB0C9C12005}
   9
 $VERSIONGUID
   2
-{79480EA5-D409-46AF-8C37-B71EFBC78620}
+{1384B837-B152-4046-BCC7-C560956DE9F8}
   9
 $EXTNAMES
 290
@@ -3301,7 +3301,7 @@ ACAD
   0
 APPID
   5
-13A
+141
 330
 3
 100
@@ -3315,7 +3315,7 @@ HATCHBACKGROUNDCOLOR
   0
 APPID
   5
-13B
+142
 330
 3
 100
@@ -7505,9 +7505,9 @@ AcDbText
  30
 0.0
  40
-2.0
+1.75
   1
-A
+A1
  11
 47.675
  21
@@ -7681,9 +7681,9 @@ AcDbText
  30
 0.0
  40
-2.0
+1.75
   1
-A
+A2
  11
 47.675
  21
@@ -7779,9 +7779,9 @@ AcDbText
  30
 0.0
  40
-2.0
+1.75
   1
-A
+A3
  11
 97.075
  21
@@ -7877,9 +7877,9 @@ AcDbText
  30
 0.0
  40
-2.0
+1.75
   1
-B
+B1
  11
 89.2875
  21
@@ -8053,9 +8053,9 @@ AcDbText
  30
 0.0
  40
-2.0
+1.75
   1
-A
+A4
  11
 97.075
  21
@@ -8813,9 +8813,9 @@ AcDbText
  30
 0.0
  40
-2.0
+1.75
   1
-C
+C1
  11
 202.975
  21
@@ -8989,9 +8989,9 @@ AcDbText
  30
 0.0
  40
-2.0
+1.75
   1
-C
+C2
  11
 218.975
  21
@@ -9087,9 +9087,9 @@ AcDbText
  30
 0.0
  40
-2.0
+1.75
   1
-C
+C3
  11
 286.975
  21
@@ -9185,9 +9185,9 @@ AcDbText
  30
 0.0
  40
-2.0
+1.75
   1
-C
+C4
  11
 302.975
  21
@@ -9427,7 +9427,7 @@ AcDbText
  40
 2.5
   1
-
+MATERIAL  see SPEC; FINISH  see SPEC
  11
 352.5
  21
@@ -9457,7 +9457,7 @@ AcDbText
  40
 2.5
   1
-HOLE TABLE
+DATUMS  A = largest face; B / C = lower / left edge of each view (machined square to A). Positions below are from B / C.
  11
 352.5
  21
@@ -9487,7 +9487,7 @@ AcDbText
  40
 2.5
   1
-A   x4   M5 tap depth 10 (from rear)
+
  11
 352.5
  21
@@ -9505,7 +9505,7 @@ TEXT
 100
 AcDbEntity
   8
-H7
+TABLE
 100
 AcDbText
  10
@@ -9517,7 +9517,7 @@ AcDbText
  40
 2.5
   1
-B   x1   %%c50 H7 (+0.025/0) thru (motor spigot)
+HOLE TABLE
  11
 352.5
  21
@@ -9547,11 +9547,221 @@ AcDbText
  40
 2.5
   1
-C   x4   %%c6.6 thru (for M6)
+A   x4   M5 tap depth 10 (from rear)
  11
 352.5
  21
 81.5
+ 31
+0.0
+100
+AcDbText
+  0
+TEXT
+  5
+13A
+330
+17
+100
+AcDbEntity
+  8
+H7
+100
+AcDbText
+ 10
+352.5
+ 20
+77.5
+ 30
+0.0
+ 40
+2.5
+  1
+B   x1   %%c50 H7 (+0.025/0) thru (motor spigot)
+ 11
+352.5
+ 21
+77.5
+ 31
+0.0
+100
+AcDbText
+  0
+TEXT
+  5
+13B
+330
+17
+100
+AcDbEntity
+  8
+TABLE
+100
+AcDbText
+ 10
+352.5
+ 20
+73.5
+ 30
+0.0
+ 40
+2.5
+  1
+C   x4   %%c6.6 thru (for M6)
+ 11
+352.5
+ 21
+73.5
+ 31
+0.0
+100
+AcDbText
+  0
+TEXT
+  5
+13C
+330
+17
+100
+AcDbEntity
+  8
+TABLE
+100
+AcDbText
+ 10
+352.5
+ 20
+69.5
+ 30
+0.0
+ 40
+2.5
+  1
+
+ 11
+352.5
+ 21
+69.5
+ 31
+0.0
+100
+AcDbText
+  0
+TEXT
+  5
+13D
+330
+17
+100
+AcDbEntity
+  8
+TABLE
+100
+AcDbText
+ 10
+352.5
+ 20
+65.5
+ 30
+0.0
+ 40
+2.5
+  1
+HOLE POSITIONS  (view: hole = X, Y from the lower-left corner of that view)
+ 11
+352.5
+ 21
+65.5
+ 31
+0.0
+100
+AcDbText
+  0
+TEXT
+  5
+13E
+330
+17
+100
+AcDbEntity
+  8
+TABLE
+100
+AcDbText
+ 10
+352.5
+ 20
+61.5
+ 30
+0.0
+ 40
+2.5
+  1
+VIEW Y  A1=(35.30, 5.30)   A2=(35.30, 54.70)   A3=(84.70, 5.30)   B1=(60.00, 30.00)
+ 11
+352.5
+ 21
+61.5
+ 31
+0.0
+100
+AcDbText
+  0
+TEXT
+  5
+13F
+330
+17
+100
+AcDbEntity
+  8
+TABLE
+100
+AcDbText
+ 10
+352.5
+ 20
+57.5
+ 30
+0.0
+ 40
+2.5
+  1
+         A4=(84.70, 54.70)
+ 11
+352.5
+ 21
+57.5
+ 31
+0.0
+100
+AcDbText
+  0
+TEXT
+  5
+140
+330
+17
+100
+AcDbEntity
+  8
+TABLE
+100
+AcDbText
+ 10
+352.5
+ 20
+53.5
+ 30
+0.0
+ 40
+2.5
+  1
+VIEW Z  C1=(10.00, 11.00)   C2=(26.00, 11.00)   C3=(94.00, 11.00)   C4=(110.00, 11.00)
+ 11
+352.5
+ 21
+53.5
  31
 0.0
 100
@@ -10647,7 +10857,7 @@ CREATED_BY_EZDXF
   3
 WRITTEN_BY_EZDXF
 350
-13C
+143
   0
 DICTIONARYVAR
   5
@@ -10659,7 +10869,7 @@ DictionaryVariables
 280
 0
   1
-1.4.5 @ 2026-11-23T08:58:42.015077+00:00
+1.4.5 @ 2026-11-23T10:08:03.255945+00:00
   0
 VISUALSTYLE
   5
@@ -11363,7 +11573,7 @@ X-Ray
   0
 DICTIONARYVAR
   5
-13C
+143
 330
 2D
 100
@@ -11371,7 +11581,7 @@ DictionaryVariables
 280
 0
   1
-1.4.5 @ 2026-11-23T08:58:42.026021+00:00
+1.4.5 @ 2026-11-23T10:08:03.262994+00:00
   0
 ENDSEC
   0

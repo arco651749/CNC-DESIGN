@@ -489,7 +489,7 @@ $SKPOLY
   9
 $TDCREATE
  40
-2461368.374097222
+2461368.4222569442
   9
 $TDUCREATE
  40
@@ -497,7 +497,7 @@ $TDUCREATE
   9
 $TDUPDATE
  40
-2461368.374097222
+2461368.4222569442
   9
 $TDUUPDATE
  40
@@ -549,7 +549,7 @@ $SPLINESEGS
   9
 $HANDSEED
   5
-11E
+12A
   9
 $SURFTAB1
  70
@@ -929,11 +929,11 @@ $PSTYLEMODE
   9
 $FINGERPRINTGUID
   2
-{D8CE96DC-5C25-4A83-A32F-E7FD2FDA9C25}
+{E8042C95-5177-41BE-8E64-C6121D4B29BB}
   9
 $VERSIONGUID
   2
-{332B081A-0231-46F5-9C0E-94DCDF748FA5}
+{6F358738-24C7-4988-9EBC-4BD41C2AD2A9}
   9
 $EXTNAMES
 290
@@ -3301,7 +3301,7 @@ ACAD
   0
 APPID
   5
-11B
+127
 330
 3
 100
@@ -3315,7 +3315,7 @@ HATCHBACKGROUNDCOLOR
   0
 APPID
   5
-11C
+128
 330
 3
 100
@@ -7049,9 +7049,9 @@ AcDbText
  30
 0.0
  40
-2.0
+1.75
   1
-A
+A1
  11
 18.375
  21
@@ -7225,9 +7225,9 @@ AcDbText
  30
 0.0
  40
-2.0
+1.75
   1
-A
+A2
  11
 73.375
  21
@@ -7725,9 +7725,9 @@ AcDbText
  30
 0.0
  40
-2.0
+1.75
   1
-B
+B1
  11
 147.125
  21
@@ -7901,9 +7901,9 @@ AcDbText
  30
 0.0
  40
-2.0
+1.75
   1
-B
+B2
  11
 159.125
  21
@@ -8489,9 +8489,63 @@ AcDbArc
  51
 89.36296943164587
   0
-TEXT
+LINE
   5
 110
+330
+17
+100
+AcDbEntity
+  8
+DIM
+100
+AcDbLine
+ 10
+232.033
+ 20
+17.643
+ 30
+0.0
+ 11
+237.033
+ 21
+22.643
+ 31
+0.0
+  0
+TEXT
+  5
+111
+330
+17
+100
+AcDbEntity
+  8
+DIM
+100
+AcDbText
+ 10
+237.783
+ 20
+22.643
+ 30
+0.0
+ 40
+2.0
+  1
+R22.55 (%%c45.10)
+ 11
+237.783
+ 21
+22.643
+ 31
+0.0
+100
+AcDbText
+  0
+TEXT
+  5
+112
 330
 17
 100
@@ -8521,7 +8575,7 @@ AcDbText
   0
 TEXT
   5
-111
+113
 330
 17
 100
@@ -8551,7 +8605,7 @@ AcDbText
   0
 TEXT
   5
-112
+114
 330
 17
 100
@@ -8581,7 +8635,7 @@ AcDbText
   0
 TEXT
   5
-113
+115
 330
 17
 100
@@ -8611,7 +8665,7 @@ AcDbText
   0
 TEXT
   5
-114
+116
 330
 17
 100
@@ -8641,7 +8695,7 @@ AcDbText
   0
 TEXT
   5
-115
+117
 330
 17
 100
@@ -8671,7 +8725,7 @@ AcDbText
   0
 TEXT
   5
-116
+118
 330
 17
 100
@@ -8701,66 +8755,6 @@ AcDbText
   0
 TEXT
   5
-117
-330
-17
-100
-AcDbEntity
-  8
-TABLE
-100
-AcDbText
- 10
-286.5
- 20
-68.5
- 30
-0.0
- 40
-2.5
-  1
-
- 11
-286.5
- 21
-68.5
- 31
-0.0
-100
-AcDbText
-  0
-TEXT
-  5
-118
-330
-17
-100
-AcDbEntity
-  8
-TABLE
-100
-AcDbText
- 10
-286.5
- 20
-64.5
- 30
-0.0
- 40
-2.5
-  1
-HOLE TABLE
- 11
-286.5
- 21
-64.5
- 31
-0.0
-100
-AcDbText
-  0
-TEXT
-  5
 119
 330
 17
@@ -8773,17 +8767,17 @@ AcDbText
  10
 286.5
  20
-60.5
+68.5
  30
 0.0
  40
 2.5
   1
-A   x2   M5 tap depth 11.8 (from left)
+MATERIAL  6061-T6 aluminium; FINISH  clear anodize (after machining, threads masked or re-tapped)
  11
 286.5
  21
-60.5
+68.5
  31
 0.0
 100
@@ -8803,7 +8797,157 @@ AcDbText
  10
 286.5
  20
+64.5
+ 30
+0.0
+ 40
+2.5
+  1
+DATUMS  A = largest face; B / C = lower / left edge of each view (machined square to A). Positions below are from B / C.
+ 11
+286.5
+ 21
+64.5
+ 31
+0.0
+100
+AcDbText
+  0
+TEXT
+  5
+11B
+330
+17
+100
+AcDbEntity
+  8
+TABLE
+100
+AcDbText
+ 10
+286.5
+ 20
+60.5
+ 30
+0.0
+ 40
+2.5
+  1
+NOTE  machine as one block with Camera_bracket_cap: drill / tap, saw apart (split gap 0.5), then bore D45 H7 with both halves bolted together
+ 11
+286.5
+ 21
+60.5
+ 31
+0.0
+100
+AcDbText
+  0
+TEXT
+  5
+11C
+330
+17
+100
+AcDbEntity
+  8
+TABLE
+100
+AcDbText
+ 10
+286.5
+ 20
 56.5
+ 30
+0.0
+ 40
+2.5
+  1
+
+ 11
+286.5
+ 21
+56.5
+ 31
+0.0
+100
+AcDbText
+  0
+TEXT
+  5
+11D
+330
+17
+100
+AcDbEntity
+  8
+TABLE
+100
+AcDbText
+ 10
+286.5
+ 20
+52.5
+ 30
+0.0
+ 40
+2.5
+  1
+HOLE TABLE
+ 11
+286.5
+ 21
+52.5
+ 31
+0.0
+100
+AcDbText
+  0
+TEXT
+  5
+11E
+330
+17
+100
+AcDbEntity
+  8
+TABLE
+100
+AcDbText
+ 10
+286.5
+ 20
+48.5
+ 30
+0.0
+ 40
+2.5
+  1
+A   x2   M5 tap depth 11.8 (from left)
+ 11
+286.5
+ 21
+48.5
+ 31
+0.0
+100
+AcDbText
+  0
+TEXT
+  5
+11F
+330
+17
+100
+AcDbEntity
+  8
+TABLE
+100
+AcDbText
+ 10
+286.5
+ 20
+44.5
  30
 0.0
  40
@@ -8813,7 +8957,217 @@ B   x2   M5 tap depth 12 (from rear)
  11
 286.5
  21
-56.5
+44.5
+ 31
+0.0
+100
+AcDbText
+  0
+TEXT
+  5
+120
+330
+17
+100
+AcDbEntity
+  8
+TABLE
+100
+AcDbText
+ 10
+286.5
+ 20
+40.5
+ 30
+0.0
+ 40
+2.5
+  1
+
+ 11
+286.5
+ 21
+40.5
+ 31
+0.0
+100
+AcDbText
+  0
+TEXT
+  5
+121
+330
+17
+100
+AcDbEntity
+  8
+TABLE
+100
+AcDbText
+ 10
+286.5
+ 20
+36.5
+ 30
+0.0
+ 40
+2.5
+  1
+HOLE POSITIONS  (view: hole = X, Y from the lower-left corner of that view)
+ 11
+286.5
+ 21
+36.5
+ 31
+0.0
+100
+AcDbText
+  0
+TEXT
+  5
+122
+330
+17
+100
+AcDbEntity
+  8
+TABLE
+100
+AcDbText
+ 10
+286.5
+ 20
+32.5
+ 30
+0.0
+ 40
+2.5
+  1
+VIEW X  A1=(6.00, 8.00)   A2=(61.00, 8.00)
+ 11
+286.5
+ 21
+32.5
+ 31
+0.0
+100
+AcDbText
+  0
+TEXT
+  5
+123
+330
+17
+100
+AcDbEntity
+  8
+TABLE
+100
+AcDbText
+ 10
+286.5
+ 20
+28.5
+ 30
+0.0
+ 40
+2.5
+  1
+VIEW Y  B1=(8.75, 20.00)   B2=(20.75, 20.00)
+ 11
+286.5
+ 21
+28.5
+ 31
+0.0
+100
+AcDbText
+  0
+TEXT
+  5
+124
+330
+17
+100
+AcDbEntity
+  8
+TABLE
+100
+AcDbText
+ 10
+286.5
+ 20
+24.5
+ 30
+0.0
+ 40
+2.5
+  1
+
+ 11
+286.5
+ 21
+24.5
+ 31
+0.0
+100
+AcDbText
+  0
+TEXT
+  5
+125
+330
+17
+100
+AcDbEntity
+  8
+TABLE
+100
+AcDbText
+ 10
+286.5
+ 20
+20.5
+ 30
+0.0
+ 40
+2.5
+  1
+FEATURES  (bores, arcs, pockets: size, centre or lower-left corner)
+ 11
+286.5
+ 21
+20.5
+ 31
+0.0
+100
+AcDbText
+  0
+TEXT
+  5
+126
+330
+17
+100
+AcDbEntity
+  8
+TABLE
+100
+AcDbText
+ 10
+286.5
+ 20
+16.5
+ 30
+0.0
+ 40
+2.5
+  1
+VIEW Z  R22.55 at (-0.25, 33.50)
+ 11
+286.5
+ 21
+16.5
  31
 0.0
 100
@@ -9909,7 +10263,7 @@ CREATED_BY_EZDXF
   3
 WRITTEN_BY_EZDXF
 350
-11D
+129
   0
 DICTIONARYVAR
   5
@@ -9921,7 +10275,7 @@ DictionaryVariables
 280
 0
   1
-1.4.5 @ 2026-11-23T08:58:42.194164+00:00
+1.4.5 @ 2026-11-23T10:08:03.422166+00:00
   0
 VISUALSTYLE
   5
@@ -10625,7 +10979,7 @@ X-Ray
   0
 DICTIONARYVAR
   5
-11D
+129
 330
 2D
 100
@@ -10633,7 +10987,7 @@ DictionaryVariables
 280
 0
   1
-1.4.5 @ 2026-11-23T08:58:42.200607+00:00
+1.4.5 @ 2026-11-23T10:08:03.428349+00:00
   0
 ENDSEC
   0

@@ -489,7 +489,7 @@ $SKPOLY
   9
 $TDCREATE
  40
-2461368.374085648
+2461368.4222569442
   9
 $TDUCREATE
  40
@@ -497,7 +497,7 @@ $TDUCREATE
   9
 $TDUPDATE
  40
-2461368.374085648
+2461368.4222569442
   9
 $TDUUPDATE
  40
@@ -549,7 +549,7 @@ $SPLINESEGS
   9
 $HANDSEED
   5
-149
+150
   9
 $SURFTAB1
  70
@@ -929,11 +929,11 @@ $PSTYLEMODE
   9
 $FINGERPRINTGUID
   2
-{13327735-2A70-4ECF-B751-F2104CA531EA}
+{AC8E26BB-78BA-412B-A738-F76528EDECD3}
   9
 $VERSIONGUID
   2
-{73008E65-89D4-4B41-978E-C8313F2AFF1E}
+{51B71F93-75FA-4346-9572-2FDF13F91CC8}
   9
 $EXTNAMES
 290
@@ -3301,7 +3301,7 @@ ACAD
   0
 APPID
   5
-146
+14D
 330
 3
 100
@@ -3315,7 +3315,7 @@ HATCHBACKGROUNDCOLOR
   0
 APPID
   5
-147
+14E
 330
 3
 100
@@ -7405,9 +7405,9 @@ AcDbText
  30
 0.0
  40
-2.0
+1.75
   1
-A
+A1
  11
 47.075
  21
@@ -7581,9 +7581,9 @@ AcDbText
  30
 0.0
  40
-2.0
+1.75
   1
-B
+B1
  11
 24.975
  21
@@ -7679,9 +7679,9 @@ AcDbText
  30
 0.0
  40
-2.0
+1.75
   1
-B
+B2
  11
 19.375
  21
@@ -7855,9 +7855,9 @@ AcDbText
  30
 0.0
  40
-2.0
+1.75
   1
-B
+B3
  11
 24.975
  21
@@ -7953,9 +7953,9 @@ AcDbText
  30
 0.0
  40
-2.0
+1.75
   1
-B
+B4
  11
 51.775
  21
@@ -8051,9 +8051,9 @@ AcDbText
  30
 0.0
  40
-2.0
+1.75
   1
-B
+B5
  11
 57.375
  21
@@ -8149,9 +8149,9 @@ AcDbText
  30
 0.0
  40
-2.0
+1.75
   1
-B
+B6
  11
 51.775
  21
@@ -9101,9 +9101,9 @@ AcDbText
  30
 0.0
  40
-2.0
+1.75
   1
-C
+C1
  11
 132.75
  21
@@ -9277,9 +9277,9 @@ AcDbText
  30
 0.0
  40
-2.0
+1.75
   1
-C
+C2
  11
 168.75
  21
@@ -9375,9 +9375,9 @@ AcDbText
  30
 0.0
  40
-2.0
+1.75
   1
-C
+C3
  11
 132.75
  21
@@ -9473,9 +9473,9 @@ AcDbText
  30
 0.0
  40
-2.0
+1.75
   1
-C
+C4
  11
 168.75
  21
@@ -9715,7 +9715,7 @@ AcDbText
  40
 2.5
   1
-
+MATERIAL  see SPEC; FINISH  see SPEC
  11
 216.5
  21
@@ -9745,7 +9745,7 @@ AcDbText
  40
 2.5
   1
-HOLE TABLE
+DATUMS  A = largest face; B / C = lower / left edge of each view (machined square to A). Positions below are from B / C.
  11
 216.5
  21
@@ -9763,7 +9763,7 @@ TEXT
 100
 AcDbEntity
   8
-H7
+TABLE
 100
 AcDbText
  10
@@ -9775,7 +9775,7 @@ AcDbText
  40
 2.5
   1
-A   x1   %%c28 H7 (+0.021/0) thru (ball nut body %%c28; align the housing on its mounting screws)
+
  11
 216.5
  21
@@ -9805,7 +9805,7 @@ AcDbText
  40
 2.5
   1
-B   x6   M5 tap depth 10 (from rear)
+HOLE TABLE
  11
 216.5
  21
@@ -9823,7 +9823,7 @@ TEXT
 100
 AcDbEntity
   8
-TABLE
+H7
 100
 AcDbText
  10
@@ -9835,11 +9835,221 @@ AcDbText
  40
 2.5
   1
-C   x4   M6 tap depth 12 (from bottom)
+A   x1   %%c28 H7 (+0.021/0) thru (ball nut body %%c28; align the housing on its mounting screws)
  11
 216.5
  21
 54.09
+ 31
+0.0
+100
+AcDbText
+  0
+TEXT
+  5
+146
+330
+17
+100
+AcDbEntity
+  8
+TABLE
+100
+AcDbText
+ 10
+216.5
+ 20
+50.09
+ 30
+0.0
+ 40
+2.5
+  1
+B   x6   M5 tap depth 10 (from rear)
+ 11
+216.5
+ 21
+50.09
+ 31
+0.0
+100
+AcDbText
+  0
+TEXT
+  5
+147
+330
+17
+100
+AcDbEntity
+  8
+TABLE
+100
+AcDbText
+ 10
+216.5
+ 20
+46.09
+ 30
+0.0
+ 40
+2.5
+  1
+C   x4   M6 tap depth 12 (from bottom)
+ 11
+216.5
+ 21
+46.09
+ 31
+0.0
+100
+AcDbText
+  0
+TEXT
+  5
+148
+330
+17
+100
+AcDbEntity
+  8
+TABLE
+100
+AcDbText
+ 10
+216.5
+ 20
+42.09
+ 30
+0.0
+ 40
+2.5
+  1
+
+ 11
+216.5
+ 21
+42.09
+ 31
+0.0
+100
+AcDbText
+  0
+TEXT
+  5
+149
+330
+17
+100
+AcDbEntity
+  8
+TABLE
+100
+AcDbText
+ 10
+216.5
+ 20
+38.09
+ 30
+0.0
+ 40
+2.5
+  1
+HOLE POSITIONS  (view: hole = X, Y from the lower-left corner of that view)
+ 11
+216.5
+ 21
+38.09
+ 31
+0.0
+100
+AcDbText
+  0
+TEXT
+  5
+14A
+330
+17
+100
+AcDbEntity
+  8
+TABLE
+100
+AcDbText
+ 10
+216.5
+ 20
+34.09
+ 30
+0.0
+ 40
+2.5
+  1
+VIEW Y  A1=(26.00, 45.00)   B1=(12.60, 31.60)   B2=(7.00, 45.00)   B3=(12.60, 58.40)
+ 11
+216.5
+ 21
+34.09
+ 31
+0.0
+100
+AcDbText
+  0
+TEXT
+  5
+14B
+330
+17
+100
+AcDbEntity
+  8
+TABLE
+100
+AcDbText
+ 10
+216.5
+ 20
+30.090000000000003
+ 30
+0.0
+ 40
+2.5
+  1
+         B4=(39.40, 31.60)   B5=(45.00, 45.00)   B6=(39.40, 58.40)
+ 11
+216.5
+ 21
+30.090000000000003
+ 31
+0.0
+100
+AcDbText
+  0
+TEXT
+  5
+14C
+330
+17
+100
+AcDbEntity
+  8
+TABLE
+100
+AcDbText
+ 10
+216.5
+ 20
+26.090000000000003
+ 30
+0.0
+ 40
+2.5
+  1
+VIEW Z  C1=(8.00, 6.02)   C2=(44.00, 6.02)   C3=(8.00, 26.02)   C4=(44.00, 26.02)
+ 11
+216.5
+ 21
+26.090000000000003
  31
 0.0
 100
@@ -10935,7 +11145,7 @@ CREATED_BY_EZDXF
   3
 WRITTEN_BY_EZDXF
 350
-148
+14F
   0
 DICTIONARYVAR
   5
@@ -10947,7 +11157,7 @@ DictionaryVariables
 280
 0
   1
-1.4.5 @ 2026-11-23T08:58:41.944876+00:00
+1.4.5 @ 2026-11-23T10:08:03.214829+00:00
   0
 VISUALSTYLE
   5
@@ -11651,7 +11861,7 @@ X-Ray
   0
 DICTIONARYVAR
   5
-148
+14F
 330
 2D
 100
@@ -11659,7 +11869,7 @@ DictionaryVariables
 280
 0
   1
-1.4.5 @ 2026-11-23T08:58:41.957186+00:00
+1.4.5 @ 2026-11-23T10:08:03.222185+00:00
   0
 ENDSEC
   0
