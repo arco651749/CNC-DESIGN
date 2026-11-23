@@ -5,16 +5,18 @@
                 The gantry is stretched 32.5 per side: columns, feet, yaw / X-level adjusters, X motor end move out; datum plate, X plate,
                 X rails (SX2RNL28-540 -> -605, holes on the 60 pitch, +-270 added) and X screw (C-KBS1505-458 -> about 523, fixed-supported
                 with a C-TEF12) are lengthened. Y axis (travel 400) and Z axis unchanged.
-  2 Tool head   one module on the Z slide: camera x -32.5 and spindle x +32.5 (centred on the Z slide), probe in front of the spindle
-                clamp at (25.5, -105): its X offset lies between camera and spindle, so it adds no X travel; its Y offset 85 uses the
-                Y travel that the prism station already needs (table +65..-235 vs +150..-250).
+  2 Tool head   one module on the Z slide: camera x -32.5 and spindle x +32.5 (centred on the Z slide), probe on the spindle clamp
+                front at (6.5, -95): its X offset lies between camera and spindle, so it adds no X travel; its Y offset 75 uses the
+                Y travel that the prism station already needs (table +75..-225 vs +150..-250).
                 Module plate = the v12 spindle back plate made wider (216 at the bottom): same RBPB8 pivot, shim packs and differential
                 screws, used for spindle tram ONLY; camera and probe offsets are calibrated after tramming. Bottom shim bolts at x -70 / +95,
                 outside the spindle and the camera, reachable from the front.
                 Camera: Moritex MML04-HR120D (WD 120), 65 from the spindle, lens front 55 above the tool tip (path 55 + 65 = 120 = WD).
-                Probe: SMC MXH10-60Z on a bracket bolted to the spindle clamp front face (right of the split), the v13 probe set turned 90 deg.
+                Probe: SMC MXH10-60Z, side face bolted straight onto the spindle clamp front (left of the split, 3 x M4), no bracket;
+                the clamp is bolted to the module plate from the plate back. Ball retracted at tool tip + 35, extended 25 below the tip.
   3 Prism       folds the view +X; holder on the table T-slot x -130 at the rear-left corner (prism x -195, y +228), outside
-                the work area, with a pneumatic sliding cover.
+                the work area, with a pneumatic sliding cover. v14: fold point 10 above the table (prism through the base onto the table,
+                cover cylinder on the table), station top 25: 5 below the retracted probe ball and 11 below the spindle body at Z -50.
   4 v13 freeze fixes kept: C-TEK12 mounting holes, table T-slots DIN 650, spindle turned 90 deg (plug forward), clamp bolts + dowels,
                 lens air ring, rail holes to the vendor size, vendor STEP for the SMC parts and fittings.
   5 Z assembly 25 lower on the saddle: tool tip range -5..95 above the table (Z -50 reaches the table top), camera sees work tops 0..25.
@@ -179,8 +181,8 @@ z.Shape = fuse(z.Shape, *[cyl('y', 2.5, 34, 44, x, zz) for x in (89, 101) for zz
 
 SX0, SY = 32.5, -20.0                                         # spindle axis (v14: camera / spindle pair centred on the Z slide)
 CX = SX0 - 65.0                                               # camera (D 65, MML04-HR120D: Ø45 nose vs spindle, taper vs clamp)
-PX, PY = SX0 - 7.0, -105.0                                    # probe axis: in front of the spindle clamp, between camera and spindle in X
-PX13, PY13 = 77.5, -20.0                                      # the probe set is built at its v13 place, then turned -90 deg onto (PX, PY)
+PX, PY = 6.5, -95.0                                           # probe axis (set again from the build below): clamp front, between camera and spindle in X
+PX13, PY13 = 77.5, -20.0                                      # the probe set is built at its v13 place, then mirrored in X onto (PX, PY)
 for l in ('Spindle_body', 'Spindle_fan_cover', 'Spindle_plug', 'Spindle_nose', 'ER11_nut', 'Tool_D5',
           'Spindle_pinch_screw_1', 'Spindle_pinch_screw_2') + tuple('Spindle_clamp_bolt_%d' % k for k in range(1, 5)):
     move(l, SX0)
@@ -191,16 +193,17 @@ TIP = O('Tool_D5').Shape.BoundBox.ZMin                         # 180 at home
 CB = [(SX0 - 41, 340), (SX0 + 41, 340), (SX0 - 41, 396), (SX0 + 41, 396)]
 c = box(SX0 - 48, SX0 + 48, -63, 20, 331, 405).cut(cyl('z', 32.5, 331, 405, SX0, SY)).cut(box(SX0 - 1, SX0 + 1, -63, SY, 331, 405))
 for zz in (355, 381): c = c.cut(cyl('x', 3, SX0 - 48, SX0 + 30, -57, zz)).cut(cyl('x', 5.5, SX0 + 30, SX0 + 48, -57, zz))
-for x, zz in CB: c = c.cut(cyl('y', 3.25, -57, 20, x, zz)).cut(cyl('y', 5.5, -63, -57, x, zz))
+for x, zz in CB: c = c.cut(cyl('y', 3, 6, 20, x, zz))      # v14: M6 tap depth 14 in the rear face (bolts from the module-plate back)
 DW = [(SX0 - 41, 368), (SX0 + 41, 368)]                       # 2 dowels clamp -> module plate: offsets / tram repeat after removal
 for x, zz in DW: c = c.cut(cyl('y', 3, 10, 20, x, zz))
 O('Spindle_clamp').Shape = c
 for k, (x, zz) in enumerate(CB, 1):
-    O('Spindle_clamp_bolt_%d' % k).Shape = fuse(cyl('y', 5, -63, -57, x, zz), cyl('y', 3, -57, 28, x, zz))
-    spec('Spindle_clamp_bolt_%d' % k, 'M6x85 SHCS, clamp block to module plate (tap M6 thru the plate, 8 engaged)')
+    O('Spindle_clamp_bolt_%d' % k).Shape = fuse(cyl('y', 5, 28, 31.5, x, zz), cyl('y', 3, 8, 28, x, zz))
+    spec('Spindle_clamp_bolt_%d' % k, 'M6x20 low-head (DIN 7984) from the module-plate back (c-bore D11 x 4) into the clamp rear face (tap M6 depth 14, '
+         '12 engaged); the probe slide covers the clamp front, the module is assembled on the bench')
 spec('Spindle_clamp', '6061 clamp block 96x83x74: bore D65 H7 at (x%+.1f, y-20), rear wall 7.5, front split with 2 M6 pinch screws (heads on the right '
-     'face); bolted to the module plate with 4 M6x85 from the front, located by 2 dowels D6 (H7 / m6) at (x%+.1f / %+.1f, z 368); spindle turned so its '
-     'plug faces forward. Front face right of the split: 4 x M5 tap depth 10 for the probe bracket' % (SX0, SX0 - 41, SX0 + 41))
+     'face); bolted to the module plate with 4 M6x20 from the plate back (M6 tap depth 14 in the rear face), located by 2 dowels D6 (H7 / m6) at '
+     '(x%+.1f / %+.1f, z 368); spindle turned so its plug faces forward. Front face left of the split: 3 x M4 tap depth 11 for the probe slide' % (SX0, SX0 - 41, SX0 + 41))
 # module plate: v12 back plate (156 wide, z 319..500) + a wide lower band (216 wide, z 288..465) for the camera and probe brackets
 SB = (0, 366)                                                 # pivot (RBPB8 in the Z slide, unchanged)
 BOLTS = [(-70, 305), (95, 305), (-50, 490), (50, 490)]        # shim bolts 185 apart in z; bottom pair outside the camera and the spindle (front access)
@@ -209,14 +212,14 @@ CAMB = [(CX - 10, 305), (CX + 6, 305)]                        # camera bracket: 
 pl = fuse(box(-78, 78, 20, 32, 319, 500), box(-108, 108, 20, 32, 288, 465))
 for x, zz in BOLTS: pl = pl.cut(cyl('y', 3.5, 20, 32, x, zz))
 for _, x, zz in SCREWS: pl = pl.cut(cyl('y', 4, 20, 32, x, zz))
-for x, zz in CB: pl = pl.cut(cyl('y', 3, 20, 32, x, zz))
+for x, zz in CB: pl = pl.cut(cyl('y', 3.3, 20, 32, x, zz)).cut(cyl('y', 5.5, 28, 32, x, zz))   # clamp bolts from the back
 for x, zz in CAMB: pl = pl.cut(cyl('y', 2.75, 20, 28, x, zz)).cut(cyl('y', 5, 28, 32, x, zz))
 pl = pl.cut(cyl('y', 3, 20, 32, *SB))
 for x, zz in DW: pl = pl.cut(cyl('y', 3, 20, 30, x, zz))
 O('Spindle_mount_plate').Shape = pl
 spec('Spindle_mount_plate', 'tool-head module plate, flat steel t12 (156 wide z 319..500 + 216 wide z 288..465), ground both faces, all holes from '
      'the front except 6 counterbores on the back: M6 tap for the pivot stud, 4 shim-bolt holes, 3 differential-screw taps, 4 M6 taps for the '
-     'clamp block + 2 dowel holes D6 H7, 2 x M5 low-head holes (counterbored from the back) for the camera bracket. Stands 2 mm off the '
+     'clamp block (from the back, c-bored) + 2 dowel holes D6 H7, 2 x M5 low-head holes (counterbored from the back) for the camera bracket. Stands 2 mm off the '
      'slide on 4 shim packs at z 305 / 490 (185 apart)')
 for k, (x, zz) in enumerate(BOLTS, 1):
     o = O('Spindle_shim_%d' % k)
@@ -301,93 +304,91 @@ for x in TSLOT: s_ = s_.cut(box(x - 7, x + 7, TT.YMin, TT.YMax, 98, 110)).cut(bo
 t_.Shape = s_
 prop(t_, 'Spec', t_.Spec.replace('5x T-slot 14', '5x T-slot 14 DIN 650 (neck 14x12, head 24x11, depth 23) at x 0 / +-65 / +-130'))
 SX = -130.0                                                     # T-slot used (left slot)
-# v13 (Z assembly 25 lower): the station must stay below the spindle body at Z -50 (36 above the table) -> fold point 15 above the
-# table, prism in a 3 mm pocket, sliding cover (no flip: a rotary actuator on the hinge would stand too high). Station top 29.5.
-MX, MY, MZ = -195.0, 228.0, TT.ZMax + 15.0                       # fold point, rear-left corner outside the 300 x 300 work area (table -248 to measure)
-ZB = MZ - 10                                                    # prism bottom (in the pocket)
+# The station must stay below the spindle body (36 above the table at Z -50) and, v14, below the retracted probe ball (30 at Z -50):
+# fold point 10 above the table, prism through the base onto the table, cylinder straight on the table, sliding cover. Station top 25.
+MX, MY, MZ = -195.0, 228.0, TT.ZMax + 10.0                       # fold point, rear-left corner outside the 300 x 300 work area (table -248 to measure)
+ZB = MZ - 10                                                    # prism bottom (on the table top, through the base)
 BT = TT.ZMax + 8                                                # base top
 pr = Part.Face(Part.makePolygon([V(MX - 10, MY - 10, ZB), V(MX - 10, MY - 10, ZB + 20), V(MX + 10, MY - 10, ZB), V(MX - 10, MY - 10, ZB)])).extrude(V(0, 20, 0))
 add('Tool_mirror', pr, gl, 'right-angle prism 20x20x20, mirror-coated hypotenuse used from outside (front-surface mirror), glued: bottom face in the '
-    'holder pocket, left face against the lip; folds the view +X', 'y', 'camera')
+    'table top in the holder window, left face against the lip; folds the view +X', 'y', 'camera')
 XC = MX - 22                                                     # cover cylinder axis x (outside the lip and the cover skirt)
 mb = fuse(box(MX - 14, SX + 15, MY - 50, MY + 18, TT.ZMax, BT),                    # base t8 (ground bottom)
-          box(XC - 16.5, XC + 16.5, MY - 83.5, MY - 19.5, TT.ZMax, TT.ZMax + 3),     # cylinder seat t3 (overhangs the table edge)
-          box(XC - 16.5, XC + 16.5, MY - 83.5, MY - 77.5, TT.ZMax + 3, TT.ZMax + 28),  # end plate t6 for the cylinder (2 x M3 tapped through)
+          box(XC - 16.5, XC + 16.5, MY - 83.5, MY - 77.5, TT.ZMax, TT.ZMax + 25),     # end plate t6 for the cylinder (2 x M3 tapped through)
           box(SX - 6.95, SX + 6.95, MY - 50, MY + 18, TT.ZMax - 4, TT.ZMax),        # tenon key in the 14 mm slot neck
           box(MX - 14, MX - 10, MY - 12, MY + 12, BT, BT + 9))                       # lip: the prism's left face leans on it
-mb = mb.cut(box(XC - 16.5, XC + 16.5, MY - 77.5, MY - 19.5, TT.ZMax + 3, BT))       # cylinder pocket
-CYH = [(XC - 7.78, TT.ZMax + 15.5 + 7.78), (XC + 7.78, TT.ZMax + 15.5 - 7.78)]   # CDQ2B12 through-holes on the body diagonal (M 22)
+mb = mb.cut(box(XC - 16.5, XC + 16.5, MY - 77.5, MY - 19.5, TT.ZMax, BT))           # cylinder pocket (the cylinder stands on the table)
+ZCY = TT.ZMax + 12.5                                            # cylinder axis: body square 25 on the table top
+CYH = [(XC - 7.78, ZCY + 7.78), (XC + 7.78, ZCY - 7.78)]   # CDQ2B12 through-holes on the body diagonal (M 22)
 for x_, z_ in CYH: mb = mb.cut(cyl('y', 1.5, MY - 83.5, MY - 77.5, x_, z_))           # 2 x M3 tapped through the end plate (t6)
-mb = mb.cut(box(MX - 10, MX + 10, MY - 10, MY + 10, ZB, BT))                         # prism pocket 3 deep
+mb = mb.cut(box(MX - 10, MX + 10, MY - 10, MY + 10, ZB, BT))                         # prism window through the base
 MBB = [(SX, MY - 16), (SX, MY - 44)]                             # 2 x M6 low-head + T-nut, heads flush, off the beam band
 mb = mb.cut(box(MX + 10, SX + 15, MY - 9, MY + 9, BT - 4, BT))   # relief under the across beam (FOV 16.8 x 14 at 0.4x)
 for x, y in MBB: mb = mb.cut(cyl('z', 3.3, TT.ZMax - 4, BT, x, y)).cut(cyl('z', 5.5, BT - 4, BT, x, y))
 add('Mirror_bracket', mb, gl, 'prism holder (CNC, steel t8, base ground): on the table T-slot x -130 at the rear-left corner (tenon key 14 h7, 2 x M6 low-head '
-    '+ T-nut, heads flush), prism centre x -195; 3 mm pocket and left lip locate the glued 20 mm prism; station top 29.5 above the table', 'y', 'camera')
+    '+ T-nut, heads flush), prism centre x -195; window through the base (prism glued on the table top) and the left lip locate the 20 mm prism; station top 25 above the table', 'y', 'camera')
 for k, (x, y) in enumerate(MBB, 1):
     add('Mirror_bracket_bolt_%d' % k, fuse(cyl('z', 5, BT - 4, BT, x, y), cyl('z', 3, TT.ZMax - 14, BT - 4, x, y)), gl,
         'M6x20 low-head (DIN 7984) + T-nut (DIN 508, slot 14) into the table T-slot', 'y', 'fasten')
-CZ = BT + 21.5                                                  # cover lid top (station top)
+CZ = BT + 16.5                                                  # cover lid top 24.5 (the cylinder top, 25, is the station top)
 cv = fuse(box(MX - 16, MX + 14, MY - 16, MY + 12, CZ - 2.5, CZ), box(MX - 16, MX - 14, MY - 16, MY + 12, BT + 9.5, CZ),
-          box(MX + 12, MX + 14, MY - 16, MY + 12, BT + 2, CZ), box(XC - 4, MX - 16, MY - 16, MY - 12, TT.ZMax + 11, CZ))   # + side arm to the rod
+          box(MX + 12, MX + 14, MY - 16, MY + 12, BT + 2, CZ), box(XC - 4, MX - 16, MY - 16, MY - 12, BT, CZ))   # + side arm to the rod
 add('Mirror_cover', cv, gl, 'prism cover (SUS t2, bent: lid + skirts on both X sides, side arm to the cylinder rod), drawn closed: keeps coolant and '
     'chips off the coated hypotenuse (top and +X); slides 30 toward +Y, clear of the light path, only during tool setting', 'y', 'camera')
 cq = Part.read(os.path.join(ROOT, 'vendor', 'smc', 'CDQ2B12-30DZ', 'CDQ2B12-30DZ.stp'))   # axis z, body z -29..29, rod end +z, ports on +x
 cq.rotate(V(0, 0, 0), V(0, 0, 1), 180); cq.rotate(V(0, 0, 0), V(1, 0, 0), -90)          # -> rod toward +Y, ports on the -X face
-cq.translate(V(XC, MY - 48.5, TT.ZMax + 15.5))
+cq.translate(V(XC, MY - 48.5, ZCY))
 add('Mirror_cover_actuator', cq, gl,
     'SMC CDQ2B12-30DZ compact cylinder bore 12 stroke 30 with magnet, vendor STEP (catalog p.787: square 25, body 58 = B 28 + stroke, rod D6 '
     'protrudes 3.5, M3 internal thread depth 6, 2 x D3.5 through-holes with D6.5 c-bores both ends on the diagonal (M 22), ports M5 at 11 from '
-    'the rod end / 6.5 from the head end); head end on the holder end plate (2 x M3 through the body), rod on the cover arm, ports on the outer '
+    'the rod end / 6.5 from the head end); body on the table top, head end on the holder end plate (2 x M3 through the body), rod on the cover arm, ports on the outer '
     '(-X) face; auto switch D-M9 = cover open; air via the Y drag chain', 'y', 'camera')
 for k, (x_, z_) in enumerate(CYH, 1):
     add('Mirror_cover_cyl_bolt_%d' % k, fuse(cyl('y', 2.75, MY - 23, MY - 20, x_, z_), cyl('y', 1.5, MY - 83, MY - 23, x_, z_)), gl,
         'M3x60 SHCS through the cylinder (head in the rod-end c-bore) into the holder end plate (M3 tapped through t6, 6 engaged)', 'y', 'fasten')
 for k, yy in enumerate((MY - 77.5 + 6.5, MY - 19.5 - 11), 1):   # ports in the vendor STEP (M5, 5.5 deep)
-    fit_, tub_, port_ = push_in('x', -1, yy, TT.ZMax + 15.5, XC - 12.5)
+    fit_, tub_, port_ = push_in('x', -1, yy, ZCY, XC - 12.5)
     add('Mirror_cover_fitting_%d' % k, fit_, gl, 'SMC KQ2H04-M5A push-in fitting (M5, tube D4) on the cover cylinder port (outer face), vendor STEP', 'y', 'camera')
     add('Mirror_cover_tube_%d' % k, tub_, gl, 'polyurethane tube D4 (stub; to the Y drag chain)', 'y', 'camera')
 MEAS = (MX - CX, SY - MY, MZ - TIP)                               # carriage dx, table dy, dz at the measuring pose
 LOG.append('CAMERA (%.1f, %.0f), lens front z %.1f, tip %.1f, prism fold (%.0f, %.0f, %.0f), air path %.1f; measure at X %+.1f, table %+.0f, Z %+.0f'
            % (CX, SY, ZF, TIP, MX, MY, MZ, (ZF - TIP) + (SX0 - CX), *MEAS))
 
-# ---------------------------------------------------------------- probe (front of the spindle clamp)
-# v14: the v13 probe set (slide on its side, probe under the rod-end plate) is built at its v13 place and then turned -90 deg about Z onto
-# (PX, PY): the slide table faces the clamp, the ports / fittings point up, the bracket web is on the slide's right side and ends in a
-# flange on the clamp front face, right of the clamp split.
+# ---------------------------------------------------------------- probe (MXH10 bolted straight onto the spindle clamp front, left of the split)
+# v14: the slide's side face sits on the clamp front face (no bracket): load path probe -> rod-end plate -> slide -> clamp. The set is built in
+# the v13 frame (slide width along Y, mounting face y 12, table top x 48.5, probe x 77.5), then mirrored in X (table top toward +X; the slide
+# is symmetric about its mid-width, through-taps and c-bores on both sides) and moved 75 forward onto the clamp front y -63.
+# Heights: retracted ball 6 below the spindle body bottom (tool tip + 35), extended (stroke 60) 25 below the tool tip; the slide sits where its
+# 3 through-taps land on the 74 high clamp face; the probe clamp block takes up the difference.
 gp = '12 Probe'
-PXF = PX; PX = PX13
 STROKE = 60.0
-TIPR = O('Spindle_body').Shape.BoundBox.ZMin                    # retracted ball level with the spindle body bottom (tool tip + 41)
+MIRX = 84.0                                                     # mirror: x' = MIRX - x (table top 48.5 -> 35.5, probe 77.5 -> 6.5)
+PX = PX13
+CF = O('Spindle_clamp').Shape.BoundBox                          # clamp z 331..405, front face y -63
+TIPR = O('Spindle_body').Shape.BoundBox.ZMin - 6.0              # retracted ball: spindle body bottom - 6 = tool tip + 35
 BB0 = TIPR + 26.0
+T0 = (CF.ZMin + CF.ZMax) / 2 - 46.5                             # rod-end plate face: slide holes at T0 + 16.5 / 76.5, 4.5 inside the clamp edges
+HT = T0 - (BB0 + 28)                                            # probe clamp block height (shank 13 deep in its bottom)
 pb = fuse(cyl('z', 16.5, BB0, BB0 + 21, PX, SY), cyl('z', 3.0, BB0 + 21, BB0 + 41, PX, SY), cyl('z', 2.5, BB0 - 4, BB0, PX, SY),
           cyl('z', 0.75, TIPR + 1, BB0 - 4, PX, SY), Part.makeSphere(1.0, V(PX, SY, TIPR + 1)))
 add('Probe_body', pb, gp, 'touch probe XUNKUANER (Amazon ASIN B0FWXWX7CT): shank D6x20, body D33x21, stylus 26 / ball D2, DC 5-24 V, NPN NO, to the grblHAL probe input '
     '(two-pass probing; NO cannot detect a broken wire: use an NC version if available, else check the input before each cycle). Not to the MR-J4: its MSD latch needs point-table mode, which cannot take the pulse train. '
-    'Ball retracted level with the spindle body bottom (tool tip + 41), extended 19 below the tool tip', 'z', 'probe')
-# SMC MXH10-60Z compact slide (owner: MXH10-60Z instead of MXH2 10-60; vendor STEP, catalog MXH p.31, bore 10): section 20 wide x 47 high
-# (table 6), body 35 + stroke = 95, overall 46.5 + stroke = 106.5 retracted, table LT 99 x 19 with 6 x M4 taps, body 3 x M5 through-taps
-# (c-bore D7.5 depth 4.4 both sides), ports M5 (head end, 6.5 / 26.5 from the body bottom). Mounted on its SIDE (lateral):
-# the 20 width along Y on the bracket, the height along X with the table facing -X (spindle side) and the body bottom with the cylinder
-# ports facing +X (room for the fittings), length vertical, head end up; the table + rod-end plate move down 60 to extend the probe.
-# The probe hangs under the rod-end plate (front mounting face, 4 x M4 depth 7.5, rows 11 x 18) on a small clamp block: the probe force goes
-# straight along the stroke into the plate, no lever arm.
-T0 = BB0 + 42                                                   # rod-end plate bottom face (retracted): the probe shank (top BB0+41) just below it
-XB, XT = 48.5, 95.5                                             # table top face / body bottom face (x)
-YS0, YS1 = -8.0, 12.0                                           # slide width along Y (back on the bracket front y 12)
+    'Ball retracted 6 below the spindle body bottom (tool tip + 35, still 13 above the ER11 nut), extended 25 below the tool tip', 'z', 'probe')
+XB, XT = 48.5, 95.5                                             # table top face / body bottom face (x, v13 frame)
+YS0, YS1 = -8.0, 12.0                                           # slide width along Y (mounting face y 12, v13 frame)
 MXH = Part.read(os.path.join(ROOT, 'vendor', 'smc', 'MXH10-60Z', 'MXH10-60Z.step')).Solids   # body, table; table top x -30.5, body bottom x 16.5,
 for so in MXH:                                                  # rod-end plate face z 59, head end z -47.5 -> x + 79, y 2 - y, z T0 + 59 - z
     so.rotate(V(0, 0, 0), V(1, 0, 0), 180); so.translate(V(79, 2, T0 + 59))
 mxb, mxt = MXH
 ZB0, ZB1 = T0 + 11.5, T0 + 106.5                                 # body (fixed)
-SLB = [(XT - 28, T0 + 16.5), (XT - 28, T0 + 76.5), (XT - 5, T0 + 16.5)]   # body through-taps (vendor STEP)
-for x, zz in SLB: mxb = mxb.cut(cyl('y', 2.5, -3.6, 7.6, x, zz))   # M5 thread to nominal (STEP shows the D4.2 pilot)
+SLB = [(XT - 28, T0 + 16.5), (XT - 28, T0 + 76.5), (XT - 5, T0 + 16.5)]   # body through-taps (vendor STEP), used as through holes for M4
 for x, y in [(XB + 21.5, 2 - 5.5), (XB + 21.5, 2 + 5.5), (XB + 39.5, 2 - 5.5), (XB + 39.5, 2 + 5.5)]:
     mxt = mxt.cut(cyl('z', 2.0, T0, T0 + 7.3, x, y))           # rod-end plate M4 taps to nominal
 add('Probe_slide_body', mxb, gp,
     'SMC MXH10-60Z-M9NW compact slide, bore 10, stroke 60, vendor STEP (catalog MXH p.31: section 20 x 47, body 95, overall 106.5 retracted, '
-    'table 99 x 19); mounted on its side, table toward the spindle, ports up / outward (3 x M5 into the body through-taps from the bracket back); '
-    'extended = end of stroke (rubber bumper), the probe height is set in the shank clamp; 5/2 single-solenoid valve, spring return = retract on power loss', 'z', 'probe')
+    'table 99 x 19); side face bolted straight onto the spindle clamp front, left of the split (3 x M4 through the body, catalog through-mounting), '
+    'table toward +X, ports up; extended = end of stroke (rubber bumper), the probe height is set in the shank clamp; 5/2 single-solenoid valve, '
+    'spring return = retract on power loss', 'z', 'probe')
 add('Probe_slide_table', mxt, gp,
     'SMC MXH10-60Z table + rod-end plate (part of the slide, vendor STEP; moves 60 down to extend the probe); the probe hangs under the rod-end plate (4 x M4)', 'z', 'probe')
 for k, zz in enumerate((ZB1 - 32, ZB1 - 14), 1):
@@ -396,46 +397,31 @@ for k, zz in enumerate((ZB1 - 32, ZB1 - 14), 1):
     fit_, tub_, port_ = push_in('z', 1, (XT - 6.5, XT - 26.5)[k - 1], 2.0, ZB1); cut('Probe_slide_body', port_)
     add('Probe_air_fitting_%d' % k, fit_, gp, 'SMC KQ2H04-M5A push-in fitting (M5, tube D4) on the MXH head-end port (catalog: 6.5 / 26.5 from the body bottom), vendor STEP', 'z', 'probe')
     add('Probe_air_tube_%d' % k, tub_, gp, 'polyurethane tube D4 (stub; routed up to the Z drag chain)', 'z', 'probe')
-br = box(XB, 96.0, 12, 20, ZB0 - 6, ZB1 + 6)
-add('Probe_bracket', br, gp, 'probe slide bracket (CNC, 6061) t8 on the module plate (4 x M5 low-head from the plate back); the MXH10 on its front '
-    '(3 x M5 low-head from the back into the slide body through-taps)', 'z', 'probe')
-for k_, (x, zz) in enumerate(SLB, 1):
-    cut('Probe_bracket', cyl('y', 2.75, 12, 16.5, x, zz), cyl('y', 4.75, 16.5, 20, x, zz))
-    add('Probe_slide_bolt_%d' % k_, fuse(cyl('y', 4.25, 16.5, 20, x, zz), cyl('y', 2.5, -3.5, 16.5, x, zz)), gp,
-        'M5x20 low-head (DIN 7984) from the bracket back into the MXH10 body through-tap (past the 4.4 c-bore, 11 engaged)', 'z', 'fasten')
-HT = 14.0                                                       # clamp block height
+for k_, (x, zz) in enumerate(SLB, 1):                           # head in the slide's front c-bore (D7.5 x 4.4), through the body, into the clamp
+    add('Probe_slide_bolt_%d' % k_, fuse(cyl('y', 3.5, YS0 + 1.6, YS0 + 4.4, x, zz), cyl('y', 2.0, YS0 + 4.4, YS0 + 29.4, x, zz)), gp,
+        'M4x25 low-head (DIN 7984) through the MXH10 body (head in the 4.4 c-bore, shank through the D4.2 pilot of the M5 tap) into the '
+        'spindle clamp front (tap M4 depth 11, 9.4 engaged); fitted on the bench', 'z', 'fasten')
 EPH = [(XB + 21.5, 2 - 5.5), (XB + 21.5, 2 + 5.5), (XB + 39.5, 2 - 5.5), (XB + 39.5, 2 + 5.5)]   # end-plate taps (rows from the table side)
 hd = box(XB + 2, PX + 17, SY - 18, YS1, T0 - HT, T0)            # clamp block under the rod-end plate
-hd = hd.cut(cyl('z', 3.0, T0 - HT, T0, PX, SY)).cut(box(PX - 0.5, PX + 0.5, SY - 18, SY, T0 - HT, T0))      # D6 H7 bore + slit
-hd = hd.cut(cyl('x', 2.25, PX + 0.5, PX + 17, SY - 10, T0 - HT / 2)).cut(cyl('x', 2.0, PX - 6, PX - 0.5, SY - 10, T0 - HT / 2))   # pinch from +X (head outside)
-for x, y in EPH: hd = hd.cut(cyl('z', 2.25, T0 - HT + 4.5, T0, x, y)).cut(cyl('z', 3.75, T0 - HT, T0 - HT + 4.5, x, y))
-add('Probe_holder', hd, gp, 'probe clamp block (CNC, 6061) under the MXH10 rod-end plate (front mounting face, 4 x M4 from below), split D6 H7 bore for the '
-    'shank (M4 pinch): the probe height is set here', 'z', 'probe')
-add('Probe_pinch_bolt', fuse(cyl('x', 3.5, PX + 17, PX + 21, SY - 10, T0 - HT / 2), cyl('x', 2.0, PX - 6, PX + 17, SY - 10, T0 - HT / 2)), gp, 'M4x20 SHCS, shank clamp (head on the +X side)', 'z', 'fasten')
+hd = hd.cut(cyl('z', 3.0, T0 - HT, T0 - HT + 20, PX, SY)).cut(box(PX - 0.5, PX + 0.5, SY - 18, SY, T0 - HT, T0 - HT + 20))   # D6 H7 bore + slit (bottom 20)
+PZ7 = T0 - HT + 7                                               # pinch screw height (middle of the 13 clamped shank length)
+hd = hd.cut(cyl('x', 2.25, PX + 0.5, PX + 17, SY - 10, PZ7)).cut(cyl('x', 2.0, PX - 6, PX - 0.5, SY - 10, PZ7))
+for x, y in EPH: hd = hd.cut(cyl('z', 2.25, T0 - 10, T0, x, y)).cut(cyl('z', 3.75, T0 - HT, T0 - 10, x, y))   # bolt pockets from below
+add('Probe_holder', hd, gp, 'probe clamp block (CNC, 6061) %.0f high under the MXH10 rod-end plate (front mounting face, 4 x M4 from below in '
+    'pockets), split D6 H7 bore in its bottom 20 for the shank (M4 pinch): the probe height is set here' % HT, 'z', 'probe')
+add('Probe_pinch_bolt', fuse(cyl('x', 3.5, PX + 17, PX + 21, SY - 10, PZ7), cyl('x', 2.0, PX - 6, PX + 17, SY - 10, PZ7)), gp,
+    'M4x20 SHCS, shank clamp (head on the left side, toward the camera, reachable from the front-left)', 'z', 'fasten')
 for i_, (x, y) in enumerate(EPH, 1):
-    add('Probe_holder_bolt_%d' % i_, fuse(cyl('z', 3.5, T0 - HT + 0.5, T0 - HT + 4.5, x, y), cyl('z', 2.0, T0 - HT + 4.5, T0 + 6.5, x, y)), gp,
-        'M4x16 SHCS from below, clamp block into the MXH10 rod-end plate (tap M4 depth 7.5)', 'z', 'fasten')
+    add('Probe_holder_bolt_%d' % i_, fuse(cyl('z', 3.5, T0 - 14, T0 - 10, x, y), cyl('z', 2.0, T0 - 10, T0 + 6.5, x, y)), gp,
+        'M4x16 SHCS from below (head 10 under the plate, in a pocket), clamp block into the MXH10 rod-end plate (tap M4 depth 7.5, 6.5 engaged)', 'z', 'fasten')
 ZBK = T0
-PX = PXF
-for o in GROUPS[gp].Group:                                      # turn the set -90 deg about Z (v13 +Y -> +X, v13 -X -> +Y) onto (PX, PY)
-    s_ = o.Shape.copy(); s_.translate(V(-PX13, -PY13, 0)); s_.rotate(V(0, 0, 0), V(0, 0, 1), -90); s_.translate(V(PX, PY, 0)); o.Shape = s_
-wb = O('Probe_bracket').Shape.BoundBox                          # web (turned): x 57.5..65.5, y -123.5..-76
-CF = O('Spindle_clamp').Shape.BoundBox                          # clamp front face y -63, right of the split from x SX0 + 1
-FX0, FX1, FZ0, FZ1 = SX0 + 1, wb.XMax + 0.5, CF.ZMin, min(CF.ZMax, wb.ZMax)
-O('Probe_bracket').Shape = fuse(O('Probe_bracket').Shape, box(wb.XMin, wb.XMax, wb.YMax, CF.YMin - 8, wb.ZMin, wb.ZMax),
-                                box(FX0, FX1, CF.YMin - 8, CF.YMin, FZ0, FZ1))
-spec('Probe_bracket', 'probe slide bracket (CNC, 6061): web t8 on the right side of the MXH10 (3 x M5 low-head from the web into the slide body '
-     'through-taps) + flange t8 on the spindle clamp front face right of the split (4 x M5x12 low-head into the clamp, tap depth 10); clear of '
-     'the clamp bolts. Fitted on the bench: bracket onto the clamp first, then the slide')
-PFB = [(SX0 + 7.5, 340), (SX0 + 20.5, 340), (SX0 + 7.5, 396), (SX0 + 20.5, 396)]   # clear of the pinch screws (z 355 / 381) and the clamp bolts
-for i_, (x, zz) in enumerate(PFB, 1):
-    y0 = CF.YMin - 8
-    cut('Probe_bracket', cyl('y', 4.75, y0, y0 + 4, x, zz), cyl('y', 2.75, y0 + 4, CF.YMin, x, zz))
-    hole('Spindle_clamp', cyl('y', 2.5, CF.YMin, CF.YMin + 10, x, zz))
-    add('Probe_bracket_bolt_%d' % i_, fuse(cyl('y', 4.25, y0 + 0.5, y0 + 4, x, zz), cyl('y', 2.5, y0 + 4, y0 + 16, x, zz)), gp,
-        'M5x12 low-head (DIN 7984), bracket flange into the spindle clamp front face (tap M5 depth 10, 8 engaged)', 'z', 'fasten')
-LOG.append('PROBE (%.1f, %.0f) on an air slide in front of the spindle clamp, ball retracted z %.1f (tool tip %+.0f), extended z %.1f (tool tip %+.0f), stroke %.0f'
-           % (PX, PY, TIPR, TIPR - TIP, TIPR - STROKE, TIPR - STROKE - TIP, STROKE))
+for o in GROUPS[gp].Group:                                      # mirror in X and move onto the clamp front
+    s_ = o.Shape.mirror(V(MIRX / 2, 0, 0), V(1, 0, 0)); s_.translate(V(0, CF.YMin - YS1, 0)); o.Shape = s_
+for x, zz in SLB: hole('Spindle_clamp', cyl('y', 2.0, CF.YMin, CF.YMin + 11, MIRX - x, zz))   # M4 taps in the clamp front wall
+PX, PY = MIRX - PX13, SY + CF.YMin - YS1
+LOG.append('PROBE (%.1f, %.0f) on an air slide bolted to the spindle clamp front, ball retracted z %.1f (tool tip %+.0f), extended z %.1f (tool tip %+.0f), '
+           'stroke %.0f, clamp block %.0f high, slide holes z %.1f / %.1f on the clamp z %.0f..%.0f'
+           % (PX, PY, TIPR, TIPR - TIP, TIPR - STROKE, TIPR - STROKE - TIP, STROKE, HT, T0 + 16.5, T0 + 76.5, CF.ZMin, CF.ZMax))
 LOG.append('SPINDLE x %.1f, camera %.1f (D %.0f), probe (%.1f, %.0f); X travel +-%.1f: spindle reach %.1f..%.1f, camera %.1f..%.1f, probe %.1f..%.1f; '
            'probe needs table %+.0f..%+.0f (travel +150..-250)'
            % (SX0, CX, SX0 - CX, PX, PY, 150 + W, SX0 - 150 - W, SX0 + 150 + W, CX - 150 - W, CX + 150 + W, PX - 150 - W, PX + 150 + W,
