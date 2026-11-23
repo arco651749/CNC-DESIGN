@@ -1,0 +1,34 @@
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CNC v14 爆炸圖</title>
+<style>html,body{margin:0;height:100%;background:#eef1f4;font-family:"Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif;color:#1d2630}
+#c{width:100%;height:100%;display:block}#ui{position:absolute;left:12px;top:10px;display:flex;flex-wrap:wrap;gap:6px;align-items:center;background:#ffffffd9;border:1px solid #c9d1da;border-radius:8px;padding:6px 10px}
+button{font:inherit;font-size:13px;padding:4px 10px;border:1px solid #9aa6b3;border-radius:6px;background:#fff;cursor:pointer}
+#lg{position:absolute;right:12px;top:10px;background:#ffffffd9;border:1px solid #c9d1da;border-radius:8px;padding:8px 12px;font-size:12.5px;line-height:1.7}
+#lg span{display:inline-block;width:11px;height:11px;border-radius:2px;margin-right:6px;vertical-align:-1px}
+#lg div{cursor:pointer;user-select:none}#lg div.off{opacity:.35}</style></head>
+<body><canvas id="c"></canvas>
+<div id="ui"><b>CNC v14 爆炸圖</b><label>分開程度 <input id="ex" type="range" min="0" max="1" step="0.01" value="1"></label>
+<button data-v="iso">等角</button><button data-v="front">正視</button><button data-v="side">側視</button><button data-v="back">後方</button></div>
+<div id="lg"></div>
+<!--THREE-->
+<script>
+/*DATA*/
+const cv=document.getElementById('c');const R=new THREE.WebGLRenderer({canvas:cv,antialias:true,preserveDrawingBuffer:true});R.setPixelRatio(Math.min(devicePixelRatio,2));
+const scene=new THREE.Scene();scene.background=new THREE.Color(0xeef1f4);
+const cam=new THREE.PerspectiveCamera(30,1,10,20000);cam.up.set(0,0,1);
+const ctl=new THREE.OrbitControls(cam,cv);ctl.enableDamping=true;
+scene.add(new THREE.HemisphereLight(0xffffff,0x8a8070,0.8));const d1=new THREE.DirectionalLight(0xffffff,0.7);d1.position.set(-1200,-1800,2200);scene.add(d1);const d2=new THREE.DirectionalLight(0xffffff,0.3);d2.position.set(1500,1000,600);scene.add(d2);
+const G=window.G={};for(const k in CL){G[k]=new THREE.Group();scene.add(G[k])}
+function b64(s,T){const b=atob(s),u=new Uint8Array(b.length);for(let i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return new T(u.buffer)}
+for(const p of DATA){const q=b64(p.p,Int16Array),pos=new Float32Array(q.length);for(let i=0;i<q.length;i++)pos[i]=q[i]/4;
+ const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.BufferAttribute(pos,3));g.setIndex(new THREE.BufferAttribute(b64(p.i,p.w?Uint16Array:Uint32Array),1));g.computeVertexNormals();
+ const me=new THREE.Mesh(g,new THREE.MeshStandardMaterial({color:new THREE.Color(...p.c),metalness:0.15,roughness:0.6,side:THREE.DoubleSide}));G[p.k].add(me)}
+function setEx(t){for(const k in CL){const o=CL[k].o;G[k].position.set(o[0]*t,o[1]*t,o[2]*t)}}
+document.getElementById('ex').oninput=e=>setEx(+e.target.value);
+const lg=document.getElementById('lg');for(const k in CL){const d=document.createElement('div');const c=CL[k].c.map(v=>Math.round(v*255));d.innerHTML='<span style="background:rgb('+c+')"></span>'+CL[k].t;d.onclick=()=>{G[k].visible=!G[k].visible;d.classList.toggle('off',!G[k].visible)};lg.appendChild(d)}
+const T=new THREE.Vector3(0,-180,-40);const VIEWS={iso:[-3000,-3800,2500],front:[0,-5200,200],side:[-5200,-180,200],back:[2900,3400,2300]};
+function view(k){cam.position.set(...VIEWS[k]);ctl.target.copy(T);ctl.update()}
+document.querySelectorAll('[data-v]').forEach(b=>b.onclick=()=>view(b.dataset.v));window.view=view;window.setEx=setEx;
+function rs(){const w=innerWidth,h=innerHeight;R.setSize(w,h,false);cam.aspect=w/h;cam.updateProjectionMatrix()}addEventListener('resize',rs);rs();setEx(1);view('iso');
+window.renderOnce=()=>{ctl.update();R.render(scene,cam)};(function loop(){if(!window.PAUSE){ctl.update();R.render(scene,cam)}requestAnimationFrame(loop)})();
+</script></body></html>
