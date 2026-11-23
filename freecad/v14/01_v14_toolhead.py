@@ -61,6 +61,17 @@ def hole(label, *tools):                                    # cut + check the to
 def move(label, dx):
     o = O(label); s = o.Shape.copy(); s.translate(V(dx, 0, 0)); o.Shape = s
 def spec(label, text): prop(O(label), 'Spec', text)
+def shrink(label, x0, d):
+    """narrow a plate by d per side: drop the plain band x0..x0+d on each side, move the outer parts in (inverse of stretch)"""
+    o = O(label); s_ = o.Shape; b = s_.BoundBox
+    big = lambda a0, a1: box(a0, a1, b.YMin - 1, b.YMax + 1, b.ZMin - 1, b.ZMax + 1)
+    sec = lambda x: round(s_.slice(V(1, 0, 0), x)[0].BoundBox.ZLength if s_.slice(V(1, 0, 0), x) else 0, 3)
+    R = s_.common(big(x0 + d, b.XMax + 1)); R.translate(V(-d, 0, 0))
+    L = s_.common(big(b.XMin - 1, -x0 - d)); L.translate(V(d, 0, 0))
+    o.Shape = fuse(s_.common(big(-x0, x0)), R, L)
+    LOG.append('shrink %-18s band +-%.0f..%.0f: x %.1f..%.1f -> %.1f..%.1f' % (label, x0, x0 + d, b.XMin, b.XMax, o.Shape.BoundBox.XMin, o.Shape.BoundBox.XMax))
+def inward(label, d):
+    o = O(label); s_ = o.Shape.copy(); c = (s_.BoundBox.XMin + s_.BoundBox.XMax) / 2; s_.translate(V(-d if c > 0 else d, 0, 0)); o.Shape = s_
 KQ2 = Part.read(os.path.join(ROOT, 'vendor', 'smc', 'KQ2H04-M5A', 'KQ2H04-M5A.stp'))   # vendor STEP: axis +Y, seat face y 0, M5 thread y -3..0, top y 14.7
 def push_in(ax, sgn, p, q, a0, tube=25.0, tdep=4.0):
     """SMC KQ2H04-M5A straight push-in fitting (vendor STEP: M5 thread 3 long, hex 8, release button D7.9, 14.7 above the seat) on an M5
@@ -204,10 +215,10 @@ spec('Spindle_clamp', '6061 clamp block 96x83x74: bore D65 H7 at (x%+.1f, y-20),
      '(x%+.1f / %+.1f, z 368); spindle plug faces +X (right, above the clamp). Front face left of the split: 2 x M4 tap depth 11 for the probe slide' % (SX0, SX0 - 41, SX0 + 41))
 # module plate: v12 back plate (156 wide, z 319..500) + a wide lower band (216 wide, z 288..465) for the camera and probe brackets
 SB = (0, 366)                                                 # pivot (RBPB8 in the Z slide, unchanged)
-BOLTS = [(-70, 305), (95, 305), (-50, 490), (50, 490)]        # shim bolts 185 apart in z; bottom pair outside the camera and the spindle (front access)
-SCREWS = [('TC', 0, 490), ('BL', -103, 330), ('BR', 103, 330)]  # differential face screws: outside the camera and the spindle clamp
+BOLTS = [(-75, 300), (75, 300), (-45, 490), (45, 490)]        # shim bolts 190 apart in z; bottom pair outside the camera and the spindle (front access)
+SCREWS = [('TC', 0, 490), ('BL', -80, 320), ('BR', 80, 320)]    # differential face screws: outside the camera and below / beside the spindle clamp
 CAMB = [(CX + 9, 315), (CX + 21, 315)]                        # camera bracket base: 2 x M5 low-head from the plate back (upper row of the block)
-pl = fuse(box(-78, 78, 20, 32, 319, 500), box(-108, 108, 20, 32, 288, 465))
+pl = fuse(box(-58, 58, 20, 32, 288, 500), box(-88, 88, 20, 32, 288, 405))   # v14: narrowed with the Z slide (upper +-58 for the roll blocks, lower +-88)
 for x, zz in BOLTS: pl = pl.cut(cyl('y', 3.5, 20, 32, x, zz))
 for _, x, zz in SCREWS: pl = pl.cut(cyl('y', 4, 20, 32, x, zz))
 for x, zz in CB: pl = pl.cut(cyl('y', 3.3, 20, 32, x, zz)).cut(cyl('y', 5.5, 28, 32, x, zz))   # clamp bolts from the back
@@ -215,7 +226,7 @@ for x, zz in CAMB: pl = pl.cut(cyl('y', 2.75, 20, 28, x, zz)).cut(cyl('y', 5, 28
 pl = pl.cut(cyl('y', 3, 20, 32, *SB))
 for x, zz in DW: pl = pl.cut(cyl('y', 3, 20, 30, x, zz))
 O('Spindle_mount_plate').Shape = pl
-spec('Spindle_mount_plate', 'tool-head module plate, flat steel t12 (156 wide z 319..500 + 216 wide z 288..465), ground both faces, all holes from '
+spec('Spindle_mount_plate', 'tool-head module plate, flat steel t12 (116 wide z 288..500 + 176 wide z 288..405), ground both faces, all holes from '
      'the front except 6 counterbores on the back: M6 tap for the pivot stud, 4 shim-bolt holes, 3 differential-screw taps, 4 M6 taps for the '
      'clamp block (from the back, c-bored) + 2 dowel holes D6 H7, 2 x M5 low-head holes (counterbored from the back) for the camera bracket. Stands 2 mm off the '
      'slide on 4 shim packs at z 305 / 490 (185 apart)')
@@ -227,6 +238,12 @@ z = O('Z_slide_plate')                                        # move the shim-bo
 z.Shape = fuse(z.Shape, box(-110, 110, 34, 62, 287, 317))
 prop(z, 'Spec', z.Spec + '; v13: 30 longer at the bottom (z 287..547 at home) for the lower shim bolts')
 z.Shape = fuse(z.Shape, *[cyl('y', 3, 34, 46, x, zz) for x in (-63, 63) for zz in (420, 455)])
+# v14 (owner): Z axis narrowed with the trimmed nut housing: Z rails +-80 -> +-60, Z slide 220 -> 180 (plain band 38..58 removed), the parts on
+# it move in by 20: Z blocks + bolts, spacers, spindle roll blocks / screws / bolts (they push the narrower upper module plate, +-58)
+ZD = 20.0
+shrink('Z_slide_plate', 38, ZD)
+for o in [o for o in doc.Objects if o.TypeId == 'Part::Feature' and o.Label.startswith(('Z_block', 'Z_spacer', 'Spindle_roll_block', 'Spindle_roll_screw'))]:
+    inward(o.Label, ZD)
 for x, zz in BOLTS: hole('Z_slide_plate', cyl('y', 3, 34, 46, x, zz))
 for k, (x, zz) in enumerate(DW, 1):
     add('Spindle_clamp_dowel_%d' % k, cyl('y', 3, 10, 30, x, zz), G, 'dowel D6 m6x20 (ISO 8734): spindle clamp to module plate', 'z', 'pins')
@@ -493,6 +510,27 @@ LOG.append('Z assembly lowered %.0f: %d parts moved; tool tip z %.1f (table top 
            % (-DZA, nz, O('Tool_D5').Shape.BoundBox.ZMin, TT.ZMax, TT.ZMax - (O('Tool_D5').Shape.BoundBox.ZMin - 50), zp.Shape.BoundBox.ZMin))
 LOG.append('  after the drop: lens front z %.1f, tool-setting pose X %+.1f, table %+.0f, Z %+.1f' % (O('Camera_lens').Shape.BoundBox.ZMin, MEAS[0], MEAS[1], MZ - O('Tool_D5').Shape.BoundBox.ZMin))
 spec('Camera_lens', O('Camera_lens').Spec.replace('sees work tops 0..50 mm above the table', 'sees work tops 0..25 mm above the table'))
+
+# v14: Z plate (X_carriage_plate) 240 -> 200 (plain band 56..76 removed); rails, rail bolts, datum pins, side screws, clamp bolts, epoxy pads,
+# top face screws and the roll blocks on the saddle ears move in by 20; pin holes re-cut, saddle taps for clamp / roll-block bolts moved
+shrink('X_carriage_plate', 56, ZD)
+sd = O('X_saddle_plate'); sb0 = sd.Shape
+old = [o.Shape.copy() for o in doc.Objects if o.TypeId == 'Part::Feature' and o.Label.startswith(('Z_clamp_bolt', 'Z_roll_block_bolt'))]
+sd.Shape = fuse(sd.Shape, *[sh.common(box(-200, 200, 122, 134, 0, 900)) for sh in old if sh.common(box(-200, 200, 122, 134, 0, 900)).Volume > 0])   # fill the old taps
+for o in [o for o in doc.Objects if o.TypeId == 'Part::Feature' and o.Label.startswith(('Z_rail', 'Z_ref_pin', 'Z_ecc_pin', 'Z_side_screw', 'Z_clamp_bolt',
+          'Z_epoxy_pad', 'Z_face_screw_L', 'Z_face_screw_R', 'Z_roll_block', 'Z_roll_screw'))]:
+    inward(o.Label, ZD)
+for o in [o for o in doc.Objects if o.TypeId == 'Part::Feature' and o.Label.startswith(('Z_ref_pin', 'Z_ecc_pin'))]:
+    cut('X_carriage_plate', o.Shape)                            # datum-pin holes at the new rail positions
+for o in [o for o in doc.Objects if o.TypeId == 'Part::Feature' and o.Label.startswith(('Z_clamp_bolt', 'Z_roll_block_bolt'))]:
+    t_ = o.Shape.common(box(-200, 200, 122, 134, 0, 900))
+    if t_.Volume > 0: cut('X_saddle_plate', t_)                 # taps at the new positions
+spec('X_carriage_plate', O('X_carriage_plate').Spec.replace('240x488', '200x488') + '; v14: 40 narrower (Z rails +-60)')
+spec('Z_slide_plate', O('Z_slide_plate').Spec + '; v14: 180 wide (Z rails +-60, nut housing trimmed to the flange)')
+LOG.append('Z axis narrowed: rails x %.1f..%.1f, slide x %.1f..%.1f, Z plate x %.1f..%.1f, module plate x %.1f..%.1f'
+           % (O('Z_rail_R').Shape.BoundBox.XMin, O('Z_rail_R').Shape.BoundBox.XMax, O('Z_slide_plate').Shape.BoundBox.XMin, O('Z_slide_plate').Shape.BoundBox.XMax,
+              O('X_carriage_plate').Shape.BoundBox.XMin, O('X_carriage_plate').Shape.BoundBox.XMax,
+              O('Spindle_mount_plate').Shape.BoundBox.XMin, O('Spindle_mount_plate').Shape.BoundBox.XMax))
 
 bad = [(l, round(r, 3)) for l, r in CHK if r < 0.98]
 LOG.append('HOLE_CHECK %d tools, not fully in material: %s' % (len(CHK), bad))
