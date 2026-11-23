@@ -82,7 +82,7 @@ html2 = re.sub(r'<title>[^<]*</title>', '<title>CNC v14 動作模擬</title>', h
 html2 = re.sub(r'<div class="sub">.*?</div>',
                '<div class="sub">v14 生產狀態：L 型工具頭（相機在主軸左 65，探頭在主軸夾座正前方），X 行程 ±182.5（比 v13 短 90）；稜鏡在工作台左後角 · 拖曳旋轉、滾輪縮放</div>', html2, count=1)
 # probe extend / retract control: the slide parts go into their own group under the Z group, animated by a button
-PROBE_JS_GROUP = ("const gP=new THREE.Group();gZ.add(gP);const PM=['Probe_body','Probe_holder','Probe_slide_table','Probe_pinch_bolt','Probe_holder_bolt_1','Probe_holder_bolt_2','Probe_holder_bolt_3','Probe_holder_bolt_4'];"
+PROBE_JS_GROUP = ("const gP=new THREE.Group();gZ.add(gP);const PM=['Probe_body','Probe_holder','Probe_stem','Probe_stem_bolt_1','Probe_stem_bolt_2','Probe_slide_table','Probe_pinch_bolt','Probe_holder_bolt_1','Probe_holder_bolt_2','Probe_holder_bolt_3','Probe_holder_bolt_4'];"
                   "for(const m of [...gZ.children])if(PM.includes(m.userData.n))gP.add(m);let probeT=0,probeZ=0;\n")
 html2, p1 = re.subn(r" if\(p\.r\)\{const pv=piv\[p\.r\];", " m.userData.n=p.n;\n if(p.r){const pv=piv[p.r];", html2, count=1)
 html2, p2 = re.subn(r"(// tool tip and a work piece on the table)", lambda m_: PROBE_JS_GROUP + m_.group(1), html2, count=1)

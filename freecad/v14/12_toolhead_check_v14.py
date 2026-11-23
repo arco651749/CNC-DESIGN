@@ -75,7 +75,7 @@ out.append('measuring pose X %+.1f table %+.0f Z %+.0f: tool tip z %.1f at x %.1
 for a in ('Camera_lens', 'Camera_air_ring', 'Camera_bracket', 'Spindle_body', 'ER11_nut', 'Probe_body', 'Coolant_nozzle_1'):
     out.append('  min gap %-18s - prism parts (cover open) %.1f mm' % (a, min(moved(a, dx, dy, dz).distToShape(moved(b, dx, dy, dz, S_OPEN))[0] for b in ('Tool_mirror', 'Mirror_bracket', 'Mirror_bracket_bolt_1', 'Mirror_cover', 'Mirror_cover_actuator'))))
 # (3) probe retracted / extended
-MOVE = ('Probe_body', 'Probe_holder', 'Probe_slide_table', 'Probe_pinch_bolt') + tuple('Probe_holder_bolt_%d' % k for k in range(1, 5))
+MOVE = ('Probe_body', 'Probe_holder', 'Probe_stem', 'Probe_slide_table', 'Probe_pinch_bolt') + tuple('Probe_holder_bolt_%d' % k for k in range(1, 5)) + ('Probe_stem_bolt_1', 'Probe_stem_bolt_2')
 OK = {('Probe_slide_body', 'Probe_slide_table'), ('Probe_block', 'Probe_rail'), ('Probe_holder', 'Probe_solenoid'), ('Probe_bracket', 'Probe_stop_screw'), ('Probe_body', 'Probe_holder'),
       ('Probe_holder', 'Probe_pinch_bolt'), ('Probe_bracket', 'Probe_rail'), ('Probe_block', 'Probe_holder'), ('Probe_bracket', 'Probe_bracket_bolt_1'),
       ('Probe_bracket', 'Probe_bracket_bolt_2'), ('Probe_bracket', 'Probe_bracket_bolt_3'), ('Probe_bracket', 'Probe_bracket_bolt_4')}
