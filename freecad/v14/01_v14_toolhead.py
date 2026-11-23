@@ -17,7 +17,7 @@
   3 Prism       folds the view +X; holder on the table T-slot x -130 at the rear-left corner (prism x -195, y +228), outside
                 the work area, with a pneumatic sliding cover. v14: fold point 10 above the table (prism through the base onto the table,
                 cover cylinder on the table), station top 25: 5 below the retracted probe ball and 11 below the spindle body at Z -50.
-  4 v13 freeze fixes kept: C-TEK12 mounting holes, table T-slots DIN 650, spindle turned 90 deg (plug forward), clamp bolts + dowels,
+  4 v13 freeze fixes kept: C-TEK12 mounting holes, table T-slots DIN 650, clamp bolts + dowels (v14: spindle plug faces +X again),
                 lens air ring, rail holes to the vendor size, vendor STEP for the SMC parts and fittings.
   5 Z assembly 25 lower on the saddle: tool tip range -5..95 above the table (Z -50 reaches the table top), camera sees work tops 0..25.
 Run:  freecadcmd freecad/v14/01_v14_toolhead.py      Out: output/v14/CNC_v14.FCStd, output/v14/logs/v14_build.txt"""
@@ -186,8 +186,7 @@ PX13, PY13 = 77.5, -20.0                                      # the probe set is
 for l in ('Spindle_body', 'Spindle_fan_cover', 'Spindle_plug', 'Spindle_nose', 'ER11_nut', 'Tool_D5',
           'Spindle_pinch_screw_1', 'Spindle_pinch_screw_2') + tuple('Spindle_clamp_bolt_%d' % k for k in range(1, 5)):
     move(l, SX0)
-for l in ('Spindle_body', 'Spindle_fan_cover', 'Spindle_plug', 'Spindle_nose', 'ER11_nut', 'Tool_D5'):   # turn 90 deg: plug forward (-Y)
-    o = O(l); s_ = o.Shape.copy(); s_.rotate(V(SX0, SY, 0), V(0, 0, 1), -90); o.Shape = s_
+# v14: no 90 deg turn: the plug faces +X (right) as in v12; the front is taken by the probe slide, the right side is free above the clamp
 TIP = O('Tool_D5').Shape.BoundBox.ZMin                         # 180 at home
 # clamp block (same as v12, moved with the spindle)
 CB = [(SX0 - 41, 340), (SX0 + 41, 340), (SX0 - 41, 396), (SX0 + 41, 396)]
@@ -203,7 +202,7 @@ for k, (x, zz) in enumerate(CB, 1):
          '12 engaged); the probe slide covers the clamp front, the module is assembled on the bench')
 spec('Spindle_clamp', '6061 clamp block 96x83x74: bore D65 H7 at (x%+.1f, y-20), rear wall 7.5, front split with 2 M6 pinch screws (heads on the right '
      'face); bolted to the module plate with 4 M6x20 from the plate back (M6 tap depth 14 in the rear face), located by 2 dowels D6 (H7 / m6) at '
-     '(x%+.1f / %+.1f, z 368); spindle turned so its plug faces forward. Front face left of the split: 3 x M4 tap depth 11 for the probe slide' % (SX0, SX0 - 41, SX0 + 41))
+     '(x%+.1f / %+.1f, z 368); spindle plug faces +X (right, above the clamp). Front face left of the split: 3 x M4 tap depth 11 for the probe slide' % (SX0, SX0 - 41, SX0 + 41))
 # module plate: v12 back plate (156 wide, z 319..500) + a wide lower band (216 wide, z 288..465) for the camera and probe brackets
 SB = (0, 366)                                                 # pivot (RBPB8 in the Z slide, unchanged)
 BOLTS = [(-70, 305), (95, 305), (-50, 490), (50, 490)]        # shim bolts 185 apart in z; bottom pair outside the camera and the spindle (front access)
