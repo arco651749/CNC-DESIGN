@@ -1,4 +1,4 @@
-parts=383 size=18640466
+parts=393 size=17143544
 Datum_base_plate g='' r='' tris=27308
 Y_rail_L g='y' r='' tris=8600
 Y_block_L1 g='' r='' tris=36808
@@ -14,9 +14,9 @@ Y_support_fixed g='y' r='' tris=14420
 Y_coupling g='y' r='y' tris=11908
 Y_motor g='y' r='' tris=16584
 Column_foot_L g='' r='' tris=6092
-Gantry_column_L g='' r='' tris=17168
+Gantry_column_L g='' r='' tris=19184
 Column_foot_R g='' r='' tris=6596
-Gantry_column_R g='' r='' tris=16504
+Gantry_column_R g='' r='' tris=18520
 X_rail_1 g='' r='' tris=10732
 X_block_11 g='x' r='' tris=16922
 X_block_12 g='x' r='' tris=16922
@@ -390,27 +390,37 @@ Probe_holder_bolt_3 g='z' r='' tris=1004
 Probe_holder_bolt_4 g='z' r='' tris=1004
 Probe_stem_bolt_1 g='z' r='' tris=1004
 Probe_stem_bolt_2 g='z' r='' tris=1004
-Servo_amp_X g='' r='' tris=18534
-Servo_bolt_X_1 g='' r='' tris=1004
-Servo_bolt_X_2 g='' r='' tris=1004
-Servo_amp_Y g='' r='' tris=18534
-Servo_bolt_Y_1 g='' r='' tris=1004
-Servo_bolt_Y_2 g='' r='' tris=1004
-Servo_amp_Z g='' r='' tris=18534
-Servo_bolt_Z_1 g='' r='' tris=1004
-Servo_bolt_Z_2 g='' r='' tris=1004
-Controller_RP23CNC g='' r='' tris=113640
-Board_standoff_1 g='' r='' tris=500
-Board_standoff_2 g='' r='' tris=500
-Board_standoff_3 g='' r='' tris=500
-Board_standoff_4 g='' r='' tris=500
-Panel_standoff_1 g='' r='' tris=1508
-Panel_standoff_bolt_1 g='' r='' tris=1004
-Panel_standoff_2 g='' r='' tris=1508
-Panel_standoff_bolt_2 g='' r='' tris=1004
-Panel_standoff_3 g='' r='' tris=1508
-Panel_standoff_bolt_3 g='' r='' tris=1004
-Electrical_panel g='' r='' tris=6616
+Box_top_plate g='' r='' tris=27436
+Box_top_shim_L g='' r='' tris=2044
+Box_top_shim_R g='' r='' tris=2044
+Box_top_bolt_1 g='' r='' tris=1004
+Box_top_bolt_2 g='' r='' tris=1004
+Box_top_bolt_3 g='' r='' tris=1004
+Box_top_bolt_4 g='' r='' tris=1004
+Box_top_bolt_5 g='' r='' tris=1004
+Box_top_bolt_6 g='' r='' tris=1004
+Box_top_bolt_7 g='' r='' tris=1004
+Box_top_bolt_8 g='' r='' tris=1004
+Box_hang_screw_1 g='' r='' tris=1130
+Box_hang_screw_2 g='' r='' tris=1130
+Box_hang_screw_3 g='' r='' tris=1130
+Box_hang_screw_4 g='' r='' tris=1130
+Box_hang_screw_5 g='' r='' tris=1130
+Box_hang_screw_6 g='' r='' tris=1130
+Box_hang_screw_7 g='' r='' tris=1130
+Box_hang_screw_8 g='' r='' tris=1130
+Box_hang_screw_9 g='' r='' tris=1130
+Box_hang_screw_10 g='' r='' tris=1130
+Box_hang_screw_11 g='' r='' tris=1130
+Box_hang_screw_12 g='' r='' tris=1130
+Box_hang_screw_13 g='' r='' tris=1130
+Box_hang_screw_14 g='' r='' tris=1130
+Box_hang_screw_15 g='' r='' tris=1130
+Box_hang_screw_16 g='' r='' tris=1130
+Box_hang_screw_17 g='' r='' tris=1130
+Box_hang_screw_18 g='' r='' tris=1130
+Box_hang_screw_19 g='' r='' tris=1130
+Box_hang_screw_20 g='' r='' tris=1130
 pivots replaced=1: piv.y.position.set(-0.0,0,45.0);gY.add(piv.y);piv.x.position.set(0,207.0,360.0);gS.add(piv.x);piv.z.position.set(-0.0,79.0,0);gX.add(piv.z);
 work piece on fixture plate replaced=1
 probe control injected: 1 1 1 1

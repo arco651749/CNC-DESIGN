@@ -29,7 +29,7 @@ if True:
     M = [(o.Label, o.Shape, cls(o)) for o in doc.Objects if o.TypeId == 'Part::Feature' and not o.Shape.isNull() and o.Shape.Solids
          and not o.Label.startswith(OLD_PANEL)]
     POSES = list(itertools.product((-182.5, 0, 182.5), (-250, 0, 150), (-50, 0, 50)))
-    hits, near = {}, {}
+    hits, near, eng = {}, {}, {}
     for n, sh, k in M:
         for P in (POSES if k else [(0, 0, 0)]):
             o = off(k, P); b = sh.BoundBox
@@ -40,15 +40,20 @@ if True:
             for bn, bs in BOX:
                 if not g.intersect(bs.BoundBox): continue
                 if s2 is None: s2 = sh.copy(); s2.translate(V(*o))
-                try: v = bs.common(s2).Volume
+                try: cm = bs.common(s2); v = cm.Volume
                 except Exception: v = -1
-                if v > 0.5: hits.setdefault((bn, n), (P, round(v)))
+                if v > 0.5 and bn.startswith('PullNut') and n.startswith('Box_hang_screw'):   # screw in its rivet nut: thread engagement
+                    eng[(bn, n)] = (cm.BoundBox.ZLength, s2.BoundBox.ZMin - bs.BoundBox.ZMin)
+                elif v > 0.5: hits.setdefault((bn, n), (P, round(v)))
                 elif not k:
                     d = bs.distToShape(s2)[0]
                     if d < 0.05: near[(bn, n)] = d
     L = ['v14 column box (%s): %d box solids, envelope x %.1f..%.1f y %.1f..%.1f z %.1f..%.1f' % (os.path.relpath(STEP, ROOT), len(BOX),
          BB.XMin, BB.XMax, BB.YMin, BB.YMax, BB.ZMin, BB.ZMax), '%d machine parts, %d poses' % (len(M), len(POSES)), '',
          'COLLISIONS (box x machine): %d' % len(hits)] + ['  %s x %s at %s: %s mm3' % (a, b, p, v) for (a, b), (p, v) in sorted(hits.items())]
+    L += ['', 'THREAD ENGAGEMENT (box top plate screws in the box rivet nuts): %d' % len(eng)] + [
+        '  %s in %s: engaged %.1f, tip %.1f above the nut bottom %s' % (b_, a_, e_, t_, 'OK' if e_ >= 5 and t_ > 0.5 else 'CHECK')
+        for (a_, b_), (e_, t_) in sorted(eng.items())]
     L += ['', 'SUPPORT (fixed machine parts touching the box): %d' % len(near)] + ['  %s - %s' % ab for ab in sorted(near)]
     if not near: L.append('  none: the box is not attached to the machine yet (mounting to be designed by the mechanical side)')
     os.makedirs(os.path.join(ROOT, 'output', 'v14', 'logs'), exist_ok=True)

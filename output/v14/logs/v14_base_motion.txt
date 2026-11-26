@@ -1,6 +1,14 @@
-parts: 489   motion classes: static 228 / y 50 / x 102 / z 109
+parts: 520   motion classes: static 259 / y 50 / x 102 / z 109
 
-DESIGN CONTACTS AT HOME (overlap > 1 mm3, review): 10
+DESIGN CONTACTS AT HOME (overlap > 1 mm3, review): 18
+  Box_top_bolt_1 x Gantry_column_L : 223 mm3
+  Box_top_bolt_2 x Gantry_column_L : 223 mm3
+  Box_top_bolt_3 x Gantry_column_L : 223 mm3
+  Box_top_bolt_4 x Gantry_column_L : 223 mm3
+  Box_top_bolt_5 x Gantry_column_R : 223 mm3
+  Box_top_bolt_6 x Gantry_column_R : 223 mm3
+  Box_top_bolt_7 x Gantry_column_R : 223 mm3
+  Box_top_bolt_8 x Gantry_column_R : 223 mm3
   Coolant_hose_1 x Coolant_hose_2 : 288 mm3
   Coolant_hose_2 x Coolant_hose_3 : 288 mm3
   Coolant_hose_3 x Coolant_hose_4 : 288 mm3

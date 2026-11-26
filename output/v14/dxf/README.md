@@ -22,8 +22,8 @@ RBPB8 座孔 Ø22 H7：外環 h6，用固持膠（Loctite 641）黏固，不壓�
 | Work_table | 1 | 440 × 473.5 × 40 | 26 | 6 | Y slide table: BOTH faces ground - underside = Y rail face | 440x473.5x40 (53.5 longer at rear), 5x T-slot 14 DIN 650 (ne |
 | Column_foot_L | 1 | 80 × 210 × 18 | 8 | 1 | — | steel foot t18, 80x210, front flange 30 (hold-down bolt, pus |
 | Column_foot_R | 1 | 80 × 210 × 18 | 9 | 1 | — | steel foot t18, 80x210, front flange 30 (hold-down bolt, pus |
-| Gantry_column_L | 1 | 80 × 160 × 472 | 5 | 1 | — | HFS8-80160-472 (z18..490) |
-| Gantry_column_R | 1 | 80 × 160 × 472 | 4 | 0 | — | HFS8-80160-472 (z18..490) |
+| Gantry_column_L | 1 | 80 × 160 × 472 | 1 | 1 | — | HFS8-80160-472 (z18..490) |
+| Gantry_column_R | 1 | 80 × 160 × 472 | 0 | 0 | — | HFS8-80160-472 (z18..490) |
 | X_base_plate | 1 | 785 × 20 × 260 | 65 | 7 | front face ground (X rail face) | steel t20 785x260 (z 230..490); X rails z 250 / 470 (spacing |
 | X_saddle_plate | 1 | 284 × 12 × 484 | 31 | 1 | rear face ground (X block face) | saddle, steel t12 with two ears above the columns: bolted to |
 | X_carriage_plate | 1 | 200 × 17 × 488 | 48 | 7 | front face ground (Z rail face) | Z plate, steel t17 200x488: Z rails, Z screw, Z motor plate. |
@@ -51,3 +51,5 @@ RBPB8 座孔 Ø22 H7：外環 h6，用固持膠（Loctite 641）黏固，不壓�
 | Camera_air_ring | 1 | 55 × 51 × 10 | 2 | 0 | — | lens air ring (CNC, 6061) on the D45 lens nose, 2 x M3 set s |
 | Mirror_bracket | 1 | 118.5 × 101.5 × 29 | 4 | 0 | — | prism holder (CNC, steel t8, base ground): on the table T-sl |
 | Probe_holder | 1 | 46 × 19 × 10 | 6 | 0 | — | probe plate (CNC, 6061 t10, 46 x 19) under the MXH10 rod-end |
+| Box_top_plate | 1 | 785 × 501 × 20 | 29 | 0 | — | SPHC t3 laser cut + bent: 785 x 498, rear and side flanges 2 |
+| Box_top_shim_L | 2 | 80 × 160 × 1 | 4 | 0 | — | stainless shim t1, 80 x 160, 4 x D9: lifts the box top plate |

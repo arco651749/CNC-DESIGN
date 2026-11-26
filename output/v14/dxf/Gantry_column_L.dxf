@@ -489,7 +489,7 @@ $SKPOLY
   9
 $TDCREATE
  40
-2461368.4278587964
+2461371.9471412036
   9
 $TDUCREATE
  40
@@ -497,7 +497,7 @@ $TDUCREATE
   9
 $TDUPDATE
  40
-2461368.4278587964
+2461371.9471412036
   9
 $TDUUPDATE
  40
@@ -549,7 +549,7 @@ $SPLINESEGS
   9
 $HANDSEED
   5
-4A9
+494
   9
 $SURFTAB1
  70
@@ -929,11 +929,11 @@ $PSTYLEMODE
   9
 $FINGERPRINTGUID
   2
-{FF83E26B-D4DB-4169-9832-483CE6F6F51A}
+{BC4B6080-25F0-479D-9FE9-A4BCF7AE1E48}
   9
 $VERSIONGUID
   2
-{43FDFAB7-195C-4596-9A5E-94B33A4A879A}
+{4909F31D-49CF-4D2D-A073-9BE6E2D6DD92}
   9
 $EXTNAMES
 290
@@ -1323,9 +1323,9 @@ ISM
   0
 CLASS
   1
-LAYOUT
+ACDBPLACEHOLDER
   2
-AcDbLayout
+AcDbPlaceHolder
   3
 ObjectDBX Classes
  90
@@ -1339,9 +1339,9 @@ ObjectDBX Classes
   0
 CLASS
   1
-ACDBPLACEHOLDER
+LAYOUT
   2
-AcDbPlaceHolder
+AcDbLayout
   3
 ObjectDBX Classes
  90
@@ -3301,7 +3301,7 @@ ACAD
   0
 APPID
   5
-4A6
+491
 330
 3
 100
@@ -3315,7 +3315,7 @@ HATCHBACKGROUNDCOLOR
   0
 APPID
   5
-4A7
+492
 330
 3
 100
@@ -30269,479 +30269,9 @@ AcDbArc
  51
 -89.97910988426138
   0
-CIRCLE
+TEXT
   5
 482
-330
-17
-100
-AcDbEntity
-  8
-HOLE
-100
-AcDbCircle
- 10
-505.0
- 20
-20.0
- 30
-0.0
- 40
-4.0
-  0
-LINE
-  5
-483
-330
-17
-100
-AcDbEntity
-  8
-CENTER
-100
-AcDbLine
- 10
-499.5
- 20
-20.0
- 30
-0.0
- 11
-510.5
- 21
-20.0
- 31
-0.0
-  0
-LINE
-  5
-484
-330
-17
-100
-AcDbEntity
-  8
-CENTER
-100
-AcDbLine
- 10
-505.0
- 20
-14.5
- 30
-0.0
- 11
-505.0
- 21
-25.5
- 31
-0.0
-  0
-TEXT
-  5
-485
-330
-17
-100
-AcDbEntity
-  8
-HOLE
-100
-AcDbText
- 10
-508.5
- 20
-23.5
- 30
-0.0
- 40
-3.5
-  1
-B1
- 11
-508.5
- 21
-23.5
- 31
-0.0
-100
-AcDbText
-  0
-LINE
-  5
-486
-330
-17
-100
-AcDbEntity
-  8
-HOLE
-100
-AcDbLine
- 10
-507.828
- 20
-17.172
- 30
-0.0
- 11
-527.828
- 21
--2.8279999999999994
- 31
-0.0
-  0
-LINE
-  5
-487
-330
-17
-100
-AcDbEntity
-  8
-HOLE
-100
-AcDbLine
- 10
-527.828
- 20
--2.8279999999999994
- 30
-0.0
- 11
-532.828
- 21
--2.8279999999999994
- 31
-0.0
-  0
-TEXT
-  5
-488
-330
-17
-100
-AcDbEntity
-  8
-HOLE
-100
-AcDbText
- 10
-534.328
- 20
--4.827999999999999
- 30
-0.0
- 40
-4.0
-  1
-B  4x M8 tap depth 20 (from bottom)
- 11
-534.328
- 21
--4.827999999999999
- 31
-0.0
-100
-AcDbText
-  0
-CIRCLE
-  5
-489
-330
-17
-100
-AcDbEntity
-  8
-HOLE
-100
-AcDbCircle
- 10
-545.0
- 20
-20.0
- 30
-0.0
- 40
-4.0
-  0
-LINE
-  5
-48A
-330
-17
-100
-AcDbEntity
-  8
-CENTER
-100
-AcDbLine
- 10
-539.5
- 20
-20.0
- 30
-0.0
- 11
-550.5
- 21
-20.0
- 31
-0.0
-  0
-LINE
-  5
-48B
-330
-17
-100
-AcDbEntity
-  8
-CENTER
-100
-AcDbLine
- 10
-545.0
- 20
-14.5
- 30
-0.0
- 11
-545.0
- 21
-25.5
- 31
-0.0
-  0
-TEXT
-  5
-48C
-330
-17
-100
-AcDbEntity
-  8
-HOLE
-100
-AcDbText
- 10
-548.5
- 20
-23.5
- 30
-0.0
- 40
-3.5
-  1
-B2
- 11
-548.5
- 21
-23.5
- 31
-0.0
-100
-AcDbText
-  0
-CIRCLE
-  5
-48D
-330
-17
-100
-AcDbEntity
-  8
-HOLE
-100
-AcDbCircle
- 10
-505.0
- 20
-140.0
- 30
-0.0
- 40
-4.0
-  0
-LINE
-  5
-48E
-330
-17
-100
-AcDbEntity
-  8
-CENTER
-100
-AcDbLine
- 10
-499.5
- 20
-140.0
- 30
-0.0
- 11
-510.5
- 21
-140.0
- 31
-0.0
-  0
-LINE
-  5
-48F
-330
-17
-100
-AcDbEntity
-  8
-CENTER
-100
-AcDbLine
- 10
-505.0
- 20
-134.5
- 30
-0.0
- 11
-505.0
- 21
-145.5
- 31
-0.0
-  0
-TEXT
-  5
-490
-330
-17
-100
-AcDbEntity
-  8
-HOLE
-100
-AcDbText
- 10
-508.5
- 20
-143.5
- 30
-0.0
- 40
-3.5
-  1
-B3
- 11
-508.5
- 21
-143.5
- 31
-0.0
-100
-AcDbText
-  0
-CIRCLE
-  5
-491
-330
-17
-100
-AcDbEntity
-  8
-HOLE
-100
-AcDbCircle
- 10
-545.0
- 20
-140.0
- 30
-0.0
- 40
-4.0
-  0
-LINE
-  5
-492
-330
-17
-100
-AcDbEntity
-  8
-CENTER
-100
-AcDbLine
- 10
-539.5
- 20
-140.0
- 30
-0.0
- 11
-550.5
- 21
-140.0
- 31
-0.0
-  0
-LINE
-  5
-493
-330
-17
-100
-AcDbEntity
-  8
-CENTER
-100
-AcDbLine
- 10
-545.0
- 20
-134.5
- 30
-0.0
- 11
-545.0
- 21
-145.5
- 31
-0.0
-  0
-TEXT
-  5
-494
-330
-17
-100
-AcDbEntity
-  8
-HOLE
-100
-AcDbText
- 10
-548.5
- 20
-143.5
- 30
-0.0
- 40
-3.5
-  1
-B4
- 11
-548.5
- 21
-143.5
- 31
-0.0
-100
-AcDbText
-  0
-TEXT
-  5
-495
 330
 17
 100
@@ -30771,7 +30301,7 @@ AcDbText
   0
 TEXT
   5
-496
+483
 330
 17
 100
@@ -30801,7 +30331,7 @@ AcDbText
   0
 TEXT
   5
-497
+484
 330
 17
 100
@@ -30819,7 +30349,7 @@ AcDbText
  40
 5.0
   1
-PART  Gantry_column_L   QTY 1   v14   2026-11-23
+PART  Gantry_column_L   QTY 1   v14   2026-11-26
  11
 650.0
  21
@@ -30831,7 +30361,7 @@ AcDbText
   0
 TEXT
   5
-498
+485
 330
 17
 100
@@ -30861,7 +30391,7 @@ AcDbText
   0
 TEXT
   5
-499
+486
 330
 17
 100
@@ -30891,7 +30421,7 @@ AcDbText
   0
 TEXT
   5
-49A
+487
 330
 17
 100
@@ -30921,7 +30451,7 @@ AcDbText
   0
 TEXT
   5
-49B
+488
 330
 17
 100
@@ -30951,7 +30481,7 @@ AcDbText
   0
 TEXT
   5
-49C
+489
 330
 17
 100
@@ -30981,7 +30511,7 @@ AcDbText
   0
 TEXT
   5
-49D
+48A
 330
 17
 100
@@ -31011,7 +30541,7 @@ AcDbText
   0
 TEXT
   5
-49E
+48B
 330
 17
 100
@@ -31041,7 +30571,7 @@ AcDbText
   0
 TEXT
   5
-49F
+48C
 330
 17
 100
@@ -31071,7 +30601,7 @@ AcDbText
   0
 TEXT
   5
-4A0
+48D
 330
 17
 100
@@ -31101,7 +30631,7 @@ AcDbText
   0
 TEXT
   5
-4A1
+48E
 330
 17
 100
@@ -31114,36 +30644,6 @@ AcDbText
 650.0
  20
 437.0
- 30
-0.0
- 40
-5.0
-  1
-B   x4   M8 tap depth 20 (from bottom)
- 11
-650.0
- 21
-437.0
- 31
-0.0
-100
-AcDbText
-  0
-TEXT
-  5
-4A2
-330
-17
-100
-AcDbEntity
-  8
-TABLE
-100
-AcDbText
- 10
-650.0
- 20
-429.0
  30
 0.0
  40
@@ -31153,7 +30653,7 @@ AcDbText
  11
 650.0
  21
-429.0
+437.0
  31
 0.0
 100
@@ -31161,7 +30661,7 @@ AcDbText
   0
 TEXT
   5
-4A3
+48F
 330
 17
 100
@@ -31173,7 +30673,7 @@ AcDbText
  10
 650.0
  20
-421.0
+429.0
  30
 0.0
  40
@@ -31183,7 +30683,7 @@ PRECISION / TAPPED HOLE POSITIONS  (view: hole = X, Y from the lower-left corner
  11
 650.0
  21
-421.0
+429.0
  31
 0.0
 100
@@ -31191,7 +30691,7 @@ AcDbText
   0
 TEXT
   5
-4A4
+490
 330
 17
 100
@@ -31203,7 +30703,7 @@ AcDbText
  10
 650.0
  20
-413.0
+421.0
  30
 0.0
  40
@@ -31213,37 +30713,7 @@ VIEW Y  A1=(40.00, 342.00)
  11
 650.0
  21
-413.0
- 31
-0.0
-100
-AcDbText
-  0
-TEXT
-  5
-4A5
-330
-17
-100
-AcDbEntity
-  8
-TABLE
-100
-AcDbText
- 10
-650.0
- 20
-405.0
- 30
-0.0
- 40
-5.0
-  1
-VIEW Z  B1=(20.00, 20.00)   B2=(60.00, 20.00)   B3=(20.00, 140.00)   B4=(60.00, 140.00)
- 11
-650.0
- 21
-405.0
+421.0
  31
 0.0
 100
@@ -32339,7 +31809,7 @@ CREATED_BY_EZDXF
   3
 WRITTEN_BY_EZDXF
 350
-4A8
+493
   0
 DICTIONARYVAR
   5
@@ -32351,7 +31821,7 @@ DictionaryVariables
 280
 0
   1
-1.4.5 @ 2026-11-23T10:16:07.290444+00:00
+1.4.5 @ 2026-11-26T22:43:53.139132+00:00
   0
 VISUALSTYLE
   5
@@ -33055,7 +32525,7 @@ X-Ray
   0
 DICTIONARYVAR
   5
-4A8
+493
 330
 2D
 100
@@ -33063,7 +32533,7 @@ DictionaryVariables
 280
 0
   1
-1.4.5 @ 2026-11-23T10:16:07.313544+00:00
+1.4.5 @ 2026-11-26T22:43:53.160695+00:00
   0
 ENDSEC
   0

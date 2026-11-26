@@ -43,8 +43,10 @@
 06 Spindle,Spindle_nose,1,自製 / 其他,ER11 nose,,,,,Spindle_nose
 06 Spindle,Spindle_plug,1,自製 / 其他,aviation plug 4-pin,,,,,Spindle_plug
 06 Spindle,Tool_D5,1,自製 / 其他,end mill D5 (reference),,,,,Tool_D5
-07 Electrics,Electrical_panel,1,外購 / 板金 / 鋁擠,steel sheet t5 + 2 standoffs from the X base plate rear face (above the screw),,,,,Electrical_panel
-07 Electrics,Servo_amp_X,3,自製 / 其他,MR-J4-40A,,,,,"Servo_amp_X, Servo_amp_Y, Servo_amp_Z"
+07 Electrics,Box_hang_screw,20,標準件 / 螺絲銷,M5x12 flat head (ISO 10642): box top plate into an M5 rivet nut in the box mounting plate (electrical session),,,,,"Box_hang_screw_1, Box_hang_screw_10, Box_hang_screw_11, Box_hang_screw_12, Box_hang_screw_13, Box_hang_screw_14, Box_hang_screw_15, Box_hang_screw_16 ..."
+07 Electrics,Box_top_bolt,8,標準件 / 螺絲銷,"M8x20 SHCS: box top plate + shim into the column end tap (M8, 20 deep; engagement 16 = 2d)",,,,,"Box_top_bolt_1, Box_top_bolt_2, Box_top_bolt_3, Box_top_bolt_4, Box_top_bolt_5, Box_top_bolt_6, Box_top_bolt_7, Box_top_bolt_8"
+07 Electrics,Box_top_plate,1,自製鈑金件（見 DXF，雷射切割 + 折彎）,"SPHC t3 laser cut + bent: 785 x 498, rear and side flanges 20 down (rear notch x 120..220 for the box exhaust); on the two column tops (8 x M8), carries the column electrical box (20 x M5 countersunk into rivet nuts) and the X conduit loop; X conduit gland hole D45 at (50, 390); open between the columns for the X carriage",,,,,Box_top_plate
+07 Electrics,Box_top_shim,2,自製墊片（見 DXF，雷射切割）,"stainless shim t1, 80 x 160, 4 x D9: lifts the box top plate 1 mm off the X base plate top edge",,,,,"Box_top_shim_L, Box_top_shim_R"
 08 Adjusters,Foot_bolt,3,標準件 / 螺絲銷,"M8 SHCS hold-down, hole D11.5: the right foot slides +-0.75 for yaw",,,,,"Foot_bolt_R1, Foot_bolt_R2, Foot_bolt_R3"
 08 Adjusters,Foot_bolt,3,標準件 / 螺絲銷,M8 SHCS hold-down,,,,,"Foot_bolt_L1, Foot_bolt_L2, Foot_bolt_L3"
 08 Adjusters,Foot_col_bolt,8,標準件 / 螺絲銷,M8 SHCS from below into the column end tap,,,,,"Foot_col_bolt_L1, Foot_col_bolt_L2, Foot_col_bolt_L3, Foot_col_bolt_L4, Foot_col_bolt_R1, Foot_col_bolt_R2, Foot_col_bolt_R3, Foot_col_bolt_R4"

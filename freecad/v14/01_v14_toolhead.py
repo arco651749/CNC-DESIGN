@@ -542,7 +542,7 @@ TP, ZP0 = 3.0, 491.0; ZP1 = ZP0 + TP                         # plate z 491..494 
 XE, YF, YR, FL = 392.5, 2.0, 500.0, 20.0                     # outer x, front (column front), rear (box back wall), flange depth
 COLB = [(sx * x, y) for sx in (-1, 1) for x in (332.5, 372.5) for y in (22.0, 142.0)]   # column end taps (as the foot bolts, v12)
 HANG = ([(x, 259.0) for x in (-350, -250, -150, -50, 50, 150, 250, 350)] + [(x, 490.0) for x in (-350, -250, -150, -50, 50, 100, 250, 350)]
-        + [(sx * 376.0, y) for sx in (-1, 1) for y in (360.0, 435.0)])   # rear x 100: clear of the exhaust louvre; sides between the box roof DIN rails
+        + [(sx * 376.0, y) for sx in (-1, 1) for y in (365.0, 435.0)])   # rear x 100: clear of the exhaust louvre; sides between the box roof DIN rails
 GLAND_X = (50.0, 390.0, 45.0)                                # X conduit roof gland (elbow fitting), hole D45
 pl = box(-XE, XE, YF, YR, ZP0, ZP1).cut(box(-312.5, 312.5, YF - 1, 162.0, ZP0 - 1, ZP1 + 1))   # open between the columns: X carriage
 pl = pl.fuse(box(-XE, XE, YR, YR + TP, ZP1 - FL, ZP1))       # rear flange, outside the box back wall
@@ -564,6 +564,7 @@ for k, (x, y) in enumerate(COLB, 1):
         'M8x20 SHCS: box top plate + shim into the column end tap (M8, 20 deep; engagement 16 = 2d)', '', 'electrics')
     cl_ = 'Gantry_column_' + ('L' if x < 0 else 'R'); th_ = Part.makeCylinder(4.0, 20, V(x, y, 470.0)).cut(Part.makeCylinder(3.4, 20, V(x, y, 470.0)))
     CHK.append((cl_ + ' M8 tap in screw port', th_.common(O(cl_).Shape).Volume / th_.Volume))   # the extrusion screw port is the tap core (D6.8)
+    cut(cl_, Part.makeCylinder(4.0, 20, V(x, y, 470.0)))       # M8 thread (modelled at the major diameter, as the other taps)
 for k, (x, y) in enumerate(HANG, 1):
     add('Box_hang_screw_%d' % k, fuse(Part.makeCone(2.5, 5.0, 2.5, V(x, y, ZP1 - 2.5)), Part.makeCylinder(2.5, 12, V(x, y, ZP1 - 12))), '07 Electrics',
         'M5x12 flat head (ISO 10642): box top plate into an M5 rivet nut in the box mounting plate (electrical session)', '', 'electrics')
