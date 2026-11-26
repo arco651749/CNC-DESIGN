@@ -24,15 +24,18 @@ def colour(n):
     for k, c in NAMECOL.items():
         if n.startswith(k): return list(c)
     return [0.75, 0.55, 0.3]
+LABELS = {'RCD': 'RCD 漏電斷路器', 'QF2': 'QF2 伺服斷路器(共用)', 'QF3': 'QF3 變頻器斷路器', 'QF4': 'QF4 電源斷路器', 'KM1': 'KM1 接觸器(共用)', 'DC1': 'DC1 24→5V', 'KA2': 'KA2 泵繼電器',
+          'KA3': 'KA3 Z煞車繼電器', 'XT': 'XT 端子排', 'BD': 'BD 控制板 RP23CNC', 'IOTA_pcb': 'PC LattePanda IOTA', 'FL2': 'FL2 濾波器(預留)', 'PSU1': 'PSU1 24V 5A', 'PSU2': 'PSU2 12V 6.3A',
+          'SVX': 'SVX 伺服 X', 'SVY': 'SVY 伺服 Y', 'SVZ': 'SVZ 伺服 Z', 'VFD': 'VFD 主軸變頻器', 'AIRV': 'SVL 吹氣閥', 'X1': 'X1 電源端子排', 'Fan_120': '進風扇 120mm', 'Louvre_filter': '出風濾網', 'Intake_filter': '進風濾網', 'IOTA_cooler': 'FIT1027 散熱器'}
 out = []
 for o in M:
     pts, tris = o['p'], o['t']
     if not tris: continue
     c = [int(round(v * 10)) for p in pts for v in p]; idx = [i for t in tris for i in t]; w = 1 if len(pts) < 65536 else 0
     s = share(o['n']); resv = o['g'].startswith('reserved')
-    out.append({'n': o['n'], 's': s, 'c': colour(o['n']), 't': 1 if (resv or s in ('front', 'bottom', 'sideR', 'sideL', 'roof')) else 0,
+    out.append({'n': o['n'], 's': s, 'l': LABELS.get(o['n'], ''), 'c': colour(o['n']), 't': 1 if (resv or s in ('front', 'bottom', 'sideR', 'sideL', 'roof')) else 0,
                 'p': base64.b64encode(struct.pack('<%dh' % len(c), *c)).decode(), 'i': base64.b64encode(struct.pack(('<%dH' if w else '<%dI') % len(idx), *idx)).decode(), 'w': w})
-info = '立柱電箱（機台座標 mm）：後牆直立 MR-J4×3、變頻器 MS300、24V/12V 電源；屋頂底面朝下掛 RCD、斷路器、接觸器、控制板、IOTA 電腦…。透明件：前蓋、底蓋、側板、安裝板與預留空間。勾選上方方塊可隱藏／顯示；滑鼠移到零件上看名稱。'
+info = '立柱電箱（機台座標 mm）：後牆直立 MR-J4×3、變頻器 MS300、24V/12V 電源；屋頂底面朝下掛 RCD、斷路器、接觸器、控制板、IOTA 電腦…。透明件：前蓋、底蓋、側板、安裝板與預留空間。零件上有名稱標示（上方「標示」按鈕可關閉）；勾選上方方塊可隱藏／顯示。'
 page = open(os.path.join(HERE, 'viewer_page.html'), encoding='utf-8').read().replace('<!--THREE-->', three, 1).replace('/*DATA*/', 'const DATA=' + json.dumps(out, separators=(',', ':')) + ';', 1).replace('/*INFO*/', info, 1)
 open(os.path.join(HERE, 'column_box_3d.html'), 'w', encoding='utf-8').write(page)
 print('parts', len(out), 'size MB %.1f' % (len(page) / 1e6))

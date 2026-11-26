@@ -6,12 +6,13 @@
 button{font:inherit;font-size:13px;padding:4px 10px;border:1px solid #9aa6b3;border-radius:6px;background:#fff;cursor:pointer}
 label{font-size:13px;margin-right:6px;white-space:nowrap}
 #info{position:absolute;left:12px;bottom:10px;background:#ffffffe6;border:1px solid #c9d1da;border-radius:8px;padding:8px 12px;font-size:12.5px;line-height:1.6;max-width:min(680px,calc(100% - 48px))}
+#lbs{position:absolute;inset:0;pointer-events:none;overflow:hidden}.lb{position:absolute;left:0;top:0;font-size:11.5px;line-height:1.2;background:#ffffffd9;color:#1d2630;border:1px solid #8793a0;border-radius:4px;padding:1px 5px;white-space:nowrap;transform:translate(-50%,-50%)}
 #tip{position:absolute;right:12px;top:10px;background:#1d2630;color:#fff;border-radius:6px;padding:4px 8px;font-size:12px;display:none}</style></head>
 <body><canvas id="c"></canvas>
 <div id="ui"><b>立柱電箱 3D</b>
 <button data-v="below">從前下方看</button><button data-v="front">正視（看後牆）</button><button data-v="iso">等角</button><button data-v="back">後視</button>
-<span id="tg"></span></div>
-<div id="tip"></div><div id="info">/*INFO*/</div>
+<button id="lbtn">標示：開</button><span id="tg"></span></div>
+<div id="lbs"></div><div id="tip"></div><div id="info">/*INFO*/</div>
 <!--THREE-->
 <script>
 /*DATA*/
@@ -20,11 +21,11 @@ const scene=new THREE.Scene();scene.background=new THREE.Color(0xeef1f4);
 const cam=new THREE.PerspectiveCamera(30,1,5,8000);cam.up.set(0,0,1);const ctl=new THREE.OrbitControls(cam,cv);ctl.enableDamping=true;
 scene.add(new THREE.HemisphereLight(0xffffff,0x8a8070,0.9));const d1=new THREE.DirectionalLight(0xffffff,0.7);d1.position.set(-600,-900,900);scene.add(d1);
 function b64(s,T){const b=atob(s),u=new Uint8Array(b.length);for(let i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return new T(u.buffer)}
-const MESH=[];
+const MESH=[],LB=[];let showLB=true;
 for(const p of DATA){const q=b64(p.p,Int16Array),pos=new Float32Array(q.length);for(let i=0;i<q.length;i++)pos[i]=q[i]/10;
  const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.BufferAttribute(pos,3));g.setIndex(new THREE.BufferAttribute(b64(p.i,p.w?Uint16Array:Uint32Array),1));g.computeVertexNormals();
  const m=new THREE.Mesh(g,new THREE.MeshStandardMaterial({color:new THREE.Color(...p.c),metalness:0.15,roughness:0.6,side:THREE.DoubleSide,transparent:!!p.t,opacity:p.t?0.25:1,depthWrite:!p.t}));
- m.userData={n:p.n,s:p.s};scene.add(m);MESH.push(m)}
+ m.userData={n:p.n,s:p.s};scene.add(m);MESH.push(m);if(p.l){g.computeBoundingBox();const c=new THREE.Vector3();g.boundingBox.getCenter(c);const d=document.createElement('div');d.className='lb';d.textContent=p.l;document.getElementById('lbs').appendChild(d);LB.push({m,c,d})}}
 const T=new THREE.Vector3(0,375,370);
 const VIEWS={below:[560,-330,70],front:[0,-1500,380],iso:[900,-700,900],back:[-300,1700,500]};
 function view(k){cam.position.set(...VIEWS[k]);ctl.target.copy(T);ctl.update()}
@@ -39,5 +40,8 @@ cv.addEventListener('pointermove',e=>{const r=cv.getBoundingClientRect();mv.set(
 window.view=view;window.renderOnce=()=>{ctl.update();R.render(scene,cam)};
 function rs(){const w=innerWidth,h=innerHeight;R.setSize(w,h,false);cam.aspect=w/h;cam.updateProjectionMatrix()}
 addEventListener('resize',rs);rs();view('below');
-(function loop(){requestAnimationFrame(loop);ctl.update();R.render(scene,cam)})();
+const v3=new THREE.Vector3();
+function placeLabels(){const w=cv.clientWidth,h=cv.clientHeight;for(const o of LB){if(!showLB||!o.m.visible){o.d.style.display='none';continue}v3.copy(o.c).project(cam);if(v3.z>1){o.d.style.display='none';continue}o.d.style.display='block';o.d.style.transform='translate('+((v3.x*0.5+0.5)*w)+'px,'+((-v3.y*0.5+0.5)*h)+'px) translate(-50%,-50%)'}}
+document.getElementById('lbtn').onclick=e=>{showLB=!showLB;e.target.textContent=showLB?'標示：開':'標示：關'};
+(function loop(){requestAnimationFrame(loop);ctl.update();R.render(scene,cam);placeLabels()})();
 </script></body></html>
