@@ -2,7 +2,7 @@
 """v14 back plate viewer: output/v14/panel/CNC_v14_panel.FCStd -> output/v14/panel/CNC_v14_panel.html (keep-out boxes toggled by a button).
 Run:  freecadcmd freecad/v14/21_export_panel_html_v14.py"""
 import os, re, json, base64, struct
-import FreeCAD as App
+import FreeCAD as App, Part
 ROOT = os.environ.get('CNC_ROOT') or r'D:\\Claude\\CNC DESIGN'
 src = open(os.path.join(ROOT, 'output', 'v10', 'CNC_motion_v10.html'), encoding='utf-8').read()
 m = re.search(r'^const DATA=\[.*\];', src, re.M); three = src[src.find('<script'):src.rfind('<script>', 0, m.start())]
@@ -17,7 +17,11 @@ def colour(n):
 out = []
 for o in doc.Objects:
     if o.TypeId != 'Part::Feature' or o.Shape.isNull(): continue
-    pts, tris = o.Shape.tessellate(0.08)
+    sh = o.Shape
+    if len(sh.Solids) > 1:                                  # light page: drop tiny parts (SMD resistors, capacitors) and use a coarse mesh
+        keep = [so for so in sh.Solids if so.Volume > 120]
+        sh = Part.makeCompound(keep) if keep else sh
+    pts, tris = sh.tessellate(1.0 if o.Label.startswith(('Controller', 'Servo_amp')) else 0.25)
     c = [int(round(v * 10)) for p in pts for v in (p.x, p.y, p.z)]; idx = [i for t in tris for i in t]; w = 1 if len(pts) < 65536 else 0
     out.append({'n': o.Label, 'c': colour(o.Label), 'k': 1 if o.Label.startswith('Keepout') else 0,
                 'p': base64.b64encode(struct.pack('<%dh' % len(c), *c)).decode(), 'i': base64.b64encode(struct.pack(('<%dH' if w else '<%dI') % len(idx), *idx)).decode(), 'w': w})
