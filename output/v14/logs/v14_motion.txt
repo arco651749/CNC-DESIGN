@@ -1,14 +1,6 @@
 parts: 422   motion classes: static 167 / y 50 / x 102 / z 103
 
-DESIGN CONTACTS AT HOME (overlap > 1 mm3, review): 13
-  Box_top_bolt_1 x Gantry_column_L : 223 mm3
-  Box_top_bolt_2 x Gantry_column_L : 223 mm3
-  Box_top_bolt_3 x Gantry_column_L : 223 mm3
-  Box_top_bolt_4 x Gantry_column_L : 223 mm3
-  Box_top_bolt_5 x Gantry_column_R : 223 mm3
-  Box_top_bolt_6 x Gantry_column_R : 223 mm3
-  Box_top_bolt_7 x Gantry_column_R : 223 mm3
-  Box_top_bolt_8 x Gantry_column_R : 223 mm3
+DESIGN CONTACTS AT HOME (overlap > 1 mm3, review): 5
   X_ball_nut x X_nut_bracket : 19 mm3
   X_ballscrew x X_support_fixed : 137 mm3
   Y_ballscrew x Y_support_fixed : 137 mm3
