@@ -112,6 +112,8 @@ html2 = html2.replace("bg();setPose();", "btn('probe').onclick=()=>{probeT=probe
 log.append('probe control injected: %d %d %d %d' % (p1, p2, p3, p4))
 _ns = {}; exec(open(os.path.join(ROOT, 'freecad', 'v14', 'toolset_inject.py'), encoding='utf-8').read(), _ns)
 html2, _n = _ns['inject'](html2); log.append('tool-setting / FOV injected: %s' % _n)
+_nc = {}; exec(open(os.path.join(ROOT, 'freecad', 'v14', 'conduit_inject.py'), encoding='utf-8').read(), _nc)
+html2, _n2 = _nc['inject'](html2, ROOT); log.append('conduits injected: %s' % _n2)
 html2 = html2.replace('<i>±150</i>', '<i>±182.5</i>', 1).replace('id="sx" type="range" min="-150" max="150" step="1"', 'id="sx" type="range" min="-182.5" max="182.5" step="0.5"', 1)
 open(OUT, 'w', encoding='utf-8', newline='\n').write(html2)
 log.insert(0, 'parts=%d size=%d' % (len(out), len(html2)))

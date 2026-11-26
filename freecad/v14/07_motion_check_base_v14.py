@@ -10,7 +10,7 @@ from FreeCAD import Vector as V
 
 ROOT = os.environ.get('CNC_ROOT') or r'D:\Claude\CNC DESIGN'
 doc = App.openDocument(os.path.join(ROOT, 'output', 'v14', 'CNC_v14_base.FCStd'))
-SKIP = ('Servo_amp', 'Electrical_panel')
+SKIP = ('Keepout',)                                  # v14: the back plate and drives are real geometry now (checked)
 OBJ = {o.Label: o for o in doc.Objects if o.TypeId == 'Part::Feature' and not o.Label.startswith(SKIP)}
 P = {n: o.Shape for n, o in OBJ.items()}
 TOOLSIDE = ('Tool_D5', 'ER11_nut', 'Coolant_nozzle_1', 'Coolant_nozzle_2')

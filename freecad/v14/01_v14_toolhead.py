@@ -532,6 +532,22 @@ LOG.append('Z axis narrowed: rails x %.1f..%.1f, slide x %.1f..%.1f, Z plate x %
               O('X_carriage_plate').Shape.BoundBox.XMin, O('X_carriage_plate').Shape.BoundBox.XMax,
               O('Spindle_mount_plate').Shape.BoundBox.XMin, O('Spindle_mount_plate').Shape.BoundBox.XMax))
 
+# v14: electrical back plate from its own assembly (freecad/v14/20_panel_v14.py, run it first): plate 290 x 260 with 3 x MR-J4-40A and the
+# RP23CNC replaces the v10 plate (220 x 220) and the drive boxes. Local (X right, Y up, Z out, seen from behind) -> machine x = 50 - X,
+# y = 262 + Z, z = 300 + Y.
+for o in list(GROUPS['07 Electrics'].Group):
+    if o.Label.startswith(('Electrical_panel', 'Servo_amp')): doc.removeObject(o.Name)
+pdoc = App.openDocument(os.path.join(ROOT, 'output', 'v14', 'panel', 'CNC_v14_panel.FCStd'))
+PM = App.Matrix(-1, 0, 0, 50, 0, 0, 1, 262, 0, 1, 0, 300, 0, 0, 0, 1)
+npan = 0
+for po in pdoc.Objects:
+    if po.TypeId != 'Part::Feature' or po.Label.startswith('Keepout'): continue
+    s_ = po.Shape.copy(); s_.transformShape(PM)
+    add(po.Label, s_, '07 Electrics', po.Spec, '', 'electrics'); npan += 1
+App.closeDocument(pdoc.Name); App.setActiveDocument(doc.Name)
+LOG.append('back plate assembly placed: %d parts, plate x %.1f..%.1f z %.1f..%.1f' % (npan, O('Electrical_panel').Shape.BoundBox.XMin,
+           O('Electrical_panel').Shape.BoundBox.XMax, O('Electrical_panel').Shape.BoundBox.ZMin, O('Electrical_panel').Shape.BoundBox.ZMax))
+
 bad = [(l, round(r, 3)) for l, r in CHK if r < 0.98]
 LOG.append('HOLE_CHECK %d tools, not fully in material: %s' % (len(CHK), bad))
 doc.recompute()

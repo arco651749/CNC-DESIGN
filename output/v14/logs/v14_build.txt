@@ -1,4 +1,4 @@
-v14 = v12 + wider X (+65) + L-shaped tool-head module.  new parts: 60
+v14 = v12 + wider X (+65) + L-shaped tool-head module.  new parts: 81
 stretch Datum_base_plate   at x+-250: x -360.0..360.0 -> -392.5..392.5
 stretch X_base_plate       at x+-255: x -360.0..360.0 -> -392.5..392.5
 stretch X_rail_1           at x+-255: x -270.0..270.0 -> -302.5..302.5
@@ -15,6 +15,7 @@ Z assembly lowered 25: 153 parts moved; tool tip z 155.0 (table top 110 -> Z -50
   after the drop: lens front z 210.0, tool-setting pose X -162.5, table -248, Z -35.0
 shrink X_carriage_plate   band +-56..76: x -120.0..120.0 -> -100.0..100.0
 Z axis narrowed: rails x 50.0..70.0, slide x -90.0..90.0, Z plate x -100.0..100.0, module plate x -88.0..88.0
+back plate assembly placed: 21 parts, plate x -240.0..50.0 z 300.0..560.0
 HOLE_CHECK 33 tools, not fully in material: []
 
 Datum_base_plate           -  x[ -392.5,  392.5] y[ -145.0,  182.0] z[  -20.0,    0.0]  OK
@@ -85,3 +86,24 @@ Probe_holder_bolt_3        z  x[   16.5,   23.5] y[  -82.0,  -75.0] z[  287.0,  
 Probe_holder_bolt_4        z  x[   16.5,   23.5] y[  -71.0,  -64.0] z[  287.0,  303.0]  OK
 Probe_stem_bolt_1          z  x[  -14.5,   -7.5] y[  -82.0,  -75.0] z[  280.0,  296.0]  OK
 Probe_stem_bolt_2          z  x[  -14.5,   -7.5] y[  -71.0,  -64.0] z[  280.0,  296.0]  OK
+Servo_amp_X                -  x[  -10.0,   30.0] y[  262.0,  437.9] z[  346.0,  514.0]  OK
+Servo_bolt_X_1             -  x[   20.0,   28.0] y[  257.0,  271.0] z[  348.0,  356.0]  OK
+Servo_bolt_X_2             -  x[   20.0,   28.0] y[  257.0,  271.0] z[  504.0,  512.0]  OK
+Servo_amp_Y                -  x[  -60.0,  -20.0] y[  262.0,  437.9] z[  346.0,  514.0]  OK
+Servo_bolt_Y_1             -  x[  -30.0,  -22.0] y[  257.0,  271.0] z[  348.0,  356.0]  OK
+Servo_bolt_Y_2             -  x[  -30.0,  -22.0] y[  257.0,  271.0] z[  504.0,  512.0]  OK
+Servo_amp_Z                -  x[ -110.0,  -70.0] y[  262.0,  437.9] z[  346.0,  514.0]  OK
+Servo_bolt_Z_1             -  x[  -80.0,  -72.0] y[  257.0,  271.0] z[  348.0,  356.0]  OK
+Servo_bolt_Z_2             -  x[  -80.0,  -72.0] y[  257.0,  271.0] z[  504.0,  512.0]  OK
+Controller_RP23CNC         -  x[ -221.3, -125.0] y[  269.1,  282.8] z[  381.3,  478.6]  OK
+Board_standoff_1           -  x[ -131.8, -126.2] y[  262.0,  272.0] z[  383.2,  388.8]  OK
+Board_standoff_2           -  x[ -219.8, -214.2] y[  262.0,  272.0] z[  383.2,  388.8]  OK
+Board_standoff_3           -  x[ -131.8, -126.2] y[  262.0,  272.0] z[  471.2,  476.8]  OK
+Board_standoff_4           -  x[ -219.8, -214.2] y[  262.0,  272.0] z[  471.2,  476.8]  OK
+Panel_standoff_1           -  x[   30.0,   50.0] y[  182.0,  257.0] z[  440.0,  460.0]  OK
+Panel_standoff_bolt_1      -  x[   33.5,   46.5] y[  241.0,  270.0] z[  443.5,  456.5]  OK
+Panel_standoff_2           -  x[ -127.5, -107.5] y[  182.0,  257.0] z[  440.0,  460.0]  OK
+Panel_standoff_bolt_2      -  x[ -124.0, -111.0] y[  241.0,  270.0] z[  443.5,  456.5]  OK
+Panel_standoff_3           -  x[ -240.5, -220.5] y[  182.0,  257.0] z[  440.0,  460.0]  OK
+Panel_standoff_bolt_3      -  x[ -237.0, -224.0] y[  241.0,  270.0] z[  443.5,  456.5]  OK
+Electrical_panel           -  x[ -240.0,   50.0] y[  257.0,  262.0] z[  300.0,  560.0]  OK
