@@ -20,20 +20,22 @@ def add(name, shape, grp):
     o = doc.addObject('Part::Feature', name); o.Shape = shape; OBJ[name] = (o, grp); return o
 X0, X1, Y0, Y1, Z0, Z1 = L.ENV
 # ------------------------------------------------ enclosure
-roof = box(-392.5, 392.5, 252, 500, 492, 495).cut(cyl('z', 22.5, 491, 496, 50, 390))
-add('Box_roof_sheet', roof, 'enclosure (sheet metal t3)')
-add('Box_roof_plate', box(-380, 380, 255, 495, 488, 492).cut(cyl('z', 22.5, 487, 493, 50, 390)), 'enclosure (mounting plate t4, holds the roof-hung parts)')
-wall = box(-383, 383, 495, 500, 242, 492).cut(box(125, 215, 494, 501, 460, 485))
+NUTS = [(x, y) for y in (259, 490) for x in (-350, -250, -150, -50, 50, 150, 250, 350)] + [(sx, y) for sx in (-376, 376) for y in (330, 420)]
+rp = box(-380, 380, 255, 495, 487, 491).cut(cyl('z', 22.5, 486, 492, 50, 390))
+for (nx, ny) in NUTS: rp = rp.cut(cyl('z', 4, 486, 492, nx, ny))
+add('Box_roof_plate', rp, 'enclosure (mounting plate t4 z487..491; the mechanical top plate t3 z491..494 sits on it and is not modelled here; 20 M5 holes with pull nuts)')
+for k, (nx, ny) in enumerate(NUTS, 1): add('PullNut_M5_%02d' % k, cyl('z', 3.75, 478, 487, nx, ny).cut(cyl('z', 2.1, 478, 487, nx, ny)), 'parts (M5 pull nut, 9 mm below the plate)')
+wall = box(-383, 383, 495, 500, 241, 491).cut(box(125, 215, 494, 501, 459, 484))
 add('Box_back_wall', wall, 'enclosure (back wall, plate t5: the drives and the VFD screw into it)')
-add('Box_side_L', box(-383, -380, 252, 500, 242, 492), 'enclosure (sheet metal t3)')
-add('Box_side_R', box(380, 383, 252, 500, 242, 492), 'enclosure (sheet metal t3)')
-add('Box_front_cover', box(-380, 380, 252, 255, 245, 488), 'enclosure (removable service cover, t3)')
-bot = box(-380, 380, 255, 495, 242, 245)
-for (hx, hy, r) in ((-340, 270, 12.5), (-120, 330, 22.5), (350, 262, 20), (-250, 400, 65)): bot = bot.cut(cyl('z', r, 241, 246, hx, hy))
+add('Box_side_L', box(-383, -380, 252, 500, 241, 491), 'enclosure (sheet metal t3)')
+add('Box_side_R', box(380, 383, 252, 500, 241, 491), 'enclosure (sheet metal t3)')
+add('Box_front_cover', box(-380, 380, 252, 255, 244, 487), 'enclosure (removable service cover, t3)')
+bot = box(-380, 380, 255, 495, 241, 244)
+for (hx, hy, r) in ((-340, 270, 12.5), (-120, 330, 22.5), (350, 262, 20), (-250, 400, 65)): bot = bot.cut(cyl('z', r, 240, 245, hx, hy))
 add('Box_bottom_cover', bot, 'enclosure (removable bottom cover t3, cable entries)')
 # ------------------------------------------------ DIN rails (35 x 7.5)
-for nm, (x0, x1, y0, y1, z0, z1) in {'Rail_roof_1': (-375, -10, 293, 328, 480.5, 488), 'Rail_roof_2': (-375, -195, 390, 425, 480.5, 488),
-                                     'Rail_roof_3': (-375, -215, 445, 480, 480.5, 488), 'Rail_wall_PSU': (-55, 55, 487.5, 495, 351, 386)}.items():
+for nm, (x0, x1, y0, y1, z0, z1) in {'Rail_roof_1': (-370, -10, 293, 328, 479.5, 487), 'Rail_roof_2': (-370, -195, 390, 425, 479.5, 487),
+                                     'Rail_roof_3': (-375, -215, 445, 480, 479.5, 487), 'Rail_wall_PSU': (-55, 55, 487.5, 495, 350, 385)}.items():
     add(nm, box(x0, x1, y0, y1, z0, z1), 'DIN rails')
 # ------------------------------------------------ parts
 def bbox(p): return (p[3], p[3] + p[6], p[4], p[4] + p[7], p[5], p[5] + p[8])
@@ -50,12 +52,12 @@ bd = next(p for p in L.PARTS if p[1] == 'BD'); b = bbox(bd)
 bs = Part.read(BOARD_STEP)                        # PCB x 81..177, y -144..-48, z 0..1.6, components +z
 r = bs.copy(); r.Placement = Placement(V(b[0] - 81, b[2] + 48 + 0 + (-0), 478), Rotation(V(1, 0, 0), 180))
 # y' = -y + ty with y=-48 -> b[2]: ty = b[2] - 48
-r.Placement = Placement(V(b[0] - 81, b[2] - 48, 478), Rotation(V(1, 0, 0), 180))
+r.Placement = Placement(V(b[0] - 81, b[2] - 48, 477), Rotation(V(1, 0, 0), 180))
 add('BD', r, 'parts (vendor STEP)')
-for k, (hx, hy) in enumerate(((4, 4), (92, 4), (4, 92), (92, 92)), 1): add('BD_standoff_%d' % k, cyl('z', 2.75, 478, 488, b[0] + hx, b[2] + hy), 'fasteners')
+for k, (hx, hy) in enumerate(((4, 4), (92, 4), (4, 92), (92, 92)), 1): add('BD_standoff_%d' % k, cyl('z', 2.75, 477, 487, b[0] + hx, b[2] + hy), 'fasteners')
 # fan (intake, at the bottom cover) and the filter plates
-add('Fan_120', box(-310, -190, 340, 460, 245, 270), 'parts (box models, catalog size)')
-add('Louvre_filter', box(125, 215, 489, 495, 460, 485), 'parts (box models, catalog size)')
+add('Fan_120', box(-310, -190, 340, 460, 244, 269), 'parts (box models, catalog size)')
+add('Louvre_filter', box(125, 215, 489, 495, 459, 484), 'parts (box models, catalog size)')
 doc.recompute()
 # ------------------------------------------------ checks
 names = list(OBJ); bad = []
@@ -64,7 +66,7 @@ def vol(a, b):
     if not A.BoundBox.intersect(B.BoundBox): return 0
     return A.common(B).Volume
 encl = [n for n in names if n.startswith('Box_')]
-partn = [n for n in names if OBJ[n][1].startswith('parts') and n != 'Louvre_filter']
+partn = [n for n in names if (OBJ[n][1].startswith('parts') or OBJ[n][1] == 'DIN rails') and n != 'Louvre_filter']
 for a in partn:
     for e in encl:
         v = vol(a, e)

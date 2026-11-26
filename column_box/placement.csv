@@ -1,21 +1,21 @@
 ﻿位號,零件,x min,x max,y min,y max,z min,z max,尺寸 dx×dy×dz,安裝面,方向,尺寸來源
-SVX,Mitsubishi MR-J4-40A,225,265,319,495,285,453,40x176x168,back wall,"upright, connectors to the front",M vendor STEP 40x168x175.9
-SVY,Mitsubishi MR-J4-40A,275,315,319,495,285,453,40x176x168,back wall,"upright, connectors to the front",M vendor STEP 40x168x175.9
-SVZ,Mitsubishi MR-J4-40A,325,365,319,495,285,453,40x176x168,back wall,"upright, connectors to the front",M vendor STEP 40x168x175.9
-VFD,Delta MS300 (frame A),120,192,359,495,282,456,72x136x174,back wall,upright (check manual),A catalog 72x174x136
-PSU1,Mean Well SDR-120-24 (24 V 5 A),-50,13,374,488,306,431,63x114x125,back wall,"DIN rail, upright",A catalog 63x125x114 (confirm)
-PSU2,"Mean Well XDR-75E-12 (12 V 6.3 A, for the PC)",20,50,372,488,306,431,30x116x125,back wall,"DIN rail, upright",S owner datasheet 30x125.2x116
-AIRV,SVL = SMC SY3120-5LZE-M5 air valve (probe/tool + prism cover tubes leave by the two bellows),-300,-280,422,488,350,410,20x65x60,back wall,"DIN rail on the wall, upright",A catalog (confirm)
+SVX,Mitsubishi MR-J4-40A,225,265,319,495,284,452,40x176x168,back wall,"upright, connectors to the front",M vendor STEP 40x168x175.9
+SVY,Mitsubishi MR-J4-40A,275,315,319,495,284,452,40x176x168,back wall,"upright, connectors to the front",M vendor STEP 40x168x175.9
+SVZ,Mitsubishi MR-J4-40A,325,365,319,495,284,452,40x176x168,back wall,"upright, connectors to the front",M vendor STEP 40x168x175.9
+VFD,Delta MS300 (frame A),120,192,359,495,281,455,72x136x174,back wall,upright (check manual),A catalog 72x174x136
+PSU1,Mean Well SDR-120-24 (24 V 5 A),-50,13,374,488,305,430,63x114x125,back wall,"DIN rail, upright",A catalog 63x125x114 (confirm)
+PSU2,"Mean Well XDR-75E-12 (12 V 6.3 A, for the PC)",20,50,372,488,305,430,30x116x125,back wall,"DIN rail, upright",S owner datasheet 30x125.2x116
+AIRV,SVL = SMC SY3120-5LZE-M5 air valve (probe/tool + prism cover tubes leave by the two bellows),-300,-280,422,488,349,409,20x65x60,back wall,"DIN rail on the wall, upright",A catalog (confirm)
 RCD,RCD 2P 30 mA (main),-370,-300,265,356,412,480,70x91x68,roof underside,"DIN rail, hanging (check mounting position)",A
 QF2,Shihlin BM30-SN 2P (servo branch),-296,-246,265,356,412,480,50x91x68,roof underside,"DIN rail, hanging",A
 QF3,Shihlin BM30-SN 2P (VFD branch),-242,-192,265,356,412,480,50x91x68,roof underside,"DIN rail, hanging",A
 QF4,Shihlin BM30-SN 2P (24 V supply branch),-188,-138,265,356,412,480,50x91x68,roof underside,"DIN rail, hanging",A
-KM1,"Shihlin SD-P (3 drives, DC24 V coil)",-134,-79,265,360,386,480,55x95x95,roof underside,"DIN rail, hanging",A
-DC1,DC-DC 24 V -> 5 V,-75,-50,265,320,456,480,25x55x25,roof underside,"DIN rail, hanging",A
+KM1,"Shihlin SD-P (3 drives, DC24 V coil)",-134,-79,265,360,384,480,55x95x95,roof underside,"DIN rail, hanging",A
+DC1,DC-DC 24 V -> 5 V,-75,-50,265,320,454,480,25x55x25,roof underside,"DIN rail, hanging",A
 KA3,Omron MY2N-GS + PYFZ-08 (Z brake),-46,-18,265,327,418,480,28x62x62,roof underside,"DIN rail, hanging",A
 KA2,Omron MY2N-GS + PYFZ-08 (pump),-14,14,265,327,418,480,28x62x62,roof underside,"DIN rail, hanging",A
-XT,DIN terminal strip (+24 V / 0 V / +5 V distribution),-370,-200,385,430,436,480,170x45x45,roof underside,"DIN rail, hanging",A
-BD,RP23CNC V2.02 on 4 M3 standoffs,-190,-94,385,482,453,488,96x97x35,roof underside,"standoffs on the roof, components down",M vendor STEP 96x97
-X1,power terminals + PE bar,-370,-220,440,485,436,480,150x45x45,roof underside,"DIN rail, hanging",A
-FL2,"EMC filter slot (reserved, not fitted)",30,150,262,327,443,488,120x65x45,roof underside,reserved,A
-PC,LattePanda IOTA (12 V 60 W) with heatsink,-85,-14,395,485,448,488,71x90x40,roof underside,"hanging on standoffs, ports toward the front",M vendor STEP board 71x90x19 + heatsink ~40 deep
+XT,DIN terminal strip (+24 V / 0 V / +5 V distribution),-370,-200,385,430,434,480,170x45x45,roof underside,"DIN rail, hanging",A
+BD,RP23CNC V2.02 on 4 M3 standoffs,-190,-94,385,482,452,487,96x97x35,roof underside,"standoffs on the roof, components down",M vendor STEP 96x97
+X1,power terminals + PE bar,-370,-220,440,485,434,480,150x45x45,roof underside,"DIN rail, hanging",A
+FL2,"EMC filter slot (reserved, not fitted)",30,150,266,331,442,487,120x65x45,roof underside,reserved,A
+PC,LattePanda IOTA (12 V 60 W) with heatsink,-85,-14,395,485,447,487,71x90x40,roof underside,"hanging on standoffs, ports toward the front",M vendor STEP board 71x90x19 + heatsink ~40 deep

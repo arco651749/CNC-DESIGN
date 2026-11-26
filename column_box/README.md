@@ -31,3 +31,9 @@
 - 預覽：`column_box_3d_below.png`、`column_box_3d_above.png`（前蓋、底蓋、右側板隱藏）。
 - 重新產生：`CNC_ROOT=$PWD SERVO_STEP=<mr-j4-40ab.stp 路徑> /opt/freecad/bin/freecadcmd column_box/build_step.py`，再 `python3 column_box/render.py`。
 - DIN 軌上的零件已加 7.5 mm 軌高；電腦（IOTA）的固定支架還沒畫。
+
+## 固定方式（機構 session 定案，owner 同意）
+- 機構側做「電箱頂板」SPHC t3（z 491..494），整個電箱從下面吊鎖在頂板底面；本資料夾不再有自己的屋頂板（`Box_roof_sheet` 已移除）。
+- 箱內整體下移 1 mm：安裝板 t4 z 487..491，牆頂 z 491，底蓋 z 241..244；伺服上下間隙仍 35 mm。
+- 吊鎖：安裝板上 20 個 M5 拉帽孔（前排 y 259、後排 y 490，x = ±50/150/250/350；兩側 x ±376，y 330/420），拉帽在板下凸出 9 mm（z 478..487），與屋頂電料最近 1~2 mm（RCD、DC1、QF 等），干涉檢查 0 處；FL2 預留位與 DIN 軌端點因此微調。
+- X 浪管孔 Ø45 (50, 390) 在安裝板同位置；Y 浪管進線孔 (−120, 330) 在底蓋 z 241。
