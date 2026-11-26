@@ -4,4 +4,11 @@ Conduit_Y    Y 軸浪管：立柱電箱底蓋 → Y 馬達（PA 浪管 NW23, AD 
 Conduit_ZB   Z 段浪管：X 滑座 → 工具頭（PA 浪管 NW29, AD 34.5），下垂 U 型  length 450.0, min bend radius over all poses 60 (allowed 60) OK 
 Conduit_XA   X 段浪管：電箱頂板上的水平滾動 U 型環，R 80（PA 浪管 NW29, AD 34.5）  length rolling, min bend radius over all poses 80 (allowed 60) OK 
 
+CONDUIT ENDS IN THEIR OWN FITTINGS / CLAMPS (expected): 5
+  Conduit_XA in Conduit_X_roof_elbow: 7498 mm3
+  Conduit_Y in Conduit_Y_box_fitting: 4950 mm3
+  Conduit_Y in Conduit_Y_end_fitting: 4364 mm3
+  Conduit_ZB in Conduit_head_end_fitting: 12159 mm3
+  Conduit_roof_entry in Conduit_X_roof_elbow: 61785 mm3
+
 COLLISIONS: 0

@@ -570,6 +570,65 @@ for k, (x, y) in enumerate(HANG, 1):
         'M5x12 flat head (ISO 10642): box top plate into an M5 rivet nut in the box mounting plate (electrical session)', '', 'electrics')
 LOG.append('box top plate: z %.1f..%.1f, %d column bolts, %d hang screws, X gland (%g, %g)' % (ZP0, ZP1, len(COLB), len(HANG), GLAND_X[0], GLAND_X[1]))
 
+# v14: conduit hardware (owner: PA corrugated conduit, KSS). One continuous conduit per run, held by brackets; the conduit shapes
+# themselves are drawn and checked by 22. Clamp / end-fitting envelopes are placeholders until the KSS catalog sizes are confirmed.
+if '09 Conduits' not in GROUPS:
+    GROUPS['09 Conduits'] = doc.addObject('App::DocumentObjectGroup', '09 Conduits'); GROUPS['09 Conduits'].Label = '09 Conduits'
+GC = '09 Conduits'
+TB = 3.0                                                     # bracket sheet SPHC t3
+def bolts_into(part, label, pts, ax, face, sgn, L=10.0, sp='M5x10 SHCS'):   # M5 screws through a t3 bracket into tapped holes in part
+    for k, p_ in enumerate(pts, 1):                          # face: the part face the bracket sits on; sgn: screw direction into the part
+        d_ = V(*[sgn if a == ax else 0 for a in 'xyz'])
+        c_ = V(*[face if a == ax else p_['xyz'.index(a)] for a in 'xyz'])
+        sh_ = fuse(Part.makeCylinder(2.5, L, c_ - d_ * TB, d_), Part.makeCylinder(4.25, 5, c_ - d_ * (TB + 5), d_))
+        add('%s_bolt_%d' % (label, k), sh_, GC, sp + ' into ' + part + ' (M5 tapped 12 deep)', O(label).Motion, '')
+        hole(part, Part.makeCylinder(2.1, 12, c_, d_))      # tap drill D4.2 x 12 checked in material
+        cut(part, Part.makeCylinder(2.5, 12, c_, d_))       # thread at the major diameter
+# Y run: bracket on the Y motor block top (moves with the table), arm back over the motor to the conduit end at (0, 395), z 188
+yb = fuse(box(-40, 40, 265.0, 279.5, 110.0, 110.0 + TB), box(-25, 25, 279.5 - TB, 279.5, 110.0, 188.0), box(-25, 25, 279.5 - TB, 412.0, 188.0 - TB, 188.0),
+          box(-25, -25 + TB, 290.0, 412.0, 170.0, 188.0), box(25 - TB, 25, 290.0, 412.0, 170.0, 188.0))   # foot, web, arm with side flanges
+yb = yb.cut(Part.makeCylinder(16.5, 10, V(0, 395, 180))).cut(Part.makeCylinder(2.75, 10, V(-30, 272, 105))).cut(Part.makeCylinder(2.75, 10, V(30, 272, 105)))
+add('Conduit_Y_bracket', yb, GC, 'SPHC t3 bent: Y conduit end bracket on the Y motor block top (2 x M5), arm 135 back over the motor, '
+    'end fitting hole D33 at (0, 395)', 'y', '')
+bolts_into('Y_motor_block', 'Conduit_Y_bracket', [(-30, 272, 0), (30, 272, 0)], 'z', 110.0, -1)
+add('Conduit_Y_end_fitting', Part.makeCylinder(20, 12, V(0, 395, 188.0)).fuse(Part.makeCylinder(20, 4, V(0, 395, 181.0))), GC,
+    'conduit end connector for PA-23 (KSS, straight, with locknut) - size to confirm from the KSS catalog', 'y', '')
+# Z run moving end: bracket on the spindle clamp front face (right half, beside the probe slide), arm at z 455 to the end at (110, -80)
+hb = fuse(box(40, 78, -63.0 - TB, -63.0, 310.0, 458.0), box(40, 132, -102.0, -63.0, 458.0 - TB, 458.0), box(129, 132, -102.0, -63.0, 440.0, 458.0))
+hb = hb.cut(Part.makeCylinder(16.5, 10, V(110, -80, 450)))
+for x_, z_ in ((56, 318), (56, 368), (72, 318), (72, 368)): hb = hb.cut(Part.makeCylinder(2.75, 10, V(x_, -70, z_), V(0, 1, 0)))
+add('Conduit_head_bracket', hb, GC, 'SPHC t3 bent: Z conduit end bracket on the spindle clamp front face (4 x M5, right half; the probe slide is '
+    'on the left half), arm at z 455..458 to the conduit end, fitting hole D33 at (110, -80)', 'z', '')
+bolts_into('Spindle_clamp', 'Conduit_head_bracket', [(x_, 0, z_) for x_, z_ in ((56, 318), (56, 368), (72, 318), (72, 368))], 'y', -63.0, 1)   # x >= 56: wall to the spindle bore > 20
+add('Conduit_head_end_fitting', Part.makeCylinder(20, 12, V(110, -80, 458.0)).fuse(Part.makeCylinder(20, 4, V(110, -80, 451.0))), GC,
+    'conduit end connector for PA-29 (KSS, straight, with locknut) - size to confirm from the KSS catalog', 'z', '')
+# X carriage: front bracket on the saddle ear front face (beside the Z roll block), shelf at z 697..700 with a conduit clamp at (110, 40)
+cb = fuse(box(102, 118, 122.0 - TB, 122.0, 560.0, 650.0), box(102, 142, 122.0 - TB, 122.0, 640.0, 650.0), box(124, 142, 122.0 - TB, 122.0, 640.0, 700.0),
+          box(90, 142, 22.0, 122.0, 697.0, 700.0))   # flange on the saddle body (x <= 120), around the Z roll block, shelf over the Z module
+cb = cb.cut(Part.makeCylinder(18.0, 10, V(110, 40, 690)))
+for z_ in (575, 630): cb = cb.cut(Part.makeCylinder(2.75, 10, V(110, 115, z_), V(0, 1, 0)))
+add('Conduit_carriage_bracket', cb, GC, 'SPHC t3 bent: on the saddle ear front face (2 x M5, beside the Z roll block), shelf at z 697..700 over '
+    'the Z module; the conduit passes down through a clamp at (110, 40) to the tool-head loop', 'x', '')
+bolts_into('X_saddle_plate', 'Conduit_carriage_bracket', [(110, 0, 575), (110, 0, 630)], 'y', 122.0, 1)
+add('Conduit_carriage_clamp', Part.makeCylinder(23, 14, V(110, 40, 700.0)).cut(Part.makeCylinder(17.5, 14, V(110, 40, 700.0))), GC,
+    'conduit clamp for PA-29 (KSS 浪管固定座 / fixing head) on the carriage shelf - size to confirm from the KSS catalog', 'x', '')
+# X carriage: rear arm on the saddle ear back face, over the X base plate and the box top plate, down to the loop's moving-leg clamp
+ZT_ = 494.0 + 34.5 / 2 + 6.75                                 # X loop centre height (loop clear of the plate under its end clamp)
+ra = fuse(box(60, 118, 134.0, 134.0 + TB, 560.0, 703.0), box(45, 118, 134.0, 255.0, 700.0, 703.0), box(45, 100, 252.0, 255.0, 500.0, 703.0))
+for x_, z_ in ((72, 580), (106, 580), (72, 640), (106, 640)): ra = ra.cut(Part.makeCylinder(2.75, 10, V(x_, 130, z_), V(0, 1, 0)))
+add('Conduit_X_arm', ra, GC, 'SPHC t3 bent: X conduit carriage arm on the saddle ear back face (4 x M5), back over the box top plate, '
+    'holds the moving leg of the rolling loop (clamp at x 60..100, y 230)', 'x', '')
+bolts_into('X_saddle_plate', 'Conduit_X_arm', [(x_, 0, z_) for x_, z_ in ((72, 580), (106, 580), (72, 640), (106, 640))], 'y', 134.0, -1)
+add('Conduit_X_arm_clamp', box(62, 98, 230 - 23, 252.0, ZT_ - 20, ZT_ + 23).cut(Part.makeCylinder(17.5, 40, V(60, 230, ZT_), V(1, 0, 0))), GC,
+    'conduit clamp for PA-29 (KSS fixing base) on the carriage arm: moving end of the rolling loop - size to confirm', 'x', '')
+# roof: 90 deg elbow connector in the box top plate gland (50, 390) and a clamp on the fixed leg
+add('Conduit_X_roof_elbow', fuse(Part.makeCylinder(20, ZT_ - 494.0 + 20, V(50, 390, 494.0)), Part.makeCylinder(20, 40, V(50, 390, ZT_), V(1, 0, 0)),
+    Part.makeCylinder(22, 6, V(50, 390, 485.0))), GC, '90 deg conduit elbow connector for PA-29 (KSS), M-thread into the box top plate gland with '
+    'locknut under the plate - size to confirm from the KSS catalog', '', '')
+add('Conduit_Y_box_fitting', Part.makeCylinder(20, 14, V(-120, 330, 241.0 - 14)).fuse(Part.makeCylinder(22, 6, V(-120, 330, 244.0))), GC,
+    'conduit connector for PA-23 (KSS, straight, IP rated) in the box bottom cover gland (box: electrical session) - size to confirm', '', '')
+LOG.append('conduit hardware: Y bracket, head bracket, carriage bracket + clamp, X arm + clamp, roof elbow, box fitting (KSS sizes to confirm)')
+
 bad = [(l, round(r, 3)) for l, r in CHK if r < 0.98]
 LOG.append('HOLE_CHECK %d tools, not fully in material: %s' % (len(CHK), bad))
 doc.recompute()

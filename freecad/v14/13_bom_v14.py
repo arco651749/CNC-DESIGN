@@ -56,11 +56,11 @@ def category(o, spec):
     if n in PURCHASE: return '外購件'
     if n == 'Probe_slide_table': return '外購件（含於 MXH10-60Z，不另購）'
     if 'epoxy' in n.lower(): return '環氧樹脂（現場灌注）'
-    if n == 'Box_top_plate': return '自製鈑金件（見 DXF，雷射切割 + 折彎）'
+    if 'SPHC' in spec: return '自製鈑金件（見 DXF，雷射切割 + 折彎）'
     if n.startswith('Box_top_shim'): return '自製墊片（見 DXF，雷射切割）'
     if n in DXF_PARTS or re.sub(r'_\d+$', '', n) in DXF_PARTS: return '自製 CNC 件（見 DXF）'
     if re.search(r'(bolt|screw|_pin|dowel|stud|jack|_nut$|shim)', n, re.I) and not re.search(r'(ballscrew|ball_nut)', n): return '標準件 / 螺絲銷'
-    if re.search(r'(MISUMI|SMC|Moritex|Basler|Mitsubishi|HG-KR|vendor STEP|C-TEK|C-TEF|C-KBS|SX2R|C-HLG|HFS8|CPJC|RBPB|TERAL|VKP)', spec + ' ' + n, re.I):
+    if re.search(r'(MISUMI|SMC|Moritex|Basler|Mitsubishi|HG-KR|vendor STEP|C-TEK|C-TEF|C-KBS|SX2R|C-HLG|HFS8|CPJC|RBPB|TERAL|VKP|KSS)', spec + ' ' + n, re.I):
         return '外購件'
     if re.search(r'(extrusion|SUS|sheet|guard|pan|tank|hose|castor|foot|leg|filter|PC t4)', spec + ' ' + n, re.I): return '外購 / 板金 / 鋁擠'
     return '自製 / 其他'
@@ -91,6 +91,21 @@ for (grp, _), r in sorted(rows.items(), key=lambda kv: (kv[0][0], base(kv[1]['it
                 '規格 / 說明': (p['desc'] + '. ' if p and p['desc'] else '') + r['spec'],
                 '供應商': p['supplier'] if p else '', '料號': p['part_no'] if p else '', '連結': p['link'] if p else '',
                 '備註': p['note'] if p else '', '模型件名': ', '.join(items) if len(items) <= 8 else ', '.join(items[:8]) + ' ...'})
+# conduits (22: output/v14/conduits.json): one continuous length per run, cut allowance 10 %
+import json, math
+def plen(q): return sum(math.dist(a_, b_) for a_, b_ in zip(q[:-1], q[1:]))
+try:
+    cd = json.load(open(os.path.join(ROOT, 'output', 'v14', 'conduits.json'), encoding='utf-8'))
+    L29 = plen(cd['static']['Conduit_roof_entry']['p']) + plen(cd['moving']['Conduit_XA']['s'][10]) + plen(cd['static']['Conduit_carriage_run']['p']) \
+          + plen(cd['moving']['Conduit_ZB']['s'][10])
+    L23 = plen(cd['moving']['Conduit_Y']['s'][10])
+    for size, L_, run in (('PA-29', L29, '電箱頂板彎頭 → 頂板滾動環 → X 滑座 → 工具頭（一條連續）'), ('PA-23', L23, '電箱底蓋 → Y 馬達支架（一條連續）')):
+        out.append({'群組': '09 Conduits', '零件': 'Conduit_' + size.replace('-', ''), '數量': 1, '類別': '外購件',
+                    '規格 / 說明': 'KSS 尼龍浪管 %s（密封型 PA，NYLON 6）：%s；模型長度 %.0f mm，下料 %.0f mm（+10%%）' % (size, run, L_, math.ceil(L_ * 1.1 / 10) * 10),
+                    '供應商': 'KSS 凱士士', '料號': size, '連結': 'https://www.kss.com.tw/index.php?action=products3&fid=114&sid=120',
+                    '備註': '尺寸（內外徑、最小彎曲半徑）待 KSS 型錄確認；模型用 NW23 外徑 28.5 / NW29 外徑 34.5', '模型件名': ''})
+except Exception as e:
+    print('conduit rows skipped:', e)
 with open(OUT, 'w', encoding='utf-8-sig', newline='') as f:
     w = csv.DictWriter(f, fieldnames=list(out[0].keys())); w.writeheader(); w.writerows(out)
 print('BOM rows %d, parts %d -> %s' % (len(out), sum(r['數量'] for r in out), OUT))

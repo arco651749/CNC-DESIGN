@@ -14,9 +14,13 @@ ROOT = os.environ.get('CNC_ROOT') or r'D:\\Claude\\CNC DESIGN'
 # electrical box on the gantry columns (docs/handoff_electrical_box_v14.md): outer envelope, sheet metal not modelled yet. Conduits enter it
 # only through the bottom cover (Y) and the roof gland (X); everything else of every conduit must stay outside it.
 BOX = ((-392.5, 252.0, 241.0), (392.5, 500.0, 494.0))   # box (electrical session, column_box/) hung under the box top plate (01: z 491..494)
-ZT = BOX[1][2] + 34.5 / 2 + 0.75        # X loop centre height: rolls directly on the box top plate
+ZT = BOX[1][2] + 34.5 / 2 + 6.75        # X loop centre height: on the box top plate, its moving end held 6.75 up in the carriage-arm clamp (01)
 XF = 80.0      # X loop leg ends (fixed leg on the roof, moving leg on the carriage arm): loop spans x -120..368 incl. its radius, roof edge 392.5
 GLANDS = [(-120, 330, BOX[0][2], 28.5), (50, 390, BOX[1][2], 34.5)]   # (x, y, z, conduit OD): Y bottom cover, X roof
+ATTACH = {   # conduit -> its own end fittings / clamps (01): the conduit ends inside them, reported apart as expected
+    'Conduit_Y': ('Conduit_Y_box_fitting', 'Conduit_Y_end_fitting'), 'Conduit_ZB': ('Conduit_head_end_fitting', 'Conduit_carriage_clamp'),
+    'Conduit_XA': ('Conduit_X_roof_elbow', 'Conduit_X_arm_clamp'), 'Conduit_roof_entry': ('Conduit_X_roof_elbow',),
+    'Conduit_carriage_run': ('Conduit_carriage_clamp', 'Conduit_X_arm_clamp')}
 OLD_PANEL = ('Electrical_panel', 'Servo_amp', 'Servo_bolt', 'Controller', 'Board_standoff', 'Panel_standoff')   # replaced by the box
 # name: (label, outer D, length, (frame, point, direction) start, (frame, point, direction) end, min bend radius allowed)
 CONDUITS = {
@@ -33,9 +37,18 @@ ROLL = {'Conduit_XA': {'R': 80.0, 'c': 100.0}}
 def _elbow(x0, y, z0, z1):             # roof entry: fixed leg end XF -> x0 heading -x, then a 90 deg conduit elbow connector
     R = z0 - z1                          # (rigid fitting, drawn as two straight pieces) screwed into the roof gland at z1
     return [(XF, y, z0), (x0, y, z0), (x0 - R, y, z0), (x0 - R, y, z1)]
+def _arc(c, r, a0, a1, plane, n=8):    # points on an arc in the 'xz' or 'yz' plane through centre c, angles in degrees
+    out = []
+    for k in range(n + 1):
+        t = math.radians(a0 + (a1 - a0) * k / n); u, w = r * math.cos(t), r * math.sin(t)
+        out.append((c[0] + u, c[1], c[2] + w) if plane == 'xz' else (c[0], c[1] + u, c[2] + w))
+    return out
+# carriage run: loop moving-leg end (XF, 230) heading -x -> up at x 20 -> forward over the saddle at z 745 -> down at (110, 40) to the Z loop
+CARRIAGE_RUN = ([(XF, 230, ZT)] + _arc((XF, 230, ZT + 60), 60, -90, -180, 'xz')[1:] + _arc((20, 230 - 55, 690), 55, 0, 90, 'yz')
+                + [(60, 140, 745), (110, 110, 745)] + _arc((110, 90, 695), 50, 90, 180, 'yz') + [(110, 40, 640)])
 STATIC_RUNS = {   # conduit pieces fixed to one frame (no flexing): drawn and checked for collisions
-    'Conduit_roof_entry': ('s', 34.5, _elbow(70, 390, ZT, BOX[1][2])),   # fixed leg -> 90 deg conduit elbow connector -> roof gland (50, 390)
-    'Conduit_carriage_run': ('x', 34.5, [(XF, 230, ZT), (75, 230, ZT + 3), (75, 190, 560), (75, 165, 720), (110, 110, 755), (110, 40, 720), (110, 40, 640)]),
+    'Conduit_roof_entry': ('s', 34.5, _elbow(50 + ZT - BOX[1][2], 390, ZT, BOX[1][2])),   # fixed leg -> 90 deg conduit elbow connector -> roof gland (50, 390)
+    'Conduit_carriage_run': ('x', 34.5, CARRIAGE_RUN),   # held by the carriage arm clamp (rear) and the carriage shelf clamp (front), 01
 }
 def off(fr, P):
     dx, dy, dz = P
@@ -141,7 +154,7 @@ if True:                                                        # freecadcmd doe
         for gx, gy, gz, gd in GLANDS: EB = EB.cut(Part.makeCylinder(gd / 2 + 2, 80, V(gx, gy, gz - 40)))   # gland holes: the only way in
         OBJ['Electrical_box (envelope)'] = (EB, '')
     POSES = list(itertools.product((-182.5, 0, 182.5), (-250, 0, 150), (-50, 0, 50)))
-    out, hits, worst = [], {}, {}
+    out, hits, worst, seat = [], {}, {}, {}
     for name, c in CONDUITS.items():
         rmin, taut = 1e9, []
         for P in POSES:
@@ -156,7 +169,8 @@ if True:                                                        # freecadcmd doe
                 s2 = sh.copy(); s2.translate(V(*o))
                 try: v = T.common(s2).Volume
                 except Exception: v = 0
-                if v > 1: hits.setdefault((name, n), (P, round(v)))
+                if v > 1 and n in ATTACH.get(name, ()): seat.setdefault((name, n), round(v))
+                elif v > 1: hits.setdefault((name, n), (P, round(v)))
         worst[name] = (rmin, taut)
     for name, (fr, D, pp) in STATIC_RUNS.items():
         for P in POSES:
@@ -171,13 +185,15 @@ if True:                                                        # freecadcmd doe
                 s2 = sh.copy(); s2.translate(V(*o))
                 try: v = T.common(s2).Volume
                 except Exception: v = 0
-                if v > 1: hits.setdefault((name, n), (P, round(v)))
+                if v > 1 and n in ATTACH.get(name, ()): seat.setdefault((name, n), round(v))
+                elif v > 1: hits.setdefault((name, n), (P, round(v)))
             if fr == 's': break                                   # fixed pieces do not move
     L = ['v14 conduits: %d moving runs, %d poses' % (len(CONDUITS), len(POSES)), '']
     for name, c in CONDUITS.items():
         r, t = worst[name]
         L.append('%-12s %s  length %s, min bend radius over all poses %.0f (allowed %g) %s %s' % (name, c[0], c[2] or 'rolling', r, c[5],
                  'OK' if r >= c[5] - 0.5 else 'TOO TIGHT', ('TAUT at %s' % t) if t else ''))
+    L += ['', 'CONDUIT ENDS IN THEIR OWN FITTINGS / CLAMPS (expected): %d' % len(seat)] + ['  %s in %s: %s mm3' % (a, b, v) for (a, b), v in sorted(seat.items())]
     L += ['', 'COLLISIONS: %d' % len(hits)] + ['  %s x %s at %s: %s mm3' % (a, b, p, v) for (a, b), (p, v) in sorted(hits.items())]
     open(os.path.join(ROOT, 'output', 'v14', 'logs', 'v14_conduit_check.txt'), 'w', encoding='utf-8').write('\n'.join(L))
     RNG = {0: (-182.5, 182.5), 1: (-250.0, 150.0), 2: (-50.0, 50.0)}

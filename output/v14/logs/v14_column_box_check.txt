@@ -1,5 +1,5 @@
 v14 column box (column_box/column_box.step): 477 box solids, envelope x -383.0..383.0 y 252.0..516.0 z 241.0..491.0
-520 machine parts, 27 poses
+542 machine parts, 27 poses
 
 COLLISIONS (box x machine): 0
 
