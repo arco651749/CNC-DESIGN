@@ -9,13 +9,9 @@ def inject(html, root):
 const CD=%s;
 (function(){
  const mat=new THREE.MeshStandardMaterial({color:0x26282c,metalness:0.05,roughness:0.85});
- const off=f=>f==='s'?[0,0,0]:f==='y'?[0,P.y,0]:f==='x'?[P.x,0,0]:[P.x,0,P.z];
- const bz=(a,b,c,d,t)=>{const u=1-t;return a.map((_,i)=>u*u*u*a[i]+3*u*u*t*b[i]+3*u*t*t*c[i]+t*t*t*d[i])};
- const len=q=>{let s=0;for(let i=1;i<q.length;i++)s+=Math.hypot(q[i][0]-q[i-1][0],q[i][1]-q[i-1][1],q[i][2]-q[i-1][2]);return s};
- function pts(c){const oa=off(c.a[0]),ob=off(c.b[0]);const A=c.a[1].map((v,i)=>v+oa[i]),B=c.b[1].map((v,i)=>v+ob[i]);
-  const mk=h=>{const p1=A.map((v,i)=>v+h*c.a[2][i]),p2=B.map((v,i)=>v-h*c.b[2][i]);const q=[];for(let k=0;k<=40;k++)q.push(bz(A,p1,p2,B,k/40));return q};
-  let lo=0,hi=c.L;if(len(mk(0))>c.L)return mk(0);while(len(mk(hi))<c.L&&hi<10*c.L)hi*=1.5;
-  for(let k=0;k<30;k++){const m=(lo+hi)/2;if(len(mk(m))<c.L)lo=m;else hi=m}return mk((lo+hi)/2)}
+ function pts(c){const v=c.ax==='x'?P.x:c.ax==='y'?P.y:P.z;const V=c.v;let k=0;while(k<V.length-2&&v>V[k+1])k++;
+  const u=Math.max(0,Math.min(1,(v-V[k])/(V[k+1]-V[k])));const A=c.s[k],B=c.s[k+1];
+  return A.map((p,i)=>[p[0]+(B[i][0]-p[0])*u+(c.shiftx?P.x:0),p[1]+(B[i][1]-p[1])*u,p[2]+(B[i][2]-p[2])*u])}
  const M={};for(const n in CD.moving){M[n]=new THREE.Mesh(new THREE.BufferGeometry(),mat);scene.add(M[n])}
  const grp={s:scene,y:gY,x:gX,z:gZ};
  for(const n in CD.static){const c=CD.static[n];const cur=new THREE.CatmullRomCurve3(c.p.map(p=>new THREE.Vector3(...p)),false,'catmullrom',0.1);

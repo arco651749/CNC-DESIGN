@@ -1,0 +1,11 @@
+v14 conduits: 3 moving runs, 27 poses
+
+Conduit_Y    Y 軸浪管：背板下緣 → Y 馬達（PA 浪管 NW23, AD 28.5）  length 380, min bend radius over all poses 6 (allowed 60) TOO TIGHT 
+Conduit_XA   X 段浪管：背板上緣 → X 滑座（PA 浪管 NW29, AD 34.5）  length 560, min bend radius over all poses 10 (allowed 70) TOO TIGHT 
+Conduit_ZB   Z 段浪管：X 滑座 → 工具頭（PA 浪管 NW29, AD 34.5）  length 300, min bend radius over all poses 4 (allowed 70) TOO TIGHT 
+
+COLLISIONS: 4
+  Conduit_Y x X_base_plate at (-182.5, -250, -50): 13517 mm3
+  Conduit_Y x X_block_11 at (0, -250, -50): 2 mm3
+  Conduit_Y x X_rail_1 at (-182.5, -250, -50): 1785 mm3
+  Conduit_Y x X_ref_pin_2 at (-182.5, -250, -50): 353 mm3
