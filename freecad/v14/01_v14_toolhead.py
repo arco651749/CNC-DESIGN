@@ -553,7 +553,7 @@ for x, y in COLB: pl = pl.cut(Part.makeCylinder(4.5, 10, V(x, y, ZP0 - 3)))
 for x, y in HANG: pl = pl.cut(Part.makeCylinder(2.75, 10, V(x, y, ZP0 - 3))).cut(Part.makeCone(2.75, 5.25, 2.5, V(x, y, ZP1 - 2.5)))
 add('Box_top_plate', pl, '07 Electrics', 'SPHC t3 laser cut + bent: 785 x 498, rear and side flanges 20 down (rear notch x 120..220 for the box exhaust); '
     'on the two column tops (8 x M8), carries the column electrical box (20 x M5 countersunk into rivet nuts) and the X conduit loop; '
-    'X conduit gland hole D45 at (50, 390); open between the columns for the X carriage', '', 'electrics')
+    'X conduit gland hole D45 at (50, 390); open between the columns for the X carriage; PE: M5 earth stud at (-360, 480) on a spot masked from the powder coat (strap to the box PE stud)', '', 'electrics')
 for sx, T in ((-1, 'L'), (1, 'R')):
     sh_ = box(312.5, 392.5, YF, 162.0, ZP0 - 1, ZP0) if sx > 0 else box(-392.5, -312.5, YF, 162.0, ZP0 - 1, ZP0)
     for x, y in COLB:
