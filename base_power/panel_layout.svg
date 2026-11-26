@@ -42,15 +42,15 @@
 <rect x="80.0" y="225.0" width="86" height="125" fill="#3fb950" fill-opacity="0.85" stroke="#222"/>
 <text x="123.0" y="287.5" font-size="11" text-anchor="middle" font-weight="bold">PSU1*</text>
 <text x="123.0" y="298.5" font-size="8" text-anchor="middle" fill="#222">86x125</text>
-<rect x="172.0" y="225.0" width="63" height="125" fill="#2ea043" fill-opacity="0.85" stroke="#222"/>
-<text x="203.5" y="287.5" font-size="11" text-anchor="middle" font-weight="bold">PSU2*</text>
-<text x="203.5" y="298.5" font-size="8" text-anchor="middle" fill="#222">63x125</text>
-<rect x="241.0" y="225.0" width="120" height="65" fill="#79c0ff" fill-opacity="0.85" stroke="#222"/>
-<text x="301.0" y="257.5" font-size="11" text-anchor="middle" font-weight="bold">FL2*</text>
-<text x="301.0" y="268.5" font-size="8" text-anchor="middle" fill="#222">120x65</text>
-<rect x="367.0" y="225.0" width="170" height="45" fill="#ffa657" fill-opacity="0.85" stroke="#222"/>
-<text x="452.0" y="247.5" font-size="11" text-anchor="middle" font-weight="bold">XT*</text>
-<text x="452.0" y="258.5" font-size="8" text-anchor="middle" fill="#222">170x45</text>
+<rect x="172.0" y="225.0" width="30" height="125" fill="#2ea043" fill-opacity="0.85" stroke="#222"/>
+<text x="187.0" y="287.5" font-size="9" text-anchor="middle" font-weight="bold">PSU2</text>
+<text x="187.0" y="298.5" font-size="8" text-anchor="middle" fill="#222">30x125</text>
+<rect x="208.0" y="225.0" width="120" height="65" fill="#79c0ff" fill-opacity="0.85" stroke="#222"/>
+<text x="268.0" y="257.5" font-size="11" text-anchor="middle" font-weight="bold">FL2*</text>
+<text x="268.0" y="268.5" font-size="8" text-anchor="middle" fill="#222">120x65</text>
+<rect x="334.0" y="225.0" width="170" height="45" fill="#ffa657" fill-opacity="0.85" stroke="#222"/>
+<text x="419.0" y="247.5" font-size="11" text-anchor="middle" font-weight="bold">XT*</text>
+<text x="419.0" y="258.5" font-size="8" text-anchor="middle" fill="#222">170x45</text>
 <rect x="80.0" y="390.0" width="40" height="168" fill="#f85149" fill-opacity="0.85" stroke="#222"/>
 <text x="100.0" y="474.0" font-size="9" text-anchor="middle" font-weight="bold">SVX</text>
 <text x="100.0" y="485.0" font-size="8" text-anchor="middle" fill="#222">40x168</text>
@@ -74,7 +74,7 @@
 <text x="562.0" y="423.5" font-size="8" text-anchor="middle" fill="#222">150x45</text>
 <text x="360" y="628" font-size="12" text-anchor="middle">580</text><line x1="70" y1="618" x2="650" y2="618" stroke="#222"/>
 <text x="70" y="650" font-size="11" fill="#333" font-family="monospace">R1 DIN 1  breakers, contactor, DC-DC, relays     width used  378 / 560   height  95</text>
-<text x="70" y="664" font-size="11" fill="#333" font-family="monospace">R2 DIN 2  24 V supply, filter, terminals         width used  457 / 560   height 125</text>
+<text x="70" y="664" font-size="11" fill="#333" font-family="monospace">R2 DIN 2  24 V supply, filter, terminals         width used  424 / 560   height 125</text>
 <text x="70" y="678" font-size="11" fill="#333" font-family="monospace">R3 plate  drives, VFD, controller                width used  557 / 560   height 174</text>
 <text x="70" y="692" font-size="11" fill="#333" font-family="monospace">total plate height used 529 / 540</text>
 <text x="70" y="706" font-size="11" fill="#333" font-family="monospace">SVX clearance above 40 mm, below 52 mm to plate edge (manual: 40 mm)</text>

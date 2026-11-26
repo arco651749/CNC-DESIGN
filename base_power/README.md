@@ -20,7 +20,7 @@
 | 排 | 內容 |
 |---|---|
 | DIN 1 | QF1、QF2(共用)、QF3、QF4、KM1(共用)、DC1、KA3、KA4 |
-| DIN 2 | PSU1(SDR-240-24)、PSU2(SDR-120-12，電腦用)、FL2(共用)、XT 訊號端子排 |
+| DIN 2 | PSU1(SDR-240-24)、PSU2(XDR-75E-12，電腦用)、FL2(共用)、XT 訊號端子排 |
 | 板面 | SVX/Y/Z（MR-J4-40A，STEP 尺寸）、VFD（MS300）、BD（RP23CNC，STEP 尺寸）、PC（LattePanda IOTA）、X1 電源端子 |
 板高用 529 / 540 mm；驅動器上方 40、下方 52 mm（手冊 40）。零件由 38 件降為 26 件，再加電腦 LattePanda IOTA（板 71×90×19，STEP 在 vendor/lattepanda，未進 git）。
 

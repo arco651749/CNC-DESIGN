@@ -14,7 +14,7 @@ CAB_X0, CAB_Y0, CAB_Z0 = 560.0, -CAB_W / 2, -730.0   # back wall at x=560 (22 mm
 P = {
  'QF':   ('QF1/2/3/4', 'Shihlin BM30-SN 2P', 50, 91, 68, 'A'),
  'KM':   ('KM1 (shared)', 'Shihlin SD-P, size for 3 drives (electrician)', 55, 95, 95, 'A'),
- 'PSU12': ('PSU2', 'Mean Well SDR-120-12 (12 V 10 A, for the PC)', 63, 125, 114, 'A'),
+ 'PSU12': ('PSU2', 'Mean Well XDR-75E-12 (12 V 6.3 A, for the PC; datasheet 30 x 125.2 x 116)', 30, 125, 116, 'M'),
  'FLS':  ('FL2 (shared)', 'EMC filter sized for 3 drives', 120, 65, 45, 'A'),
  'PSU': ('PSU1', 'Mean Well SDR-240-24 (24 V 10 A, single supply)', 86, 125, 114, 'A'),
  'KA':   ('KA3/KA4', 'Omron MY2N-GS + PYFZ-08 (Z brake, alarm)', 28, 62, 62, 'A'),
