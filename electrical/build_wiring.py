@@ -156,8 +156,8 @@ STAG = [5.08, 10.16, 15.24, 20.32]
 for pid, (net, col) in BD_NET.items():
     ln = 5.08 if pid in C_IDX else (ALARM_PX[pid][3] if pid in ALARM_PX else (13.0 if pid in B_IDX else (7.62 if pid in A_IDX else 12.7)))
     S.stub(BD[pid], net, col, ln)
-LAN = blk("LAN", "PC IOTA（只走乙太網路，不接 RS-422）", 38.1, 210.82, right=[("RJ", 1, "RJ45")], w=20.32)
-S.stub(LAN["RJ"], "ETH", ANA)
+LAN = blk("LAN", "PC IOTA（12V 60W；乙太網路，不接 RS-422）", 38.1, 210.82, left=[("P", 1, "+12V"), ("N", 2, "0V")], right=[("RJ", 1, "RJ45")], w=20.32)
+S.stub(LAN["RJ"], "ETH", ANA); S.stub(LAN["P"], "+12V", RED); S.stub(LAN["N"], "0V12", BLK)
 
 # board relay outputs K1/K2/K5 go to a terminal strip XT; the owner wires them outside the box (no relays on the plate)
 XT = blk("XT", "XT 端子排：控制板輸出拉到箱外（K1 主軸 ON/OFF、K2 冷卻泵、K5 吹氣閥）", 304.8, 190.5,
@@ -245,6 +245,7 @@ def make_psu(ref, title, cy, p, n):
          ("PE", 268, 792, "bottom", "PE"), ("L2", 300, 790, "bottom", "N"), ("L1", 330, 788, "bottom", "L")], title_dy=2.0))
     S.stub(b_["L1"], "L1_AUX", BRN, 4.0, THICK); S.stub(b_["L2"], "L2_AUX", BLU, 6.0, THICK); S.stub(b_["PE"], "PE", GRN, 8.0)
     S.stub(b_["P"], p, RED, 4.0); S.stub(b_["N"], n, BLK, 6.0)
+make_psu("PSU2", "PSU2 SDR-120-12（12V 10A，只供電腦 IOTA 60W；照片為同系列 SDR-75）", 476.0, "+12V", "0V12")
 make_psu("PSU1", "PSU1 SDR-240-24（24V 10A，唯一電源；照片為同系列 SDR-75）", 424.0, "+24V1", "0V1")
 DC1 = blk("DC1", "DC1 DC-DC 24V→5V 1A（供伺服 OPC）", 127.0, 396.24, left=[("P", 1, "+24V"), ("N", 2, "0V")], right=[("P5", 1, "+5V"), ("N5", 2, "0V")], w=20.32)
 S.stub(DC1["P"], "+24V1", RED); S.stub(DC1["N"], "0V1", BLK); S.stub(DC1["P5"], "+5V", RED); S.stub(DC1["N5"], "0V1", BLK)
@@ -317,7 +318,7 @@ rails = (
 "24V 分配\n"
 "+24V1/0V1 (PSU1 SDR-240-24)：全部 24V 負載：控制板、DC1 (5V)、感測器、探頭、MR-J4 DICOM/DOCOM、EM2/SON、Z 煞車、KA3/KA4 與 KM1 線圈、急停回路；吹氣閥與冷卻泵 (DC24V，約 2A 估算) 經 XT 端子排由箱外接。\n"
 "+24V1/0V2 (PSU2)：控制板隔離輸入、原點感測器 (BN)。\n"
-"L1_AUX/L2_AUX：PSU1 輸入。同名標籤代表同一條線。"
+"+12V/0V12 (PSU2 SDR-120-12)：電腦 LattePanda IOTA (12V 60W，owner 提供規格)，與 24V 分開，0V12 不與 0V1 相接。\nL1_AUX/L2_AUX：PSU1、PSU2 輸入。同名標籤代表同一條線。"
 )
 S.text(rails, 345, 531, 1.5)
 

@@ -5,7 +5,7 @@ import layout as L
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 COL = {'QF': '#e3b341', 'KM': '#58a6ff', 'PSU1': '#3fb950', 'PSU2': '#3fb950', 'KA': '#d2a8ff', 'DC1': '#8b949e', 'SV': '#f85149',
-       'VFD': '#ff7b72', 'FL': '#79c0ff', 'FLV': '#79c0ff', 'TB': '#ffa657', 'BD': '#56d364', 'TBP': '#ffa657', 'FLS': '#79c0ff', 'PC': '#a371f7', 'XT': '#ffa657', 'PSU': '#3fb950'}
+       'VFD': '#ff7b72', 'FL': '#79c0ff', 'FLV': '#79c0ff', 'TB': '#ffa657', 'BD': '#56d364', 'TBP': '#ffa657', 'FLS': '#79c0ff', 'PC': '#a371f7', 'XT': '#ffa657', 'PSU': '#3fb950', 'PSU12': '#2ea043'}
 
 
 # ------------------------------------------------------------------ 1. panel layout
@@ -46,6 +46,7 @@ def panel_svg():
         if p['key'] == 'TB': lab = 'TB' + 'XYZ'[p['idx'] - 1]
         if p['key'] == 'KA': lab = ('KA3', 'KA4')[p['idx'] - 1]
         if p['key'] == 'PSU': lab = 'PSU1'
+        if p['key'] == 'PSU12': lab = 'PSU2'
         star = '*' if p['src'] == 'A' else ''
         fs = 9 if p['w'] < 60 else 11
         o.append('<text x="%.1f" y="%.1f" font-size="%d" text-anchor="middle" font-weight="bold">%s%s</text>' % (ox + p['x'] + p['w'] / 2, oy + p['y'] + p['h'] / 2, fs, lab, star))

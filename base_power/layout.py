@@ -14,6 +14,7 @@ CAB_X0, CAB_Y0, CAB_Z0 = 560.0, -CAB_W / 2, -730.0   # back wall at x=560 (22 mm
 P = {
  'QF':   ('QF1/2/3/4', 'Shihlin BM30-SN 2P', 50, 91, 68, 'A'),
  'KM':   ('KM1 (shared)', 'Shihlin SD-P, size for 3 drives (electrician)', 55, 95, 95, 'A'),
+ 'PSU12': ('PSU2', 'Mean Well SDR-120-12 (12 V 10 A, for the PC)', 63, 125, 114, 'A'),
  'FLS':  ('FL2 (shared)', 'EMC filter sized for 3 drives', 120, 65, 45, 'A'),
  'PSU': ('PSU1', 'Mean Well SDR-240-24 (24 V 10 A, single supply)', 86, 125, 114, 'A'),
  'KA':   ('KA3/KA4', 'Omron MY2N-GS + PYFZ-08 (Z brake, alarm)', 28, 62, 62, 'A'),
@@ -36,8 +37,8 @@ SERVO_TOP = 40; SERVO_VCLEAR = 30   # vertical clearance used above the drives (
 def rows():
     return [
         ('R1', 'DIN 1  breakers, contactor, DC-DC, relays', [('QF', 4), ('KM', 1), ('DC1', 1), ('KA', 2)]),
-        ('R2', 'DIN 2  24 V supply, filter, terminals', [('PSU', 1), ('FLS', 1), ('TBP', 1), ('XT', 1)]),
-        ('R3', 'plate  drives, VFD, controller', [('SV', 3), ('VFD', 1), ('BD', 1), ('PC', 1)]),
+        ('R2', 'DIN 2  24 V supply, filter, terminals', [('PSU', 1), ('PSU12', 1), ('FLS', 1), ('XT', 1)]),
+        ('R3', 'plate  drives, VFD, controller', [('SV', 3), ('VFD', 1), ('BD', 1), ('PC', 1), ('TBP', 1)]),
     ]
 
 
