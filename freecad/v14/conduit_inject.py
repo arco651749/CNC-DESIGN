@@ -18,6 +18,10 @@ const CD=%s;
    new THREE.MeshStandardMaterial({color:0xb8bec6,metalness:0.2,roughness:0.6}));m.position.set((a[0]+b[0])/2,(a[1]+b[1])/2,(a[2]+b[2])/2);grp[c.f].add(m);continue}
   const cur=new THREE.CatmullRomCurve3(c.p.map(p=>new THREE.Vector3(...p)),false,'catmullrom',0.1);
   grp[c.f].add(new THREE.Mesh(new THREE.TubeGeometry(cur,48,c.D/2,10,false),mat))}
+ if(CD.box){const a=CD.box[0],b=CD.box[1];const m=new THREE.Mesh(new THREE.BoxGeometry(b[0]-a[0],b[1]-a[1],b[2]-a[2]),
+   new THREE.MeshStandardMaterial({color:0x8fa3b8,transparent:true,opacity:0.22,depthWrite:false}));m.position.set((a[0]+b[0])/2,(a[1]+b[1])/2,(a[2]+b[2])/2);scene.add(m);
+  for(const g of (CD.glands||[])){const r=new THREE.Mesh(new THREE.CylinderGeometry(g[3]/2+4,g[3]/2+4,4,24),new THREE.MeshStandardMaterial({color:0xd08a2c}));
+   r.rotation.x=Math.PI/2;r.position.set(g[0],g[1],g[2]);scene.add(r)}}
  function upd(){for(const n in CD.moving){const c=CD.moving[n];const q=pts(c).map(p=>new THREE.Vector3(...p));
   const g=new THREE.TubeGeometry(new THREE.CatmullRomCurve3(q),60,c.D/2,10,false);M[n].geometry.dispose();M[n].geometry=g}}
  const sp=setPose;setPose=function(){sp();upd()};upd();

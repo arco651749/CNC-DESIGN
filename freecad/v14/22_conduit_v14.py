@@ -3,6 +3,7 @@
 anchors (point + direction the conduit runs through it); at every pose its centre line is the cubic Bezier through the anchors whose
 handles are set so its length equals the conduit length (slack bulges out, a stretched run goes straight). The same rule drives the
 motion pages (CONDUITS json). Checked at all 27 travel-end poses: collisions with the machine, minimum bend radius, taut runs.
+Fixed ends sit on the electrical box on the gantry columns (Y: bottom cover gland, X: roof gland + rolling loop on the roof).
 Frames: 's' static, 'y' table, 'x' X carriage, 'z' Z slide (moves with X and Z). Machine coordinates at home.
 Run:  freecadcmd freecad/v14/22_conduit_v14.py      Out: output/v14/conduits.json, output/v14/logs/v14_conduit_check.txt"""
 import os, json, math, itertools
@@ -10,22 +11,31 @@ import FreeCAD as App, Part
 from FreeCAD import Vector as V
 
 ROOT = os.environ.get('CNC_ROOT') or r'D:\\Claude\\CNC DESIGN'
+# electrical box on the gantry columns (docs/handoff_electrical_box_v14.md): outer envelope, sheet metal not modelled yet. Conduits enter it
+# only through the bottom cover (Y) and the roof gland (X); everything else of every conduit must stay outside it.
+BOX = ((-392.5, 162.0, 245.0), (392.5, 500.0, 495.0))
+ZT = BOX[1][2] + 2 + 34.5 / 2 + 0.75    # X loop centre height: tray floor t2 on the roof + conduit radius
+GLANDS = [(-120, 330, BOX[0][2], 28.5), (50, 390, BOX[1][2], 34.5)]   # (x, y, z, conduit OD): Y bottom cover, X roof
+OLD_PANEL = ('Electrical_panel', 'Servo_amp', 'Servo_bolt', 'Controller', 'Board_standoff', 'Panel_standoff')   # replaced by the box
 # name: (label, outer D, length, (frame, point, direction) start, (frame, point, direction) end, min bend radius allowed)
 CONDUITS = {
     # hanging runs: fixed length between two clamped ends, settles under gravity (Y: panel -> Y motor, Z: X carriage -> tool head)
-    'Conduit_Y': ('Y 軸浪管：背板下緣 → Y 馬達（PA 浪管 NW23, AD 28.5），下垂 U 型', 28.5, 540.0,
-                  ('s', (-120, 330, 295), (0, 0, -1)), ('y', (0, 395, 200), (0, 0, 1)), 50.0),
+    'Conduit_Y': ('Y 軸浪管：立柱電箱底蓋 → Y 馬達（PA 浪管 NW23, AD 28.5），下垂 U 型', 28.5, 490.0,
+                  ('s', (-120, 330, BOX[0][2]), (0, 0, -1)), ('y', (0, 395, 200), (0, 0, 1)), 50.0),
     'Conduit_ZB': ('Z 段浪管：X 滑座 → 工具頭（PA 浪管 NW29, AD 34.5），下垂 U 型', 34.5, 450.0,
                    ('x', (110, 40, 640), (0, 0, -1)), ('z', (110, -80, 470), (0, 0, 1)), 60.0),
-    # rolling loop on a tray above the back plate (X: fixed leg y 390, moving leg y 230 on an arm from the carriage, bend R 80)
-    'Conduit_XA': ('X 段浪管：托盤上的水平滾動 U 型環，R 80（PA 浪管 NW29, AD 34.5）', 34.5, None,
-                   ('s', (110, 390, 587), (1, 0, 0)), ('x', (110, 230, 587), (1, 0, 0)), 60.0),
+    # rolling loop in a tray on the electrical box roof (X: fixed leg y 390, moving leg y 230 on an arm from the carriage, bend R 80)
+    'Conduit_XA': ('X 段浪管：電箱屋頂托盤上的水平滾動 U 型環，R 80（PA 浪管 NW29, AD 34.5）', 34.5, None,
+                   ('s', (110, 390, ZT), (1, 0, 0)), ('x', (110, 230, ZT), (1, 0, 0)), 60.0),
 }
 ROLL = {'Conduit_XA': {'R': 80.0, 'c': 100.0}}
+def _elbow(x0, y, z0, z1):             # roof entry: horizontal run ending at x0 heading -x, then a 90 deg conduit elbow connector
+    R = z0 - z1                          # (rigid fitting, drawn as two straight pieces) screwed into the roof gland at z1
+    return [(x0 + 40, y, z0), (x0, y, z0), (x0 - R, y, z0), (x0 - R, y, z1)]
 STATIC_RUNS = {   # conduit pieces fixed to one frame (no flexing): drawn and checked for collisions
-    'Conduit_panel_run': ('s', 34.5, [(-20, 340, 560), (-20, 345, 580), (30, 380, 587), (110, 390, 587)]),
-    'Conduit_carriage_run': ('x', 34.5, [(110, 230, 587), (85, 230, 590), (85, 190, 690), (110, 110, 740), (110, 40, 715), (110, 40, 640)]),
-    'Conduit_tray': ('s', 0, [(-190, 205, 568), (395, 415, 570)]),   # tray box corners (sheet t2), drawn as a box
+    'Conduit_roof_entry': ('s', 34.5, _elbow(70, 390, ZT, BOX[1][2])),   # fixed leg -> 90 deg conduit elbow connector -> roof gland (50, 390)
+    'Conduit_carriage_run': ('x', 34.5, [(110, 230, ZT), (85, 230, ZT + 3), (85, 190, 560), (85, 165, 700), (110, 110, 750), (110, 40, 720), (110, 40, 640)]),
+    'Conduit_tray': ('s', 0, [(-95, 205, BOX[1][2]), (385, 415, BOX[1][2] + 2)]),   # tray floor (sheet t2) on the box roof, drawn as a box
 }
 def off(fr, P):
     dx, dy, dz = P
@@ -93,12 +103,14 @@ def min_radius(q):
         cr = (b - a).cross(c - b).Length
         if cr > 1e-9: r = min(r, ab * bc * ca / (2 * cr))
     return r
-def tube(q, D):
+def tube(q, D, poly=False):
     try:
+        if poly: raise ValueError('rigid fitting: straight pieces')
         e = Part.BSplineCurve(); e.interpolate([V(*p) for p in q]); w = Part.Wire(e.toShape())
         t = e.tangent(e.FirstParameter)[0]; circ = Part.Wire(Part.makeCircle(D / 2, V(*q[0]), t))
         sh = w.makePipeShell([circ], True, True)
-        if sh.isValid() and sh.Volume > 0: return sh
+        pb = e.toShape().BoundBox; pb.enlarge(D)
+        if sh.isValid() and sh.Volume > 0 and pb.isInside(sh.BoundBox): return sh   # a sweep tighter than its radius folds over itself
     except Exception: pass
     parts = []                                                 # fallback for sharp static runs: cylinders + spheres along the polyline
     for a_, b_ in zip(q[:-1], q[1:]):
@@ -116,7 +128,11 @@ if True:                                                        # freecadcmd doe
         if n.startswith(('Z_block', 'Z_spacer', 'Z_slide', 'Z_ball_nut', 'Z_nut_housing', 'Spindle', 'ER11', 'Tool')): return 'z'
         if n.startswith(('X_block', 'X_carriage', 'X_ball_nut', 'X_nut_bracket', 'X_saddle', 'Z_')): return 'x'
         return ''
-    OBJ = {o.Label: (o.Shape, cls(o)) for o in doc.Objects if o.TypeId == 'Part::Feature' and not o.Shape.isNull() and not o.Label.startswith('Keepout')}
+    OBJ = {o.Label: (o.Shape, cls(o)) for o in doc.Objects if o.TypeId == 'Part::Feature' and not o.Shape.isNull() and not o.Label.startswith(('Keepout',) + OLD_PANEL)}
+    (bx0, by0, bz0), (bx1, by1, bz1) = BOX
+    EB = Part.makeBox(bx1 - bx0, by1 - by0, bz1 - bz0, V(bx0, by0, bz0))
+    for gx, gy, gz, gd in GLANDS: EB = EB.cut(Part.makeCylinder(gd / 2 + 2, 80, V(gx, gy, gz - 40)))   # gland holes: the only way in
+    OBJ['Electrical_box (envelope)'] = (EB, '')
     POSES = list(itertools.product((-182.5, 0, 182.5), (-250, 0, 150), (-50, 0, 50)))
     out, hits, worst = [], {}, {}
     for name, c in CONDUITS.items():
@@ -139,7 +155,7 @@ if True:                                                        # freecadcmd doe
         for P in POSES:
             o_ = off(fr, P)
             if D == 0: T = Part.makeBox(pp[1][0] - pp[0][0], pp[1][1] - pp[0][1], pp[1][2] - pp[0][2], V(pp[0][0] + o_[0], pp[0][1] + o_[1], pp[0][2] + o_[2]))
-            else: T = tube([tuple(a + b for a, b in zip(p, o_)) for p in pp], D)
+            else: T = tube([tuple(a + b for a, b in zip(p, o_)) for p in pp], D, poly=name.endswith('_entry'))
             tb = T.BoundBox
             for n, (sh, k) in OBJ.items():
                 o = off(k if k in ('y', 'x', 'z') else 's', P)
@@ -149,7 +165,7 @@ if True:                                                        # freecadcmd doe
                 try: v = T.common(s2).Volume
                 except Exception: v = 0
                 if v > 1: hits.setdefault((name, n), (P, round(v)))
-            if fr == 's' and D == 0: break
+            if fr == 's': break                                   # fixed pieces do not move
     L = ['v14 conduits: %d moving runs, %d poses' % (len(CONDUITS), len(POSES)), '']
     for name, c in CONDUITS.items():
         r, t = worst[name]
@@ -158,7 +174,7 @@ if True:                                                        # freecadcmd doe
     L += ['', 'COLLISIONS: %d' % len(hits)] + ['  %s x %s at %s: %s mm3' % (a, b, p, v) for (a, b), (p, v) in sorted(hits.items())]
     open(os.path.join(ROOT, 'output', 'v14', 'logs', 'v14_conduit_check.txt'), 'w', encoding='utf-8').write('\n'.join(L))
     RNG = {0: (-182.5, 182.5), 1: (-250.0, 150.0), 2: (-50.0, 50.0)}
-    js = {'moving': {}, 'static': {n: {'f': f, 'D': d, 'p': p} for n, (f, d, p) in STATIC_RUNS.items()}}
+    js = {'moving': {}, 'static': {n: {'f': f, 'D': d, 'p': p} for n, (f, d, p) in STATIC_RUNS.items()}, 'box': BOX, 'glands': GLANDS}
     for name, c in CONDUITS.items():
         ax = AXIS[name]; lo, hi = RNG[ax]; vals = [lo + (hi - lo) * k / 20 for k in range(21)]
         fr = c[4][0]                                              # shapes stored in the moving end's frame minus the varying axis

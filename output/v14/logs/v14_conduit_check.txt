@@ -1,7 +1,7 @@
 v14 conduits: 3 moving runs, 27 poses
 
-Conduit_Y    Y 軸浪管：背板下緣 → Y 馬達（PA 浪管 NW23, AD 28.5），下垂 U 型  length 540.0, min bend radius over all poses 68 (allowed 50) OK 
+Conduit_Y    Y 軸浪管：立柱電箱底蓋 → Y 馬達（PA 浪管 NW23, AD 28.5），下垂 U 型  length 490.0, min bend radius over all poses 68 (allowed 50) OK 
 Conduit_ZB   Z 段浪管：X 滑座 → 工具頭（PA 浪管 NW29, AD 34.5），下垂 U 型  length 450.0, min bend radius over all poses 60 (allowed 60) OK 
-Conduit_XA   X 段浪管：托盤上的水平滾動 U 型環，R 80（PA 浪管 NW29, AD 34.5）  length rolling, min bend radius over all poses 80 (allowed 60) OK 
+Conduit_XA   X 段浪管：電箱屋頂托盤上的水平滾動 U 型環，R 80（PA 浪管 NW29, AD 34.5）  length rolling, min bend radius over all poses 80 (allowed 60) OK 
 
 COLLISIONS: 0

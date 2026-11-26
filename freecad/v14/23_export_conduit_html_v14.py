@@ -23,6 +23,7 @@ out = []
 for o in doc.Objects:
     if o.TypeId != 'Part::Feature' or o.Shape.isNull() or not o.Shape.Solids: continue
     sh = o.Shape; b = sh.BoundBox
+    if o.Label.startswith(('Electrical_panel', 'Servo_amp', 'Controller', 'Board_standoff', 'Panel_standoff', 'Keepout')): continue   # old back plate: replaced by the column box (drawn as its envelope)
     if sh.Volume < 400 or re.search(r'(bolt|screw|_pin|dowel|epoxy|shim|fitting|tube|reed|nut$)', o.Label, re.I): continue
     if len(sh.Faces) > 60:                                     # detailed vendor parts: their bounding box is enough to judge the conduits
         sh = Part.makeBox(b.XLength, b.YLength, b.ZLength, App.Vector(b.XMin, b.YMin, b.ZMin))
