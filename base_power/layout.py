@@ -21,6 +21,7 @@ P = {
  'SV':   ('SVX/Y/Z', 'Mitsubishi MR-J4-40A (vendor STEP 40 x 168 x 175.9)', 40, 168, 176, 'M'),
  'VFD':  ('VFD', 'Delta MS300 frame A', 72, 174, 136, 'A'),
  'BD':   ('BD', 'RP23CNC V2.02 + standoffs (STEP 96 x 97)', 96, 97, 35, 'M'),
+ 'PC':   ('PC', 'LattePanda IOTA (computer; STEP board 71 x 90 x 19, with heatsink ~40 deep)', 71, 90, 40, 'M'),
  'XT':   ('XT', 'DIN terminal strip: commons + outputs to outside (spindle, pump, valve)', 170, 45, 45, 'A'),
  'TBP':  ('X1', 'power terminals + PE bar (DIN)', 150, 45, 45, 'A'),
 }
@@ -36,7 +37,7 @@ def rows():
     return [
         ('R1', 'DIN 1  breakers, contactor, DC-DC, relays', [('QF', 4), ('KM', 1), ('DC1', 1), ('KA', 2)]),
         ('R2', 'DIN 2  24 V supply, filter, terminals', [('PSU', 1), ('FLS', 1), ('TBP', 1), ('XT', 1)]),
-        ('R3', 'plate  drives, VFD, controller', [('SV', 3), ('VFD', 1), ('BD', 1)]),
+        ('R3', 'plate  drives, VFD, controller', [('SV', 3), ('VFD', 1), ('BD', 1), ('PC', 1)]),
     ]
 
 

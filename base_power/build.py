@@ -5,7 +5,7 @@ import layout as L
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 COL = {'QF': '#e3b341', 'KM': '#58a6ff', 'PSU1': '#3fb950', 'PSU2': '#3fb950', 'KA': '#d2a8ff', 'DC1': '#8b949e', 'SV': '#f85149',
-       'VFD': '#ff7b72', 'FL': '#79c0ff', 'FLV': '#79c0ff', 'TB': '#ffa657', 'BD': '#56d364', 'TBP': '#ffa657', 'FLS': '#79c0ff', 'XT': '#ffa657', 'PSU': '#3fb950'}
+       'VFD': '#ff7b72', 'FL': '#79c0ff', 'FLV': '#79c0ff', 'TB': '#ffa657', 'BD': '#56d364', 'TBP': '#ffa657', 'FLS': '#79c0ff', 'PC': '#a371f7', 'XT': '#ffa657', 'PSU': '#3fb950'}
 
 
 # ------------------------------------------------------------------ 1. panel layout
@@ -40,6 +40,7 @@ def panel_svg():
         if p['key'] == 'KM': lab = 'KM1'
         if p['key'] == 'FLS': lab = 'FL2'
         if p['key'] == 'XT': lab = 'XT'
+        if p['key'] == 'PC': lab = 'PC'
         if p['key'] == 'SV': lab = 'SV' + 'XYZ'[p['idx'] - 1]
         if p['key'] in ('FL', 'FLV'): lab = 'FL2' + 'XYZ'[p['idx'] - 1]
         if p['key'] == 'TB': lab = 'TB' + 'XYZ'[p['idx'] - 1]

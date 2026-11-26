@@ -21,8 +21,8 @@
 |---|---|
 | DIN 1 | QF1、QF2(共用)、QF3、QF4、KM1(共用)、DC1、KA3、KA4 |
 | DIN 2 | PSU1(SDR-240-24)、FL2(共用)、X1 電源端子、XT 訊號端子排 |
-| 板面 | SVX/Y/Z（MR-J4-40A，STEP 尺寸）、VFD（MS300）、BD（RP23CNC，STEP 尺寸） |
-板高用 529 / 540 mm；驅動器上方 40、下方 52 mm（手冊 40）。零件由 38 件降為 26 件。
+| 板面 | SVX/Y/Z（MR-J4-40A，STEP 尺寸）、VFD（MS300）、BD（RP23CNC，STEP 尺寸）、PC（LattePanda IOTA） |
+板高用 529 / 540 mm；驅動器上方 40、下方 52 mm（手冊 40）。零件由 38 件降為 26 件，再加電腦 LattePanda IOTA（板 71×90×19，STEP 在 vendor/lattepanda，未進 git）。
 
 ## 檔案
 - `layout.py` 零件尺寸與排列（`*` = 估算，下單前以廠商圖面確認）
@@ -31,7 +31,7 @@
 - 重新產生：`python3 base_power/build.py`；`CNC_ROOT=$PWD /opt/freecad/bin/freecadcmd base_power/build_step.py`
 
 ## 待辦 / 風險
-- **`electrical/` 的接線圖、BOM、檢查單還是舊的**（三組 QF2/KM1/FL2、三個 KA4）：要依第 2、3 點更新後才一致。
+- `electrical/` 的接線圖、BOM、檢查單已改成共用 QF2/KM1/FL2、單一 24V、ALM 串聯 KA4、XT 端子排。尚未畫進圖：LattePanda IOTA 的電源與 RS-422 介面卡；圖上 CN1 仍用 TB40 照片示意（實際是 MR-J3CN1 焊線）。
 - 共用 QF2/KM1/FL2 的規格、各台分支線徑 / 保險絲、RCD：電工決定。
 - 所有 `*` 尺寸是估算；箱內發熱約 160 W 未實測，箱壁自然散熱約 100 W → 加濾網風扇。
 - 箱體與機器之間的線槽、右側導流板穿線板、拖鏈介面：要和機構 session 對齊。
