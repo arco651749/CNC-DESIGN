@@ -156,7 +156,7 @@ STAG = [5.08, 10.16, 15.24, 20.32]
 for pid, (net, col) in BD_NET.items():
     ln = 5.08 if pid in C_IDX else (ALARM_PX[pid][3] if pid in ALARM_PX else (13.0 if pid in B_IDX else (7.62 if pid in A_IDX else 12.7)))
     S.stub(BD[pid], net, col, ln)
-LAN = blk("LAN", "PC IOTA", 38.1, 210.82, right=[("RJ", 1, "RJ45")], w=20.32)
+LAN = blk("LAN", "PC IOTA（只走乙太網路，不接 RS-422）", 38.1, 210.82, right=[("RJ", 1, "RJ45")], w=20.32)
 S.stub(LAN["RJ"], "ETH", ANA)
 
 # board relay outputs K1/K2/K5 go to a terminal strip XT; the owner wires them outside the box (no relays on the plate)

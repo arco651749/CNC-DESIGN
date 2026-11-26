@@ -31,7 +31,7 @@
 - 重新產生：`python3 base_power/build.py`；`CNC_ROOT=$PWD /opt/freecad/bin/freecadcmd base_power/build_step.py`
 
 ## 待辦 / 風險
-- `electrical/` 的接線圖、BOM、檢查單已改成共用 QF2/KM1/FL2、單一 24V、ALM 串聯 KA4、XT 端子排。尚未畫進圖：LattePanda IOTA 的電源與 RS-422 介面卡；圖上 CN1 仍用 TB40 照片示意（實際是 MR-J3CN1 焊線）。
+- `electrical/` 的接線圖、BOM、檢查單已改成共用 QF2/KM1/FL2、單一 24V、ALM 串聯 KA4、XT 端子排。尚未畫進圖：LattePanda IOTA 的電源（RS-422 不接）；圖上 CN1 仍用 TB40 照片示意（實際是 MR-J3CN1 焊線）。
 - 共用 QF2/KM1/FL2 的規格、各台分支線徑 / 保險絲、RCD：電工決定。
 - 所有 `*` 尺寸是估算；箱內發熱約 160 W 未實測，箱壁自然散熱約 100 W → 加濾網風扇。
 - 箱體與機器之間的線槽、右側導流板穿線板、拖鏈介面：要和機構 session 對齊。

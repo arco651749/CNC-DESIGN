@@ -15,7 +15,7 @@ import build_wiring as B
 ROWS = [
  ('控制', 'BD', 'RP23CNC 控制板', 1, 'RP23CNC V2.02 (RP23U5XBB)，RP2354B，5 軸 grblHAL，12/24V 供電', 'Brookwood Design (Tindie / 官網商店)', '已選定', '含基本組裝套件（排針、跳線）；STEP/DIR/EN 為 5V 單端，直接以開集極驅動伺服 (無 IFB1)。手冊 V2 user manual'),
  ('控制', 'BD', 'WIZ850io 乙太網路模組', 1, 'WIZnet WIZ850io (必須 W5500)；WIZ820io / WIZ550io 不相容', 'WIZnet', '已選定', '選配，多台並聯監控用'),
- ('控制', 'LAN', '電腦 LattePanda IOTA', 1, 'LattePanda IOTA（x86 單板電腦，主板約 71×90×19 mm，另有被動散熱片 FIT1028 / 主動風扇 FIT1027 可選）', 'DFRobot / LattePanda', '已選定', 'owner 指定的電腦：跑 LLM 閘道、grblHAL 乙太網路、RS-422 伺服讀取。電源規格、散熱片選用、IO 與 RS-422 介面卡的接法待確認（官網連不上）；3D：vendor/lattepanda/iota_mainboard.stp'),
+ ('控制', 'LAN', '電腦 LattePanda IOTA', 1, 'LattePanda IOTA（x86 單板電腦，主板約 71×90×19 mm，另有被動散熱片 FIT1028 / 主動風扇 FIT1027 可選）', 'DFRobot / LattePanda', '已選定', 'owner 指定的電腦：跑 LLM 與 grblHAL（乙太網路送 G-code）。不接 RS-422（owner 決定：只用 STEP/DIR 脈衝，不讀伺服資料）。電源規格與散熱片選用待確認（官網連不上）；3D：vendor/lattepanda/iota_mainboard.stp'),
  ('交流保護', 'QF1', '主斷路器', 1, '士林 BM30-SN，2P 30A，30A 框，Icu 5 kA @ 220V', '士林電機 (SEEC)', '暫定', '實際負載約 18A 量級（見負載核算），30A 有餘裕；現場電源迴路需 ≥30A。各分路另有斷路器保護'),
  ('交流保護', 'QF2', '伺服斷路器（三軸共用）', 1, '士林 BM30-SN 2P，額定待電工（三台合計；單台為 30A 框 10A）', '士林電機 (SEEC)', '待確認', 'owner 決定三軸共用，與三菱 MR-J4-A 手冊 11.10「每台驅動器各 1 個斷路器與接觸器」不符（手冊沒有多台合計表）。額定、三路分支線徑／保險絲由電工決定；若不接受改回每軸一組'),
  ('交流保護', 'KM1', '伺服電磁接觸器（三軸共用）', 1, '士林 SD-P 系列，DC 24V 線圈，額定依三台合計（電工決定；單台為 S-N10 等級）', '士林電機 (SEEC)', '待確認', 'S-P 系列線圈只有交流，直流線圈要用 SD-P；訂購指定 24V；與手冊 11.10 不符，見 QF2'),
