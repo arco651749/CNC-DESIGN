@@ -4,7 +4,7 @@ Translation group (g), spin axis (r) and colour of v10 parts come from the v10 p
 group from the Motion property and their colour from the adjuster colour scheme. The work piece sits on the fixture plate.
 Run:  freecadcmd freecad/v14/04_export_motion_html_v14.py      Out: output/v14/CNC_motion_v14.html"""
 import os, re, json, base64, struct, importlib.util
-import FreeCAD as App
+import FreeCAD as App, Part
 
 ROOT = os.environ.get('CNC_ROOT') or r'D:\Claude\CNC DESIGN'
 TEMPLATE = os.path.join(ROOT, 'output', 'v10', 'CNC_motion_v10.html')
@@ -64,7 +64,10 @@ for o in doc.Objects:
         if not g and getattr(o, 'Adj', '') == 'base': g = 'base'
         r, c = '', colour(name)
         if name == 'X_support_float': c = old['X_support_fixed']['c']
-    pts, tris = o.Shape.tessellate(1.6 if o.Label == 'Camera_lens' else (1.0 if re.search(r'(Camera_body|pivot_bearing|^[XYZ]_block_|ball_nut)', o.Label) else 0.25))
+    _sh = o.Shape
+    if o.Label.startswith(('Controller', 'Servo_amp')) and len(_sh.Solids) > 1:   # vendor electronics: drop tiny parts, coarse mesh (page size)
+        _k = [so for so in _sh.Solids if so.Volume > 120]; _sh = Part.makeCompound(_k) if _k else _sh
+    pts, tris = _sh.tessellate(1.6 if o.Label.startswith(('Camera_lens', 'Controller', 'Servo_amp')) else (1.0 if re.search(r'(Camera_body|pivot_bearing|^[XYZ]_block_|ball_nut)', o.Label) else 0.25))
     if not tris:
         continue
     coords = [int(round(v * 10)) for p in pts for v in (p.x, p.y, p.z)]

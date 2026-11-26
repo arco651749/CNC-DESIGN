@@ -1,0 +1,35 @@
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>v14 浪管檢視</title>
+<style>html,body{margin:0;height:100%;background:#eef1f4;font-family:"Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif;color:#1d2630}
+#c{width:100%;height:100%;display:block}#ui{position:absolute;left:12px;top:10px;background:#ffffffe6;border:1px solid #c9d1da;border-radius:8px;padding:8px 12px;font-size:13px;display:grid;gap:5px;min-width:250px}
+#ui label{display:grid;grid-template-columns:18px 1fr 52px;gap:6px;align-items:center}button{font:inherit;font-size:13px;padding:3px 9px;border:1px solid #9aa6b3;border-radius:6px;background:#fff;cursor:pointer}
+button.on{background:#c9780a;color:#fff;border-color:#c9780a}.row{display:flex;flex-wrap:wrap;gap:5px}</style></head>
+<body><canvas id="c"></canvas>
+<div id="ui"><b>v14 浪管檢視（從機台後方）</b>
+<label>X<input id="sx" type="range" min="-182.5" max="182.5" step="0.5" value="0"><span id="vx">0</span></label>
+<label>Y<input id="sy" type="range" min="-250" max="150" step="1" value="0"><span id="vy">0</span></label>
+<label>Z<input id="sz" type="range" min="-50" max="50" step="0.5" value="0"><span id="vz">0</span></label>
+<div class="row"><button id="play">自動跑行程</button><button data-v="back">後方</button><button data-v="side">側面</button><button data-v="front">前方</button></div>
+<div style="color:#5f6b78;font-size:12px">黑色＝浪管（Y 段、X 段托盤滾動環、Z 段）；機台已簡化</div></div>
+<!--THREE-->
+<script>
+/*DATA*/
+const cv=document.getElementById('c');const R=new THREE.WebGLRenderer({canvas:cv,antialias:true,preserveDrawingBuffer:true});R.setPixelRatio(Math.min(devicePixelRatio,2));
+const scene=new THREE.Scene();scene.background=new THREE.Color(0xeef1f4);
+const cam=new THREE.PerspectiveCamera(30,1,10,20000);cam.up.set(0,0,1);const ctl=new THREE.OrbitControls(cam,cv);ctl.enableDamping=true;
+scene.add(new THREE.HemisphereLight(0xffffff,0x8a8070,0.8));const d1=new THREE.DirectionalLight(0xffffff,0.7);d1.position.set(1200,1800,2200);scene.add(d1);
+const gY=new THREE.Group(),gX=new THREE.Group(),gZ=new THREE.Group();scene.add(gY,gX);gX.add(gZ);
+function b64(s,T){const b=atob(s),u=new Uint8Array(b.length);for(let i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return new T(u.buffer)}
+for(const p of DATA){const q=b64(p.p,Int16Array),pos=new Float32Array(q.length);for(let i=0;i<q.length;i++)pos[i]=q[i]/4;
+ const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.BufferAttribute(pos,3));g.setIndex(new THREE.BufferAttribute(b64(p.i,p.w?Uint16Array:Uint32Array),1));g.computeVertexNormals();
+ const m=new THREE.Mesh(g,new THREE.MeshStandardMaterial({color:new THREE.Color(...p.c),metalness:0.1,roughness:0.65}));({y:gY,x:gX,z:gZ}[p.k]||scene).add(m)}
+let P={x:0,y:0,z:0};
+function setPose(){gY.position.y=P.y;gX.position.x=P.x;gZ.position.z=P.z;for(const a of 'xyz'){document.getElementById('s'+a).value=P[a];document.getElementById('v'+a).textContent=(+P[a]).toFixed(1)}}
+for(const a of 'xyz')document.getElementById('s'+a).oninput=e=>{P[a]=+e.target.value;setPose()};
+const T=new THREE.Vector3(0,120,330);const VIEWS={back:[1500,2300,1400],side:[2600,150,700],front:[-1300,-2300,1300]};
+function view(k){cam.position.set(...VIEWS[k]);ctl.target.copy(T);ctl.update()}document.querySelectorAll('[data-v]').forEach(b=>b.onclick=()=>view(b.dataset.v));
+let play=false,t0=0;const pb=document.getElementById('play');pb.onclick=()=>{play=!play;pb.classList.toggle('on',play);pb.textContent=play?'停止':'自動跑行程'};
+function rs(){const w=innerWidth,h=innerHeight;R.setSize(w,h,false);cam.aspect=w/h;cam.updateProjectionMatrix()}addEventListener('resize',rs);rs();view('back');setPose();
+window.renderOnce=()=>{ctl.update();R.render(scene,cam)};
+(function loop(now){if(play){const t=now/1000;P={x:182.5*Math.sin(t*0.6),y:-50+200*Math.sin(t*0.45),z:50*Math.sin(t*1.1)};setPose()}if(!window.PAUSE){ctl.update();R.render(scene,cam)}requestAnimationFrame(loop)})(0);
+</script></body></html>

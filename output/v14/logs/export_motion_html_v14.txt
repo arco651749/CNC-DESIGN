@@ -1,4 +1,4 @@
-parts=383 size=25982826
+parts=383 size=18640466
 Datum_base_plate g='' r='' tris=27308
 Y_rail_L g='y' r='' tris=8600
 Y_block_L1 g='' r='' tris=36808
@@ -390,16 +390,16 @@ Probe_holder_bolt_3 g='z' r='' tris=1004
 Probe_holder_bolt_4 g='z' r='' tris=1004
 Probe_stem_bolt_1 g='z' r='' tris=1004
 Probe_stem_bolt_2 g='z' r='' tris=1004
-Servo_amp_X g='' r='' tris=24554
+Servo_amp_X g='' r='' tris=18534
 Servo_bolt_X_1 g='' r='' tris=1004
 Servo_bolt_X_2 g='' r='' tris=1004
-Servo_amp_Y g='' r='' tris=24554
+Servo_amp_Y g='' r='' tris=18534
 Servo_bolt_Y_1 g='' r='' tris=1004
 Servo_bolt_Y_2 g='' r='' tris=1004
-Servo_amp_Z g='' r='' tris=24554
+Servo_amp_Z g='' r='' tris=18534
 Servo_bolt_Z_1 g='' r='' tris=1004
 Servo_bolt_Z_2 g='' r='' tris=1004
-Controller_RP23CNC g='' r='' tris=424274
+Controller_RP23CNC g='' r='' tris=113640
 Board_standoff_1 g='' r='' tris=500
 Board_standoff_2 g='' r='' tris=500
 Board_standoff_3 g='' r='' tris=500
