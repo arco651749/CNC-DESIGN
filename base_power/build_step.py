@@ -11,25 +11,30 @@ doc = App.newDocument('base_power'); OBJ = {}
 def box(x0, x1, y0, y1, z0, z1): return Part.makeBox(x1 - x0, y1 - y0, z1 - z0, V(x0, y0, z0))
 def add(name, shape, grp):
     o = doc.addObject('Part::Feature', name); o.Shape = shape; OBJ[name] = (o, grp); return o
-LZ = FLOOR + 60
+LZ = FLOOR + 90
 for i, (x, y) in enumerate([(-BX, -580), (BX, -580), (-BX, 40), (BX, 40), (-BX, 560), (BX, 560)], 1):
     add('Base_leg_%d' % i, box(x - 20, x + 20, y - 20, y + 20, FLOOR + 60, -130), 'frame')
 for T, x0, x1 in (('L', -BX - 20, -BX + 20), ('R', BX - 20, BX + 20)):
     add('Base_top_side_' + T, box(x0, x1, -560, 540, -130, -90), 'frame')
-    add('Base_low_side_' + T, box(x0, x1, -560, 540, LZ, LZ + 40), 'frame (low ring lowered to the leg bottoms)')
+    add('Base_low_side_' + T, box(x0, x1, -560, 540, LZ, LZ + 40), 'frame')
 add('Base_top_front', box(-BX - 20, BX + 20, -600, -560, -130, -90), 'frame'); add('Base_top_rear', box(-BX - 20, BX + 20, 540, 580, -130, -90), 'frame')
+add('Base_low_front', box(-BX + 20, BX - 20, -600, -560, LZ, LZ + 40), 'frame')
 for k, y in enumerate((-120, 168), 1): add('Base_cross_%d' % k, box(-BX + 20, BX - 20, y - 20, y + 20, -130, -90), 'frame')
-for k, y in enumerate((-500, -330), 1): add('Cabinet_rail_%d' % k, box(-BX + 20, BX - 20, y - 20, y + 20, LZ, LZ + 40), 'NEW cabinet cross rail 40x40 (replaces the low front beam)')
 x0, y0, z0 = L.CAB_X0, L.CAB_Y0, L.CAB_Z0
-shell = box(x0, x0 + L.CAB_W, y0, y0 + L.CAB_D, z0, z0 + L.CAB_H).cut(box(x0 + 2, x0 + L.CAB_W - 2, y0 + 2, y0 + L.CAB_D - 2, z0 + 2, z0 + L.CAB_H - 2))
-add('Cabinet_box', shell, 'NEW steel box 940x540x250 IP54, two front doors')
-px, pz = x0 + (L.CAB_W - L.PLATE_W) / 2, z0 + (L.CAB_H - L.PLATE_H) / 2
-yb = y0 + L.CAB_D - 2 - 3                                   # plate on the rear wall, 3 mm standoff
-add('Cabinet_plate', box(px, px + L.PLATE_W, yb, yb + 2.5, pz, pz + L.PLATE_H), 'NEW mounting plate 880x480')
+cw, ch, cd = L.CAB_D, L.CAB_W, L.CAB_H          # x depth, y width, z height
+shell = box(x0, x0 + cw, y0, y0 + ch, z0, z0 + cd).cut(box(x0 + 2, x0 + cw - 2, y0 + 2, y0 + ch - 2, z0 + 2, z0 + cd - 2))
+add('Cabinet_box', shell, 'NEW steel box 250 deep x 660 wide x 690 high, IP54, door on the +x side; the plate is its back panel')
+for k, (fx, fy) in enumerate(((x0 + 40, y0 + 40), (x0 + cw - 40, y0 + 40), (x0 + 40, y0 + ch - 40), (x0 + cw - 40, y0 + ch - 40)), 1):
+    add('Cabinet_foot_%d' % k, box(fx - 30, fx + 30, fy - 30, fy + 30, FLOOR, FLOOR + 60), 'NEW levelling foot (box rests on the floor)')
+for k, z in enumerate((-600, -150), 1):
+    add('Cabinet_bracket_%d' % k, box(BX + 20, x0, 0, 60, z - 30, z + 30), 'NEW bracket 3 t plate: leg 3 (y=40) to the box back wall, M8 x2 each side')
+px = x0 + 2 + 3                                              # plate face x (3 mm standoff from the back wall)
+py = y0 + (ch - L.PLATE_W) / 2; pz = z0 + (cd - L.PLATE_H) / 2
+add('Cabinet_plate', box(px - 2.5, px, py, py + L.PLATE_W, pz, pz + L.PLATE_H), 'NEW mounting plate 620x650x2.5 (back panel)')
 parts, rep, ok = L.place()
 for p in parts:
-    X = px + p['x']; Z = pz + L.PLATE_H - p['y'] - p['h']
-    add('%s_%s_%d' % (p['key'], p['row'], p['idx']), box(X, X + p['w'], yb - p['d'], yb, Z, Z + p['h']), 'part')
+    Y = py + p['x']; Z = pz + L.PLATE_H - p['y'] - p['h']
+    add('%s_%s_%d' % (p['key'], p['row'], p['idx']), box(px, px + p['d'], Y, Y + p['w'], Z, Z + p['h']), 'part')
 doc.recompute()
 # interference: everything vs everything inside the electrical group, and cabinet vs frame
 names = list(OBJ); bad = []
@@ -45,8 +50,8 @@ for i, a in enumerate(parts_obj):
         v = OBJ[a][0].Shape.common(OBJ[b][0].Shape).Volume
         if v > 1: bad.append('%s x %s: %.0f mm3' % (a, b, v))
     # parts must lie inside the cabinet interior
-    if OBJ[a][0].Shape.cut(box(x0 + 2, x0 + L.CAB_W - 2, y0 + 2, y0 + L.CAB_D - 2, z0 + 2, z0 + L.CAB_H - 2)).Volume > 1: bad.append('%s sticks out of the cabinet' % a)
-dz = z0 + L.CAB_H; ring_bottom = -130
-txt = ['cabinet top z=%d, top ring bottom z=%d, gap %d mm' % (dz, ring_bottom, ring_bottom - dz), 'interferences: %d' % len(bad)] + bad
+    if OBJ[a][0].Shape.cut(box(x0 + 2, x0 + cw - 2, y0 + 2, y0 + ch - 2, z0 + 2, z0 + cd - 2)).Volume > 1: bad.append('%s sticks out of the cabinet' % a)
+dz = z0 + cd; ring_bottom = -90
+txt = ['cabinet top z=%d, coolant pan bottom z=%d (box is outside the guard, x>%d)' % (dz, ring_bottom, x0), 'interferences: %d' % len(bad)] + bad
 open(os.path.join(HERE, 'step_check.txt'), 'w').write('\n'.join(txt) + '\n'); print('\n'.join(txt))
 Import.export([o for o, g in OBJ.values()], os.path.join(HERE, 'base_power.step'))
