@@ -73,6 +73,11 @@ for k, (hx, hy) in enumerate(IOTA_HOLES, 1):
     add('IOTA_screw_%d' % k, cyl('z', 1.5, 476, 480, x, y).fuse(cyl('z', 2.75, 473.5, 476, x, y)), 'parts (M3x6 pan head screw from the component side)')
     rp = OBJ['Box_roof_plate'][0].Shape.cut(cyl('z', 2.5, 486, 492, x, y)); OBJ['Box_roof_plate'][0].Shape = rp
     add('IOTA_rivetnut_%d' % k, cyl('z', 2.25, 482, 487, x, y).cut(cyl('z', 1.25, 482, 487, x, y)), 'parts (M3 rivet nut in the roof plate t4)')
+# IOTA active cooler FIT1027 (vendor STEP 87 x 69 x 11): rotated 90 deg about z so that 69 runs along the board width, centred on the board,
+# base on the CPU (board z 4.6 .. 15.6). The exact position over the CPU is not in the vendor data; check against the real board.
+cool = Part.read(os.path.join(ROOT, 'vendor', 'lattepanda', 'fit1027.stp'))
+cool.Placement = Placement(V(TX, TY, TZ), Rotation(V(1, 0, 0), 180)).multiply(Placement(V(50.7, -269.1, 16.3), Rotation(V(0, 0, 1), 90)))
+add('IOTA_cooler', cool, 'parts (LattePanda FIT1027 active cooler, vendor STEP; position over the CPU assumed)')
 # fan (intake, at the bottom cover) and the filter plates
 add('Fan_120', box(-340, -220, 470, 495, 340, 460), 'parts (box models, catalog size)')
 add('Intake_filter', box(-340, -220, 500, 506, 340, 460), 'parts (box models, catalog size)')

@@ -156,7 +156,7 @@ STAG = [5.08, 10.16, 15.24, 20.32]
 for pid, (net, col) in BD_NET.items():
     ln = 5.08 if pid in C_IDX else (ALARM_PX[pid][3] if pid in ALARM_PX else (13.0 if pid in B_IDX else (7.62 if pid in A_IDX else 12.7)))
     S.stub(BD[pid], net, col, ln)
-LAN = blk("LAN", "PC LattePanda IOTA（電腦）", 52.0, 210.82, left=[("P", 1, "DC IN +12V"), ("N", 2, "DC IN GND")], right=[("RJ", 1, "RJ45")], w=24.0)
+LAN = blk("LAN", "PC LattePanda IOTA（電腦，含主動散熱器 FIT1027）", 52.0, 210.82, left=[("P", 1, "DC IN +12V"), ("N", 2, "DC IN GND")], right=[("RJ", 1, "RJ45")], w=24.0)
 S.stub(LAN["RJ"], "ETH", ANA); S.stub(LAN["P"], "+12V", RED, 14.0, THICK); S.stub(LAN["N"], "0V12", BLK, 14.0, THICK)
 S.text("IOTA 電源線：+12V / 0V12 來自 PSU2 XDR-75E-12 (⑦)，2C 1.0 mm²；\nIOTA 的電源接頭型式待確認。乙太網路接控制板 WIZ850io，不接 RS-422。", 20.0, 236.0, 1.2)
 
