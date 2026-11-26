@@ -24,3 +24,9 @@
 - EM2 永久接 0 V（只有 2NC 急停）：急停時伺服無受控減速，只靠切電與 Z 煞車。
 - `electrical/` 接線圖、BOM、檢查單已依此更新；電腦與 12 V 電源在箱內。
 - **24 V 電源 XDR-75E-24 只有 3.2 A**：估算負載（含冷卻泵 2 A）約 3.3 A，超過額定；泵若另接一顆電源就沒問題。
+
+## 3D（由配電 session 繪製，機構 session 不用畫）
+- `column_box.step`：鈑金箱（屋頂 t3 + 安裝板 t4、後牆 t5、兩側 t3、可拆前蓋、可拆底蓋含 4 個進線孔）、DIN 軌、三台 MR-J4 與 RP23CNC 板（原廠 STEP）、其餘電料（目錄尺寸方塊）、風扇、出風濾網。機台座標。干涉檢查 0 處（`step_check.txt`）。
+- 預覽：`column_box_3d_below.png`、`column_box_3d_above.png`（前蓋、底蓋、右側板隱藏）。
+- 重新產生：`CNC_ROOT=$PWD SERVO_STEP=<mr-j4-40ab.stp 路徑> /opt/freecad/bin/freecadcmd column_box/build_step.py`，再 `python3 column_box/render.py`。
+- DIN 軌上的零件已加 7.5 mm 軌高；電腦（IOTA）的固定支架還沒畫。
