@@ -1,24 +1,20 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="760" height="940" viewBox="0 0 760 940" font-family="Noto Sans CJK TC, sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="830" viewBox="0 0 720 830" font-family="Noto Sans CJK TC, sans-serif">
 <rect width="100%" height="100%" fill="#fff"/>
-<text x="70" y="30" font-size="20" font-weight="bold">電控箱 = 背板（620 × 650 mm 安裝板，箱體 660 × 690 × 250）</text>
+<text x="70" y="30" font-size="20" font-weight="bold">電控箱 = 背板（580 × 540 mm 安裝板，箱體 620 × 580 × 250）</text>
 <text x="70" y="50" font-size="12" fill="#555">視角：開門看箱內（箱體在底座右側，門朝 +x）。* 為估算尺寸，下單前以廠商圖面確認。灰條 = 35 mm DIN 軌，綠條 = 配線槽</text>
-<rect x="70" y="70" width="620" height="650" fill="#f2f2f2" stroke="#222" stroke-width="2"/>
-<rect x="80" y="80" width="600" height="18" fill="#cfe8cf" stroke="#6a6"/>
+<rect x="70" y="70" width="580" height="540" fill="#f2f2f2" stroke="#222" stroke-width="2"/>
+<rect x="80" y="80" width="560" height="18" fill="#cfe8cf" stroke="#6a6"/>
 <text x="84" y="93" font-size="10" fill="#363">duct</text>
-<rect x="80" y="148" width="600" height="9" fill="#999"/>
-<text x="62" y="200" font-size="10" fill="#555" transform="rotate(-90 62 200)">DIN 1  breakers, contactor, relays</text>
-<rect x="80" y="200" width="600" height="18" fill="#cfe8cf" stroke="#6a6"/>
+<rect x="80" y="148" width="560" height="9" fill="#999"/>
+<text x="62" y="200" font-size="10" fill="#555" transform="rotate(-90 62 200)">DIN 1  breakers, contactor, DC-DC, relays</text>
+<rect x="80" y="200" width="560" height="18" fill="#cfe8cf" stroke="#6a6"/>
 <text x="84" y="213" font-size="10" fill="#363">duct</text>
-<rect x="80" y="283" width="600" height="9" fill="#999"/>
-<text x="62" y="350" font-size="10" fill="#555" transform="rotate(-90 62 350)">DIN 2  24 V supplies, filter, power terminals</text>
-<rect x="80" y="350" width="600" height="18" fill="#cfe8cf" stroke="#6a6"/>
+<rect x="80" y="283" width="560" height="9" fill="#999"/>
+<text x="62" y="350" font-size="10" fill="#555" transform="rotate(-90 62 350)">DIN 2  24 V supply, filter, terminals</text>
+<rect x="80" y="350" width="560" height="18" fill="#cfe8cf" stroke="#6a6"/>
 <text x="84" y="363" font-size="10" fill="#363">duct</text>
-<rect x="80" y="406" width="600" height="9" fill="#999"/>
-<text x="62" y="445" font-size="10" fill="#555" transform="rotate(-90 62 445)">DIN 3  CN1 terminal blocks, batteries</text>
-<rect x="80" y="445" width="600" height="18" fill="#cfe8cf" stroke="#6a6"/>
-<text x="84" y="458" font-size="10" fill="#363">duct</text>
-<text x="62" y="659" font-size="10" fill="#555" transform="rotate(-90 62 659)">plate  drives, VFD, controller</text>
-<rect x="80" y="662" width="600" height="18" fill="#cfe8cf" stroke="#6a6"/>
+<text x="62" y="564" font-size="10" fill="#555" transform="rotate(-90 62 564)">plate  drives, VFD, controller</text>
+<rect x="80" y="567" width="560" height="18" fill="#cfe8cf" stroke="#6a6"/>
 <rect x="80.0" y="105.0" width="50" height="91" fill="#e3b341" fill-opacity="0.85" stroke="#222"/>
 <text x="105.0" y="150.5" font-size="9" text-anchor="middle" font-weight="bold">QF1*</text>
 <text x="105.0" y="161.5" font-size="8" text-anchor="middle" fill="#222">50x91</text>
@@ -38,77 +34,46 @@
 <text x="377.5" y="132.5" font-size="9" text-anchor="middle" font-weight="bold">DC1*</text>
 <text x="377.5" y="143.5" font-size="8" text-anchor="middle" fill="#222">25x55</text>
 <rect x="396.0" y="105.0" width="28" height="62" fill="#d2a8ff" fill-opacity="0.85" stroke="#222"/>
-<text x="410.0" y="136.0" font-size="9" text-anchor="middle" font-weight="bold">KA1*</text>
+<text x="410.0" y="136.0" font-size="9" text-anchor="middle" font-weight="bold">KA3*</text>
 <text x="410.0" y="147.0" font-size="8" text-anchor="middle" fill="#222">28x62</text>
 <rect x="430.0" y="105.0" width="28" height="62" fill="#d2a8ff" fill-opacity="0.85" stroke="#222"/>
-<text x="444.0" y="136.0" font-size="9" text-anchor="middle" font-weight="bold">KA2*</text>
+<text x="444.0" y="136.0" font-size="9" text-anchor="middle" font-weight="bold">KA4*</text>
 <text x="444.0" y="147.0" font-size="8" text-anchor="middle" fill="#222">28x62</text>
-<rect x="464.0" y="105.0" width="28" height="62" fill="#d2a8ff" fill-opacity="0.85" stroke="#222"/>
-<text x="478.0" y="136.0" font-size="9" text-anchor="middle" font-weight="bold">KA3*</text>
-<text x="478.0" y="147.0" font-size="8" text-anchor="middle" fill="#222">28x62</text>
-<rect x="498.0" y="105.0" width="28" height="62" fill="#d2a8ff" fill-opacity="0.85" stroke="#222"/>
-<text x="512.0" y="136.0" font-size="9" text-anchor="middle" font-weight="bold">KA4*</text>
-<text x="512.0" y="147.0" font-size="8" text-anchor="middle" fill="#222">28x62</text>
-<rect x="532.0" y="105.0" width="28" height="62" fill="#d2a8ff" fill-opacity="0.85" stroke="#222"/>
-<text x="546.0" y="136.0" font-size="9" text-anchor="middle" font-weight="bold">KA5*</text>
-<text x="546.0" y="147.0" font-size="8" text-anchor="middle" fill="#222">28x62</text>
-<rect x="80.0" y="225.0" width="63" height="125" fill="#3fb950" fill-opacity="0.85" stroke="#222"/>
-<text x="111.5" y="287.5" font-size="11" text-anchor="middle" font-weight="bold">PSU1*</text>
-<text x="111.5" y="298.5" font-size="8" text-anchor="middle" fill="#222">63x125</text>
-<rect x="149.0" y="225.0" width="63" height="125" fill="#3fb950" fill-opacity="0.85" stroke="#222"/>
-<text x="180.5" y="287.5" font-size="11" text-anchor="middle" font-weight="bold">PSU3*</text>
-<text x="180.5" y="298.5" font-size="8" text-anchor="middle" fill="#222">63x125</text>
-<rect x="218.0" y="225.0" width="53" height="125" fill="#3fb950" fill-opacity="0.85" stroke="#222"/>
-<text x="244.5" y="287.5" font-size="9" text-anchor="middle" font-weight="bold">PSU2*</text>
-<text x="244.5" y="298.5" font-size="8" text-anchor="middle" fill="#222">53x125</text>
-<rect x="277.0" y="225.0" width="120" height="65" fill="#79c0ff" fill-opacity="0.85" stroke="#222"/>
-<text x="337.0" y="257.5" font-size="11" text-anchor="middle" font-weight="bold">FL2*</text>
-<text x="337.0" y="268.5" font-size="8" text-anchor="middle" fill="#222">120x65</text>
-<rect x="403.0" y="225.0" width="150" height="45" fill="#ffa657" fill-opacity="0.85" stroke="#222"/>
-<text x="478.0" y="247.5" font-size="11" text-anchor="middle" font-weight="bold">X1*</text>
-<text x="478.0" y="258.5" font-size="8" text-anchor="middle" fill="#222">150x45</text>
-<rect x="80.0" y="375.0" width="125" height="70" fill="#ffa657" fill-opacity="0.85" stroke="#222"/>
-<text x="142.5" y="410.0" font-size="11" text-anchor="middle" font-weight="bold">TBX*</text>
-<text x="142.5" y="421.0" font-size="8" text-anchor="middle" fill="#222">125x70</text>
-<rect x="211.0" y="375.0" width="125" height="70" fill="#ffa657" fill-opacity="0.85" stroke="#222"/>
-<text x="273.5" y="410.0" font-size="11" text-anchor="middle" font-weight="bold">TBY*</text>
-<text x="273.5" y="421.0" font-size="8" text-anchor="middle" fill="#222">125x70</text>
-<rect x="342.0" y="375.0" width="125" height="70" fill="#ffa657" fill-opacity="0.85" stroke="#222"/>
-<text x="404.5" y="410.0" font-size="11" text-anchor="middle" font-weight="bold">TBZ*</text>
-<text x="404.5" y="421.0" font-size="8" text-anchor="middle" fill="#222">125x70</text>
-<rect x="473.0" y="375.0" width="62" height="42" fill="#bc8cff" fill-opacity="0.85" stroke="#222"/>
-<text x="504.0" y="396.0" font-size="11" text-anchor="middle" font-weight="bold">BTX*</text>
-<text x="504.0" y="407.0" font-size="8" text-anchor="middle" fill="#222">62x42</text>
-<rect x="541.0" y="375.0" width="62" height="42" fill="#bc8cff" fill-opacity="0.85" stroke="#222"/>
-<text x="572.0" y="396.0" font-size="11" text-anchor="middle" font-weight="bold">BTY*</text>
-<text x="572.0" y="407.0" font-size="8" text-anchor="middle" fill="#222">62x42</text>
-<rect x="609.0" y="375.0" width="62" height="42" fill="#bc8cff" fill-opacity="0.85" stroke="#222"/>
-<text x="640.0" y="396.0" font-size="11" text-anchor="middle" font-weight="bold">BTZ*</text>
-<text x="640.0" y="407.0" font-size="8" text-anchor="middle" fill="#222">62x42</text>
-<rect x="80.0" y="485.0" width="40" height="168" fill="#f85149" fill-opacity="0.85" stroke="#222"/>
-<text x="100.0" y="569.0" font-size="9" text-anchor="middle" font-weight="bold">SVX</text>
-<text x="100.0" y="580.0" font-size="8" text-anchor="middle" fill="#222">40x168</text>
-<rect x="130.0" y="485.0" width="40" height="168" fill="#f85149" fill-opacity="0.85" stroke="#222"/>
-<text x="150.0" y="569.0" font-size="9" text-anchor="middle" font-weight="bold">SVY</text>
-<text x="150.0" y="580.0" font-size="8" text-anchor="middle" fill="#222">40x168</text>
-<rect x="180.0" y="485.0" width="40" height="168" fill="#f85149" fill-opacity="0.85" stroke="#222"/>
-<text x="200.0" y="569.0" font-size="9" text-anchor="middle" font-weight="bold">SVZ</text>
-<text x="200.0" y="580.0" font-size="8" text-anchor="middle" fill="#222">40x168</text>
-<rect x="230.0" y="485.0" width="72" height="174" fill="#ff7b72" fill-opacity="0.85" stroke="#222"/>
-<text x="266.0" y="572.0" font-size="11" text-anchor="middle" font-weight="bold">VFD*</text>
-<text x="266.0" y="583.0" font-size="8" text-anchor="middle" fill="#222">72x174</text>
-<rect x="308.0" y="485.0" width="96" height="97" fill="#56d364" fill-opacity="0.85" stroke="#222"/>
-<text x="356.0" y="533.5" font-size="11" text-anchor="middle" font-weight="bold">BD</text>
-<text x="356.0" y="544.5" font-size="8" text-anchor="middle" fill="#222">96x97</text>
-<text x="380" y="738" font-size="12" text-anchor="middle">620</text><line x1="70" y1="728" x2="690" y2="728" stroke="#222"/>
-<text x="70" y="760" font-size="11" fill="#333" font-family="monospace">R1 DIN 1  breakers, contactor, relays            width used  480 / 600   height  95</text>
-<text x="70" y="774" font-size="11" fill="#333" font-family="monospace">R2 DIN 2  24 V supplies, filter, power terminals width used  473 / 600   height 125</text>
-<text x="70" y="788" font-size="11" fill="#333" font-family="monospace">R3 DIN 3  CN1 terminal blocks, batteries         width used  591 / 600   height  70</text>
-<text x="70" y="802" font-size="11" fill="#333" font-family="monospace">R4 plate  drives, VFD, controller                width used  324 / 600   height 174</text>
-<text x="70" y="816" font-size="11" fill="#333" font-family="monospace">total plate height used 624 / 650</text>
-<text x="70" y="830" font-size="11" fill="#333" font-family="monospace">SVX clearance above 40 mm, below 67 mm to plate edge (manual: 40 mm)</text>
-<text x="70" y="844" font-size="11" fill="#333" font-family="monospace">SVY clearance above 40 mm, below 67 mm to plate edge (manual: 40 mm)</text>
-<text x="70" y="858" font-size="11" fill="#333" font-family="monospace">SVZ clearance above 40 mm, below 67 mm to plate edge (manual: 40 mm)</text>
-<text x="70" y="872" font-size="11" fill="#333" font-family="monospace"></text>
-<text x="70" y="886" font-size="11" fill="#333" font-family="monospace">* = 估算尺寸（approx）。M = 三菱手冊值（MR-J4-40A 50×168×135）</text>
+<rect x="80.0" y="225.0" width="86" height="125" fill="#3fb950" fill-opacity="0.85" stroke="#222"/>
+<text x="123.0" y="287.5" font-size="11" text-anchor="middle" font-weight="bold">PSU1*</text>
+<text x="123.0" y="298.5" font-size="8" text-anchor="middle" fill="#222">86x125</text>
+<rect x="172.0" y="225.0" width="120" height="65" fill="#79c0ff" fill-opacity="0.85" stroke="#222"/>
+<text x="232.0" y="257.5" font-size="11" text-anchor="middle" font-weight="bold">FL2*</text>
+<text x="232.0" y="268.5" font-size="8" text-anchor="middle" fill="#222">120x65</text>
+<rect x="298.0" y="225.0" width="150" height="45" fill="#ffa657" fill-opacity="0.85" stroke="#222"/>
+<text x="373.0" y="247.5" font-size="11" text-anchor="middle" font-weight="bold">X1*</text>
+<text x="373.0" y="258.5" font-size="8" text-anchor="middle" fill="#222">150x45</text>
+<rect x="454.0" y="225.0" width="170" height="45" fill="#ffa657" fill-opacity="0.85" stroke="#222"/>
+<text x="539.0" y="247.5" font-size="11" text-anchor="middle" font-weight="bold">XT*</text>
+<text x="539.0" y="258.5" font-size="8" text-anchor="middle" fill="#222">170x45</text>
+<rect x="80.0" y="390.0" width="40" height="168" fill="#f85149" fill-opacity="0.85" stroke="#222"/>
+<text x="100.0" y="474.0" font-size="9" text-anchor="middle" font-weight="bold">SVX</text>
+<text x="100.0" y="485.0" font-size="8" text-anchor="middle" fill="#222">40x168</text>
+<rect x="130.0" y="390.0" width="40" height="168" fill="#f85149" fill-opacity="0.85" stroke="#222"/>
+<text x="150.0" y="474.0" font-size="9" text-anchor="middle" font-weight="bold">SVY</text>
+<text x="150.0" y="485.0" font-size="8" text-anchor="middle" fill="#222">40x168</text>
+<rect x="180.0" y="390.0" width="40" height="168" fill="#f85149" fill-opacity="0.85" stroke="#222"/>
+<text x="200.0" y="474.0" font-size="9" text-anchor="middle" font-weight="bold">SVZ</text>
+<text x="200.0" y="485.0" font-size="8" text-anchor="middle" fill="#222">40x168</text>
+<rect x="230.0" y="390.0" width="72" height="174" fill="#ff7b72" fill-opacity="0.85" stroke="#222"/>
+<text x="266.0" y="477.0" font-size="11" text-anchor="middle" font-weight="bold">VFD*</text>
+<text x="266.0" y="488.0" font-size="8" text-anchor="middle" fill="#222">72x174</text>
+<rect x="308.0" y="390.0" width="96" height="97" fill="#56d364" fill-opacity="0.85" stroke="#222"/>
+<text x="356.0" y="438.5" font-size="11" text-anchor="middle" font-weight="bold">BD</text>
+<text x="356.0" y="449.5" font-size="8" text-anchor="middle" fill="#222">96x97</text>
+<text x="360" y="628" font-size="12" text-anchor="middle">580</text><line x1="70" y1="618" x2="650" y2="618" stroke="#222"/>
+<text x="70" y="650" font-size="11" fill="#333" font-family="monospace">R1 DIN 1  breakers, contactor, DC-DC, relays     width used  378 / 560   height  95</text>
+<text x="70" y="664" font-size="11" fill="#333" font-family="monospace">R2 DIN 2  24 V supply, filter, terminals         width used  544 / 560   height 125</text>
+<text x="70" y="678" font-size="11" fill="#333" font-family="monospace">R3 plate  drives, VFD, controller                width used  324 / 560   height 174</text>
+<text x="70" y="692" font-size="11" fill="#333" font-family="monospace">total plate height used 529 / 540</text>
+<text x="70" y="706" font-size="11" fill="#333" font-family="monospace">SVX clearance above 40 mm, below 52 mm to plate edge (manual: 40 mm)</text>
+<text x="70" y="720" font-size="11" fill="#333" font-family="monospace">SVY clearance above 40 mm, below 52 mm to plate edge (manual: 40 mm)</text>
+<text x="70" y="734" font-size="11" fill="#333" font-family="monospace">SVZ clearance above 100 mm, below 52 mm to plate edge (manual: 40 mm)</text>
+<text x="70" y="748" font-size="11" fill="#333" font-family="monospace"></text>
+<text x="70" y="762" font-size="11" fill="#333" font-family="monospace">* = 估算尺寸（approx）。M = 三菱手冊值（MR-J4-40A 50×168×135）</text>
 </svg>

@@ -1,2 +1,2 @@
-cabinet top z=-40, coolant pan bottom z=-90 (box is outside the guard, x>560)
+cabinet top z=-150, coolant pan bottom z=-90 (box is outside the guard, x>560)
 interferences: 0

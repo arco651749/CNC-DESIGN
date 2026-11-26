@@ -5,7 +5,7 @@ import layout as L
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 COL = {'QF': '#e3b341', 'KM': '#58a6ff', 'PSU1': '#3fb950', 'PSU2': '#3fb950', 'KA': '#d2a8ff', 'DC1': '#8b949e', 'SV': '#f85149',
-       'VFD': '#ff7b72', 'FL': '#79c0ff', 'FLV': '#79c0ff', 'TB': '#ffa657', 'BD': '#56d364', 'TBP': '#ffa657', 'FLS': '#79c0ff', 'BAT': '#bc8cff'}
+       'VFD': '#ff7b72', 'FL': '#79c0ff', 'FLV': '#79c0ff', 'TB': '#ffa657', 'BD': '#56d364', 'TBP': '#ffa657', 'FLS': '#79c0ff', 'XT': '#ffa657', 'PSU': '#3fb950'}
 
 
 # ------------------------------------------------------------------ 1. panel layout
@@ -22,12 +22,12 @@ def panel_svg():
     # rows: draw rails and ducts
     y = L.MARGIN
     for rid, title, items in L.rows():
-        top = L.SERVO_TOP if rid == 'R4' else L.DUCT
+        top = L.SERVO_TOP if rid == 'R3' else L.DUCT
         o.append('<rect x="%d" y="%d" width="%d" height="%d" fill="#cfe8cf" stroke="#6a6"/>' % (ox + 10, oy + y, L.PLATE_W - 20, 18))   # duct above (18 high slot)
         o.append('<text x="%d" y="%d" font-size="10" fill="#363">duct</text>' % (ox + 14, oy + y + 13))
         y += top
         h = max(L.P[k][3] for k, n in items)
-        if rid in ('R1', 'R2', 'R3'):
+        if rid in ('R1', 'R2'):
             o.append('<rect x="%d" y="%d" width="%d" height="9" fill="#999"/>' % (ox + 10, oy + y + h / 2 - 4, L.PLATE_W - 20))
         o.append('<text x="%d" y="%d" font-size="10" fill="#555" transform="rotate(-90 %d %d)">%s</text>' % (ox - 8, oy + y + h, ox - 8, oy + y + h, title))
         y += h
@@ -35,16 +35,16 @@ def panel_svg():
     for p in parts:
         c = COL[p['key']]
         o.append('<rect x="%.1f" y="%.1f" width="%d" height="%d" fill="%s" fill-opacity="0.85" stroke="#222"/>' % (ox + p['x'], oy + p['y'], p['w'], p['h'], c))
-        lab = p['des'].split('/')[0] if p['key'] in ('QF', 'KM', 'KA', 'SV', 'FL', 'FLV', 'TB', 'BAT') else p['des']
+        lab = p['des'].split('/')[0] if p['key'] in ('QF', 'KM', 'KA', 'SV', 'FL', 'FLV', 'XT') else p['des']
         if p['key'] == 'QF': lab = ['QF1', 'QF2', 'QF3', 'QF4'][p['idx'] - 1]
         if p['key'] == 'KM': lab = 'KM1'
         if p['key'] == 'FLS': lab = 'FL2'
-        if p['key'] == 'BAT': lab = 'BT' + 'XYZ'[p['idx'] - 1]
+        if p['key'] == 'XT': lab = 'XT'
         if p['key'] == 'SV': lab = 'SV' + 'XYZ'[p['idx'] - 1]
         if p['key'] in ('FL', 'FLV'): lab = 'FL2' + 'XYZ'[p['idx'] - 1]
         if p['key'] == 'TB': lab = 'TB' + 'XYZ'[p['idx'] - 1]
-        if p['key'] == 'KA': lab = 'KA' + str(p['idx'])
-        if p['key'] == 'PSU1': lab = 'PSU' + ('1', '3')[p['idx'] - 1]
+        if p['key'] == 'KA': lab = ('KA3', 'KA4')[p['idx'] - 1]
+        if p['key'] == 'PSU': lab = 'PSU1'
         star = '*' if p['src'] == 'A' else ''
         fs = 9 if p['w'] < 60 else 11
         o.append('<text x="%.1f" y="%.1f" font-size="%d" text-anchor="middle" font-weight="bold">%s%s</text>' % (ox + p['x'] + p['w'] / 2, oy + p['y'] + p['h'] / 2, fs, lab, star))
@@ -95,7 +95,7 @@ def base_boxes():
     box(L.CAB_X0, L.CAB_X0 + L.CAB_D, L.CAB_Y0, L.CAB_Y0 + L.CAB_W, L.CAB_Z0, L.CAB_Z0 + L.CAB_H, '#cfd8dc', 1, 'electrical cabinet')
     for y in (L.CAB_Y0 + 40, L.CAB_Y0 + L.CAB_W - 40):
         for x in (L.CAB_X0 + 40, L.CAB_X0 + L.CAB_D - 40): box(x - 30, x + 30, y - 30, y + 30, FLOOR, FLOOR + 15, '#444444')
-    for z in (-600, -150): box(BX + 20, L.CAB_X0, 0, 60, z - 30, z + 30, '#d29922', 1, 'bracket' if z == -150 else '')
+    for z in (-600, -250): box(BX + 20, L.CAB_X0, 0, 60, z - 30, z + 30, '#d29922', 1, 'bracket' if z == -250 else '')
 
 def iso_svg():
     BOXES.clear(); base_boxes()
@@ -146,7 +146,7 @@ CABLES = [
  ('M06', 'SVZ CN2', 'MZ 編碼器', '同 M02', '10', ''),
  ('M07', 'KA3 / PSU', 'MZ 煞車', '三菱 MR-BKS1CBL□M-A1-L', '10', '煞車線與動力線分開'),
  ('S01', 'VFD U/V/W/PE', '主軸 SP（4 針航空插頭）', '4C 屏蔽 1.0 mm²（高柔性）', '6', '屏蔽層單端接 PE；經 Z 拖鏈'),
- ('C01', 'BD STEP/DIR', 'TBX/Y/Z → CN1', '屏蔽雙絞線 + MR-J2M-CN1TBL□M', '0.5', '控制板與驅動器同板，脈衝線短'),
+ ('C01', 'BD STEP/DIR', 'TBX/Y/Z → CN1', '自製：CN1 連接器組 MR-J3CN1（3M 10150-3000PE，焊接式）+ 屏蔽雙絞線', '0.5', '不用端子台，一條一條焊；控制板與驅動器同板，脈衝線短'),
  ('C02', 'SVX/Y/Z CN3', 'RS-422 閘道器', '網路線 + 轉接', '2', '閘道器位置待定（盤內或盤外）'),
  ('C03', 'BD', 'LAN 交換器', 'Cat5e', '2', '盤外 RJ45 穿牆接頭，IP54'),
  ('P01', 'BD HOME X/Y/Z', 'SENS 感測器 ×3', '3C 0.34 mm² 屏蔽，M12 插頭', '4~8', '經拖鏈；X/Y/Z 各一條'),

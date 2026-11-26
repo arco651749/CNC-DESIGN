@@ -50,25 +50,25 @@
 <polygon points="296.7,227.1 733.0,431.9 750.5,423.7 314.3,218.9" fill="#b8bcc4" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
 <polygon points="296.7,249.0 733.0,453.8 733.0,431.9 296.7,227.1" fill="#93969c" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
 <polygon points="733.0,453.8 750.5,445.6 750.5,423.7 733.0,431.9" fill="#727479" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
-<polygon points="940.1,739.5 966.4,751.8 992.7,739.5 966.4,727.1" fill="#444444" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
-<polygon points="940.1,747.7 966.4,760.0 966.4,751.8 940.1,739.5" fill="#363636" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
-<polygon points="966.4,760.0 992.7,747.7 992.7,739.5 966.4,751.8" fill="#2a2a2a" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<polygon points="931.3,743.6 957.6,755.9 983.9,743.6 957.6,731.2" fill="#444444" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<polygon points="931.3,751.8 957.6,764.2 957.6,755.9 931.3,743.6" fill="#363636" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<polygon points="957.6,764.2 983.9,751.8 983.9,743.6 957.6,755.9" fill="#2a2a2a" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
 <polygon points="785.6,773.9 820.6,790.4 855.7,773.9 820.6,757.5" fill="#444444" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
 <polygon points="785.6,782.2 820.6,798.6 820.6,790.4 785.6,773.9" fill="#363636" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
 <polygon points="820.6,798.6 855.7,782.2 855.7,773.9 820.6,790.4" fill="#2a2a2a" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
-<polygon points="1014.6,774.5 1040.9,786.8 1067.2,774.5 1040.9,762.1" fill="#444444" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
-<polygon points="1014.6,782.7 1040.9,795.0 1040.9,786.8 1014.6,774.5" fill="#363636" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
-<polygon points="1040.9,795.0 1067.2,782.7 1067.2,774.5 1040.9,786.8" fill="#2a2a2a" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
 <polygon points="803.1,420.9 820.6,429.1 838.2,420.9 820.6,412.6" fill="#b8bcc4" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
 <polygon points="803.1,749.3 820.6,757.5 820.6,429.1 803.1,420.9" fill="#93969c" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
 <polygon points="820.6,757.5 838.2,749.3 838.2,420.9 820.6,429.1" fill="#727479" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<polygon points="1005.9,778.6 1032.2,790.9 1058.5,778.6 1032.2,766.2" fill="#444444" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<polygon points="1005.9,786.8 1032.2,799.1 1032.2,790.9 1005.9,778.6" fill="#363636" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<polygon points="1032.2,799.1 1058.5,786.8 1058.5,778.6 1032.2,790.9" fill="#2a2a2a" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
 <polygon points="811.9,674.1 821.7,678.7 848.0,666.4 838.2,661.7" fill="#d29922" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
 <polygon points="811.9,706.9 821.7,711.6 821.7,678.7 811.9,674.1" fill="#a87a1b" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
 <polygon points="821.7,711.6 848.0,699.2 848.0,666.4 821.7,678.7" fill="#825e15" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
-<polygon points="811.9,427.7 821.7,432.4 848.0,420.0 838.2,415.4" fill="#d29922" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
-<polygon points="811.9,460.6 821.7,465.2 821.7,432.4 811.9,427.7" fill="#a87a1b" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
-<polygon points="821.7,465.2 848.0,452.9 848.0,420.0 821.7,432.4" fill="#825e15" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
-<text x="830.0" y="415.9" font-size="12" font-weight="bold" fill="#000">bracket</text>
+<polygon points="811.9,482.5 821.7,487.1 848.0,474.8 838.2,470.1" fill="#d29922" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<polygon points="811.9,515.3 821.7,520.0 821.7,487.1 811.9,482.5" fill="#a87a1b" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<polygon points="821.7,520.0 848.0,507.6 848.0,474.8 821.7,487.1" fill="#825e15" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<text x="830.0" y="470.6" font-size="12" font-weight="bold" fill="#000">bracket</text>
 <polygon points="548.8,830.4 566.4,838.6 1048.6,612.2 1031.1,604.0" fill="#b8bcc4" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
 <polygon points="548.8,852.3 566.4,860.5 566.4,838.6 548.8,830.4" fill="#93969c" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
 <polygon points="566.4,860.5 1048.6,634.1 1048.6,612.2 566.4,838.6" fill="#727479" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
@@ -81,16 +81,16 @@
 <polygon points="77.5,313.5 548.8,534.8 566.4,526.6 95.1,305.3" fill="#b8bcc4" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
 <polygon points="77.5,335.4 548.8,556.7 548.8,534.8 77.5,313.5" fill="#93969c" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
 <polygon points="548.8,556.7 566.4,548.5 566.4,526.6 548.8,534.8" fill="#727479" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
-<polygon points="677.1,456.5 786.7,507.9 1076.0,372.1 966.4,320.6" fill="#cfd8dc" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
-<polygon points="677.1,834.2 786.7,885.7 786.7,507.9 677.1,456.5" fill="#a5acb0" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
-<polygon points="786.7,885.7 1076.0,749.8 1076.0,372.1 786.7,507.9" fill="#808588" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
-<text x="876.5" y="406.3" font-size="12" font-weight="bold" fill="#000">electrical cabinet</text>
-<polygon points="685.8,858.8 712.1,871.2 738.4,858.8 712.1,846.5" fill="#444444" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
-<polygon points="685.8,867.1 712.1,879.4 712.1,871.2 685.8,858.8" fill="#363636" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
-<polygon points="712.1,879.4 738.4,867.1 738.4,858.8 712.1,871.2" fill="#2a2a2a" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
-<polygon points="760.4,893.8 786.7,906.2 813.0,893.8 786.7,881.5" fill="#444444" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
-<polygon points="760.4,902.0 786.7,914.4 786.7,906.2 760.4,893.8" fill="#363636" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
-<polygon points="786.7,914.4 813.0,902.0 813.0,893.8 786.7,906.2" fill="#2a2a2a" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<polygon points="685.8,512.6 795.4,564.0 1067.2,436.4 957.6,385.0" fill="#cfd8dc" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<polygon points="685.8,830.1 795.4,881.6 795.4,564.0 685.8,512.6" fill="#a5acb0" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<polygon points="795.4,881.6 1067.2,753.9 1067.2,436.4 795.4,564.0" fill="#808588" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<text x="876.5" y="466.5" font-size="12" font-weight="bold" fill="#000">electrical cabinet</text>
+<polygon points="694.6,854.7 720.9,867.1 747.2,854.7 720.9,842.4" fill="#444444" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<polygon points="694.6,862.9 720.9,875.3 720.9,867.1 694.6,854.7" fill="#363636" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<polygon points="720.9,875.3 747.2,862.9 747.2,854.7 720.9,867.1" fill="#2a2a2a" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<polygon points="769.1,889.7 795.4,902.1 821.7,889.7 795.4,877.4" fill="#444444" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<polygon points="769.1,897.9 795.4,910.3 795.4,902.1 769.1,889.7" fill="#363636" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
+<polygon points="795.4,910.3 821.7,897.9 821.7,889.7 795.4,902.1" fill="#2a2a2a" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
 <polygon points="513.8,901.6 548.8,918.0 583.9,901.6 548.8,885.1" fill="#444444" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
 <polygon points="513.8,909.8 548.8,926.2 548.8,918.0 513.8,901.6" fill="#363636" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>
 <polygon points="548.8,926.2 583.9,909.8 583.9,901.6 548.8,918.0" fill="#2a2a2a" fill-opacity="1.00" stroke="#222" stroke-width="0.6"/>

@@ -1,8 +1,7 @@
-R1 DIN 1  breakers, contactor, relays            width used  480 / 600   height  95
-R2 DIN 2  24 V supplies, filter, power terminals width used  473 / 600   height 125
-R3 DIN 3  CN1 terminal blocks, batteries         width used  591 / 600   height  70
-R4 plate  drives, VFD, controller                width used  324 / 600   height 174
-total plate height used 624 / 650
-SVX clearance above 40 mm, below 67 mm to plate edge (manual: 40 mm)
-SVY clearance above 40 mm, below 67 mm to plate edge (manual: 40 mm)
-SVZ clearance above 40 mm, below 67 mm to plate edge (manual: 40 mm)
+R1 DIN 1  breakers, contactor, DC-DC, relays     width used  378 / 560   height  95
+R2 DIN 2  24 V supply, filter, terminals         width used  544 / 560   height 125
+R3 plate  drives, VFD, controller                width used  324 / 560   height 174
+total plate height used 529 / 540
+SVX clearance above 40 mm, below 52 mm to plate edge (manual: 40 mm)
+SVY clearance above 40 mm, below 52 mm to plate edge (manual: 40 mm)
+SVZ clearance above 100 mm, below 52 mm to plate edge (manual: 40 mm)

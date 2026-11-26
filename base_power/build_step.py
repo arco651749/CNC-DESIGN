@@ -23,14 +23,14 @@ for k, y in enumerate((-120, 168), 1): add('Base_cross_%d' % k, box(-BX + 20, BX
 x0, y0, z0 = L.CAB_X0, L.CAB_Y0, L.CAB_Z0
 cw, ch, cd = L.CAB_D, L.CAB_W, L.CAB_H          # x depth, y width, z height
 shell = box(x0, x0 + cw, y0, y0 + ch, z0, z0 + cd).cut(box(x0 + 2, x0 + cw - 2, y0 + 2, y0 + ch - 2, z0 + 2, z0 + cd - 2))
-add('Cabinet_box', shell, 'NEW steel box 250 deep x 660 wide x 690 high, IP54, door on the +x side; the plate is its back panel')
+add('Cabinet_box', shell, 'NEW steel box 250 deep x 620 wide x 580 high, IP54, door on the +x side; the plate is its back panel')
 for k, (fx, fy) in enumerate(((x0 + 40, y0 + 40), (x0 + cw - 40, y0 + 40), (x0 + 40, y0 + ch - 40), (x0 + cw - 40, y0 + ch - 40)), 1):
     add('Cabinet_foot_%d' % k, box(fx - 30, fx + 30, fy - 30, fy + 30, FLOOR, FLOOR + 60), 'NEW levelling foot (box rests on the floor)')
-for k, z in enumerate((-600, -150), 1):
+for k, z in enumerate((-600, -250), 1):
     add('Cabinet_bracket_%d' % k, box(BX + 20, x0, 0, 60, z - 30, z + 30), 'NEW bracket 3 t plate: leg 3 (y=40) to the box back wall, M8 x2 each side')
 px = x0 + 2 + 3                                              # plate face x (3 mm standoff from the back wall)
 py = y0 + (ch - L.PLATE_W) / 2; pz = z0 + (cd - L.PLATE_H) / 2
-add('Cabinet_plate', box(px - 2.5, px, py, py + L.PLATE_W, pz, pz + L.PLATE_H), 'NEW mounting plate 620x650x2.5 (back panel)')
+add('Cabinet_plate', box(px - 2.5, px, py, py + L.PLATE_W, pz, pz + L.PLATE_H), 'NEW mounting plate 580x540x2.5 (back panel)')
 parts, rep, ok = L.place()
 for p in parts:
     Y = py + p['x']; Z = pz + L.PLATE_H - p['y'] - p['h']
