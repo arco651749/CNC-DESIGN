@@ -20,7 +20,7 @@ def add(name, shape, grp):
     o = doc.addObject('Part::Feature', name); o.Shape = shape; OBJ[name] = (o, grp); return o
 X0, X1, Y0, Y1, Z0, Z1 = L.ENV
 # ------------------------------------------------ enclosure
-NUTS = [(x, y) for y in (259, 490) for x in (-350, -250, -150, -50, 50, 150, 250, 350)] + [(sx, y) for sx in (-376, 376) for y in (330, 420)]
+NUTS = [(x, 259) for x in (-350, -250, -150, -50, 50, 150, 250, 350)] + [(x, 490) for x in (-350, -250, -150, -50, 50, 100, 250, 350)] + [(sx, y) for sx in (-376, 376) for y in (360, 435)]
 rp = box(-380, 380, 255, 495, 487, 491).cut(cyl('z', 22.5, 486, 492, 50, 390))
 for (nx, ny) in NUTS: rp = rp.cut(cyl('z', 4, 486, 492, nx, ny))
 add('Box_roof_plate', rp, 'enclosure (mounting plate t4 z487..491; the mechanical top plate t3 z491..494 sits on it and is not modelled here; 20 M5 holes with pull nuts)')
@@ -66,7 +66,7 @@ def vol(a, b):
     if not A.BoundBox.intersect(B.BoundBox): return 0
     return A.common(B).Volume
 encl = [n for n in names if n.startswith('Box_')]
-partn = [n for n in names if (OBJ[n][1].startswith('parts') or OBJ[n][1] == 'DIN rails') and n != 'Louvre_filter']
+partn = [n for n in names if (OBJ[n][1].startswith('parts') or OBJ[n][1] == 'DIN rails')]
 for a in partn:
     for e in encl:
         v = vol(a, e)
