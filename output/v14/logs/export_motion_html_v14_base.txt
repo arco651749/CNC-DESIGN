@@ -1,4 +1,4 @@
-parts=464 size=18693306
+parts=481 size=27867683
 Datum_base_plate g='' r='' tris=29340
 Y_rail_L g='y' r='' tris=8600
 Y_block_L1 g='' r='' tris=34084
@@ -51,15 +51,11 @@ Spindle_nose g='z' r='' tris=500
 ER11_nut g='z' r='' tris=500
 Tool_D5 g='z' r='' tris=500
 Spindle_clamp g='z' r='' tris=8604
-Servo_amp_X g='' r='' tris=3138
-Servo_amp_Y g='' r='' tris=3138
-Servo_amp_Z g='' r='' tris=3138
 Y_motor_block g='y' r='' tris=4596
 X_base_plate g='' r='' tris=32940
 X_coupling g='' r='x' tris=11916
 X_motor_block g='' r='' tris=4568
 Z_nut_housing g='z' r='' tris=5560
-Electrical_panel g='' r='' tris=44
 Foot_bolt_R1 g='' r='' tris=1004
 Foot_bolt_R2 g='' r='' tris=1004
 Foot_bolt_R3 g='' r='' tris=1004
@@ -394,6 +390,27 @@ Probe_holder_bolt_3 g='z' r='' tris=1004
 Probe_holder_bolt_4 g='z' r='' tris=1004
 Probe_stem_bolt_1 g='z' r='' tris=1004
 Probe_stem_bolt_2 g='z' r='' tris=1004
+Servo_amp_X g='' r='' tris=24442
+Servo_bolt_X_1 g='' r='' tris=1004
+Servo_bolt_X_2 g='' r='' tris=1004
+Servo_amp_Y g='' r='' tris=24442
+Servo_bolt_Y_1 g='' r='' tris=1004
+Servo_bolt_Y_2 g='' r='' tris=1004
+Servo_amp_Z g='' r='' tris=24442
+Servo_bolt_Z_1 g='' r='' tris=1004
+Servo_bolt_Z_2 g='' r='' tris=1004
+Controller_RP23CNC g='' r='' tris=402912
+Board_standoff_1 g='' r='' tris=500
+Board_standoff_2 g='' r='' tris=500
+Board_standoff_3 g='' r='' tris=500
+Board_standoff_4 g='' r='' tris=500
+Panel_standoff_1 g='' r='' tris=1508
+Panel_standoff_bolt_1 g='' r='' tris=1004
+Panel_standoff_2 g='' r='' tris=1508
+Panel_standoff_bolt_2 g='' r='' tris=1004
+Panel_standoff_3 g='' r='' tris=1508
+Panel_standoff_bolt_3 g='' r='' tris=1004
+Electrical_panel g='' r='' tris=6616
 Base_leg_1 g='base' r='' tris=11482
 Base_foot_1 g='base' r='' tris=1004
 Base_leg_2 g='base' r='' tris=11482
@@ -497,3 +514,4 @@ work piece on fixture plate replaced=1
 base hooks: group 1 map 1 button 1 camera 1
 probe control injected: 1 1 1 1
 tool-setting / FOV injected: [1, 1, 1, 1, 1]
+conduits injected: 1

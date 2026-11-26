@@ -14,7 +14,9 @@ const CD=%s;
   return A.map((p,i)=>[p[0]+(B[i][0]-p[0])*u+(c.shiftx?P.x:0),p[1]+(B[i][1]-p[1])*u,p[2]+(B[i][2]-p[2])*u])}
  const M={};for(const n in CD.moving){M[n]=new THREE.Mesh(new THREE.BufferGeometry(),mat);scene.add(M[n])}
  const grp={s:scene,y:gY,x:gX,z:gZ};
- for(const n in CD.static){const c=CD.static[n];const cur=new THREE.CatmullRomCurve3(c.p.map(p=>new THREE.Vector3(...p)),false,'catmullrom',0.1);
+ for(const n in CD.static){const c=CD.static[n];if(!c.D){const a=c.p[0],b=c.p[1];const m=new THREE.Mesh(new THREE.BoxGeometry(b[0]-a[0],b[1]-a[1],b[2]-a[2]),
+   new THREE.MeshStandardMaterial({color:0xb8bec6,metalness:0.2,roughness:0.6}));m.position.set((a[0]+b[0])/2,(a[1]+b[1])/2,(a[2]+b[2])/2);grp[c.f].add(m);continue}
+  const cur=new THREE.CatmullRomCurve3(c.p.map(p=>new THREE.Vector3(...p)),false,'catmullrom',0.1);
   grp[c.f].add(new THREE.Mesh(new THREE.TubeGeometry(cur,48,c.D/2,10,false),mat))}
  function upd(){for(const n in CD.moving){const c=CD.moving[n];const q=pts(c).map(p=>new THREE.Vector3(...p));
   const g=new THREE.TubeGeometry(new THREE.CatmullRomCurve3(q),60,c.D/2,10,false);M[n].geometry.dispose();M[n].geometry=g}}
