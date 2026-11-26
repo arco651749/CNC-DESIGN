@@ -20,8 +20,8 @@ PARTS = [
     wall('SVY', 'Mitsubishi MR-J4-40A', 275, 40, 176, 168, 285, 'upright, connectors to the front', 'M vendor STEP 40x168x175.9'),
     wall('SVZ', 'Mitsubishi MR-J4-40A', 325, 40, 176, 168, 285, 'upright, connectors to the front', 'M vendor STEP 40x168x175.9'),
     wall('VFD', 'Delta MS300 (frame A)', 120, 72, 136, 174, 282, 'upright (check manual)', 'A catalog 72x174x136'),
-    wall('PSU1', 'Mean Well XDR-75E-24 (24 V 3.2 A)', 20, 30, 116, 125, 306, 'DIN rail, upright (datasheet: 40 mm above, 20 below)', 'S owner datasheet 30x125.2x116', rail=True),
-    wall('PSU2', 'Mean Well XDR-75E-12 (12 V 6.3 A, for the PC)', 58, 30, 116, 125, 306, 'DIN rail, upright', 'S owner datasheet 30x125.2x116', rail=True),
+    wall('PSU1', 'Mean Well SDR-120-24 (24 V 5 A)', -50, 63, 114, 125, 306, 'DIN rail, upright', 'A catalog 63x125x114 (confirm)', rail=True),
+    wall('PSU2', 'Mean Well XDR-75E-12 (12 V 6.3 A, for the PC)', 20, 30, 116, 125, 306, 'DIN rail, upright', 'S owner datasheet 30x125.2x116', rail=True),
     wall('AIRV', 'SVL = SMC SY3120-5LZE-M5 air valve (probe/tool + prism cover tubes leave by the two bellows)', -300, 20, 65, 60, 350, 'DIN rail on the wall, upright', 'A catalog (confirm)', rail=True),
     # --- roof underside, hanging down
     roof('RCD', 'RCD 2P 30 mA (main)', -370, 265, 70, 91, 68, 'DIN rail, hanging (check mounting position)', 'A'),

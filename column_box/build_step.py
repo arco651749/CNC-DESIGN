@@ -33,7 +33,7 @@ for (hx, hy, r) in ((-340, 270, 12.5), (-120, 330, 22.5), (350, 262, 20), (-250,
 add('Box_bottom_cover', bot, 'enclosure (removable bottom cover t3, cable entries)')
 # ------------------------------------------------ DIN rails (35 x 7.5)
 for nm, (x0, x1, y0, y1, z0, z1) in {'Rail_roof_1': (-375, -10, 293, 328, 480.5, 488), 'Rail_roof_2': (-375, -195, 390, 425, 480.5, 488),
-                                     'Rail_roof_3': (-375, -215, 445, 480, 480.5, 488), 'Rail_wall_PSU': (12, 96, 487.5, 495, 351, 386)}.items():
+                                     'Rail_roof_3': (-375, -215, 445, 480, 480.5, 488), 'Rail_wall_PSU': (-55, 55, 487.5, 495, 351, 386)}.items():
     add(nm, box(x0, x1, y0, y1, z0, z1), 'DIN rails')
 # ------------------------------------------------ parts
 def bbox(p): return (p[3], p[3] + p[6], p[4], p[4] + p[7], p[5], p[5] + p[8])
