@@ -1,0 +1,38 @@
+# -*- coding: utf-8 -*-
+"""Interactive 3D page from mesh.json (three.js inlined from the mechanical session's v10 motion page).  python3 column_box/build_viewer.py"""
+import base64, json, os, re, struct, subprocess, sys
+HERE = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.dirname(HERE)
+src = subprocess.check_output(['git', '-C', ROOT, 'show', 'origin/claude/exciting-fermat-76sspv:output/v10/CNC_motion_v10.html']).decode('utf-8')
+m = re.search(r'^const DATA=\[.*\];', src, re.M); three = src[src.find('<script'):src.rfind('<script>', 0, m.start())]
+M = json.load(open(os.path.join(HERE, 'mesh.json')))
+def share(n):
+    if n == 'Box_front_cover': return 'front'
+    if n == 'Box_bottom_cover' or n == 'Box_bottom_gasket': return 'bottom'
+    if n == 'Box_side_R': return 'sideR'
+    if n == 'Box_side_L': return 'sideL'
+    if n == 'Box_back_wall' or n == 'Box_PE_stud': return 'wall'
+    if n == 'Box_roof_plate': return 'roof'
+    if n.startswith('Rail_'): return 'rails'
+    if n.startswith('PullNut'): return 'nuts'
+    return 'part'
+NAMECOL = {'PSU': (0.25, 0.7, 0.3), 'VFD': (1, 0.5, 0.45), 'PC': (0.6, 0.4, 0.95), 'IOTA': (0.1, 0.45, 0.25), 'KM1': (0.35, 0.6, 1), 'RCD': (0.9, 0.7, 0.2), 'QF': (0.9, 0.7, 0.2), 'Fan': (0.4, 0.4, 0.45),
+           'BD': (0.1, 0.5, 0.3), 'SV': (0.2, 0.22, 0.25), 'AIRV': (0.1, 0.75, 0.75), 'KA': (0.8, 0.6, 0.95), 'X1': (1, 0.65, 0.35), 'XT': (1, 0.65, 0.35), 'DC1': (0.55, 0.58, 0.62), 'FL2': (0.8, 0.8, 0.8), 'Intake': (0.5, 0.5, 0.55), 'Louvre': (0.5, 0.5, 0.55)}
+def colour(n):
+    if n.startswith('Box_'): return [0.72, 0.76, 0.8]
+    if n.startswith('Rail_'): return [0.5, 0.52, 0.56]
+    if n.startswith('PullNut'): return [0.95, 0.8, 0.1]
+    for k, c in NAMECOL.items():
+        if n.startswith(k): return list(c)
+    return [0.75, 0.55, 0.3]
+out = []
+for o in M:
+    pts, tris = o['p'], o['t']
+    if not tris: continue
+    c = [int(round(v * 10)) for p in pts for v in p]; idx = [i for t in tris for i in t]; w = 1 if len(pts) < 65536 else 0
+    s = share(o['n']); resv = o['g'].startswith('reserved')
+    out.append({'n': o['n'], 's': s, 'c': colour(o['n']), 't': 1 if (resv or s in ('front', 'bottom', 'sideR', 'sideL', 'roof')) else 0,
+                'p': base64.b64encode(struct.pack('<%dh' % len(c), *c)).decode(), 'i': base64.b64encode(struct.pack(('<%dH' if w else '<%dI') % len(idx), *idx)).decode(), 'w': w})
+info = '立柱電箱（機台座標 mm）：後牆直立 MR-J4×3、變頻器 MS300、24V/12V 電源；屋頂底面朝下掛 RCD、斷路器、接觸器、控制板、IOTA 電腦…。透明件：前蓋、底蓋、側板、安裝板與預留空間。勾選上方方塊可隱藏／顯示；滑鼠移到零件上看名稱。'
+page = open(os.path.join(HERE, 'viewer_page.html'), encoding='utf-8').read().replace('<!--THREE-->', three, 1).replace('/*DATA*/', 'const DATA=' + json.dumps(out, separators=(',', ':')) + ';', 1).replace('/*INFO*/', info, 1)
+open(os.path.join(HERE, 'column_box_3d.html'), 'w', encoding='utf-8').write(page)
+print('parts', len(out), 'size MB %.1f' % (len(page) / 1e6))

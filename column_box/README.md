@@ -28,7 +28,7 @@
 
 ## 3D（由配電 session 繪製，機構 session 不用畫）
 - `column_box.step`：鈑金箱（屋頂 t3 + 安裝板 t4、後牆 t5、兩側 t3、可拆前蓋、可拆底蓋含 4 個進線孔）、DIN 軌、三台 MR-J4 與 RP23CNC 板（原廠 STEP）、其餘電料（目錄尺寸方塊）、風扇、出風濾網。機台座標。干涉檢查 0 處（`step_check.txt`）。
-- 預覽：`column_box_3d_below.png`、`column_box_3d_above.png`（前蓋、底蓋、右側板隱藏）。
+- 互動 3D 頁面：`column_box_3d.html`（可旋轉、隱藏零件，`python3 column_box/build_viewer.py` 產生）；預覽圖：`column_box_3d_below.png`、`column_box_3d_above.png`。
 - 重新產生：`CNC_ROOT=$PWD SERVO_STEP=<mr-j4-40ab.stp 路徑> /opt/freecad/bin/freecadcmd column_box/build_step.py`，再 `python3 column_box/render.py`。
 - DIN 軌上的零件已加 7.5 mm 軌高；電腦（IOTA）的固定支架還沒畫。
 
