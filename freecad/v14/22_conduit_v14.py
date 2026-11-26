@@ -94,9 +94,18 @@ def min_radius(q):
         if cr > 1e-9: r = min(r, ab * bc * ca / (2 * cr))
     return r
 def tube(q, D):
-    e = Part.BSplineCurve(); e.interpolate([V(*p) for p in q]); w = Part.Wire(e.toShape())
-    t = e.tangent(e.FirstParameter)[0]; circ = Part.Wire(Part.makeCircle(D / 2, V(*q[0]), t))
-    return w.makePipeShell([circ], True, True)
+    try:
+        e = Part.BSplineCurve(); e.interpolate([V(*p) for p in q]); w = Part.Wire(e.toShape())
+        t = e.tangent(e.FirstParameter)[0]; circ = Part.Wire(Part.makeCircle(D / 2, V(*q[0]), t))
+        sh = w.makePipeShell([circ], True, True)
+        if sh.isValid() and sh.Volume > 0: return sh
+    except Exception: pass
+    parts = []                                                 # fallback for sharp static runs: cylinders + spheres along the polyline
+    for a_, b_ in zip(q[:-1], q[1:]):
+        d = V(*b_) - V(*a_)
+        if d.Length > 1e-6: parts.append(Part.makeCylinder(D / 2, d.Length, V(*a_), d))
+    parts += [Part.makeSphere(D / 2, V(*p)) for p in q]
+    return Part.makeCompound(parts)
 
 if True:                                                        # freecadcmd does not set __main__
     doc = App.openDocument(os.path.join(ROOT, 'output', 'v14', 'CNC_v14_base.FCStd'))
