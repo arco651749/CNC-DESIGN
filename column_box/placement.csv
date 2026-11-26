@@ -5,7 +5,8 @@ SVZ,Mitsubishi MR-J4-40A,325,365,319,495,284,452,40x176x168,back wall,"upright, 
 VFD,Delta MS300 (frame A),120,192,359,495,281,455,72x136x174,back wall,upright (check manual),A catalog 72x174x136
 PSU1,Mean Well SDR-120-24 (24 V 5 A),-50,13,374,488,305,430,63x114x125,back wall,"DIN rail, upright",A catalog 63x125x114 (confirm)
 PSU2,"Mean Well XDR-75E-12 (12 V 6.3 A, for the PC)",20,50,372,488,305,430,30x116x125,back wall,"DIN rail, upright",S owner datasheet 30x125.2x116
-AIRV,SVL = SMC SY3120-5LZE-M5 air valve (probe/tool + prism cover tubes leave by the two bellows),-300,-280,422,488,349,409,20x65x60,back wall,"DIN rail on the wall, upright",A catalog (confirm)
+AIRV,SVL = SMC SY3120-5LZE-M5 air valve (probe/tool + prism cover tubes leave by the two bellows),-200,-180,422,488,385,445,20x65x60,back wall,"DIN rail on the wall, upright",A catalog (confirm)
+X1,power terminals + PE bar,-205,-55,442,488,330,375,150x45x45,back wall,"DIN rail on the wall, horizontal",A
 RCD,RCD 2P 30 mA (main),-370,-300,265,356,412,480,70x91x68,roof underside,"DIN rail, hanging (check mounting position)",A
 QF2,Shihlin BM30-SN 2P (servo branch),-296,-246,265,356,412,480,50x91x68,roof underside,"DIN rail, hanging",A
 QF3,Shihlin BM30-SN 2P (VFD branch),-242,-192,265,356,412,480,50x91x68,roof underside,"DIN rail, hanging",A
@@ -16,6 +17,5 @@ KA3,Omron MY2N-GS + PYFZ-08 (Z brake),-46,-18,265,327,418,480,28x62x62,roof unde
 KA2,Omron MY2N-GS + PYFZ-08 (pump),-14,14,265,327,418,480,28x62x62,roof underside,"DIN rail, hanging",A
 XT,DIN terminal strip (+24 V / 0 V / +5 V distribution),-370,-200,385,430,434,480,170x45x45,roof underside,"DIN rail, hanging",A
 BD,RP23CNC V2.02 on 4 M3 standoffs,-190,-94,385,482,452,487,96x97x35,roof underside,"standoffs on the roof, components down",M vendor STEP 96x97
-X1,power terminals + PE bar,-370,-220,440,485,434,480,150x45x45,roof underside,"DIN rail, hanging",A
 FL2,"EMC filter slot (reserved, not fitted)",30,150,266,331,442,487,120x65x45,roof underside,reserved,A
 PC,LattePanda IOTA (12 V 60 W) with heatsink,-85,-14,395,485,447,487,71x90x40,roof underside,"hanging on standoffs, ports toward the front",M vendor STEP board 71x90x19 + heatsink ~40 deep

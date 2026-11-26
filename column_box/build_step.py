@@ -25,17 +25,20 @@ rp = box(-380, 380, 255, 495, 487, 491).cut(cyl('z', 22.5, 486, 492, 50, 390))
 for (nx, ny) in NUTS: rp = rp.cut(cyl('z', 4, 486, 492, nx, ny))
 add('Box_roof_plate', rp, 'enclosure (mounting plate t4 z487..491; the mechanical top plate t3 z491..494 sits on it and is not modelled here; 20 M5 holes with pull nuts)')
 for k, (nx, ny) in enumerate(NUTS, 1): add('PullNut_M5_%02d' % k, cyl('z', 3.75, 478, 487, nx, ny).cut(cyl('z', 2.1, 478, 487, nx, ny)), 'parts (M5 pull nut, 9 mm below the plate)')
-wall = box(-383, 383, 495, 500, 241, 491).cut(box(125, 215, 494, 501, 459, 484))
+wall = box(-383, 383, 495, 500, 241, 491).cut(box(125, 215, 494, 501, 459, 484)).cut(cyl('y', 55, 494, 501, -280, 400))
 add('Box_back_wall', wall, 'enclosure (back wall, plate t5: the drives and the VFD screw into it)')
 add('Box_side_L', box(-383, -380, 252, 500, 241, 491), 'enclosure (sheet metal t3)')
 add('Box_side_R', box(380, 383, 252, 500, 241, 491), 'enclosure (sheet metal t3)')
-add('Box_front_cover', box(-380, 380, 252, 255, 244, 487), 'enclosure (removable service cover, t3)')
+add('Box_front_cover', box(-380, 380, 252, 255, 244, 487), 'enclosure (FIXED front cover t3, pop rivets / from inside; service is from the bottom cover only)')
 bot = box(-380, 380, 255, 495, 241, 244)
-for (hx, hy, r) in ((-340, 270, 12.5), (-120, 330, 22.5), (350, 262, 20), (-250, 400, 65)): bot = bot.cut(cyl('z', r, 240, 245, hx, hy))
-add('Box_bottom_cover', bot, 'enclosure (removable bottom cover t3, cable entries)')
+for (hx, hy, r) in ((-340, 270, 12.5), (-120, 330, 22.5), (350, 262, 20)): bot = bot.cut(cyl('z', r, 240, 245, hx, hy))
+add('Box_bottom_cover', bot, 'enclosure (removable bottom cover t3: the only service access; 3 sealed cable entries)')
+g = box(-380, 380, 255, 495, 244, 247).cut(box(-372, 372, 263, 487, 243, 248))
+add('Box_bottom_gasket', g, 'enclosure (IP54 gasket strip 8 x 3 on the bottom cover)')
+add('Box_PE_stud', cyl('y', 3, 500, 516, -372, 455).fuse(cyl('y', 6, 500, 503, -372, 455)), 'enclosure (M6 PE stud welded on the back wall, bonds to the top plate pad near (-360, 480))')
 # ------------------------------------------------ DIN rails (35 x 7.5)
 for nm, (x0, x1, y0, y1, z0, z1) in {'Rail_roof_1': (-370, -10, 293, 328, 479.5, 487), 'Rail_roof_2': (-370, -195, 390, 425, 479.5, 487),
-                                     'Rail_roof_3': (-375, -215, 445, 480, 479.5, 487), 'Rail_wall_PSU': (-55, 55, 487.5, 495, 350, 385)}.items():
+                                     'Rail_wall_X1': (-208, -58, 487.5, 495, 335, 370), 'Rail_wall_PSU': (-55, 55, 487.5, 495, 350, 385)}.items():
     add(nm, box(x0, x1, y0, y1, z0, z1), 'DIN rails')
 # ------------------------------------------------ parts
 def bbox(p): return (p[3], p[3] + p[6], p[4], p[4] + p[7], p[5], p[5] + p[8])
@@ -71,7 +74,8 @@ for k, (hx, hy) in enumerate(IOTA_HOLES, 1):
     rp = OBJ['Box_roof_plate'][0].Shape.cut(cyl('z', 2.5, 486, 492, x, y)); OBJ['Box_roof_plate'][0].Shape = rp
     add('IOTA_rivetnut_%d' % k, cyl('z', 2.25, 482, 487, x, y).cut(cyl('z', 1.25, 482, 487, x, y)), 'parts (M3 rivet nut in the roof plate t4)')
 # fan (intake, at the bottom cover) and the filter plates
-add('Fan_120', box(-310, -190, 340, 460, 244, 269), 'parts (box models, catalog size)')
+add('Fan_120', box(-340, -220, 470, 495, 340, 460), 'parts (box models, catalog size)')
+add('Intake_filter', box(-340, -220, 500, 506, 340, 460), 'parts (box models, catalog size)')
 add('Louvre_filter', box(125, 215, 489, 495, 459, 484), 'parts (box models, catalog size)')
 doc.recompute()
 # ------------------------------------------------ checks

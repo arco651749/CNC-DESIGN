@@ -22,7 +22,8 @@ PARTS = [
     wall('VFD', 'Delta MS300 (frame A)', 120, 72, 136, 174, 281, 'upright (check manual)', 'A catalog 72x174x136'),
     wall('PSU1', 'Mean Well SDR-120-24 (24 V 5 A)', -50, 63, 114, 125, 305, 'DIN rail, upright', 'A catalog 63x125x114 (confirm)', rail=True),
     wall('PSU2', 'Mean Well XDR-75E-12 (12 V 6.3 A, for the PC)', 20, 30, 116, 125, 305, 'DIN rail, upright', 'S owner datasheet 30x125.2x116', rail=True),
-    wall('AIRV', 'SVL = SMC SY3120-5LZE-M5 air valve (probe/tool + prism cover tubes leave by the two bellows)', -300, 20, 65, 60, 349, 'DIN rail on the wall, upright', 'A catalog (confirm)', rail=True),
+    wall('AIRV', 'SVL = SMC SY3120-5LZE-M5 air valve (probe/tool + prism cover tubes leave by the two bellows)', -200, 20, 65, 60, 385, 'DIN rail on the wall, upright', 'A catalog (confirm)', rail=True),
+    wall('X1', 'power terminals + PE bar', -205, 150, 45, 45, 330, 'DIN rail on the wall, horizontal', 'A', rail=True),
     # --- roof underside, hanging down
     roof('RCD', 'RCD 2P 30 mA (main)', -370, 265, 70, 91, 68, 'DIN rail, hanging (check mounting position)', 'A'),
     roof('QF2', 'Shihlin BM30-SN 2P (servo branch)', -296, 265, 50, 91, 68, 'DIN rail, hanging', 'A'),
@@ -34,7 +35,6 @@ PARTS = [
     roof('KA2', 'Omron MY2N-GS + PYFZ-08 (pump)', -14, 265, 28, 62, 62, 'DIN rail, hanging', 'A'),
     roof('XT', 'DIN terminal strip (+24 V / 0 V / +5 V distribution)', -370, 385, 170, 45, 45, 'DIN rail, hanging', 'A'),
     roof('BD', 'RP23CNC V2.02 on 4 M3 standoffs', -190, 385, 96, 97, 35, 'standoffs on the roof, components down', 'M vendor STEP 96x97', rail=False),
-    roof('X1', 'power terminals + PE bar', -370, 440, 150, 45, 45, 'DIN rail, hanging', 'A'),
     roof('FL2', 'EMC filter slot (reserved, not fitted)', 30, 266, 120, 65, 45, 'reserved', 'A', rail=False),
     roof('PC', 'LattePanda IOTA (12 V 60 W) with heatsink', -85, 395, 71, 90, 40, 'hanging on standoffs, ports toward the front', 'M vendor STEP board 71x90x19 + heatsink ~40 deep', rail=False),
 ]
@@ -45,7 +45,7 @@ OPENINGS = [
     ('bottom cover', -340, 270, 244, 'mains inlet 220 V (cable gland M25)'),
     ('bottom cover', -120, 330, 241, 'Y bellows NW23 fixed fitting (mechanical session): Y motor, encoder, brake, 2 prism-cover air tubes, cover switch; hole D45'),
     ('bottom cover', 350, 262, 244, 'X motor + home sensors (right side)'),
-    ('bottom cover', -250, 400, 244, 'fan intake + filter, cut-out 130 mm (120 mm fan)'),
     ('roof', 50, 390, 494, 'X bellows NW29 elbow fitting (mechanical session): spindle 4-core, camera, probe, 3 air tubes, Z motor; hole D45; keep a 45 mm column free below it'),
+    ('back wall', -280, 495, 400, 'fan intake 120 mm + filter, opening D110 centred x -280, z 400 (fan x -340..-220, z 340..460; the top plate rear flange covers z 471..491, so the fan stays below it); far from the work zone, 345 mm from the exhaust'),
     ('back wall', 170, 495, 471, 'exhaust louvre + filter 90x25 at x 125..215, z 459..484 above the VFD (not on the roof: the X bellows ring is there; PC and PSUs keep clear)'),
 ]

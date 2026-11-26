@@ -2,6 +2,6 @@
 bottom cover,-340,270,244,mains inlet 220 V (cable gland M25)
 bottom cover,-120,330,241,"Y bellows NW23 fixed fitting (mechanical session): Y motor, encoder, brake, 2 prism-cover air tubes, cover switch; hole D45"
 bottom cover,350,262,244,X motor + home sensors (right side)
-bottom cover,-250,400,244,"fan intake + filter, cut-out 130 mm (120 mm fan)"
 roof,50,390,494,"X bellows NW29 elbow fitting (mechanical session): spindle 4-core, camera, probe, 3 air tubes, Z motor; hole D45; keep a 45 mm column free below it"
+back wall,-280,495,400,"fan intake 120 mm + filter, opening D110 centred x -280, z 400 (fan x -340..-220, z 340..460; the top plate rear flange covers z 471..491, so the fan stays below it); far from the work zone, 345 mm from the exhaust"
 back wall,170,495,471,"exhaust louvre + filter 90x25 at x 125..215, z 459..484 above the VFD (not on the roof: the X bellows ring is there; PC and PSUs keep clear)"
