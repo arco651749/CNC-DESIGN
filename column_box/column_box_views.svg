@@ -30,6 +30,8 @@
 <text x="441.0" y="87.0" font-size="9" text-anchor="middle">DC1</text>
 <rect x="460.8" y="69.0" width="33.6" height="74.4" fill="#d2a8ff" fill-opacity="0.8" stroke="#222"/>
 <text x="477.6" y="109.2" font-size="9" text-anchor="middle">KA3</text>
+<rect x="499.2" y="69.0" width="33.6" height="74.4" fill="#d2a8ff" fill-opacity="0.8" stroke="#222"/>
+<text x="516.0" y="109.2" font-size="9" text-anchor="middle">KA2</text>
 <rect x="72.0" y="69.0" width="204.0" height="54.0" fill="#ffa657" fill-opacity="0.8" stroke="#222"/>
 <text x="174.0" y="99.0" font-size="9" text-anchor="middle">XT</text>
 <rect x="288.0" y="60.0" width="115.2" height="42.0" fill="#56d364" fill-opacity="0.8" stroke="#222"/>
@@ -70,6 +72,8 @@
 <text x="441.0" y="641.6" font-size="9" text-anchor="middle">DC1</text>
 <rect x="460.8" y="597.2" width="33.6" height="74.4" fill="#d2a8ff" fill-opacity="0.8" stroke="#222"/>
 <text x="477.6" y="637.4" font-size="9" text-anchor="middle">KA3</text>
+<rect x="499.2" y="597.2" width="33.6" height="74.4" fill="#d2a8ff" fill-opacity="0.8" stroke="#222"/>
+<text x="516.0" y="637.4" font-size="9" text-anchor="middle">KA2</text>
 <rect x="72.0" y="473.6" width="204.0" height="54.0" fill="#ffa657" fill-opacity="0.8" stroke="#222"/>
 <text x="174.0" y="503.6" font-size="9" text-anchor="middle">XT</text>
 <rect x="288.0" y="411.2" width="115.2" height="116.4" fill="#56d364" fill-opacity="0.8" stroke="#222"/>

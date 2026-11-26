@@ -13,7 +13,8 @@ QF4,Shihlin BM30-SN 2P (24 V supply branch),-188,-138,265,356,412,480,50x91x68,r
 KM1,"Shihlin SD-P (3 drives, DC24 V coil)",-134,-79,265,360,386,480,55x95x95,roof underside,"DIN rail, hanging",A
 DC1,DC-DC 24 V -> 5 V,-75,-50,265,320,456,480,25x55x25,roof underside,"DIN rail, hanging",A
 KA3,Omron MY2N-GS + PYFZ-08 (Z brake),-46,-18,265,327,418,480,28x62x62,roof underside,"DIN rail, hanging",A
-XT,"DIN terminal strip (commons, K1/K2/K5 out)",-370,-200,385,430,436,480,170x45x45,roof underside,"DIN rail, hanging",A
+KA2,Omron MY2N-GS + PYFZ-08 (pump),-14,14,265,327,418,480,28x62x62,roof underside,"DIN rail, hanging",A
+XT,DIN terminal strip (+24 V / 0 V / +5 V distribution),-370,-200,385,430,436,480,170x45x45,roof underside,"DIN rail, hanging",A
 BD,RP23CNC V2.02 on 4 M3 standoffs,-190,-94,385,482,453,488,96x97x35,roof underside,"standoffs on the roof, components down",M vendor STEP 96x97
 X1,power terminals + PE bar,-370,-220,440,485,436,480,150x45x45,roof underside,"DIN rail, hanging",A
 FL2,"EMC filter slot (reserved, not fitted)",30,150,262,327,443,488,120x65x45,roof underside,reserved,A

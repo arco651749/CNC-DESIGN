@@ -145,7 +145,7 @@ PH_RP = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "vendor",
 BD_PH = S.photo(Photo(os.path.join(PH_RP, "RP23CNC_V2.02_top_photo.jpg"), 148.0, 250.0, 0.0756))
 BD = S.add(PhotoBlock("BD", "RP23CNC V2.02 控制板（正上方實拍照，螺絲位置取自照片）", BD_PH, bd_pins, title_dy=16.0))
 BD_NET = {"PWR_P": ("+24V1", RED), "PWR_G": ("0V1", BLK), "S010": ("SPD_0-10V", ANA), "SGND": ("SPD_GND", BLK),
-          "K1P": ("KA1_A1", RED), "K1S": ("KA1_A2", PUR), "K2P": ("KA2_A1", RED), "K2S": ("KA2_A2", PUR), "K5P": ("KA5_A1", RED), "K5S": ("KA5_A2", PUR),
+          "K1S": ("VFD_FWD", ORG), "K2P": ("KA2_A1", RED), "K2S": ("KA2_A2", PUR), "K5P": ("KA5_A1", RED), "K5S": ("KA5_A2", PUR),
           "ISO_P": ("+24V1", RED), "ISO_G": ("0V1", BLK), "ES_S": ("ESTOP_SIG", PUR), "ES_G": ("ESTOP_GND", BLK), "PRS": ("PROBE_SIG", BLK), "PRG": ("PROBE_GND", BLU),
           "LXS": ("LIM_X_SIG", BLK), "LXG": ("LIM_X_GND", BLU), "LYS": ("LIM_Y_SIG", BLK), "LYG": ("LIM_Y_GND", BLU),
           "LZS": ("LIM_Z_SIG", BLK), "LZG": ("LIM_Z_GND", BLU),
@@ -160,13 +160,13 @@ LAN = blk("LAN", "PC LattePanda IOTA（電腦）", 52.0, 210.82, left=[("P", 1, 
 S.stub(LAN["RJ"], "ETH", ANA); S.stub(LAN["P"], "+12V", RED, 14.0, THICK); S.stub(LAN["N"], "0V12", BLK, 14.0, THICK)
 S.text("IOTA 電源線：+12V / 0V12 來自 PSU2 XDR-75E-12 (⑦)，2C 1.0 mm²；\nIOTA 的電源接頭型式待確認。乙太網路接控制板 WIZ850io，不接 RS-422。", 20.0, 236.0, 1.2)
 
-# board relay outputs K1/K2/K5 go to a terminal strip XT; the owner wires them outside the box (no relays on the plate)
-XT = blk("XT", "XT 端子排：控制板輸出拉到箱外（K1 主軸 ON/OFF、K2 冷卻泵、K5 吹氣閥）", 304.8, 190.5,
-         left=[("K1A", 1, "K1 +V"), ("K1B", 2, "K1 SIG"), ("K2A", 3, "K2 +V"), ("K2B", 4, "K2 SIG"), ("K5A", 5, "K5 +V"), ("K5B", 6, "K5 SIG")],
-         right=[("FW", 1, "VFD MI1"), ("CM", 2, "VFD DCM"), ("PP", 3, "泵 +24V"), ("VP", 4, "閥 +24V")], w=30.48)
-for pid, net, col in (("K1A", "KA1_A1", RED), ("K1B", "KA1_A2", PUR), ("K2A", "KA2_A1", RED), ("K2B", "KA2_A2", PUR), ("K5A", "KA5_A1", RED), ("K5B", "KA5_A2", PUR)):
-    S.stub(XT[pid], net, col)
-S.stub(XT["CM"], "VFD_COM", BLK); S.stub(XT["FW"], "VFD_FWD", ORG)
+# board outputs are open-collector sinks (100 mA each, 500 mA total, RP23CNC manual): K1 -> VFD MI1 directly (sink to the board ground, DCM tied to 0V1);
+# K2 -> relay KA2 (pump 2 A needs contacts); K5 -> air valve coil directly (about 40 mA, to be confirmed <= 100 mA)
+KA2 = blk("KA2", "KA2 冷卻泵繼電器（K2 輸出驅動線圈）", 304.8, 190.5, left=[("A1", 1), ("A2", 2)], right=[("COM", 1), ("NO", 2)], w=20.32)
+S.stub(KA2["A1"], "KA2_A1", RED); S.stub(KA2["A2"], "KA2_A2", PUR)
+S.stub(KA2["COM"], "+24V1", RED)
+XT = blk("XT", "XT 端子排：+24V / 0V / +5V 共用點分配", 304.8, 231.14, left=[("P24", 1, "+24V"), ("N24", 2, "0V"), ("P5", 3, "+5V")], w=20.32)
+S.stub(XT["P24"], "+24V1", RED); S.stub(XT["N24"], "0V1", BLK); S.stub(XT["P5"], "+5V", RED)
 PUMP = blk("PUMP", "PUMP HONGYANG DT-48W 冷卻泵 DC24V（約 2 A，估算）", 304.8, 129.54, right=[("P", 1, "+"), ("N", 2, "-")], w=20.32)
 DP = blk("DP", "DP 飛輪二極體 1N4007", 304.8, 106.68, right=[("K", 1, "K 陰極(+)"), ("A", 2, "A 陽極(-)")], w=20.32)
 PH_PV = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "vendor", "parts", "photos")
@@ -174,10 +174,10 @@ _sv = S.photo(Photo(os.path.join(PH_PV, "SMC_SY3120-5LZE-M5.jpg"), 330.0, 160.0,
 # solenoid connector (L-type plug with leads) at the left end of the valve; air ports are not electrical
 SVL = S.add(PhotoBlock("SVL", "SVL SMC SY3120-5LZE-M5 吹氣電磁閥（24V，5 口 2 位）", _sv,
     [("P", 46, 116, "left", "+"), ("N", 40, 140, "left", "-")], title_dy=2.0))
-S.stub(XT["PP"], "PUMP_P", RED, 7.62); S.stub(PUMP["P"], "PUMP_P", RED, 7.62); S.stub(PUMP["N"], "0V1", BLK, 7.62)
+S.stub(KA2["NO"], "PUMP_P", RED, 7.62); S.stub(PUMP["P"], "PUMP_P", RED, 7.62); S.stub(PUMP["N"], "0V1", BLK, 7.62)
 S.stub(DP["K"], "PUMP_P", RED, 7.62); S.stub(DP["A"], "0V1", BLK, 7.62)
-S.stub(SVL["N"], "0V1", BLK, 12.7)
-S.stub(SVL["P"], "SV_PLUS", RED, 7.62); S.stub(XT["VP"], "SV_PLUS", RED)
+S.stub(SVL["N"], "KA5_A2", PUR, 12.7)
+S.stub(SVL["P"], "KA5_A1", RED, 7.62)
 
 # ------------------------------------------------------------------ 4. home sensors, e-stop input, servo alarms (board bottom)
 SENS = blk("SENS", "原點感測器 X/Y/Z (NPN 24V 3線 ×3)", 292.1, 401.32,
@@ -218,7 +218,7 @@ S.stub(QF3["L1o"], "L1_VFD", BRN, 5.08, THICK); S.stub(QF3["L2o"], "L2_VFD", BLU
 S.stub(VFD["RL1"], "L1_VFD", BRN, 6.0, THICK); S.stub(VFD["SL2"], "L2_VFD", BLU, 10.0, THICK)
 S.stub(VFD["U"], "SP_U", UCL, 6.0, THICK); S.stub(VFD["V"], "SP_V", BLK, 10.0, THICK); S.stub(VFD["W"], "SP_W", GRY, 14.0, THICK)
 S.stub(VFD["AVI"], "SPD_0-10V", ANA, 10.0); S.stub(VFD["ACM"], "SPD_GND", BLK, 15.0)
-S.stub(VFD["MI1"], "VFD_FWD", ORG, 22.0); S.stub(VFD["DCM"], "VFD_COM", BLK, 18.0)
+S.stub(VFD["MI1"], "VFD_FWD", ORG, 22.0); S.stub(VFD["DCM"], "0V1", BLK, 18.0)
 S.stub(VPE["PE"], "PE", GRN, R)
 S.stub(VPE["RPE"], "SP_PE", GRN, 7.62, THICK); S.stub(SP["PE"], "SP_PE", GRN, 8.0, THICK)
 for pid, net, col, ln in (("U", "SP_U", UCL, 8.0), ("V", "SP_V", BLK, 8.0), ("W", "SP_W", GRY, 4.0)):
@@ -260,7 +260,7 @@ H = 2.6
 S.text("① 市電輸入 / 分路 / 接觸器", 20, 29, H, True)
 S.text("② 伺服驅動器 + 馬達 (X/Y/Z)", 400, 29, H, True)
 S.text("③ 控制板 RP23CNC + MR-J4 介面板", 20, 176, H, True)
-S.text("④ 控制板輸出 → XT 端子排（箱外接線）", 232, 162, H, True)
+S.text("④ 控制板輸出：K1 主軸 / K2 冷卻泵 / K5 吹氣閥", 232, 162, H, True)
 # reference pictures of chosen parts without pin drawing (relay, socket, e-stop, start button)
 RX, RY = 100.0, 556.0
 from PIL import Image as _I
@@ -302,21 +302,21 @@ notes = (
 "6. 伺服報警（owner 決定：不加反相繼電器，不串聯）：三台 ALM (CN1-48，對 DOCOM) 各自直接接控制板 X/Y/Z 報警輸入，DOCOM 接控制板報警地 (AG)。ALM 正常導通、報警斷開，與控制板輸入極性的對應未驗證，grblHAL 需設報警反相（實機測）；報警時控制板停止送脈衝，但接觸器不會自動斷電（只有急停斷電）。\n"
 
 "7. grblHAL：$0=3 (脈衝寬度 µs，100 kHz 必須調小)；$14=70 (反轉 EStop/Feed Hold/Cycle Start)；0-10V 以 RV1 校準到 10V。\n"
-"8. 主軸 (台達 MS300 型錄第20頁)：0-10V 接 AVI/ACM；控制板 K1 輸出經 XT 端子排由箱外轉接到 MI1 與 DCM (板上不再有繼電器，接法由 owner 在箱外決定；MI1 輸入為 NPN/SINK，短接 DCM 即動作) (MI1 出廠為 FWD/STOP，輸入為 NPN/SINK 模式，接點短接 DCM 即動作)。S1/S2/+24V 的出廠短路片不可拆 (STO)。最高輸出 599 Hz，足以供 24,000 rpm (400 Hz)。頻率來源為 Pr.00-20 (Delta FAQ 確認為「主頻率指令來源」)，需改為外部類比 AVI；運轉指令來源 (我記得是 Pr.00-21) 需改為外部端子，兩者的設定值與 00-21 待核對完整使用手冊。\n"
-"9. 急停 S1 (2NC)：NC1 切斷伺服共用接觸器 KM1 的線圈（並接變頻器運轉訊號）；NC2 為乾接點迴路接控制板 ESTOP（$14 反轉設定要改為常閉）。EM2 (CN1-42) 因只有 2 組接點，改為永久接 0V（驅動器強制停止功能不用，急停時接觸器放電後馬達自由滑行停止；Z 軸有煞車）。主軸沒有接觸器，急停只靠控制器關閉主軸 ON/OFF (K1 輸出) 與 NC1 切運轉訊號。\n"
+"8. 主軸 (台達 MS300 型錄第20頁)：0-10V 接 AVI/ACM；控制板 K1 輸出 (開集極下拉，RP23CNC 手冊：每路 100 mA) 直接接 MI1，DCM 接 0V1 (與控制板共地)，輸出導通時 MI1 被拉到 DCM 即運轉 (MI1 輸入為 NPN/SINK，需把 MS300 的 SINK/SOURCE 跳線設為 SINK，待核對) (MI1 出廠為 FWD/STOP，輸入為 NPN/SINK 模式，接點短接 DCM 即動作)。S1/S2/+24V 的出廠短路片不可拆 (STO)。最高輸出 599 Hz，足以供 24,000 rpm (400 Hz)。頻率來源為 Pr.00-20 (Delta FAQ 確認為「主頻率指令來源」)，需改為外部類比 AVI；運轉指令來源 (我記得是 Pr.00-21) 需改為外部端子，兩者的設定值與 00-21 待核對完整使用手冊。\n"
+"9. 急停 S1 (2NC)：NC1 切斷伺服共用接觸器 KM1 的線圈（並接變頻器運轉訊號）；NC2 為乾接點迴路接控制板 ESTOP（$14 反轉設定要改為常閉）。EM2 (CN1-42) 因只有 2 組接點，改為永久接 0V（驅動器強制停止功能不用，急停時接觸器放電後馬達自由滑行停止；Z 軸有煞車）。主軸沒有接觸器，急停只靠控制器關閉主軸 ON/OFF (K1 輸出)；NC1 不直接切運轉訊號 (K1 輸出是開集極，需要時另加)。\n"
 
 "10. 感測器用 NPN 型 24V 近接開關 (控制板限位輸入為 NPN 或機械開關，不支援 PNP)。\n"
 "11. 佈線：動力線與信號線分槽、間距 100 mm 以上；馬達線、變頻器輸出線、脈衝線 (PP、NP) 用屏蔽線，屏蔽層單端接 PE；繼電器線圈與煞車並聯續流二極體。\n"
 "12. 電池 (MR-BAT6V1SET，CN4)：目的是保存絕對位置以免做 home。但驅動器要把位置交給控制器，須由控制器依 ABS 傳送協定讀取 (CN1 ABSM17/ABSR18/ABSB0 22/ABSB1 23/ABST25，Pr.PA03)；grblHAL 目前不支援，故暫時仍保留原點感測器。三軸也可改用 1 個 MR-BT6VCASE 加 5 顆 MR-BAT6V1 共用 (最多 8 軸)。\n"
 "13. 貼圖說明：MR-J4 為三菱目錄外觀圖、端子台為 TB40-MRJ4A 照片、RP23CNC 為作者實拍照。圖上端子位置為在照片上量測，RP23CNC 螺絲孔為透視內插 (誤差約 1 mm)，接線時一切以實物絲印為準。\n"
 "16. 箱體：立柱電箱（龍門立柱頂），三台 MR-J4 直立裝後牆，其餘電料裝屋頂底面與後牆 DIN 軌；PC IOTA 與 PSU2 (12V) 也放在箱內（owner 決定，合計發熱約 67W，風扇要 ≥100 m³/h），見 column_box/。\n"
-"15. 單一 24V 電源：PSU1 同時供控制板、隔離輸入 (ISO_P/ISO_G)、感測器、伺服 I/O、接觸器線圈，原本分三組是為了雜訊隔離；現在隔離輸入與邏輯電源共用 0V，隔離效果減弱，上機後若有誤觸發再加一顆小電源。控制板 K1/K2/K5 輸出拉到 XT，箱外自行接線時要自己保護 (短路會燒控制板輸出)。\n"
+"15. 單一 24V 電源：PSU1 同時供控制板、隔離輸入 (ISO_P/ISO_G)、感測器、伺服 I/O、接觸器線圈，原本分三組是為了雜訊隔離；現在隔離輸入與邏輯電源共用 0V，隔離效果減弱，上機後若有誤觸發再加一顆小電源。控制板輸出 K1/K2/K5 為開集極 (每路 100 mA、合計 500 mA)：K1 直接接 VFD MI1；K2 驅動 KA2 線圈再切泵 (2A)；K5 直接驅動吹氣閥線圈 (約 40 mA，估算，須確認 ≤ 100 mA)。\n"
 "14. 探針：球頭 3D 觸發式探頭 (型號待確認，規格與 PGFUN CNC 3D touch probe 相符：球頭 2 mm、柄徑 6 mm、DC5-24V、NPN)，接常閉輸出：紅 +24V、黃 OUT、黑 0V，接控制板 PROBE 輸入，與原點感測器共用 PSU2。常閉：正常時 OUT 對 0V 導通 (LED 亮)，觸發或斷線時斷開 → grblHAL 探針反相設 $6=1 (待核對)；G38.2 等指令探測。控制板探針輸入不支援 PNP。"
 )
 S.text(notes, 345, 450, 1.5)
 rails = (
 "24V 分配\n"
-"+24V1/0V1 (PSU1 SDR-120-24，5A)：全部 24V 負載：控制板、DC1 (5V)、感測器、探頭、MR-J4 DICOM/DOCOM、EM2/SON、Z 煞車、KA3 與 KM1 線圈、急停回路；吹氣閥與冷卻泵 (DC24V，約 2A 估算) 經 XT 端子排由箱外接。\n"
+"+24V1/0V1 (PSU1 SDR-120-24，5A)：全部 24V 負載：控制板、DC1 (5V)、感測器、探頭、MR-J4 DICOM/DOCOM、EM2/SON、Z 煞車、KA3 與 KM1 線圈、急停回路；冷卻泵 (DC24V，約 2A) 經 KA2 切換；吹氣閥由控制板 K5 輸出直接驅動。\n"
 "+24V1/0V2 (PSU2)：控制板隔離輸入、原點感測器 (BN)。\n"
 "+12V/0V12 (PSU2 XDR-75E-12，6.3A，IOTA 約 79% 負載，>50°C 要減額)：電腦 LattePanda IOTA (12V 60W，owner 提供規格)，與 24V 分開，0V12 不與 0V1 相接。\nL1_AUX/L2_AUX：PSU1、PSU2 輸入。同名標籤代表同一條線。"
 )
