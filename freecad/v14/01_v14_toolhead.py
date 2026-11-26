@@ -532,21 +532,42 @@ LOG.append('Z axis narrowed: rails x %.1f..%.1f, slide x %.1f..%.1f, Z plate x %
               O('X_carriage_plate').Shape.BoundBox.XMin, O('X_carriage_plate').Shape.BoundBox.XMax,
               O('Spindle_mount_plate').Shape.BoundBox.XMin, O('Spindle_mount_plate').Shape.BoundBox.XMax))
 
-# v14: electrical back plate from its own assembly (freecad/v14/20_panel_v14.py, run it first): plate 290 x 260 with 3 x MR-J4-40A and the
-# RP23CNC replaces the v10 plate (220 x 220) and the drive boxes. Local (X right, Y up, Z out, seen from behind) -> machine x = 50 - X,
-# y = 262 + Z, z = 300 + Y.
-for o in list(GROUPS['07 Electrics'].Group):
-    if o.Label.startswith(('Electrical_panel', 'Servo_amp')): doc.removeObject(o.Name)
-pdoc = App.openDocument(os.path.join(ROOT, 'output', 'v14', 'panel', 'CNC_v14_panel.FCStd'))
-PM = App.Matrix(-1, 0, 0, 50, 0, 0, 1, 262, 0, 1, 0, 300, 0, 0, 0, 1)
-npan = 0
-for po in pdoc.Objects:
-    if po.TypeId != 'Part::Feature' or po.Label.startswith('Keepout'): continue
-    s_ = po.Shape.copy(); s_.transformShape(PM)
-    add(po.Label, s_, '07 Electrics', po.Spec, '', 'electrics'); npan += 1
-App.closeDocument(pdoc.Name); App.setActiveDocument(doc.Name)
-LOG.append('back plate assembly placed: %d parts, plate x %.1f..%.1f z %.1f..%.1f' % (npan, O('Electrical_panel').Shape.BoundBox.XMin,
-           O('Electrical_panel').Shape.BoundBox.XMax, O('Electrical_panel').Shape.BoundBox.ZMin, O('Electrical_panel').Shape.BoundBox.ZMax))
+# v14: column-top electrical box (owner 2026-11-26: all electrics in a box on the gantry columns, parts facing down; the box and its
+# contents are drawn by the electrical session, column_box/column_box.step, and checked by 24). The old back plate (20_panel) is
+# removed. Mechanical side: the box top plate, SPHC t3 bent, sitting on 1 mm shims on the two column tops (1 mm clear of the X base
+# plate top edge, so the rail plate carries nothing), covering the gap over the X drive and the whole box; the box (assembled and
+# wired on the bench) hangs under it on 20 x M5 countersunk screws into rivet nuts in its mounting plate. The X conduit loop rolls on it.
+for o in list(GROUPS['07 Electrics'].Group): doc.removeObject(o.Name)
+TP, ZP0 = 3.0, 491.0; ZP1 = ZP0 + TP                         # plate z 491..494 (column tops z 490 + shim 1)
+XE, YF, YR, FL = 392.5, 2.0, 500.0, 20.0                     # outer x, front (column front), rear (box back wall), flange depth
+COLB = [(sx * x, y) for sx in (-1, 1) for x in (332.5, 372.5) for y in (22.0, 142.0)]   # column end taps (as the foot bolts, v12)
+HANG = ([(x, 259.0) for x in (-350, -250, -150, -50, 50, 150, 250, 350)] + [(x, 490.0) for x in (-350, -250, -150, -50, 50, 100, 250, 350)]
+        + [(sx * 376.0, y) for sx in (-1, 1) for y in (360.0, 435.0)])   # rear x 100: clear of the exhaust louvre; sides between the box roof DIN rails
+GLAND_X = (50.0, 390.0, 45.0)                                # X conduit roof gland (elbow fitting), hole D45
+pl = box(-XE, XE, YF, YR, ZP0, ZP1).cut(box(-312.5, 312.5, YF - 1, 162.0, ZP0 - 1, ZP1 + 1))   # open between the columns: X carriage
+pl = pl.fuse(box(-XE, XE, YR, YR + TP, ZP1 - FL, ZP1))       # rear flange, outside the box back wall
+for sx in (-1, 1): pl = pl.fuse(box(XE - TP, XE, 185.0, YR + TP, ZP1 - FL, ZP1) if sx > 0 else box(-XE, -XE + TP, 185.0, YR + TP, ZP1 - FL, ZP1))
+pl = pl.cut(box(120.0, 220.0, YR - 1, YR + TP + 1, ZP1 - FL - 1, ZP0))   # rear flange notch: box exhaust louvre (x 125..215, z 460..485)
+pl = pl.cut(Part.makeCylinder(GLAND_X[2] / 2, 10, V(GLAND_X[0], GLAND_X[1], ZP0 - 3)))
+for x, y in COLB: pl = pl.cut(Part.makeCylinder(4.5, 10, V(x, y, ZP0 - 3)))
+for x, y in HANG: pl = pl.cut(Part.makeCylinder(2.75, 10, V(x, y, ZP0 - 3))).cut(Part.makeCone(2.75, 5.25, 2.5, V(x, y, ZP1 - 2.5)))
+add('Box_top_plate', pl, '07 Electrics', 'SPHC t3 laser cut + bent: 785 x 498, rear and side flanges 20 down (rear notch x 120..220 for the box exhaust); '
+    'on the two column tops (8 x M8), carries the column electrical box (20 x M5 countersunk into rivet nuts) and the X conduit loop; '
+    'X conduit gland hole D45 at (50, 390); open between the columns for the X carriage', '', 'electrics')
+for sx, T in ((-1, 'L'), (1, 'R')):
+    sh_ = box(312.5, 392.5, YF, 162.0, ZP0 - 1, ZP0) if sx > 0 else box(-392.5, -312.5, YF, 162.0, ZP0 - 1, ZP0)
+    for x, y in COLB:
+        if x * sx > 0: sh_ = sh_.cut(Part.makeCylinder(4.5, 4, V(x, y, ZP0 - 2)))
+    add('Box_top_shim_%s' % T, sh_, '07 Electrics', 'stainless shim t1, 80 x 160, 4 x D9: lifts the box top plate 1 mm off the X base plate top edge', '', 'electrics')
+for k, (x, y) in enumerate(COLB, 1):
+    add('Box_top_bolt_%d' % k, fuse(Part.makeCylinder(4, 20, V(x, y, ZP1 - 20)), Part.makeCylinder(6.5, 8, V(x, y, ZP1))), '07 Electrics',
+        'M8x20 SHCS: box top plate + shim into the column end tap (M8, 20 deep; engagement 16 = 2d)', '', 'electrics')
+    cl_ = 'Gantry_column_' + ('L' if x < 0 else 'R'); th_ = Part.makeCylinder(4.0, 20, V(x, y, 470.0)).cut(Part.makeCylinder(3.4, 20, V(x, y, 470.0)))
+    CHK.append((cl_ + ' M8 tap in screw port', th_.common(O(cl_).Shape).Volume / th_.Volume))   # the extrusion screw port is the tap core (D6.8)
+for k, (x, y) in enumerate(HANG, 1):
+    add('Box_hang_screw_%d' % k, fuse(Part.makeCone(2.5, 5.0, 2.5, V(x, y, ZP1 - 2.5)), Part.makeCylinder(2.5, 12, V(x, y, ZP1 - 12))), '07 Electrics',
+        'M5x12 flat head (ISO 10642): box top plate into an M5 rivet nut in the box mounting plate (electrical session)', '', 'electrics')
+LOG.append('box top plate: z %.1f..%.1f, %d column bolts, %d hang screws, X gland (%g, %g)' % (ZP0, ZP1, len(COLB), len(HANG), GLAND_X[0], GLAND_X[1]))
 
 bad = [(l, round(r, 3)) for l, r in CHK if r < 0.98]
 LOG.append('HOLE_CHECK %d tools, not fully in material: %s' % (len(CHK), bad))

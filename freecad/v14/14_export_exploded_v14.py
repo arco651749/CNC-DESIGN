@@ -51,7 +51,7 @@ def cluster(o):
         if n.startswith(('Z_ballscrew', 'Z_support', 'Z_coupling', 'Z_motor')): return 'zdrive'
         if n.startswith(('X_carriage_plate', 'Z_clamp', 'Z_epoxy', 'Z_face_screw', 'Z_side_screw', 'Z_ref_pin', 'Z_ecc_pin', 'Z_pivot_pin')): return 'zplate'
         return 'saddle'
-    if n.startswith(('Servo_amp', 'Electrical')): return 'elec'
+    if n.startswith(('Servo_amp', 'Electrical', 'Box_top', 'Box_hang')): return 'elec'
     if n.startswith(('Gantry_column', 'Column_foot', 'Foot_')): return 'colL' if o.Shape.BoundBox.Center.x < 0 else 'colR'
     b = o.Shape.BoundBox
     if n.startswith(('X_', 'Yaw', 'Roll')) or b.ZMin > 150: return 'xs'

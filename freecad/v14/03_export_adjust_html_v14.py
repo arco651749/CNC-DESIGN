@@ -21,7 +21,7 @@ RULES = [   # first match wins
     ('zp', r'^(X_carriage_plate|Z_rail_|Z_ballscrew|Z_support_fixed|Z_coupling|Z_motor|Z_ref_pin_|Z_ecc_pin_|Z_side_screw_|Z_clamp_bolt_|Z_face_screw_|Z_pivot_pin)'),
     ('x', r'^(X_saddle_plate|X_block_|X_ball_nut|X_nut_bracket|Z_roll_block|Z_roll_screw|Z_pivot_bearing|Z_epoxy_pad_)'),
     ('y', r'^(Y_rail|Work_table|Y_ballscrew|Y_support|Y_coupling|Y_motor|Y_ref_pin_|Y_ecc_pin_|Y_side_screw_)'),
-    ('xp', r'^(X_base_plate|X_rail_|X_ballscrew|X_support_fixed|X_support_float|X_coupling|X_motor|X_ref_pin_|X_ecc_pin_|X_side_screw_|X_plate_bolt_|X_epoxy_pad_|X_roll_pin|Servo_amp|Electrical_panel)'),
+    ('xp', r'^(X_base_plate|X_rail_|X_ballscrew|X_support_fixed|X_support_float|X_coupling|X_motor|X_ref_pin_|X_ecc_pin_|X_side_screw_|X_plate_bolt_|X_epoxy_pad_|X_roll_pin|Box_top_)'),
     ('gan', r'^(Column_foot_|Gantry_column_|Foot_|X_roll_bracket|X_roll_jack|Yaw_lock_dowel)'),
 ]
 def group(n):

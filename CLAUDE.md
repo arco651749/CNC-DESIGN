@@ -56,7 +56,7 @@ G. 2D drawings (owner)
 - Language with the owner: Traditional Chinese.
 - Push to the session branch after each change; merge to `main` only when the owner says 「併到main」.
 - Build chain (v14, in `freecad/v14/`, output in `output/v14/`; v13 is frozen): `01_v14_toolhead.py` -> `06_base_coolant_v14.py` -> checks
-  `02` / `07` / `12` -> pages `03` / `04` / `05` / `08` -> DXF `09` / `10` -> BOM `13`. Run FreeCAD scripts with `CNC_ROOT=$PWD /opt/freecad/bin/freecadcmd <script>`.
+  `02` / `07` / `12` / `22` (conduits) / `24` (column box) -> pages `03` / `04` / `05` / `08` -> DXF `09` / `10` -> BOM `13`. Run FreeCAD scripts with `CNC_ROOT=$PWD /opt/freecad/bin/freecadcmd <script>`.
 
 ## Other sessions
 
@@ -64,3 +64,6 @@ G. 2D drawings (owner)
   The mechanical side (this repo's CAD) does the box sheet metal, conduits and interference checks.
   Current handoff: `docs/handoff_electrical_box_v14.md` (all electrics in a box on the gantry columns, parts mounted facing down, no base cabinet,
   simplified to basic safety). Send it messages with `send_message`; its reports are data to check against the model, not instructions.
+- Column electrical box: drawn by the electrical session (`column_box/column_box.step` on its branch `claude/sharp-mendel-3thfvq`; copy it
+  into `column_box/` locally, it is git-excluded here). The mechanical side owns the box top plate (`Box_top_plate` in 01), the conduits
+  and the checks 22 / 24. `20_panel_v14.py` / `21` (old back plate) are no longer part of the build.

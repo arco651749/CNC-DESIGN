@@ -44,6 +44,8 @@ SPECIAL = {   # part-specific machining notes
 }
 def material(spec, name):
     s_ = spec.lower()
+    if 'sphc' in s_: return 'MATERIAL  SPHC t3 sheet: laser cut, then bent (flanges 20 down, inside radius 3); FINISH  powder coat'
+    if 'stainless shim' in s_: return 'MATERIAL  SUS304 shim t1, laser cut; FINISH  as supplied'
     if 'hfs8' in s_: return 'MATERIAL  MISUMI HFS8 extrusion (6063-T5), cut to length + additional machining; FINISH  as supplied (clear anodized)'
     if '6061' in s_: return 'MATERIAL  6061-T6 aluminium; FINISH  clear anodize (after machining, threads masked or re-tapped)'
     if 'sus' in s_: return 'MATERIAL  SUS304; FINISH  as machined'

@@ -13,8 +13,8 @@ from FreeCAD import Vector as V
 ROOT = os.environ.get('CNC_ROOT') or r'D:\\Claude\\CNC DESIGN'
 # electrical box on the gantry columns (docs/handoff_electrical_box_v14.md): outer envelope, sheet metal not modelled yet. Conduits enter it
 # only through the bottom cover (Y) and the roof gland (X); everything else of every conduit must stay outside it.
-BOX = ((-392.5, 252.0, 242.0), (392.5, 500.0, 495.0))   # as drawn by the electrical session (column_box/)
-ZT = BOX[1][2] + 2 + 34.5 / 2 + 0.75    # X loop centre height: tray floor t2 on the roof + conduit radius
+BOX = ((-392.5, 252.0, 241.0), (392.5, 500.0, 494.0))   # box (electrical session, column_box/) hung under the box top plate (01: z 491..494)
+ZT = BOX[1][2] + 34.5 / 2 + 0.75        # X loop centre height: rolls directly on the box top plate
 XF = 80.0      # X loop leg ends (fixed leg on the roof, moving leg on the carriage arm): loop spans x -120..368 incl. its radius, roof edge 392.5
 GLANDS = [(-120, 330, BOX[0][2], 28.5), (50, 390, BOX[1][2], 34.5)]   # (x, y, z, conduit OD): Y bottom cover, X roof
 OLD_PANEL = ('Electrical_panel', 'Servo_amp', 'Servo_bolt', 'Controller', 'Board_standoff', 'Panel_standoff')   # replaced by the box
@@ -25,8 +25,8 @@ CONDUITS = {
                   ('s', (-120, 330, BOX[0][2]), (0, 0, -1)), ('y', (0, 395, 200), (0, 0, 1)), 50.0),
     'Conduit_ZB': ('Z 段浪管：X 滑座 → 工具頭（PA 浪管 NW29, AD 34.5），下垂 U 型', 34.5, 450.0,
                    ('x', (110, 40, 640), (0, 0, -1)), ('z', (110, -80, 470), (0, 0, 1)), 60.0),
-    # rolling loop in a tray on the electrical box roof (X: fixed leg y 390, moving leg y 230 on an arm from the carriage, bend R 80)
-    'Conduit_XA': ('X 段浪管：電箱屋頂托盤上的水平滾動 U 型環，R 80（PA 浪管 NW29, AD 34.5）', 34.5, None,
+    # rolling loop on the box top plate (X: fixed leg y 390, moving leg y 230 on an arm from the carriage, bend R 80)
+    'Conduit_XA': ('X 段浪管：電箱頂板上的水平滾動 U 型環，R 80（PA 浪管 NW29, AD 34.5）', 34.5, None,
                    ('s', (XF, 390, ZT), (1, 0, 0)), ('x', (XF, 230, ZT), (1, 0, 0)), 60.0),
 }
 ROLL = {'Conduit_XA': {'R': 80.0, 'c': 100.0}}
@@ -36,7 +36,6 @@ def _elbow(x0, y, z0, z1):             # roof entry: fixed leg end XF -> x0 head
 STATIC_RUNS = {   # conduit pieces fixed to one frame (no flexing): drawn and checked for collisions
     'Conduit_roof_entry': ('s', 34.5, _elbow(70, 390, ZT, BOX[1][2])),   # fixed leg -> 90 deg conduit elbow connector -> roof gland (50, 390)
     'Conduit_carriage_run': ('x', 34.5, [(XF, 230, ZT), (75, 230, ZT + 3), (75, 190, 560), (75, 165, 720), (110, 110, 755), (110, 40, 720), (110, 40, 640)]),
-    'Conduit_tray': ('s', 0, [(-125, 205, BOX[1][2]), (375, 415, BOX[1][2] + 2)]),   # tray floor (sheet t2) on the box roof, drawn as a box
 }
 def off(fr, P):
     dx, dy, dz = P
