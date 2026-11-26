@@ -21,7 +21,7 @@ AC = blk("AC", "AC 220V 單相 市電", 38.1, 50.8, right=[("L1", 1), ("L2", 2),
 PH_SH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "vendor", "shihlin", "photos")
 K_SH = 0.06
 _q1 = S.photo(Photo(os.path.join(PH_SH, "BM30-SN.jpg"), 100.0, 50.0, K_SH))
-QF1 = S.add(PhotoBlock("QF1", "QF1 BM30-SN 2P 30A（主斷路器）", _q1,
+QF1 = S.add(PhotoBlock("QF1", "QF1 漏電斷路器 2P 30mA（總電源，額定待電工；照片為 BM30-SN 僅示意外形）", _q1,
     [("L1i", 55, 45, "top", "L1"), ("L2i", 135, 48, "top", "L2"), ("L1o", 50, 415, "bottom", "T1"), ("L2o", 135, 410, "bottom", "T2")], title_dy=22.0))
 CY_SH = 50.0
 XPOS = {"X": 182.0, "Y": 258.0, "Z": 334.0}      # MCCB photo centre x of each axis; its contactor sits 30 mm to the right
@@ -47,7 +47,7 @@ for ax in "X":
     S.stub(q["L1o"], "L1_CTL", BRN, 5.08, THICK); S.stub(q["L2o"], "L2_CTL", BLU, 7.62, THICK)
     S.stub(k["L1i"], "L1_CTL", BRN, 5.08, THICK); S.stub(k["L2i"], "L2_CTL", BLU, 7.62, THICK)
     S.stub(k["L1o"], "L1_FLT", BRN, 5.08, THICK); S.stub(k["L2o"], "L2_FLT", BLU, 7.62, THICK)
-    flt = blk("FL2", "FL2 EMC 濾波器（三軸共用，額定 ≥ 3 台合計；原選 HF3010A-UN 10A 不夠）+ RSPD-500-U4", XPOS[ax] - 5.0, 92.0, left=[("L1i", 1, "LINE L1"), ("L2i", 2, "LINE L2")],
+    flt = blk("FL2", "FL2 EMC 濾波器：暫不安裝（留 DIN 位置；未裝時 LINE 與 LOAD 直接跳接，裝時額定 ≥ 三台合計）", XPOS[ax] - 5.0, 92.0, left=[("L1i", 1, "LINE L1"), ("L2i", 2, "LINE L2")],
               right=[("L1o", 1, "LOAD L1"), ("L2o", 2, "LOAD L2")], w=20.32)
     S.stub(flt["L1i"], "L1_FLT", BRN, 5.08, THICK); S.stub(flt["L2i"], "L2_FLT", BLU, 5.08, THICK)
     S.stub(flt["L1o"], "L1_SRV", BRN, 5.08, THICK); S.stub(flt["L2o"], "L2_SRV", BLU, 5.08, THICK)
@@ -73,14 +73,14 @@ TB_TOP = {"PP": (428, "10"), "NP": (386, "35"), "OPC": (277, "12"), "SON": (38, 
           "EM2": (170, "42"), "DICOM": (299, "20"), "DOCOM": (320, "46")}
 TB_BOT = {"ALM": (157, "48"), "MBR": (92, "23")}
 TB_NET = {"PP": ("{ax}_PP", ORG), "NP": ("{ax}_NP", PUR), "OPC": ("+5V", RED), "SON": ("0V1", BLK),
-          "EM2": ("EM2_COM", ORG), "DICOM": ("+24V1", RED), "DOCOM": ("{docom}", BLK), "ALM": ("{alm}", PUR), "MBR": ("MBR_Z", PUR)}
+          "EM2": ("0V1", BLK), "DICOM": ("+24V1", RED), "DOCOM": ("ALMIN_G", BLK), "ALM": ("ALMIN_{ax}", PUR), "MBR": ("MBR_Z", PUR)}
 def make_tb(ax, cy):
     ph = S.photo(Photo(os.path.join(PH, "tb40_mrj4a_terminal_block.png"), 405.0, cy, K_TB, crop=(20, 120, 468, 350)))
     pins = [(pid, x - 20, 159, "top", num) for pid, (x, num) in TB_TOP.items()]
     pins += [(pid, x - 20, 206, "bottom", num) for pid, (x, num) in TB_BOT.items() if pid != "MBR" or ax == "Z"]
     tb = S.add(PhotoBlock("TB" + ax, "CN1 %s軸 接點（自製線焊 MR-J3CN1 連接器；圖用 TB40 端子台照片示意，號碼＝CN1 腳號）" % ax, ph, pins))
     for pid in tb.pins:
-        net, col = TB_NET[pid]; S.stub(tb[pid], net.format(ax=ax, alm={"X": "ALM_X", "Y": "ALMC_XY", "Z": "ALMC_YZ"}[ax], docom={"X": "ALMC_XY", "Y": "ALMC_YZ", "Z": "0V1"}[ax]), col)
+        net, col = TB_NET[pid]; S.stub(tb[pid], net.format(ax=ax), col)
     return tb
 
 # servo motor picture (Mitsubishi catalogue photo of an HG-KR053; the HG-KR43 is the same family and shape)
@@ -149,7 +149,7 @@ BD_NET = {"PWR_P": ("+24V1", RED), "PWR_G": ("0V1", BLK), "S010": ("SPD_0-10V", 
           "ISO_P": ("+24V1", RED), "ISO_G": ("0V1", BLK), "ES_S": ("ESTOP_SIG", PUR), "ES_G": ("ESTOP_GND", BLK), "PRS": ("PROBE_SIG", BLK), "PRG": ("PROBE_GND", BLU),
           "LXS": ("LIM_X_SIG", BLK), "LXG": ("LIM_X_GND", BLU), "LYS": ("LIM_Y_SIG", BLK), "LYG": ("LIM_Y_GND", BLU),
           "LZS": ("LIM_Z_SIG", BLK), "LZG": ("LIM_Z_GND", BLU),
-          "AX": ("ALMIN_X", PUR), "AG": ("ALMIN_G", BLK), "ETH": ("ETH", ANA)}
+          "AX": ("ALMIN_X", PUR), "AY": ("ALMIN_Y", PUR), "AZ": ("ALMIN_Z", PUR), "AG": ("ALMIN_G", BLK), "ETH": ("ETH", ANA)}
 for ax in "XYZ":
     BD_NET.update({ax + "_STP": (ax + "_PP", ORG), ax + "_DIR": (ax + "_NP", PUR), ax + "_GND": ("0V1", BLK)})
 STAG = [5.08, 10.16, 15.24, 20.32]
@@ -180,12 +180,6 @@ S.stub(SVL["N"], "0V1", BLK, 12.7)
 S.stub(SVL["P"], "SV_PLUS", RED, 7.62); S.stub(XT["VP"], "SV_PLUS", RED)
 
 # ------------------------------------------------------------------ 4. home sensors, e-stop input, servo alarms (board bottom)
-ALM = blk("KA4", "KA4 伺服報警繼電器（DPDT；線圈串接三台 ALM）", 292.1, 360.68,
-          left=[("A1", 1, "A1 +24V"), ("A2", 2, "A2 ← ALM 串")],
-          right=[("C1", 1, "COM1"), ("N1", 2, "NO1 → KM 線圈迴路"), ("C2", 3, "COM2"), ("B2", 4, "NC2 → 控制板報警")], w=25.4)
-S.stub(ALM["A1"], "+24V1", RED); S.stub(ALM["A2"], "ALM_X", PUR)
-S.stub(ALM["C1"], "N0", RED); S.stub(ALM["N1"], "N1", RED)
-S.stub(ALM["C2"], "ALMIN_G", BLK); S.stub(ALM["B2"], "ALMIN_X", PUR)
 SENS = blk("SENS", "原點感測器 X/Y/Z (NPN 24V 3線 ×3)", 292.1, 401.32,
            left=[("ZBU", 1, "Z BU 0V"), ("ZBK", 2, "Z BK OUT"), ("YBU", 3, "Y BU 0V"), ("YBK", 4, "Y BK OUT"), ("XBU", 5, "X BU 0V"), ("XBK", 6, "X BK OUT")],
            right=[("XBN", 1, "X BN +24V"), ("YBN", 3, "Y BN +24V"), ("ZBN", 5, "Z BN +24V")], w=30.48)
@@ -250,12 +244,14 @@ make_psu("PSU2", "PSU2 XDR-75E-12（12V 6.3A，只供電腦 IOTA 60W；照片為
 make_psu("PSU1", "PSU1 SDR-240-24（24V 10A，唯一電源；照片為同系列 SDR-75）", 424.0, "+24V1", "0V1")
 DC1 = blk("DC1", "DC1 DC-DC 24V→5V 1A（供伺服 OPC）", 127.0, 396.24, left=[("P", 1, "+24V"), ("N", 2, "0V")], right=[("P5", 1, "+5V"), ("N5", 2, "0V")], w=20.32)
 S.stub(DC1["P"], "+24V1", RED); S.stub(DC1["N"], "0V1", BLK); S.stub(DC1["P5"], "+5V", RED); S.stub(DC1["N5"], "0V1", BLK)
-S1 = blk("S1", "S1 急停按鈕 (2NC+1NO)", 127.0, 462.28, left=[("A1", 1, "NC1"), ("A2", 2, "NC2"), ("A3", 3, "NO")], right=[("B1", 1, "NC1"), ("B2", 2, "NC2"), ("B3", 3, "NO")], w=20.32)
+FAN = blk("FAN", "FAN 24V 風扇 92mm（含進出風濾網，≥60 m³/h）", 203.2, 396.24, left=[("P", 1, "+24V"), ("N", 2, "0V")], w=20.32)
+S.stub(FAN["P"], "+24V1", RED); S.stub(FAN["N"], "0V1", BLK)
+S1 = blk("S1", "S1 急停按鈕 (2NC)", 127.0, 462.28, left=[("A1", 1, "NC1"), ("A2", 2, "NC2")], right=[("B1", 1, "NC1"), ("B2", 2, "NC2")], w=20.32)
 S2 = blk("S2", "S2 啟動按鈕 (NO)", 203.2, 462.28, left=[("A", 1)], right=[("B", 1)], w=20.32)
 AUX = blk("AUX", "KM1 輔助接點 13-14 (自保)", 203.2, 482.6, left=[("A", 1, "13")], right=[("B", 1, "14")], w=20.32)
-S.stub(S1["A1"], "+24V1", RED); S.stub(S1["A2"], "0V1", BLK); S.stub(S1["A3"], "ESTOP_SIG", PUR)
-S.stub(S1["B2"], "EM2_COM", ORG); S.stub(S1["B3"], "ESTOP_GND", BLK)
-S.stub(S1["B1"], "N0", RED)
+S.stub(S1["A1"], "+24V1", RED); S.stub(S1["A2"], "ESTOP_SIG", PUR)
+S.stub(S1["B2"], "ESTOP_GND", BLK)
+S.stub(S1["B1"], "N1", RED)
 S.stub(S2["A"], "N1", RED); S.stub(AUX["A"], "N1", RED)
 S.conn("KMCOIL", ORG, [S2["B"], AUX["B"]], lane=228.6, label="KMCOIL")
 
@@ -275,7 +271,7 @@ for name, w, lab in (("Omron_MY2N-GS_relay.jpg", 0.1, "繼電器 MY2N-GS"), ("Om
     S.photo(Photo(pth, RX + iw * w / 2, RY, w))
     S.text(lab, RX, RY + ih * w / 2 + 3.0, 1.2)
     RX += iw * w + 8.0
-S.text("選用零件參考照（未畫針腳）：繼電器 KA3、KA4 與底座、急停按鈕 S1、啟動按鈕 S2、原點感測器", 100.0, 537.0, 1.3)
+S.text("選用零件參考照（未畫針腳）：繼電器 KA3 與底座、急停按鈕 S1、啟動按鈕 S2、原點感測器", 100.0, 537.0, 1.3)
 S.text("⑤ 主軸變頻器 + 電主軸", 330, 352, H, True)
 S.text("⑥ 感測器 / 報警 / 急停輸入", 20, 345, H, True)
 S.text("⑦ 24V 電源 + 急停回路", 20, 389, H, True)
@@ -303,21 +299,24 @@ notes = (
 "3. MR-J4-40A 單相 200-240V 接 L1 與 L3，L2 空接 (手冊 3.3.1)。三軸共用 1 個 MCCB、1 個接觸器、1 個濾波器是 owner 的決定，與手冊 11.10 (每台驅動器各 1 個，單台 30A 框 10A、接觸器 S-N10 等級；手冊沒有多台合計表) 不符，電工須確認；三條分支線細於 QF2 額定時各加保險絲。L11/L21 取自接觸器之前。 CNP1 孔位由上而下：L1、L2、L3、N-、P3、P4 (手冊 9-3)，圖上標籤位置為示意。\n"
 "4. CN1 腳位依 MR-J4-A 手冊 3.4 節 (PP10 PG11 NP35 NG36 SON15 EM2 42 ALM48 DICOM20/21 DOCOM46/47)；MBR 非固定腳位，需設 Pr.PD24 讓 CN1-23 輸出 MBR。ALM 報警時斷開 (手冊 3.5)，與圖上反相處理一致。\n"
 "5. 脈衝直接驅動 MR-J4 開集極輸入，不用中間板：控制板 STEP→PP (CN1-10)、DIR→NP (CN1-35)，OPC (CN1-12) 接 +5V (DC1)，控制板軸 GND 與伺服 0V 共地；控制板輸出拉低時電流由 OPC 經驅動器內光耦流入控制板。手冊 3.9.2：開集極最高 200 kpulse/s；RP23CNC 手冊：STEP/DIR 輸出為 5V，可驅動光耦隔離驅動器輸入。每步 0.005 mm 時 100 mm/s 只需 20 kHz。未驗證：光耦在 5V 供電下的導通電流（手冊只給 24V 條件，約 20 mA），須實機量測，不良時要加電晶體驅動。EN 腳不接；SON (CN1-15) 直接接 0V (伺服永遠開啟)；PA13 設「脈衝加符號」、邏輯依實測；脈衝電子齒輪 CMX/CDV = 524288/125 (每轉 1000 脈衝)。\n"
-"6. 伺服報警：三台 ALM 輸出 (CN1-48，對 DOCOM) 以串聯方式接 KA4 線圈：+24V → KA4 線圈 → X.ALM → X.DOCOM → Y.ALM → Y.DOCOM → Z.ALM → Z.DOCOM → 0V。正常時三個輸出皆導通、KA4 吸合；任一台報警 (輸出斷開) → KA4 釋放 → NO1 切斷 KM1 線圈迴路 (與急停同一條)，NC2 把報警訊號送控制板 ALMIN_X。串聯的電壓降與輸出電流限制須對照手冊 3.9 輸出規格 (待核對)。\n"
+"6. 伺服報警（owner 決定：不加反相繼電器，不串聯）：三台 ALM (CN1-48，對 DOCOM) 各自直接接控制板 X/Y/Z 報警輸入，DOCOM 接控制板報警地 (AG)。ALM 正常導通、報警斷開，與控制板輸入極性的對應未驗證，grblHAL 需設報警反相（實機測）；報警時控制板停止送脈衝，但接觸器不會自動斷電（只有急停斷電）。\n"
+
 "7. grblHAL：$0=3 (脈衝寬度 µs，100 kHz 必須調小)；$14=70 (反轉 EStop/Feed Hold/Cycle Start)；0-10V 以 RV1 校準到 10V。\n"
 "8. 主軸 (台達 MS300 型錄第20頁)：0-10V 接 AVI/ACM；控制板 K1 輸出經 XT 端子排由箱外轉接到 MI1 與 DCM (板上不再有繼電器，接法由 owner 在箱外決定；MI1 輸入為 NPN/SINK，短接 DCM 即動作) (MI1 出廠為 FWD/STOP，輸入為 NPN/SINK 模式，接點短接 DCM 即動作)。S1/S2/+24V 的出廠短路片不可拆 (STO)。最高輸出 599 Hz，足以供 24,000 rpm (400 Hz)。頻率來源為 Pr.00-20 (Delta FAQ 確認為「主頻率指令來源」)，需改為外部類比 AVI；運轉指令來源 (我記得是 Pr.00-21) 需改為外部端子，兩者的設定值與 00-21 待核對完整使用手冊。\n"
-"9. 急停 S1：NC1 經 KA4 接點切斷伺服共用接觸器 KM1 的線圈，NC2 接 EM2，NO 接控制板 ESTOP。硬線切斷伺服；主軸沒有接觸器，急停時只靠控制器關閉主軸 ON/OFF (K1 輸出)，變頻器本身仍有電。\n"
+"9. 急停 S1 (2NC)：NC1 切斷伺服共用接觸器 KM1 的線圈（並接變頻器運轉訊號）；NC2 為乾接點迴路接控制板 ESTOP（$14 反轉設定要改為常閉）。EM2 (CN1-42) 因只有 2 組接點，改為永久接 0V（驅動器強制停止功能不用，急停時接觸器放電後馬達自由滑行停止；Z 軸有煞車）。主軸沒有接觸器，急停只靠控制器關閉主軸 ON/OFF (K1 輸出) 與 NC1 切運轉訊號。\n"
+
 "10. 感測器用 NPN 型 24V 近接開關 (控制板限位輸入為 NPN 或機械開關，不支援 PNP)。\n"
 "11. 佈線：動力線與信號線分槽、間距 100 mm 以上；馬達線、變頻器輸出線、脈衝線 (PP、NP) 用屏蔽線，屏蔽層單端接 PE；繼電器線圈與煞車並聯續流二極體。\n"
 "12. 電池 (MR-BAT6V1SET，CN4)：目的是保存絕對位置以免做 home。但驅動器要把位置交給控制器，須由控制器依 ABS 傳送協定讀取 (CN1 ABSM17/ABSR18/ABSB0 22/ABSB1 23/ABST25，Pr.PA03)；grblHAL 目前不支援，故暫時仍保留原點感測器。三軸也可改用 1 個 MR-BT6VCASE 加 5 顆 MR-BAT6V1 共用 (最多 8 軸)。\n"
 "13. 貼圖說明：MR-J4 為三菱目錄外觀圖、端子台為 TB40-MRJ4A 照片、RP23CNC 為作者實拍照。圖上端子位置為在照片上量測，RP23CNC 螺絲孔為透視內插 (誤差約 1 mm)，接線時一切以實物絲印為準。\n"
+"16. 箱體：立柱電箱（龍門立柱頂），三台 MR-J4 直立裝後牆，其餘電料裝屋頂底面與後牆 DIN 軌；PC IOTA 與 PSU2 (12V) 放箱外（合計發熱約 68W），見 column_box/。\n"
 "15. 單一 24V 電源：PSU1 同時供控制板、隔離輸入 (ISO_P/ISO_G)、感測器、伺服 I/O、接觸器線圈，原本分三組是為了雜訊隔離；現在隔離輸入與邏輯電源共用 0V，隔離效果減弱，上機後若有誤觸發再加一顆小電源。控制板 K1/K2/K5 輸出拉到 XT，箱外自行接線時要自己保護 (短路會燒控制板輸出)。\n"
 "14. 探針：球頭 3D 觸發式探頭 (型號待確認，規格與 PGFUN CNC 3D touch probe 相符：球頭 2 mm、柄徑 6 mm、DC5-24V、NPN)，接常閉輸出：紅 +24V、黃 OUT、黑 0V，接控制板 PROBE 輸入，與原點感測器共用 PSU2。常閉：正常時 OUT 對 0V 導通 (LED 亮)，觸發或斷線時斷開 → grblHAL 探針反相設 $6=1 (待核對)；G38.2 等指令探測。控制板探針輸入不支援 PNP。"
 )
 S.text(notes, 345, 450, 1.5)
 rails = (
 "24V 分配\n"
-"+24V1/0V1 (PSU1 SDR-240-24)：全部 24V 負載：控制板、DC1 (5V)、感測器、探頭、MR-J4 DICOM/DOCOM、EM2/SON、Z 煞車、KA3/KA4 與 KM1 線圈、急停回路；吹氣閥與冷卻泵 (DC24V，約 2A 估算) 經 XT 端子排由箱外接。\n"
+"+24V1/0V1 (PSU1 SDR-240-24)：全部 24V 負載：控制板、DC1 (5V)、感測器、探頭、MR-J4 DICOM/DOCOM、EM2/SON、Z 煞車、KA3 與 KM1 線圈、急停回路；吹氣閥與冷卻泵 (DC24V，約 2A 估算) 經 XT 端子排由箱外接。\n"
 "+24V1/0V2 (PSU2)：控制板隔離輸入、原點感測器 (BN)。\n"
 "+12V/0V12 (PSU2 XDR-75E-12，6.3A，IOTA 約 79% 負載，>50°C 要減額)：電腦 LattePanda IOTA (12V 60W，owner 提供規格)，與 24V 分開，0V12 不與 0V1 相接。\nL1_AUX/L2_AUX：PSU1、PSU2 輸入。同名標籤代表同一條線。"
 )

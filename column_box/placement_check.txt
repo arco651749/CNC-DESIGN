@@ -1,0 +1,6 @@
+SVX: below 35 mm, above 35 mm to the box (manual 40; owner accepted 35 for the first build)
+SVY: below 35 mm, above 35 mm to the box (manual 40; owner accepted 35 for the first build)
+SVZ: below 35 mm, above 35 mm to the box (manual 40; owner accepted 35 for the first build)
+SVX-SVY side gap 10 mm (manual 10)
+SVY-SVZ side gap 10 mm (manual 10)
+servo front face y=319; nearest obstacle y=242 -> wiring room 77 mm (need >= 60)
