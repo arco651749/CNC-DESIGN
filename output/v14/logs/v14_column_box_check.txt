@@ -1,0 +1,7 @@
+v14 column box (column_box/column_box.step): 440 box solids, envelope x -392.5..392.5 y 252.0..500.0 z 242.0..495.0
+489 machine parts, 27 poses
+
+COLLISIONS (box x machine): 0
+
+SUPPORT (fixed machine parts touching the box): 0
+  none: the box is not attached to the machine yet (mounting to be designed by the mechanical side)

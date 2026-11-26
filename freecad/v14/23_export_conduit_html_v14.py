@@ -20,7 +20,13 @@ def colour(n, k):
     if n.startswith('Controller'): return [0.1, 0.45, 0.25]
     return {'y': [0.78, 0.62, 0.42], 'x': [0.5, 0.64, 0.8], 'z': [0.62, 0.72, 0.84]}.get(k, [0.68, 0.71, 0.75])
 out = []
-for o in doc.Objects:
+OBJS = list(doc.Objects)
+CB = os.path.join(ROOT, 'column_box', 'column_box.step')   # electrical box (electrical session): parts inside drawn, sheet metal shown as the translucent envelope
+if os.path.exists(CB):
+    import Import
+    cbd = App.newDocument('column_box'); Import.insert(CB, cbd.Name)
+    OBJS += [o for o in cbd.Objects if not o.Label.startswith('Box_')]
+for o in OBJS:
     if o.TypeId != 'Part::Feature' or o.Shape.isNull() or not o.Shape.Solids: continue
     sh = o.Shape; b = sh.BoundBox
     if o.Label.startswith(('Electrical_panel', 'Servo_amp', 'Controller', 'Board_standoff', 'Panel_standoff', 'Keepout')): continue   # old back plate: replaced by the column box (drawn as its envelope)
