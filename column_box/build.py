@@ -61,7 +61,7 @@ open(os.path.join(HERE, 'HEAT.md'), 'w', encoding='utf-8').write('\n'.join(md) +
 print('total %g W' % P)
 
 # ---------------- views (SVG): front view looking at the back wall (+y), plan view from above
-COLS = {'SV': '#f85149', 'VFD': '#ff7b72', 'PSU': '#3fb950', 'RCD': '#e3b341', 'QF': '#e3b341', 'KM': '#58a6ff', 'DC': '#8b949e', 'KA': '#d2a8ff', 'XT': '#ffa657', 'BD': '#56d364', 'X1': '#ffa657', 'FL': '#cccccc', 'PC': '#a371f7'}
+COLS = {'SV': '#f85149', 'AIRV': '#00c0c0', 'VFD': '#ff7b72', 'PSU': '#3fb950', 'RCD': '#e3b341', 'QF': '#e3b341', 'KM': '#58a6ff', 'DC': '#8b949e', 'KA': '#d2a8ff', 'XT': '#ffa657', 'BD': '#56d364', 'X1': '#ffa657', 'FL': '#cccccc', 'PC': '#a371f7'}
 def col(d): return next(c for k, c in COLS.items() if d.startswith(k))
 def view(title, ax_h, ax_v, flip_v, ox, oy, sc, parts, out):
     # ax: 0=x,1=y,2=z ; horizontal axis x, vertical axis z (front) or y (plan)

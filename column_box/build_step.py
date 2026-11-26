@@ -20,16 +20,16 @@ def add(name, shape, grp):
     o = doc.addObject('Part::Feature', name); o.Shape = shape; OBJ[name] = (o, grp); return o
 X0, X1, Y0, Y1, Z0, Z1 = L.ENV
 # ------------------------------------------------ enclosure
-roof = box(-392.5, 392.5, 252, 500, 492, 495).cut(box(95, 195, 261, 331, 491, 496))
+roof = box(-392.5, 392.5, 252, 500, 492, 495).cut(cyl('z', 22.5, 491, 496, 50, 390))
 add('Box_roof_sheet', roof, 'enclosure (sheet metal t3)')
-add('Box_roof_plate', box(-380, 380, 255, 495, 488, 492).cut(box(95, 195, 261, 331, 487, 493)), 'enclosure (mounting plate t4, holds the roof-hung parts)')
+add('Box_roof_plate', box(-380, 380, 255, 495, 488, 492).cut(cyl('z', 22.5, 487, 493, 50, 390)), 'enclosure (mounting plate t4, holds the roof-hung parts)')
 wall = box(-383, 383, 495, 500, 242, 492).cut(box(125, 215, 494, 501, 460, 485))
 add('Box_back_wall', wall, 'enclosure (back wall, plate t5: the drives and the VFD screw into it)')
 add('Box_side_L', box(-383, -380, 252, 500, 242, 492), 'enclosure (sheet metal t3)')
 add('Box_side_R', box(380, 383, 252, 500, 242, 492), 'enclosure (sheet metal t3)')
 add('Box_front_cover', box(-380, 380, 252, 255, 245, 488), 'enclosure (removable service cover, t3)')
 bot = box(-380, 380, 255, 495, 242, 245)
-for (hx, hy, r) in ((-340, 270, 12.5), (0, 395, 30), (350, 262, 20), (-250, 400, 65)): bot = bot.cut(cyl('z', r, 241, 246, hx, hy))
+for (hx, hy, r) in ((-340, 270, 12.5), (-120, 330, 22.5), (350, 262, 20), (-250, 400, 65)): bot = bot.cut(cyl('z', r, 241, 246, hx, hy))
 add('Box_bottom_cover', bot, 'enclosure (removable bottom cover t3, cable entries)')
 # ------------------------------------------------ DIN rails (35 x 7.5)
 for nm, (x0, x1, y0, y1, z0, z1) in {'Rail_roof_1': (-375, -10, 293, 328, 480.5, 488), 'Rail_roof_2': (-375, -195, 390, 425, 480.5, 488),

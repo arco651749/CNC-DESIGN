@@ -1,7 +1,7 @@
 ﻿面,x,y,z,用途
 bottom cover,-340,270,245,mains inlet 220 V (cable gland M25)
-bottom cover,0,395,245,"Y bellows NW23 (Y motor, encoder, brake, 2 air tubes, cover switch)"
+bottom cover,-120,330,245,"Y bellows NW23 fixed fitting (mechanical session): Y motor, encoder, brake, 2 prism-cover air tubes, cover switch; hole D45"
 bottom cover,350,262,245,X motor + home sensors (right side)
 bottom cover,-250,400,245,"fan intake + filter, cut-out 130 mm (120 mm fan)"
-roof,145,296,488,"X bellows NW29 (spindle 4-core, camera, probe, 3 air tubes, Z motor): gland plate 100x70 inside the rolling ring"
+roof,50,390,495,"X bellows NW29 elbow fitting (mechanical session): spindle 4-core, camera, probe, 3 air tubes, Z motor; hole D45; keep a 45 mm column free below it"
 back wall,170,495,472,"exhaust louvre + filter 90x25 at x 125..215, z 460..485 above the VFD (not on the roof: the X bellows ring is there; PC and PSUs keep clear)"

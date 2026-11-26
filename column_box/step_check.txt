@@ -1,2 +1,2 @@
-enclosure + parts: 41 objects
+enclosure + parts: 42 objects
 interferences: 0

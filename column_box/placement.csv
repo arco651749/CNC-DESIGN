@@ -5,6 +5,7 @@ SVZ,Mitsubishi MR-J4-40A,325,365,319,495,285,453,40x176x168,back wall,"upright, 
 VFD,Delta MS300 (frame A),120,192,359,495,282,456,72x136x174,back wall,upright (check manual),A catalog 72x174x136
 PSU1,Mean Well XDR-75E-24 (24 V 3.2 A),20,50,372,488,306,431,30x116x125,back wall,"DIN rail, upright (datasheet: 40 mm above, 20 below)",S owner datasheet 30x125.2x116
 PSU2,"Mean Well XDR-75E-12 (12 V 6.3 A, for the PC)",58,88,372,488,306,431,30x116x125,back wall,"DIN rail, upright",S owner datasheet 30x125.2x116
+AIRV,SVL = SMC SY3120-5LZE-M5 air valve (probe/tool + prism cover tubes leave by the two bellows),-300,-280,422,488,350,410,20x65x60,back wall,"DIN rail on the wall, upright",A catalog (confirm)
 RCD,RCD 2P 30 mA (main),-370,-300,265,356,412,480,70x91x68,roof underside,"DIN rail, hanging (check mounting position)",A
 QF2,Shihlin BM30-SN 2P (servo branch),-296,-246,265,356,412,480,50x91x68,roof underside,"DIN rail, hanging",A
 QF3,Shihlin BM30-SN 2P (VFD branch),-242,-192,265,356,412,480,50x91x68,roof underside,"DIN rail, hanging",A
@@ -15,5 +16,5 @@ KA3,Omron MY2N-GS + PYFZ-08 (Z brake),-46,-18,265,327,418,480,28x62x62,roof unde
 XT,"DIN terminal strip (commons, K1/K2/K5 out)",-370,-200,385,430,436,480,170x45x45,roof underside,"DIN rail, hanging",A
 BD,RP23CNC V2.02 on 4 M3 standoffs,-190,-94,385,482,453,488,96x97x35,roof underside,"standoffs on the roof, components down",M vendor STEP 96x97
 X1,power terminals + PE bar,-370,-220,440,485,436,480,150x45x45,roof underside,"DIN rail, hanging",A
-FL2,"EMC filter slot (reserved, not fitted)",-90,30,385,450,443,488,120x65x45,roof underside,reserved,A
-PC,LattePanda IOTA (12 V 60 W) with heatsink,36,107,395,485,448,488,71x90x40,roof underside,"hanging on standoffs, ports toward the front",M vendor STEP board 71x90x19 + heatsink ~40 deep
+FL2,"EMC filter slot (reserved, not fitted)",30,150,262,327,443,488,120x65x45,roof underside,reserved,A
+PC,LattePanda IOTA (12 V 60 W) with heatsink,-85,-14,395,485,448,488,71x90x40,roof underside,"hanging on standoffs, ports toward the front",M vendor STEP board 71x90x19 + heatsink ~40 deep
