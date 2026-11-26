@@ -31,11 +31,13 @@ print('\n'.join(rep))
 LOSS = [  # (item, qty, W each, source)
     ('MR-J4-40A + HG-KR43 at rated output', 3, 35, '三菱 MR-J4-A 手冊表 10.1 (servo-off 15 W)'),
     ('Delta MS300 VFD (0.8 kW spindle)', 1, 40, '估算（約 5% 損失，手冊值待查）'),
-    ('Mean Well SDR-240-24 (108 W out, ~92%)', 1, 9, '估算（銘牌效率未查）'),
+    ('Mean Well XDR-75E-24 (~72 W out, 90%)', 1, 8, '規格書效率 90%（24V 型）'),
+    ('Mean Well XDR-75E-12 (60 W out, 89%)', 1, 7, '規格書效率 89%（12V 型）'),
+    ('LattePanda IOTA (owner: 12 V 60 W)', 1, 60, 'owner 提供，最壞值'),
     ('KM1 contactor coil', 1, 3, '估算'),
     ('RP23CNC + DC-DC + KA3 + XT', 1, 4, '估算'),
     ('breakers / RCD / wiring (I²R)', 1, 5, '估算'),
-    ('fan', 1, 3, '估算'),
+    ('fan 120 mm 24 V', 1, 5, '估算'),
 ]
 P = sum(q * w for _, q, w, _ in LOSS)
 AIR = 0.335        # W per (m3/h K)
@@ -44,22 +46,22 @@ rows = ['| 項目 | 數量 | 每個 W | 小計 W | 來源 |', '|---|---|---|---|
 dt = lambda Pw, Q: Pw / (AIR * Q + WALL)
 md = ['# 立柱電箱散熱計算', '', '座標與空間來源：機構 session `docs/handoff_electrical_box_v14.md`。', '',
       '## 發熱（最壞情況：三軸都在額定輸出、主軸有載）', ''] + rows + ['| **合計** | | | **%g** | |' % P, '',
-      '三台伺服以手冊值計（35 W，不是機構文件估的 25 W）。PC IOTA（60 W）與 12 V 電源（約 8 W）**放箱外**；若放進箱內，總發熱變 %g W。' % (P + 68), '',
+      '三台伺服以手冊值計（35 W，不是機構文件估的 25 W）。PC IOTA 與 12 V 電源（owner 決定）**放在箱內**，佔 67 W；若 PC 改放箱外，總發熱降為 %g W。' % (P - 67), '',
       '## 風扇與溫升', '', '公式：ΔT = P ÷ (0.335 × 風量[m³/h] + 箱壁自然散熱 %.1f W/K)（箱壁 0.8 m² × 5.5 W/m²K，機構文件的估算）' % WALL, '',
       '| 風量 | 箱內溫升（%g W） | 環境 35 °C 時箱內 | 備註 |' % P, '|---|---|---|---|']
-for Q, note in ((0, '不裝風扇'), (30, '機構文件的 80~92 mm 風扇'), (60, '建議：92 mm 24V 風扇 ≥ 60 m³/h')):
+for Q, note in ((0, '不裝風扇'), (30, '機構文件的 80~92 mm 風扇'), (60, '92 mm 風扇'), (100, '建議：120 mm 24V 風扇 ≥ 100 m³/h')):
     d = dt(P, Q); md.append('| %d m³/h | %.1f K | %.0f °C | %s |' % (Q, d, 35 + d, note))
-md += ['', '- 手冊：MR-J4 環境 0~55 °C；**緊貼安裝要 ≤ 45 °C 或 ≤ 75% 負載**（環境規格表備註 2）。我們左右留 10 mm，不算緊貼，但箱內 ≤ 45 °C 較保險 → 環境 35 °C 時要風量 ≥ 60 m³/h。',
-       '- 若 PC 放箱內：%g W 在 60 m³/h 下 ΔT = %.1f K，環境 35 °C 時箱內約 %.0f °C，超過 45 °C。所以 PC 放箱外。' % (P + 68, dt(P + 68, 60), 35 + dt(P + 68, 60)),
-       '- 風扇 **型號採購時依規格書選**（92×92×25 mm、24 V、≥ 60 m³/h、含進出風濾網；濾網會降風量約 20~30%，所以選 ≥ 60 而不是 30）。我沒查到可驗證的型號，不亂報。',
-       '- 進風：底蓋 x -250, y 400，濾網開孔 Ø105；出風：後牆 x 30..120, z 445..485，濾網 90×40。空氣由底部進、經伺服後上升、由後牆上方排出。',
+md += ['', '- 手冊：MR-J4 環境 0~55 °C；**緊貼安裝要 ≤ 45 °C 或 ≤ 75% 負載**（環境規格表備註 2）。我們左右留 10 mm，不算緊貼，但箱內 ≤ 45 °C 較保險 → 環境 35 °C 時要風量 ≥ 100 m³/h（濾網損失後）。',
+       '- PC 在箱內：%g W 在 60 m³/h 下 ΔT = %.1f K（箱內約 %.0f °C，環境 35 °C）；在 100 m³/h 下 %.1f K。若 PC 發熱沒到 60 W（多數時間低很多），溫升會更低。' % (P, dt(P, 60), 35 + dt(P, 60), dt(P, 100)),
+       '- 風扇 **型號採購時依規格書選**（120×120×25 mm、24 V、≥ 100 m³/h、含進出風濾網；濾網會降風量約 20~30%）。我沒查到可驗證的型號，不亂報。',
+       '- 進風：底蓋 x -250, y 400，濾網開孔 Ø130；出風：後牆 x 125..215, z 460..485，濾網 90×25（在變頻器上方）。空氣由底部進、經伺服後上升、由後牆上方排出。',
        '- 風扇故障沒有偵測：先不加（精簡）；建議之後在 PSU1 的 DC OK 繼電器接點旁加溫度開關。',
        '- 以上都是估算；實機要用溫度計量箱內最熱點（伺服上方）。']
 open(os.path.join(HERE, 'HEAT.md'), 'w', encoding='utf-8').write('\n'.join(md) + '\n')
 print('total %g W' % P)
 
 # ---------------- views (SVG): front view looking at the back wall (+y), plan view from above
-COLS = {'SV': '#f85149', 'VFD': '#ff7b72', 'PSU': '#3fb950', 'RCD': '#e3b341', 'QF': '#e3b341', 'KM': '#58a6ff', 'DC': '#8b949e', 'KA': '#d2a8ff', 'XT': '#ffa657', 'BD': '#56d364', 'X1': '#ffa657', 'FL': '#cccccc'}
+COLS = {'SV': '#f85149', 'VFD': '#ff7b72', 'PSU': '#3fb950', 'RCD': '#e3b341', 'QF': '#e3b341', 'KM': '#58a6ff', 'DC': '#8b949e', 'KA': '#d2a8ff', 'XT': '#ffa657', 'BD': '#56d364', 'X1': '#ffa657', 'FL': '#cccccc', 'PC': '#a371f7'}
 def col(d): return next(c for k, c in COLS.items() if d.startswith(k))
 def view(title, ax_h, ax_v, flip_v, ox, oy, sc, parts, out):
     # ax: 0=x,1=y,2=z ; horizontal axis x, vertical axis z (front) or y (plan)
