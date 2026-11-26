@@ -41,7 +41,7 @@ for nm, (x0, x1, y0, y1, z0, z1) in {'Rail_roof_1': (-370, -10, 293, 328, 479.5,
 def bbox(p): return (p[3], p[3] + p[6], p[4], p[4] + p[7], p[5], p[5] + p[8])
 for p in L.PARTS:
     if p[1].startswith('SV') or p[1] == 'BD': continue
-    b = bbox(p); add(p[1], box(*b), 'parts (box models, catalog size)' if p[1] != 'FL2' else 'reserved space')
+    b = bbox(p); add(p[1], box(*b), 'reserved space (envelope incl. heatsink)' if p[1] in ('FL2', 'PC') else 'parts (box models, catalog size)')
 sv = Part.read(SERVO_STEP)                       # local: x +-20, y +-84, z 0..175.9 (back face z=0, front +z)
 for p in L.PARTS:
     if p[1].startswith('SV'):
@@ -55,6 +55,21 @@ r = bs.copy(); r.Placement = Placement(V(b[0] - 81, b[2] + 48 + 0 + (-0), 478), 
 r.Placement = Placement(V(b[0] - 81, b[2] - 48, 477), Rotation(V(1, 0, 0), 180))
 add('BD', r, 'parts (vendor STEP)')
 for k, (hx, hy) in enumerate(((4, 4), (92, 4), (4, 92), (92, 92)), 1): add('BD_standoff_%d' % k, cyl('z', 2.75, 477, 487, b[0] + hx, b[2] + hy), 'fasteners')
+# LattePanda IOTA mount: 4 M3 rivet nuts in the roof plate, 4 M3 standoffs 10 mm, board hangs components-down.
+# Board hole pattern read from the vendor STEP: 63.0 x 81.0 mm, M3 (D3.3); board 70.8 x 90.0 x 19.4, PCB z -1..0, parts z -3.8..15.6.
+IOTA_HOLES = [(-30.12, -160.11), (32.87, -160.11), (-30.12, -241.12), (32.87, -241.12)]
+TX, TY, TZ = -50.6, 240.4, 476.0                 # board local (x, y, z) -> machine (x+TX, -y+TY, -z+TZ)
+def ib(lx0, lx1, ly0, ly1, lz0, lz1): return box(lx0 + TX, lx1 + TX, -ly1 + TY, -ly0 + TY, -lz1 + TZ, -lz0 + TZ)
+pcb = ib(-34.4, 36.4, -244.6, -154.6, -1.0, 0.0)
+for (hx, hy) in IOTA_HOLES: pcb = pcb.cut(cyl('z', 1.65, 470, 480, hx + TX, -hy + TY))
+add('IOTA_pcb', pcb, 'parts (LattePanda IOTA, simplified: vendor board outline and hole pattern)')
+add('IOTA_components', ib(-30, 33, -240, -158, 0.0, 15.6), 'parts (LattePanda IOTA, component envelope 63 x 82 x 15.6, heatsink not modelled)')
+for k, (hx, hy) in enumerate(IOTA_HOLES, 1):
+    x, y = hx + TX, -hy + TY
+    add('IOTA_standoff_%d' % k, cyl('z', 2.75, 477, 487, x, y).cut(cyl('z', 1.25, 477, 487, x, y)), 'parts (M3 hex standoff F-F 10)')
+    add('IOTA_screw_%d' % k, cyl('z', 1.5, 476, 480, x, y).fuse(cyl('z', 2.75, 473.5, 476, x, y)), 'parts (M3x6 pan head screw from the component side)')
+    rp = OBJ['Box_roof_plate'][0].Shape.cut(cyl('z', 2.5, 486, 492, x, y)); OBJ['Box_roof_plate'][0].Shape = rp
+    add('IOTA_rivetnut_%d' % k, cyl('z', 2.25, 482, 487, x, y).cut(cyl('z', 1.25, 482, 487, x, y)), 'parts (M3 rivet nut in the roof plate t4)')
 # fan (intake, at the bottom cover) and the filter plates
 add('Fan_120', box(-310, -190, 340, 460, 244, 269), 'parts (box models, catalog size)')
 add('Louvre_filter', box(125, 215, 489, 495, 459, 484), 'parts (box models, catalog size)')
@@ -73,6 +88,7 @@ for a in partn:
         if v > 1: bad.append('%s x %s: %.0f mm3' % (a, e, v))
 for i, a in enumerate(partn):
     for c in partn[i + 1:]:
+        if a.startswith('IOTA_') and c.startswith('IOTA_'): continue          # threaded engagement inside the mount itself
         v = vol(a, c)
         if v > 1: bad.append('%s x %s: %.0f mm3' % (a, c, v))
 txt = ['enclosure + parts: %d objects' % len(names), 'interferences: %d' % len(bad)] + bad
