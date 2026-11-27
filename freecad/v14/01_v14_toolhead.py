@@ -594,7 +594,7 @@ bolts_into('Y_motor_block', 'Conduit_Y_bracket', [(-30, 272, 0), (30, 272, 0)], 
 add('Conduit_Y_end_fitting', Part.makeCylinder(20, 12, V(0, 395, 188.0)).fuse(Part.makeCylinder(20, 4, V(0, 395, 181.0))), GC,
     'conduit end connector for PA-23 (KSS, straight, with locknut) - size to confirm from the KSS catalog', 'y', '')
 # Z run moving end: bracket on the spindle clamp front face (right half, beside the probe slide), arm at z 455 to the end at (110, -80)
-hb = fuse(box(40, 78, -63.0 - TB, -63.0, 310.0, 458.0), box(40, 132, -102.0, -63.0, 458.0 - TB, 458.0), box(129, 132, -102.0, -63.0, 440.0, 458.0))
+hb = fuse(box(40, 78, -63.0 - TB, -63.0, 310.0, 458.0), box(40, 136, -102.0, -63.0, 458.0 - TB, 458.0), box(133, 136, -102.0, -63.0, 440.0, 458.0))   # side flange 3 clear of the fitting
 hb = hb.cut(Part.makeCylinder(16.5, 10, V(110, -80, 450)))
 for x_, z_ in ((56, 318), (56, 368), (72, 318), (72, 368)): hb = hb.cut(Part.makeCylinder(2.75, 10, V(x_, -70, z_), V(0, 1, 0)))
 add('Conduit_head_bracket', hb, GC, 'SPHC t3 bent: Z conduit end bracket on the spindle clamp front face (4 x M5, right half; the probe slide is '
