@@ -1,11 +1,25 @@
-parts: 542   motion classes: static 261 / y 54 / x 112 / z 115
+parts: 559   motion classes: static 278 / y 54 / x 112 / z 115
 
-DESIGN CONTACTS AT HOME (overlap > 1 mm3, review): 10
+DESIGN CONTACTS AT HOME (overlap > 1 mm3, review): 24
   Coolant_hose_1 x Coolant_hose_2 : 288 mm3
   Coolant_hose_2 x Coolant_hose_3 : 288 mm3
   Coolant_hose_3 x Coolant_hose_4 : 288 mm3
   Coolant_nozzle_1 x Coolant_nozzle_block_1 : 101 mm3
   Coolant_nozzle_2 x Coolant_nozzle_block_2 : 101 mm3
+  Feeder_clamp_10 x Feeder_power_conduit : 22 mm3
+  Feeder_clamp_11 x Feeder_control_conduit : 57 mm3
+  Feeder_clamp_12 x Feeder_opbox_cable : 587 mm3
+  Feeder_clamp_2 x Feeder_power_conduit : 8597 mm3
+  Feeder_clamp_5 x Feeder_control_conduit : 28 mm3
+  Feeder_clamp_5 x Feeder_power_conduit : 4210 mm3
+  Feeder_clamp_6 x Feeder_clamp_8 : 189 mm3
+  Feeder_clamp_6 x Feeder_power_conduit : 22 mm3
+  Feeder_clamp_7 x Feeder_power_conduit : 22 mm3
+  Feeder_clamp_8 x Feeder_control_conduit : 57 mm3
+  Feeder_clamp_9 x Feeder_control_conduit : 57 mm3
+  Feeder_guard_gland_1 x Feeder_power_conduit : 31 mm3
+  Feeder_guard_gland_1 x Guard_rear : 805 mm3
+  Feeder_guard_gland_2 x Guard_rear : 496 mm3
   X_ball_nut x X_nut_bracket : 19 mm3
   X_ballscrew x X_support_fixed : 137 mm3
   Y_ballscrew x Y_support_fixed : 137 mm3
