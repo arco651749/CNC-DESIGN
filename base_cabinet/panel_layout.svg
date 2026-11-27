@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="670" font-family="Noto Sans CJK TC, sans-serif"><rect width="100%" height="100%" fill="#fff"/>
+<text x="20" y="26" font-size="18" font-weight="bold">底座電箱（保護類）安裝板佈置：320×240 板，箱體 360×280×120</text>
+<text x="20" y="46" font-size="12" fill="#555">從前面看（開門）。灰條 = 35 mm DIN 軌，綠條 = 配線槽。急停與啟動在另一個操作盒。尺寸為估算</text>
+<rect x="60" y="60" width="640" height="480" fill="#f2f2f2" stroke="#222" stroke-width="2"/>
+<rect x="70" y="80" width="600" height="12" fill="#cfe8cf" stroke="#6a6"/>
+<rect x="70" y="197" width="600" height="14" fill="#999"/>
+<rect x="70" y="310" width="600" height="12" fill="#cfe8cf" stroke="#6a6"/>
+<rect x="70" y="397" width="600" height="14" fill="#999"/>
+<rect x="70" y="484" width="600" height="12" fill="#cfe8cf" stroke="#6a6"/>
+<rect x="76.0" y="116.0" width="140.0" height="182.0" fill="#e3b341" fill-opacity="0.85" stroke="#222"/>
+<text x="146.0" y="205.0" font-size="12" text-anchor="middle" font-weight="bold">RCD</text><text x="146.0" y="219.0" font-size="10" text-anchor="middle">70x91</text>
+<text x="146.0" y="310.0" font-size="10" text-anchor="middle" fill="#333">漏電斷路器</text>
+<rect x="228.0" y="116.0" width="100.0" height="182.0" fill="#e3b341" fill-opacity="0.85" stroke="#222"/>
+<text x="278.0" y="205.0" font-size="12" text-anchor="middle" font-weight="bold">QF2</text><text x="278.0" y="219.0" font-size="10" text-anchor="middle">50x91</text>
+<text x="278.0" y="310.0" font-size="10" text-anchor="middle" fill="#333">伺服(共用)</text>
+<rect x="340.0" y="116.0" width="100.0" height="182.0" fill="#e3b341" fill-opacity="0.85" stroke="#222"/>
+<text x="390.0" y="205.0" font-size="12" text-anchor="middle" font-weight="bold">QF3</text><text x="390.0" y="219.0" font-size="10" text-anchor="middle">50x91</text>
+<text x="390.0" y="310.0" font-size="10" text-anchor="middle" fill="#333">變頻器</text>
+<rect x="452.0" y="116.0" width="100.0" height="182.0" fill="#e3b341" fill-opacity="0.85" stroke="#222"/>
+<text x="502.0" y="205.0" font-size="12" text-anchor="middle" font-weight="bold">QF4</text><text x="502.0" y="219.0" font-size="10" text-anchor="middle">50x91</text>
+<text x="502.0" y="310.0" font-size="10" text-anchor="middle" fill="#333">電源</text>
+<rect x="564.0" y="116.0" width="110.0" height="190.0" fill="#58a6ff" fill-opacity="0.85" stroke="#222"/>
+<text x="619.0" y="209.0" font-size="12" text-anchor="middle" font-weight="bold">KM1</text><text x="619.0" y="223.0" font-size="10" text-anchor="middle">55x95</text>
+<text x="619.0" y="318.0" font-size="10" text-anchor="middle" fill="#333">接觸器(共用)</text>
+<rect x="76.0" y="346.0" width="300.0" height="90.0" fill="#ffa657" fill-opacity="0.85" stroke="#222"/>
+<text x="226.0" y="389.0" font-size="12" text-anchor="middle" font-weight="bold">X0</text><text x="226.0" y="403.0" font-size="10" text-anchor="middle">150x45</text>
+<text x="226.0" y="448.0" font-size="10" text-anchor="middle" fill="#333">進線 / PE / 出線端子</text>
+<rect x="388.0" y="346.0" width="240.0" height="130.0" fill="#cccccc" fill-opacity="0.4" stroke="#222"/>
+<text x="508.0" y="409.0" font-size="12" text-anchor="middle" font-weight="bold">FL2</text><text x="508.0" y="423.0" font-size="10" text-anchor="middle">120x65</text>
+<text x="508.0" y="488.0" font-size="10" text-anchor="middle" fill="#333">濾波器(預留)</text>
+<text x="60" y="656" font-size="11" fill="#333">板高用 236 / 240 mm</text></svg>
