@@ -31,7 +31,7 @@ for o in M:
     s = share(o['n']); resv = o['g'].startswith('reserved')
     out.append({'n': o['n'], 's': s, 'l': LABELS.get(o['n'], ''), 'c': colour(o['n']), 't': 1 if (resv or s in ('roof',)) else 0,
                 'p': base64.b64encode(struct.pack('<%dh' % len(c), *c)).decode(), 'i': base64.b64encode(struct.pack(('<%dH' if w else '<%dI') % len(idx), *idx)).decode(), 'w': w})
-info = '立柱電箱（控制類）：只有一片折成 L 型的板（SPHC t4，沒有任何蓋子）。垂直板在前面（y 255..259），電料鎖在它的後面往後伸，接頭朝後方（+y），從機台後面就能維修；水平板在上面，電料掛在底面。後面一排由左到右：X1 端子、SVL 吹氣閥、PSU1 24V、PSU2 12V、VFD、SVX/SVY/SVZ 三台伺服。屋頂底面：DC1、KA2、KA3、XT、BD 控制板、IOTA 電腦。保護類（斷路器、接觸器）在底座電箱。上方「標示」可關閉名稱，勾選方塊可隱藏零件。'
+info = '立柱電控板（控制類）：一片折成 L 型的板（SPHC t4，沒有蓋子）。所有電料都鎖在垂直板的後面往後伸，接頭朝後方（+y），從機台後面就能維修；水平板上只有吊鎖孔與 X 浪管孔，沒有電料。垂直板上由左到右：左欄 BD 控制板（上）與 IOTA 電腦（下）；中間一排 X1 端子、SVL 吹氣閥、PSU1 24V、PSU2 12V；上方一排 DC1、KA2、KA3、XT；右邊 VFD 變頻器與三台伺服 SVX/SVY/SVZ。保護類（斷路器、接觸器）在底座電箱。"標示"可關閉名稱，勾選方塊可隱藏零件。'
 page = open(os.path.join(HERE, 'viewer_page.html'), encoding='utf-8').read().replace('<!--THREE-->', three, 1).replace('/*DATA*/', 'const DATA=' + json.dumps(out, separators=(',', ':')) + ';', 1).replace('/*INFO*/', info, 1)
 open(os.path.join(HERE, 'column_box_3d.html'), 'w', encoding='utf-8').write(page)
 print('parts', len(out), 'size MB %.1f' % (len(page) / 1e6))

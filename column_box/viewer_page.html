@@ -27,7 +27,7 @@ for(const p of DATA){const q=b64(p.p,Int16Array),pos=new Float32Array(q.length);
  const m=new THREE.Mesh(g,new THREE.MeshStandardMaterial({color:new THREE.Color(...p.c),metalness:0.15,roughness:0.6,side:THREE.DoubleSide,transparent:!!p.t,opacity:p.t?0.25:1,depthWrite:!p.t}));
  m.userData={n:p.n,s:p.s};scene.add(m);MESH.push(m);if(p.l){g.computeBoundingBox();const c=new THREE.Vector3();g.boundingBox.getCenter(c);const d=document.createElement('div');d.className='lb';d.textContent=p.l;document.getElementById('lbs').appendChild(d);LB.push({m,c,d})}}
 const T=new THREE.Vector3(0,375,370);
-const VIEWS={below:[420,1250,150],front:[0,-1500,380],iso:[900,-700,900],back:[-250,1750,420]};
+const VIEWS={below:[420,1250,150],front:[0,-1500,380],iso:[900,-700,900],back:[0,1900,380]};
 function view(k){cam.position.set(...VIEWS[k]);ctl.target.copy(T);ctl.update()}
 document.querySelectorAll('[data-v]').forEach(b=>b.onclick=()=>view(b.dataset.v));
 const SH=[['wall','垂直板'],['roof','水平板'],['rails','DIN 軌'],['nuts','拉帽']];

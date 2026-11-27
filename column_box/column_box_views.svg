@@ -18,18 +18,18 @@
 <text x="870.0" y="205.8" font-size="9" text-anchor="middle">SVY</text>
 <rect x="906.0" y="102.0" width="48.0" height="201.6" fill="#f85149" fill-opacity="0.8" stroke="#222"/>
 <text x="930.0" y="205.8" font-size="9" text-anchor="middle">SVZ</text>
-<rect x="84.0" y="69.0" width="30.0" height="30.0" fill="#8b949e" fill-opacity="0.8" stroke="#222"/>
-<text x="99.0" y="87.0" font-size="9" text-anchor="middle">DC1</text>
-<rect x="132.0" y="69.0" width="33.6" height="74.4" fill="#d2a8ff" fill-opacity="0.8" stroke="#222"/>
-<text x="148.8" y="109.2" font-size="9" text-anchor="middle">KA2</text>
-<rect x="183.6" y="69.0" width="33.6" height="74.4" fill="#d2a8ff" fill-opacity="0.8" stroke="#222"/>
-<text x="200.4" y="109.2" font-size="9" text-anchor="middle">KA3</text>
-<rect x="235.2" y="69.0" width="120.0" height="54.0" fill="#ffa657" fill-opacity="0.8" stroke="#222"/>
-<text x="295.2" y="99.0" font-size="9" text-anchor="middle">XT</text>
-<rect x="84.0" y="60.0" width="115.2" height="42.0" fill="#56d364" fill-opacity="0.8" stroke="#222"/>
-<text x="141.6" y="84.0" font-size="9" text-anchor="middle">BD</text>
-<rect x="228.0" y="60.0" width="85.2" height="48.0" fill="#a371f7" fill-opacity="0.8" stroke="#222"/>
-<text x="270.6" y="87.0" font-size="9" text-anchor="middle">PC</text>
+<rect x="216.0" y="77.4" width="30.0" height="66.0" fill="#8b949e" fill-opacity="0.8" stroke="#222"/>
+<text x="231.0" y="113.4" font-size="9" text-anchor="middle">DC1</text>
+<rect x="260.4" y="73.2" width="33.6" height="74.4" fill="#d2a8ff" fill-opacity="0.8" stroke="#222"/>
+<text x="277.2" y="113.4" font-size="9" text-anchor="middle">KA2</text>
+<rect x="308.4" y="73.2" width="33.6" height="74.4" fill="#d2a8ff" fill-opacity="0.8" stroke="#222"/>
+<text x="325.2" y="113.4" font-size="9" text-anchor="middle">KA3</text>
+<rect x="356.4" y="83.4" width="120.0" height="54.0" fill="#ffa657" fill-opacity="0.8" stroke="#222"/>
+<text x="416.4" y="113.4" font-size="9" text-anchor="middle">XT</text>
+<rect x="90.0" y="74.4" width="115.2" height="116.4" fill="#56d364" fill-opacity="0.8" stroke="#222"/>
+<text x="147.6" y="135.6" font-size="9" text-anchor="middle">BD</text>
+<rect x="90.0" y="212.4" width="85.2" height="108.0" fill="#a371f7" fill-opacity="0.8" stroke="#222"/>
+<text x="132.6" y="269.4" font-size="9" text-anchor="middle">PC</text>
 <text x="60" y="387" font-size="12">下：俯視（x 向右，y 向上：後牆在最上方，前方 y 255 在最下方）</text>
 <rect x="60" y="395" width="912" height="288" fill="#f4f4f4" stroke="#000" stroke-width="2"/>
 <rect x="270.0" y="615.8" width="180.0" height="54.0" fill="#ffa657" fill-opacity="0.8" stroke="#222"/>
@@ -48,16 +48,16 @@
 <text x="870.0" y="576.2" font-size="9" text-anchor="middle">SVY</text>
 <rect x="906.0" y="467.6" width="48.0" height="211.2" fill="#f85149" fill-opacity="0.8" stroke="#222"/>
 <text x="930.0" y="576.2" font-size="9" text-anchor="middle">SVZ</text>
-<rect x="84.0" y="584.6" width="30.0" height="66.0" fill="#8b949e" fill-opacity="0.8" stroke="#222"/>
-<text x="99.0" y="620.6" font-size="9" text-anchor="middle">DC1</text>
-<rect x="132.0" y="580.4" width="33.6" height="74.4" fill="#d2a8ff" fill-opacity="0.8" stroke="#222"/>
-<text x="148.8" y="620.6" font-size="9" text-anchor="middle">KA2</text>
-<rect x="183.6" y="580.4" width="33.6" height="74.4" fill="#d2a8ff" fill-opacity="0.8" stroke="#222"/>
-<text x="200.4" y="620.6" font-size="9" text-anchor="middle">KA3</text>
-<rect x="235.2" y="590.6" width="120.0" height="54.0" fill="#ffa657" fill-opacity="0.8" stroke="#222"/>
-<text x="295.2" y="620.6" font-size="9" text-anchor="middle">XT</text>
-<rect x="84.0" y="411.2" width="115.2" height="116.4" fill="#56d364" fill-opacity="0.8" stroke="#222"/>
-<text x="141.6" y="472.4" font-size="9" text-anchor="middle">BD</text>
-<rect x="228.0" y="419.6" width="85.2" height="108.0" fill="#a371f7" fill-opacity="0.8" stroke="#222"/>
-<text x="270.6" y="476.6" font-size="9" text-anchor="middle">PC</text>
+<rect x="216.0" y="639.8" width="30.0" height="30.0" fill="#8b949e" fill-opacity="0.8" stroke="#222"/>
+<text x="231.0" y="657.8" font-size="9" text-anchor="middle">DC1</text>
+<rect x="260.4" y="595.4" width="33.6" height="74.4" fill="#d2a8ff" fill-opacity="0.8" stroke="#222"/>
+<text x="277.2" y="635.6" font-size="9" text-anchor="middle">KA2</text>
+<rect x="308.4" y="595.4" width="33.6" height="74.4" fill="#d2a8ff" fill-opacity="0.8" stroke="#222"/>
+<text x="325.2" y="635.6" font-size="9" text-anchor="middle">KA3</text>
+<rect x="356.4" y="615.8" width="120.0" height="54.0" fill="#ffa657" fill-opacity="0.8" stroke="#222"/>
+<text x="416.4" y="645.8" font-size="9" text-anchor="middle">XT</text>
+<rect x="90.0" y="636.8" width="115.2" height="42.0" fill="#56d364" fill-opacity="0.8" stroke="#222"/>
+<text x="147.6" y="660.8" font-size="9" text-anchor="middle">BD</text>
+<rect x="90.0" y="630.8" width="85.2" height="48.0" fill="#a371f7" fill-opacity="0.8" stroke="#222"/>
+<text x="132.6" y="657.8" font-size="9" text-anchor="middle">PC</text>
 </svg>

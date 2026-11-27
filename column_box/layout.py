@@ -24,13 +24,14 @@ PARTS = [
     wall('SVX', 'Mitsubishi MR-J4-40A', 225, 40, 176, 168, 284, 'upright, connectors face the rear (+y)', 'M vendor STEP 40x168x175.9'),
     wall('SVY', 'Mitsubishi MR-J4-40A', 275, 40, 176, 168, 284, 'upright, connectors face the rear (+y)', 'M vendor STEP 40x168x175.9'),
     wall('SVZ', 'Mitsubishi MR-J4-40A', 325, 40, 176, 168, 284, 'upright, connectors face the rear (+y)', 'M vendor STEP 40x168x175.9'),
-    # --- roof underside, hanging down. Row A: one roof DIN rail (centre y 300), parts centred on it. Row B: boards, tops aligned at y 385.
-    roof('DC1', 'DC-DC 24 V -> 5 V', -360, 282.5, 25, 55, 25, 'DIN rail, hanging', 'A'),
-    roof('KA2', 'Omron MY2N-GS + PYFZ-08 (pump)', -320, 279, 28, 62, 62, 'DIN rail, hanging', 'A'),
-    roof('KA3', 'Omron MY2N-GS + PYFZ-08 (Z brake)', -277, 279, 28, 62, 62, 'DIN rail, hanging', 'A'),
-    roof('XT', 'DIN terminal strip (+24 V / 0 V / +5 V distribution)', -234, 287.5, 100, 45, 45, 'DIN rail, hanging', 'A'),
-    roof('BD', 'RP23CNC V2.02 on 4 M3 standoffs', -360, 385, 96, 97, 35, 'standoffs on the roof, components down', 'M vendor STEP 96x97', rail=False),
-    roof('PC', 'LattePanda IOTA (12 V 60 W) with heatsink', -240, 385, 71, 90, 40, 'hanging on standoffs, ports toward the front', 'M vendor STEP board 71x90x19 + heatsink ~40 deep', rail=False),
+    # --- upper band on a second wall DIN rail (centre z 445): everything stays under the flange pull nuts (z 478)
+    wall('DC1', 'DC-DC 24 V -> 5 V', -250, 25, 25, 55, 417.5, 'DIN rail, upright', 'A', rail=True),
+    wall('KA2', 'Omron MY2N-GS + PYFZ-08 (pump)', -213, 28, 62, 62, 414, 'DIN rail, upright', 'A', rail=True),
+    wall('KA3', 'Omron MY2N-GS + PYFZ-08 (Z brake)', -173, 28, 62, 62, 414, 'DIN rail, upright', 'A', rail=True),
+    wall('XT', 'DIN terminal strip (+24 V / 0 V / +5 V distribution)', -133, 100, 45, 45, 422.5, 'DIN rail, horizontal', 'A', rail=True),
+    # --- left column: the two boards, on standoffs (components face the rear)
+    wall('BD', 'RP23CNC V2.02 on 4 M3 standoffs', -355, 96, 35, 97, 378, 'standoffs on the plate, components face the rear', 'M vendor STEP 96x97'),
+    wall('PC', 'LattePanda IOTA (12 V 60 W) with FIT1027 cooler', -355, 71, 40, 90, 270, 'standoffs on the plate, ports face the rear', 'M vendor STEP board 71x90x19 + cooler'),
 ]
 FLAGS = set()                                   # reserved space, not a part
 
