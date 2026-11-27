@@ -18,8 +18,8 @@ RBPB8 座孔 Ø22 H7：外環 h6，用固持膠（Loctite 641）黏固，不壓�
 
 | 零件 | 數量 | 外形 X × Y × Z | 孔數 | H7 孔 | 研磨 | 規格 |
 |---|---|---|---|---|---|---|
-| Datum_base_plate | 1 | 785 × 327 × 20 | 38 | 6 | top face ground (Y block seats) | Q235 t20 785x327 datum plate, top face ground (Y block seats |
-| Work_table | 1 | 440 × 473.5 × 40 | 26 | 6 | Y slide table: BOTH faces ground - underside = Y rail face | 440x473.5x40 (53.5 longer at rear), 5x T-slot 14 DIN 650 (ne |
+| Datum_base_plate | 1 | 785 × 327 × 20 | 41 | 6 | top face ground (Y block seats) | Q235 t20 785x327 datum plate, top face ground (Y block seats |
+| Work_table | 1 | 440 × 473.5 × 40 | 29 | 6 | Y slide table: BOTH faces ground - underside = Y rail face | 440x473.5x40 (53.5 longer at rear), 5x T-slot 14 DIN 650 (ne |
 | Column_foot_L | 1 | 80 × 210 × 18 | 8 | 1 | — | steel foot t18, 80x210, front flange 30 (hold-down bolt, pus |
 | Column_foot_R | 1 | 80 × 210 × 18 | 9 | 1 | — | steel foot t18, 80x210, front flange 30 (hold-down bolt, pus |
 | Gantry_column_L | 1 | 80 × 160 × 472 | 1 | 1 | — | HFS8-80160-472 (z18..490) |
@@ -35,7 +35,7 @@ RBPB8 座孔 Ø22 H7：外環 h6，用固持膠（Loctite 641）黏固，不壓�
 | X_nut_bracket | 1 | 37 × 95.6 × 52 | 11 | 1 | — | nut housing (CNC): wraps the C-KBS1505 nut body, flange bolt |
 | Y_nut_bracket | 1 | 52 × 32 × 67.59 | 11 | 1 | — | Y nut housing (CNC): wraps the C-KBS1505 nut body, flange on |
 | X_motor_block | 1 | 38 × 67 × 76 | 9 | 1 | — | Z-style block in the 7 mm pocket of the X base plate REAR fa |
-| Y_motor_block | 1 | 120 × 38 × 95 | 11 | 1 | — | Z-style block: bolted UP into table underside 4xM6 (same fac |
+| Y_motor_block | 1 | 120 × 38 × 95 | 9 | 1 | — | Z-style block: bolted UP into table underside 4xM6 (same fac |
 | Spindle_clamp | 1 | 96 × 83 × 74 | 17 | 3 | — | 6061 clamp block 96x83x74: bore D65 H7 at (x+32.5, y-20), re |
 | Spindle_mount_plate | 1 | 176 × 12 × 212 | 16 | 2 | — | tool-head module plate, flat steel t12 (116 wide z 288..500  |
 | Base_riser_1 | 4 | 60 × 60 × 68.5 | 3 | 0 | — | steel riser 60x60x68.5 on the pan floor: M12 tap for the mac |
@@ -53,10 +53,11 @@ RBPB8 座孔 Ø22 H7：外環 h6，用固持膠（Loctite 641）黏固，不壓�
 | Probe_holder | 1 | 46 × 19 × 10 | 6 | 0 | — | probe plate (CNC, 6061 t10, 46 x 19) under the MXH10 rod-end |
 | Box_top_plate | 1 | 785 × 448 × 20 | 34 | 0 | — | SPHC t3 laser cut + bent: 785 x 448, rear and side flanges 2 |
 | Box_top_shim_L | 2 | 80 × 160 × 1 | 4 | 0 | — | stainless shim t1, 80 x 160, 4 x D9: lifts the box top plate |
-| Conduit_Y_bracket | 1 | 80 × 147 × 56.04 | 3 | 0 | — | SPHC t3 bent: Y conduit end bracket on the Y motor block top |
+| Conduit_Y_table_tray | 1 | 83 × 285 × 85 | 4 | 0 | — | SPHC t3 bent: Y conduit moving-end tray on the work table ri |
+| Conduit_Y_base_tray | 1 | 60 × 515 × 30 | 3 | 0 | — | SPHC t3 bent channel 60 x 30: Y conduit lower tray on the da |
 | Conduit_head_bracket | 1 | 100 × 39 × 115.6 | 4 | 0 | — | SPHC t3 bent: Z conduit end bracket on the spindle clamp fro |
 | Conduit_carriage_bracket | 1 | 52 × 100 × 140 | 3 | 0 | — | SPHC t3 bent: on the saddle ear front face (2 x M5, beside t |
 | Conduit_X_arm | 1 | 73 × 121 × 203 | 4 | 0 | — | SPHC t3 bent: X conduit carriage arm on the saddle ear back  |
-| Conduit_Y_top_bracket | 1 | 80 × 113 × 45 | 3 | 0 | — | SPHC t3 bent: Y conduit top end, on the column box L-plate f |
+| Conduit_Y_top_bracket | 1 | 50 × 208 × 48 | 2 | 0 | — | SPHC t3 bent: Y conduit fixed end on the column box L-plate  |
 | Feeder_entry_plate | 1 | 23 × 157 × 244 | 4 | 0 | — | SPHC t3 bent: feeder conduit entry plate on the box top plat |
 | Conduit_X_roof_tab | 1 | 25 × 50 × 58 | 3 | 0 | — | SPHC t3 bent: tab on the box top plate (2 x M5) carrying the |

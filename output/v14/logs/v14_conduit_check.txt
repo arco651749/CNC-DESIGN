@@ -1,6 +1,6 @@
 v14 conduits: 3 moving runs, 27 poses
 
-Conduit_Y    Y 軸浪管：X 底板背面固定支架 → 工作台後左支架（KSS PA-23，模型外徑 28.5），x -395 → -295 下垂 U 型，整段在工作台外側  length 410.0, min bend radius over all poses 56 (allowed 50) OK 
+Conduit_Y    Y 軸浪管：立柱電箱 L 板支架直下 → 底座托盤 → R55 滾動彎 → 工作台右側托盤（KSS PA-23，模型外徑 28.5），x 280 平面  length rolling, min bend radius over all poses 55 (allowed 50) OK 
 Conduit_ZB   Z 段浪管：X 滑座 → 工具頭（KSS PA-29，模型外徑 34.5），下垂 U 型  length 530.0, min bend radius over all poses 60 (allowed 60) OK 
 Conduit_XA   X 段浪管：電箱頂板上的水平滾動 U 型環，R 80（KSS PA-29，模型外徑 34.5）  length rolling, min bend radius over all poses 80 (allowed 60) OK 
 
@@ -8,6 +8,4 @@ CONDUIT ENDS IN THEIR OWN FITTINGS / CLAMPS (expected): 2
   Conduit_carriage_run in Conduit_X_arm_clamp: 677 mm3
   Conduit_carriage_run in Conduit_carriage_clamp: 1043 mm3
 
-COLLISIONS: 2
-  Conduit_Y x Foot_col_bolt_L3 at (-182.5, -250, -50): 204 mm3
-  Conduit_Y x Gantry_column_L at (-182.5, -250, -50): 21939 mm3
+COLLISIONS: 0

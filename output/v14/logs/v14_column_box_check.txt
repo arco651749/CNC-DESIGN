@@ -1,7 +1,9 @@
 v14 electrical box (column_box/column_box.step): 468 box solids, envelope x -380.0..380.0 y 255.0..446.0 z 241.0..491.0
-572 machine parts, 27 poses; reference copies of machine parts skipped: none
+577 machine parts, 27 poses; reference copies of machine parts skipped: none
 
-COLLISIONS (box x machine): 0
+COLLISIONS (box x machine): 2
+  L_plate_vertical x Conduit_Y_top_bracket_bolt_1 at (0, 0, 0): 79 mm3
+  L_plate_vertical x Conduit_Y_top_bracket_bolt_2 at (0, 0, 0): 79 mm3
 
 THREAD ENGAGEMENT (mechanical-side screws in the electrical-side nuts / rivet nuts): 20
   Box_hang_screw_1 in PullNut_M5_01: engaged 5.0, tip 4.0 above the nut bottom OK
@@ -25,17 +27,15 @@ THREAD ENGAGEMENT (mechanical-side screws in the electrical-side nuts / rivet nu
   Box_hang_screw_19 in PullNut_M5_19: engaged 5.0, tip 4.0 above the nut bottom OK
   Box_hang_screw_20 in PullNut_M5_20: engaged 5.0, tip 4.0 above the nut bottom OK
 
-SUPPORT (fixed machine parts touching the box): 6
+SUPPORT (fixed machine parts touching the box): 4
   L_plate_flange - Box_top_plate
   L_plate_vertical - Conduit_Y_top_bracket
-  L_plate_vertical - Conduit_Y_top_bracket_bolt_1
-  L_plate_vertical - Conduit_Y_top_bracket_bolt_2
   Nut_bracket_1 - Conduit_X_roof_tab_bolt_1
   Nut_bracket_2 - Conduit_X_roof_tab_bolt_2
 
 
 v14 electrical box (base_cabinet/base_cabinet.step): 24 box solids, envelope x -250.0..422.0 y -690.0..-520.0 z -620.0..-91.0
-572 machine parts, 27 poses; reference copies of machine parts skipped: none
+577 machine parts, 27 poses; reference copies of machine parts skipped: none
 
 COLLISIONS (box x machine): 0
 
