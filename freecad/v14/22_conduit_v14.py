@@ -18,15 +18,15 @@ ZT = BOX[1][2] + 34.5 / 2 + 6.75        # X loop centre height: on the box top p
 XF = 80.0      # X loop leg ends (fixed leg on the roof, moving leg on the carriage arm): loop spans x -120..368 incl. its radius, roof edge 392.5
 GLANDS = [(-120, 330, BOX[0][2], 28.5), (50, 390, BOX[1][2], 34.5)]   # (x, y, z, conduit OD): Y bottom cover, X roof
 ATTACH = {   # conduit -> its own end fittings / clamps (01): the conduit ends inside them, reported apart as expected
-    'Conduit_Y': ('Conduit_Y_box_fitting', 'Conduit_Y_end_fitting'), 'Conduit_ZB': ('Conduit_head_end_fitting', 'Conduit_carriage_clamp'),
+    'Conduit_Y': ('Conduit_Y_top_fitting', 'Conduit_Y_end_fitting'), 'Conduit_ZB': ('Conduit_head_end_fitting', 'Conduit_carriage_clamp'),
     'Conduit_XA': ('Conduit_X_roof_elbow', 'Conduit_X_arm_clamp'), 'Conduit_roof_entry': ('Conduit_X_roof_elbow',),
     'Conduit_carriage_run': ('Conduit_carriage_clamp', 'Conduit_X_arm_clamp')}
 OLD_PANEL = ('Electrical_panel', 'Servo_amp', 'Servo_bolt', 'Controller', 'Board_standoff', 'Panel_standoff')   # replaced by the box
 # name: (label, outer D, length, (frame, point, direction) start, (frame, point, direction) end, min bend radius allowed)
 CONDUITS = {
     # hanging runs: fixed length between two clamped ends, settles under gravity (Y: panel -> Y motor, Z: X carriage -> tool head)
-    'Conduit_Y': ('Y 軸浪管：立柱電箱底蓋 → Y 馬達（PA 浪管 NW23, AD 28.5），下垂 U 型', 28.5, 490.0,
-                  ('s', (-120, 330, BOX[0][2]), (0, 0, -1)), ('y', (0, 395, 200), (0, 0, 1)), 50.0),
+    'Conduit_Y': ('Y 軸浪管：立柱電控板 Y 支架 → Y 馬達（PA 浪管 NW23, AD 28.5），下垂 U 型', 28.5, 490.0,
+                  ('s', (-120, 330, 230.0), (0, 0, -1)), ('y', (0, 395, 200), (0, 0, 1)), 50.0),
     'Conduit_ZB': ('Z 段浪管：X 滑座 → 工具頭（PA 浪管 NW29, AD 34.5），下垂 U 型', 34.5, 450.0,
                    ('x', (110, 40, 640), (0, 0, -1)), ('z', (110, -80, 470), (0, 0, 1)), 60.0),
     # rolling loop on the box top plate (X: fixed leg y 390, moving leg y 230 on an arm from the carriage, bend R 80)

@@ -167,8 +167,8 @@ for k, yc in enumerate((-40.0, 0.0), 1):                       # clear of the pi
         'segmented coolant nozzle 1/4, down beside the spindle (right) then in, aimed at the tool', 'z')
 
 # feeder cables between the column-top electrical box and the base cabinet (owner 2026-11-27: protection parts in a base cabinet; both boxes
-# drawn by the electrical session). Fixed runs, no drag chain, outside the machine and away from the moving conduits: column box back
-# wall (lower left) -> rear guard glands -> down behind the rear-left leg -> forward outside the left low side beams -> along the front
+# drawn by the electrical session). Fixed runs, no drag chain, outside the machine and away from the moving conduits: entry plate on
+# the box top plate rear flange (01) -> rear guard glands -> down behind the rear-left leg -> forward outside the left low side beams -> along the front
 # low beam -> up into the base cabinet bottom. Power (F1-F3 + PE) and control (F4, shielded) in two conduits ~50 apart. KSS sizes: sketch.
 def fillet(pts, R, n=6):                                       # polyline with each corner rounded to radius R (static conduit bends)
     P_ = [V(*p) for p in pts]; out = [P_[0]]
@@ -183,9 +183,9 @@ def fillet(pts, R, n=6):                                       # polyline with e
 def tube_(pts, D):
     return fuse(*([seg(a_, b_, D / 2) for a_, b_ in zip(pts[:-1], pts[1:]) if math.dist(a_, b_) > 1e-6] + [Part.makeSphere(D / 2, V(*q)) for q in pts[1:-1]]))
 FEED = {   # name: (outer D, static bend R, route, spec); rear runs bend only after the guard, side runs outside the frame bolt heads
-    'Feeder_power_conduit': (42.5, 70.0, [(-340, 500, 270), (-340, 645, 270), (-530, 645, 270), (-530, 645, -640), (-530, -650, -640), (-150, -650, -640), (-150, -650, -510)],
+    'Feeder_power_conduit': (42.5, 70.0, [(-340, 506, 270), (-340, 645, 270), (-530, 645, 270), (-530, 645, -640), (-530, -650, -640), (-150, -650, -640), (-150, -650, -510)],
                              'KSS PA nylon conduit ID >= 32 (sketch: NW36, AD 42.5): F1 servo 5G2.5, F2 VFD 3G4, F3 supply 3G1.5, PE; column box -> base cabinet'),
-    'Feeder_control_conduit': (21.2, 60.0, [(-260, 500, 270), (-260, 695, 270), (-530, 695, 270), (-530, 695, -690), (-530, -650, -690), (-90, -650, -690), (-90, -650, -510)],
+    'Feeder_control_conduit': (21.2, 60.0, [(-260, 506, 270), (-260, 695, 270), (-530, 695, 270), (-530, 695, -690), (-530, -650, -690), (-90, -650, -690), (-90, -650, -510)],
                                'KSS PA nylon conduit (sketch: NW17, AD 21.2): F4 control 4x0.75 shielded (E-stop loop, contactor coil); 50 from the power run'),
     'Feeder_opbox_cable': (9.0, 30.0, [(300, -633, -330), (300, -633, -400), (180, -625, -400)],
                            'operator box -> base cabinet right wall: 7G0.75 (S1 E-stop 2NC, S2 start NO), ~0.5 m, clipped to the right upright'),

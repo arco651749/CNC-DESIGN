@@ -51,9 +51,11 @@ RBPB8 座孔 Ø22 H7：外環 h6，用固持膠（Loctite 641）黏固，不壓�
 | Camera_air_ring | 1 | 55 × 51 × 10 | 2 | 0 | — | lens air ring (CNC, 6061) on the D45 lens nose, 2 x M3 set s |
 | Mirror_bracket | 1 | 118.5 × 101.5 × 29 | 4 | 0 | — | prism holder (CNC, steel t8, base ground): on the table T-sl |
 | Probe_holder | 1 | 46 × 19 × 10 | 6 | 0 | — | probe plate (CNC, 6061 t10, 46 x 19) under the MXH10 rod-end |
-| Box_top_plate | 1 | 785 × 501 × 20 | 29 | 0 | — | SPHC t3 laser cut + bent: 785 x 498, rear and side flanges 2 |
+| Box_top_plate | 1 | 785 × 501 × 20 | 32 | 0 | — | SPHC t3 laser cut + bent: 785 x 498, rear and side flanges 2 |
 | Box_top_shim_L | 2 | 80 × 160 × 1 | 4 | 0 | — | stainless shim t1, 80 x 160, 4 x D9: lifts the box top plate |
 | Conduit_Y_bracket | 1 | 80 × 147 × 78 | 3 | 0 | — | SPHC t3 bent: Y conduit end bracket on the Y motor block top |
 | Conduit_head_bracket | 1 | 96 × 39 × 148 | 5 | 0 | — | SPHC t3 bent: Z conduit end bracket on the spindle clamp fro |
 | Conduit_carriage_bracket | 1 | 52 × 100 × 140 | 3 | 0 | — | SPHC t3 bent: on the saddle ear front face (2 x M5, beside t |
 | Conduit_X_arm | 1 | 73 × 121 × 203 | 4 | 0 | — | SPHC t3 bent: X conduit carriage arm on the saddle ear back  |
+| Conduit_Y_top_bracket | 1 | 80 × 113 × 45 | 3 | 0 | — | SPHC t3 bent: Y conduit top end, on the column box L-plate f |
+| Feeder_entry_plate | 1 | 180 × 23 × 244 | 4 | 0 | — | SPHC t3 bent: feeder conduit entry plate on the box top plat |

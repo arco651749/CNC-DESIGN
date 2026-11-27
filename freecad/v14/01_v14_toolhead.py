@@ -541,7 +541,8 @@ for o in list(GROUPS['07 Electrics'].Group): doc.removeObject(o.Name)
 TP, ZP0 = 3.0, 491.0; ZP1 = ZP0 + TP                         # plate z 491..494 (column tops z 490 + shim 1)
 XE, YF, YR, FL = 392.5, 2.0, 500.0, 20.0                     # outer x, front (column front), rear (box back wall), flange depth
 COLB = [(sx * x, y) for sx in (-1, 1) for x in (332.5, 372.5) for y in (22.0, 142.0)]   # column end taps (as the foot bolts, v12)
-HANG = ([(x, 259.0) for x in (-350, -250, -150, -50, 50, 150, 250, 350)] + [(x, 490.0) for x in (-350, -250, -150, -50, 50, 100, 250, 350)]
+HANG = ([(x, 272.0) for x in (-350, -250, -150, -50, 50, 150, 250, 350)]   # front row y 272: clear of the L-plate bend (electrical session)
+ + [(x, 490.0) for x in (-350, -250, -150, -50, 50, 100, 250, 350)]
         + [(sx * 376.0, y) for sx in (-1, 1) for y in (365.0, 435.0)])   # rear x 100: clear of the exhaust louvre; sides between the box roof DIN rails
 GLAND_X = (50.0, 390.0, 45.0)                                # X conduit roof gland (elbow fitting), hole D45
 pl = box(-XE, XE, YF, YR, ZP0, ZP1).cut(box(-312.5, 312.5, YF - 1, 162.0, ZP0 - 1, ZP1 + 1))   # open between the columns: X carriage
@@ -625,9 +626,31 @@ add('Conduit_X_arm_clamp', box(62, 98, 230 - 23, 252.0, ZT_ - 20, ZT_ + 23).cut(
 add('Conduit_X_roof_elbow', fuse(Part.makeCylinder(20, ZT_ - 494.0 + 20, V(50, 390, 494.0)), Part.makeCylinder(20, 40, V(50, 390, ZT_), V(1, 0, 0)),
     Part.makeCylinder(22, 6, V(50, 390, 485.0))), GC, '90 deg conduit elbow connector for PA-29 (KSS), M-thread into the box top plate gland with '
     'locknut under the plate - size to confirm from the KSS catalog', '', '')
-add('Conduit_Y_box_fitting', Part.makeCylinder(20, 14, V(-120, 330, 241.0 - 14)).fuse(Part.makeCylinder(22, 6, V(-120, 330, 244.0))), GC,
-    'conduit connector for PA-23 (KSS, straight, IP rated) in the box bottom cover gland (box: electrical session) - size to confirm', '', '')
-LOG.append('conduit hardware: Y bracket, head bracket, carriage bracket + clamp, X arm + clamp, roof elbow, box fitting (KSS sizes to confirm)')
+# Y run top end (owner 2026-11-27: the column electrical box is one open L plate, no covers): bracket on the L plate front face (y 255,
+# below the X drive), shelf under the plate's lower edge holding the Y conduit end fitting at (-120, 330)
+yt = fuse(box(-160, -80, 255.0 - TB, 255.0, 236.0, 281.0), box(-160, -80, 255.0 - TB, 365.0, 236.0, 239.0))
+yt = yt.cut(Part.makeCylinder(16.5, 10, V(-120, 330, 230)))
+for x_ in (-140, -100): yt = yt.cut(Part.makeCylinder(2.75, 10, V(x_, 250, 265), V(0, 1, 0)))
+add('Conduit_Y_top_bracket', yt, GC, 'SPHC t3 bent: Y conduit top end, on the column box L-plate front face (2 x M5 + nut through the L plate, holes by the '
+    'electrical session at x -140 / -100, z 265), shelf z 236..239 under the plate edge, fitting hole D33 at (-120, 330)', '', '')
+for k, x_ in enumerate((-140, -100), 1):
+    add('Conduit_Y_top_bracket_bolt_%d' % k, fuse(Part.makeCylinder(2.5, 16, V(x_, 247.0, 265), V(0, 1, 0)), Part.makeCylinder(4.25, 5, V(x_, 247.0, 265), V(0, 1, 0)),
+        Part.makeCylinder(4.6, 4, V(x_, 259.0, 265), V(0, 1, 0))), GC, 'M5x16 SHCS + nut: Y conduit top bracket through the L plate', '', '')
+add('Conduit_Y_top_fitting', Part.makeCylinder(20, 6, V(-120, 330, 230.0)).fuse(Part.makeCylinder(20, 4, V(-120, 330, 239.0))), GC,
+    'conduit end connector for PA-23 (KSS, straight, with locknut) under the Y top bracket - size to confirm from the KSS catalog', '', '')
+# feeder conduits (to the base cabinet): entry plate hung from the box top plate rear flange, outside the L plate; conduit connectors D50 / D28
+fe = fuse(box(-390, -210, 503.0, 506.0, 250.0, 494.0), box(-390, -387, 506.0, 526.0, 250.0, 494.0), box(-213, -210, 506.0, 526.0, 250.0, 494.0))
+fe = fe.cut(Part.makeCylinder(25, 10, V(-340, 500, 270), V(0, 1, 0))).cut(Part.makeCylinder(14, 10, V(-260, 500, 270), V(0, 1, 0)))
+for kb_, x_ in enumerate((-370, -300, -230), 1):
+    fe = fe.cut(Part.makeCylinder(2.75, 10, V(x_, 498, 484), V(0, 1, 0))); cut('Box_top_plate', Part.makeCylinder(2.75, 10, V(x_, 498, 484), V(0, 1, 0)))
+    add('Feeder_entry_plate_bolt_%d' % kb_, fuse(Part.makeCylinder(2.5, 14, V(x_, 496.0, 484), V(0, 1, 0)), Part.makeCylinder(4.25, 4, V(x_, 496.0, 484), V(0, 1, 0)),
+        Part.makeCylinder(4.6, 4, V(x_, 506.0, 484), V(0, 1, 0))), GC, 'M5x14 button head + nut: feeder entry plate to the box top plate rear flange', '', '')
+add('Feeder_entry_plate', fe, GC, 'SPHC t3 bent: feeder conduit entry plate on the box top plate rear flange (3 x M5), side flanges 20; KSS conduit '
+    'connectors D50 (power, x -340) and D28 (control, x -260) at z 270 - size to confirm', '', '')
+for k, (x_, d_) in enumerate(((-340, 42.5), (-260, 21.2)), 1):
+    add('Feeder_entry_fitting_%d' % k, Part.makeCylinder(d_ / 2 + 6, 14, V(x_, 494.0, 270), V(0, 1, 0)).cut(Part.makeCylinder(d_ / 2, 14, V(x_, 494.0, 270), V(0, 1, 0))), GC,
+        'conduit connector with locknut (KSS, sketch) for the %s feeder conduit' % ('power' if k == 1 else 'control'), '', '')
+LOG.append('conduit hardware: Y bracket, head bracket, carriage bracket + clamp, X arm + clamp, roof elbow, Y top bracket, feeder entry plate (KSS sizes to confirm)')
 
 bad = [(l, round(r, 3)) for l, r in CHK if r < 0.98]
 LOG.append('HOLE_CHECK %d tools, not fully in material: %s' % (len(CHK), bad))
