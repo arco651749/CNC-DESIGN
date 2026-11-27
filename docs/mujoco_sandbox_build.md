@@ -6,6 +6,41 @@ AI 在這裡先跑一遍，確認不撞機、到得了、量得到，再上真�
 
 使用方式見 `sandbox/README.md`，這份文件記錄的是**怎麼建出來的、為什麼這樣做、踩過哪些坑**。
 
+## 0. Quick start for a Claude picking this up
+
+**Rebuild from scratch** (cloud container, no display; meshes are not in git):
+
+```bash
+pip install mujoco pillow numpy && apt-get install -y libegl1 libgl1 libosmesa6
+export MUJOCO_GL=egl
+CNC_ROOT=$PWD /opt/freecad/bin/freecadcmd freecad/v14/26_export_mujoco_v14.py   # needs output/v14/CNC_v14_base.FCStd (build chain 01 -> 06 in CLAUDE.md)
+python3 sandbox/build_mjcf.py
+python3 sandbox/demo_plan.py      # must print "plan ok: True" and the three faces within 0.005 of nominal (section 4)
+```
+
+**Use it**: `from cnc_sandbox import CNCSandbox` (add `sandbox/` to `sys.path`), place workpieces with `add_box` / `add_mesh`, run a plan
+with `run(plan)`; API, step types and coordinates are in `sandbox/README.md`. Read the report per step: `status` is one of
+`ok / triggered / no_trigger / crash / out_of_travel / error`.
+
+**Machine facts the planner needs** (v14, mm):
+- Axes X -182.5..182.5, Y -250..150 (moves the table), Z -50..50. Raise Z before long XY moves.
+- Head offsets from the spindle: camera optical axis (-32.5, -20), probe (-11, -73). Not every table point is reachable by every one.
+- Camera: focus plane = lens front - 120, DOF 5.3, field 16.8 x 14.0: it can focus only on surfaces up to 30 above the table top (z 140).
+- Probe: extended 60 (ball 25 below the tool tip), ball D2 on a 26 stylus; start probing moves 5..10 away from the surface.
+
+**Common changes**:
+| change | where |
+|---|---|
+| the machine model changed (tool head, table, prism) | rerun 26 and build_mjcf, then the demo |
+| a part should be (or not be) collidable | `HEAD_COLL` / `OBST_COLL` regexes in `freecad/v14/26_export_mujoco_v14.py` |
+| a new moving device (joint) | body rule in `body_of()` (26), its joint range in `manifest['joints']` and `parents`, then `body()` / `joint()` in `build_mjcf.py` and `self.adr` in `cnc_sandbox.py` |
+| camera / optics data | `manifest['camera']` in 26 (from the part specs), camera tag in `build_mjcf.py` |
+| check spacing, probe resolution, rapid feed | `STEP`, bisection limit (1 um) and `RAPID` in `cnc_sandbox.py` |
+| a new plan step type | `run()` in `cnc_sandbox.py`, then document it in `sandbox/README.md` |
+
+**Rules**: keep this file and `sandbox/README.md` in step with the code; never commit `output/v14/mujoco/meshes/` (vendor models, internal
+use); the sandbox is not the design interference check (02 / 07 / 12 are).
+
 ---
 
 ## 1. 環境
