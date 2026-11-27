@@ -17,7 +17,7 @@ BOX = ((-392.5, 252.0, 241.0), (392.5, 450.0, 494.0))   # box (electrical sessio
 ZT = BOX[1][2] + 34.5 / 2 + 10.75       # X loop centre height: as the roof adaptor on its tab and the carriage-arm clamp (01)
 XFF = 50.0 + 1.2 * 37.0   # fixed leg start: end of the roof PAQ-2929 body (adaptor on the tab at x 50, 01)
 XF = 80.0      # X loop moving leg end (fixed leg on the roof, moving leg on the carriage arm): loop spans x -120..368 incl. its radius, roof edge 392.5
-GLANDS = [(-120, 330, BOX[0][2], 28.5), (50, 390, BOX[1][2], 34.5)]   # (x, y, z, conduit OD): Y bottom cover, X roof
+GLANDS = [(50, 390, BOX[1][2], 34.5)]   # (x, y, z, conduit OD): X roof (the Y run no longer enters the box)
 ATTACH = {   # conduit -> its own end fittings / clamps (01): the conduit ends inside them, reported apart as expected
     'Conduit_Y': ('Conduit_Y_top_fitting', 'Conduit_Y_end_fitting'), 'Conduit_ZB': ('Conduit_head_end_fitting', 'Conduit_carriage_clamp'),
     'Conduit_XA': ('Conduit_X_roof_connector', 'Conduit_X_arm_clamp'),
@@ -26,10 +26,10 @@ OLD_PANEL = ('Electrical_panel', 'Servo_amp', 'Servo_bolt', 'Controller', 'Board
 # name: (label, outer D, length, (frame, point, direction) start, (frame, point, direction) end, min bend radius allowed)
 CONDUITS = {
     # hanging runs: fixed length between two clamped ends, settles under gravity (Y: panel -> Y motor, Z: X carriage -> tool head)
-    'Conduit_Y': ('Y 軸浪管：立柱電控板 Y 支架 → Y 馬達（KSS PA-23，模型外徑 28.5），下垂 U 型', 28.5, 484.0,
-                  ('s', (-120, 330, 236.0 - 1.2 * 28.3), (0, 0, -1)), ('y', (0, 395, 200), (0, 0, 1)), 50.0),
-    'Conduit_ZB': ('Z 段浪管：X 滑座 → 工具頭（KSS PA-29，模型外徑 34.5），下垂 U 型', 34.5, 450.0,
-                   ('x', (110, 40, 640), (0, 0, -1)), ('z', (110, -80, 470), (0, 0, 1)), 60.0),
+    'Conduit_Y': ('Y 軸浪管：X 底板背面固定支架 → 工作台後左支架（KSS PA-23，模型外徑 28.5），在 x -295 平面下垂 U 型，整段在工作台外側', 28.5, 430.0,
+                  ('s', (-295, 260, 216.0 - 1.2 * 28.3), (0, 0, -1)), ('y', (-295, 290, 167.0 - 1.2 * 28.3), (0, 0, 1)), 50.0),
+    'Conduit_ZB': ('Z 段浪管：X 滑座 → 工具頭（KSS PA-29，模型外徑 34.5），下垂 U 型', 34.5, 360.0,
+                   ('x', (110, 40, 640), (0, 0, -1)), ('z', (110, -80, 470.0 - 2 * 1.2 * 37.0 - 3.0), (0, 0, 1)), 60.0),   # end under the head bracket arm
     # rolling loop on the box top plate (X: fixed leg y 390, moving leg y 230 on an arm from the carriage, bend R 80)
     'Conduit_XA': ('X 段浪管：電箱頂板上的水平滾動 U 型環，R 80（KSS PA-29，模型外徑 34.5）', 34.5, None,
                    ('s', (XFF, 390, ZT), (1, 0, 0)), ('x', (XF, 230, ZT), (1, 0, 0)), 60.0),
