@@ -34,8 +34,8 @@ add('S1_estop', cyl('y', 20, -690, -663, 300, -280).fuse(cyl('y', 11, -663, -640
 add('S2_start', cyl('y', 14, -675, -663, 380, -280).fuse(cyl('y', 11, -663, -645, 380, -280)), 'parts (start button S2, 22 mm hole)')
 # ---- cabinet
 x0, y0, z0 = L.CAB_X0, L.CAB_Y0, L.CAB_Z0; yb = y0 + L.CAB_D                  # back face y = -560
-shell = box(x0, x0 + L.CAB_W, y0 + 3, yb, z0, z0 + L.CAB_H).cut(box(x0 + 2, x0 + L.CAB_W - 2, y0 + 3, yb - 2, z0 + 2, z0 + L.CAB_H - 2)).cut(cyl('z', 25, z0 - 1, z0 + 3, -150, -650)).cut(cyl('z', 14, z0 - 1, z0 + 3, -90, -650)).cut(cyl('x', 8, x0 + L.CAB_W - 3, x0 + L.CAB_W + 1, -625, -400))
-add('Cabinet_box', shell, 'NEW cabinet (steel wall box 360x280x120, IP54; feeder holes in the bottom: power D50 at (x -150, y -650), control D28 at (x -90, y -650); D16 hole in the right wall at y -625, z -400 for the operator-box cable)')
+shell = box(x0, x0 + L.CAB_W, y0 + 3, yb, z0, z0 + L.CAB_H).cut(box(x0 + 2, x0 + L.CAB_W - 2, y0 + 3, yb - 2, z0 + 2, z0 + L.CAB_H - 2)).cut(cyl('z', 23.65, z0 - 1, z0 + 3, -150, -640)).cut(cyl('z', 11.35, z0 - 1, z0 + 3, -90, -640)).cut(cyl('x', 8, x0 + L.CAB_W - 3, x0 + L.CAB_W + 1, -625, -400))
+add('Cabinet_box', shell, 'NEW cabinet (steel wall box 360x280x120, IP54; feeder holes in the bottom: power D47.3 at (x -150, y -640) for KSS PAQ-3636 (PG36), control D22.7 at (x -90, y -640) for PAQ-1716 (PG16); D16 hole in the right wall at y -625, z -400 for the operator-box cable)')
 add('Cabinet_door', box(x0, x0 + L.CAB_W, y0, y0 + 3, z0, z0 + L.CAB_H), 'NEW cabinet (door, hinged on the left, key lock)')
 px = yb - 2 - 0                                                              # plate face y (inner back wall)
 pu0 = x0 + (L.CAB_W - L.PLATE_W) / 2; pv0 = z0 + L.CAB_H - (L.CAB_H - L.PLATE_H) / 2          # plate top-left corner (x, z)

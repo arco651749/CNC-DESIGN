@@ -22,7 +22,7 @@ X0, X1, Y0, Y1, Z0, Z1 = L.ENV
 # ------------------------------------------------ enclosure
 NUTS = [(x, 272) for x in (-350, -250, -150, -50, 50, 150, 250, 350)] + [(x, 490) for x in (-350, -250, -150, -50, 50, 100, 250, 350)] + [(sx, y) for sx in (-376, 376) for y in (365, 435)]
 # ONE bent L plate (owner: no covers): flange z 487..491 over y 255..495, vertical plate y 255..259 hanging down at the front (z 241..491), t4, R4 inside bend
-fl = box(-380, 380, 255, 495, 487, 491).cut(cyl('z', 22.5, 486, 492, 50, 390))
+fl = box(-380, 380, 255, 495, 487, 491).cut(cyl('z', 22.5, 486, 492, 0, 390)).cut(cyl('z', 2.75, 486, 492, 32, 375)).cut(cyl('z', 2.75, 486, 492, 32, 405))
 for (nx, ny) in NUTS: fl = fl.cut(cyl('z', 4, 486, 492, nx, ny))
 add('L_plate_flange', fl, 'L plate (SPHC t4, bent): horizontal flange under the mechanical top plate; 20 M5 holes with pull nuts, X bellows hole D45')
 vp = box(-380, 380, 255, 259, 241, 487)
@@ -30,6 +30,7 @@ for hx in (-140, -100): vp = vp.cut(cyl('y', 2.75, 254, 260, hx, 265))
 add('L_plate_vertical', vp, 'L plate (SPHC t4, bent): vertical plate at the front, hangs down behind the X base plate; the drives, VFD and DIN rail screw to its REAR face; 2 x D5.5 holes at (x -140 / -100, z 265) for the Y bellows bracket (M5, nuts on the rear side)')
 for sx, nm in ((-370, 'L'), (370, 'R')):
     add('L_plate_gusset_' + nm, box(sx - 5, sx + 5, 259, 299, 447, 487).cut(box(sx - 6, sx + 6, 279, 300, 446, 467)), 'L plate (gusset t10 at each end, stiffens the bend)')
+for k, yy in enumerate((375, 405), 1): add('Nut_bracket_%d' % k, cyl('z', 4.5, 483, 487, 32, yy).cut(cyl('z', 2.5, 483, 487, 32, yy)), 'parts (M5 nut under the flange for the X conduit bracket, mechanical session)')
 for k, (nx, ny) in enumerate(NUTS, 1): add('PullNut_M5_%02d' % k, cyl('z', 3.75, 478, 487, nx, ny).cut(cyl('z', 2.1, 478, 487, nx, ny)), 'parts (M5 pull nut, 9 mm below the flange)')
 # ------------------------------------------------ DIN rails (35 x 7.5)
 for nm, (x0, x1, y0, y1, z0, z1) in {'Rail_wall_1': (-210, 108, 259, 266.5, 330, 365), 'Rail_wall_2': (-255, -28, 259, 266.5, 427.5, 462.5)}.items():
