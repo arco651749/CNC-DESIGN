@@ -100,12 +100,12 @@ Coolant_nozzle_1           x[   56.4,   90.5] y[  -44.0,  -28.6] z[  180.1,  337
 Coolant_nozzle_block_2     x[   80.5,   90.5] y[   -5.0,    5.0] z[  335.0,  355.0]  OK
 Coolant_nozzle_block_bolt_2 x[   72.5,   94.5] y[   -3.5,    3.5] z[  341.5,  348.5]  OK
 Coolant_nozzle_2           x[   56.4,   90.5] y[  -11.4,    4.0] z[  180.1,  337.1]  OK
-Feeder_power_conduit       x[ -551.2, -128.8] y[ -661.2,  666.2] z[ -661.2,  291.2]  OK
+Feeder_power_conduit       x[ -551.2, -123.8] y[ -661.2,  666.2] z[ -661.2,  291.2]  OK
 Feeder_control_conduit     x[ -540.6,  -79.4] y[ -650.6,  705.6] z[ -700.6,  280.6]  OK
 Feeder_opbox_cable         x[  178.3,  304.5] y[ -637.5, -620.8] z[ -404.5, -330.0]  OK
 Feeder_guard_gland_1       x[ -363.8, -316.2] y[  564.0,  578.0] z[  246.2,  293.8]  OK
 Feeder_guard_gland_2       x[ -273.1, -246.9] y[  564.0,  578.0] z[  256.9,  283.1]  OK
-Feeder_cabinet_fitting_1   x[ -178.5, -121.5] y[ -668.5, -611.5] z[ -566.4, -501.0]  OK
+Feeder_cabinet_fitting_1   x[ -173.5, -116.5] y[ -668.5, -611.5] z[ -566.4, -501.0]  OK
 Feeder_cabinet_fitting_2   x[ -106.2,  -73.8] y[ -656.2, -623.8] z[ -537.0, -501.0]  OK
 Feeder_clamp_1             x[ -440.0, -420.0] y[  571.2,  670.8] z[  244.2,  295.8]  OK
 Feeder_clamp_2             x[ -440.0, -420.0] y[  671.0,  710.1] z[  254.9,  285.1]  OK

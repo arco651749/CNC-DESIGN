@@ -641,8 +641,8 @@ rt = fuse(box(25, 50, 365.0, 415.0, 494.0, 494.0 + TB), box(50 - TB, 50, 365.0, 
 rt = rt.cut(Part.makeCylinder(paq_hole('PA-29'), 10, V(40, 390, ZT_), V(1, 0, 0)))
 for y_ in (375.0, 405.0):
     rt = rt.cut(Part.makeCylinder(2.75, 10, V(32, y_, 490))); cut('Box_top_plate', Part.makeCylinder(2.75, 10, V(32, y_, 488)))
-    add('Conduit_X_roof_tab_bolt_%d' % (1 if y_ < 390 else 2), fuse(Part.makeCylinder(2.5, 16, V(32, y_, 481.0)), Part.makeCylinder(4.25, 4, V(32, y_, 494.0 + TB)),
-        Part.makeCylinder(4.6, 4, V(32, y_, 483.0))), GC, 'M5x16 button head + nut: roof adaptor tab through the box top plate and the L-plate flange (nut under the flange)', '', '')
+    add('Conduit_X_roof_tab_bolt_%d' % (1 if y_ < 390 else 2), fuse(Part.makeCylinder(2.5, 16, V(32, y_, 481.0)), Part.makeCylinder(4.25, 4, V(32, y_, 494.0 + TB))), GC,
+        'M5x16 button head: roof adaptor tab through the box top plate and the L-plate flange into the nut under the flange (nut: electrical session)', '', '')
 add('Conduit_X_roof_tab', rt, GC, 'SPHC t3 bent: tab on the box top plate (2 x M5) carrying the X conduit adaptor PAQ-2929 along +x, hole D37.3', '', '')
 paq('Conduit_X_roof_connector', 'PA-29', (50, 390, ZT_), (1, 0, 0), '')
 # Y run top end (owner 2026-11-27: the column electrical box is one open L plate, no covers): bracket on the L plate front face (y 255,

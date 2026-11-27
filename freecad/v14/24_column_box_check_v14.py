@@ -3,7 +3,7 @@
 the machine: every leaf solid of the box against every machine part at the 27 travel-end poses (the old back plate and its drives,
 which the box replaces, are left out). Also lists what holds the box up (parts touching it from outside).
 Run:  freecadcmd freecad/v14/24_column_box_check_v14.py      Out: output/v14/logs/v14_column_box_check.txt"""
-import os, itertools
+import os, re, itertools
 import FreeCAD as App, Part, Import
 from FreeCAD import Vector as V
 
@@ -46,7 +46,7 @@ for STEP in [p_ for p_ in STEPS if os.path.exists(p_)]:
                 if s2 is None: s2 = sh.copy(); s2.translate(V(*o))
                 try: cm = bs.common(s2); v = cm.Volume
                 except Exception: v = -1
-                if v > 0.5 and bn.startswith('PullNut') and n.startswith('Box_hang_screw'):   # screw in its rivet nut: thread engagement
+                if v > 0.5 and bn.startswith(('PullNut', 'Nut_')) and re.search(r'(screw|bolt)', n):   # screw in its rivet nut: thread engagement
                     eng[(bn, n)] = (cm.BoundBox.ZLength, s2.BoundBox.ZMin - bs.BoundBox.ZMin)
                 elif v > 0.5: hits.setdefault((bn, n), (P, round(v)))
                 elif not k:
@@ -55,7 +55,7 @@ for STEP in [p_ for p_ in STEPS if os.path.exists(p_)]:
     L = ['v14 electrical box (%s): %d box solids, envelope x %.1f..%.1f y %.1f..%.1f z %.1f..%.1f' % (os.path.relpath(STEP, ROOT), len(BOX),
          BB.XMin, BB.XMax, BB.YMin, BB.YMax, BB.ZMin, BB.ZMax), '%d machine parts, %d poses; reference copies of machine parts skipped: %s' % (len(M), len(POSES), ', '.join(REF) or 'none'), '',
          'COLLISIONS (box x machine): %d' % len(hits)] + ['  %s x %s at %s: %s mm3' % (a, b, p, v) for (a, b), (p, v) in sorted(hits.items())]
-    L += ['', 'THREAD ENGAGEMENT (box top plate screws in the box rivet nuts): %d' % len(eng)] + [
+    L += ['', 'THREAD ENGAGEMENT (mechanical-side screws in the electrical-side nuts / rivet nuts): %d' % len(eng)] + [
         '  %s in %s: engaged %.1f, tip %.1f above the nut bottom %s' % (b_, a_, e_, t_, 'OK' if e_ >= 5 and t_ > 0.5 else 'CHECK')
         for (a_, b_), (e_, t_) in sorted(eng.items())]
     L += ['', 'SUPPORT (fixed machine parts touching the box): %d' % len(near)] + ['  %s - %s' % ab for ab in sorted(near)]

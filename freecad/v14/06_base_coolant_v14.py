@@ -183,7 +183,7 @@ def fillet(pts, R, n=6):                                       # polyline with e
 def tube_(pts, D):
     return fuse(*([seg(a_, b_, D / 2) for a_, b_ in zip(pts[:-1], pts[1:]) if math.dist(a_, b_) > 1e-6] + [Part.makeSphere(D / 2, V(*q)) for q in pts[1:-1]]))
 FEED = {   # name: (outer D, static bend R, route, spec); rear runs bend only after the guard, side runs outside the frame bolt heads
-    'Feeder_power_conduit': (42.5, 70.0, [(-340, 506 + 1.2 * 47.0, 270), (-340, 645, 270), (-530, 645, 270), (-530, 645, -640), (-530, -640, -640), (-150, -640, -640), (-150, -640, -510 - 1.2 * 47.0)],
+    'Feeder_power_conduit': (42.5, 70.0, [(-340, 506 + 1.2 * 47.0, 270), (-340, 645, 270), (-530, 645, 270), (-530, 645, -640), (-530, -640, -640), (-145, -640, -640), (-145, -640, -510 - 1.2 * 47.0)],
                              'KSS PA-36 nylon conduit (model AD 42.5, size to confirm from the PA page), ends in PAQ-3636 adaptors: F1 servo 5G2.5, F2 VFD 3G4, F3 supply 3G1.5, PE; column box -> base cabinet'),
     'Feeder_control_conduit': (21.2, 60.0, [(-260, 506 + 1.2 * 22.5, 270), (-260, 695, 270), (-530, 695, 270), (-530, 695, -690), (-530, -640, -690), (-90, -640, -690), (-90, -640, -510 - 1.2 * 22.5)],
                                'KSS PA-17 nylon conduit (model AD 21.2), ends in PAQ-1716 adaptors: F4 control 4x0.75 shielded (E-stop loop, contactor coil); 50 from the power run'),
@@ -197,7 +197,7 @@ g_.Shape = g_.Shape.cut(cyl('y', 42.5 / 2 + 2.5, 565, 576, -340, 270)).cut(cyl('
 for k, (x_, d_) in enumerate(((-340, 42.5), (-260, 21.2)), 1):
     add('Feeder_guard_gland_%d' % k, cyl('y', d_ / 2 + 2.5, 564, 578, x_, 270).cut(cyl('y', d_ / 2 + 0.5, 564, 578, x_, 270)),
         'rubber grommet in the rear guard (hole = conduit OD + 5) for the %s conduit' % ('power' if k == 1 else 'control'))
-for k, (x_, tod, cd_, pn) in enumerate(((-150, 47.0, 42.5, 'PAQ-3636 (PG36)'), (-90, 22.5, 21.2, 'PAQ-1716 (PG16)')), 1):   # base cabinet bottom (box: electrical session)
+for k, (x_, tod, cd_, pn) in enumerate(((-145, 47.0, 42.5, 'PAQ-3636 (PG36)'), (-90, 22.5, 21.2, 'PAQ-1716 (PG16)')), 1):   # base cabinet bottom (box: electrical session)
     rb_ = max(tod / 2 + 5, cd_ / 2 + 4); z0_ = -510.0
     add('Feeder_cabinet_fitting_%d' % k, fuse(cyl('z', rb_, z0_ - 1.2 * tod, z0_, x_, -640), cyl('z', tod / 2, z0_, z0_ + 9, x_, -640), cyl('z', tod / 2 + 5, z0_ + 3, z0_ + 9, x_, -640))
         .cut(cyl('z', cd_ / 2 + 0.5, z0_ - 1.2 * tod - 5, z0_ + 10, x_, -640)),
