@@ -1,5 +1,5 @@
-v14 column box (column_box/column_box.step): 477 box solids, envelope x -383.0..383.0 y 252.0..516.0 z 241.0..491.0
-542 machine parts, 27 poses
+v14 electrical box (column_box/column_box.step): 472 box solids, envelope x -383.0..383.0 y 252.0..516.0 z 241.0..491.0
+542 machine parts, 27 poses; reference copies of machine parts skipped: none
 
 COLLISIONS (box x machine): 0
 
@@ -30,3 +30,17 @@ SUPPORT (fixed machine parts touching the box): 4
   Box_roof_plate - Box_top_plate
   Box_side_L - Box_top_plate
   Box_side_R - Box_top_plate
+
+
+v14 electrical box (base_cabinet/base_cabinet.step): 20 box solids, envelope x -537.5..537.5 y -728.0..-520.0 z -730.0..-90.0
+542 machine parts, 27 poses; reference copies of machine parts skipped: Base_top_front, Base_low_front
+
+COLLISIONS (box x machine): 2
+  Upright_L x Base_low_front at (0, 0, 0): 25740 mm3
+  Upright_R x Base_low_front at (0, 0, 0): 25740 mm3
+
+THREAD ENGAGEMENT (box top plate screws in the box rivet nuts): 0
+
+SUPPORT (fixed machine parts touching the box): 0
+  none: the box is not attached to the machine yet (mounting to be designed by the mechanical side)
+

@@ -8,10 +8,11 @@ import FreeCAD as App, Part, Import
 from FreeCAD import Vector as V
 
 ROOT = os.environ.get('CNC_ROOT') or r'D:\\Claude\\CNC DESIGN'
-STEP = os.path.join(ROOT, 'column_box', 'column_box.step')
+STEPS = [os.path.join(ROOT, d, d + '.step') for d in ('column_box', 'base_cabinet')]   # both drawn by the electrical session
 OLD_PANEL = ('Electrical_panel', 'Servo_amp', 'Servo_bolt', 'Controller', 'Board_standoff', 'Panel_standoff', 'Keepout')
-if True:
-    cb = App.newDocument('column_box'); Import.insert(STEP, cb.Name)
+REPORT = []
+for STEP in [p_ for p_ in STEPS if os.path.exists(p_)]:
+    cb = App.newDocument(os.path.basename(STEP)[:-5]); Import.insert(STEP, cb.Name)
     BOX = [(o.Label, o.Shape) for o in cb.Objects if o.TypeId == 'Part::Feature' and not o.Shape.isNull() and o.Shape.Solids]
     BB = App.BoundBox()
     for _, s in BOX: BB.add(s.BoundBox)
@@ -28,6 +29,9 @@ if True:
         return {'y': (0, dy, 0), 'x': (dx, 0, 0), 'z': (dx, 0, dz)}.get(k, (0, 0, 0))
     M = [(o.Label, o.Shape, cls(o)) for o in doc.Objects if o.TypeId == 'Part::Feature' and not o.Shape.isNull() and o.Shape.Solids
          and not o.Label.startswith(OLD_PANEL)]
+    ML = {n for n, _, _ in M}
+    REF = [bn for bn, _ in BOX if bn in ML]                  # the electrical session's copies of machine parts (reference only): skipped
+    BOX = [(bn, bs) for bn, bs in BOX if bn not in ML]
     POSES = list(itertools.product((-182.5, 0, 182.5), (-250, 0, 150), (-50, 0, 50)))
     hits, near, eng = {}, {}, {}
     for n, sh, k in M:
@@ -48,13 +52,14 @@ if True:
                 elif not k:
                     d = bs.distToShape(s2)[0]
                     if d < 0.05: near[(bn, n)] = d
-    L = ['v14 column box (%s): %d box solids, envelope x %.1f..%.1f y %.1f..%.1f z %.1f..%.1f' % (os.path.relpath(STEP, ROOT), len(BOX),
-         BB.XMin, BB.XMax, BB.YMin, BB.YMax, BB.ZMin, BB.ZMax), '%d machine parts, %d poses' % (len(M), len(POSES)), '',
+    L = ['v14 electrical box (%s): %d box solids, envelope x %.1f..%.1f y %.1f..%.1f z %.1f..%.1f' % (os.path.relpath(STEP, ROOT), len(BOX),
+         BB.XMin, BB.XMax, BB.YMin, BB.YMax, BB.ZMin, BB.ZMax), '%d machine parts, %d poses; reference copies of machine parts skipped: %s' % (len(M), len(POSES), ', '.join(REF) or 'none'), '',
          'COLLISIONS (box x machine): %d' % len(hits)] + ['  %s x %s at %s: %s mm3' % (a, b, p, v) for (a, b), (p, v) in sorted(hits.items())]
     L += ['', 'THREAD ENGAGEMENT (box top plate screws in the box rivet nuts): %d' % len(eng)] + [
         '  %s in %s: engaged %.1f, tip %.1f above the nut bottom %s' % (b_, a_, e_, t_, 'OK' if e_ >= 5 and t_ > 0.5 else 'CHECK')
         for (a_, b_), (e_, t_) in sorted(eng.items())]
     L += ['', 'SUPPORT (fixed machine parts touching the box): %d' % len(near)] + ['  %s - %s' % ab for ab in sorted(near)]
     if not near: L.append('  none: the box is not attached to the machine yet (mounting to be designed by the mechanical side)')
-    os.makedirs(os.path.join(ROOT, 'output', 'v14', 'logs'), exist_ok=True)
-    open(os.path.join(ROOT, 'output', 'v14', 'logs', 'v14_column_box_check.txt'), 'w', encoding='utf-8').write('\n'.join(L))
+    REPORT += L + ['', '']
+os.makedirs(os.path.join(ROOT, 'output', 'v14', 'logs'), exist_ok=True)
+open(os.path.join(ROOT, 'output', 'v14', 'logs', 'v14_column_box_check.txt'), 'w', encoding='utf-8').write('\n'.join(REPORT))
