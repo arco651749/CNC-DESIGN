@@ -610,12 +610,12 @@ YX, YZL, YZU = 280.0, 17.25, 127.25                            # loop plane, low
 YF0 = 200.0                                                    # front end of the conduit lane in the table tray (bend max. rel. y 194.5)
 yu = fuse(box(220, 223, -20.0, 262.0, 75.0, 113.0),           # web on the table right side face (3 x M5)
           box(223, 258, -20.0, 262.0, 110.0, 113.0), box(255, 258, -20.0, 225.0, 113.0, 135.0),   # Y motor cable lane + its outer lip
-          box(258, 303, YF0, 262.0, 110.0, 113.0), box(300, 303, YF0, 262.0, 113.0, 140.0),       # conduit lane (short) + outer lip
+          box(258, 303, YF0, 226.0, 110.0, 113.0), box(300, 303, YF0, 262.0, 113.0, 140.0),       # conduit lane (short, ends before the adaptor body y 228) + outer lip
           box(255, 303, 262.0, 265.0, 110.0, 160.0))          # rear tab carrying the moving end adaptor
 yu = yu.cut(Part.makeCylinder(paq_hole('PA-23'), 10, V(YX, 258.0, YZU), V(0, 1, 0)))
 for y_ in (0.0, 110.0, 220.0): yu = yu.cut(Part.makeCylinder(2.75, 10, V(218.0, y_, 90.0), V(1, 0, 0)))
 add('Conduit_Y_table_tray', yu, GC, 'SPHC t3 bent: Y conduit moving-end tray on the work table right side face (3 x M5), cable lane floor z 110..113 '
-    'at x 223..258 full length, conduit lane x 258..303 only y 200..262 (the rolling bend passes in front of it), rear tab with PAQ-2321 hole '
+    'at x 223..258 full length, conduit lane x 258..303 only y 200..226 (the rolling bend passes in front of it), rear tab with PAQ-2321 hole '
     'D28.6 at (280, z 127.25); the Y motor cable runs from the tab along the table rear face', 'y', '')
 bolts_into('Work_table', 'Conduit_Y_table_tray', [(0, y_, 90) for y_ in (0.0, 110.0, 220.0)], 'x', 220.0, -1)
 paq('Conduit_Y_end_fitting', 'PA-23', (YX, 262.0, YZU), (0, -1, 0), 'y')
