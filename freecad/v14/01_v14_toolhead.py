@@ -640,13 +640,13 @@ add('Conduit_Y_top_fitting', Part.makeCylinder(20, 6, V(-120, 330, 230.0)).fuse(
     'conduit end connector for PA-23 (KSS, straight, with locknut) under the Y top bracket - size to confirm from the KSS catalog', '', '')
 # feeder conduits (to the base cabinet): entry plate hung from the box top plate rear flange, outside the L plate; conduit connectors D50 / D28
 fe = fuse(box(-390, -210, 503.0, 506.0, 250.0, 494.0), box(-390, -387, 506.0, 526.0, 250.0, 494.0), box(-213, -210, 506.0, 526.0, 250.0, 494.0))
-fe = fe.cut(Part.makeCylinder(25, 10, V(-340, 500, 270), V(0, 1, 0))).cut(Part.makeCylinder(14, 10, V(-260, 500, 270), V(0, 1, 0)))
+fe = fe.cut(Part.makeCylinder(42.5 / 2 + 6, 10, V(-340, 500, 270), V(0, 1, 0))).cut(Part.makeCylinder(21.2 / 2 + 6, 10, V(-260, 500, 270), V(0, 1, 0)))   # holes = connector thread OD (sketch)
 for kb_, x_ in enumerate((-370, -300, -230), 1):
     fe = fe.cut(Part.makeCylinder(2.75, 10, V(x_, 498, 484), V(0, 1, 0))); cut('Box_top_plate', Part.makeCylinder(2.75, 10, V(x_, 498, 484), V(0, 1, 0)))
     add('Feeder_entry_plate_bolt_%d' % kb_, fuse(Part.makeCylinder(2.5, 14, V(x_, 496.0, 484), V(0, 1, 0)), Part.makeCylinder(4.25, 4, V(x_, 496.0, 484), V(0, 1, 0)),
         Part.makeCylinder(4.6, 4, V(x_, 506.0, 484), V(0, 1, 0))), GC, 'M5x14 button head + nut: feeder entry plate to the box top plate rear flange', '', '')
 add('Feeder_entry_plate', fe, GC, 'SPHC t3 bent: feeder conduit entry plate on the box top plate rear flange (3 x M5), side flanges 20; KSS conduit '
-    'connectors D50 (power, x -340) and D28 (control, x -260) at z 270 - size to confirm', '', '')
+    'connectors (sketch holes D54.5 power x -340, D33.2 control x -260) at z 270 - size to confirm', '', '')
 for k, (x_, d_) in enumerate(((-340, 42.5), (-260, 21.2)), 1):
     add('Feeder_entry_fitting_%d' % k, Part.makeCylinder(d_ / 2 + 6, 14, V(x_, 494.0, 270), V(0, 1, 0)).cut(Part.makeCylinder(d_ / 2, 14, V(x_, 494.0, 270), V(0, 1, 0))), GC,
         'conduit connector with locknut (KSS, sketch) for the %s feeder conduit' % ('power' if k == 1 else 'control'), '', '')

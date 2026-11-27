@@ -124,7 +124,7 @@
 09 Conduits,Conduit_head_end_fitting,1,外購件,"conduit end connector for PA-29 (KSS, straight, with locknut) - size to confirm from the KSS catalog",,,,,Conduit_head_end_fitting
 09 Conduits,Feeder_entry_fitting_1,1,外購件,"conduit connector with locknut (KSS, sketch) for the power feeder conduit",,,,,Feeder_entry_fitting_1
 09 Conduits,Feeder_entry_fitting_2,1,外購件,"conduit connector with locknut (KSS, sketch) for the control feeder conduit",,,,,Feeder_entry_fitting_2
-09 Conduits,Feeder_entry_plate,1,自製鈑金件（見 DXF，雷射切割 + 折彎）,"SPHC t3 bent: feeder conduit entry plate on the box top plate rear flange (3 x M5), side flanges 20; KSS conduit connectors D50 (power, x -340) and D28 (control, x -260) at z 270 - size to confirm",,,,,Feeder_entry_plate
+09 Conduits,Feeder_entry_plate,1,自製鈑金件（見 DXF，雷射切割 + 折彎）,"SPHC t3 bent: feeder conduit entry plate on the box top plate rear flange (3 x M5), side flanges 20; KSS conduit connectors (sketch holes D54.5 power x -340, D33.2 control x -260) at z 270 - size to confirm",,,,,Feeder_entry_plate
 09 Conduits,Feeder_entry_plate_bolt,3,標準件 / 螺絲銷,M5x14 button head + nut: feeder entry plate to the box top plate rear flange,,,,,"Feeder_entry_plate_bolt_1, Feeder_entry_plate_bolt_2, Feeder_entry_plate_bolt_3"
 10 Epoxy pads,X_epoxy_pad,8,環氧樹脂（現場灌注）,injected metal-filled epoxy pad D30x1 round the bolt (fill hole and vent hole through the X plate),,,,,"X_epoxy_pad_L1, X_epoxy_pad_L2, X_epoxy_pad_L3, X_epoxy_pad_L4, X_epoxy_pad_R1, X_epoxy_pad_R2, X_epoxy_pad_R3, X_epoxy_pad_R4"
 10 Epoxy pads,Z_epoxy_pad,6,環氧樹脂（現場灌注）,injected epoxy pad D22x1 round the clamp bolt (fill hole through the Z plate),,,,,"Z_epoxy_pad_1, Z_epoxy_pad_2, Z_epoxy_pad_3, Z_epoxy_pad_4, Z_epoxy_pad_5, Z_epoxy_pad_6"
