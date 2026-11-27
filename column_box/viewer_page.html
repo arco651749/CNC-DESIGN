@@ -10,13 +10,14 @@ label{font-size:13px;margin-right:6px;white-space:nowrap}
 #tip{position:absolute;right:12px;top:10px;background:#1d2630;color:#fff;border-radius:6px;padding:4px 8px;font-size:12px;display:none}</style></head>
 <body><canvas id="c"></canvas>
 <div id="ui"><b>立柱電箱 3D</b>
-<button data-v="back">從後面看（維修面）</button><button data-v="below">後下方</button><button data-v="iso">等角</button><button data-v="front">從前面看</button>
+<span id="vb"></span>
 <button id="lbtn">標示：開</button><span id="tg"></span></div>
 <div id="lbs"></div><div id="tip"></div><div id="info">/*INFO*/</div>
 <!--THREE-->
 <script>
 /*DATA*/
 /*LINES*/
+const CFG=/*CFG*/null;
 const cv=document.getElementById('c');const R=new THREE.WebGLRenderer({canvas:cv,antialias:true,preserveDrawingBuffer:true});R.setPixelRatio(Math.min(devicePixelRatio,2));
 const scene=new THREE.Scene();scene.background=new THREE.Color(0xeef1f4);
 const cam=new THREE.PerspectiveCamera(30,1,5,8000);cam.up.set(0,0,1);const ctl=new THREE.OrbitControls(cam,cv);ctl.enableDamping=true;
@@ -27,20 +28,20 @@ for(const p of DATA){const q=b64(p.p,Int16Array),pos=new Float32Array(q.length);
  const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.BufferAttribute(pos,3));g.setIndex(new THREE.BufferAttribute(b64(p.i,p.w?Uint16Array:Uint32Array),1));g.computeVertexNormals();
  const m=new THREE.Mesh(g,new THREE.MeshStandardMaterial({color:new THREE.Color(...p.c),metalness:0.15,roughness:0.6,side:THREE.DoubleSide,transparent:!!p.t,opacity:p.t?0.25:1,depthWrite:!p.t}));
  m.userData={n:p.n,s:p.s};scene.add(m);MESH.push(m);if(p.l){g.computeBoundingBox();const c=new THREE.Vector3();g.boundingBox.getCenter(c);const d=document.createElement('div');d.className='lb';d.textContent=p.l;document.getElementById('lbs').appendChild(d);LB.push({m,c,d})}}
-const T=new THREE.Vector3(0,375,370);
-const VIEWS={below:[420,1250,150],front:[0,-1500,380],iso:[900,-700,900],back:[0,1900,380]};
+const T=new THREE.Vector3(...(CFG?CFG.target:[0,375,370]));
+const VIEWS=CFG?CFG.views:{back:[0,1900,380],below:[420,1250,150],iso:[900,-700,900],front:[0,-1500,380]};
 function view(k){cam.position.set(...VIEWS[k]);ctl.target.copy(T);ctl.update()}
-document.querySelectorAll('[data-v]').forEach(b=>b.onclick=()=>view(b.dataset.v));
-const WT=['AC','24V','12V','5V','訊號','網路'];const SH=[['wall','垂直板'],['roof','水平板'],['rails','DIN 軌'],['duct','線槽'],['nuts','拉帽']];
+const VN=CFG?CFG.names:{back:'從後面看（維修面）',below:'後下方',iso:'等角',front:'從前面看'};for(const k of Object.keys(VIEWS)){const b=document.createElement('button');b.textContent=VN[k]||k;b.onclick=()=>view(k);document.getElementById('vb').appendChild(b)}
+const WT=(typeof LINES!=='undefined'&&LINES.length)?['AC','24V','12V','5V','訊號','網路']:[];const SH=CFG?CFG.toggles:[['wall','垂直板'],['roof','水平板'],['rails','DIN 軌'],['duct','線槽'],['nuts','拉帽']];
 const tg=document.getElementById('tg');
-for(const [k,l] of SH){const lb=document.createElement('label');const cb=document.createElement('input');cb.type='checkbox';cb.checked=(k!=='nuts');
+for(const [k,l] of SH){const lb=document.createElement('label');const cb=document.createElement('input');cb.type='checkbox';cb.checked=!(CFG?CFG.hidden:['nuts']).includes(k);
  cb.onchange=()=>{for(const m of MESH)if(m.userData.s===k)m.visible=cb.checked};cb.onchange();lb.append(cb,' '+l);tg.append(lb)}
 const ray=new THREE.Raycaster(),mv=new THREE.Vector2(),tip=document.getElementById('tip');
 cv.addEventListener('pointermove',e=>{const r=cv.getBoundingClientRect();mv.set((e.clientX-r.left)/r.width*2-1,-(e.clientY-r.top)/r.height*2+1);ray.setFromCamera(mv,cam);
  const h=ray.intersectObjects(MESH.filter(m=>m.visible).concat(LG.children.filter(m=>m.visible)),false);if(h.length){tip.style.display='block';tip.textContent=h[0].object.userData.n}else tip.style.display='none'});
 window.view=view;window.renderOnce=()=>{ctl.update();R.render(scene,cam)};
 function rs(){const w=innerWidth,h=innerHeight;R.setSize(w,h,false);cam.aspect=w/h;cam.updateProjectionMatrix()}
-addEventListener('resize',rs);rs();view('back');
+addEventListener('resize',rs);rs();view(Object.keys(VIEWS)[0]);
 const LG=new THREE.Group();scene.add(LG);const LT={};
 function seg(a,b,col,t,n){const A=new THREE.Vector3(...a),B=new THREE.Vector3(...b),d=B.clone().sub(A),len=d.length();const m=new THREE.Mesh(new THREE.CylinderGeometry(1.6,1.6,len,6),new THREE.MeshBasicMaterial({color:new THREE.Color(col),depthTest:false,transparent:true,opacity:0.9}));m.position.copy(A.clone().add(B).multiplyScalar(0.5));m.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),d.normalize());m.renderOrder=10;m.userData={n:n,s:'line'+t};LG.add(m);(LT[t]=LT[t]||[]).push(m)}
 for(const l of LINES)seg(l.a,l.b,l.c,l.t,l.n);
