@@ -1,0 +1,511 @@
+{
+ "units": "mm in this file and the meshes; the MJCF is in metres",
+ "joints": {
+  "Y": {
+   "body": "table",
+   "axis": [
+    0,
+    1,
+    0
+   ],
+   "range": [
+    -250.0,
+    150.0
+   ]
+  },
+  "X": {
+   "body": "carriage",
+   "axis": [
+    1,
+    0,
+    0
+   ],
+   "range": [
+    -182.5,
+    182.5
+   ]
+  },
+  "Z": {
+   "body": "head",
+   "axis": [
+    0,
+    0,
+    1
+   ],
+   "range": [
+    -50.0,
+    50.0
+   ]
+  },
+  "P": {
+   "body": "probe",
+   "axis": [
+    0,
+    0,
+    -1
+   ],
+   "range": [
+    0.0,
+    60.0
+   ]
+  },
+  "C": {
+   "body": "cover",
+   "axis": [
+    0,
+    1,
+    0
+   ],
+   "range": [
+    0.0,
+    30.0
+   ]
+  }
+ },
+ "parents": {
+  "table": "world",
+  "carriage": "world",
+  "head": "carriage",
+  "probe": "head",
+  "cover": "table"
+ },
+ "table_top": {
+  "x": [
+   -220.0,
+   220.0
+  ],
+  "y": [
+   -210.0,
+   263.5
+  ],
+  "z": [
+   70.0,
+   110.0
+  ],
+  "work_area": [
+   300,
+   300
+  ]
+ },
+ "probe_ball": {
+  "centre": [
+   -11.0,
+   -73.0,
+   191.0
+  ],
+  "radius": 1.0,
+  "stylus_top_z": 216.0,
+  "stylus_radius": 1.0,
+  "note": "ball D2 on a 26 stylus (probe catalog); home = probe retracted. Ball or stylus contact triggers the probe"
+ },
+ "tool_tip": [
+  32.5,
+  -20.0,
+  155.0
+ ],
+ "camera": {
+  "axis_xy": [
+   -32.5,
+   -20.0
+  ],
+  "lens_front_z": 210.0,
+  "wd": 120.0,
+  "dof": 5.3,
+  "fov": [
+   16.8,
+   14.0
+  ],
+  "pixels": [
+   2448,
+   2048
+  ],
+  "note": "Moritex MML04-HR120D 0.4x telecentric + Basler daA2448-70uc: orthographic, image x = machine +X, image up = machine +Y"
+ },
+ "visuals": [
+  {
+   "body": "base",
+   "mesh": "v_base_00.stl",
+   "rgba": [
+    0.68,
+    0.71,
+    0.75,
+    1
+   ]
+  },
+  {
+   "body": "base",
+   "mesh": "v_base_01.stl",
+   "rgba": [
+    0.22,
+    0.24,
+    0.27,
+    1
+   ]
+  },
+  {
+   "body": "base",
+   "mesh": "v_base_02.stl",
+   "rgba": [
+    0.15,
+    0.16,
+    0.18,
+    1
+   ]
+  },
+  {
+   "body": "base",
+   "mesh": "v_base_03.stl",
+   "rgba": [
+    0.75,
+    0.85,
+    0.92,
+    0.35
+   ]
+  },
+  {
+   "body": "base",
+   "mesh": "v_base_04.stl",
+   "rgba": [
+    0.83,
+    0.85,
+    0.8,
+    1
+   ]
+  },
+  {
+   "body": "base",
+   "mesh": "v_base_05.stl",
+   "rgba": [
+    0.25,
+    0.27,
+    0.3,
+    1
+   ]
+  },
+  {
+   "body": "carriage",
+   "mesh": "v_carriage_06.stl",
+   "rgba": [
+    0.5,
+    0.64,
+    0.8,
+    1
+   ]
+  },
+  {
+   "body": "carriage",
+   "mesh": "v_carriage_07.stl",
+   "rgba": [
+    0.22,
+    0.24,
+    0.27,
+    1
+   ]
+  },
+  {
+   "body": "carriage",
+   "mesh": "v_carriage_08.stl",
+   "rgba": [
+    0.15,
+    0.16,
+    0.18,
+    1
+   ]
+  },
+  {
+   "body": "cover",
+   "mesh": "v_cover_09.stl",
+   "rgba": [
+    0.7,
+    0.7,
+    0.72,
+    1
+   ]
+  },
+  {
+   "body": "head",
+   "mesh": "v_head_10.stl",
+   "rgba": [
+    0.62,
+    0.72,
+    0.84,
+    1
+   ]
+  },
+  {
+   "body": "head",
+   "mesh": "v_head_11.stl",
+   "rgba": [
+    0.22,
+    0.24,
+    0.27,
+    1
+   ]
+  },
+  {
+   "body": "head",
+   "mesh": "v_head_12.stl",
+   "rgba": [
+    0.85,
+    0.85,
+    0.88,
+    1
+   ]
+  },
+  {
+   "body": "head",
+   "mesh": "v_head_13.stl",
+   "rgba": [
+    0.15,
+    0.16,
+    0.18,
+    1
+   ]
+  },
+  {
+   "body": "probe",
+   "mesh": "v_probe_14.stl",
+   "rgba": [
+    0.9,
+    0.55,
+    0.2,
+    1
+   ]
+  },
+  {
+   "body": "table",
+   "mesh": "v_table_15.stl",
+   "rgba": [
+    0.78,
+    0.62,
+    0.42,
+    1
+   ]
+  },
+  {
+   "body": "table",
+   "mesh": "v_table_16.stl",
+   "rgba": [
+    0.22,
+    0.24,
+    0.27,
+    1
+   ]
+  },
+  {
+   "body": "table",
+   "mesh": "v_table_17.stl",
+   "rgba": [
+    0.85,
+    0.85,
+    0.88,
+    1
+   ]
+  },
+  {
+   "body": "table",
+   "mesh": "v_table_18.stl",
+   "rgba": [
+    0.15,
+    0.16,
+    0.18,
+    1
+   ]
+  }
+ ],
+ "colliders": [
+  {
+   "name": "Spindle_body",
+   "body": "head",
+   "mesh": "c_Spindle_body.stl",
+   "side": "head"
+  },
+  {
+   "name": "Spindle_fan_cover",
+   "body": "head",
+   "mesh": "c_Spindle_fan_cover.stl",
+   "side": "head"
+  },
+  {
+   "name": "Spindle_plug",
+   "body": "head",
+   "mesh": "c_Spindle_plug.stl",
+   "side": "head"
+  },
+  {
+   "name": "Spindle_nose",
+   "body": "head",
+   "mesh": "c_Spindle_nose.stl",
+   "side": "head"
+  },
+  {
+   "name": "ER11_nut",
+   "body": "head",
+   "mesh": "c_ER11_nut.stl",
+   "side": "head"
+  },
+  {
+   "name": "Tool_D5",
+   "body": "head",
+   "mesh": "c_Tool_D5.stl",
+   "side": "head"
+  },
+  {
+   "name": "Spindle_clamp",
+   "body": "head",
+   "mesh": "c_Spindle_clamp.stl",
+   "side": "head"
+  },
+  {
+   "name": "Camera_lens",
+   "body": "head",
+   "mesh": "c_Camera_lens.stl",
+   "side": "head"
+  },
+  {
+   "name": "Camera_body",
+   "body": "head",
+   "mesh": "c_Camera_body.stl",
+   "side": "head"
+  },
+  {
+   "name": "Camera_light_guide",
+   "body": "head",
+   "mesh": "c_Camera_light_guide.stl",
+   "side": "head"
+  },
+  {
+   "name": "Camera_air_ring",
+   "body": "head",
+   "mesh": "c_Camera_air_ring.stl",
+   "side": "head"
+  },
+  {
+   "name": "Camera_bracket",
+   "body": "head",
+   "mesh": "c_Camera_bracket.stl",
+   "side": "head"
+  },
+  {
+   "name": "Camera_bracket_cap",
+   "body": "head",
+   "mesh": "c_Camera_bracket_cap.stl",
+   "side": "head"
+  },
+  {
+   "name": "Tool_mirror",
+   "body": "table",
+   "mesh": "c_Tool_mirror.stl",
+   "side": "obstacle"
+  },
+  {
+   "name": "Mirror_bracket",
+   "body": "table",
+   "mesh": "c_Mirror_bracket.stl",
+   "side": "obstacle"
+  },
+  {
+   "name": "Mirror_cover",
+   "body": "cover",
+   "mesh": "c_Mirror_cover.stl",
+   "side": "obstacle"
+  },
+  {
+   "name": "Mirror_cover_actuator",
+   "body": "table",
+   "mesh": "c_Mirror_cover_actuator.stl",
+   "side": "obstacle"
+  },
+  {
+   "name": "Mirror_cover_fitting_1",
+   "body": "table",
+   "mesh": "c_Mirror_cover_fitting_1.stl",
+   "side": "obstacle"
+  },
+  {
+   "name": "Mirror_cover_tube_1",
+   "body": "table",
+   "mesh": "c_Mirror_cover_tube_1.stl",
+   "side": "obstacle"
+  },
+  {
+   "name": "Mirror_cover_fitting_2",
+   "body": "table",
+   "mesh": "c_Mirror_cover_fitting_2.stl",
+   "side": "obstacle"
+  },
+  {
+   "name": "Mirror_cover_tube_2",
+   "body": "table",
+   "mesh": "c_Mirror_cover_tube_2.stl",
+   "side": "obstacle"
+  },
+  {
+   "name": "Probe_body",
+   "body": "probe",
+   "mesh": "c_Probe_body.stl",
+   "side": "head"
+  },
+  {
+   "name": "Probe_slide_body",
+   "body": "head",
+   "mesh": "c_Probe_slide_body.stl",
+   "side": "head"
+  },
+  {
+   "name": "Probe_slide_table",
+   "body": "probe",
+   "mesh": "c_Probe_slide_table.stl",
+   "side": "head"
+  },
+  {
+   "name": "Probe_holder",
+   "body": "probe",
+   "mesh": "c_Probe_holder.stl",
+   "side": "head"
+  },
+  {
+   "name": "Probe_stem",
+   "body": "probe",
+   "mesh": "c_Probe_stem.stl",
+   "side": "head"
+  },
+  {
+   "name": "Conduit_head_bracket",
+   "body": "head",
+   "mesh": "c_Conduit_head_bracket.stl",
+   "side": "head"
+  },
+  {
+   "name": "Conduit_head_end_fitting",
+   "body": "head",
+   "mesh": "c_Conduit_head_end_fitting.stl",
+   "side": "head"
+  },
+  {
+   "name": "Coolant_nozzle_block_1",
+   "body": "head",
+   "mesh": "c_Coolant_nozzle_block_1.stl",
+   "side": "head"
+  },
+  {
+   "name": "Coolant_nozzle_1",
+   "body": "head",
+   "mesh": "c_Coolant_nozzle_1.stl",
+   "side": "head"
+  },
+  {
+   "name": "Coolant_nozzle_block_2",
+   "body": "head",
+   "mesh": "c_Coolant_nozzle_block_2.stl",
+   "side": "head"
+  },
+  {
+   "name": "Coolant_nozzle_2",
+   "body": "head",
+   "mesh": "c_Coolant_nozzle_2.stl",
+   "side": "head"
+  }
+ ],
+ "triangles": 263650
+}

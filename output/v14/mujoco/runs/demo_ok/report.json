@@ -1,0 +1,522 @@
+{
+ "plan": [
+  {
+   "op": "move",
+   "Z": 45.0
+  },
+  {
+   "op": "move",
+   "X": -3.785452175598408,
+   "Y": 15.077132488529308
+  },
+  {
+   "op": "move",
+   "Z": 45.0
+  },
+  {
+   "op": "capture",
+   "name": "corner_minus"
+  },
+  {
+   "op": "move",
+   "Z": 45.0
+  },
+  {
+   "op": "move",
+   "X": 108.78545217559841,
+   "Y": -75.07713248852932
+  },
+  {
+   "op": "move",
+   "Z": 45.0
+  },
+  {
+   "op": "capture",
+   "name": "corner_plus"
+  },
+  {
+   "op": "move",
+   "Z": 45.0
+  },
+  {
+   "op": "probe",
+   "state": "down"
+  },
+  {
+   "op": "move",
+   "X": -39.229190252600844,
+   "Y": -83.0
+  },
+  {
+   "op": "move",
+   "Z": -6.0
+  },
+  {
+   "op": "probe_move",
+   "X": -24.229190252600844,
+   "feed": 200
+  },
+  {
+   "op": "move",
+   "X": -39.229190252600844
+  },
+  {
+   "op": "move",
+   "Z": 45.0
+  },
+  {
+   "op": "move",
+   "X": 31.0,
+   "Y": -32.847206498266104
+  },
+  {
+   "op": "move",
+   "Z": -6.0
+  },
+  {
+   "op": "probe_move",
+   "Y": -47.847206498266104,
+   "feed": 200
+  },
+  {
+   "op": "move",
+   "Y": -32.847206498266104
+  },
+  {
+   "op": "move",
+   "Z": 45.0
+  },
+  {
+   "op": "move",
+   "X": 31.0,
+   "Y": -83.0
+  },
+  {
+   "op": "move",
+   "Z": 14.0
+  },
+  {
+   "op": "probe_move",
+   "Z": -1.0,
+   "feed": 200
+  },
+  {
+   "op": "move",
+   "Z": 45.0
+  },
+  {
+   "op": "probe",
+   "state": "up"
+  }
+ ],
+ "report": {
+  "ok": true,
+  "estimated_time_s": 24.3,
+  "workpieces": [
+   {
+    "name": "block",
+    "type": "box",
+    "size": [
+     120.0,
+     80.0,
+     25.0
+    ],
+    "centre": [
+     20.0,
+     10.0
+    ],
+    "yaw": 5.0,
+    "base_z": 110.0
+   }
+  ],
+  "steps": [
+   {
+    "step": 1,
+    "op": "move",
+    "status": "ok",
+    "reached": {
+     "X": 0.0,
+     "Y": 0.0,
+     "Z": 45.0,
+     "P": 0.0,
+     "C": 0.0
+    }
+   },
+   {
+    "step": 2,
+    "op": "move",
+    "status": "ok",
+    "reached": {
+     "X": -3.785,
+     "Y": 15.077,
+     "Z": 45.0,
+     "P": 0.0,
+     "C": 0.0
+    }
+   },
+   {
+    "step": 3,
+    "op": "move",
+    "status": "ok",
+    "reached": {
+     "X": -3.785,
+     "Y": 15.077,
+     "Z": 45.0,
+     "P": 0.0,
+     "C": 0.0
+    }
+   },
+   {
+    "step": 4,
+    "op": "capture",
+    "status": "ok",
+    "image": "output/v14/mujoco/runs/demo_ok/corner_minus.png",
+    "mm_per_px": 0.01367,
+    "field_mm": [
+     16.73,
+     14.0
+    ],
+    "centre_table": [
+     -36.285,
+     -35.077
+    ],
+    "surfaces": {
+     "Work_table_top": {
+      "share": 0.76,
+      "focus_error_mm": 25.0,
+      "in_focus": false
+     },
+     "block": {
+      "share": 0.24,
+      "focus_error_mm": 0.0,
+      "in_focus": true
+     }
+    }
+   },
+   {
+    "step": 5,
+    "op": "move",
+    "status": "ok",
+    "reached": {
+     "X": -3.785,
+     "Y": 15.077,
+     "Z": 45.0,
+     "P": 0.0,
+     "C": 0.0
+    }
+   },
+   {
+    "step": 6,
+    "op": "move",
+    "status": "ok",
+    "reached": {
+     "X": 108.785,
+     "Y": -75.077,
+     "Z": 45.0,
+     "P": 0.0,
+     "C": 0.0
+    }
+   },
+   {
+    "step": 7,
+    "op": "move",
+    "status": "ok",
+    "reached": {
+     "X": 108.785,
+     "Y": -75.077,
+     "Z": 45.0,
+     "P": 0.0,
+     "C": 0.0
+    }
+   },
+   {
+    "step": 8,
+    "op": "capture",
+    "status": "ok",
+    "image": "output/v14/mujoco/runs/demo_ok/corner_plus.png",
+    "mm_per_px": 0.01367,
+    "field_mm": [
+     16.73,
+     14.0
+    ],
+    "centre_table": [
+     76.285,
+     55.077
+    ],
+    "surfaces": {
+     "block": {
+      "share": 0.24,
+      "focus_error_mm": 0.0,
+      "in_focus": true
+     },
+     "Work_table_top": {
+      "share": 0.76,
+      "focus_error_mm": 25.0,
+      "in_focus": false
+     }
+    }
+   },
+   {
+    "step": 9,
+    "op": "move",
+    "status": "ok",
+    "reached": {
+     "X": 108.785,
+     "Y": -75.077,
+     "Z": 45.0,
+     "P": 0.0,
+     "C": 0.0
+    }
+   },
+   {
+    "step": 10,
+    "op": "probe",
+    "status": "ok",
+    "reached": {
+     "X": 108.785,
+     "Y": -75.077,
+     "Z": 45.0,
+     "P": 60.0,
+     "C": 0.0
+    }
+   },
+   {
+    "step": 11,
+    "op": "move",
+    "status": "ok",
+    "reached": {
+     "X": -39.229,
+     "Y": -83.0,
+     "Z": 45.0,
+     "P": 60.0,
+     "C": 0.0
+    }
+   },
+   {
+    "step": 12,
+    "op": "move",
+    "status": "ok",
+    "reached": {
+     "X": -39.229,
+     "Y": -83.0,
+     "Z": -6.0,
+     "P": 60.0,
+     "C": 0.0
+    }
+   },
+   {
+    "step": 13,
+    "op": "probe_move",
+    "status": "triggered",
+    "touched": "block",
+    "axes": {
+     "X": -30.232,
+     "Y": -83.0,
+     "Z": -6.0,
+     "P": 60.0,
+     "C": 0.0
+    },
+    "ball_centre": [
+     -41.232,
+     10.0,
+     125.0
+    ],
+    "contact": [
+     -40.235,
+     10.087,
+     125.0
+    ]
+   },
+   {
+    "step": 14,
+    "op": "move",
+    "status": "ok",
+    "reached": {
+     "X": -39.229,
+     "Y": -83.0,
+     "Z": -6.0,
+     "P": 60.0,
+     "C": 0.0
+    }
+   },
+   {
+    "step": 15,
+    "op": "move",
+    "status": "ok",
+    "reached": {
+     "X": -39.229,
+     "Y": -83.0,
+     "Z": 45.0,
+     "P": 60.0,
+     "C": 0.0
+    }
+   },
+   {
+    "step": 16,
+    "op": "move",
+    "status": "ok",
+    "reached": {
+     "X": 31.0,
+     "Y": -32.847,
+     "Z": 45.0,
+     "P": 60.0,
+     "C": 0.0
+    }
+   },
+   {
+    "step": 17,
+    "op": "move",
+    "status": "ok",
+    "reached": {
+     "X": 31.0,
+     "Y": -32.847,
+     "Z": -6.0,
+     "P": 60.0,
+     "C": 0.0
+    }
+   },
+   {
+    "step": 18,
+    "op": "probe_move",
+    "status": "triggered",
+    "touched": "block",
+    "axes": {
+     "X": 31.0,
+     "Y": -41.844,
+     "Z": -6.0,
+     "P": 60.0,
+     "C": 0.0
+    },
+    "ball_centre": [
+     20.0,
+     -31.156,
+     125.0
+    ],
+    "contact": [
+     19.913,
+     -30.161,
+     125.0
+    ]
+   },
+   {
+    "step": 19,
+    "op": "move",
+    "status": "ok",
+    "reached": {
+     "X": 31.0,
+     "Y": -32.847,
+     "Z": -6.0,
+     "P": 60.0,
+     "C": 0.0
+    }
+   },
+   {
+    "step": 20,
+    "op": "move",
+    "status": "ok",
+    "reached": {
+     "X": 31.0,
+     "Y": -32.847,
+     "Z": 45.0,
+     "P": 60.0,
+     "C": 0.0
+    }
+   },
+   {
+    "step": 21,
+    "op": "move",
+    "status": "ok",
+    "reached": {
+     "X": 31.0,
+     "Y": -83.0,
+     "Z": 45.0,
+     "P": 60.0,
+     "C": 0.0
+    }
+   },
+   {
+    "step": 22,
+    "op": "move",
+    "status": "ok",
+    "reached": {
+     "X": 31.0,
+     "Y": -83.0,
+     "Z": 14.0,
+     "P": 60.0,
+     "C": 0.0
+    }
+   },
+   {
+    "step": 23,
+    "op": "probe_move",
+    "status": "triggered",
+    "touched": "block",
+    "axes": {
+     "X": 31.0,
+     "Y": -83.0,
+     "Z": 4.999,
+     "P": 60.0,
+     "C": 0.0
+    },
+    "ball_centre": [
+     20.0,
+     10.0,
+     135.999
+    ],
+    "contact": [
+     20.0,
+     10.0,
+     134.75
+    ]
+   },
+   {
+    "step": 24,
+    "op": "move",
+    "status": "ok",
+    "reached": {
+     "X": 31.0,
+     "Y": -83.0,
+     "Z": 45.0,
+     "P": 60.0,
+     "C": 0.0
+    }
+   },
+   {
+    "step": 25,
+    "op": "probe",
+    "status": "ok",
+    "reached": {
+     "X": 31.0,
+     "Y": -83.0,
+     "Z": 45.0,
+     "P": 0.0,
+     "C": 0.0
+    }
+   }
+  ],
+  "final": {
+   "axes": {
+    "X": 31.0,
+    "Y": -83.0,
+    "Z": 45.0,
+    "P": 0.0,
+    "C": 0.0
+   },
+   "tool_tip": [
+    63.5,
+    63.0,
+    200.0
+   ],
+   "probe_ball": [
+    20.0,
+    10.0,
+    236.0
+   ],
+   "camera_focus": [
+    -1.5,
+    63.0,
+    135.0
+   ]
+  }
+ }
+}

@@ -1,0 +1,125 @@
+{
+ "plan": [
+  {
+   "op": "move",
+   "Z": 45.0
+  },
+  {
+   "op": "probe",
+   "state": "down"
+  },
+  {
+   "op": "move",
+   "X": 31.0,
+   "Y": -83.0
+  },
+  {
+   "op": "move",
+   "Z": -40.0
+  }
+ ],
+ "report": {
+  "ok": false,
+  "estimated_time_s": 3.1,
+  "workpieces": [
+   {
+    "name": "block",
+    "type": "box",
+    "size": [
+     120.0,
+     80.0,
+     25.0
+    ],
+    "centre": [
+     20.0,
+     10.0
+    ],
+    "yaw": 5.0,
+    "base_z": 110.0
+   }
+  ],
+  "steps": [
+   {
+    "step": 1,
+    "op": "move",
+    "status": "ok",
+    "reached": {
+     "X": 0.0,
+     "Y": 0.0,
+     "Z": 45.0,
+     "P": 0.0,
+     "C": 0.0
+    }
+   },
+   {
+    "step": 2,
+    "op": "probe",
+    "status": "ok",
+    "reached": {
+     "X": 0.0,
+     "Y": 0.0,
+     "Z": 45.0,
+     "P": 60.0,
+     "C": 0.0
+    }
+   },
+   {
+    "step": 3,
+    "op": "move",
+    "status": "ok",
+    "reached": {
+     "X": 31.0,
+     "Y": -83.0,
+     "Z": 45.0,
+     "P": 60.0,
+     "C": 0.0
+    }
+   },
+   {
+    "step": 4,
+    "op": "move",
+    "status": "crash",
+    "parts": [
+     "Probe_ball",
+     "block"
+    ],
+    "at_table": [
+     20.0,
+     10.0,
+     134.75
+    ],
+    "stopped_at": {
+     "X": 31.0,
+     "Y": -83.0,
+     "Z": 5.0,
+     "P": 60.0,
+     "C": 0.0
+    }
+   }
+  ],
+  "final": {
+   "axes": {
+    "X": 31.0,
+    "Y": -83.0,
+    "Z": 5.0,
+    "P": 60.0,
+    "C": 0.0
+   },
+   "tool_tip": [
+    63.5,
+    63.0,
+    160.0
+   ],
+   "probe_ball": [
+    20.0,
+    10.0,
+    136.0
+   ],
+   "camera_focus": [
+    -1.5,
+    63.0,
+    95.0
+   ]
+  }
+ }
+}
