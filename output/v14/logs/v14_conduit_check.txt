@@ -4,6 +4,17 @@ Conduit_Y    Y 軸浪管：立柱電控板 Y 支架 → Y 馬達（KSS PA-23，�
 Conduit_ZB   Z 段浪管：X 滑座 → 工具頭（KSS PA-29，模型外徑 34.5），下垂 U 型  length 450.0, min bend radius over all poses 60 (allowed 60) OK 
 Conduit_XA   X 段浪管：電箱頂板上的水平滾動 U 型環，R 80（KSS PA-29，模型外徑 34.5）  length rolling, min bend radius over all poses 80 (allowed 60) OK 
 
-CONDUIT ENDS IN THEIR OWN FITTINGS / CLAMPS (expected): 0
+CONDUIT ENDS IN THEIR OWN FITTINGS / CLAMPS (expected): 3
+  Conduit_ZB in Conduit_head_end_fitting: 2774 mm3
+  Conduit_carriage_run in Conduit_X_arm_clamp: 677 mm3
+  Conduit_carriage_run in Conduit_carriage_clamp: 1043 mm3
 
-COLLISIONS: 0
+COLLISIONS: 8
+  Conduit_Y x Mirror_bracket at (-182.5, 150, -50): 2576 mm3
+  Conduit_Y x Mirror_bracket_bolt_2 at (-182.5, 150, -50): 396 mm3
+  Conduit_Y x Work_table at (-182.5, 150, -50): 26604 mm3
+  Conduit_Y x Y_motor at (-182.5, 0, -50): 811 mm3
+  Conduit_Y x Y_motor_block at (-182.5, 150, -50): 2127 mm3
+  Conduit_ZB x Conduit_head_bracket at (-182.5, -250, -50): 139 mm3
+  Conduit_ZB x Coolant_nozzle_block_bolt_1 at (-182.5, -250, 50): 59 mm3
+  Conduit_ZB x Coolant_nozzle_block_bolt_2 at (-182.5, -250, 50): 59 mm3

@@ -114,20 +114,15 @@ def min_radius(q):
         if cr > 1e-9: r = min(r, ab * bc * ca / (2 * cr))
     return r
 def tube(q, D, poly=False):
-    try:
-        if poly: raise ValueError('rigid fitting: straight pieces')
-        e = Part.BSplineCurve(); e.interpolate([V(*p) for p in q]); w = Part.Wire(e.toShape())
-        t = e.tangent(e.FirstParameter)[0]; circ = Part.Wire(Part.makeCircle(D / 2, V(*q[0]), t))
-        sh = w.makePipeShell([circ], True, True)
-        pb = e.toShape().BoundBox; pb.enlarge(D)
-        if sh.isValid() and sh.Volume > 0 and pb.isInside(sh.BoundBox): return sh   # a sweep tighter than its radius folds over itself
-    except Exception: pass
-    parts = []                                                 # fallback for sharp static runs: cylinders + spheres along the polyline
+    # Fused cylinders + spheres along the centre line (one valid solid). A swept pipe shell was used before, but its booleans with the machine
+    # parts silently returned 0 volume, so 22 reported 0 collisions while the Y conduit ran through the work table (found by the owner).
+    parts = []
     for a_, b_ in zip(q[:-1], q[1:]):
         d = V(*b_) - V(*a_)
         if d.Length > 1e-6: parts.append(Part.makeCylinder(D / 2, d.Length, V(*a_), d))
-    parts += [Part.makeSphere(D / 2, V(*p)) for p in q]
-    return Part.makeCompound(parts)
+    parts += [Part.makeSphere(D / 2, V(*p)) for p in q[1:-1]]
+    sh = parts[0].multiFuse(parts[1:]) if len(parts) > 1 else parts[0]
+    return sh.removeSplitter() if sh.isValid() else sh
 
 if True:                                                        # freecadcmd does not set __main__
     doc = App.openDocument(os.path.join(ROOT, 'output', 'v14', 'CNC_v14_base.FCStd'))
