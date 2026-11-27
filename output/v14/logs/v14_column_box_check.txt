@@ -1,9 +1,22 @@
 v14 electrical box (column_box/column_box.step): 468 box solids, envelope x -380.0..380.0 y 255.0..495.0 z 241.0..491.0
-574 machine parts, 27 poses; reference copies of machine parts skipped: none
+572 machine parts, 27 poses; reference copies of machine parts skipped: none
 
-COLLISIONS (box x machine): 0
+COLLISIONS (box x machine): 13
+  L_plate_flange x Box_hang_screw_10 at (0, 0, 0): 79 mm3
+  L_plate_flange x Box_hang_screw_11 at (0, 0, 0): 79 mm3
+  L_plate_flange x Box_hang_screw_12 at (0, 0, 0): 79 mm3
+  L_plate_flange x Box_hang_screw_13 at (0, 0, 0): 79 mm3
+  L_plate_flange x Box_hang_screw_14 at (0, 0, 0): 79 mm3
+  L_plate_flange x Box_hang_screw_15 at (0, 0, 0): 79 mm3
+  L_plate_flange x Box_hang_screw_16 at (0, 0, 0): 79 mm3
+  L_plate_flange x Box_hang_screw_17 at (0, 0, 0): 79 mm3
+  L_plate_flange x Box_hang_screw_18 at (0, 0, 0): 79 mm3
+  L_plate_flange x Box_hang_screw_19 at (0, 0, 0): 79 mm3
+  L_plate_flange x Box_hang_screw_20 at (0, 0, 0): 79 mm3
+  L_plate_flange x Box_hang_screw_9 at (0, 0, 0): 79 mm3
+  L_plate_flange x Box_top_plate at (0, 0, 0): 9120 mm3
 
-THREAD ENGAGEMENT (mechanical-side screws in the electrical-side nuts / rivet nuts): 20
+THREAD ENGAGEMENT (mechanical-side screws in the electrical-side nuts / rivet nuts): 8
   Box_hang_screw_1 in PullNut_M5_01: engaged 5.0, tip 4.0 above the nut bottom OK
   Box_hang_screw_2 in PullNut_M5_02: engaged 5.0, tip 4.0 above the nut bottom OK
   Box_hang_screw_3 in PullNut_M5_03: engaged 5.0, tip 4.0 above the nut bottom OK
@@ -12,21 +25,8 @@ THREAD ENGAGEMENT (mechanical-side screws in the electrical-side nuts / rivet nu
   Box_hang_screw_6 in PullNut_M5_06: engaged 5.0, tip 4.0 above the nut bottom OK
   Box_hang_screw_7 in PullNut_M5_07: engaged 5.0, tip 4.0 above the nut bottom OK
   Box_hang_screw_8 in PullNut_M5_08: engaged 5.0, tip 4.0 above the nut bottom OK
-  Box_hang_screw_9 in PullNut_M5_09: engaged 5.0, tip 4.0 above the nut bottom OK
-  Box_hang_screw_10 in PullNut_M5_10: engaged 5.0, tip 4.0 above the nut bottom OK
-  Box_hang_screw_11 in PullNut_M5_11: engaged 5.0, tip 4.0 above the nut bottom OK
-  Box_hang_screw_12 in PullNut_M5_12: engaged 5.0, tip 4.0 above the nut bottom OK
-  Box_hang_screw_13 in PullNut_M5_13: engaged 5.0, tip 4.0 above the nut bottom OK
-  Box_hang_screw_14 in PullNut_M5_14: engaged 5.0, tip 4.0 above the nut bottom OK
-  Box_hang_screw_15 in PullNut_M5_15: engaged 5.0, tip 4.0 above the nut bottom OK
-  Box_hang_screw_16 in PullNut_M5_16: engaged 5.0, tip 4.0 above the nut bottom OK
-  Box_hang_screw_17 in PullNut_M5_17: engaged 5.0, tip 4.0 above the nut bottom OK
-  Box_hang_screw_18 in PullNut_M5_18: engaged 5.0, tip 4.0 above the nut bottom OK
-  Box_hang_screw_19 in PullNut_M5_19: engaged 5.0, tip 4.0 above the nut bottom OK
-  Box_hang_screw_20 in PullNut_M5_20: engaged 5.0, tip 4.0 above the nut bottom OK
 
-SUPPORT (fixed machine parts touching the box): 6
-  L_plate_flange - Box_top_plate
+SUPPORT (fixed machine parts touching the box): 5
   L_plate_vertical - Conduit_Y_top_bracket
   L_plate_vertical - Conduit_Y_top_bracket_bolt_1
   L_plate_vertical - Conduit_Y_top_bracket_bolt_2
@@ -35,7 +35,7 @@ SUPPORT (fixed machine parts touching the box): 6
 
 
 v14 electrical box (base_cabinet/base_cabinet.step): 24 box solids, envelope x -250.0..422.0 y -690.0..-520.0 z -620.0..-91.0
-574 machine parts, 27 poses; reference copies of machine parts skipped: none
+572 machine parts, 27 poses; reference copies of machine parts skipped: none
 
 COLLISIONS (box x machine): 0
 
@@ -52,5 +52,5 @@ SUPPORT (fixed machine parts touching the box): 11
   Upright_L - Base_top_front
   Upright_R - Base_low_front
   Upright_R - Base_top_front
-  Upright_R - Feeder_clamp_13
+  Upright_R - Feeder_clamp_11
 
