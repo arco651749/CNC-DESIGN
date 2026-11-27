@@ -48,8 +48,8 @@ DUCT_DEPTH = 40.0                                   # reserved space, not a part
 
 # openings (machine x, y, z): purpose
 OPENINGS = [
-    ('roof flange', 0, 390, 491, 'X conduit PA-29 (KSS PAQ-2929, PG29): hole D45 at (0, 390) (moved from x 50); the fitting sits horizontally on a small bent bracket on the top plate; plus 2 x D5.5 at (32, 375) and (32, 405) for its M5x16 screws, nuts under the flange (z 483..487)'),
-    ('open', -120, 330, 241, 'Y bellows NW23: its fixed fitting was on the bottom cover; there is no cover any more -> a conduit support bracket (mechanical session decides where)'),
-    ('open', -340, 259, 270, 'power feeders F1/F2/F3 + PE: conduit NW36, ends on a support bracket near the lower left of the L plate (mechanical session)'),
-    ('open', -260, 259, 270, 'control cable F4: conduit NW17, ends on a support bracket next to the power conduit (mechanical session)'),
+    ('roof flange', 0, 390, 491, 'X conduit PA-29 (KSS PAQ-2929, PG29): hole D45 at (0, 390); plus 2 x D5.5 at (32, 375) and (32, 405) for the bracket screws, nuts under the flange (z 483..487)'),
+    ('open', -120, 330, 241, 'Y bellows NW23: conduit support bracket on the front of the vertical plate (2 x D5.5 at x -140 / -100, z 265); no cover'),
+    ('open', -392, 330, 270, 'power feeders F1/F2/F3 + PE: KSS PAQ-3636 on the feeder entry plate outside the top-plate left flange (x -395.5..-392.5), facing -x, z 270; the cables enter at the LEFT END of the L plate and run in the air behind the boards to X1'),
+    ('open', -392, 410, 270, 'control cable F4: KSS PAQ-1716, same plate, y 410, z 270'),
 ]

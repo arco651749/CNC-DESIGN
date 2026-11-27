@@ -20,9 +20,9 @@ def add(name, shape, grp):
     o = doc.addObject('Part::Feature', name); o.Shape = shape; OBJ[name] = (o, grp); return o
 X0, X1, Y0, Y1, Z0, Z1 = L.ENV
 # ------------------------------------------------ enclosure
-NUTS = [(x, 272) for x in (-350, -250, -150, -50, 50, 150, 250, 350)] + [(x, 490) for x in (-350, -250, -150, -50, 50, 100, 250, 350)] + [(sx, y) for sx in (-376, 376) for y in (365, 435)]
+NUTS = [(x, 272) for x in (-350, -250, -150, -50, 50, 150, 250, 350)] + [(x, 432) for x in (-350, -250, -150, -50, 50, 150, 250, 350)] + [(sx, y) for sx in (-376, 376) for y in (330, 400)]
 # ONE bent L plate (owner: no covers): flange z 487..491 over y 255..495, vertical plate y 255..259 hanging down at the front (z 241..491), t4, R4 inside bend
-fl = box(-380, 380, 255, 495, 487, 491).cut(cyl('z', 22.5, 486, 492, 0, 390)).cut(cyl('z', 2.75, 486, 492, 32, 375)).cut(cyl('z', 2.75, 486, 492, 32, 405))
+fl = box(-380, 380, 255, 446, 487, 491).cut(cyl('z', 22.5, 486, 492, 0, 390)).cut(cyl('z', 2.75, 486, 492, 32, 375)).cut(cyl('z', 2.75, 486, 492, 32, 405))
 for (nx, ny) in NUTS: fl = fl.cut(cyl('z', 4, 486, 492, nx, ny))
 add('L_plate_flange', fl, 'L plate (SPHC t4, bent): horizontal flange under the mechanical top plate; 20 M5 holes with pull nuts, X bellows hole D45')
 vp = box(-380, 380, 255, 259, 241, 487)
