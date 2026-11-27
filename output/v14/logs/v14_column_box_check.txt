@@ -25,10 +25,8 @@ THREAD ENGAGEMENT (box top plate screws in the box rivet nuts): 20
   Box_hang_screw_19 in PullNut_M5_19: engaged 5.0, tip 4.0 above the nut bottom OK
   Box_hang_screw_20 in PullNut_M5_20: engaged 5.0, tip 4.0 above the nut bottom OK
 
-SUPPORT (fixed machine parts touching the box): 6
+SUPPORT (fixed machine parts touching the box): 4
   Box_back_wall - Box_top_plate
-  Box_back_wall - Feeder_control_conduit
-  Box_back_wall - Feeder_power_conduit
   Box_roof_plate - Box_top_plate
   Box_side_L - Box_top_plate
   Box_side_R - Box_top_plate
@@ -41,14 +39,11 @@ COLLISIONS (box x machine): 0
 
 THREAD ENGAGEMENT (box top plate screws in the box rivet nuts): 0
 
-SUPPORT (fixed machine parts touching the box): 12
+SUPPORT (fixed machine parts touching the box): 9
   Bracket_bot_L - Base_low_front
   Bracket_bot_R - Base_low_front
   Bracket_top_L - Base_top_front
   Bracket_top_R - Base_top_front
-  Cabinet_box - Feeder_control_conduit
-  Cabinet_box - Feeder_power_conduit
-  OpBox - Feeder_opbox_cable
   Upright_L - Base_low_front
   Upright_L - Base_top_front
   Upright_R - Base_low_front
