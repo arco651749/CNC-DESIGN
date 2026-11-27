@@ -1,15 +1,13 @@
 v14 conduits: 3 moving runs, 27 poses
 
-Conduit_Y    Y 軸浪管：X 底板背面固定支架 → 工作台後左支架（KSS PA-23，模型外徑 28.5），在 x -295 平面下垂 U 型，整段在工作台外側  length 430.0, min bend radius over all poses 15 (allowed 50) TOO TIGHT 
-Conduit_ZB   Z 段浪管：X 滑座 → 工具頭（KSS PA-29，模型外徑 34.5），下垂 U 型  length 360.0, min bend radius over all poses 60 (allowed 60) OK TAUT at [(-182.5, -250, -50), (-182.5, -250, 0), (-182.5, -250, 50), (-182.5, 0, -50), (-182.5, 0, 0), (-182.5, 0, 50), (-182.5, 150, -50), (-182.5, 150, 0), (-182.5, 150, 50), (0, -250, -50), (0, -250, 0), (0, -250, 50), (0, 0, -50), (0, 0, 0), (0, 0, 50), (0, 150, -50), (0, 150, 0), (0, 150, 50), (182.5, -250, -50), (182.5, -250, 0), (182.5, -250, 50), (182.5, 0, -50), (182.5, 0, 0), (182.5, 0, 50), (182.5, 150, -50), (182.5, 150, 0), (182.5, 150, 50)]
+Conduit_Y    Y 軸浪管：X 底板背面固定支架 → 工作台後左支架（KSS PA-23，模型外徑 28.5），x -395 → -295 下垂 U 型，整段在工作台外側  length 410.0, min bend radius over all poses 56 (allowed 50) OK 
+Conduit_ZB   Z 段浪管：X 滑座 → 工具頭（KSS PA-29，模型外徑 34.5），下垂 U 型  length 530.0, min bend radius over all poses 60 (allowed 60) OK 
 Conduit_XA   X 段浪管：電箱頂板上的水平滾動 U 型環，R 80（KSS PA-29，模型外徑 34.5）  length rolling, min bend radius over all poses 80 (allowed 60) OK 
 
-CONDUIT ENDS IN THEIR OWN FITTINGS / CLAMPS (expected): 3
-  Conduit_Y in Conduit_Y_end_fitting: 1327 mm3
+CONDUIT ENDS IN THEIR OWN FITTINGS / CLAMPS (expected): 2
   Conduit_carriage_run in Conduit_X_arm_clamp: 677 mm3
   Conduit_carriage_run in Conduit_carriage_clamp: 1043 mm3
 
-COLLISIONS: 3
-  Conduit_Y x Base_mount_bolt_3 at (-182.5, -250, -50): 20 mm3
-  Conduit_Y x Conduit_Y_bracket at (-182.5, 0, -50): 8009 mm3
-  Conduit_Y x Datum_base_plate at (-182.5, -250, -50): 8912 mm3
+COLLISIONS: 2
+  Conduit_Y x Foot_col_bolt_L3 at (-182.5, -250, -50): 204 mm3
+  Conduit_Y x Gantry_column_L at (-182.5, -250, -50): 21939 mm3
