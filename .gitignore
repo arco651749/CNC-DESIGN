@@ -11,3 +11,4 @@ output/v3/*.FCStd
 electrical/CNC_wiring.svg
 electrical/*-backups/
 column_box/mesh.json
+base_cabinet/mesh.json
