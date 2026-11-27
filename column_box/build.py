@@ -21,6 +21,8 @@ KEEP = (-165, -75, 255, 365, 236, 285)     # Y bellows cable path (mechanical se
 for p in L.PARTS:
     B = bb(p)
     if all(min(B[2*i+1], KEEP[2*i+1]) - max(B[2*i], KEEP[2*i]) > 0.01 for i in range(3)): rep.append('IN THE Y-BELLOWS KEEP-OUT: ' + p[1])
+for dn, dx0, dx1, dz0, dz1 in L.DUCTS:
+    if min(dx1, KEEP[1]) - max(dx0, KEEP[0]) > 0.01 and min(dz1, KEEP[5]) - max(dz0, KEEP[4]) > 0.01: rep.append('DUCT IN THE Y-BELLOWS KEEP-OUT: ' + dn)
 rep.append('Y-bellows keep-out x -165..-75, y 255..365, z 236..285 checked against all parts')
 with open(os.path.join(HERE, 'placement.csv'), 'w', newline='', encoding='utf-8-sig') as f:
     w = csv.writer(f); w.writerow(['位號', '零件', 'x min', 'x max', 'y min', 'y max', 'z min', 'z max', '尺寸 dx×dy×dz', '安裝面', '方向', '尺寸來源'])

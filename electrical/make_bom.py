@@ -49,6 +49,7 @@ ROWS = [
  ('機殼與線', 'ENC2', '立柱電控板（L 型板，無蓋）', 1, 'SPHC t4 折成 L 型的一片板（垂直板 y 255..259、水平板 z 487..491，兩端加 t10 肋板）；電料鎖在垂直板後面與水平板底面；沒有蓋子、沒有風扇', '配電 session 設計，鈑金加工', '待選型號', '3D 見 column_box/；頂板由機構 session 設計；浪管支撐架用鈑金，由機構與配電 session 協調位置；無 IP 防護，owner 決定'),
  ('機殼與線', 'FDR', '兩箱連接線（共 5 條）', 5, '伺服 5G2.5 mm²、變頻器 3G4 mm²、電源 3G1.5 mm²、控制 4×0.75 mm² 屏蔽，另 PE 接地線', '（待選）', '規格推斷（待確認）', '線徑為估算起點，電工決定；長度由機構 session 的走線路徑決定；防水接頭進立柱電箱後牆左下'),
  ('機殼與線', 'ENC3', '操作盒（急停 + 啟動）', 1, '塑膠或鋁壓鑄盒約 160×100×60 mm，IP54，2 個 Ø22 孔', '（待選）', '待選型號', '掛在右立柱右側面，內裝 S1、S2；7 芯 0.75 mm² 線（NC1 2、NC2 2、NO 2 或 S2 2 + 備用）接底座電箱右側壁 Ø16 接頭'),
+ ('機殼與線', 'DUCT', '配線槽（立柱電控板）', 5, 'PVC 開口配線槽，約 25 寬 × 40 深（H1、V1、D3、D4 25 寬，V2 16 寬），附蓋', '（待選）', '待選型號', '位置見 column_box/layout.py DUCTS；右側伺服與變頻器因散熱間隙不放線槽，線用束線帶固定；線槽尺寸待電工確認'),
 ]
 
 ALIAS = {}
@@ -59,7 +60,7 @@ def main():
     for group, refs, part, qty, spec, src, status, note in ROWS:
         names = [r.strip() for r in refs.split(",")]
         for r in names:
-            if ALIAS.get(r, r) not in {b.ref for b in B.S.blocks} and r not in ('ENC1', 'ENC2', 'ENC3', 'FDR'):
+            if ALIAS.get(r, r) not in {b.ref for b in B.S.blocks} and r not in ('ENC1', 'ENC2', 'ENC3', 'FDR', 'DUCT'):
                 errors.append("%s: 位號 %s 不在配線圖裡" % (part, r))
         distinct = len(names)
         if distinct > 1 and qty != distinct:

@@ -33,7 +33,18 @@ PARTS = [
     wall('BD', 'RP23CNC V2.02 on 4 M3 standoffs', -355, 96, 35, 97, 378, 'standoffs on the plate, components face the rear', 'M vendor STEP 96x97'),
     wall('PC', 'LattePanda IOTA (12 V 60 W) with FIT1027 cooler', -355, 71, 40, 90, 270, 'standoffs on the plate, ports face the rear', 'M vendor STEP board 71x90x19 + cooler'),
 ]
-FLAGS = set()                                   # reserved space, not a part
+FLAGS = set()
+
+# wiring ducts on the rear face of the vertical plate: (name, x0, x1, z0, z1), all 40 deep (y 259..299), open slot, lid on the rear.
+# None under or beside the drives / VFD (their 35 mm top / bottom and 10 mm side airflow clearances stay free) and none inside the Y-bellows keep-out.
+DUCTS = [
+    ('Duct_H1', -255, -12, 383, 408),     # above X1 / AIRV, below the DC1..XT row; links the left column, the upper row and X1
+    ('Duct_V1', -250, -225, 265, 383),    # between the boards and X1; links H1 with D3
+    ('Duct_D3', -360, -170, 245, 265),    # under the IOTA computer; ends at the Y-bellows keep-out (x -165)
+    ('Duct_D4', -70, 110, 245, 265),      # under the supplies; starts after the keep-out (x -75); bottom clearance 20 mm to the XDR
+    ('Duct_V2', 110, 126, 245, 470),      # between PSU2 and the VFD, 16 wide
+]
+DUCT_DEPTH = 40.0                                   # reserved space, not a part
 
 # openings (machine x, y, z): purpose
 OPENINGS = [

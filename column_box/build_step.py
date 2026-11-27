@@ -32,7 +32,7 @@ for sx, nm in ((-370, 'L'), (370, 'R')):
     add('L_plate_gusset_' + nm, box(sx - 5, sx + 5, 259, 299, 447, 487).cut(box(sx - 6, sx + 6, 279, 300, 446, 467)), 'L plate (gusset t10 at each end, stiffens the bend)')
 for k, (nx, ny) in enumerate(NUTS, 1): add('PullNut_M5_%02d' % k, cyl('z', 3.75, 478, 487, nx, ny).cut(cyl('z', 2.1, 478, 487, nx, ny)), 'parts (M5 pull nut, 9 mm below the flange)')
 # ------------------------------------------------ DIN rails (35 x 7.5)
-for nm, (x0, x1, y0, y1, z0, z1) in {'Rail_wall_1': (-210, 112, 259, 266.5, 330, 365), 'Rail_wall_2': (-255, -28, 259, 266.5, 427.5, 462.5)}.items():
+for nm, (x0, x1, y0, y1, z0, z1) in {'Rail_wall_1': (-210, 108, 259, 266.5, 330, 365), 'Rail_wall_2': (-255, -28, 259, 266.5, 427.5, 462.5)}.items():
     add(nm, box(x0, x1, y0, y1, z0, z1), 'DIN rails')
 # ------------------------------------------------ parts
 def bbox(p): return (p[3], p[3] + p[6], p[4], p[4] + p[7], p[5], p[5] + p[8])
@@ -45,6 +45,7 @@ for p in L.PARTS:
         b = bbox(p); s = sv.copy(); s.Placement = Placement(V((b[0] + b[1]) / 2, L.WALL_Y, (b[4] + b[5]) / 2), Rotation(V(0, 0, 1), 180).multiply(Rotation(V(1, 0, 0), 90)))
         add(p[1], s, 'parts (vendor STEP)')
         for dz in (-78, 78): add(p[1] + '_bolt_%d' % (1 if dz < 0 else 2), cyl('y', 4, L.WALL_Y + 6, L.WALL_Y + 10, (b[0] + b[1]) / 2 + 14, (b[4] + b[5]) / 2 + dz), 'fasteners')
+for nm, dx0, dx1, dz0, dz1 in L.DUCTS: add(nm, box(dx0, dx1, L.WALL_Y, L.WALL_Y + L.DUCT_DEPTH, dz0, dz1), 'parts (wiring duct 40 deep, open slot)')
 # boards on the vertical plate: components face the rear (+y). Local (x, y, z) -> machine (-x + TX, z + TY, y + TZ) = Rot(z,180) * Rot(x,90) + t.
 RB = Rotation(V(0, 0, 1), 180).multiply(Rotation(V(1, 0, 0), 90))
 SO = 10.0                                          # standoff length

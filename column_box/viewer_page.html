@@ -30,9 +30,9 @@ const T=new THREE.Vector3(0,375,370);
 const VIEWS={below:[420,1250,150],front:[0,-1500,380],iso:[900,-700,900],back:[0,1900,380]};
 function view(k){cam.position.set(...VIEWS[k]);ctl.target.copy(T);ctl.update()}
 document.querySelectorAll('[data-v]').forEach(b=>b.onclick=()=>view(b.dataset.v));
-const SH=[['wall','垂直板'],['roof','水平板'],['rails','DIN 軌'],['nuts','拉帽']];
+const SH=[['wall','垂直板'],['roof','水平板'],['rails','DIN 軌'],['duct','線槽'],['nuts','拉帽']];
 const tg=document.getElementById('tg');
-for(const [k,l] of SH){const lb=document.createElement('label');const cb=document.createElement('input');cb.type='checkbox';cb.checked=true;
+for(const [k,l] of SH){const lb=document.createElement('label');const cb=document.createElement('input');cb.type='checkbox';cb.checked=(k!=='nuts');
  cb.onchange=()=>{for(const m of MESH)if(m.userData.s===k)m.visible=cb.checked};cb.onchange();lb.append(cb,' '+l);tg.append(lb)}
 const ray=new THREE.Raycaster(),mv=new THREE.Vector2(),tip=document.getElementById('tip');
 cv.addEventListener('pointermove',e=>{const r=cv.getBoundingClientRect();mv.set((e.clientX-r.left)/r.width*2-1,-(e.clientY-r.top)/r.height*2+1);ray.setFromCamera(mv,cam);
