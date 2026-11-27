@@ -187,38 +187,41 @@ FEED = {   # name: (outer D, static bend R, route, spec); rear runs bend only af
                              'KSS PA nylon conduit ID >= 32 (sketch: NW36, AD 42.5): F1 servo 5G2.5, F2 VFD 3G4, F3 supply 3G1.5, PE; column box -> base cabinet'),
     'Feeder_control_conduit': (21.2, 60.0, [(-260, 506, 270), (-260, 695, 270), (-530, 695, 270), (-530, 695, -690), (-530, -650, -690), (-90, -650, -690), (-90, -650, -510)],
                                'KSS PA nylon conduit (sketch: NW17, AD 21.2): F4 control 4x0.75 shielded (E-stop loop, contactor coil); 50 from the power run'),
-    'Feeder_opbox_cable': (9.0, 30.0, [(300, -633, -330), (300, -633, -400), (180, -625, -400)],
+    'Feeder_opbox_cable': (9.0, 30.0, [(300, -633, -330), (300, -633, -400), (200, -633, -400), (180, -625, -400)],
                            'operator box -> base cabinet right wall: 7G0.75 (S1 E-stop 2NC, S2 start NO), ~0.5 m, clipped to the right upright'),
 }
 for n_, (D_, R_, pts_, sp_) in FEED.items():
     add(n_, tube_(fillet(pts_, R_), D_), sp_ + '; model length %.0f mm' % sum(math.dist(a_, b_) for a_, b_ in zip(fillet(pts_, R_)[:-1], fillet(pts_, R_)[1:])))
 g_ = O('Guard_rear')                                           # rear guard glands (outside the guard from here on)
-g_.Shape = g_.Shape.cut(cyl('y', 23.0, 565, 576, -340, 270)).cut(cyl('y', 12.0, 565, 576, -260, 270))
+g_.Shape = g_.Shape.cut(cyl('y', 42.5 / 2 + 6, 565, 576, -340, 270)).cut(cyl('y', 21.2 / 2 + 6, 565, 576, -260, 270))   # holes = connector thread OD (sketch)
 for k, (x_, d_) in enumerate(((-340, 42.5), (-260, 21.2)), 1):
-    add('Feeder_guard_gland_%d' % k, cyl('y', d_ / 2 + 6, 564, 578, x_, 270).cut(cyl('y', d_ / 2, 564, 578, x_, 270)),
+    add('Feeder_guard_gland_%d' % k, cyl('y', d_ / 2 + 6, 564, 578, x_, 270).cut(cyl('y', d_ / 2 + 0.5, 564, 578, x_, 270)),
         'conduit connector through the rear guard (KSS, IP rated, sketch) for the %s conduit' % ('power' if k == 1 else 'control'))
 def clamp(n_, c, ax, D_, foot):                                # conduit fixing base (sketch): ring around the conduit + foot to the frame face
-    r_ = D_ / 2; ring = cyl(ax, r_ + 4, -10, 10, 0, 0).cut(cyl(ax, r_, -10, 10, 0, 0))
+    r_ = D_ / 2 + 0.5; ring = cyl(ax, r_ + 4, -10, 10, 0, 0).cut(cyl(ax, r_, -10, 10, 0, 0))
     if ax == 'x': ring = Part.makeCylinder(r_ + 4, 20, V(c[0] - 10, c[1], c[2]), V(1, 0, 0)).cut(Part.makeCylinder(r_, 20, V(c[0] - 10, c[1], c[2]), V(1, 0, 0)))
     if ax == 'y': ring = Part.makeCylinder(r_ + 4, 20, V(c[0], c[1] - 10, c[2]), V(0, 1, 0)).cut(Part.makeCylinder(r_, 20, V(c[0], c[1] - 10, c[2]), V(0, 1, 0)))
     if ax == 'z': ring = Part.makeCylinder(r_ + 4, 20, V(c[0], c[1], c[2] - 10), V(0, 0, 1)).cut(Part.makeCylinder(r_, 20, V(c[0], c[1], c[2] - 10), V(0, 0, 1)))
-    add(n_, fuse(ring, *[box(*f_) for f_ in foot]), 'conduit fixing base for AD %.1f (KSS, sketch), M6 + T-nut into the HFS8 slot / M5 into the guard' % D_)
-CL = [   # (centre, conduit axis, D, foot boxes toward the frame face)
-    ((-430, 645, 270), 'x', 42.5, [(-440, -420, 571.2, 620, 260, 280)]), ((-400, 695, 270), 'x', 21.2, [(-410, -390, 571.2, 681, 265, 275)]),
+    bore = {'x': Part.makeCylinder(r_, 60, V(c[0] - 30, c[1], c[2]), V(1, 0, 0)), 'y': Part.makeCylinder(r_, 60, V(c[0], c[1] - 30, c[2]), V(0, 1, 0)),
+            'z': Part.makeCylinder(r_, 60, V(c[0], c[1], c[2] - 30), V(0, 0, 1))}[ax]
+    add(n_, fuse(ring, *[box(*f_) for f_ in foot]).cut(bore), 'conduit fixing base for AD %.1f (KSS, sketch), M6 + T-nut into the HFS8 slot / M5 into the guard' % D_)
+CL = [   # (centre, conduit axis, D, foot boxes toward the frame face); the control conduit rides on the power clamps where they run side by side
+    ((-430, 645, 270), 'x', 42.5, [(-440, -420, 571.2, 620, 260, 280)]), ((-430, 695, 270), 'x', 21.2, [(-440, -420, 671, 685, 265, 275)]),
     ((-530, 645, 0), 'z', 42.5, [(-540, -520, 560, 621, -10, 10), (-520, -492.5, 560, 580, -10, 10)]),
     ((-530, 645, -400), 'z', 42.5, [(-540, -520, 560, 621, -410, -390), (-520, -492.5, 560, 580, -410, -390)]),
-    ((-530, 695, -200), 'z', 21.2, [(-535, -525, 560, 685, -205, -195), (-525, -492.5, 560, 580, -205, -195)]),
+    ((-530, 695, 0), 'z', 21.2, [(-535, -525, 671, 685, -5, 5)]), ((-530, 695, -400), 'z', 21.2, [(-535, -525, 671, 685, -405, -395)]),
     ((-530, 300, -640), 'y', 42.5, [(-509, -492.5, 290, 310, -650, -630)]), ((-530, -150, -640), 'y', 42.5, [(-509, -492.5, -160, -140, -668, -630)]),
-    ((-530, 300, -690), 'y', 21.2, [(-520, -492.5, 290, 310, -695, -660)]), ((-530, -150, -690), 'y', 21.2, [(-520, -492.5, -160, -140, -695, -685)]),
+    ((-530, 250, -690), 'y', 21.2, [(-520, -492.5, 240, 260, -695, -660)]), ((-530, -100, -690), 'y', 21.2, [(-520, -492.5, -110, -90, -695, -685)]),
     ((-380, -650, -640), 'x', 42.5, [(-390, -370, -629, -600, -650, -630)]), ((-300, -650, -690), 'x', 21.2, [(-310, -290, -640, -600, -695, -660)]),
-    ((230, -625, -400), 'x', 9.0, [(225, 235, -620.5, -600, -405, -395)]),
+    ((240, -633, -400), 'x', 9.0, [(235, 245, -628.5, -600, -405, -395)]),
 ]
 for k, (c_, ax_, d_, ft_) in enumerate(CL, 1): clamp('Feeder_clamp_%d' % k, c_, ax_, d_, ft_)
 FS = [n_ for n_ in NEW if n_.startswith('Feeder_')]            # static clash check of the feeder parts against the base and the machine
 fh = []
 for o in doc.Objects:
-    if o.TypeId != 'Part::Feature' or o.Shape.isNull() or o.Label.startswith('Feeder_') or not o.Shape.Solids: continue
+    if o.TypeId != 'Part::Feature' or o.Shape.isNull() or not o.Shape.Solids: continue
     for n_ in FS:
+        if n_ == o.Label or (o.Label.startswith('Feeder_') and n_ > o.Label): continue
         fs_ = O(n_).Shape
         if not fs_.BoundBox.intersect(o.Shape.BoundBox): continue
         try: v_ = fs_.common(o.Shape).Volume
