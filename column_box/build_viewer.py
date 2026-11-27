@@ -35,7 +35,7 @@ for o in M:
     s = share(o['n']); resv = o['g'].startswith('reserved')
     out.append({'n': o['n'], 's': s, 'l': LABELS.get(o['n'], ''), 'c': colour(o['n']), 't': 1 if (resv or s in ('front', 'bottom', 'sideR', 'sideL', 'roof')) else 0,
                 'p': base64.b64encode(struct.pack('<%dh' % len(c), *c)).decode(), 'i': base64.b64encode(struct.pack(('<%dH' if w else '<%dI') % len(idx), *idx)).decode(), 'w': w})
-info = '立柱電箱（機台座標 mm）：後牆直立 MR-J4×3、變頻器 MS300、24V/12V 電源；屋頂底面朝下掛 RCD、斷路器、接觸器、控制板、IOTA 電腦…。透明件：前蓋、底蓋、側板、安裝板與預留空間。零件上有名稱標示（上方「標示」按鈕可關閉）；勾選上方方塊可隱藏／顯示。'
+info = '立柱電箱（控制類，機台座標 mm）：後牆一排由左到右：X1 端子、SVL 吹氣閥、PSU1 24V、PSU2 12V、VFD 變頻器、三台伺服 SVX/SVY/SVZ；屋頂底面：DC1、KA2、KA3、XT，另一排 BD 控制板與 IOTA 電腦。保護類（斷路器、接觸器）在底座電箱。透明件：前蓋、底蓋、側板、安裝板。零件上有名稱標示（上方「標示」按鈕可關閉）；勾選上方方塊可隱藏／顯示。'
 page = open(os.path.join(HERE, 'viewer_page.html'), encoding='utf-8').read().replace('<!--THREE-->', three, 1).replace('/*DATA*/', 'const DATA=' + json.dumps(out, separators=(',', ':')) + ';', 1).replace('/*INFO*/', info, 1)
 open(os.path.join(HERE, 'column_box_3d.html'), 'w', encoding='utf-8').write(page)
 print('parts', len(out), 'size MB %.1f' % (len(page) / 1e6))

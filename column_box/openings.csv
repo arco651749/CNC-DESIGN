@@ -1,5 +1,5 @@
 ﻿面,x,y,z,用途
-bottom cover,-340,270,244,mains inlet 220 V (cable gland M25)
+bottom cover,-340,270,244,"feeders from the base cabinet (servo power + control power, VFD, 24 V supply, control cable): cable gland plate 80x40 with 5 sealed glands"
 bottom cover,-120,330,241,"Y bellows NW23 fixed fitting (mechanical session): Y motor, encoder, brake, 2 prism-cover air tubes, cover switch; hole D45"
 bottom cover,350,262,244,X motor + home sensors (right side)
 roof,50,390,494,"X bellows NW29 elbow fitting (mechanical session): spindle 4-core, camera, probe, 3 air tubes, Z motor; hole D45; keep a 45 mm column free below it"

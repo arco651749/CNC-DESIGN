@@ -21,7 +21,7 @@ AC = blk("AC", "AC 220V 單相 市電", 38.1, 50.8, right=[("L1", 1), ("L2", 2),
 PH_SH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "vendor", "shihlin", "photos")
 K_SH = 0.06
 _q1 = S.photo(Photo(os.path.join(PH_SH, "BM30-SN.jpg"), 100.0, 50.0, K_SH))
-QF1 = S.add(PhotoBlock("QF1", "QF1 漏電斷路器 2P 30mA（總電源，額定待電工；照片為 BM30-SN 僅示意外形）", _q1,
+QF1 = S.add(PhotoBlock("QF1", "QF1 漏電斷路器 2P 30mA（總電源，在底座電箱；額定待電工；照片為 BM30-SN 僅示意外形）", _q1,
     [("L1i", 55, 45, "top", "L1"), ("L2i", 135, 48, "top", "L2"), ("L1o", 50, 415, "bottom", "T1"), ("L2o", 135, 410, "bottom", "T2")], title_dy=22.0))
 CY_SH = 50.0
 XPOS = {"X": 182.0, "Y": 258.0, "Z": 334.0}      # MCCB photo centre x of each axis; its contactor sits 30 mm to the right
@@ -29,10 +29,10 @@ QF2, KM1 = {}, {}
 for ax, x0 in {"X": XPOS["X"]}.items():          # one shared set (owner decision; the MR-J4 manual 11.10 asks for one per drive)
     qph = S.photo(Photo(os.path.join(PH_SH, "BM30-SN.jpg"), x0, CY_SH, K_SH))
     # BM30-SN photo is 3-pole; the 2-pole model uses the two left poles. Wire cavities: top y=45, bottom y=415 (photo px)
-    QF2[ax] = S.add(PhotoBlock("QF2", "QF2 BM30-SN 2P（三軸共用，額定待電工）", qph,
+    QF2[ax] = S.add(PhotoBlock("QF2", "QF2 BM30-SN 2P（三軸共用，在底座電箱，額定待電工）", qph,
         [("L1i", 55, 45, "top", "L1"), ("L2i", 135, 48, "top", "L2"), ("L1o", 50, 415, "bottom", "T1"), ("L2o", 135, 410, "bottom", "T2")], title_dy=22.0))
     kph = S.photo(Photo(os.path.join(PH_SH, "SD-P11.jpg"), x0 + 30.0, CY_SH, K_SH))
-    KM1[ax] = S.add(PhotoBlock("KM1", "KM1 SD-P 系列 DC24V（三軸共用，規格待電工）", kph,
+    KM1[ax] = S.add(PhotoBlock("KM1", "KM1 SD-P 系列 DC24V（三軸共用，在底座電箱，規格待電工）", kph,
         [("A1", 133, 143, "top", "A1"), ("A2", 188, 144, "top", "A2"), ("L1i", 76, 203, "top", "1L1"), ("L2i", 114, 203, "top", "3L2"),
          ("L1o", 76, 372, "bottom", "2T1"), ("L2o", 114, 372, "bottom", "4T2")], title_dy=22.0))
 S.text("士林 BM30-SN 斷路器（照片為3極，2極機種取左邊兩極）＋ SD-P11 直流24V接觸器（A1 為 +，A2 為 -）；三軸共用一組（與三菱手冊 11.10「每台各一組」不符，由電工決定）", 172.0, 138.0, 1.2)
@@ -47,7 +47,7 @@ for ax in "X":
     S.stub(q["L1o"], "L1_CTL", BRN, 5.08, THICK); S.stub(q["L2o"], "L2_CTL", BLU, 7.62, THICK)
     S.stub(k["L1i"], "L1_CTL", BRN, 5.08, THICK); S.stub(k["L2i"], "L2_CTL", BLU, 7.62, THICK)
     S.stub(k["L1o"], "L1_FLT", BRN, 5.08, THICK); S.stub(k["L2o"], "L2_FLT", BLU, 7.62, THICK)
-    flt = blk("FL2", "FL2 EMC 濾波器：暫不安裝（留 DIN 位置；未裝時 LINE 與 LOAD 直接跳接，裝時額定 ≥ 三台合計）", XPOS[ax] - 5.0, 92.0, left=[("L1i", 1, "LINE L1"), ("L2i", 2, "LINE L2")],
+    flt = blk("FL2", "FL2 EMC 濾波器：暫不安裝（底座電箱留位；未裝時 LINE 與 LOAD 直接跳接，裝時額定 ≥ 三台合計）", XPOS[ax] - 5.0, 92.0, left=[("L1i", 1, "LINE L1"), ("L2i", 2, "LINE L2")],
               right=[("L1o", 1, "LOAD L1"), ("L2o", 2, "LOAD L2")], w=20.32)
     S.stub(flt["L1i"], "L1_FLT", BRN, 5.08, THICK); S.stub(flt["L2i"], "L2_FLT", BLU, 5.08, THICK)
     S.stub(flt["L1o"], "L1_SRV", BRN, 5.08, THICK); S.stub(flt["L2o"], "L2_SRV", BLU, 5.08, THICK)
@@ -211,7 +211,7 @@ SP = S.add(PhotoBlock("SP", "SP 主軸 STF65-0.8-ER11 後端插頭", sph,
     [("U", 51.3, 27.5, "top", "1 U"), ("V", 48.2, 35.8, "left", "2 V"), ("W", 54.2, 45.4, "bottom", "3 W"), ("PE", 56.8, 37.0, "right", "4 PE")], title_dy=22.0))
 # per-drive protection: Shihlin BM30-SN MCCB (20 A, provisional: MS300 1.5 kW single-phase input current not verified) and SD-P11 contactor
 qph = S.photo(Photo(os.path.join(PH_SH, "BM30-SN.jpg"), 368.0, 412.0, K_SH))
-QF3 = S.add(PhotoBlock("QF3", "QF3 BM30-SN 2P 30A", qph,
+QF3 = S.add(PhotoBlock("QF3", "QF3 BM30-SN 2P 30A（變頻器，在底座電箱）", qph,
     [("L1i", 55, 45, "top", "L1"), ("L2i", 135, 48, "top", "L2"), ("L1o", 50, 415, "bottom", "T1"), ("L2o", 135, 410, "bottom", "T2")], title_dy=22.0))
 S.stub(QF3["L1i"], "L1_IN", BRN, 5.08, THICK); S.stub(QF3["L2i"], "L2_IN", BLU, 7.62, THICK)
 S.stub(QF3["L1o"], "L1_VFD", BRN, 5.08, THICK); S.stub(QF3["L2o"], "L2_VFD", BLU, 7.62, THICK)
@@ -227,7 +227,7 @@ S.text("變頻器：單相機種用 R/L1、S/L2 接電，T/L3 不接；DCM 有�
 
 # ------------------------------------------------------------------ 6. 24V supplies, e-stop circuit
 _q4 = S.photo(Photo(os.path.join(PH_SH, "BM30-SN.jpg"), 50.8, 372.0, K_SH))
-QF4 = S.add(PhotoBlock("QF4", "QF4 BM30-SN 2P 5A", _q4,
+QF4 = S.add(PhotoBlock("QF4", "QF4 BM30-SN 2P 5A（電源，在底座電箱）", _q4,
     [("L1i", 55, 45, "top", "L1"), ("L2i", 135, 48, "top", "L2"), ("L1o", 50, 415, "bottom", "T1"), ("L2o", 135, 410, "bottom", "T2")], title_dy=22.0))
 S.stub(QF4["L1i"], "L1_IN", BRN, 5.08, THICK); S.stub(QF4["L2i"], "L2_IN", BLU, 7.62, THICK)
 S.stub(QF4["L1o"], "L1_AUX", BRN, 5.08, THICK); S.stub(QF4["L2o"], "L2_AUX", BLU, 7.62, THICK)
@@ -246,9 +246,9 @@ DC1 = blk("DC1", "DC1 DC-DC 24V→5V 1A（供伺服 OPC）", 127.0, 396.24, left
 S.stub(DC1["P"], "+24V1", RED); S.stub(DC1["N"], "0V1", BLK); S.stub(DC1["P5"], "+5V", RED); S.stub(DC1["N5"], "0V1", BLK)
 FAN = blk("FAN", "FAN 24V 風扇 120mm（含進出風濾網，≥100 m³/h）", 203.2, 396.24, left=[("P", 1, "+24V"), ("N", 2, "0V")], w=20.32)
 S.stub(FAN["P"], "+24V1", RED); S.stub(FAN["N"], "0V1", BLK)
-S1 = blk("S1", "S1 急停按鈕 (2NC)", 127.0, 462.28, left=[("A1", 1, "NC1"), ("A2", 2, "NC2")], right=[("B1", 1, "NC1"), ("B2", 2, "NC2")], w=20.32)
-S2 = blk("S2", "S2 啟動按鈕 (NO)", 203.2, 462.28, left=[("A", 1)], right=[("B", 1)], w=20.32)
-AUX = blk("AUX", "KM1 輔助接點 13-14 (自保)", 203.2, 482.6, left=[("A", 1, "13")], right=[("B", 1, "14")], w=20.32)
+S1 = blk("S1", "S1 急停按鈕 (2NC，裝在底座電箱門上)", 127.0, 462.28, left=[("A1", 1, "NC1"), ("A2", 2, "NC2")], right=[("B1", 1, "NC1"), ("B2", 2, "NC2")], w=20.32)
+S2 = blk("S2", "S2 啟動按鈕 (NO，裝在底座電箱門上)", 203.2, 462.28, left=[("A", 1)], right=[("B", 1)], w=20.32)
+AUX = blk("AUX", "KM1 輔助接點 13-14 (自保，底座電箱)", 203.2, 482.6, left=[("A", 1, "13")], right=[("B", 1, "14")], w=20.32)
 S.stub(S1["A1"], "+24V1", RED); S.stub(S1["A2"], "ESTOP_SIG", PUR)
 S.stub(S1["B2"], "ESTOP_GND", BLK)
 S.stub(S1["B1"], "N1", RED)
@@ -309,6 +309,7 @@ notes = (
 "11. 佈線：動力線與信號線分槽、間距 100 mm 以上；馬達線、變頻器輸出線、脈衝線 (PP、NP) 用屏蔽線，屏蔽層單端接 PE；繼電器線圈與煞車並聯續流二極體。\n"
 "12. 電池 (MR-BAT6V1SET，CN4)：目的是保存絕對位置以免做 home。但驅動器要把位置交給控制器，須由控制器依 ABS 傳送協定讀取 (CN1 ABSM17/ABSR18/ABSB0 22/ABSB1 23/ABST25，Pr.PA03)；grblHAL 目前不支援，故暫時仍保留原點感測器。三軸也可改用 1 個 MR-BT6VCASE 加 5 顆 MR-BAT6V1 共用 (最多 8 軸)。\n"
 "13. 貼圖說明：MR-J4 為三菱目錄外觀圖、端子台為 TB40-MRJ4A 照片、RP23CNC 為作者實拍照。圖上端子位置為在照片上量測，RP23CNC 螺絲孔為透視內插 (誤差約 1 mm)，接線時一切以實物絲印為準。\n"
+"17. 兩個電箱：底座電箱（RCD、QF2、QF3、QF4、KM1、FL2 預留位、進線端子 X0、S1/S2 在門上）只放保護類；立柱電箱只放控制類（伺服、變頻器、電源、控制板、電腦…）。兩箱之間 5 條線：伺服主電+控制電 (5G2.5)、變頻器電源 (3G4)、24V/12V 電源輸入 (3G1.5)、控制線 4×0.75 屏蔽 (+24V/0V 給急停與接觸器線圈、急停 NC2 回路)，進立柱電箱底蓋 x -380..-300, y 250..290。\n"
 "16. 箱體：立柱電箱（龍門立柱頂），三台 MR-J4 直立裝後牆，其餘電料裝屋頂底面與後牆 DIN 軌；PC IOTA 與 PSU2 (12V) 也放在箱內（owner 決定，合計發熱約 67W，風扇要 ≥100 m³/h），見 column_box/。\n"
 "15. 單一 24V 電源：PSU1 同時供控制板、隔離輸入 (ISO_P/ISO_G)、感測器、伺服 I/O、接觸器線圈，原本分三組是為了雜訊隔離；現在隔離輸入與邏輯電源共用 0V，隔離效果減弱，上機後若有誤觸發再加一顆小電源。控制板輸出 K1/K2/K5 為開集極 (每路 100 mA、合計 500 mA)：K1 直接接 VFD MI1；K2 驅動 KA2 線圈再切泵 (2A)；K5 直接驅動吹氣閥線圈 (約 40 mA，估算，須確認 ≤ 100 mA)。\n"
 "14. 探針：球頭 3D 觸發式探頭 (型號待確認，規格與 PGFUN CNC 3D touch probe 相符：球頭 2 mm、柄徑 6 mm、DC5-24V、NPN)，接常閉輸出：紅 +24V、黃 OUT、黑 0V，接控制板 PROBE 輸入，與原點感測器共用 PSU2。常閉：正常時 OUT 對 0V 導通 (LED 亮)，觸發或斷線時斷開 → grblHAL 探針反相設 $6=1 (待核對)；G38.2 等指令探測。控制板探針輸入不支援 PNP。"

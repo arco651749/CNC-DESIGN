@@ -1,0 +1,2 @@
+base cabinet: 22 objects, plate height used 255 / 260
+interferences: 0

@@ -15,34 +15,28 @@ def roof(des, name, x0, y0, dx, dy, dz, orient, src, key=None, rail=True):
     return (key or des, des, name, x0, y0, ROOF_Z - dz - (RAIL if rail else 0), dx, dy, dz, 'roof underside', orient, src)
 
 PARTS = [
-    # --- back wall, upright
+    # --- back wall: one tidy row. Servos and VFD screw into the wall (bottoms at z 284); DIN-mounted parts hang on ONE horizontal rail (centre z 347.5).
+    wall('X1', 'power / PE terminals (feeders from the base cabinet)', -205, 150, 45, 45, 325, 'DIN rail on the wall, horizontal', 'A', rail=True),
+    wall('AIRV', 'SVL = SMC SY3120-5LZE-M5 air valve (tubes leave by the two bellows)', -40, 20, 65, 60, 317, 'DIN rail on the wall, upright', 'A catalog (confirm)', rail=True),
+    wall('PSU1', 'Mean Well SDR-120-24 (24 V 5 A)', -5, 63, 114, 125, 285, 'DIN rail, upright', 'A catalog 63x125x114 (confirm)', rail=True),
+    wall('PSU2', 'Mean Well XDR-75E-12 (12 V 6.3 A, for the PC)', 78, 30, 116, 125, 285, 'DIN rail, upright', 'S owner datasheet 30x125.2x116', rail=True),
+    wall('VFD', 'Delta MS300 (frame A)', 128, 72, 136, 174, 284, 'upright (check manual)', 'A catalog 72x174x136'),
     wall('SVX', 'Mitsubishi MR-J4-40A', 225, 40, 176, 168, 284, 'upright, connectors to the front', 'M vendor STEP 40x168x175.9'),
     wall('SVY', 'Mitsubishi MR-J4-40A', 275, 40, 176, 168, 284, 'upright, connectors to the front', 'M vendor STEP 40x168x175.9'),
     wall('SVZ', 'Mitsubishi MR-J4-40A', 325, 40, 176, 168, 284, 'upright, connectors to the front', 'M vendor STEP 40x168x175.9'),
-    wall('VFD', 'Delta MS300 (frame A)', 120, 72, 136, 174, 281, 'upright (check manual)', 'A catalog 72x174x136'),
-    wall('PSU1', 'Mean Well SDR-120-24 (24 V 5 A)', -50, 63, 114, 125, 305, 'DIN rail, upright', 'A catalog 63x125x114 (confirm)', rail=True),
-    wall('PSU2', 'Mean Well XDR-75E-12 (12 V 6.3 A, for the PC)', 20, 30, 116, 125, 305, 'DIN rail, upright', 'S owner datasheet 30x125.2x116', rail=True),
-    wall('AIRV', 'SVL = SMC SY3120-5LZE-M5 air valve (probe/tool + prism cover tubes leave by the two bellows)', -200, 20, 65, 60, 385, 'DIN rail on the wall, upright', 'A catalog (confirm)', rail=True),
-    wall('X1', 'power terminals + PE bar', -205, 150, 45, 45, 330, 'DIN rail on the wall, horizontal', 'A', rail=True),
-    # --- roof underside, hanging down
-    roof('RCD', 'RCD 2P 30 mA (main)', -370, 265, 70, 91, 68, 'DIN rail, hanging (check mounting position)', 'A'),
-    roof('QF2', 'Shihlin BM30-SN 2P (servo branch)', -296, 265, 50, 91, 68, 'DIN rail, hanging', 'A'),
-    roof('QF3', 'Shihlin BM30-SN 2P (VFD branch)', -242, 265, 50, 91, 68, 'DIN rail, hanging', 'A'),
-    roof('QF4', 'Shihlin BM30-SN 2P (24 V supply branch)', -188, 265, 50, 91, 68, 'DIN rail, hanging', 'A'),
-    roof('KM1', 'Shihlin SD-P (3 drives, DC24 V coil)', -134, 265, 55, 95, 95, 'DIN rail, hanging', 'A'),
-    roof('DC1', 'DC-DC 24 V -> 5 V', -75, 265, 25, 55, 25, 'DIN rail, hanging', 'A'),
-    roof('KA3', 'Omron MY2N-GS + PYFZ-08 (Z brake)', -46, 265, 28, 62, 62, 'DIN rail, hanging', 'A'),
-    roof('KA2', 'Omron MY2N-GS + PYFZ-08 (pump)', -14, 265, 28, 62, 62, 'DIN rail, hanging', 'A'),
-    roof('XT', 'DIN terminal strip (+24 V / 0 V / +5 V distribution)', -370, 385, 170, 45, 45, 'DIN rail, hanging', 'A'),
-    roof('BD', 'RP23CNC V2.02 on 4 M3 standoffs', -190, 385, 96, 97, 35, 'standoffs on the roof, components down', 'M vendor STEP 96x97', rail=False),
-    roof('FL2', 'EMC filter slot (reserved, not fitted)', 30, 266, 120, 65, 45, 'reserved', 'A', rail=False),
-    roof('PC', 'LattePanda IOTA (12 V 60 W) with heatsink', -85, 395, 71, 90, 40, 'hanging on standoffs, ports toward the front', 'M vendor STEP board 71x90x19 + heatsink ~40 deep', rail=False),
+    # --- roof underside, hanging down. Row A: one roof DIN rail (centre y 300), parts centred on it. Row B: boards, tops aligned at y 385.
+    roof('DC1', 'DC-DC 24 V -> 5 V', -360, 272.5, 25, 55, 25, 'DIN rail, hanging', 'A'),
+    roof('KA2', 'Omron MY2N-GS + PYFZ-08 (pump)', -320, 269, 28, 62, 62, 'DIN rail, hanging', 'A'),
+    roof('KA3', 'Omron MY2N-GS + PYFZ-08 (Z brake)', -277, 269, 28, 62, 62, 'DIN rail, hanging', 'A'),
+    roof('XT', 'DIN terminal strip (+24 V / 0 V / +5 V distribution)', -234, 277.5, 100, 45, 45, 'DIN rail, hanging', 'A'),
+    roof('BD', 'RP23CNC V2.02 on 4 M3 standoffs', -360, 385, 96, 97, 35, 'standoffs on the roof, components down', 'M vendor STEP 96x97', rail=False),
+    roof('PC', 'LattePanda IOTA (12 V 60 W) with heatsink', -240, 385, 71, 90, 40, 'hanging on standoffs, ports toward the front', 'M vendor STEP board 71x90x19 + heatsink ~40 deep', rail=False),
 ]
-FLAGS = {'FL2'}                                   # reserved space, not a part
+FLAGS = set()                                   # reserved space, not a part
 
 # openings (machine x, y, z): purpose
 OPENINGS = [
-    ('bottom cover', -340, 270, 244, 'mains inlet 220 V (cable gland M25)'),
+    ('bottom cover', -340, 270, 244, 'feeders from the base cabinet (servo power + control power, VFD, 24 V supply, control cable): cable gland plate 80x40 with 5 sealed glands'),
     ('bottom cover', -120, 330, 241, 'Y bellows NW23 fixed fitting (mechanical session): Y motor, encoder, brake, 2 prism-cover air tubes, cover switch; hole D45'),
     ('bottom cover', 350, 262, 244, 'X motor + home sensors (right side)'),
     ('roof', 50, 390, 494, 'X bellows NW29 elbow fitting (mechanical session): spindle 4-core, camera, probe, 3 air tubes, Z motor; hole D45; keep a 45 mm column free below it'),

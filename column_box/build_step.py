@@ -31,14 +31,14 @@ add('Box_side_L', box(-383, -380, 252, 500, 241, 491), 'enclosure (sheet metal t
 add('Box_side_R', box(380, 383, 252, 500, 241, 491), 'enclosure (sheet metal t3)')
 add('Box_front_cover', box(-380, 380, 252, 255, 244, 487), 'enclosure (FIXED front cover t3, pop rivets / from inside; service is from the bottom cover only)')
 bot = box(-380, 380, 255, 495, 241, 244)
-for (hx, hy, r) in ((-340, 270, 12.5), (-120, 330, 22.5), (350, 262, 20)): bot = bot.cut(cyl('z', r, 240, 245, hx, hy))
+for (hx, hy, r) in ((-120, 330, 22.5), (350, 262, 20)): bot = bot.cut(cyl('z', r, 240, 245, hx, hy))
+bot = bot.cut(box(-380, -300, 250, 290, 240, 245))
 add('Box_bottom_cover', bot, 'enclosure (removable bottom cover t3: the only service access; 3 sealed cable entries)')
 g = box(-380, 380, 255, 495, 244, 247).cut(box(-372, 372, 263, 487, 243, 248))
 add('Box_bottom_gasket', g, 'enclosure (IP54 gasket strip 8 x 3 on the bottom cover)')
 add('Box_PE_stud', cyl('y', 3, 500, 516, -372, 455).fuse(cyl('y', 6, 500, 503, -372, 455)), 'enclosure (M6 PE stud welded on the back wall, bonds to the top plate pad near (-360, 480))')
 # ------------------------------------------------ DIN rails (35 x 7.5)
-for nm, (x0, x1, y0, y1, z0, z1) in {'Rail_roof_1': (-370, -10, 293, 328, 479.5, 487), 'Rail_roof_2': (-370, -195, 390, 425, 479.5, 487),
-                                     'Rail_wall_X1': (-208, -58, 487.5, 495, 335, 370), 'Rail_wall_PSU': (-55, 55, 487.5, 495, 350, 385)}.items():
+for nm, (x0, x1, y0, y1, z0, z1) in {'Rail_roof_A': (-365, -125, 282.5, 317.5, 479.5, 487), 'Rail_wall': (-210, 112, 487.5, 495, 330, 365)}.items():
     add(nm, box(x0, x1, y0, y1, z0, z1), 'DIN rails')
 # ------------------------------------------------ parts
 def bbox(p): return (p[3], p[3] + p[6], p[4], p[4] + p[7], p[5], p[5] + p[8])

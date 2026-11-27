@@ -34,9 +34,7 @@ LOSS = [  # (item, qty, W each, source)
     ('Mean Well SDR-120-24 (~79 W out, ~90%)', 1, 9, '估算（銘牌效率未查）'),
     ('Mean Well XDR-75E-12 (60 W out, 89%)', 1, 7, '規格書效率 89%（12V 型）'),
     ('LattePanda IOTA (owner: 12 V 60 W)', 1, 60, 'owner 提供，最壞值'),
-    ('KM1 contactor coil', 1, 3, '估算'),
     ('RP23CNC + DC-DC + KA3 + XT', 1, 4, '估算'),
-    ('breakers / RCD / wiring (I²R)', 1, 5, '估算'),
     ('fan 120 mm 24 V', 1, 5, '估算'),
 ]
 P = sum(q * w for _, q, w, _ in LOSS)
