@@ -37,16 +37,16 @@ SUPPORT (fixed machine parts touching the box): 6
 v14 electrical box (base_cabinet/base_cabinet.step): 24 box solids, envelope x -250.0..422.0 y -690.0..-520.0 z -620.0..-91.0
 574 machine parts, 27 poses; reference copies of machine parts skipped: none
 
-COLLISIONS (box x machine): 1
-  Cabinet_box x Feeder_cabinet_fitting_1 at (0, 0, 0): 233 mm3
+COLLISIONS (box x machine): 0
 
 THREAD ENGAGEMENT (mechanical-side screws in the electrical-side nuts / rivet nuts): 0
 
-SUPPORT (fixed machine parts touching the box): 10
+SUPPORT (fixed machine parts touching the box): 11
   Bracket_bot_L - Base_low_front
   Bracket_bot_R - Base_low_front
   Bracket_top_L - Base_top_front
   Bracket_top_R - Base_top_front
+  Cabinet_box - Feeder_cabinet_fitting_1
   Cabinet_box - Feeder_cabinet_fitting_2
   Upright_L - Base_low_front
   Upright_L - Base_top_front
