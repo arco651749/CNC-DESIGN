@@ -14,29 +14,27 @@ ROOT = os.environ.get('CNC_ROOT') or r'D:\\Claude\\CNC DESIGN'
 # electrical box on the gantry columns (docs/handoff_electrical_box_v14.md): outer envelope, sheet metal not modelled yet. Conduits enter it
 # only through the bottom cover (Y) and the roof gland (X); everything else of every conduit must stay outside it.
 BOX = ((-392.5, 252.0, 241.0), (392.5, 500.0, 494.0))   # box (electrical session, column_box/) hung under the box top plate (01: z 491..494)
-ZT = BOX[1][2] + 34.5 / 2 + 6.75        # X loop centre height: on the box top plate, its moving end held 6.75 up in the carriage-arm clamp (01)
-XF = 80.0      # X loop leg ends (fixed leg on the roof, moving leg on the carriage arm): loop spans x -120..368 incl. its radius, roof edge 392.5
+ZT = BOX[1][2] + 34.5 / 2 + 10.75       # X loop centre height: as the roof adaptor on its tab and the carriage-arm clamp (01)
+XFF = 50.0 + 1.2 * 37.0   # fixed leg start: end of the roof PAQ-2929 body (adaptor on the tab at x 50, 01)
+XF = 80.0      # X loop moving leg end (fixed leg on the roof, moving leg on the carriage arm): loop spans x -120..368 incl. its radius, roof edge 392.5
 GLANDS = [(-120, 330, BOX[0][2], 28.5), (50, 390, BOX[1][2], 34.5)]   # (x, y, z, conduit OD): Y bottom cover, X roof
 ATTACH = {   # conduit -> its own end fittings / clamps (01): the conduit ends inside them, reported apart as expected
     'Conduit_Y': ('Conduit_Y_top_fitting', 'Conduit_Y_end_fitting'), 'Conduit_ZB': ('Conduit_head_end_fitting', 'Conduit_carriage_clamp'),
-    'Conduit_XA': ('Conduit_X_roof_elbow', 'Conduit_X_arm_clamp'), 'Conduit_roof_entry': ('Conduit_X_roof_elbow',),
+    'Conduit_XA': ('Conduit_X_roof_connector', 'Conduit_X_arm_clamp'),
     'Conduit_carriage_run': ('Conduit_carriage_clamp', 'Conduit_X_arm_clamp')}
 OLD_PANEL = ('Electrical_panel', 'Servo_amp', 'Servo_bolt', 'Controller', 'Board_standoff', 'Panel_standoff')   # replaced by the box
 # name: (label, outer D, length, (frame, point, direction) start, (frame, point, direction) end, min bend radius allowed)
 CONDUITS = {
     # hanging runs: fixed length between two clamped ends, settles under gravity (Y: panel -> Y motor, Z: X carriage -> tool head)
-    'Conduit_Y': ('Y 軸浪管：立柱電控板 Y 支架 → Y 馬達（PA 浪管 NW23, AD 28.5），下垂 U 型', 28.5, 490.0,
-                  ('s', (-120, 330, 230.0), (0, 0, -1)), ('y', (0, 395, 200), (0, 0, 1)), 50.0),
-    'Conduit_ZB': ('Z 段浪管：X 滑座 → 工具頭（PA 浪管 NW29, AD 34.5），下垂 U 型', 34.5, 450.0,
+    'Conduit_Y': ('Y 軸浪管：立柱電控板 Y 支架 → Y 馬達（KSS PA-23，模型外徑 28.5），下垂 U 型', 28.5, 484.0,
+                  ('s', (-120, 330, 236.0 - 1.2 * 28.3), (0, 0, -1)), ('y', (0, 395, 200), (0, 0, 1)), 50.0),
+    'Conduit_ZB': ('Z 段浪管：X 滑座 → 工具頭（KSS PA-29，模型外徑 34.5），下垂 U 型', 34.5, 450.0,
                    ('x', (110, 40, 640), (0, 0, -1)), ('z', (110, -80, 470), (0, 0, 1)), 60.0),
     # rolling loop on the box top plate (X: fixed leg y 390, moving leg y 230 on an arm from the carriage, bend R 80)
-    'Conduit_XA': ('X 段浪管：電箱頂板上的水平滾動 U 型環，R 80（PA 浪管 NW29, AD 34.5）', 34.5, None,
-                   ('s', (XF, 390, ZT), (1, 0, 0)), ('x', (XF, 230, ZT), (1, 0, 0)), 60.0),
+    'Conduit_XA': ('X 段浪管：電箱頂板上的水平滾動 U 型環，R 80（KSS PA-29，模型外徑 34.5）', 34.5, None,
+                   ('s', (XFF, 390, ZT), (1, 0, 0)), ('x', (XF, 230, ZT), (1, 0, 0)), 60.0),
 }
 ROLL = {'Conduit_XA': {'R': 80.0, 'c': 100.0}}
-def _elbow(x0, y, z0, z1):             # roof entry: fixed leg end XF -> x0 heading -x, then a 90 deg conduit elbow connector
-    R = z0 - z1                          # (rigid fitting, drawn as two straight pieces) screwed into the roof gland at z1
-    return [(XF, y, z0), (x0, y, z0), (x0 - R, y, z0), (x0 - R, y, z1)]
 def _arc(c, r, a0, a1, plane, n=8):    # points on an arc in the 'xz' or 'yz' plane through centre c, angles in degrees
     out = []
     for k in range(n + 1):
@@ -47,7 +45,6 @@ def _arc(c, r, a0, a1, plane, n=8):    # points on an arc in the 'xz' or 'yz' pl
 CARRIAGE_RUN = ([(XF, 230, ZT)] + _arc((XF, 230, ZT + 60), 60, -90, -180, 'xz')[1:] + _arc((20, 230 - 55, 690), 55, 0, 90, 'yz')
                 + [(60, 140, 745), (110, 110, 745)] + _arc((110, 90, 695), 50, 90, 180, 'yz') + [(110, 40, 640)])
 STATIC_RUNS = {   # conduit pieces fixed to one frame (no flexing): drawn and checked for collisions
-    'Conduit_roof_entry': ('s', 34.5, _elbow(50 + ZT - BOX[1][2], 390, ZT, BOX[1][2])),   # fixed leg -> 90 deg conduit elbow connector -> roof gland (50, 390)
     'Conduit_carriage_run': ('x', 34.5, CARRIAGE_RUN),   # held by the carriage arm clamp (rear) and the carriage shelf clamp (front), 01
 }
 def off(fr, P):

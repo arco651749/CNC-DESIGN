@@ -1,4 +1,4 @@
-v14 = v12 + wider X (+65) + L-shaped tool-head module.  new parts: 122
+v14 = v12 + wider X (+65) + L-shaped tool-head module.  new parts: 125
 stretch Datum_base_plate   at x+-250: x -360.0..360.0 -> -392.5..392.5
 stretch X_base_plate       at x+-255: x -360.0..360.0 -> -392.5..392.5
 stretch X_rail_1           at x+-255: x -270.0..270.0 -> -302.5..302.5
@@ -15,8 +15,8 @@ Z assembly lowered 25: 153 parts moved; tool tip z 155.0 (table top 110 -> Z -50
   after the drop: lens front z 210.0, tool-setting pose X -162.5, table -248, Z -35.0
 shrink X_carriage_plate   band +-56..76: x -120.0..120.0 -> -100.0..100.0
 Z axis narrowed: rails x 50.0..70.0, slide x -90.0..90.0, Z plate x -100.0..100.0, module plate x -88.0..88.0
-box top plate: z 491.0..494.0, 8 column bolts, 20 hang screws, X gland (50, 390)
-conduit hardware: Y bracket, head bracket, carriage bracket + clamp, X arm + clamp, roof elbow, Y top bracket, feeder entry plate (KSS sizes to confirm)
+box top plate: z 491.0..494.0, 8 column bolts, 20 hang screws, X gland (0, 390)
+conduit hardware: Y bracket, head bracket, carriage bracket + clamp, X arm + clamp, roof tab + PAQ-2929, Y top bracket, feeder entry plate (KSS PAQ adaptors per catalog p.152)
 HOLE_CHECK 53 tools, not fully in material: []
 
 Datum_base_plate           -  x[ -392.5,  392.5] y[ -145.0,  182.0] z[  -20.0,    0.0]  OK
@@ -118,16 +118,16 @@ Box_hang_screw_17          -  x[ -381.0, -371.0] y[  360.0,  370.0] z[  482.0,  
 Box_hang_screw_18          -  x[ -381.0, -371.0] y[  430.0,  440.0] z[  482.0,  494.0]  OK
 Box_hang_screw_19          -  x[  371.0,  381.0] y[  360.0,  370.0] z[  482.0,  494.0]  OK
 Box_hang_screw_20          -  x[  371.0,  381.0] y[  430.0,  440.0] z[  482.0,  494.0]  OK
-Conduit_Y_bracket          y  x[  -40.0,   40.0] y[  265.0,  412.0] z[  110.0,  188.0]  OK
+Conduit_Y_bracket          y  x[  -40.0,   40.0] y[  265.0,  412.0] z[  110.0,  166.0]  OK
 Conduit_Y_bracket_bolt_1   y  x[  -34.2,  -25.8] y[  267.8,  276.2] z[  103.0,  118.0]  OK
 Conduit_Y_bracket_bolt_2   y  x[   25.8,   34.2] y[  267.8,  276.2] z[  103.0,  118.0]  OK
-Conduit_Y_end_fitting      y  x[  -20.0,   20.0] y[  375.0,  415.0] z[  181.0,  200.0]  OK
-Conduit_head_bracket       z  x[   40.0,  136.0] y[ -102.0,  -63.0] z[  310.0,  458.0]  OK
+Conduit_Y_end_fitting      y  x[  -19.1,   19.1] y[  375.9,  414.1] z[  157.0,  200.0]  OK
+Conduit_head_bracket       z  x[   40.0,  136.0] y[ -102.0,  -63.0] z[  310.0,  425.6]  OK
 Conduit_head_bracket_bolt_1 z  x[   51.8,   60.2] y[  -71.0,  -56.0] z[  313.8,  322.2]  OK
 Conduit_head_bracket_bolt_2 z  x[   51.8,   60.2] y[  -71.0,  -56.0] z[  363.8,  372.2]  OK
 Conduit_head_bracket_bolt_3 z  x[   67.8,   76.2] y[  -71.0,  -56.0] z[  313.8,  322.2]  OK
 Conduit_head_bracket_bolt_4 z  x[   67.8,   76.2] y[  -71.0,  -56.0] z[  363.8,  372.2]  OK
-Conduit_head_end_fitting   z  x[   90.0,  130.0] y[ -100.0,  -60.0] z[  451.0,  470.0]  OK
+Conduit_head_end_fitting   z  x[   86.5,  133.5] y[ -103.5,  -56.5] z[  416.6,  470.0]  OK
 Conduit_carriage_bracket   x  x[   90.0,  142.0] y[   22.0,  122.0] z[  560.0,  700.0]  OK
 Conduit_carriage_bracket_bolt_1 x  x[  105.8,  114.2] y[  114.0,  129.0] z[  570.8,  579.2]  OK
 Conduit_carriage_bracket_bolt_2 x  x[  105.8,  114.2] y[  114.0,  129.0] z[  625.8,  634.2]  OK
@@ -137,15 +137,18 @@ Conduit_X_arm_bolt_1       x  x[   67.8,   76.2] y[  127.0,  142.0] z[  575.8,  
 Conduit_X_arm_bolt_2       x  x[  101.8,  110.2] y[  127.0,  142.0] z[  575.8,  584.2]  OK
 Conduit_X_arm_bolt_3       x  x[   67.8,   76.2] y[  127.0,  142.0] z[  635.8,  644.2]  OK
 Conduit_X_arm_bolt_4       x  x[  101.8,  110.2] y[  127.0,  142.0] z[  635.8,  644.2]  OK
-Conduit_X_arm_clamp        x  x[   62.0,   98.0] y[  207.0,  252.0] z[  498.0,  541.0]  OK
-Conduit_X_roof_elbow       -  x[   28.0,   90.0] y[  368.0,  412.0] z[  485.0,  538.0]  OK
+Conduit_X_arm_clamp        x  x[   62.0,   98.0] y[  207.0,  252.0] z[  502.0,  545.0]  OK
+Conduit_X_roof_tab_bolt_1  -  x[   27.4,   36.6] y[  370.4,  379.6] z[  481.0,  501.0]  OK
+Conduit_X_roof_tab_bolt_2  -  x[   27.4,   36.6] y[  400.4,  409.6] z[  481.0,  501.0]  OK
+Conduit_X_roof_tab         -  x[   25.0,   50.0] y[  365.0,  415.0] z[  494.0,  552.0]  OK
+Conduit_X_roof_connector   -  x[   41.0,   94.4] y[  366.5,  413.5] z[  498.5,  545.5]  OK
 Conduit_Y_top_bracket      -  x[ -160.0,  -80.0] y[  252.0,  365.0] z[  236.0,  281.0]  OK
 Conduit_Y_top_bracket_bolt_1 -  x[ -144.6, -135.4] y[  247.0,  263.0] z[  260.4,  269.6]  OK
 Conduit_Y_top_bracket_bolt_2 -  x[ -104.6,  -95.4] y[  247.0,  263.0] z[  260.4,  269.6]  OK
-Conduit_Y_top_fitting      -  x[ -140.0, -100.0] y[  310.0,  350.0] z[  230.0,  243.0]  OK
+Conduit_Y_top_fitting      -  x[ -139.2, -100.8] y[  310.9,  349.1] z[  202.0,  245.0]  OK
 Feeder_entry_plate_bolt_1  -  x[ -374.6, -365.4] y[  496.0,  510.0] z[  479.4,  488.6]  OK
 Feeder_entry_plate_bolt_2  -  x[ -304.6, -295.4] y[  496.0,  510.0] z[  479.4,  488.6]  OK
 Feeder_entry_plate_bolt_3  -  x[ -234.6, -225.4] y[  496.0,  510.0] z[  479.4,  488.6]  OK
 Feeder_entry_plate         -  x[ -390.0, -210.0] y[  503.0,  526.0] z[  250.0,  494.0]  OK
-Feeder_entry_fitting_1     -  x[ -367.2, -312.8] y[  494.0,  508.0] z[  242.8,  297.2]  OK
-Feeder_entry_fitting_2     -  x[ -276.6, -243.4] y[  494.0,  508.0] z[  253.4,  286.6]  OK
+Feeder_entry_fitting_1     -  x[ -368.5, -311.5] y[  497.0,  562.4] z[  241.5,  298.5]  OK
+Feeder_entry_fitting_2     -  x[ -276.2, -243.8] y[  497.0,  533.0] z[  253.8,  286.2]  OK

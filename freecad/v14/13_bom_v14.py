@@ -87,6 +87,10 @@ for (grp, _), r in sorted(rows.items(), key=lambda kv: (kv[0][0], base(kv[1]['it
     if not p and m:                                             # base frame extrusions: part number from the spec (length in the name)
         p = {'supplier': 'MISUMI', 'part_no': m.group(1), 'link': 'https://tw.misumi-ec.com/vona2/result/?Keyword=' + m.group(1), 'desc': '',
              'note': 'HFS8 series, 40 x 40, slot 8; vendor STEP (600 long) in vendor/misumi/HFS8-4040-600, the section is used for every length'}
+    m2 = re.search(r'KSS (PAQ-\d+)', r['spec'])
+    if not p and m2:                                            # KSS conduit adaptors: part number from the spec (catalog page in vendor/kss)
+        p = {'supplier': 'KSS 凱士士', 'part_no': m2.group(1), 'link': 'https://www.kss.com.tw/', 'desc': '',
+             'note': '型錄 0616 快速型浪管固定頭 p.152（vendor/kss/KSS_p152_PAQ_BGQ_conduit_adaptor.pdf）'}
     kit = 'Kit' in o.PropertiesList and o.Kit
     out.append({'群組': grp, '零件': name, '數量': len(items), '類別': category(o, r['spec']) + ('（校正工具組，可重複使用）' if kit else ''),
                 '規格 / 說明': (p['desc'] + '. ' if p and p['desc'] else '') + r['spec'],
@@ -97,14 +101,14 @@ import json, math
 def plen(q): return sum(math.dist(a_, b_) for a_, b_ in zip(q[:-1], q[1:]))
 try:
     cd = json.load(open(os.path.join(ROOT, 'output', 'v14', 'conduits.json'), encoding='utf-8'))
-    L29 = plen(cd['static']['Conduit_roof_entry']['p']) + plen(cd['moving']['Conduit_XA']['s'][10]) + plen(cd['static']['Conduit_carriage_run']['p']) \
+    L29 = plen(cd['moving']['Conduit_XA']['s'][10]) + plen(cd['static']['Conduit_carriage_run']['p']) \
           + plen(cd['moving']['Conduit_ZB']['s'][10])
     L23 = plen(cd['moving']['Conduit_Y']['s'][10])
-    for size, L_, run in (('PA-29', L29, '電箱頂板彎頭 → 頂板滾動環 → X 滑座 → 工具頭（一條連續）'), ('PA-23', L23, '電箱底蓋 → Y 馬達支架（一條連續）')):
+    for size, L_, run in (('PA-29', L29, '頂板 PAQ-2929 → 頂板滾動環 → X 滑座 → 工具頭（一條連續）'), ('PA-23', L23, '立柱電控板 Y 支架 PAQ-2321 → Y 馬達支架（一條連續）')):
         out.append({'群組': '09 Conduits', '零件': 'Conduit_' + size.replace('-', ''), '數量': 1, '類別': '外購件',
                     '規格 / 說明': 'KSS 尼龍浪管 %s（密封型 PA，NYLON 6）：%s；模型長度 %.0f mm，下料 %.0f mm（+10%%）' % (size, run, L_, math.ceil(L_ * 1.1 / 10) * 10),
                     '供應商': 'KSS 凱士士', '料號': size, '連結': 'https://www.kss.com.tw/index.php?action=products3&fid=114&sid=120',
-                    '備註': '尺寸（內外徑、最小彎曲半徑）待 KSS 型錄確認；模型用 NW23 外徑 28.5 / NW29 外徑 34.5', '模型件名': ''})
+                    '備註': '固定頭 KSS PAQ 系列（vendor/kss 型錄 p.152）；浪管內外徑、最小彎曲半徑待 KSS PA 浪管頁確認，模型用外徑 28.5 / 34.5', '模型件名': ''})
 except Exception as e:
     print('conduit rows skipped:', e)
 with open(OUT, 'w', encoding='utf-8-sig', newline='') as f:

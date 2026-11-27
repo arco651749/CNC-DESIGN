@@ -1,7 +1,9 @@
 v14 electrical box (column_box/column_box.step): 461 box solids, envelope x -380.0..380.0 y 255.0..495.0 z 241.0..491.0
-569 machine parts, 27 poses; reference copies of machine parts skipped: none
+574 machine parts, 27 poses; reference copies of machine parts skipped: none
 
-COLLISIONS (box x machine): 0
+COLLISIONS (box x machine): 2
+  L_plate_flange x Conduit_X_roof_tab_bolt_1 at (0, 0, 0): 58 mm3
+  L_plate_flange x Conduit_X_roof_tab_bolt_2 at (0, 0, 0): 58 mm3
 
 THREAD ENGAGEMENT (box top plate screws in the box rivet nuts): 20
   Box_hang_screw_1 in PullNut_M5_01: engaged 5.0, tip 4.0 above the nut bottom OK
@@ -33,9 +35,11 @@ SUPPORT (fixed machine parts touching the box): 4
 
 
 v14 electrical box (base_cabinet/base_cabinet.step): 24 box solids, envelope x -250.0..422.0 y -690.0..-520.0 z -620.0..-91.0
-569 machine parts, 27 poses; reference copies of machine parts skipped: none
+574 machine parts, 27 poses; reference copies of machine parts skipped: none
 
-COLLISIONS (box x machine): 0
+COLLISIONS (box x machine): 2
+  Cabinet_box x Feeder_cabinet_fitting_1 at (0, 0, 0): 266 mm3
+  Cabinet_box x Feeder_cabinet_fitting_2 at (0, 0, 0): 11 mm3
 
 THREAD ENGAGEMENT (box top plate screws in the box rivet nuts): 0
 
