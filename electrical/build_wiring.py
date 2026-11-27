@@ -21,7 +21,7 @@ AC = blk("AC", "AC 220V 單相 市電", 38.1, 50.8, right=[("L1", 1), ("L2", 2),
 PH_SH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "vendor", "shihlin", "photos")
 K_SH = 0.06
 _q1 = S.photo(Photo(os.path.join(PH_SH, "BM30-SN.jpg"), 100.0, 50.0, K_SH))
-QF1 = S.add(PhotoBlock("QF1", "QF1 漏電斷路器 2P 30mA（總電源，在底座電箱；額定待電工；照片為 BM30-SN 僅示意外形）", _q1,
+QF1 = S.add(PhotoBlock("QF1", "QF1 漏電斷路器 2P 30mA（總電源）", _q1,
     [("L1i", 55, 45, "top", "L1"), ("L2i", 135, 48, "top", "L2"), ("L1o", 50, 415, "bottom", "T1"), ("L2o", 135, 410, "bottom", "T2")], title_dy=22.0))
 CY_SH = 50.0
 XPOS = {"X": 182.0, "Y": 258.0, "Z": 334.0}      # MCCB photo centre x of each axis; its contactor sits 30 mm to the right
@@ -29,10 +29,10 @@ QF2, KM1 = {}, {}
 for ax, x0 in {"X": XPOS["X"]}.items():          # one shared set (owner decision; the MR-J4 manual 11.10 asks for one per drive)
     qph = S.photo(Photo(os.path.join(PH_SH, "BM30-SN.jpg"), x0, CY_SH, K_SH))
     # BM30-SN photo is 3-pole; the 2-pole model uses the two left poles. Wire cavities: top y=45, bottom y=415 (photo px)
-    QF2[ax] = S.add(PhotoBlock("QF2", "QF2 BM30-SN 2P（三軸共用，在底座電箱，額定待電工）", qph,
+    QF2[ax] = S.add(PhotoBlock("QF2", "QF2 2P（共用）", qph,
         [("L1i", 55, 45, "top", "L1"), ("L2i", 135, 48, "top", "L2"), ("L1o", 50, 415, "bottom", "T1"), ("L2o", 135, 410, "bottom", "T2")], title_dy=22.0))
     kph = S.photo(Photo(os.path.join(PH_SH, "SD-P11.jpg"), x0 + 30.0, CY_SH, K_SH))
-    KM1[ax] = S.add(PhotoBlock("KM1", "KM1 SD-P 系列 DC24V（三軸共用，在底座電箱，規格待電工）", kph,
+    KM1[ax] = S.add(PhotoBlock("KM1", "KM1 DC24V（共用）", kph,
         [("A1", 133, 143, "top", "A1"), ("A2", 188, 144, "top", "A2"), ("L1i", 76, 203, "top", "1L1"), ("L2i", 114, 203, "top", "3L2"),
          ("L1o", 76, 372, "bottom", "2T1"), ("L2o", 114, 372, "bottom", "4T2")], title_dy=22.0))
 S.text("士林 BM30-SN 斷路器（照片為3極，2極機種取左邊兩極）＋ SD-P11 直流24V接觸器（A1 為 +，A2 為 -）；三軸共用一組（與三菱手冊 11.10「每台各一組」不符，由電工決定）", 172.0, 138.0, 1.2)
@@ -320,6 +320,23 @@ rails = (
 "+12V/0V12 (PSU2 XDR-75E-12，6.3A，IOTA 約 79% 負載，>50°C 要減額)：電腦 LattePanda IOTA (12V 60W，owner 提供規格)，與 24V 分開，0V12 不與 0V1 相接。\nL1_AUX/L2_AUX：PSU1、PSU2 輸入。同名標籤代表同一條線。"
 )
 S.text(rails, 345, 531, 1.5)
+
+# ------------------------------------------------------------------ which enclosure each part is in (tag in every block title + legend)
+LOC = {"底座箱": ["QF1", "QF2", "KM1", "FL2", "QF3", "QF4", "AUX"],
+       "操作盒": ["S1", "S2"],
+       "立柱板": ["SVX", "SVY", "SVZ", "TBX", "TBY", "TBZ", "BTX", "BTY", "BTZ", "KA2", "KA3", "XT", "SVL", "VFD", "VPE", "PSU1", "PSU2", "DC1", "BD", "LAN"],
+       "機外": ["AC", "MX", "MY", "MZ", "SP", "PUMP", "DP", "SENS", "PRB"]}
+for _loc, _refs in LOC.items():
+    for _b in S.blocks:
+        if _b.ref in _refs and not _b.title.startswith("【"):
+            _t = _b.title
+            for _x in ("，在底座電箱", "，在底座電箱，", "（在底座電箱）", "，裝在操作盒", "，底座電箱", "底座電箱留位；", "（底座電箱）"):
+                _t = _t.replace(_x, "")
+            _b.title = "【%s】%s" % (_loc, _t)
+_ly = 40 + 13 * 5.08 + 8
+S.text("電料所屬（標題最前面的【】）：底座箱＝底座電箱，立柱板＝立柱電控板", 650, _ly, 2.2, True)
+for _i, (_loc, _refs) in enumerate(LOC.items()):
+    S.text("【%s】 %s" % (_loc, "、".join(_refs)), 650, _ly + 6 + _i * 5.4, 1.5)
 
 if __name__ == "__main__":
     errs = S.verify()
