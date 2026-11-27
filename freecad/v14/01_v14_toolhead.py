@@ -608,7 +608,7 @@ bolts_into('Y_motor_block', 'Conduit_Y_bracket', [(-30, 272, 0), (30, 272, 0)], 
 paq('Conduit_Y_end_fitting', 'PA-23', (0, 395, YA), (0, 0, 1), 'y')
 # Z run moving end: bracket on the spindle clamp front face (right half, beside the probe slide), arm at z 455 to the end at (110, -80)
 HA = 470.0 - paq_len('PA-29')                                  # arm top: the adaptor body ends at the conduit end z 470
-hb = fuse(box(40, 78, -63.0 - TB, -63.0, 310.0, HA), box(40, 136, -102.0, -63.0, HA - TB, HA), box(133, 136, -102.0, -63.0, HA - 18, HA))   # side flange clear of the adaptor
+hb = fuse(box(40, 78, -63.0 - TB, -63.0, 310.0, HA), box(40, 140, -102.0, -63.0, HA - TB, HA), box(137, 140, -102.0, -63.0, HA - 18, HA))   # side flange 3.5 clear of the PAQ-2929 body (r 23.5)
 hb = hb.cut(Part.makeCylinder(paq_hole('PA-29'), 10, V(110, -80, HA - 8)))
 for x_, z_ in ((56, 318), (56, 368), (72, 318), (72, 368)): hb = hb.cut(Part.makeCylinder(2.75, 10, V(x_, -70, z_), V(0, 1, 0)))
 add('Conduit_head_bracket', hb, GC, 'SPHC t3 bent: Z conduit end bracket on the spindle clamp front face (4 x M5, right half; the probe slide is '

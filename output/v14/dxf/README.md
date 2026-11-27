@@ -54,7 +54,7 @@ RBPB8 座孔 Ø22 H7：外環 h6，用固持膠（Loctite 641）黏固，不壓�
 | Box_top_plate | 1 | 785 × 501 × 20 | 34 | 0 | — | SPHC t3 laser cut + bent: 785 x 498, rear and side flanges 2 |
 | Box_top_shim_L | 2 | 80 × 160 × 1 | 4 | 0 | — | stainless shim t1, 80 x 160, 4 x D9: lifts the box top plate |
 | Conduit_Y_bracket | 1 | 80 × 147 × 56.04 | 3 | 0 | — | SPHC t3 bent: Y conduit end bracket on the Y motor block top |
-| Conduit_head_bracket | 1 | 96 × 39 × 115.6 | 4 | 0 | — | SPHC t3 bent: Z conduit end bracket on the spindle clamp fro |
+| Conduit_head_bracket | 1 | 100 × 39 × 115.6 | 4 | 0 | — | SPHC t3 bent: Z conduit end bracket on the spindle clamp fro |
 | Conduit_carriage_bracket | 1 | 52 × 100 × 140 | 3 | 0 | — | SPHC t3 bent: on the saddle ear front face (2 x M5, beside t |
 | Conduit_X_arm | 1 | 73 × 121 × 203 | 4 | 0 | — | SPHC t3 bent: X conduit carriage arm on the saddle ear back  |
 | Conduit_Y_top_bracket | 1 | 80 × 113 × 45 | 3 | 0 | — | SPHC t3 bent: Y conduit top end, on the column box L-plate f |

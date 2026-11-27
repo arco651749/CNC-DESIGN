@@ -1,6 +1,7 @@
-parts: 453   motion classes: static 178 / y 54 / x 112 / z 109
+parts: 456   motion classes: static 181 / y 54 / x 112 / z 109
 
-DESIGN CONTACTS AT HOME (overlap > 1 mm3, review): 5
+DESIGN CONTACTS AT HOME (overlap > 1 mm3, review): 6
+  Conduit_head_bracket x Conduit_head_end_fitting : 19 mm3
   X_ball_nut x X_nut_bracket : 19 mm3
   X_ballscrew x X_support_fixed : 137 mm3
   Y_ballscrew x Y_support_fixed : 137 mm3

@@ -122,7 +122,7 @@ Conduit_Y_bracket          y  x[  -40.0,   40.0] y[  265.0,  412.0] z[  110.0,  
 Conduit_Y_bracket_bolt_1   y  x[  -34.2,  -25.8] y[  267.8,  276.2] z[  103.0,  118.0]  OK
 Conduit_Y_bracket_bolt_2   y  x[   25.8,   34.2] y[  267.8,  276.2] z[  103.0,  118.0]  OK
 Conduit_Y_end_fitting      y  x[  -19.1,   19.1] y[  375.9,  414.1] z[  157.0,  200.0]  OK
-Conduit_head_bracket       z  x[   40.0,  136.0] y[ -102.0,  -63.0] z[  310.0,  425.6]  OK
+Conduit_head_bracket       z  x[   40.0,  140.0] y[ -102.0,  -63.0] z[  310.0,  425.6]  OK
 Conduit_head_bracket_bolt_1 z  x[   51.8,   60.2] y[  -71.0,  -56.0] z[  313.8,  322.2]  OK
 Conduit_head_bracket_bolt_2 z  x[   51.8,   60.2] y[  -71.0,  -56.0] z[  363.8,  372.2]  OK
 Conduit_head_bracket_bolt_3 z  x[   67.8,   76.2] y[  -71.0,  -56.0] z[  313.8,  322.2]  OK
