@@ -26,9 +26,9 @@ OLD_PANEL = ('Electrical_panel', 'Servo_amp', 'Servo_bolt', 'Controller', 'Board
 # name: (label, outer D, length, (frame, point, direction) start, (frame, point, direction) end, min bend radius allowed)
 CONDUITS = {
     # hanging runs: fixed length between two clamped ends, settles under gravity (Y: panel -> Y motor, Z: X carriage -> tool head)
-    'Conduit_Y': ('Y 軸浪管：X 底板背面固定支架 → 工作台後左支架（KSS PA-23，模型外徑 28.5），在 x -295 平面下垂 U 型，整段在工作台外側', 28.5, 430.0,
-                  ('s', (-295, 260, 216.0 - 1.2 * 28.3), (0, 0, -1)), ('y', (-295, 290, 167.0 - 1.2 * 28.3), (0, 0, 1)), 50.0),
-    'Conduit_ZB': ('Z 段浪管：X 滑座 → 工具頭（KSS PA-29，模型外徑 34.5），下垂 U 型', 34.5, 360.0,
+    'Conduit_Y': ('Y 軸浪管：X 底板背面固定支架 → 工作台後左支架（KSS PA-23，模型外徑 28.5），x -395 → -295 下垂 U 型，整段在工作台外側', 28.5, 410.0,
+                  ('s', (-395, 240, 227.0 - 1.2 * 28.3), (0, 0, -1)), ('y', (-295, 290, 205.0 - 1.2 * 28.3), (0, 0, 1)), 50.0),
+    'Conduit_ZB': ('Z 段浪管：X 滑座 → 工具頭（KSS PA-29，模型外徑 34.5），下垂 U 型', 34.5, 530.0,
                    ('x', (110, 40, 640), (0, 0, -1)), ('z', (110, -80, 470.0 - 2 * 1.2 * 37.0 - 3.0), (0, 0, 1)), 60.0),   # end under the head bracket arm
     # rolling loop on the box top plate (X: fixed leg y 390, moving leg y 230 on an arm from the carriage, bend R 80)
     'Conduit_XA': ('X 段浪管：電箱頂板上的水平滾動 U 型環，R 80（KSS PA-29，模型外徑 34.5）', 34.5, None,

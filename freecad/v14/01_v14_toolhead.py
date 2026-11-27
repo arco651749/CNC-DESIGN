@@ -598,16 +598,17 @@ def paq(label, size, c, d, motion, group=None):
               Part.makeCylinder(t_ / 2 + 5, 6, c - d * (TB + 6), d)).cut(Part.makeCylinder(cd / 2 + 0.5, paq_len(size) + 20, c - d * 10, d))
     add(label, sh, group or GC, 'KSS %s easy-type conduit adaptor (%s, NYLON 66, with locknut) for %s; sheet hole D%.1f (catalog); body size estimated'
         % (pn, pg, size, 2 * paq_hole(size)), motion, '')
-# Y run (owner 2026-11-27, option A): the whole hanging loop runs in the plane x -295, outside the work table (x -220) and the prism cover
-# tubes (to x -269), so it never crosses the table. Moving end: bent bracket on the table rear face (left end, 2 x M5), arm out to x -320,
-# shelf z 167..170 with the adaptor hanging down at (-295, 290). The Y motor cable runs from there along the table rear face to the motor.
+# Y run (owner 2026-11-27, option A): the hanging loop runs between x -395 (fixed) and x -295 (moving), outside the work table (x -220)
+# and the prism cover tubes (to x -269), so it never crosses the table. Moving end: bent bracket on the table rear face (left end, 2 x M5),
+# arm out to x -315, shelf z 205..208 with the adaptor hanging down at (-295, 290). The Y motor cable runs from there along the table rear face to the motor.
 YT = 263.5                                                     # work table rear face (bbox 264 is rounded)
-YM = (-295.0, 290.0, 167.0)                                    # moving adaptor: sheet underside (body hangs down to z 133)
-yb = fuse(box(-215, -185, YT, YT + TB, 75.0, 105.0), box(-320, -215, YT, YT + TB, 75.0, YM[2] + TB),   # web on the table rear face
-          box(-320, -270, YT, 312.0, YM[2], YM[2] + TB), box(-320, -270, 312.0 - TB, 312.0, 150.0, YM[2]))       # shelf + rear down-flange
+YM = (-295.0, 290.0, 205.0)                                    # moving adaptor: sheet underside (body hangs down to z 171); locknut top z 217 < saddle z 222
+yb = fuse(box(-215, -185, YT, YT + TB, 75.0, 105.0), box(-265, -215, YT, YT + TB, 75.0, YM[2] + TB),   # web on the table rear face, kept out of the loop (x > -265)
+          box(-315, -215, YT, 312.0, YM[2], YM[2] + TB),                                                # shelf over the adaptor
+          box(-315, -265, YT, YT + TB, 190.0, YM[2]), box(-315, -265, 312.0 - TB, 312.0, 190.0, YM[2]))  # front / rear down-flanges (above the adaptor end)
 yb = yb.cut(Part.makeCylinder(paq_hole('PA-23'), 10, V(YM[0], YM[1], YM[2] - 3)))
 for x_ in (-208, -192): yb = yb.cut(Part.makeCylinder(2.75, 10, V(x_, YT - 2, 90), V(0, 1, 0)))
-add('Conduit_Y_bracket', yb, GC, 'SPHC t3 bent: Y conduit moving end on the work table rear face (left end, 2 x M5), arm out to x -320, shelf z 167..170, '
+add('Conduit_Y_bracket', yb, GC, 'SPHC t3 bent: Y conduit moving end on the work table rear face (left end, 2 x M5), arm out to x -315, shelf z 205..208, '
     'PAQ-2321 hole D28.6 at (-295, 290), adaptor hanging down', 'y', '')
 bolts_into('Work_table', 'Conduit_Y_bracket', [(-208, 0, 90), (-192, 0, 90)], 'y', YT, -1)
 paq('Conduit_Y_end_fitting', 'PA-23', YM, (0, 0, -1), 'y')
@@ -651,15 +652,17 @@ for y_ in (375.0, 405.0):
         'M5x16 button head: roof adaptor tab through the box top plate and the L-plate flange into the nut under the flange (nut: electrical session)', '', '')
 add('Conduit_X_roof_tab', rt, GC, 'SPHC t3 bent: tab on the box top plate (2 x M5) carrying the X conduit adaptor PAQ-2929 along +x, hole D37.3', '', '')
 paq('Conduit_X_roof_connector', 'PA-29', (50, 390, ZT_), (1, 0, 0), '')
-# Y run fixed end (option A): bent bracket on the X base plate rear face (2 x M5 tapped), shelf z 216..219 behind the plate, adaptor hanging
-# down at (-295, 260); the cables come from the box under the L-plate lower edge (z 241) into the locknut side
-YF_ = (-295.0, 260.0, 216.0)                                   # fixed adaptor: sheet underside (body hangs down to z 182, under the L-plate edge z 241)
-yt = fuse(box(-320, -270, 182.0, 182.0 + TB, YF_[2], 285.0), box(-320, -270, 182.0, 285.0, YF_[2], YF_[2] + TB))
+# Y run fixed end (option A): bent bracket on the X base plate rear face (2 x M5 tapped), shelf z 227..230 behind the plate, adaptor hanging
+# down at (-395, 240); the cables come from the box under the L-plate lower edge (z 241) into the locknut side
+YF_ = (-395.0, 240.0, 227.0)                                   # fixed adaptor: sheet underside (body down to z 193), just left of the X base plate edge
+                                                               # (x -392): 100 from the moving one, so the loop never bends tighter than R 50
+yt = fuse(box(-392, -358, 182.0, 182.0 + TB, YF_[2], 252.0),   # web on the plate rear face, below the column bolt row (z 260..280)
+          box(-420, -358, 182.0, 275.0, YF_[2], YF_[2] + TB), box(-420, -417, 182.0 + TB, 275.0, 210.0, YF_[2]))   # shelf + outer down-flange
 yt = yt.cut(Part.makeCylinder(paq_hole('PA-23'), 10, V(YF_[0], YF_[1], YF_[2] - 3)))
-for x_ in (-310, -280): yt = yt.cut(Part.makeCylinder(2.75, 10, V(x_, 180, 265), V(0, 1, 0)))
-add('Conduit_Y_top_bracket', yt, GC, 'SPHC t3 bent: Y conduit fixed end on the X base plate rear face (2 x M5), shelf z 216..219, PAQ-2321 hole D28.6 '
-    'at (-295, 260), adaptor hanging down', '', '')
-bolts_into('X_base_plate', 'Conduit_Y_top_bracket', [(-310, 0, 265), (-280, 0, 265)], 'y', 182.0, -1)
+for x_ in (-382, -366): yt = yt.cut(Part.makeCylinder(2.75, 10, V(x_, 180, 241), V(0, 1, 0)))
+add('Conduit_Y_top_bracket', yt, GC, 'SPHC t3 bent: Y conduit fixed end on the X base plate rear face (2 x M5), shelf z 227..230, PAQ-2321 hole D28.6 '
+    'at (-395, 240) beyond the plate edge, adaptor hanging down', '', '')
+bolts_into('X_base_plate', 'Conduit_Y_top_bracket', [(-382, 0, 241), (-366, 0, 241)], 'y', 182.0, -1)
 paq('Conduit_Y_top_fitting', 'PA-23', YF_, (0, 0, -1), '')
 # feeder conduits (to the base cabinet), owner 2026-11-27: out of the box's LEFT side (was the rear) so they drop straight down outside the
 # left guard (one bend less, no pass through the rear guard). Entry plate hung outside the box top plate's left side flange (x -392.5),
