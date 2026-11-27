@@ -1,7 +1,6 @@
 parts: 542   motion classes: static 261 / y 54 / x 112 / z 115
 
-DESIGN CONTACTS AT HOME (overlap > 1 mm3, review): 11
-  Conduit_head_bracket x Conduit_head_end_fitting : 33 mm3
+DESIGN CONTACTS AT HOME (overlap > 1 mm3, review): 10
   Coolant_hose_1 x Coolant_hose_2 : 288 mm3
   Coolant_hose_2 x Coolant_hose_3 : 288 mm3
   Coolant_hose_3 x Coolant_hose_4 : 288 mm3

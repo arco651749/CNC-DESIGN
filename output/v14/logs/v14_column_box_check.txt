@@ -32,15 +32,20 @@ SUPPORT (fixed machine parts touching the box): 4
   Box_side_R - Box_top_plate
 
 
-v14 electrical box (base_cabinet/base_cabinet.step): 20 box solids, envelope x -537.5..537.5 y -728.0..-520.0 z -730.0..-90.0
-542 machine parts, 27 poses; reference copies of machine parts skipped: Base_top_front, Base_low_front
+v14 electrical box (base_cabinet/base_cabinet.step): 22 box solids, envelope x -250.0..250.0 y -728.0..-520.0 z -620.0..-91.0
+542 machine parts, 27 poses; reference copies of machine parts skipped: none
 
-COLLISIONS (box x machine): 2
-  Upright_L x Base_low_front at (0, 0, 0): 25740 mm3
-  Upright_R x Base_low_front at (0, 0, 0): 25740 mm3
+COLLISIONS (box x machine): 0
 
 THREAD ENGAGEMENT (box top plate screws in the box rivet nuts): 0
 
-SUPPORT (fixed machine parts touching the box): 0
-  none: the box is not attached to the machine yet (mounting to be designed by the mechanical side)
+SUPPORT (fixed machine parts touching the box): 8
+  Bracket_bot_L - Base_low_front
+  Bracket_bot_R - Base_low_front
+  Bracket_top_L - Base_top_front
+  Bracket_top_R - Base_top_front
+  Upright_L - Base_low_front
+  Upright_L - Base_top_front
+  Upright_R - Base_low_front
+  Upright_R - Base_top_front
 
