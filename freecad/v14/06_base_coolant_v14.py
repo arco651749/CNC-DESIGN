@@ -7,7 +7,7 @@
   B  the v14 machine, unchanged except 4 mounting holes in the datum plate; 4 M12 bolts tie B to A
 The table top stands about 900 mm above the floor (floor at z = -790 in machine coordinates).
 Run:  freecadcmd freecad/v14/06_base_coolant_v14.py      Out: output/v14/CNC_v14_base.FCStd, output/v14/logs/v14_base_build.txt"""
-import os
+import os, math
 import FreeCAD as App, Part
 from FreeCAD import Vector as V
 
@@ -166,10 +166,72 @@ for k, yc in enumerate((-40.0, 0.0), 1):                       # clear of the pi
     add('Coolant_nozzle_%d' % k, fuse(seg(pts[0], pts[1], 4), seg(pts[1], pts[2], 3.5), seg(pts[2], pts[3], 3.5)),
         'segmented coolant nozzle 1/4, down beside the spindle (right) then in, aimed at the tool', 'z')
 
+# feeder cables between the column-top electrical box and the base cabinet (owner 2026-11-27: protection parts in a base cabinet; both boxes
+# drawn by the electrical session). Fixed runs, no drag chain, outside the machine and away from the moving conduits: column box back
+# wall (lower left) -> rear guard glands -> down behind the rear-left leg -> forward outside the left low side beams -> along the front
+# low beam -> up into the base cabinet bottom. Power (F1-F3 + PE) and control (F4, shielded) in two conduits ~50 apart. KSS sizes: sketch.
+def fillet(pts, R, n=6):                                       # polyline with each corner rounded to radius R (static conduit bends)
+    P_ = [V(*p) for p in pts]; out = [P_[0]]
+    for a_, b_, c_ in zip(P_[:-2], P_[1:-1], P_[2:]):
+        u1 = (a_ - b_); u1.normalize(); u2 = (c_ - b_); u2.normalize()
+        th = math.acos(max(-1.0, min(1.0, u1.dot(u2)))); t_ = R / math.tan(th / 2)
+        p1, p2 = b_ + u1 * t_, b_ + u2 * t_; bis = u1 + u2; bis.normalize(); cc = b_ + bis * (R / math.sin(th / 2))
+        for k in range(n + 1):
+            v1 = p1 - cc; v2 = p2 - cc; f = k / n
+            v = v1 * (1 - f) + v2 * f; v.normalize(); out.append(cc + v * R)
+    out.append(P_[-1]); return [(q.x, q.y, q.z) for q in out]
+def tube_(pts, D):
+    return fuse(*([seg(a_, b_, D / 2) for a_, b_ in zip(pts[:-1], pts[1:]) if math.dist(a_, b_) > 1e-6] + [Part.makeSphere(D / 2, V(*q)) for q in pts[1:-1]]))
+FEED = {   # name: (outer D, static bend R, route, spec); rear runs bend only after the guard, side runs outside the frame bolt heads
+    'Feeder_power_conduit': (42.5, 70.0, [(-340, 500, 270), (-340, 645, 270), (-530, 645, 270), (-530, 645, -640), (-530, -650, -640), (-150, -650, -640), (-150, -650, -510)],
+                             'KSS PA nylon conduit ID >= 32 (sketch: NW36, AD 42.5): F1 servo 5G2.5, F2 VFD 3G4, F3 supply 3G1.5, PE; column box -> base cabinet'),
+    'Feeder_control_conduit': (21.2, 60.0, [(-260, 500, 270), (-260, 695, 270), (-530, 695, 270), (-530, 695, -690), (-530, -650, -690), (-90, -650, -690), (-90, -650, -510)],
+                               'KSS PA nylon conduit (sketch: NW17, AD 21.2): F4 control 4x0.75 shielded (E-stop loop, contactor coil); 50 from the power run'),
+    'Feeder_opbox_cable': (9.0, 30.0, [(300, -633, -330), (300, -633, -400), (180, -625, -400)],
+                           'operator box -> base cabinet right wall: 7G0.75 (S1 E-stop 2NC, S2 start NO), ~0.5 m, clipped to the right upright'),
+}
+for n_, (D_, R_, pts_, sp_) in FEED.items():
+    add(n_, tube_(fillet(pts_, R_), D_), sp_ + '; model length %.0f mm' % sum(math.dist(a_, b_) for a_, b_ in zip(fillet(pts_, R_)[:-1], fillet(pts_, R_)[1:])))
+g_ = O('Guard_rear')                                           # rear guard glands (outside the guard from here on)
+g_.Shape = g_.Shape.cut(cyl('y', 23.0, 565, 576, -340, 270)).cut(cyl('y', 12.0, 565, 576, -260, 270))
+for k, (x_, d_) in enumerate(((-340, 42.5), (-260, 21.2)), 1):
+    add('Feeder_guard_gland_%d' % k, cyl('y', d_ / 2 + 6, 564, 578, x_, 270).cut(cyl('y', d_ / 2, 564, 578, x_, 270)),
+        'conduit connector through the rear guard (KSS, IP rated, sketch) for the %s conduit' % ('power' if k == 1 else 'control'))
+def clamp(n_, c, ax, D_, foot):                                # conduit fixing base (sketch): ring around the conduit + foot to the frame face
+    r_ = D_ / 2; ring = cyl(ax, r_ + 4, -10, 10, 0, 0).cut(cyl(ax, r_, -10, 10, 0, 0))
+    if ax == 'x': ring = Part.makeCylinder(r_ + 4, 20, V(c[0] - 10, c[1], c[2]), V(1, 0, 0)).cut(Part.makeCylinder(r_, 20, V(c[0] - 10, c[1], c[2]), V(1, 0, 0)))
+    if ax == 'y': ring = Part.makeCylinder(r_ + 4, 20, V(c[0], c[1] - 10, c[2]), V(0, 1, 0)).cut(Part.makeCylinder(r_, 20, V(c[0], c[1] - 10, c[2]), V(0, 1, 0)))
+    if ax == 'z': ring = Part.makeCylinder(r_ + 4, 20, V(c[0], c[1], c[2] - 10), V(0, 0, 1)).cut(Part.makeCylinder(r_, 20, V(c[0], c[1], c[2] - 10), V(0, 0, 1)))
+    add(n_, fuse(ring, *[box(*f_) for f_ in foot]), 'conduit fixing base for AD %.1f (KSS, sketch), M6 + T-nut into the HFS8 slot / M5 into the guard' % D_)
+CL = [   # (centre, conduit axis, D, foot boxes toward the frame face)
+    ((-430, 645, 270), 'x', 42.5, [(-440, -420, 571.2, 620, 260, 280)]), ((-400, 695, 270), 'x', 21.2, [(-410, -390, 571.2, 681, 265, 275)]),
+    ((-530, 645, 0), 'z', 42.5, [(-540, -520, 560, 621, -10, 10), (-520, -492.5, 560, 580, -10, 10)]),
+    ((-530, 645, -400), 'z', 42.5, [(-540, -520, 560, 621, -410, -390), (-520, -492.5, 560, 580, -410, -390)]),
+    ((-530, 695, -200), 'z', 21.2, [(-535, -525, 560, 685, -205, -195), (-525, -492.5, 560, 580, -205, -195)]),
+    ((-530, 300, -640), 'y', 42.5, [(-509, -492.5, 290, 310, -650, -630)]), ((-530, -150, -640), 'y', 42.5, [(-509, -492.5, -160, -140, -668, -630)]),
+    ((-530, 300, -690), 'y', 21.2, [(-520, -492.5, 290, 310, -695, -660)]), ((-530, -150, -690), 'y', 21.2, [(-520, -492.5, -160, -140, -695, -685)]),
+    ((-380, -650, -640), 'x', 42.5, [(-390, -370, -629, -600, -650, -630)]), ((-300, -650, -690), 'x', 21.2, [(-310, -290, -640, -600, -695, -660)]),
+    ((230, -625, -400), 'x', 9.0, [(225, 235, -620.5, -600, -405, -395)]),
+]
+for k, (c_, ax_, d_, ft_) in enumerate(CL, 1): clamp('Feeder_clamp_%d' % k, c_, ax_, d_, ft_)
+FS = [n_ for n_ in NEW if n_.startswith('Feeder_')]            # static clash check of the feeder parts against the base and the machine
+fh = []
+for o in doc.Objects:
+    if o.TypeId != 'Part::Feature' or o.Shape.isNull() or o.Label.startswith('Feeder_') or not o.Shape.Solids: continue
+    for n_ in FS:
+        fs_ = O(n_).Shape
+        if not fs_.BoundBox.intersect(o.Shape.BoundBox): continue
+        try: v_ = fs_.common(o.Shape).Volume
+        except Exception: v_ = -1
+        if v_ > 1 and not (n_.startswith('Feeder_clamp') or n_.startswith('Feeder_guard')): fh.append('%s x %s: %.0f mm3' % (n_, o.Label, v_))
+        elif v_ > 1 and n_.startswith('Feeder_guard') and o.Label != 'Guard_rear': fh.append('%s x %s: %.0f mm3' % (n_, o.Label, v_))
+        elif v_ > 1 and n_.startswith('Feeder_clamp'): fh.append('%s x %s: %.0f mm3 (clamp foot into the frame?)' % (n_, o.Label, v_))
+FEED_LOG = ['feeder runs (column box <-> base cabinet): %d parts, static clashes %d' % (len(FS), len(fh))] + ['  ' + x for x in fh]
+
 doc.recompute()
 doc.saveAs(os.path.join(OUT, 'CNC_v14_base.FCStd'))
 L = ['v14 on coolant base: base parts %d (A), machine unchanged (B) + 4 datum-plate holes; floor z=%d, table top %d above the floor' % (len(NEW), FLOOR, 110 - FLOOR), '']
 for l in NEW:
     o = O(l); b = o.Shape.BoundBox
     L.append('%-26s x[%7.1f,%7.1f] y[%7.1f,%7.1f] z[%7.1f,%7.1f]  %s' % (l, b.XMin, b.XMax, b.YMin, b.YMax, b.ZMin, b.ZMax, 'OK' if o.Shape.isValid() and o.Shape.Volume > 0 else 'INVALID'))
-open(os.path.join(OUT, 'logs', 'v14_base_build.txt'), 'w', encoding='utf-8').write('\n'.join(L))
+open(os.path.join(OUT, 'logs', 'v14_base_build.txt'), 'w', encoding='utf-8').write('\n'.join(FEED_LOG + [''] + L))

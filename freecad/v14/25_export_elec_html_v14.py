@@ -25,6 +25,7 @@ def colour(n, k, src_):
         if n.startswith(('S1', 'S2')): return [0.85, 0.15, 0.1]
         return [0.62, 0.66, 0.72]
     if n.startswith('Box_top'): return [0.80, 0.82, 0.78]
+    if n.startswith('Feeder_') and 'clamp' not in n and 'gland' not in n: return [0.16, 0.17, 0.19]
     if n.startswith(('X_motor', 'Y_motor', 'Z_motor')) and 'plate' not in n and 'block' not in n: return [0.2, 0.22, 0.25]
     if n.startswith(('Guard_window',)): return [0.75, 0.85, 0.92]
     return {'y': [0.78, 0.62, 0.42], 'x': [0.5, 0.64, 0.8], 'z': [0.62, 0.72, 0.84]}.get(k, [0.68, 0.71, 0.75])
@@ -39,7 +40,7 @@ for o, s_ in OBJS:
     sh = o.Shape; b = sh.BoundBox
     if sh.Volume < 300 or re.search(r'(bolt|screw|_pin|dowel|epoxy|shim|fitting|tube|reed|nut$|PullNut|standoff)', o.Label, re.I): continue
     if s_ == 'm' and re.search(r'^(Guard_(rear|side|front)|Coolant_(tank|pan|baffle|filter|drain|pump|silicone|castor|hose))', o.Label): continue
-    if len(sh.Faces) > 60 and not o.Label.startswith(('Box_top', 'Conduit_')):   # vendor-detailed parts as boxes; own sheet parts keep their real outline
+    if len(sh.Faces) > 60 and not o.Label.startswith(('Box_top', 'Conduit_', 'Feeder_')):   # vendor-detailed parts as boxes; own sheet parts keep their real outline
         sh = Part.makeBox(b.XLength, b.YLength, b.ZLength, App.Vector(b.XMin, b.YMin, b.ZMin))
     pts, tris = sh.tessellate(max(1.5, 0.012 * max(b.XLength, b.YLength, b.ZLength)))
     c = [int(round(v * 4)) for p in pts for v in (p.x, p.y, p.z)]; idx = [i for t in tris for i in t]; w = 1 if len(pts) < 65536 else 0

@@ -178,6 +178,14 @@ A Base (extrusion + sheet metal + coolant),Coolant_pump,1,外購件,"MISUMI / TE
 A Base (extrusion + sheet metal + coolant),Coolant_silicone,4,外購 / 板金 / 鋁擠,silicone bead in the pan corner,,,,,"Coolant_silicone_1, Coolant_silicone_2, Coolant_silicone_3, Coolant_silicone_4"
 A Base (extrusion + sheet metal + coolant),Coolant_tank,1,外購 / 板金 / 鋁擠,"SUS304 t3 tank 600x520x300, 90 L (fill 75 L), on castors, slides out at the rear (no rear low beam)",,,,,Coolant_tank
 A Base (extrusion + sheet metal + coolant),Coolant_tank_lid,1,外購 / 板金 / 鋁擠,"SUS304 t3 lid over the clean side, carries the pump",,,,,Coolant_tank_lid
+A Base (extrusion + sheet metal + coolant),Feeder_clamp,6,外購件,"conduit fixing base for AD 42.5 (KSS, sketch), M6 + T-nut into the HFS8 slot / M5 into the guard",,,,,"Feeder_clamp_1, Feeder_clamp_10, Feeder_clamp_3, Feeder_clamp_4, Feeder_clamp_6, Feeder_clamp_7"
+A Base (extrusion + sheet metal + coolant),Feeder_clamp,5,外購件,"conduit fixing base for AD 21.2 (KSS, sketch), M6 + T-nut into the HFS8 slot / M5 into the guard",,,,,"Feeder_clamp_11, Feeder_clamp_2, Feeder_clamp_5, Feeder_clamp_8, Feeder_clamp_9"
+A Base (extrusion + sheet metal + coolant),Feeder_clamp_12,1,外購件,"conduit fixing base for AD 9.0 (KSS, sketch), M6 + T-nut into the HFS8 slot / M5 into the guard",,,,,Feeder_clamp_12
+A Base (extrusion + sheet metal + coolant),Feeder_control_conduit,1,外購件,"KSS PA nylon conduit (sketch: NW17, AD 21.2): F4 control 4x0.75 shielded (E-stop loop, contactor coil); 50 from the power run; model length 3260 mm",,,,,Feeder_control_conduit
+A Base (extrusion + sheet metal + coolant),Feeder_guard_gland_1,1,外購件,"conduit connector through the rear guard (KSS, IP rated, sketch) for the power conduit",,,,,Feeder_guard_gland_1
+A Base (extrusion + sheet metal + coolant),Feeder_guard_gland_2,1,外購件,"conduit connector through the rear guard (KSS, IP rated, sketch) for the control conduit",,,,,Feeder_guard_gland_2
+A Base (extrusion + sheet metal + coolant),Feeder_opbox_cable,1,電線（列在配電 session 的 BOM）,"operator box -> base cabinet right wall: 7G0.75 (S1 E-stop 2NC, S2 start NO), ~0.5 m, clipped to the right upright; model length 177 mm",,,,,Feeder_opbox_cable
+A Base (extrusion + sheet metal + coolant),Feeder_power_conduit,1,外購件,"KSS PA nylon conduit ID >= 32 (sketch: NW36, AD 42.5): F1 servo 5G2.5, F2 VFD 3G4, F3 supply 3G1.5, PE; column box -> base cabinet; model length 2898 mm",,,,,Feeder_power_conduit
 A Base (extrusion + sheet metal + coolant),Guard_front_lip,1,外購 / 板金 / 鋁擠,"SUS304 t1.2 low front lip (loading side open), 35 mm ahead of the Y rail ends at the load position",,,,,Guard_front_lip
 A Base (extrusion + sheet metal + coolant),Guard_post_L_-590,4,外購 / 板金 / 鋁擠,"extrusion 20x20 corner post, sealed with silicone to the panels",,,,,"Guard_post_L_-590, Guard_post_L_550, Guard_post_R_-590, Guard_post_R_550"
 A Base (extrusion + sheet metal + coolant),Guard_rear,1,外購 / 板金 / 鋁擠,SUS304 t1.2 rear guard,,,,,Guard_rear

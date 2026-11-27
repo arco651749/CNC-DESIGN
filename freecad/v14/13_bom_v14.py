@@ -57,6 +57,7 @@ def category(o, spec):
     if n == 'Probe_slide_table': return '外購件（含於 MXH10-60Z，不另購）'
     if 'epoxy' in n.lower(): return '環氧樹脂（現場灌注）'
     if 'SPHC' in spec: return '自製鈑金件（見 DXF，雷射切割 + 折彎）'
+    if n == 'Feeder_opbox_cable': return '電線（列在配電 session 的 BOM）'
     if n.startswith('Box_top_shim'): return '自製墊片（見 DXF，雷射切割）'
     if n in DXF_PARTS or re.sub(r'_\d+$', '', n) in DXF_PARTS: return '自製 CNC 件（見 DXF）'
     if re.search(r'(bolt|screw|_pin|dowel|stud|jack|_nut$|shim)', n, re.I) and not re.search(r'(ballscrew|ball_nut)', n): return '標準件 / 螺絲銷'
