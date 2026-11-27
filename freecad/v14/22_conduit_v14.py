@@ -13,7 +13,7 @@ from FreeCAD import Vector as V
 ROOT = os.environ.get('CNC_ROOT') or r'D:\\Claude\\CNC DESIGN'
 # electrical box on the gantry columns (docs/handoff_electrical_box_v14.md): outer envelope, sheet metal not modelled yet. Conduits enter it
 # only through the bottom cover (Y) and the roof gland (X); everything else of every conduit must stay outside it.
-BOX = ((-392.5, 252.0, 241.0), (392.5, 500.0, 494.0))   # box (electrical session, column_box/) hung under the box top plate (01: z 491..494)
+BOX = ((-392.5, 252.0, 241.0), (392.5, 450.0, 494.0))   # box (electrical session, column_box/) hung under the box top plate (01: z 491..494)
 ZT = BOX[1][2] + 34.5 / 2 + 10.75       # X loop centre height: as the roof adaptor on its tab and the carriage-arm clamp (01)
 XFF = 50.0 + 1.2 * 37.0   # fixed leg start: end of the roof PAQ-2929 body (adaptor on the tab at x 50, 01)
 XF = 80.0      # X loop moving leg end (fixed leg on the roof, moving leg on the carriage arm): loop spans x -120..368 incl. its radius, roof edge 392.5
