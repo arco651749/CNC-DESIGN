@@ -13,16 +13,24 @@ def cyl(ax, r, a0, a1, p, q):
     return Part.makeCylinder(r, a1 - a0, o, d)
 def add(n, s, g): o = doc.addObject('Part::Feature', n); o.Shape = s; OBJ[n] = (o, g)
 BX, FLOOR = 517.5, -790
-# ---- base frame stub (front part only, as in v13/v14: legs 40x40, front beams)
-add('Base_leg_FL', box(-BX - 20, -BX + 20, -600, -560, FLOOR + 60, -130), 'frame (existing)'); add('Base_leg_FR', box(BX - 20, BX + 20, -600, -560, FLOOR + 60, -130), 'frame (existing)')
-add('Base_top_front', box(-BX - 20, BX + 20, -600, -560, -130, -90), 'frame (existing)'); add('Base_low_front', box(-BX + 20, BX - 20, -600, -560, -700, -660), 'frame (existing)')
-# ---- NEW: two uprights and two rails
-for sx, nm in ((-230, 'L'), (230, 'R')): add('Upright_' + nm, box(sx - 20, sx + 20, -600, -560, -660, -130), 'NEW frame (40x40 upright between the low and top front beams)')
-for k, z in enumerate((-470, -290), 1): add('Rail_%d' % k, box(-210, 210, -560, -520, z - 20, z + 20), 'NEW frame (40x40 rail behind the uprights)')
+# ---- existing v14 frame (reference only, coordinates from the mechanical session; NOT exported to the STEP)
+add('ref_leg_FL', box(-492.5, -452.5, -600, -560, -730, -130), 'ref (existing frame)'); add('ref_leg_FR', box(452.5, 492.5, -600, -560, -730, -130), 'ref (existing frame)')
+add('ref_top_front', box(-452.5, 452.5, -560, -520, -130, -90), 'ref (existing frame)'); add('ref_low_front', box(-452.5, 452.5, -600, -560, -660, -620), 'ref (existing frame)')
+add('ref_low_side_L', box(-492.5, -452.5, -560, 20, -700, -660), 'ref (existing frame)'); add('ref_low_side_R', box(452.5, 492.5, -560, 20, -700, -660), 'ref (existing frame)')
+add('ref_pan_bottom', box(-500, 500, -595, 575, -90, -88), 'ref (existing frame)')
+# ---- NEW: two uprights (sit on the front low beam, top 1 mm under the pan), angle brackets, two rails
+for sx, nm in ((-230, 'L'), (230, 'R')):
+    add('Upright_' + nm, box(sx - 20, sx + 20, -600, -560, -620, -91), 'NEW frame (40x40 upright on the front low beam)')
+    q = 1 if sx > 0 else -1                                  # side of the upright that faces the cabinet is the inner one
+    def X(x0, x1): return (min(q * x0, q * x1), max(q * x0, q * x1))
+    xa, xb = X(207, 210); xc, xd = X(170, 210)
+    add('Bracket_top_' + nm, box(xa, xb, -600, -560, -135, -95).fuse(box(xc, xd, -563, -560, -135, -95)), 'NEW frame (angle 3 t: upright inner side to the front face of the front top beam, 2 x M8)')
+    add('Bracket_bot_' + nm, box(xa, xb, -600, -560, -620, -585).fuse(box(xc, xd, -600, -560, -620, -617)), 'NEW frame (angle 3 t: upright inner side to the top face of the front low beam, 2 x M8)')
+for k, z in enumerate((-490, -310), 1): add('Rail_%d' % k, box(-210, 210, -560, -520, z - 20, z + 20), 'NEW frame (40x40 rail behind the uprights, centres z -490 / -310)')
 # ---- cabinet
 x0, y0, z0 = L.CAB_X0, L.CAB_Y0, L.CAB_Z0; yb = y0 + L.CAB_D                  # back face y = -560
-shell = box(x0, x0 + L.CAB_W, y0 + 3, yb, z0, z0 + L.CAB_H).cut(box(x0 + 2, x0 + L.CAB_W - 2, y0 + 3, yb - 2, z0 + 2, z0 + L.CAB_H - 2))
-add('Cabinet_box', shell, 'NEW cabinet (steel wall box 400x300x130, IP54)')
+shell = box(x0, x0 + L.CAB_W, y0 + 3, yb, z0, z0 + L.CAB_H).cut(box(x0 + 2, x0 + L.CAB_W - 2, y0 + 3, yb - 2, z0 + 2, z0 + L.CAB_H - 2)).cut(cyl('z', 16, z0 - 1, z0 + 3, -150, -620))
+add('Cabinet_box', shell, 'NEW cabinet (steel wall box 400x300x130, IP54; feeder gland hole D32 in the bottom at x -150, y -620)')
 add('Cabinet_door', box(x0, x0 + L.CAB_W, y0, y0 + 3, z0, z0 + L.CAB_H), 'NEW cabinet (door, hinged on the left, key lock)')
 bx = x0 + 100
 add('S1_estop', cyl('y', 20, y0 - 38, y0, x0 + 90, z0 + 230).fuse(cyl('y', 11, y0, y0 + 40, x0 + 90, z0 + 230)), 'parts (e-stop S1, 22 mm hole in the door, mushroom D40)')
@@ -46,7 +54,7 @@ def vol(a, b):
     A, B = OBJ[a][0].Shape, OBJ[b][0].Shape
     return A.common(B).Volume if A.BoundBox.intersect(B.BoundBox) else 0
 pn = [n for n in names if OBJ[n][1].startswith('parts') or OBJ[n][1] == 'DIN rails']
-others = [n for n in names if n not in pn]
+others = [n for n in names if n not in pn and not OBJ[n][1].startswith('ref')]
 for a in pn:
     for b in others:
         if a.startswith('S1') or a.startswith('S2'):
@@ -57,9 +65,13 @@ for i, a in enumerate(pn):
     for b in pn[i + 1:]:
         v = vol(a, b)
         if v > 1 and not (a.startswith('DIN') or b.startswith('DIN')): bad.append('%s x %s: %.0f mm3' % (a, b, v))
+frame_new = [n for n in names if OBJ[n][1].startswith('NEW frame')]
+for a in frame_new:
+    for b in names:
+        if OBJ[b][1].startswith('ref') and vol(a, b) > 1: bad.append('%s x %s: %.0f mm3' % (a, b, vol(a, b)))
 txt = ['base cabinet: %d objects, plate height used %d / %d' % (len(names), hh, L.PLATE_H), 'interferences: %d' % len(bad)] + bad
 open(os.path.join(HERE, 'step_check.txt'), 'w').write('\n'.join(txt) + '\n'); print('\n'.join(txt))
-Import.export([o for o, g in OBJ.values()], os.path.join(HERE, 'base_cabinet.step'))
+Import.export([o for o, g in OBJ.values() if not g.startswith('ref')], os.path.join(HERE, 'base_cabinet.step'))
 M = []
 for n, (o, g) in OBJ.items():
     pts, tris = o.Shape.tessellate(0.5); M.append({'n': n, 'g': g, 'p': [[round(p.x, 1), round(p.y, 1), round(p.z, 1)] for p in pts], 't': tris})

@@ -60,7 +60,6 @@
 <text x="141.6" y="472.4" font-size="9" text-anchor="middle">BD</text>
 <rect x="228.0" y="419.6" width="85.2" height="108.0" fill="#a371f7" fill-opacity="0.8" stroke="#222"/>
 <text x="270.6" y="476.6" font-size="9" text-anchor="middle">PC</text>
-<circle cx="108.0" cy="665.6" r="6" fill="none" stroke="#c00" stroke-width="2"/><text x="116.0" y="668.6" font-size="9" fill="#c00">底蓋:feeders from t</text>
 <circle cx="372.0" cy="593.6" r="6" fill="none" stroke="#c00" stroke-width="2"/><text x="380.0" y="596.6" font-size="9" fill="#c00">底蓋:Y bellows NW23</text>
 <circle cx="936.0" cy="675.2" r="6" fill="none" stroke="#c00" stroke-width="2"/><text x="944.0" y="678.2" font-size="9" fill="#c00">底蓋:X motor + home</text>
 <circle cx="576.0" cy="521.6" r="6" fill="none" stroke="#c00" stroke-width="2"/><text x="584.0" y="524.6" font-size="9" fill="#c00">屋頂:X bellows NW29</text>
