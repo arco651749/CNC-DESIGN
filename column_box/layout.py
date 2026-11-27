@@ -49,7 +49,7 @@ DUCT_DEPTH = 40.0                                   # reserved space, not a part
 # openings (machine x, y, z): purpose
 OPENINGS = [
     ('roof flange', 0, 390, 491, 'X conduit PA-29 (KSS PAQ-2929, PG29): hole D45 at (0, 390); plus 2 x D5.5 at (32, 375) and (32, 405) for the bracket screws, nuts under the flange (z 483..487)'),
-    ('open', -120, 330, 241, 'Y bellows NW23: conduit support bracket on the front of the vertical plate (2 x D5.5 at x -140 / -100, z 265); no cover'),
+    ('open', 280, 446, 233, 'Y conduit (rolling U shape on the table right side, plane x 280): fixed fitting PAQ-2321 at (280, 446) hangs from a bracket (z 233..236); the bracket sits on the front of the vertical plate (2 x D5.5 at x 265 / 295, z 265); the Y motor cable enters the box from below at x 280 under SVY'),
     ('open', -392, 330, 270, 'power feeders F1/F2/F3 + PE: KSS PAQ-3636 on the feeder entry plate outside the top-plate left flange (x -395.5..-392.5), facing -x, z 270; the cables enter at the LEFT END of the L plate and run in the air behind the boards to X1'),
     ('open', -392, 410, 270, 'control cable F4: KSS PAQ-1716, same plate, y 410, z 270'),
 ]
