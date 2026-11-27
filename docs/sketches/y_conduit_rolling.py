@@ -1,0 +1,40 @@
+# sketch: Y conduit as a rolling loop in the plane x 280 (between the table x 220 and the right gantry column x 312)
+import matplotlib; matplotlib.use('Agg')
+import matplotlib.pyplot as plt, numpy as np
+from matplotlib.patches import Rectangle
+plt.rcParams['font.family']='WenQuanYi Zen Hei'; plt.rcParams['axes.unicode_minus']=False
+R=55.0; ZL=25.0; ZU=ZL+2*R; YF=450.0; S=250.0          # bend R, lower / upper leg centre z, fixed end y, loop offset
+def loop(Y):
+    ym=250.0+Y; yb=(YF+ym)/2-S                        # moving end (table rear-right), bend position (moves at half speed)
+    t=np.linspace(np.pi/2,3*np.pi/2,30)
+    up=([ym,yb],[ZU,ZU]); arc=(yb+R*np.cos(t),ZL+R+R*np.sin(t)); lo=([yb,YF],[ZL,ZL])
+    return ym,yb,up,arc,lo
+fig,ax=plt.subplots(2,2,figsize=(16,11),gridspec_kw={'width_ratios':[1.6,1]})
+for i,(Y,lab) in enumerate(((-250,'工作台在最前 Y -250'),(150,'工作台在最後 Y +150'))):
+    a=ax[i,0]; ym,yb,up,arc,lo=loop(Y)
+    a.set_title('側視（x 280 平面，工作台右邊）：'+lab,fontsize=13)
+    a.add_patch(Rectangle((-210+Y,70),474,40,fc='#f3c38a',ec='#b07020',alpha=.5)); a.text(20+Y,85,'工作台',ha='center',color='#804000')
+    a.add_patch(Rectangle((2,18),160,300,fc='#ccc',ec='k',alpha=.6)); a.text(82,250,'右立柱\n(x 312 以外，\n不在這個平面)',ha='center',fontsize=9)
+    a.add_patch(Rectangle((-145,-20),327,20,fc='#bbb',ec='k')); a.text(-140,-35,'基準底板',fontsize=9)
+    a.add_patch(Rectangle((255,241),191,150,fc='#ddd',ec='k')); a.text(350,320,'柱頂電箱',ha='center')
+    a.plot([570,570],[-60,400],'k',lw=2); a.text(575,200,'後護罩',fontsize=9)
+    a.plot(*up,'k',lw=6); a.plot(*arc,'k',lw=6); a.plot(*lo,'k',lw=6)
+    a.plot([YF,YF],[ZL,236],'k',lw=6,alpha=.6); a.plot(YF,236,'gs',ms=11); a.text(YF+8,236,'固定接頭(電箱下)',color='g',fontsize=9)
+    a.plot([YF-10,YF+10],[ZL-15,ZL-15],'g',lw=2)
+    a.add_patch(Rectangle((-60,ZL-17),YF+70,3,fc='g',alpha=.6)); a.text(-60,ZL-34,'下托盤（固定，鋪在基準底板 / 底座上）',color='g',fontsize=9)
+    a.add_patch(Rectangle((-210+Y+40,ZU-17),474-40,3,fc='b',alpha=.6)); a.text(-200+Y+40,ZU+20,'上托盤（鎖在工作台右側面，跟著走）',color='b',fontsize=9)
+    a.plot(ym,ZU,'bo',ms=10); a.text(ym+8,ZU-30,'活動端',color='b',fontsize=9)
+    a.annotate('彎頭 R55\n(移動量是工作台的一半)',(yb-R,ZL+R),(yb-R-160,ZL+R+70),fontsize=9,arrowprops=dict(arrowstyle='->'))
+    a.set_xlim(-480,620); a.set_ylim(-60,420); a.set_aspect('equal'); a.grid(alpha=.3); a.set_xlabel('y (mm)  ← 前　　後 →'); a.set_ylabel('z (mm)')
+a=ax[0,1]; a.set_title('上視',fontsize=13)
+a.add_patch(Rectangle((-220,-460),440,474,fc='none',ec='#b07020',ls='--')); a.add_patch(Rectangle((-220,-60),440,474,fc='#f3c38a',ec='#b07020',alpha=.5))
+a.text(0,180,'工作台 Y+150',ha='center'); a.text(0,-400,'Y-250',ha='center',color='#b07020')
+for sx in (-1,1): a.add_patch(Rectangle((312 if sx>0 else -393,2),81,160,fc='#ccc',ec='k'))
+a.text(352,80,'右立柱',ha='center',fontsize=9,rotation=90); a.text(-352,80,'左立柱',ha='center',fontsize=9,rotation=90)
+a.add_patch(Rectangle((266,-60),28,520,fc='k',alpha=.7)); a.text(300,-120,'浪管在 x 266～294\n離立柱 18、離工作台 46',fontsize=10,color='b')
+a.add_patch(Rectangle((-234,144),119,102,fc='#999',ec='k')); a.text(-175,260,'稜鏡座(左邊)',ha='center',fontsize=8)
+a.set_xlim(-420,420); a.set_ylim(-480,600); a.set_aspect('equal'); a.grid(alpha=.3); a.set_xlabel('x (mm)'); a.set_ylabel('y (mm)')
+a=ax[1,1]; a.axis('off')
+a.text(0,.95,'滾動式 U 型（像拖鏈的走法）',fontsize=14,va='top')
+a.text(0,.82,'・下段平躺在固定托盤上，上段平躺在工作台右側的托盤上，\n  中間一個 R55 彎頭；工作台走 400，彎頭只走 200。\n・整條浪管都在 x 266～294 這個平面裡，\n  不會碰到立柱、工作台、稜鏡座。\n・浪管長約 670 mm（PA-23）。\n・固定端：電箱下面的接頭直下到下托盤後端 (280, 450)。\n・活動端：工作台右後角；Y 馬達線沿工作台後面接過去。\n・也可以直接換成拖鏈（例如 igus），結構一樣。',fontsize=11,va='top')
+plt.tight_layout(); plt.savefig('/home/user/CNC-DESIGN/docs/sketches/y_conduit_rolling.png',dpi=85)
