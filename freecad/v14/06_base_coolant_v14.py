@@ -182,21 +182,22 @@ def fillet(pts, R, n=6):                                       # polyline with e
     out.append(P_[-1]); return [(q.x, q.y, q.z) for q in out]
 def tube_(pts, D):
     return fuse(*([seg(a_, b_, D / 2) for a_, b_ in zip(pts[:-1], pts[1:]) if math.dist(a_, b_) > 1e-6] + [Part.makeSphere(D / 2, V(*q)) for q in pts[1:-1]]))
-FEED = {   # name: (outer D, static bend R, route, spec); rear runs bend only after the guard, side runs outside the frame bolt heads
-    'Feeder_power_conduit': (42.5, 70.0, [(-340, 506 + 1.2 * 47.0, 270), (-340, 645, 270), (-530, 645, 270), (-530, 645, -640), (-530, -640, -640), (-145, -640, -640), (-145, -640, -510 - 1.2 * 47.0)],
+FEX = -395.5                                                  # entry plate outer face (01): conduits leave the box's left side along -x
+FEED = {   # name: (outer D, static bend R, route, spec); bend only after the left guard, side runs outside the frame bolt heads
+    'Feeder_power_conduit': (42.5, 70.0, [(FEX - 1.2 * 47.0, 330, 270), (-560, 330, 270), (-560, 330, -640), (-560, -640, -640), (-145, -640, -640), (-145, -640, -510 - 1.2 * 47.0)],
                              'KSS PA-36 nylon conduit (model AD 42.5, size to confirm from the PA page), ends in PAQ-3636 adaptors: F1 servo 5G2.5, F2 VFD 3G4, F3 supply 3G1.5, PE; column box -> base cabinet'),
-    'Feeder_control_conduit': (21.2, 60.0, [(-260, 506 + 1.2 * 22.5, 270), (-260, 695, 270), (-530, 695, 270), (-530, 695, -690), (-530, -640, -690), (-90, -640, -690), (-90, -640, -510 - 1.2 * 22.5)],
+    'Feeder_control_conduit': (21.2, 60.0, [(FEX - 1.2 * 22.5, 410, 270), (-560, 410, 270), (-560, 410, -690), (-560, -640, -690), (-90, -640, -690), (-90, -640, -510 - 1.2 * 22.5)],
                                'KSS PA-17 nylon conduit (model AD 21.2), ends in PAQ-1716 adaptors: F4 control 4x0.75 shielded (E-stop loop, contactor coil); 50 from the power run'),
     'Feeder_opbox_cable': (9.0, 30.0, [(300, -633, -330), (300, -633, -400), (200, -633, -400), (180, -625, -400)],
                            'operator box -> base cabinet right wall: 7G0.75 (S1 E-stop 2NC, S2 start NO), ~0.5 m, clipped to the right upright'),
 }
 for n_, (D_, R_, pts_, sp_) in FEED.items():
     add(n_, tube_(fillet(pts_, R_), D_), sp_ + '; model length %.0f mm' % sum(math.dist(a_, b_) for a_, b_ in zip(fillet(pts_, R_)[:-1], fillet(pts_, R_)[1:])))
-g_ = O('Guard_rear')                                           # rear guard glands (outside the guard from here on)
-g_.Shape = g_.Shape.cut(cyl('y', 42.5 / 2 + 2.5, 565, 576, -340, 270)).cut(cyl('y', 21.2 / 2 + 2.5, 565, 576, -260, 270))   # conduit through a grommet
-for k, (x_, d_) in enumerate(((-340, 42.5), (-260, 21.2)), 1):
-    add('Feeder_guard_gland_%d' % k, cyl('y', d_ / 2 + 2.5, 564, 578, x_, 270).cut(cyl('y', d_ / 2 + 0.5, 564, 578, x_, 270)),
-        'rubber grommet in the rear guard (hole = conduit OD + 5) for the %s conduit' % ('power' if k == 1 else 'control'))
+g_ = O('Guard_side_L')                                         # left guard glands (outside the guard from here on)
+g_.Shape = g_.Shape.cut(cyl('x', 42.5 / 2 + 2.5, -490, -476, 330, 270)).cut(cyl('x', 21.2 / 2 + 2.5, -490, -476, 410, 270))   # conduit through a grommet
+for k, (y_, d_) in enumerate(((330, 42.5), (410, 21.2)), 1):
+    add('Feeder_guard_gland_%d' % k, cyl('x', d_ / 2 + 2.5, -490, -476, y_, 270).cut(cyl('x', d_ / 2 + 0.5, -490, -476, y_, 270)),
+        'rubber grommet in the left guard (hole = conduit OD + 5) for the %s conduit' % ('power' if k == 1 else 'control'))
 for k, (x_, tod, cd_, pn) in enumerate(((-145, 47.0, 42.5, 'PAQ-3636 (PG36)'), (-90, 22.5, 21.2, 'PAQ-1716 (PG16)')), 1):   # base cabinet bottom (box: electrical session)
     rb_ = max(tod / 2 + 5, cd_ / 2 + 4); z0_ = -510.0
     add('Feeder_cabinet_fitting_%d' % k, fuse(cyl('z', rb_, z0_ - 1.2 * tod, z0_, x_, -640), cyl('z', tod / 2, z0_, z0_ + 9, x_, -640), cyl('z', tod / 2 + 5, z0_ + 3, z0_ + 9, x_, -640))
@@ -210,13 +211,11 @@ def clamp(n_, c, ax, D_, foot):                                # conduit fixing 
     bore = {'x': Part.makeCylinder(r_, 60, V(c[0] - 30, c[1], c[2]), V(1, 0, 0)), 'y': Part.makeCylinder(r_, 60, V(c[0], c[1] - 30, c[2]), V(0, 1, 0)),
             'z': Part.makeCylinder(r_, 60, V(c[0], c[1], c[2] - 30), V(0, 0, 1))}[ax]
     add(n_, fuse(ring, *[box(*f_) for f_ in foot]).cut(bore), 'conduit fixing base for AD %.1f (KSS, sketch), M6 + T-nut into the HFS8 slot / M5 into the guard' % D_)
-CL = [   # (centre, conduit axis, D, foot boxes toward the frame face); the control conduit rides on the power clamps where they run side by side
-    ((-430, 645, 270), 'x', 42.5, [(-440, -420, 571.2, 620, 260, 280)]), ((-430, 695, 270), 'x', 21.2, [(-440, -420, 671, 685, 265, 275)]),
-    ((-530, 645, 0), 'z', 42.5, [(-540, -520, 560, 621, -10, 10), (-520, -492.5, 560, 580, -10, 10)]),
-    ((-530, 645, -400), 'z', 42.5, [(-540, -520, 560, 621, -410, -390), (-520, -492.5, 560, 580, -410, -390)]),
-    ((-530, 695, 0), 'z', 21.2, [(-535, -525, 671, 685, -5, 5)]), ((-530, 695, -400), 'z', 21.2, [(-535, -525, 671, 685, -405, -395)]),
-    ((-530, 300, -640), 'y', 42.5, [(-509, -492.5, 290, 310, -650, -630)]), ((-530, -150, -640), 'y', 42.5, [(-509, -492.5, -160, -140, -668, -630)]),
-    ((-530, 250, -690), 'y', 21.2, [(-520, -492.5, 240, 260, -695, -660)]), ((-530, -100, -690), 'y', 21.2, [(-520, -492.5, -110, -90, -695, -685)]),
+CL = [   # (centre, conduit axis, D, foot boxes toward the frame face); the control conduit rides on the power clamps where they run stacked
+    ((-560, 330, 120), 'z', 42.5, [(-534.5, -484, 320, 340, 110, 130)]), ((-560, 410, 120), 'z', 21.2, [(-545.1, -484, 405, 415, 115, 125)]),        # on the left guard
+    ((-560, 330, -110), 'z', 42.5, [(-534.5, -492.5, 320, 340, -120, -100)]), ((-560, 410, -110), 'z', 21.2, [(-545.1, -492.5, 405, 415, -115, -105)]),  # top side rail
+    ((-560, 150, -640), 'y', 42.5, [(-534.5, -492.5, 140, 160, -650, -630)]), ((-560, 150, -690), 'y', 21.2, [(-565, -555, 140, 160, -674.8, -665.8)]),
+    ((-560, -300, -640), 'y', 42.5, [(-534.5, -492.5, -310, -290, -650, -630)]), ((-560, -300, -690), 'y', 21.2, [(-565, -555, -310, -290, -674.8, -665.8)]),
     ((-380, -640, -640), 'x', 42.5, [(-390, -370, -619, -600, -650, -630)]), ((-300, -640, -690), 'x', 21.2, [(-310, -290, -630, -600, -695, -660)]),
     ((240, -633, -400), 'x', 9.0, [(235, 245, -628.5, -600, -405, -395)]),
 ]
@@ -232,7 +231,7 @@ for o in doc.Objects:
         try: v_ = fs_.common(o.Shape).Volume
         except Exception: v_ = -1
         if v_ > 1 and not (n_.startswith('Feeder_clamp') or n_.startswith('Feeder_guard')): fh.append('%s x %s: %.0f mm3' % (n_, o.Label, v_))
-        elif v_ > 1 and n_.startswith('Feeder_guard') and o.Label != 'Guard_rear': fh.append('%s x %s: %.0f mm3' % (n_, o.Label, v_))
+        elif v_ > 1 and n_.startswith('Feeder_guard') and o.Label != 'Guard_side_L': fh.append('%s x %s: %.0f mm3' % (n_, o.Label, v_))
         elif v_ > 1 and n_.startswith('Feeder_clamp'): fh.append('%s x %s: %.0f mm3 (clamp foot into the frame?)' % (n_, o.Label, v_))
 FEED_LOG = ['feeder runs (column box <-> base cabinet): %d parts, static clashes %d' % (len(FS), len(fh))] + ['  ' + x for x in fh]
 

@@ -539,22 +539,23 @@ LOG.append('Z axis narrowed: rails x %.1f..%.1f, slide x %.1f..%.1f, Z plate x %
 # wired on the bench) hangs under it on 20 x M5 countersunk screws into rivet nuts in its mounting plate. The X conduit loop rolls on it.
 for o in list(GROUPS['07 Electrics'].Group): doc.removeObject(o.Name)
 TP, ZP0 = 3.0, 491.0; ZP1 = ZP0 + TP                         # plate z 491..494 (column tops z 490 + shim 1)
-XE, YF, YR, FL = 392.5, 2.0, 500.0, 20.0                     # outer x, front (column front), rear (box back wall), flange depth
+XE, YF, YR, FL = 392.5, 2.0, 447.0, 20.0                     # outer x, front (column front), rear, flange depth
+# YR (owner 2026-11-27): the plate only has to cover the parts (deepest: servo connectors y 434) and the X loop (y <= 407); the feeders
+# now leave from the left side, so the rear stops at y 447 + flange 3 (was 500); the electrical session's L-plate flange ends inside it
 COLB = [(sx * x, y) for sx in (-1, 1) for x in (332.5, 372.5) for y in (22.0, 142.0)]   # column end taps (as the foot bolts, v12)
 HANG = ([(x, 272.0) for x in (-350, -250, -150, -50, 50, 150, 250, 350)]   # front row y 272: clear of the L-plate bend (electrical session)
- + [(x, 490.0) for x in (-350, -250, -150, -50, 50, 100, 250, 350)]
-        + [(sx * 376.0, y) for sx in (-1, 1) for y in (365.0, 435.0)])   # rear x 100: clear of the exhaust louvre; sides between the box roof DIN rails
+ + [(x, YR - 15.0) for x in (-350, -250, -150, -50, 50, 150, 250, 350)]
+        + [(sx * 376.0, y) for sx in (-1, 1) for y in (330.0, 400.0)])   # rear row 15 inside the plate edge; sides x 376
 GLAND_X = (0.0, 390.0, 45.0)                                 # X conduit cables drop through the plate here (adaptor on a tab at x 47..50), hole D45
 pl = box(-XE, XE, YF, YR, ZP0, ZP1).cut(box(-312.5, 312.5, YF - 1, 162.0, ZP0 - 1, ZP1 + 1))   # open between the columns: X carriage
 pl = pl.fuse(box(-XE, XE, YR, YR + TP, ZP1 - FL, ZP1))       # rear flange, outside the box back wall
 for sx in (-1, 1): pl = pl.fuse(box(XE - TP, XE, 185.0, YR + TP, ZP1 - FL, ZP1) if sx > 0 else box(-XE, -XE + TP, 185.0, YR + TP, ZP1 - FL, ZP1))
-pl = pl.cut(box(120.0, 220.0, YR - 1, YR + TP + 1, ZP1 - FL - 1, ZP0))   # rear flange notch: box exhaust louvre (x 125..215, z 460..485)
 pl = pl.cut(Part.makeCylinder(GLAND_X[2] / 2, 10, V(GLAND_X[0], GLAND_X[1], ZP0 - 3)))
 for x, y in COLB: pl = pl.cut(Part.makeCylinder(4.5, 10, V(x, y, ZP0 - 3)))
 for x, y in HANG: pl = pl.cut(Part.makeCylinder(2.75, 10, V(x, y, ZP0 - 3))).cut(Part.makeCone(2.75, 5.25, 2.5, V(x, y, ZP1 - 2.5)))
-add('Box_top_plate', pl, '07 Electrics', 'SPHC t3 laser cut + bent: 785 x 498, rear and side flanges 20 down (rear notch x 120..220 for the box exhaust); '
+add('Box_top_plate', pl, '07 Electrics', 'SPHC t3 laser cut + bent: 785 x %.0f, rear and side flanges 20 down; ' % (YR + TP - YF) + 
     'on the two column tops (8 x M8), carries the column electrical box (20 x M5 countersunk into rivet nuts) and the X conduit loop; '
-    'X conduit gland hole D45 at (50, 390); open between the columns for the X carriage; PE: M5 earth stud at (-360, 480) on a spot masked from the powder coat (strap to the box PE stud)', '', 'electrics')
+    'X conduit gland hole D45 at (0, 390); open between the columns for the X carriage; PE: M5 earth stud at (-360, 430) on a spot masked from the powder coat (strap to the box PE stud)', '', 'electrics')
 for sx, T in ((-1, 'L'), (1, 'R')):
     sh_ = box(312.5, 392.5, YF, 162.0, ZP0 - 1, ZP0) if sx > 0 else box(-392.5, -312.5, YF, 162.0, ZP0 - 1, ZP0)
     for x, y in COLB:
@@ -656,17 +657,20 @@ for k, x_ in enumerate((-140, -100), 1):
     add('Conduit_Y_top_bracket_bolt_%d' % k, fuse(Part.makeCylinder(2.5, 16, V(x_, 247.0, 265), V(0, 1, 0)), Part.makeCylinder(4.25, 5, V(x_, 247.0, 265), V(0, 1, 0)),
         Part.makeCylinder(4.6, 4, V(x_, 259.0, 265), V(0, 1, 0))), GC, 'M5x16 SHCS + nut: Y conduit top bracket through the L plate', '', '')
 paq('Conduit_Y_top_fitting', 'PA-23', (-120, 330, 236.0), (0, 0, -1), '')
-# feeder conduits (to the base cabinet): entry plate hung from the box top plate rear flange, outside the L plate; conduit connectors D50 / D28
-fe = fuse(box(-390, -210, 503.0, 506.0, 250.0, 494.0), box(-390, -387, 506.0, 526.0, 250.0, 494.0), box(-213, -210, 506.0, 526.0, 250.0, 494.0))
-fe = fe.cut(Part.makeCylinder(paq_hole('PA-36'), 10, V(-340, 500, 270), V(0, 1, 0))).cut(Part.makeCylinder(paq_hole('PA-17'), 10, V(-260, 500, 270), V(0, 1, 0)))
-for kb_, x_ in enumerate((-370, -300, -230), 1):
-    fe = fe.cut(Part.makeCylinder(2.75, 10, V(x_, 498, 484), V(0, 1, 0))); cut('Box_top_plate', Part.makeCylinder(2.75, 10, V(x_, 498, 484), V(0, 1, 0)))
-    add('Feeder_entry_plate_bolt_%d' % kb_, fuse(Part.makeCylinder(2.5, 14, V(x_, 496.0, 484), V(0, 1, 0)), Part.makeCylinder(4.25, 4, V(x_, 496.0, 484), V(0, 1, 0)),
-        Part.makeCylinder(4.6, 4, V(x_, 506.0, 484), V(0, 1, 0))), GC, 'M5x14 button head + nut: feeder entry plate to the box top plate rear flange', '', '')
-add('Feeder_entry_plate', fe, GC, 'SPHC t3 bent: feeder conduit entry plate on the box top plate rear flange (3 x M5), side flanges 20; KSS conduit '
-    'adaptors PAQ-3636 (power, D47.3, x -340) and PAQ-1716 (control, D22.7, x -260) at z 270', '', '')
-paq('Feeder_entry_fitting_1', 'PA-36', (-340, 506.0, 270), (0, 1, 0), '')
-paq('Feeder_entry_fitting_2', 'PA-17', (-260, 506.0, 270), (0, 1, 0), '')
+# feeder conduits (to the base cabinet), owner 2026-11-27: out of the box's LEFT side (was the rear) so they drop straight down outside the
+# left guard (one bend less, no pass through the rear guard). Entry plate hung outside the box top plate's left side flange (x -392.5),
+# web x -395.5..-392.5, y 290..447, flanges 20 outward; KSS adaptors pointing -x at z 270: power (y 330), control (y 410)
+FEX = -392.5 - TB                                              # outer face of the entry plate web
+fe = fuse(box(FEX, -392.5, 290.0, YR, 250.0, 494.0), box(FEX - 20, FEX, 290.0, 293.0, 250.0, 494.0), box(FEX - 20, FEX, YR - 3, YR, 250.0, 494.0))
+fe = fe.cut(Part.makeCylinder(paq_hole('PA-36'), 10, V(-390, 330, 270), V(-1, 0, 0))).cut(Part.makeCylinder(paq_hole('PA-17'), 10, V(-390, 410, 270), V(-1, 0, 0)))
+for kb_, y_ in enumerate((305.0, 370.0, 435.0), 1):
+    fe = fe.cut(Part.makeCylinder(2.75, 10, V(-388, y_, 484), V(-1, 0, 0))); cut('Box_top_plate', Part.makeCylinder(2.75, 10, V(-388, y_, 484), V(-1, 0, 0)))
+    add('Feeder_entry_plate_bolt_%d' % kb_, fuse(Part.makeCylinder(2.5, 14, V(-385.5, y_, 484), V(-1, 0, 0)), Part.makeCylinder(4.25, 4, V(-385.5, y_, 484), V(-1, 0, 0)),
+        Part.makeCylinder(4.6, 4, V(FEX, y_, 484), V(-1, 0, 0))), GC, 'M5x14 button head + nut: feeder entry plate to the box top plate left side flange', '', '')
+add('Feeder_entry_plate', fe, GC, 'SPHC t3 bent: feeder conduit entry plate on the box top plate left side flange (3 x M5), flanges 20; KSS conduit '
+    'adaptors PAQ-3636 (power, D47.3, y 330) and PAQ-1716 (control, D22.7, y 410) at z 270, pointing -x', '', '')
+paq('Feeder_entry_fitting_1', 'PA-36', (FEX, 330, 270), (-1, 0, 0), '')
+paq('Feeder_entry_fitting_2', 'PA-17', (FEX, 410, 270), (-1, 0, 0), '')
 LOG.append('conduit hardware: Y bracket, head bracket, carriage bracket + clamp, X arm + clamp, roof tab + PAQ-2929, Y top bracket, feeder entry plate (KSS PAQ adaptors per catalog p.152)')
 
 bad = [(l, round(r, 3)) for l, r in CHK if r < 0.98]

@@ -1,6 +1,6 @@
-feeder runs (column box <-> base cabinet): 20 parts, static clashes 0
+feeder runs (column box <-> base cabinet): 18 parts, static clashes 0
 
-v14 on coolant base: base parts 118 (A), machine unchanged (B) + 4 datum-plate holes; floor z=-790, table top 900 above the floor
+v14 on coolant base: base parts 116 (A), machine unchanged (B) + 4 datum-plate holes; floor z=-790, table top 900 above the floor
 
 Base_leg_1                 x[ -492.5, -452.5] y[ -600.0, -560.0] z[ -730.0, -130.0]  OK
 Base_foot_1                x[ -512.5, -432.5] y[ -620.0, -540.0] z[ -790.0, -730.0]  OK
@@ -100,23 +100,21 @@ Coolant_nozzle_1           x[   56.4,   90.5] y[  -44.0,  -28.6] z[  180.1,  337
 Coolant_nozzle_block_2     x[   80.5,   90.5] y[   -5.0,    5.0] z[  335.0,  355.0]  OK
 Coolant_nozzle_block_bolt_2 x[   72.5,   94.5] y[   -3.5,    3.5] z[  341.5,  348.5]  OK
 Coolant_nozzle_2           x[   56.4,   90.5] y[  -11.4,    4.0] z[  180.1,  337.1]  OK
-Feeder_power_conduit       x[ -551.2, -123.8] y[ -661.2,  666.2] z[ -661.2,  291.2]  OK
-Feeder_control_conduit     x[ -540.6,  -79.4] y[ -650.6,  705.6] z[ -700.6,  280.6]  OK
+Feeder_power_conduit       x[ -581.2, -123.8] y[ -661.2,  351.2] z[ -661.2,  291.2]  OK
+Feeder_control_conduit     x[ -570.6,  -79.4] y[ -650.6,  420.6] z[ -700.6,  280.6]  OK
 Feeder_opbox_cable         x[  178.3,  304.5] y[ -637.5, -620.8] z[ -404.5, -330.0]  OK
-Feeder_guard_gland_1       x[ -363.8, -316.2] y[  564.0,  578.0] z[  246.2,  293.8]  OK
-Feeder_guard_gland_2       x[ -273.1, -246.9] y[  564.0,  578.0] z[  256.9,  283.1]  OK
+Feeder_guard_gland_1       x[ -490.0, -476.0] y[  306.2,  353.8] z[  246.2,  293.8]  OK
+Feeder_guard_gland_2       x[ -490.0, -476.0] y[  396.9,  423.1] z[  256.9,  283.1]  OK
 Feeder_cabinet_fitting_1   x[ -173.5, -116.5] y[ -668.5, -611.5] z[ -566.4, -501.0]  OK
 Feeder_cabinet_fitting_2   x[ -106.2,  -73.8] y[ -656.2, -623.8] z[ -537.0, -501.0]  OK
-Feeder_clamp_1             x[ -440.0, -420.0] y[  571.2,  670.8] z[  244.2,  295.8]  OK
-Feeder_clamp_2             x[ -440.0, -420.0] y[  671.0,  710.1] z[  254.9,  285.1]  OK
-Feeder_clamp_3             x[ -555.8, -492.5] y[  560.0,  670.8] z[  -10.0,   10.0]  OK
-Feeder_clamp_4             x[ -555.8, -492.5] y[  560.0,  670.8] z[ -410.0, -390.0]  OK
-Feeder_clamp_5             x[ -545.1, -514.9] y[  671.0,  710.1] z[  -10.0,   10.0]  OK
-Feeder_clamp_6             x[ -545.1, -514.9] y[  671.0,  710.1] z[ -410.0, -390.0]  OK
-Feeder_clamp_7             x[ -555.8, -492.5] y[  290.0,  310.0] z[ -665.8, -614.2]  OK
-Feeder_clamp_8             x[ -555.8, -492.5] y[ -160.0, -140.0] z[ -668.0, -614.2]  OK
-Feeder_clamp_9             x[ -545.1, -492.5] y[  240.0,  260.0] z[ -705.1, -660.0]  OK
-Feeder_clamp_10            x[ -545.1, -492.5] y[ -110.0,  -90.0] z[ -705.1, -674.9]  OK
-Feeder_clamp_11            x[ -390.0, -370.0] y[ -665.8, -600.0] z[ -665.8, -614.2]  OK
-Feeder_clamp_12            x[ -310.0, -290.0] y[ -655.1, -600.0] z[ -705.1, -660.0]  OK
-Feeder_clamp_13            x[  230.0,  250.0] y[ -642.0, -600.0] z[ -409.0, -391.0]  OK
+Feeder_clamp_1             x[ -585.8, -484.0] y[  304.2,  355.8] z[  110.0,  130.0]  OK
+Feeder_clamp_2             x[ -575.1, -484.0] y[  394.9,  425.1] z[  110.0,  130.0]  OK
+Feeder_clamp_3             x[ -585.8, -492.5] y[  304.2,  355.8] z[ -120.0, -100.0]  OK
+Feeder_clamp_4             x[ -575.1, -492.5] y[  394.9,  425.1] z[ -120.0, -100.0]  OK
+Feeder_clamp_5             x[ -585.8, -492.5] y[  140.0,  160.0] z[ -665.8, -614.2]  OK
+Feeder_clamp_6             x[ -575.1, -544.9] y[  140.0,  160.0] z[ -705.1, -665.8]  OK
+Feeder_clamp_7             x[ -585.8, -492.5] y[ -310.0, -290.0] z[ -665.8, -614.2]  OK
+Feeder_clamp_8             x[ -575.1, -544.9] y[ -310.0, -290.0] z[ -705.1, -665.8]  OK
+Feeder_clamp_9             x[ -390.0, -370.0] y[ -665.8, -600.0] z[ -665.8, -614.2]  OK
+Feeder_clamp_10            x[ -310.0, -290.0] y[ -655.1, -600.0] z[ -705.1, -660.0]  OK
+Feeder_clamp_11            x[  230.0,  250.0] y[ -642.0, -600.0] z[ -409.0, -391.0]  OK
