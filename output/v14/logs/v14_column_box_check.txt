@@ -1,4 +1,4 @@
-v14 electrical box (column_box/column_box.step): 465 box solids, envelope x -380.0..380.0 y 255.0..495.0 z 241.0..491.0
+v14 electrical box (column_box/column_box.step): 461 box solids, envelope x -380.0..380.0 y 255.0..495.0 z 241.0..491.0
 569 machine parts, 27 poses; reference copies of machine parts skipped: none
 
 COLLISIONS (box x machine): 0
