@@ -599,24 +599,31 @@ def paq(label, size, c, d, motion, group=None):
     add(label, sh, group or GC, 'KSS %s easy-type conduit adaptor (%s, NYLON 66, with locknut) for %s; sheet hole D%.1f (catalog); body size estimated'
         % (pn, pg, size, 2 * paq_hole(size)), motion, '')
 # Y run (owner 2026-11-27): rolling loop in the plane x 280, in the gap between the work table (x 220) and the right gantry column (x 312).
-# Lower leg lies in a fixed tray on the datum plate (z 17.25), upper leg in a tray on the table's right side face (z 127.25), bend R 55
+# Lower leg lies in a fixed tray on the datum plate (z 17.25), upper leg ends at a tab on the table's right side face (z 127.25), bend R 55
 # moves half the table travel. A hanging U beside the table cannot work: with 400 travel its loop always meets a gantry column.
-YX, YZL, YZU = 280.0, 17.25, 127.25                            # loop plane, lower / upper leg centre heights (PA-23 OD 28.5)
+YX, YZL, YZU = 280.0, 17.25, 127.25                            # loop plane, lower / upper leg centre heights (PA-23 OD 28.5), R 55
+# The upper leg cannot lie on a tray along the table: the bend rolls along under it (half the table speed) and would cut through the floor.
+# The table tray only carries the moving end and the last ~60 mm of the upper leg (rel. y 200..262); the rest of the upper leg is a free span
+# (up to ~205 mm at Y +150), like every rolling loop. The lower leg lies in a fixed channel on the datum plate; it covers the datum-plate bolt
+# Base_mount_bolt_4 at (272.5, 168), which is therefore a low-head M12 counterbored flush (06). (A tray raised over a standard SHCS head put the
+# upper leg 14 higher, into the coolant nozzle at X +182.5 / Z -50 / Y -250.)
+YF0 = 200.0                                                    # front end of the conduit lane in the table tray (bend max. rel. y 194.5)
 yu = fuse(box(220, 223, -20.0, 262.0, 75.0, 113.0),           # web on the table right side face (3 x M5)
-          box(223, 303, -20.0, 225.0, 110.0, 113.0),          # floor under the upper leg (ends before the end adaptor body)
-          box(300, 303, -20.0, 262.0, 113.0, 140.0), box(255, 258, -20.0, 225.0, 113.0, 135.0),   # outer / inner lips
+          box(223, 258, -20.0, 262.0, 110.0, 113.0), box(255, 258, -20.0, 225.0, 113.0, 135.0),   # Y motor cable lane + its outer lip
+          box(258, 303, YF0, 262.0, 110.0, 113.0), box(300, 303, YF0, 262.0, 113.0, 140.0),       # conduit lane (short) + outer lip
           box(255, 303, 262.0, 265.0, 110.0, 160.0))          # rear tab carrying the moving end adaptor
 yu = yu.cut(Part.makeCylinder(paq_hole('PA-23'), 10, V(YX, 258.0, YZU), V(0, 1, 0)))
 for y_ in (0.0, 110.0, 220.0): yu = yu.cut(Part.makeCylinder(2.75, 10, V(218.0, y_, 90.0), V(1, 0, 0)))
-add('Conduit_Y_table_tray', yu, GC, 'SPHC t3 bent: Y conduit upper tray on the work table right side face (3 x M5), floor z 110..113 at x 223..303, '
-    'lips, rear tab with PAQ-2321 hole D28.6 at (280, z 127.25); the Y motor cable runs from the tab along the table rear face', 'y', '')
+add('Conduit_Y_table_tray', yu, GC, 'SPHC t3 bent: Y conduit moving-end tray on the work table right side face (3 x M5), cable lane floor z 110..113 '
+    'at x 223..258 full length, conduit lane x 258..303 only y 200..262 (the rolling bend passes in front of it), rear tab with PAQ-2321 hole '
+    'D28.6 at (280, z 127.25); the Y motor cable runs from the tab along the table rear face', 'y', '')
 bolts_into('Work_table', 'Conduit_Y_table_tray', [(0, y_, 90) for y_ in (0.0, 110.0, 220.0)], 'x', 220.0, -1)
 paq('Conduit_Y_end_fitting', 'PA-23', (YX, 262.0, YZU), (0, -1, 0), 'y')
 yl = fuse(box(250, 310, -115.0, 400.0, 0.0, TB), box(250, 253, -115.0, 400.0, TB, 30.0), box(307, 310, -115.0, 400.0, TB, 30.0))   # channel
-for x_, y_ in ((258, -100), (302, 40), (258, 160)): yl = yl.cut(Part.makeCylinder(2.75, 10, V(x_, y_, -3)))
+for x_, y_ in ((258, -100), (302, 40), (302, 130)): yl = yl.cut(Part.makeCylinder(2.75, 10, V(x_, y_, -3)))
 add('Conduit_Y_base_tray', yl, GC, 'SPHC t3 bent channel 60 x 30: Y conduit lower tray on the datum plate (3 x M5), y -115..400 (cantilever past the '
-    'plate edge y 182)', '', '')
-bolts_into('Datum_base_plate', 'Conduit_Y_base_tray', [(258, -100, 0), (302, 40, 0), (258, 160, 0)], 'z', 0.0, -1)
+    'plate edge y 182); lies over the flush low-head bolt Base_mount_bolt_4', '', '')
+bolts_into('Datum_base_plate', 'Conduit_Y_base_tray', [(258, -100, 0), (302, 40, 0), (302, 130, 0)], 'z', 0.0, -1)
 # Z run moving end: bracket on the spindle clamp front face (right half, beside the probe slide), arm at z 455 to the end at (110, -80)
 HA = 470.0 - paq_len('PA-29')                                  # arm top z 425.6; the adaptor hangs UNDER the arm (body z 378..422.6), the conduit
 # comes up into its lower end at z 378 (before: body on top of the arm with the conduit passing up through the sheet hole, wrong)

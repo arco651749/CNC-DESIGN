@@ -120,11 +120,13 @@ for i, (x, y) in enumerate(MOUNT, 1):
     for dx in (-20, 20): r = r.cut(cyl('z', 7, -29, -20, x + dx, y)).cut(cyl('z', 4.5, -88.5, -29, x + dx, y))
     add('Base_riser_%d' % i, r, 'steel riser 60x60x68.5 on the pan floor: M12 tap for the machine, 2 counterbored M8 holes to the cross beam; '
         'silicone ring under it seals the pan holes')
-    add('Base_mount_bolt_%d' % i, cyl('z', 6, -40, 0, x, y).fuse(cyl('z', 9, 0, 12, x, y)), 'M12x40 SHCS: datum plate (B) into the riser tap (joins B to A)')
+    # low-head M12 (DIN 7984, head D18 x 7) in a D20 x 7.5 counterbore, flush below the datum plate top: the Y conduit base tray lies over bolt 4
+    add('Base_mount_bolt_%d' % i, cyl('z', 6, -37.5, -7.5, x, y).fuse(cyl('z', 9, -7.5, -0.5, x, y)),
+        'M12x30 DIN 7984 low-head cap screw in a D20 x 7.5 counterbore: datum plate (B) into the riser tap (joins B to A), 17.5 engaged')
     for k, dx in enumerate((-20, 20), 1):
         add('Base_riser_bolt_%d_%d' % (i, k), cyl('z', 4, -99, -29, x + dx, y).fuse(cyl('z', 6.5, -29, -21, x + dx, y)),
             'M8x70 SHCS, counterbored in the riser, through the pan into a T-nut in the cross-beam slot')
-    s = cyl('z', 6.5, -20, 0, x, y); o = O('Datum_base_plate'); o.Shape = o.Shape.cut(s)
+    s = cyl('z', 6.5, -20, 0, x, y).fuse(cyl('z', 10, -7.5, 0, x, y)); o = O('Datum_base_plate'); o.Shape = o.Shape.cut(s)
 # ---------------- A4 splash guards
 for sx, T in ((1, 'R'), (-1, 'L')):
     GX = 450 + W
