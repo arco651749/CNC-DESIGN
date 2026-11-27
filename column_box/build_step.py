@@ -25,7 +25,9 @@ NUTS = [(x, 272) for x in (-350, -250, -150, -50, 50, 150, 250, 350)] + [(x, 490
 fl = box(-380, 380, 255, 495, 487, 491).cut(cyl('z', 22.5, 486, 492, 50, 390))
 for (nx, ny) in NUTS: fl = fl.cut(cyl('z', 4, 486, 492, nx, ny))
 add('L_plate_flange', fl, 'L plate (SPHC t4, bent): horizontal flange under the mechanical top plate; 20 M5 holes with pull nuts, X bellows hole D45')
-add('L_plate_vertical', box(-380, 380, 255, 259, 241, 487), 'L plate (SPHC t4, bent): vertical plate at the front, hangs down behind the X base plate; the drives, VFD and DIN rail screw to its REAR face')
+vp = box(-380, 380, 255, 259, 241, 487)
+for hx in (-140, -100): vp = vp.cut(cyl('y', 2.75, 254, 260, hx, 265))
+add('L_plate_vertical', vp, 'L plate (SPHC t4, bent): vertical plate at the front, hangs down behind the X base plate; the drives, VFD and DIN rail screw to its REAR face; 2 x D5.5 holes at (x -140 / -100, z 265) for the Y bellows bracket (M5, nuts on the rear side)')
 for sx, nm in ((-370, 'L'), (370, 'R')):
     add('L_plate_gusset_' + nm, box(sx - 5, sx + 5, 259, 299, 447, 487).cut(box(sx - 6, sx + 6, 279, 300, 446, 467)), 'L plate (gusset t10 at each end, stiffens the bend)')
 for k, (nx, ny) in enumerate(NUTS, 1): add('PullNut_M5_%02d' % k, cyl('z', 3.75, 478, 487, nx, ny).cut(cyl('z', 2.1, 478, 487, nx, ny)), 'parts (M5 pull nut, 9 mm below the flange)')

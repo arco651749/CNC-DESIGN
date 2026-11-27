@@ -4,3 +4,4 @@ SVZ: below 35 mm, above 35 mm to the box (manual 40; owner accepted 35 for the f
 SVX-SVY side gap 10 mm (manual 10)
 SVY-SVZ side gap 10 mm (manual 10)
 servo front face y=259; nearest obstacle y=242 -> wiring room 17 mm (need >= 60)
+Y-bellows keep-out x -165..-75, y 255..365, z 236..285 checked against all parts
