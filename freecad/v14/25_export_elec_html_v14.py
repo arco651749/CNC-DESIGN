@@ -16,7 +16,7 @@ def cls(o):
     if n.startswith(('Z_block', 'Z_spacer', 'Z_slide', 'Z_ball_nut', 'Z_nut_housing', 'Spindle', 'ER11', 'Tool')): return 'z'
     if n.startswith(('X_block', 'X_carriage', 'X_ball_nut', 'X_nut_bracket', 'X_saddle', 'Z_')): return 'x'
     return ''
-SHELL = ('Box_back_wall', 'Box_side_L', 'Box_side_R', 'Box_front_cover', 'Box_bottom_cover', 'Box_roof_plate', 'Cabinet_box', 'Cabinet_door')
+SHELL = ('Cabinet_box', 'Cabinet_door', 'OpBox')                 # column box is one open L plate (no shell); base cabinet body / door and the operator box
 def colour(n, k, src_):
     if src_ != 'm':                                            # electrical boxes
         if n in SHELL: return [0.83, 0.85, 0.80]
@@ -50,8 +50,8 @@ for o, s_ in OBJS:
                 'i': base64.b64encode(struct.pack(('<%dH' if w else '<%dI') % len(idx), *idx)).decode(), 'w': w})
 page = open(os.path.join(ROOT, 'freecad', 'v14', 'conduit_page.html'), encoding='utf-8').read()
 page = page.replace('<title>v14 浪管檢視</title>', '<title>v14 電控箱</title>').replace('<b>v14 浪管檢視（從機台後方）</b>', '<b>v14 電控箱（立柱電箱 + 底座電箱）</b>')
-page = page.replace('<button data-v="front">前方</button></div>', '<button data-v="front">前方</button><button id="shell">外殼透明</button></div>')
-page = page.replace('黑色＝浪管（Y 段、X 段頂板滾動環、Z 段）；機台已簡化', '灰白＝電箱外殼（可切透明）；深灰＝伺服 / 變頻器 / 電源；綠＝控制板；黑＝浪管；護罩、水箱未顯示')
+page = page.replace('<button data-v="front">前方</button></div>', '<button data-v="front">前方</button><button id="shell">底座箱透明</button></div>')
+page = page.replace('黑色＝浪管（Y 段、X 段頂板滾動環、Z 段）；機台已簡化', '灰白＝立柱 L 板、底座箱、操作盒；深灰＝伺服 / 變頻器 / 電源；黑＝浪管；護罩、水箱未顯示')
 page = page.replace("const m=new THREE.Mesh(g,new THREE.MeshStandardMaterial({color:new THREE.Color(...p.c),metalness:0.1,roughness:0.65}));",
                     "const mt=new THREE.MeshStandardMaterial({color:new THREE.Color(...p.c),metalness:0.1,roughness:0.65});if(p.t)SH.push(mt);const m=new THREE.Mesh(g,mt);")
 page = page.replace('for(const p of DATA){', 'const SH=[];for(const p of DATA){', 1)
