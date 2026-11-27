@@ -1,2 +1,2 @@
-base cabinet: 29 objects, plate height used 255 / 260
+base cabinet: 31 objects, plate height used 236 / 240
 interferences: 0

@@ -2,12 +2,12 @@
 """Base protection cabinet (second cabinet, in the front bay of the base). MACHINE coordinates, front = -y, floor z=-790.
 It holds the protection / mains parts only (RCD, branch breakers, shared contactor, filter slot, mains terminals, e-stop and start buttons on the door);
 all control parts are in the column box (column_box/).
-Cabinet: 400 W x 300 H x 130 D wall box, IP54, door to the front. Back plate bolted to two 40x40 rails at y -560..-520 between two new uprights at x +-230 (y -600..-560).
+Cabinet: 360 W x 280 H x 120 D wall box (S1/S2 moved to a separate operator box), IP54, door to the front. Back plate bolted to two 40x40 rails at y -560..-520 between two new uprights at x +-230 (y -600..-560).
 Part = (des, name, W, H, D, source); placed in rows on the plate seen from the front (u -> +x, v down -> -z)."""
-CAB_W, CAB_H, CAB_D = 400, 300, 130
-CAB_X0, CAB_Y0, CAB_Z0 = -200.0, -690.0, -520.0      # x min, front face y (door), bottom z ; back face y = -560
-PLATE_W, PLATE_H = 360, 260                          # mounting plate 2.5 t
-RAIL, DUCT, MARGIN, GAP = 7.5, 25, 10, 6
+CAB_W, CAB_H, CAB_D = 360, 280, 120
+CAB_X0, CAB_Y0, CAB_Z0 = -180.0, -680.0, -510.0      # x min, front face y (door), bottom z ; back face y = -560
+PLATE_W, PLATE_H = 320, 240                          # mounting plate 2.5 t
+RAIL, DUCT, MARGIN, GAP = 7.5, 20, 8, 6
 PARTS = {
  'RCD': ('RCD', '2P earth-leakage breaker 30 mA (mains)', 70, 91, 68, 'A'),
  'QF2': ('QF2', 'Shihlin BM30-SN 2P (servo branch, shared)', 50, 91, 68, 'A'),

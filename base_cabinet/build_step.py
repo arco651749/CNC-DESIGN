@@ -27,16 +27,16 @@ for sx, nm in ((-230, 'L'), (230, 'R')):
     add('Bracket_top_' + nm, box(xa, xb, -600, -560, -135, -95).fuse(box(xc, xd, -563, -560, -135, -95)), 'NEW frame (angle 3 t: upright inner side to the front face of the front top beam, 2 x M8)')
     add('Bracket_bot_' + nm, box(xa, xb, -600, -560, -620, -585).fuse(box(xc, xd, -600, -560, -620, -617)), 'NEW frame (angle 3 t: upright inner side to the top face of the front low beam, 2 x M8)')
 for k, z in enumerate((-490, -310), 1): add('Rail_%d' % k, box(-210, 210, -560, -520, z - 20, z + 20), 'NEW frame (40x40 rail behind the uprights, centres z -490 / -310)')
+# ---- NEW operator box (S1 e-stop, S2 start) hung on the right upright
+add('Bracket_opbox_side', box(250, 253, -600, -560, -335, -225).fuse(box(250, 422, -603, -600, -335, -225)), 'NEW frame (angle 3 t on the right upright, carries the operator box, 2 x M6)')
+add('OpBox', box(262, 422, -663, -603, -330, -230), 'parts (operator box 160x100x60, IP54, front face -y)')
+add('S1_estop', cyl('y', 20, -690, -663, 300, -280).fuse(cyl('y', 11, -663, -640, 300, -280)), 'parts (e-stop S1 2NC, 22 mm hole, mushroom D40)')
+add('S2_start', cyl('y', 14, -675, -663, 380, -280).fuse(cyl('y', 11, -663, -645, 380, -280)), 'parts (start button S2, 22 mm hole)')
 # ---- cabinet
 x0, y0, z0 = L.CAB_X0, L.CAB_Y0, L.CAB_Z0; yb = y0 + L.CAB_D                  # back face y = -560
-shell = box(x0, x0 + L.CAB_W, y0 + 3, yb, z0, z0 + L.CAB_H).cut(box(x0 + 2, x0 + L.CAB_W - 2, y0 + 3, yb - 2, z0 + 2, z0 + L.CAB_H - 2)).cut(cyl('z', 16, z0 - 1, z0 + 3, -150, -620))
-add('Cabinet_box', shell, 'NEW cabinet (steel wall box 400x300x130, IP54; feeder gland hole D32 in the bottom at x -150, y -620)')
+shell = box(x0, x0 + L.CAB_W, y0 + 3, yb, z0, z0 + L.CAB_H).cut(box(x0 + 2, x0 + L.CAB_W - 2, y0 + 3, yb - 2, z0 + 2, z0 + L.CAB_H - 2)).cut(cyl('z', 16, z0 - 1, z0 + 3, -150, -620)).cut(cyl('x', 8, x0 + L.CAB_W - 3, x0 + L.CAB_W + 1, -625, -400))
+add('Cabinet_box', shell, 'NEW cabinet (steel wall box 360x280x120, IP54; feeder gland hole D32 in the bottom at x -150, y -620; D16 hole in the right wall at y -625, z -400 for the operator-box cable)')
 add('Cabinet_door', box(x0, x0 + L.CAB_W, y0, y0 + 3, z0, z0 + L.CAB_H), 'NEW cabinet (door, hinged on the left, key lock)')
-bx = x0 + 100
-add('S1_estop', cyl('y', 20, y0 - 38, y0, x0 + 90, z0 + 230).fuse(cyl('y', 11, y0, y0 + 40, x0 + 90, z0 + 230)), 'parts (e-stop S1, 22 mm hole in the door, mushroom D40)')
-add('S2_start', cyl('y', 14, y0 - 12, y0, x0 + 150, z0 + 230).fuse(cyl('y', 11, y0, y0 + 30, x0 + 150, z0 + 230)), 'parts (start button S2, 22 mm hole)')
-add('Cabinet_door_holes_note', box(0, 0.01, 0, 0.01, 0, 0.01), 'note')
-OBJ.pop('Cabinet_door_holes_note'); 
 px = yb - 2 - 0                                                              # plate face y (inner back wall)
 pu0 = x0 + (L.CAB_W - L.PLATE_W) / 2; pv0 = z0 + L.CAB_H - (L.CAB_H - L.PLATE_H) / 2          # plate top-left corner (x, z)
 add('Cabinet_plate', box(pu0, pu0 + L.PLATE_W, px - 2.5, px, pv0 - L.PLATE_H, pv0), 'NEW cabinet (mounting plate 360x260x2.5)')
@@ -57,12 +57,12 @@ pn = [n for n in names if OBJ[n][1].startswith('parts') or OBJ[n][1] == 'DIN rai
 others = [n for n in names if n not in pn and not OBJ[n][1].startswith('ref')]
 for a in pn:
     for b in others:
-        if a.startswith('S1') or a.startswith('S2'):
-            if b in ('Cabinet_door',): continue
+        if b == 'OpBox' and a in ('S1_estop', 'S2_start'): continue          # the button bodies go through the box front
         v = vol(a, b)
         if v > 1: bad.append('%s x %s: %.0f mm3' % (a, b, v))
 for i, a in enumerate(pn):
     for b in pn[i + 1:]:
+        if {a, b} & {'S1_estop', 'S2_start'} and {a, b} & {'OpBox'}: continue          # the button bodies go through the box front
         v = vol(a, b)
         if v > 1 and not (a.startswith('DIN') or b.startswith('DIN')): bad.append('%s x %s: %.0f mm3' % (a, b, v))
 frame_new = [n for n in names if OBJ[n][1].startswith('NEW frame')]

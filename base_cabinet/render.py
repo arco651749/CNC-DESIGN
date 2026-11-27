@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 from matplotlib.collections import PolyCollection
 HERE = os.path.dirname(os.path.abspath(__file__))
 M = json.load(open(os.path.join(HERE, 'mesh.json')))
-HIDE = ('Cabinet_door',)
+HIDE = ('Cabinet_door', 'ref_pan_bottom')
 COL = {'enclosure': (0.78, 0.8, 0.83), 'DIN': (0.55, 0.55, 0.6), 'parts (vendor': (0.25, 0.27, 0.3), 'parts (box': (0.9, 0.55, 0.2), 'reserved': (0.8, 0.8, 0.8), 'fasteners': (0.95, 0.8, 0.1)}
 NAMECOL = {'RCD': (0.9, 0.7, 0.2), 'QF': (0.9, 0.7, 0.2), 'KM1': (0.35, 0.6, 1), 'X0': (1, 0.65, 0.35), 'S1': (0.9, 0.15, 0.15), 'S2': (0.2, 0.7, 0.3), 'Upright': (0.6, 0.65, 0.7), 'Rail': (0.6, 0.65, 0.7), 'Base': (0.45, 0.48, 0.52), 'FL2': (0.8, 0.8, 0.8), 'DIN': (0.5, 0.52, 0.56), 'Cabinet': (0.82, 0.85, 0.88), 'PSU': (0.25, 0.7, 0.3), 'VFD': (1, 0.5, 0.45), 'PC': (0.6, 0.4, 0.95), 'KM1': (0.35, 0.6, 1), 'RCD': (0.9, 0.7, 0.2), 'QF': (0.9, 0.7, 0.2), 'Fan': (0.4, 0.4, 0.45), 'BD': (0.1, 0.5, 0.3)}
 def color(m):
