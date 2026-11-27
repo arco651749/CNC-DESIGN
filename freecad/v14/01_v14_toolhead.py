@@ -598,20 +598,25 @@ def paq(label, size, c, d, motion, group=None):
               Part.makeCylinder(t_ / 2 + 5, 6, c - d * (TB + 6), d)).cut(Part.makeCylinder(cd / 2 + 0.5, paq_len(size) + 20, c - d * 10, d))
     add(label, sh, group or GC, 'KSS %s easy-type conduit adaptor (%s, NYLON 66, with locknut) for %s; sheet hole D%.1f (catalog); body size estimated'
         % (pn, pg, size, 2 * paq_hole(size)), motion, '')
-# Y run (owner 2026-11-27, option A): the hanging loop runs between x -395 (fixed) and x -295 (moving), outside the work table (x -220)
-# and the prism cover tubes (to x -269), so it never crosses the table. Moving end: bent bracket on the table rear face (left end, 2 x M5),
-# arm out to x -315, shelf z 205..208 with the adaptor hanging down at (-295, 290). The Y motor cable runs from there along the table rear face to the motor.
-YT = 263.5                                                     # work table rear face (bbox 264 is rounded)
-YM = (-295.0, 290.0, 205.0)                                    # moving adaptor: sheet underside (body hangs down to z 171); locknut top z 217 < saddle z 222
-yb = fuse(box(-215, -185, YT, YT + TB, 75.0, 105.0), box(-265, -215, YT, YT + TB, 75.0, YM[2] + TB),   # web on the table rear face, kept out of the loop (x > -265)
-          box(-315, -215, YT, 312.0, YM[2], YM[2] + TB),                                                # shelf over the adaptor
-          box(-315, -265, YT, YT + TB, 190.0, YM[2]), box(-315, -265, 312.0 - TB, 312.0, 190.0, YM[2]))  # front / rear down-flanges (above the adaptor end)
-yb = yb.cut(Part.makeCylinder(paq_hole('PA-23'), 10, V(YM[0], YM[1], YM[2] - 3)))
-for x_ in (-208, -192): yb = yb.cut(Part.makeCylinder(2.75, 10, V(x_, YT - 2, 90), V(0, 1, 0)))
-add('Conduit_Y_bracket', yb, GC, 'SPHC t3 bent: Y conduit moving end on the work table rear face (left end, 2 x M5), arm out to x -315, shelf z 205..208, '
-    'PAQ-2321 hole D28.6 at (-295, 290), adaptor hanging down', 'y', '')
-bolts_into('Work_table', 'Conduit_Y_bracket', [(-208, 0, 90), (-192, 0, 90)], 'y', YT, -1)
-paq('Conduit_Y_end_fitting', 'PA-23', YM, (0, 0, -1), 'y')
+# Y run (owner 2026-11-27): rolling loop in the plane x 280, in the gap between the work table (x 220) and the right gantry column (x 312).
+# Lower leg lies in a fixed tray on the datum plate (z 17.25), upper leg in a tray on the table's right side face (z 127.25), bend R 55
+# moves half the table travel. A hanging U beside the table cannot work: with 400 travel its loop always meets a gantry column.
+YX, YZL, YZU = 280.0, 17.25, 127.25                            # loop plane, lower / upper leg centre heights (PA-23 OD 28.5)
+yu = fuse(box(220, 223, -20.0, 262.0, 75.0, 113.0),           # web on the table right side face (3 x M5)
+          box(223, 303, -20.0, 225.0, 110.0, 113.0),          # floor under the upper leg (ends before the end adaptor body)
+          box(300, 303, -20.0, 262.0, 113.0, 140.0), box(255, 258, -20.0, 225.0, 113.0, 135.0),   # outer / inner lips
+          box(255, 303, 262.0, 265.0, 110.0, 160.0))          # rear tab carrying the moving end adaptor
+yu = yu.cut(Part.makeCylinder(paq_hole('PA-23'), 10, V(YX, 258.0, YZU), V(0, 1, 0)))
+for y_ in (0.0, 110.0, 220.0): yu = yu.cut(Part.makeCylinder(2.75, 10, V(218.0, y_, 90.0), V(1, 0, 0)))
+add('Conduit_Y_table_tray', yu, GC, 'SPHC t3 bent: Y conduit upper tray on the work table right side face (3 x M5), floor z 110..113 at x 223..303, '
+    'lips, rear tab with PAQ-2321 hole D28.6 at (280, z 127.25); the Y motor cable runs from the tab along the table rear face', 'y', '')
+bolts_into('Work_table', 'Conduit_Y_table_tray', [(0, y_, 90) for y_ in (0.0, 110.0, 220.0)], 'x', 220.0, -1)
+paq('Conduit_Y_end_fitting', 'PA-23', (YX, 262.0, YZU), (0, -1, 0), 'y')
+yl = fuse(box(250, 310, -115.0, 400.0, 0.0, TB), box(250, 253, -115.0, 400.0, TB, 30.0), box(307, 310, -115.0, 400.0, TB, 30.0))   # channel
+for x_, y_ in ((258, -100), (302, 40), (258, 160)): yl = yl.cut(Part.makeCylinder(2.75, 10, V(x_, y_, -3)))
+add('Conduit_Y_base_tray', yl, GC, 'SPHC t3 bent channel 60 x 30: Y conduit lower tray on the datum plate (3 x M5), y -115..400 (cantilever past the '
+    'plate edge y 182)', '', '')
+bolts_into('Datum_base_plate', 'Conduit_Y_base_tray', [(258, -100, 0), (302, 40, 0), (258, 160, 0)], 'z', 0.0, -1)
 # Z run moving end: bracket on the spindle clamp front face (right half, beside the probe slide), arm at z 455 to the end at (110, -80)
 HA = 470.0 - paq_len('PA-29')                                  # arm top z 425.6; the adaptor hangs UNDER the arm (body z 378..422.6), the conduit
 # comes up into its lower end at z 378 (before: body on top of the arm with the conduit passing up through the sheet hole, wrong)
@@ -652,18 +657,17 @@ for y_ in (375.0, 405.0):
         'M5x16 button head: roof adaptor tab through the box top plate and the L-plate flange into the nut under the flange (nut: electrical session)', '', '')
 add('Conduit_X_roof_tab', rt, GC, 'SPHC t3 bent: tab on the box top plate (2 x M5) carrying the X conduit adaptor PAQ-2929 along +x, hole D37.3', '', '')
 paq('Conduit_X_roof_connector', 'PA-29', (50, 390, ZT_), (1, 0, 0), '')
-# Y run fixed end (option A): bent bracket on the X base plate rear face (2 x M5 tapped), shelf z 227..230 behind the plate, adaptor hanging
-# down at (-395, 240); the cables come from the box under the L-plate lower edge (z 241) into the locknut side
-YF_ = (-395.0, 240.0, 227.0)                                   # fixed adaptor: sheet underside (body down to z 193), just left of the X base plate edge
-                                                               # (x -392): 100 from the moving one, so the loop never bends tighter than R 50
-yt = fuse(box(-392, -358, 182.0, 182.0 + TB, YF_[2], 252.0),   # web on the plate rear face, below the column bolt row (z 260..280)
-          box(-420, -358, 182.0, 275.0, YF_[2], YF_[2] + TB), box(-420, -417, 182.0 + TB, 275.0, 210.0, YF_[2]))   # shelf + outer down-flange
-yt = yt.cut(Part.makeCylinder(paq_hole('PA-23'), 10, V(YF_[0], YF_[1], YF_[2] - 3)))
-for x_ in (-382, -366): yt = yt.cut(Part.makeCylinder(2.75, 10, V(x_, 180, 241), V(0, 1, 0)))
-add('Conduit_Y_top_bracket', yt, GC, 'SPHC t3 bent: Y conduit fixed end on the X base plate rear face (2 x M5), shelf z 227..230, PAQ-2321 hole D28.6 '
-    'at (-395, 240) beyond the plate edge, adaptor hanging down', '', '')
-bolts_into('X_base_plate', 'Conduit_Y_top_bracket', [(-382, 0, 241), (-366, 0, 241)], 'y', 182.0, -1)
-paq('Conduit_Y_top_fitting', 'PA-23', YF_, (0, 0, -1), '')
+# Y run fixed end: bracket on the column box L-plate front face (2 x M5 + nut, holes by the electrical session at x 265 / 295, z 265), shelf
+# z 233..236 under the plate edge back to y 460, adaptor hanging down at (280, 446); the conduit drops to the lower tray (bend R 55)
+yt = fuse(box(255, 305, 255.0 - TB, 255.0, 233.0, 281.0), box(255, 305, 255.0 - TB, 460.0, 233.0, 236.0))
+yt = yt.cut(Part.makeCylinder(paq_hole('PA-23'), 10, V(YX, 446.0, 228.0)))
+for x_ in (265, 295): yt = yt.cut(Part.makeCylinder(2.75, 10, V(x_, 250, 265), V(0, 1, 0)))
+add('Conduit_Y_top_bracket', yt, GC, 'SPHC t3 bent: Y conduit fixed end on the column box L-plate front face (2 x M5 + nut through the L plate, '
+    'holes x 265 / 295, z 265), shelf z 233..236 to y 460, PAQ-2321 hole D28.6 at (280, 446)', '', '')
+for k, x_ in enumerate((265, 295), 1):
+    add('Conduit_Y_top_bracket_bolt_%d' % k, fuse(Part.makeCylinder(2.5, 16, V(x_, 247.0, 265), V(0, 1, 0)), Part.makeCylinder(4.25, 5, V(x_, 247.0, 265), V(0, 1, 0)),
+        Part.makeCylinder(4.6, 4, V(x_, 259.0, 265), V(0, 1, 0))), GC, 'M5x16 SHCS + nut: Y conduit top bracket through the L plate', '', '')
+paq('Conduit_Y_top_fitting', 'PA-23', (YX, 446.0, 233.0), (0, 0, -1), '')
 # feeder conduits (to the base cabinet), owner 2026-11-27: out of the box's LEFT side (was the rear) so they drop straight down outside the
 # left guard (one bend less, no pass through the rear guard). Entry plate hung outside the box top plate's left side flange (x -392.5),
 # web x -395.5..-392.5, y 290..447, flanges 20 outward; KSS adaptors pointing -x at z 270: power (y 330), control (y 410)

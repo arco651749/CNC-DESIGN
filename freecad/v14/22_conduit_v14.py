@@ -26,8 +26,10 @@ OLD_PANEL = ('Electrical_panel', 'Servo_amp', 'Servo_bolt', 'Controller', 'Board
 # name: (label, outer D, length, (frame, point, direction) start, (frame, point, direction) end, min bend radius allowed)
 CONDUITS = {
     # hanging runs: fixed length between two clamped ends, settles under gravity (Y: panel -> Y motor, Z: X carriage -> tool head)
-    'Conduit_Y': ('Y 軸浪管：X 底板背面固定支架 → 工作台後左支架（KSS PA-23，模型外徑 28.5），x -395 → -295 下垂 U 型，整段在工作台外側', 28.5, 410.0,
-                  ('s', (-395, 240, 227.0 - 1.2 * 28.3), (0, 0, -1)), ('y', (-295, 290, 205.0 - 1.2 * 28.3), (0, 0, 1)), 50.0),
+    # rolling loop in the vertical plane x 280 (table right side): fixed drop from the L-plate bracket, lower leg in the base tray, bend R 55,
+    # upper leg in the table tray to the end adaptor (01); the shape is computed by roll_y
+    'Conduit_Y': ('Y 軸浪管：立柱電箱 L 板支架直下 → 底座托盤 → R55 滾動彎 → 工作台右側托盤（KSS PA-23，模型外徑 28.5），x 280 平面', 28.5, None,
+                  ('s', (280, 446, 233.0 - 1.2 * 28.3), (0, 0, -1)), ('y', (280, 262.0 - 1.2 * 28.3, 127.25), (0, 1, 0)), 50.0),
     'Conduit_ZB': ('Z 段浪管：X 滑座 → 工具頭（KSS PA-29，模型外徑 34.5），下垂 U 型', 34.5, 530.0,
                    ('x', (110, 40, 640), (0, 0, -1)), ('z', (110, -80, 470.0 - 2 * 1.2 * 37.0 - 3.0), (0, 0, 1)), 60.0),   # end under the head bracket arm
     # rolling loop on the box top plate (X: fixed leg y 390, moving leg y 230 on an arm from the carriage, bend R 80)
@@ -103,7 +105,20 @@ def hang(c, P, n=60):
         t = math.pi * k / 30; q.append(tuple(C + np.array([-math.cos(t) * hu[0] * r, -math.cos(t) * hu[1] * r, -math.sin(t) * r])))
     q += [tuple(B - [0, 0, b * (15 - k) / 15]) for k in range(16)]
     return q, flag
+YROLL = {'x': 280.0, 'zl': 17.25, 'zu': 127.25, 'R': 55.0, 'yl': 391.0, 'K': 240.0}   # lower leg starts at yl (after the drop bend); K sets the loop
+def roll_y(c, P):
+    """Y rolling loop: drop from the fixed adaptor, quarter bend into the lower leg (heading -y), half-circle bend, upper leg back (+y) to the
+    moving end; the bend sits at yb = (yl + ym) / 2 - K, i.e. it moves half the table travel"""
+    g = YROLL; x, R = g['x'], g['R']; A = c[3][1]; ym = c[4][1][1] + P[1]
+    yb = (g['yl'] + ym) / 2 - g['K']; zc = g['zl'] + R
+    q = [(x, A[1], A[2] - (A[2] - zc) * k / 8) for k in range(9)]
+    q += [(x, g['yl'] + R * math.cos(t), zc - R * math.sin(t)) for t in [math.pi / 2 * k / 10 for k in range(1, 11)]]
+    q += [(x, g['yl'] - (g['yl'] - yb) * k / 12, g['zl']) for k in range(1, 13)]
+    q += [(x, yb - R * math.sin(t), zc - R * math.cos(t)) for t in [math.pi * k / 20 for k in range(1, 21)]]
+    q += [(x, yb + (ym - yb) * k / 10, g['zu']) for k in range(1, 11)]
+    return q, ('TOO SHORT' if ym - yb < 10 else '')
 def curve(c, P, name=None):
+    if name == 'Conduit_Y': return roll_y(c, P)
     return roll(name, c, P) if name in ROLL else hang(c, P)
 def min_radius(q):
     r = 1e9
