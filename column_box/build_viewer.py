@@ -33,7 +33,24 @@ for o in M:
     s = share(o['n']); resv = o['g'].startswith('reserved')
     out.append({'n': o['n'], 's': s, 'l': LABELS.get(o['n'], ''), 'c': colour(o['n']), 't': 1 if (resv or s in ('roof',)) else 0,
                 'p': base64.b64encode(struct.pack('<%dh' % len(c), *c)).decode(), 'i': base64.b64encode(struct.pack(('<%dH' if w else '<%dI') % len(idx), *idx)).decode(), 'w': w})
-info = '立柱電控板（控制類）：一片折成 L 型的板（SPHC t4，沒有蓋子）。所有電料都鎖在垂直板的後面往後伸，接頭朝後方（+y），從機台後面就能維修；水平板上只有吊鎖孔與 X 浪管孔，沒有電料。垂直板上由左到右：左欄 BD 控制板（上）與 IOTA 電腦（下）；中間一排 X1 端子、SVL 吹氣閥、PSU1 24V、PSU2 12V；上方一排 DC1、KA2、KA3、XT；右邊 VFD 變頻器與三台伺服 SVX/SVY/SVZ。保護類（斷路器、接觸器）在底座電箱。"標示"可關閉名稱，勾選方塊可隱藏零件（黃色小圓柱是吊掛用的 M5 拉帽，預設隱藏；綠色是線槽）。'
-page = open(os.path.join(HERE, 'viewer_page.html'), encoding='utf-8').read().replace('<!--THREE-->', three, 1).replace('/*DATA*/', 'const DATA=' + json.dumps(out, separators=(',', ':')) + ';', 1).replace('/*INFO*/', info, 1)
+info = '立柱電控板（控制類）：一片折成 L 型的板（SPHC t4，沒有蓋子）。所有電料都鎖在垂直板的後面往後伸，接頭朝後方（+y），從機台後面就能維修；水平板上只有吊鎖孔與 X 浪管孔，沒有電料。垂直板上由左到右：左欄 BD 控制板（上）與 IOTA 電腦（下）；中間一排 X1 端子、SVL 吹氣閥、PSU1 24V、PSU2 12V；上方一排 DC1、KA2、KA3、XT；右邊 VFD 變頻器與三台伺服 SVX/SVY/SVZ。保護類（斷路器、接觸器）在底座電箱。接線關係用彩色線（示意，從起點零件後面中心連到終點，不是真實走線）：棕 AC、紅 24V、橘 12V、洋紅 5V、紫 訊號、藍 網路，上方可個別開關。"標示"可關閉名稱，勾選方塊可隱藏零件（黃色小圓柱是吊掛用的 M5 拉帽，預設隱藏；綠色是線槽）。'
+import layout as L
+PB = {q[1]: q for q in L.PARTS}
+def anc(n):
+    q = PB[n]; return [round(q[3] + q[6] / 2, 1), round(q[4] + q[7], 1), round(q[5] + q[8] / 2, 1)]     # centre of the rear face
+CONN = [  # (type, from, to, duct / note)
+    ('AC', 'X1', 'PSU1', 'D4'), ('AC', 'X1', 'PSU2', 'D4'), ('AC', 'X1', 'VFD', 'D4 + V2'),
+    ('AC', 'X1', 'SVX', '伺服主電 L1/L3 + 控制電 L11/L21：D4 + V2，再用束線帶走伺服下方'), ('AC', 'X1', 'SVY', '同上'), ('AC', 'X1', 'SVZ', '同上'),
+    ('24V', 'PSU1', 'DC1', 'H1'), ('24V', 'PSU1', 'KA2', 'H1'), ('24V', 'PSU1', 'KA3', 'H1'), ('24V', 'PSU1', 'XT', 'H1'), ('24V', 'PSU1', 'BD', 'H1'),
+    ('12V', 'PSU2', 'PC', 'D4，經 V2/H1/V1 繞過 Y 線道'),
+    ('5V', 'DC1', 'XT', 'H1'),
+    ('訊號', 'BD', 'SVX', 'CN1 脈衝/方向/報警：束線帶（無線槽）'), ('訊號', 'BD', 'SVY', '同上'), ('訊號', 'BD', 'SVZ', '同上'),
+    ('訊號', 'BD', 'VFD', 'K1 啟停 + 0-10V：束線帶'), ('訊號', 'BD', 'KA2', 'K2 泵：H1'), ('訊號', 'BD', 'AIRV', 'K5 吹氣閥：H1'), ('訊號', 'SVZ', 'KA3', 'Z 煞車 MBR'),
+    ('網路', 'PC', 'BD', '乙太網路：V1 + H1'),
+]
+COLN = {'AC': '#8b5a2b', '24V': '#e53935', '12V': '#fb8c00', '5V': '#d81b60', '訊號': '#7e57c2', '網路': '#1e88e5'}
+lines = [{'t': t, 'c': COLN[t], 'a': anc(a), 'b': anc(b), 'n': '%s → %s（%s）' % (a, b, d)} for t, a, b, d in CONN]
+open(os.path.join(HERE, 'connections.csv'), 'w', encoding='utf-8-sig').write('類型,起點,終點,走線 / 線槽\n' + '\n'.join('%s,%s,%s,"%s"' % c for c in CONN) + '\n')
+page = open(os.path.join(HERE, 'viewer_page.html'), encoding='utf-8').read().replace('<!--THREE-->', three, 1).replace('/*DATA*/', 'const DATA=' + json.dumps(out, separators=(',', ':')) + ';', 1).replace('/*INFO*/', info, 1).replace('/*LINES*/', 'const LINES=' + json.dumps(lines, ensure_ascii=False) + ';', 1)
 open(os.path.join(HERE, 'column_box_3d.html'), 'w', encoding='utf-8').write(page)
 print('parts', len(out), 'size MB %.1f' % (len(page) / 1e6))

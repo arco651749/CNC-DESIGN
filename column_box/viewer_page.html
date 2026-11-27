@@ -16,6 +16,7 @@ label{font-size:13px;margin-right:6px;white-space:nowrap}
 <!--THREE-->
 <script>
 /*DATA*/
+/*LINES*/
 const cv=document.getElementById('c');const R=new THREE.WebGLRenderer({canvas:cv,antialias:true,preserveDrawingBuffer:true});R.setPixelRatio(Math.min(devicePixelRatio,2));
 const scene=new THREE.Scene();scene.background=new THREE.Color(0xeef1f4);
 const cam=new THREE.PerspectiveCamera(30,1,5,8000);cam.up.set(0,0,1);const ctl=new THREE.OrbitControls(cam,cv);ctl.enableDamping=true;
@@ -30,16 +31,22 @@ const T=new THREE.Vector3(0,375,370);
 const VIEWS={below:[420,1250,150],front:[0,-1500,380],iso:[900,-700,900],back:[0,1900,380]};
 function view(k){cam.position.set(...VIEWS[k]);ctl.target.copy(T);ctl.update()}
 document.querySelectorAll('[data-v]').forEach(b=>b.onclick=()=>view(b.dataset.v));
-const SH=[['wall','垂直板'],['roof','水平板'],['rails','DIN 軌'],['duct','線槽'],['nuts','拉帽']];
+const WT=['AC','24V','12V','5V','訊號','網路'];const SH=[['wall','垂直板'],['roof','水平板'],['rails','DIN 軌'],['duct','線槽'],['nuts','拉帽']];
 const tg=document.getElementById('tg');
 for(const [k,l] of SH){const lb=document.createElement('label');const cb=document.createElement('input');cb.type='checkbox';cb.checked=(k!=='nuts');
  cb.onchange=()=>{for(const m of MESH)if(m.userData.s===k)m.visible=cb.checked};cb.onchange();lb.append(cb,' '+l);tg.append(lb)}
 const ray=new THREE.Raycaster(),mv=new THREE.Vector2(),tip=document.getElementById('tip');
 cv.addEventListener('pointermove',e=>{const r=cv.getBoundingClientRect();mv.set((e.clientX-r.left)/r.width*2-1,-(e.clientY-r.top)/r.height*2+1);ray.setFromCamera(mv,cam);
- const h=ray.intersectObjects(MESH.filter(m=>m.visible),false);if(h.length){tip.style.display='block';tip.textContent=h[0].object.userData.n}else tip.style.display='none'});
+ const h=ray.intersectObjects(MESH.filter(m=>m.visible).concat(LG.children.filter(m=>m.visible)),false);if(h.length){tip.style.display='block';tip.textContent=h[0].object.userData.n}else tip.style.display='none'});
 window.view=view;window.renderOnce=()=>{ctl.update();R.render(scene,cam)};
 function rs(){const w=innerWidth,h=innerHeight;R.setSize(w,h,false);cam.aspect=w/h;cam.updateProjectionMatrix()}
 addEventListener('resize',rs);rs();view('back');
+const LG=new THREE.Group();scene.add(LG);const LT={};
+function seg(a,b,col,t,n){const A=new THREE.Vector3(...a),B=new THREE.Vector3(...b),d=B.clone().sub(A),len=d.length();const m=new THREE.Mesh(new THREE.CylinderGeometry(1.6,1.6,len,6),new THREE.MeshBasicMaterial({color:new THREE.Color(col),depthTest:false,transparent:true,opacity:0.9}));m.position.copy(A.clone().add(B).multiplyScalar(0.5));m.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),d.normalize());m.renderOrder=10;m.userData={n:n,s:'line'+t};LG.add(m);(LT[t]=LT[t]||[]).push(m)}
+for(const l of LINES)seg(l.a,l.b,l.c,l.t,l.n);
+const lg=document.createElement('span');lg.style.cssText='margin-left:10px;border-left:1px solid #9aa6b3;padding-left:10px';
+for(const t of WT){const c=LINES.find(x=>x.t===t).c;const lb=document.createElement('label');const cb=document.createElement('input');cb.type='checkbox';cb.checked=true;cb.onchange=()=>{for(const m of LT[t])m.visible=cb.checked};const sw=document.createElement('span');sw.textContent=' ━ ';sw.style.color=c;sw.style.fontWeight='bold';lb.append(cb,sw,t);lg.append(lb)}
+document.getElementById('tg').append(lg);
 const v3=new THREE.Vector3();
 function placeLabels(){const w=cv.clientWidth,h=cv.clientHeight;for(const o of LB){if(!showLB||!o.m.visible){o.d.style.display='none';continue}v3.copy(o.c).project(cam);if(v3.z>1){o.d.style.display='none';continue}o.d.style.display='block';o.d.style.transform='translate('+((v3.x*0.5+0.5)*w)+'px,'+((-v3.y*0.5+0.5)*h)+'px) translate(-50%,-50%)'}}
 document.getElementById('lbtn').onclick=e=>{showLB=!showLB;e.target.textContent=showLB?'標示：開':'標示：關'};
