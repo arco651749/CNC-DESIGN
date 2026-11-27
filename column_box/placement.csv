@@ -1,15 +1,15 @@
 ﻿位號,零件,x min,x max,y min,y max,z min,z max,尺寸 dx×dy×dz,安裝面,方向,尺寸來源
-X1,power / PE terminals (feeders from the base cabinet),-205,-55,442,488,325,370,150x45x45,back wall,"DIN rail on the wall, horizontal",A
-AIRV,SVL = SMC SY3120-5LZE-M5 air valve (tubes leave by the two bellows),-40,-20,422,488,317,377,20x65x60,back wall,"DIN rail on the wall, upright",A catalog (confirm)
-PSU1,Mean Well SDR-120-24 (24 V 5 A),-5,58,374,488,285,410,63x114x125,back wall,"DIN rail, upright",A catalog 63x125x114 (confirm)
-PSU2,"Mean Well XDR-75E-12 (12 V 6.3 A, for the PC)",78,108,372,488,285,410,30x116x125,back wall,"DIN rail, upright",S owner datasheet 30x125.2x116
-VFD,Delta MS300 (frame A),128,200,359,495,284,458,72x136x174,back wall,upright (check manual),A catalog 72x174x136
-SVX,Mitsubishi MR-J4-40A,225,265,319,495,284,452,40x176x168,back wall,"upright, connectors to the front",M vendor STEP 40x168x175.9
-SVY,Mitsubishi MR-J4-40A,275,315,319,495,284,452,40x176x168,back wall,"upright, connectors to the front",M vendor STEP 40x168x175.9
-SVZ,Mitsubishi MR-J4-40A,325,365,319,495,284,452,40x176x168,back wall,"upright, connectors to the front",M vendor STEP 40x168x175.9
-DC1,DC-DC 24 V -> 5 V,-360,-335,272,328,454,480,25x55x25,roof underside,"DIN rail, hanging",A
-KA2,Omron MY2N-GS + PYFZ-08 (pump),-320,-292,269,331,418,480,28x62x62,roof underside,"DIN rail, hanging",A
-KA3,Omron MY2N-GS + PYFZ-08 (Z brake),-277,-249,269,331,418,480,28x62x62,roof underside,"DIN rail, hanging",A
-XT,DIN terminal strip (+24 V / 0 V / +5 V distribution),-234,-134,278,322,434,480,100x45x45,roof underside,"DIN rail, hanging",A
+X1,power / PE terminals (feeders from the base cabinet),-205,-55,266,312,325,370,150x45x45,vertical plate (rear face),"DIN rail on the wall, horizontal",A
+AIRV,SVL = SMC SY3120-5LZE-M5 air valve (tubes leave by the two bellows),-40,-20,266,332,317,377,20x65x60,vertical plate (rear face),"DIN rail on the wall, upright",A catalog (confirm)
+PSU1,Mean Well SDR-120-24 (24 V 5 A),-5,58,266,380,285,410,63x114x125,vertical plate (rear face),"DIN rail, upright",A catalog 63x125x114 (confirm)
+PSU2,"Mean Well XDR-75E-12 (12 V 6.3 A, for the PC)",78,108,266,382,285,410,30x116x125,vertical plate (rear face),"DIN rail, upright",S owner datasheet 30x125.2x116
+VFD,Delta MS300 (frame A),128,200,259,395,284,458,72x136x174,vertical plate (rear face),upright (check manual),A catalog 72x174x136
+SVX,Mitsubishi MR-J4-40A,225,265,259,435,284,452,40x176x168,vertical plate (rear face),"upright, connectors face the rear (+y)",M vendor STEP 40x168x175.9
+SVY,Mitsubishi MR-J4-40A,275,315,259,435,284,452,40x176x168,vertical plate (rear face),"upright, connectors face the rear (+y)",M vendor STEP 40x168x175.9
+SVZ,Mitsubishi MR-J4-40A,325,365,259,435,284,452,40x176x168,vertical plate (rear face),"upright, connectors face the rear (+y)",M vendor STEP 40x168x175.9
+DC1,DC-DC 24 V -> 5 V,-360,-335,282,338,454,480,25x55x25,roof underside,"DIN rail, hanging",A
+KA2,Omron MY2N-GS + PYFZ-08 (pump),-320,-292,279,341,418,480,28x62x62,roof underside,"DIN rail, hanging",A
+KA3,Omron MY2N-GS + PYFZ-08 (Z brake),-277,-249,279,341,418,480,28x62x62,roof underside,"DIN rail, hanging",A
+XT,DIN terminal strip (+24 V / 0 V / +5 V distribution),-234,-134,288,332,434,480,100x45x45,roof underside,"DIN rail, hanging",A
 BD,RP23CNC V2.02 on 4 M3 standoffs,-360,-264,385,482,452,487,96x97x35,roof underside,"standoffs on the roof, components down",M vendor STEP 96x97
 PC,LattePanda IOTA (12 V 60 W) with heatsink,-240,-169,385,475,447,487,71x90x40,roof underside,"hanging on standoffs, ports toward the front",M vendor STEP board 71x90x19 + heatsink ~40 deep

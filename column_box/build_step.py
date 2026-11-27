@@ -20,24 +20,17 @@ def add(name, shape, grp):
     o = doc.addObject('Part::Feature', name); o.Shape = shape; OBJ[name] = (o, grp); return o
 X0, X1, Y0, Y1, Z0, Z1 = L.ENV
 # ------------------------------------------------ enclosure
-NUTS = [(x, 259) for x in (-350, -250, -150, -50, 50, 150, 250, 350)] + [(x, 490) for x in (-350, -250, -150, -50, 50, 100, 250, 350)] + [(sx, y) for sx in (-376, 376) for y in (365, 435)]
-rp = box(-380, 380, 255, 495, 487, 491).cut(cyl('z', 22.5, 486, 492, 50, 390))
-for (nx, ny) in NUTS: rp = rp.cut(cyl('z', 4, 486, 492, nx, ny))
-add('Box_roof_plate', rp, 'enclosure (mounting plate t4 z487..491; the mechanical top plate t3 z491..494 sits on it and is not modelled here; 20 M5 holes with pull nuts)')
-for k, (nx, ny) in enumerate(NUTS, 1): add('PullNut_M5_%02d' % k, cyl('z', 3.75, 478, 487, nx, ny).cut(cyl('z', 2.1, 478, 487, nx, ny)), 'parts (M5 pull nut, 9 mm below the plate)')
-wall = box(-383, 383, 495, 500, 241, 491).cut(box(125, 215, 494, 501, 459, 484)).cut(cyl('y', 55, 494, 501, -280, 400)).cut(cyl('y', 25, 494, 501, -340, 270)).cut(cyl('y', 14, 494, 501, -260, 270))
-add('Box_back_wall', wall, 'enclosure (back wall, plate t5: the drives and the VFD screw into it)')
-add('Box_side_L', box(-383, -380, 252, 500, 241, 491), 'enclosure (sheet metal t3)')
-add('Box_side_R', box(380, 383, 252, 500, 241, 491), 'enclosure (sheet metal t3)')
-add('Box_front_cover', box(-380, 380, 252, 255, 244, 487), 'enclosure (FIXED front cover t3, pop rivets / from inside; service is from the bottom cover only)')
-bot = box(-380, 380, 255, 495, 241, 244)
-for (hx, hy, r) in ((-120, 330, 22.5), (350, 262, 20)): bot = bot.cut(cyl('z', r, 240, 245, hx, hy))
-add('Box_bottom_cover', bot, 'enclosure (removable bottom cover t3: the only service access; 3 sealed cable entries)')
-g = box(-380, 380, 255, 495, 244, 247).cut(box(-372, 372, 263, 487, 243, 248))
-add('Box_bottom_gasket', g, 'enclosure (IP54 gasket strip 8 x 3 on the bottom cover)')
-add('Box_PE_stud', cyl('y', 3, 500, 516, -372, 455).fuse(cyl('y', 6, 500, 503, -372, 455)), 'enclosure (M6 PE stud welded on the back wall, bonds to the top plate pad near (-360, 480))')
+NUTS = [(x, 272) for x in (-350, -250, -150, -50, 50, 150, 250, 350)] + [(x, 490) for x in (-350, -250, -150, -50, 50, 100, 250, 350)] + [(sx, y) for sx in (-376, 376) for y in (365, 435)]
+# ONE bent L plate (owner: no covers): flange z 487..491 over y 255..495, vertical plate y 255..259 hanging down at the front (z 241..491), t4, R4 inside bend
+fl = box(-380, 380, 255, 495, 487, 491).cut(cyl('z', 22.5, 486, 492, 50, 390))
+for (nx, ny) in NUTS: fl = fl.cut(cyl('z', 4, 486, 492, nx, ny))
+add('L_plate_flange', fl, 'L plate (SPHC t4, bent): horizontal flange under the mechanical top plate; 20 M5 holes with pull nuts, X bellows hole D45')
+add('L_plate_vertical', box(-380, 380, 255, 259, 241, 487), 'L plate (SPHC t4, bent): vertical plate at the front, hangs down behind the X base plate; the drives, VFD and DIN rail screw to its REAR face')
+for sx, nm in ((-370, 'L'), (370, 'R')):
+    add('L_plate_gusset_' + nm, box(sx - 5, sx + 5, 259, 299, 447, 487).cut(box(sx - 6, sx + 6, 279, 300, 446, 467)), 'L plate (gusset t10 at each end, stiffens the bend)')
+for k, (nx, ny) in enumerate(NUTS, 1): add('PullNut_M5_%02d' % k, cyl('z', 3.75, 478, 487, nx, ny).cut(cyl('z', 2.1, 478, 487, nx, ny)), 'parts (M5 pull nut, 9 mm below the flange)')
 # ------------------------------------------------ DIN rails (35 x 7.5)
-for nm, (x0, x1, y0, y1, z0, z1) in {'Rail_roof_A': (-365, -125, 282.5, 317.5, 479.5, 487), 'Rail_wall': (-210, 112, 487.5, 495, 330, 365)}.items():
+for nm, (x0, x1, y0, y1, z0, z1) in {'Rail_roof_A': (-365, -125, 292.5, 327.5, 479.5, 487), 'Rail_wall': (-210, 112, 259, 266.5, 330, 365)}.items():
     add(nm, box(x0, x1, y0, y1, z0, z1), 'DIN rails')
 # ------------------------------------------------ parts
 def bbox(p): return (p[3], p[3] + p[6], p[4], p[4] + p[7], p[5], p[5] + p[8])
@@ -47,9 +40,9 @@ for p in L.PARTS:
 sv = Part.read(SERVO_STEP)                       # local: x +-20, y +-84, z 0..175.9 (back face z=0, front +z)
 for p in L.PARTS:
     if p[1].startswith('SV'):
-        b = bbox(p); s = sv.copy(); s.Placement = Placement(V((b[0] + b[1]) / 2, L.WALL_Y, (b[4] + b[5]) / 2), Rotation(V(1, 0, 0), 90))
+        b = bbox(p); s = sv.copy(); s.Placement = Placement(V((b[0] + b[1]) / 2, L.WALL_Y, (b[4] + b[5]) / 2), Rotation(V(0, 0, 1), 180).multiply(Rotation(V(1, 0, 0), 90)))
         add(p[1], s, 'parts (vendor STEP)')
-        for dz in (-78, 78): add(p[1] + '_bolt_%d' % (1 if dz < 0 else 2), cyl('y', 4, 495 - 10, 495 - 6, (b[0] + b[1]) / 2 - 14, (b[4] + b[5]) / 2 + dz), 'fasteners')
+        for dz in (-78, 78): add(p[1] + '_bolt_%d' % (1 if dz < 0 else 2), cyl('y', 4, L.WALL_Y + 6, L.WALL_Y + 10, (b[0] + b[1]) / 2 + 14, (b[4] + b[5]) / 2 + dz), 'fasteners')
 bd = next(p for p in L.PARTS if p[1] == 'BD'); b = bbox(bd)
 bs = Part.read(BOARD_STEP)                        # PCB x 81..177, y -144..-48, z 0..1.6, components +z
 r = bs.copy(); r.Placement = Placement(V(b[0] - 81, b[2] + 48 + 0 + (-0), 478), Rotation(V(1, 0, 0), 180))
@@ -70,7 +63,7 @@ for k, (hx, hy) in enumerate(IOTA_HOLES, 1):
     x, y = hx + TX, -hy + TY
     add('IOTA_standoff_%d' % k, cyl('z', 2.75, 477, 487, x, y).cut(cyl('z', 1.25, 477, 487, x, y)), 'parts (M3 hex standoff F-F 10)')
     add('IOTA_screw_%d' % k, cyl('z', 1.5, 476, 480, x, y).fuse(cyl('z', 2.75, 473.5, 476, x, y)), 'parts (M3x6 pan head screw from the component side)')
-    rp = OBJ['Box_roof_plate'][0].Shape.cut(cyl('z', 2.5, 486, 492, x, y)); OBJ['Box_roof_plate'][0].Shape = rp
+    rp = OBJ['L_plate_flange'][0].Shape.cut(cyl('z', 2.5, 486, 492, x, y)); OBJ['L_plate_flange'][0].Shape = rp
     add('IOTA_rivetnut_%d' % k, cyl('z', 2.25, 482, 487, x, y).cut(cyl('z', 1.25, 482, 487, x, y)), 'parts (M3 rivet nut in the roof plate t4)')
 # IOTA active cooler FIT1027 (vendor STEP 87 x 69 x 11): rotated 90 deg about z so that 69 runs along the board width, centred on the board,
 # base on the CPU (board z 4.6 .. 15.6). The exact position over the CPU is not in the vendor data; check against the real board.
@@ -78,9 +71,6 @@ cool = Part.read(os.path.join(ROOT, 'vendor', 'lattepanda', 'fit1027.stp'))
 cool.Placement = Placement(V(TX, TY, TZ), Rotation(V(1, 0, 0), 180)).multiply(Placement(V(50.7, -269.1, 16.3), Rotation(V(0, 0, 1), 90)))
 add('IOTA_cooler', cool, 'parts (LattePanda FIT1027 active cooler, vendor STEP; position over the CPU assumed)')
 # fan (intake, at the bottom cover) and the filter plates
-add('Fan_120', box(-340, -220, 470, 495, 340, 460), 'parts (box models, catalog size)')
-add('Intake_filter', box(-340, -220, 500, 506, 340, 460), 'parts (box models, catalog size)')
-add('Louvre_filter', box(125, 215, 489, 495, 459, 484), 'parts (box models, catalog size)')
 doc.recompute()
 # ------------------------------------------------ checks
 names = list(OBJ); bad = []
@@ -88,7 +78,7 @@ def vol(a, b):
     A, B = OBJ[a][0].Shape, OBJ[b][0].Shape
     if not A.BoundBox.intersect(B.BoundBox): return 0
     return A.common(B).Volume
-encl = [n for n in names if n.startswith('Box_')]
+encl = [n for n in names if n.startswith('L_plate')]
 partn = [n for n in names if (OBJ[n][1].startswith('parts') or OBJ[n][1] == 'DIN rails')]
 for a in partn:
     for e in encl:

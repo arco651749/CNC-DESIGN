@@ -1,8 +1,5 @@
 ﻿面,x,y,z,用途
-back wall,-340,495,270,"power feeders F1/F2/F3 + PE: conduit fitting NW36 (OD 42.5), indicative hole D50 at x -340, z 270 (mechanical session; fitting model after the KSS catalogue)"
-back wall,-260,495,270,"control cable F4: conduit fitting NW17 (OD 21.2), indicative hole D28 at x -260, z 270; 50 mm below the fan (x -340..-220, z 340..460)"
-bottom cover,-120,330,241,"Y bellows NW23 fixed fitting (mechanical session): Y motor, encoder, brake, 2 prism-cover air tubes, cover switch; hole D45"
-bottom cover,350,262,244,X motor + home sensors (right side)
-roof,50,390,494,"X bellows NW29 elbow fitting (mechanical session): spindle 4-core, camera, probe, 3 air tubes, Z motor; hole D45; keep a 45 mm column free below it"
-back wall,-280,495,400,"fan intake 120 mm + filter, opening D110 centred x -280, z 400 (fan x -340..-220, z 340..460; the top plate rear flange covers z 471..491, so the fan stays below it); far from the work zone, 345 mm from the exhaust"
-back wall,170,495,471,"exhaust louvre + filter 90x25 at x 125..215, z 459..484 above the VFD (not on the roof: the X bellows ring is there; PC and PSUs keep clear)"
+roof flange,50,390,491,X bellows NW29 elbow fitting (mechanical session): hole D45 in the L plate flange; keep a 45 mm column free below it
+open,-120,330,241,Y bellows NW23: its fixed fitting was on the bottom cover; there is no cover any more -> a conduit support bracket (mechanical session decides where)
+open,-340,259,270,"power feeders F1/F2/F3 + PE: conduit NW36, ends on a support bracket near the lower left of the L plate (mechanical session)"
+open,-260,259,270,"control cable F4: conduit NW17, ends on a support bracket next to the power conduit (mechanical session)"

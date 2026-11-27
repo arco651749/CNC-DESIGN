@@ -10,7 +10,7 @@ label{font-size:13px;margin-right:6px;white-space:nowrap}
 #tip{position:absolute;right:12px;top:10px;background:#1d2630;color:#fff;border-radius:6px;padding:4px 8px;font-size:12px;display:none}</style></head>
 <body><canvas id="c"></canvas>
 <div id="ui"><b>立柱電箱 3D</b>
-<button data-v="below">從前下方看</button><button data-v="front">正視（看後牆）</button><button data-v="iso">等角</button><button data-v="back">後視</button>
+<button data-v="back">從後面看（維修面）</button><button data-v="below">後下方</button><button data-v="iso">等角</button><button data-v="front">從前面看</button>
 <button id="lbtn">標示：開</button><span id="tg"></span></div>
 <div id="lbs"></div><div id="tip"></div><div id="info">/*INFO*/</div>
 <!--THREE-->
@@ -27,19 +27,19 @@ for(const p of DATA){const q=b64(p.p,Int16Array),pos=new Float32Array(q.length);
  const m=new THREE.Mesh(g,new THREE.MeshStandardMaterial({color:new THREE.Color(...p.c),metalness:0.15,roughness:0.6,side:THREE.DoubleSide,transparent:!!p.t,opacity:p.t?0.25:1,depthWrite:!p.t}));
  m.userData={n:p.n,s:p.s};scene.add(m);MESH.push(m);if(p.l){g.computeBoundingBox();const c=new THREE.Vector3();g.boundingBox.getCenter(c);const d=document.createElement('div');d.className='lb';d.textContent=p.l;document.getElementById('lbs').appendChild(d);LB.push({m,c,d})}}
 const T=new THREE.Vector3(0,375,370);
-const VIEWS={below:[560,-330,70],front:[0,-1500,380],iso:[900,-700,900],back:[-300,1700,500]};
+const VIEWS={below:[420,1250,150],front:[0,-1500,380],iso:[900,-700,900],back:[-250,1750,420]};
 function view(k){cam.position.set(...VIEWS[k]);ctl.target.copy(T);ctl.update()}
 document.querySelectorAll('[data-v]').forEach(b=>b.onclick=()=>view(b.dataset.v));
-const SH=[['front','前蓋'],['bottom','底蓋'],['sideR','右側板'],['sideL','左側板'],['wall','後牆'],['roof','屋頂安裝板'],['rails','DIN 軌'],['nuts','拉帽']];
+const SH=[['wall','垂直板'],['roof','水平板'],['rails','DIN 軌'],['nuts','拉帽']];
 const tg=document.getElementById('tg');
-for(const [k,l] of SH){const lb=document.createElement('label');const cb=document.createElement('input');cb.type='checkbox';cb.checked=!(k==='front'||k==='bottom'||k==='sideR');
+for(const [k,l] of SH){const lb=document.createElement('label');const cb=document.createElement('input');cb.type='checkbox';cb.checked=true;
  cb.onchange=()=>{for(const m of MESH)if(m.userData.s===k)m.visible=cb.checked};cb.onchange();lb.append(cb,' '+l);tg.append(lb)}
 const ray=new THREE.Raycaster(),mv=new THREE.Vector2(),tip=document.getElementById('tip');
 cv.addEventListener('pointermove',e=>{const r=cv.getBoundingClientRect();mv.set((e.clientX-r.left)/r.width*2-1,-(e.clientY-r.top)/r.height*2+1);ray.setFromCamera(mv,cam);
  const h=ray.intersectObjects(MESH.filter(m=>m.visible),false);if(h.length){tip.style.display='block';tip.textContent=h[0].object.userData.n}else tip.style.display='none'});
 window.view=view;window.renderOnce=()=>{ctl.update();R.render(scene,cam)};
 function rs(){const w=innerWidth,h=innerHeight;R.setSize(w,h,false);cam.aspect=w/h;cam.updateProjectionMatrix()}
-addEventListener('resize',rs);rs();view('below');
+addEventListener('resize',rs);rs();view('back');
 const v3=new THREE.Vector3();
 function placeLabels(){const w=cv.clientWidth,h=cv.clientHeight;for(const o of LB){if(!showLB||!o.m.visible){o.d.style.display='none';continue}v3.copy(o.c).project(cam);if(v3.z>1){o.d.style.display='none';continue}o.d.style.display='block';o.d.style.transform='translate('+((v3.x*0.5+0.5)*w)+'px,'+((-v3.y*0.5+0.5)*h)+'px) translate(-50%,-50%)'}}
 document.getElementById('lbtn').onclick=e=>{showLB=!showLB;e.target.textContent=showLB?'標示：開':'標示：關'};

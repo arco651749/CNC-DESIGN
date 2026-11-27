@@ -6,11 +6,11 @@ Part = (key, designator, name, x0, y0, z0, dx, dy, dz, mount, orientation, sourc
  'W' = on the back wall (back face on y=495; depth runs toward -y), 'R' = on the roof underside (back face on z=488; depth runs down).
  Sizes: M = Mitsubishi vendor STEP/manual, S = datasheet supplied by owner, A = approx catalog value (confirm)."""
 ENV = (-380, 380, 255, 495, 249, 487)
-WALL_Y, ROOF_Z = 495.0, 487.0
+WALL_Y, ROOF_Z = 259.0, 487.0          # WALL_Y = rear face of the vertical plate (y 255..259); parts hang toward +y
 
 RAIL = 7.5                                   # 35 mm DIN rail height: DIN-mounted parts sit this much further out
 def wall(des, name, x0, dx, dy, dz, z0, orient, src, key=None, rail=False):
-    return (key or des, des, name, x0, WALL_Y - dy - (RAIL if rail else 0), z0, dx, dy, dz, 'back wall', orient, src)
+    return (key or des, des, name, x0, WALL_Y + (RAIL if rail else 0), z0, dx, dy, dz, 'vertical plate (rear face)', orient, src)
 def roof(des, name, x0, y0, dx, dy, dz, orient, src, key=None, rail=True):
     return (key or des, des, name, x0, y0, ROOF_Z - dz - (RAIL if rail else 0), dx, dy, dz, 'roof underside', orient, src)
 
@@ -21,14 +21,14 @@ PARTS = [
     wall('PSU1', 'Mean Well SDR-120-24 (24 V 5 A)', -5, 63, 114, 125, 285, 'DIN rail, upright', 'A catalog 63x125x114 (confirm)', rail=True),
     wall('PSU2', 'Mean Well XDR-75E-12 (12 V 6.3 A, for the PC)', 78, 30, 116, 125, 285, 'DIN rail, upright', 'S owner datasheet 30x125.2x116', rail=True),
     wall('VFD', 'Delta MS300 (frame A)', 128, 72, 136, 174, 284, 'upright (check manual)', 'A catalog 72x174x136'),
-    wall('SVX', 'Mitsubishi MR-J4-40A', 225, 40, 176, 168, 284, 'upright, connectors to the front', 'M vendor STEP 40x168x175.9'),
-    wall('SVY', 'Mitsubishi MR-J4-40A', 275, 40, 176, 168, 284, 'upright, connectors to the front', 'M vendor STEP 40x168x175.9'),
-    wall('SVZ', 'Mitsubishi MR-J4-40A', 325, 40, 176, 168, 284, 'upright, connectors to the front', 'M vendor STEP 40x168x175.9'),
+    wall('SVX', 'Mitsubishi MR-J4-40A', 225, 40, 176, 168, 284, 'upright, connectors face the rear (+y)', 'M vendor STEP 40x168x175.9'),
+    wall('SVY', 'Mitsubishi MR-J4-40A', 275, 40, 176, 168, 284, 'upright, connectors face the rear (+y)', 'M vendor STEP 40x168x175.9'),
+    wall('SVZ', 'Mitsubishi MR-J4-40A', 325, 40, 176, 168, 284, 'upright, connectors face the rear (+y)', 'M vendor STEP 40x168x175.9'),
     # --- roof underside, hanging down. Row A: one roof DIN rail (centre y 300), parts centred on it. Row B: boards, tops aligned at y 385.
-    roof('DC1', 'DC-DC 24 V -> 5 V', -360, 272.5, 25, 55, 25, 'DIN rail, hanging', 'A'),
-    roof('KA2', 'Omron MY2N-GS + PYFZ-08 (pump)', -320, 269, 28, 62, 62, 'DIN rail, hanging', 'A'),
-    roof('KA3', 'Omron MY2N-GS + PYFZ-08 (Z brake)', -277, 269, 28, 62, 62, 'DIN rail, hanging', 'A'),
-    roof('XT', 'DIN terminal strip (+24 V / 0 V / +5 V distribution)', -234, 277.5, 100, 45, 45, 'DIN rail, hanging', 'A'),
+    roof('DC1', 'DC-DC 24 V -> 5 V', -360, 282.5, 25, 55, 25, 'DIN rail, hanging', 'A'),
+    roof('KA2', 'Omron MY2N-GS + PYFZ-08 (pump)', -320, 279, 28, 62, 62, 'DIN rail, hanging', 'A'),
+    roof('KA3', 'Omron MY2N-GS + PYFZ-08 (Z brake)', -277, 279, 28, 62, 62, 'DIN rail, hanging', 'A'),
+    roof('XT', 'DIN terminal strip (+24 V / 0 V / +5 V distribution)', -234, 287.5, 100, 45, 45, 'DIN rail, hanging', 'A'),
     roof('BD', 'RP23CNC V2.02 on 4 M3 standoffs', -360, 385, 96, 97, 35, 'standoffs on the roof, components down', 'M vendor STEP 96x97', rail=False),
     roof('PC', 'LattePanda IOTA (12 V 60 W) with heatsink', -240, 385, 71, 90, 40, 'hanging on standoffs, ports toward the front', 'M vendor STEP board 71x90x19 + heatsink ~40 deep', rail=False),
 ]
@@ -36,11 +36,8 @@ FLAGS = set()                                   # reserved space, not a part
 
 # openings (machine x, y, z): purpose
 OPENINGS = [
-    ('back wall', -340, 495, 270, 'power feeders F1/F2/F3 + PE: conduit fitting NW36 (OD 42.5), indicative hole D50 at x -340, z 270 (mechanical session; fitting model after the KSS catalogue)'),
-    ('back wall', -260, 495, 270, 'control cable F4: conduit fitting NW17 (OD 21.2), indicative hole D28 at x -260, z 270; 50 mm below the fan (x -340..-220, z 340..460)'),
-    ('bottom cover', -120, 330, 241, 'Y bellows NW23 fixed fitting (mechanical session): Y motor, encoder, brake, 2 prism-cover air tubes, cover switch; hole D45'),
-    ('bottom cover', 350, 262, 244, 'X motor + home sensors (right side)'),
-    ('roof', 50, 390, 494, 'X bellows NW29 elbow fitting (mechanical session): spindle 4-core, camera, probe, 3 air tubes, Z motor; hole D45; keep a 45 mm column free below it'),
-    ('back wall', -280, 495, 400, 'fan intake 120 mm + filter, opening D110 centred x -280, z 400 (fan x -340..-220, z 340..460; the top plate rear flange covers z 471..491, so the fan stays below it); far from the work zone, 345 mm from the exhaust'),
-    ('back wall', 170, 495, 471, 'exhaust louvre + filter 90x25 at x 125..215, z 459..484 above the VFD (not on the roof: the X bellows ring is there; PC and PSUs keep clear)'),
+    ('roof flange', 50, 390, 491, 'X bellows NW29 elbow fitting (mechanical session): hole D45 in the L plate flange; keep a 45 mm column free below it'),
+    ('open', -120, 330, 241, 'Y bellows NW23: its fixed fitting was on the bottom cover; there is no cover any more -> a conduit support bracket (mechanical session decides where)'),
+    ('open', -340, 259, 270, 'power feeders F1/F2/F3 + PE: conduit NW36, ends on a support bracket near the lower left of the L plate (mechanical session)'),
+    ('open', -260, 259, 270, 'control cable F4: conduit NW17, ends on a support bracket next to the power conduit (mechanical session)'),
 ]
