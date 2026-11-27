@@ -4,6 +4,7 @@
 碰撞、超出行程、探針觸發座標、相機影像與對焦。它不模擬切削；精確的設計干涉檢查仍以 `freecad/v14/02 / 07 / 12` 為準。
 
 A sandbox for an AI to plan measuring moves on a workpiece and have them checked before the real machine runs them.
+建置過程、設計理由與踩過的坑：`docs/mujoco_sandbox_build.md`。
 
 ## Build
 

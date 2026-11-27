@@ -70,3 +70,4 @@ G. 2D drawings (owner)
 - AI sandbox (MuJoCo, owner 2026-11-27): `freecad/v14/26_export_mujoco_v14.py` -> `sandbox/build_mjcf.py` -> `output/v14/mujoco/cnc_v14.xml`;
   API `sandbox/cnc_sandbox.py`, demo `sandbox/demo_plan.py`, notes `sandbox/README.md`. For an AI to plan measuring moves (camera, probe)
   on a workpiece; not the design interference check. The meshes are not committed (vendor models, internal use): run 26 first.
+  How it was built, design choices and pitfalls: `docs/mujoco_sandbox_build.md` (keep it updated when the sandbox changes).
