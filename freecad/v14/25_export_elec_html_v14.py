@@ -38,9 +38,10 @@ out = []
 for o, s_ in OBJS:
     if o.TypeId != 'Part::Feature' or o.Shape.isNull() or not o.Shape.Solids: continue
     sh = o.Shape; b = sh.BoundBox
-    if sh.Volume < 300 or re.search(r'(bolt|screw|_pin|dowel|epoxy|shim|fitting|tube|reed|nut$|PullNut|standoff)', o.Label, re.I): continue
+    own = s_ == 'm' and o.Label.startswith(('Conduit_', 'Feeder_entry', 'Feeder_cabinet', 'X_cable_box', 'Table_cable')) and not re.search(r'(bolt|screw)', o.Label)
+    if sh.Volume < 300 or (re.search(r'(bolt|screw|_pin|dowel|epoxy|shim|fitting|tube|reed|nut$|PullNut|standoff)', o.Label, re.I) and not own): continue
     if s_ == 'm' and re.search(r'^(Guard_(rear|side|front)|Coolant_(tank|pan|baffle|filter|drain|pump|silicone|castor|hose))', o.Label): continue
-    if len(sh.Faces) > 60 and not o.Label.startswith(('Box_top', 'Conduit_', 'Feeder_')):   # vendor-detailed parts as boxes; own sheet parts keep their real outline
+    if len(sh.Faces) > 60 and not o.Label.startswith(('Box_top', 'Conduit_', 'Feeder_', 'X_cable_box', 'Table_')):   # vendor-detailed parts as boxes; own sheet parts keep their real outline
         sh = Part.makeBox(b.XLength, b.YLength, b.ZLength, App.Vector(b.XMin, b.YMin, b.ZMin))
     pts, tris = sh.tessellate(max(1.5, 0.012 * max(b.XLength, b.YLength, b.ZLength)))
     c = [int(round(v * 4)) for p in pts for v in (p.x, p.y, p.z)]; idx = [i for t in tris for i in t]; w = 1 if len(pts) < 65536 else 0
