@@ -1,7 +1,6 @@
 parts: 479   motion classes: static 185 / y 71 / x 114 / z 109
 
-DESIGN CONTACTS AT HOME (overlap > 1 mm3, review): 6
-  Table_cable_end_box x Table_cable_end_box_cover : 8 mm3
+DESIGN CONTACTS AT HOME (overlap > 1 mm3, review): 5
   X_ball_nut x X_nut_bracket : 19 mm3
   X_ballscrew x X_support_fixed : 137 mm3
   Y_ballscrew x Y_support_fixed : 137 mm3
