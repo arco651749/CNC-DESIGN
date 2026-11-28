@@ -58,8 +58,8 @@ for k, parent in (('y', ''), ('x', ''), ('z', 'x')):
     JointObject.ViewProviderJoint(j.ViewObject)
     fa, ve = FACE[k]
     a, b = PARTS[parent], PARTS[k]
-    refs = [[asm, [a.Name + '.' + DAT[parent].Name + '.' + fa, a.Name + '.' + DAT[parent].Name + '.' + ve]],
-            [asm, [b.Name + '.' + DAT[k].Name + '.' + fa, b.Name + '.' + DAT[k].Name + '.' + ve]]]
+    refs = [[a, [DAT[parent].Name + '.' + fa, DAT[parent].Name + '.' + ve]],   # reference = [component, [sub paths inside it]]
+            [b, [DAT[k].Name + '.' + fa, DAT[k].Name + '.' + ve]]]          # ([assembly, ['Part.Child.Face']] is ignored by the solver)
     j.Proxy.setJointConnectors(j, refs)
     j.EnableLengthMin = j.EnableLengthMax = True
     j.LengthMin, j.LengthMax = TRAVEL[k]
@@ -77,8 +77,14 @@ doc.recompute()
 out = os.path.join(ROOT, 'output', 'v14', 'CNC_v14_assembly.FCStd')
 doc.saveAs(out)
 log = ['v14 assembly: parts %s, joints %s' % ({GROUPS[k]: v for k, v in n_.items()}, [j.Label for j in JOINTS.values()])]
-try:
-    asm.generateSimulation(sim); log.append('simulation frames: %d' % asm.numberOfFrames())
+try:                                                           # self-check: play the simulation and read where the parts went
+    rc = asm.generateSimulation(sim); nf = asm.numberOfFrames(); log.append('simulation rc %s, frames %d' % (rc, nf))
+    import math
+    for i in (40, 80, 120, 200, 300):
+        asm.updateForFrame(i); t = i * sim.cTimeStepOutput.Value
+        log.append('frame %3d  table y %7.1f  carriage x %7.1f  head x %7.1f z %6.1f   (formula Y %7.1f X %7.1f Z %6.1f)' % (
+            i, PARTS['y'].Placement.Base.y, PARTS['x'].Placement.Base.x, PARTS['z'].Placement.Base.x, PARTS['z'].Placement.Base.z,
+            -50 + 200 * math.sin(2 * math.pi * t / 8), 182.5 * math.sin(2 * math.pi * t / 12), 50 * math.sin(2 * math.pi * t / 6)))
 except Exception as e:
     log.append('simulation not generated here: %s' % e)
 open(os.path.join(ROOT, 'output', 'v14', 'logs', 'v14_assembly.txt'), 'w', encoding='utf-8').write('\n'.join(log) + '\n')
