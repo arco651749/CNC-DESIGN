@@ -1,4 +1,4 @@
-v14 = v12 + wider X (+65) + L-shaped tool-head module.  new parts: 148
+v14 = v12 + wider X (+65) + L-shaped tool-head module.  new parts: 151
 stretch Datum_base_plate   at x+-250: x -360.0..360.0 -> -392.5..392.5
 stretch X_base_plate       at x+-255: x -360.0..360.0 -> -392.5..392.5
 stretch X_rail_1           at x+-255: x -270.0..270.0 -> -302.5..302.5
@@ -17,7 +17,7 @@ shrink X_carriage_plate   band +-56..76: x -120.0..120.0 -> -100.0..100.0
 Z axis narrowed: rails x 50.0..70.0, slide x -90.0..90.0, Z plate x -100.0..100.0, module plate x -88.0..88.0
 box top plate: z 491.0..494.0, 8 column bolts, 20 hang screws, X gland (0, 390)
 conduit hardware: Y bracket, head bracket, carriage bracket + clamp, X arm + clamp, roof tab + PAQ-2929, Y top bracket, feeder entry plate (KSS PAQ adaptors per catalog p.152)
-HOLE_CHECK 63 tools, not fully in material: []
+HOLE_CHECK 64 tools, not fully in material: []
 
 Datum_base_plate           -  x[ -392.5,  392.5] y[ -145.0,  182.0] z[  -20.0,    0.0]  OK
 X_base_plate               -  x[ -392.5,  392.5] y[  162.0,  182.0] z[  230.0,  490.0]  OK
@@ -122,22 +122,24 @@ Conduit_Y_table_tray       y  x[  220.0,  303.0] y[  -20.0,  263.5] z[   75.0,  
 Conduit_Y_table_tray_bolt_1 y  x[  213.0,  228.0] y[   -4.2,    4.2] z[   85.8,   94.2]  OK
 Conduit_Y_table_tray_bolt_2 y  x[  213.0,  228.0] y[  105.8,  114.2] z[   85.8,   94.2]  OK
 Conduit_Y_table_tray_bolt_3 y  x[  213.0,  228.0] y[  215.8,  224.2] z[   85.8,   94.2]  OK
-Table_cable_end_box        y  x[  223.0,  306.0] y[  225.0,  276.0] z[   86.0,  153.0]  OK
-Table_cable_duct           y  x[ -275.0,  258.0] y[  150.0,  302.0] z[   86.0,  128.0]  OK
-Table_cable_duct_lid       y  x[ -275.0,  306.0] y[  150.0,  302.0] z[  110.0,  154.6]  OK
-Table_duct_bracket_1       y  x[ -210.0, -190.0] y[  263.5,  288.0] z[   83.0,  106.0]  OK
-Table_duct_bracket_1_bolt_1 y  x[ -204.2, -195.8] y[  256.5,  271.5] z[   92.8,  101.2]  OK
-Table_duct_bracket_2       y  x[ -110.0,  -90.0] y[  263.5,  288.0] z[   83.0,  106.0]  OK
-Table_duct_bracket_2_bolt_1 y  x[ -104.2,  -95.8] y[  256.5,  271.5] z[   92.8,  101.2]  OK
-Table_duct_bracket_3       y  x[   90.0,  110.0] y[  263.5,  288.0] z[   83.0,  106.0]  OK
-Table_duct_bracket_3_bolt_1 y  x[   95.8,  104.2] y[  256.5,  271.5] z[   92.8,  101.2]  OK
-Table_duct_bracket_4       y  x[  190.0,  210.0] y[  263.5,  288.0] z[   83.0,  106.0]  OK
-Table_duct_bracket_4_bolt_1 y  x[  195.8,  204.2] y[  256.5,  271.5] z[   92.8,  101.2]  OK
-Table_duct_bracket_L1      y  x[ -258.0, -220.0] y[  170.0,  190.0] z[   83.0,  106.0]  OK
-Table_duct_bracket_L1_bolt_1 y  x[ -228.0, -213.0] y[  175.8,  184.2] z[   92.8,  101.2]  OK
-Table_duct_bracket_L2      y  x[ -258.0, -220.0] y[  230.0,  250.0] z[   83.0,  106.0]  OK
-Table_duct_bracket_L2_bolt_1 y  x[ -228.0, -213.0] y[  235.8,  244.2] z[   92.8,  101.2]  OK
+Table_cable_end_box        y  x[  180.0,  306.0] y[  225.0,  345.0] z[   79.0,  153.0]  OK
+Table_cable_end_box_bolt_1 y  x[  185.8,  194.2] y[  256.5,  271.5] z[   95.8,  104.2]  OK
+Table_cable_end_box_bolt_2 y  x[  205.8,  214.2] y[  256.5,  271.5] z[   95.8,  104.2]  OK
+Table_cable_end_box_lid    y  x[  180.0,  306.0] y[  225.0,  345.0] z[  115.0,  154.6]  OK
 Conduit_Y_end_fitting      y  x[  260.9,  299.1] y[  191.0,  234.0] z[  108.1,  146.4]  OK
+Conduit_Ymotor_box_fitting y  x[  153.0,  189.0] y[  275.8,  308.2] z[   80.8,  113.2]  OK
+Conduit_mirror_box_fitting y  x[  153.0,  189.0] y[  309.8,  342.2] z[   80.8,  113.2]  OK
+Conduit_Ymotor_bracket     y  x[   38.0,   73.0] y[  279.5,  306.0] z[   30.0,  114.0]  OK
+Conduit_Ymotor_bracket_bolt_1 y  x[   43.8,   52.2] y[  272.5,  287.5] z[   35.8,   44.2]  OK
+Conduit_Ymotor_bracket_bolt_2 y  x[   43.8,   52.2] y[  272.5,  287.5] z[   61.8,   70.2]  OK
+Conduit_Ymotor_end_fitting y  x[   64.0,  100.0] y[  275.8,  308.2] z[   80.8,  113.2]  OK
+Conduit_mirror_bracket     y  x[ -268.0, -220.0] y[  190.0,  212.0] z[   77.0,  114.0]  OK
+Conduit_mirror_bracket_bolt_1 y  x[ -228.0, -213.0] y[  196.8,  205.2] z[   90.8,   99.2]  OK
+Conduit_mirror_end_fitting y  x[ -266.2, -233.8] y[  194.0,  230.0] z[   80.8,  113.2]  OK
+Conduit_rear_clamp_1       y  x[ -110.0,  -90.0] y[  263.5,  340.6] z[   77.0,  111.6]  OK
+Conduit_rear_clamp_1_bolt_1 y  x[ -104.2,  -95.8] y[  256.5,  271.5] z[   90.8,   99.2]  OK
+Conduit_rear_clamp_2       y  x[   90.0,  110.0] y[  263.5,  340.6] z[   77.0,  111.6]  OK
+Conduit_rear_clamp_2_bolt_1 y  x[   95.8,  104.2] y[  256.5,  271.5] z[   90.8,   99.2]  OK
 Conduit_Y_base_tray        -  x[  250.0,  310.0] y[ -155.0,  400.0] z[    0.0,   30.0]  OK
 Conduit_Y_base_tray_bolt_1 -  x[  253.8,  262.2] y[ -104.2,  -95.8] z[   -7.0,    8.0]  OK
 Conduit_Y_base_tray_bolt_2 -  x[  297.8,  306.2] y[   35.8,   44.2] z[   -7.0,    8.0]  OK
@@ -148,19 +150,20 @@ Conduit_head_bracket_bolt_2 z  x[   51.8,   60.2] y[  -71.0,  -56.0] z[  363.8, 
 Conduit_head_bracket_bolt_3 z  x[   67.8,   76.2] y[  -71.0,  -56.0] z[  313.8,  322.2]  OK
 Conduit_head_bracket_bolt_4 z  x[   67.8,   76.2] y[  -71.0,  -56.0] z[  363.8,  372.2]  OK
 Conduit_head_end_fitting   z  x[   86.5,  133.5] y[ -103.5,  -56.5] z[  378.2,  431.6]  OK
-X_cable_box                x  x[  -14.0,  140.0] y[   14.0,  258.0] z[  496.5,  766.0]  OK
-X_cable_box_lid            x  x[  -14.0,  140.0] y[   14.0,  258.0] z[  766.0,  767.6]  OK
-X_cable_box_flange_R       x  x[   60.0,  118.0] y[  134.0,  137.0] z[  570.0,  712.0]  OK
-X_cable_box_flange_R_bolt_1 x  x[   67.8,   76.2] y[  127.0,  142.0] z[  575.8,  584.2]  OK
-X_cable_box_flange_R_bolt_2 x  x[  101.8,  110.2] y[  127.0,  142.0] z[  575.8,  584.2]  OK
-X_cable_box_flange_R_bolt_3 x  x[   67.8,   76.2] y[  127.0,  142.0] z[  635.8,  644.2]  OK
-X_cable_box_flange_R_bolt_4 x  x[  101.8,  110.2] y[  127.0,  142.0] z[  635.8,  644.2]  OK
-X_cable_box_flange_F       x  x[  102.0,  142.0] y[  119.0,  122.0] z[  560.0,  712.0]  OK
-X_cable_box_flange_F_bolt_1 x  x[  105.8,  114.2] y[  114.0,  129.0] z[  570.8,  579.2]  OK
-X_cable_box_flange_F_bolt_2 x  x[  105.8,  114.2] y[  114.0,  129.0] z[  625.8,  634.2]  OK
-Conduit_X_moving_fitting   x  x[   26.6,   80.0] y[  206.5,  253.5] z[  498.5,  545.5]  OK
+X_branch_box               x  x[   84.0,  136.0] y[   14.0,  100.0] z[  712.0,  778.0]  OK
+X_branch_box_lid           x  x[   84.0,  136.0] y[   14.0,  100.0] z[  778.0,  779.6]  OK
+Conduit_X_guide            x  x[   60.0,  200.0] y[   14.0,  255.0] z[  497.0,  780.0]  OK
+Conduit_X_guide_bolt_1     x  x[   67.8,   76.2] y[  127.0,  142.0] z[  575.8,  584.2]  OK
+Conduit_X_guide_bolt_2     x  x[  101.8,  110.2] y[  127.0,  142.0] z[  575.8,  584.2]  OK
+Conduit_X_guide_bolt_3     x  x[   67.8,   76.2] y[  127.0,  142.0] z[  635.8,  644.2]  OK
+Conduit_X_guide_bolt_4     x  x[  101.8,  110.2] y[  127.0,  142.0] z[  635.8,  644.2]  OK
+Conduit_X_guide_bolt_5     x  x[  105.8,  114.2] y[  114.0,  129.0] z[  570.8,  579.2]  OK
+Conduit_X_guide_bolt_6     x  x[  105.8,  114.2] y[  114.0,  129.0] z[  625.8,  634.2]  OK
+Conduit_X_moving_clamp     x  x[  171.0,  185.0] y[  208.8,  252.0] z[  500.8,  543.2]  OK
+Conduit_X_riser_clamp      x  x[   88.8,  131.2] y[  208.8,  252.0] z[  620.0,  634.0]  OK
+Conduit_X_box_fitting      x  x[   86.5,  133.5] y[   91.0,  144.4] z[  720.0,  767.0]  OK
 Conduit_ZB_top_fitting     x  x[   86.5,  133.5] y[   16.5,   63.5] z[  667.6,  721.0]  OK
-X_cable_box_gland          x  x[   21.0,   47.0] y[   16.0,   48.0] z[  723.0,  755.0]  OK
+X_branch_box_gland         x  x[   65.0,   91.0] y[   14.0,   46.0] z[  729.0,  761.0]  OK
 Conduit_X_roof_tab_bolt_1  -  x[   27.8,   36.2] y[  370.8,  379.2] z[  481.0,  501.0]  OK
 Conduit_X_roof_tab_bolt_2  -  x[   27.8,   36.2] y[  400.8,  409.2] z[  481.0,  501.0]  OK
 Conduit_X_roof_tab         -  x[   25.0,   50.0] y[  365.0,  415.0] z[  494.0,  552.0]  OK
