@@ -67,6 +67,10 @@ G. 2D drawings (owner)
 - Column electrical box: drawn by the electrical session (`column_box/column_box.step` on its branch `claude/sharp-mendel-3thfvq`; copy it
   into `column_box/` locally, it is git-excluded here). The mechanical side owns the box top plate (`Box_top_plate` in 01), the conduits
   and the checks 22 / 24. `20_panel_v14.py` / `21` (old back plate) are no longer part of the build.
+- Motion simulation in two stages (owner 2026-11-28):
+  - **Design stage: FreeCAD.** `freecad/v14/27_assembly_v14.py` builds `output/v14/CNC_v14_assembly.FCStd` from the v14 model. It is a FreeCAD Assembly with slider joints Y / X / Z, travel limits and a Simulation. The owner and we both review motion and interference on this file.
+  - Rebuild it after every model change. Run it with the GUI on a virtual display: `CNC_ROOT=$PWD xvfb-run -a /opt/freecad/bin/freecad freecad/v14/27_assembly_v14.py`. Without the GUI the Simulation objects do not load.
+  - **Application stage (LLM): MuJoCo**, converted from the same model, via the AI sandbox below.
 - AI sandbox (MuJoCo, owner 2026-11-27): `freecad/v14/26_export_mujoco_v14.py` -> `sandbox/build_mjcf.py` -> `output/v14/mujoco/cnc_v14.xml`;
   API `sandbox/cnc_sandbox.py`, demo `sandbox/demo_plan.py`, notes `sandbox/README.md`. For an AI to plan measuring moves (camera, probe)
   on a workpiece; not the design interference check. The meshes are not committed (vendor models, internal use): run 26 first.
