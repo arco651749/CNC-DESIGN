@@ -1,6 +1,6 @@
 v14 conduits: 3 moving runs, 27 poses
 
-Conduit_Y    Y 軸浪管：立柱電箱 L 板支架直下 → 底座托盤 → R55 滾動彎 → 工作台右後集線盒（KSS PA-23，模型外徑 28.5），x 280 平面  length rolling, min bend radius over all poses 55 (allowed 50) OK 
+Conduit_Y    Y 軸浪管：立柱電箱 L 板支架直下 → 底座托盤 → R50 滾動彎 → 工作台右後集線盒（KSS PA-23，模型外徑 28.5），x 280 平面  length rolling, min bend radius over all poses 50 (allowed 50) OK 
 Conduit_ZB   Z 段浪管：X 滑座分線盒 → 工具頭（KSS PA-23，模型外徑 28.5），x 110 平面下垂 U 型  length 560.0, min bend radius over all poses 60 (allowed 50) OK 
 Conduit_XA   X 段浪管：電箱頂板上的水平滾動 U 型環，R 80（KSS PA-29，模型外徑 34.5）  length rolling, min bend radius over all poses 80 (allowed 60) OK 
 
