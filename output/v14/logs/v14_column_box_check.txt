@@ -1,5 +1,5 @@
 v14 electrical box (column_box/column_box.step): 468 box solids, envelope x -380.0..380.0 y 255.0..446.0 z 241.0..491.0
-577 machine parts, 27 poses; reference copies of machine parts skipped: none
+595 machine parts, 27 poses; reference copies of machine parts skipped: none
 
 COLLISIONS (box x machine): 0
 
@@ -35,7 +35,7 @@ SUPPORT (fixed machine parts touching the box): 6
 
 
 v14 electrical box (base_cabinet/base_cabinet.step): 24 box solids, envelope x -250.0..422.0 y -690.0..-520.0 z -620.0..-91.0
-577 machine parts, 27 poses; reference copies of machine parts skipped: none
+595 machine parts, 27 poses; reference copies of machine parts skipped: none
 
 COLLISIONS (box x machine): 0
 
