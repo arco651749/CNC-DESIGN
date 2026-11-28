@@ -1,2 +1,7 @@
 v14 assembly: parts {'Frame': 295, 'Table_Y': 71, 'Carriage_X': 114, 'Head_Z': 115}, joints ['Y 工作台', 'X 滑座', 'Z 工具頭']
-simulation frames: 482
+simulation rc 0, frames 482
+frame  40  table y   149.8  carriage x   155.6  head x   155.6 z   44.6   (formula Y   150.0 X   158.0 Z   43.3)
+frame  80  table y   -42.1  carriage x   160.4  head x   160.4 z  -41.9   (formula Y   -50.0 X   158.0 Z  -43.3)
+frame 120  table y  -249.8  carriage x     4.8  head x     4.8 z   -2.6   (formula Y  -250.0 X     0.0 Z   -0.0)
+frame 200  table y   149.8  carriage x  -160.4  head x  -160.4 z  -41.9   (formula Y   150.0 X  -158.0 Z  -43.3)
+frame 300  table y  -196.9  carriage x   182.4  head x   182.4 z    2.6   (formula Y  -191.4 X   182.5 Z    0.0)
