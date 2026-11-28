@@ -1,0 +1,2 @@
+v14 assembly: parts {'Frame': 295, 'Table_Y': 71, 'Carriage_X': 114, 'Head_Z': 115}, joints ['Y 工作台', 'X 滑座', 'Z 工具頭']
+simulation frames: 482
