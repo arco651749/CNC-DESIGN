@@ -18,6 +18,8 @@ def cls(o):
     return ''
 SHELL = ('Cabinet_box', 'Cabinet_door', 'OpBox')                 # column box is one open L plate (no shell); base cabinet body / door and the operator box
 def colour(n, k, src_):
+    if src_ == 'm' and n.startswith(('Conduit_', 'X_branch_box', 'Table_cable', 'Feeder_entry')):   # cable system = one dark layer (design review)
+        return [0.07, 0.07, 0.08] if re.search(r'(fitting|connector|gland)', n) else [0.22, 0.24, 0.27]
     if src_ != 'm':                                            # electrical boxes
         if n in SHELL: return [0.83, 0.85, 0.80]
         if n.startswith(('SV', 'VFD', 'PSU', 'PC')): return [0.22, 0.24, 0.27]

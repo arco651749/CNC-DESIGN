@@ -622,40 +622,41 @@ for y_ in (0.0, 110.0, 220.0): yu = yu.cut(Part.makeCylinder(2.75, 10, V(218.0, 
 add('Conduit_Y_table_tray', yu, GC, 'SPHC t3 bent: Y conduit tray on the work table right side face (3 x M5), short conduit lane x 258..303 '
     'y 163..188 (the rolling bend passes in front of it), lips; the table end box is welded to its web', 'y', '')
 bolts_into('Work_table', 'Conduit_Y_table_tray', [(0, y_, 90) for y_ in (0.0, 110.0, 220.0)], 'x', 220.0, -1)
-PZ17, PY1, PY2, PX0 = 97.0, 292.0, 326.0, 180.0               # PA-17 runs: centre height, y of the motor / mirror runs, end box left face
-EBX = [(223.0, 252.0, YE, 276.0, 86.0, 120.0),                 # front low part (x < 252: under the ER11 nut / nozzle sweep at X +182.5)
-       (252.0, 306.0, YE, 276.0, 86.0, 153.0),                 # front high part around the PAQ-2321 nut (r 23.5 at z 127.25)
-       (PX0, 258.0, 264.0, 345.0, 79.0, 115.0)]                # rear part behind the table (x <= 258: 8 clear of the fixed drop at Y +150)
+PZ17, PY1, PY2, PX0 = 99.0, 292.0, 326.0, 180.0               # PA-17 lanes in one plane z 99 (tops at the table top), pitch 34; end box left face
+EBX = [(223.0, 306.0, YE, 276.0, 79.0, 118.0),                 # low L-body, front arm (top z 118: under the ER11 nut / nozzle sweep at X +182.5)
+       (PX0, 258.0, 264.0, 345.0, 79.0, 118.0),                # low L-body, rear arm behind the table (x <= 258: 8 clear of the fixed drop at Y +150)
+       (252.0, 306.0, YE, 276.0, 79.0, 153.0)]                 # turret around the PAQ-2321 nut (r 23.5 at z 127.25)
 eb = sheet_box(EBX).cut(Part.makeCylinder(paq_hole('PA-23'), 10, V(YX, YE - 5, YZU), V(0, 1, 0)))
 for y_ in (PY1, PY2): eb = eb.cut(Part.makeCylinder(paq_hole('PA-17'), 10, V(PX0 - 5, y_, PZ17), V(1, 0, 0)))
 for x_ in (190.0, 210.0): eb = eb.cut(Part.makeCylinder(2.75, 10, V(x_, 260.0, 100.0), V(0, 1, 0)))
-add('Table_cable_end_box', eb, GC, 'SPHC t1.6 welded end box at the table right rear corner (welded to the Y tray web, 2 x M5 into the table rear '
+add('Table_cable_end_box', eb, GC, 'SPHC t1.6 welded end box (L-body + turret, R3 edges, RAL 7016) at the table right rear corner (welded to the Y tray web, 2 x M5 into the table rear '
     'face): PAQ-2321 of the Y conduit in the front wall, 2 x PAQ-1716 in the left face of the rear part (Y motor run, mirror-cover run); lid t1.6', 'y', '')
 bolts_into('Work_table', 'Table_cable_end_box', [(x_, 0, 100.0) for x_ in (190.0, 210.0)], 'y', 263.5, -1)
-add('Table_cable_end_box_lid', fuse(*[box(q[0], q[1], q[2], q[3], q[5], q[5] + 1.6) for q in EBX]).cut(eb).removeSplitter(), GC,
+add('Table_cable_end_box_lid', fuse(*[box(q[0], q[1], q[2], q[3], q[5], q[5] + 1.6) for q in EBX[:2]]).cut(box(252.0, 306.0, YE, 276.0, 110.0, 125.0))
+    .fuse(box(252.0, 306.0, YE, 276.0, 153.0, 154.6)).cut(eb).removeSplitter(), GC,
     'SPHC t1.6 lid of the table end box (M4 screws into rivet nuts)', 'y', '')
 paq('Conduit_Y_end_fitting', 'PA-23', (YX, YE, YZU), (0, -1, 0), 'y')
 paq('Conduit_Ymotor_box_fitting', 'PA-17', (PX0, PY1, PZ17), (-1, 0, 0), 'y')
 paq('Conduit_mirror_box_fitting', 'PA-17', (PX0, PY2, PZ17), (-1, 0, 0), 'y')
-# Y motor end: bracket on the motor block rear lip (2 x M5 beside the motor), tab at x 70 with PAQ-1716 pointing +x; leads drop to the motor
-ym = fuse(box(38, 58, 279.5, 282.5, 30.0, 80.0), box(38, 73, 279.5, 306.0, 77.0, 80.0), box(70, 73, 279.5, 306.0, 77.0, 114.0))
-ym = ym.cut(Part.makeCylinder(paq_hole('PA-17'), 10, V(65, PY1, PZ17), V(1, 0, 0)))
-for z_ in (40.0, 66.0): ym = ym.cut(Part.makeCylinder(2.75, 10, V(48, 276.0, z_), V(0, 1, 0)))
-add('Conduit_Ymotor_bracket', ym, GC, 'SPHC t3 bent: PA-17 end bracket on the Y motor block rear lip (2 x M5), PAQ-1716 hole D22.7 at (70, %.0f, z %.0f)' % (PY1, PZ17), 'y', '')
-bolts_into('Y_motor_block', 'Conduit_Ymotor_bracket', [(48, 0, z_) for z_ in (40.0, 66.0)], 'y', 279.5, -1)
+# yokes (design review): a mirrored pair of brackets on the Y motor block rear lip carries both lanes over the motor (span 110 between the
+# clamps); the right yoke also carries the Y motor lane's end adaptor (PAQ-1716 at x 73, pointing +x), whose leads drop to the motor
+for side, sg in (('R', 1), ('L', -1)):
+    def xs(a_, b_): return (min(sg * a_, sg * b_), max(sg * a_, sg * b_))
+    yk = fuse(box(*xs(38, 58), 279.5, 282.5, 30.0, 80.0), box(*xs(38, 73), 279.5, PY2 + 16.0, 77.0, 80.0),
+              Part.makeCylinder(14.6, 12, V(sg * 55 - 6, PY2, PZ17), V(1, 0, 0)).cut(Part.makeCylinder(11.1, 12, V(sg * 55 - 6, PY2, PZ17), V(1, 0, 0))),
+              box(*xs(49, 61), PY2 - 6, PY2 + 6, 80.0, 86.0))
+    if sg > 0: yk = yk.fuse(box(70, 73, 279.5, PY1 + 18.0, 77.0, 117.0)).cut(Part.makeCylinder(paq_hole('PA-17'), 10, V(65, PY1, PZ17), V(1, 0, 0)))
+    for z_ in (40.0, 66.0): yk = yk.cut(Part.makeCylinder(2.75, 10, V(sg * 48, 276.0, z_), V(0, 1, 0)))
+    add('Conduit_Y_yoke_' + side, yk.removeSplitter(), GC, 'SPHC t3 bent, RAL 7016: PA-17 yoke on the Y motor block rear lip (2 x M5), shelf under both '
+        'lanes, clamp on the mirror lane' + (', tab with the Y motor lane PAQ-1716 hole D22.7 at (73, %.0f, z %.0f)' % (PY1, PZ17) if sg > 0 else ''), 'y', '')
+    bolts_into('Y_motor_block', 'Conduit_Y_yoke_' + side, [(sg * 48, 0, z_) for z_ in (40.0, 66.0)], 'y', 279.5, -1)
 paq('Conduit_Ymotor_end_fitting', 'PA-17', (73.0, PY1, PZ17), (1, 0, 0), 'y')
 # mirror-cover end: bracket on the table left face, tab at y 203 with PAQ-1716 pointing +y (the tubes and the switch cable go up to the cylinder)
-mb = fuse(box(-223.0, -220.0, 190.0, 212.0, 77.0, 106.0), box(-268.0, -220.0, 190.0, 203.0, 77.0, 80.0), box(-268.0, -232.0, 200.0, 203.0, 77.0, 114.0))
+mb = fuse(box(-223.0, -220.0, 190.0, 212.0, 79.0, 106.0), box(-268.0, -220.0, 190.0, 203.0, 79.0, 82.0), box(-268.0, -232.0, 200.0, 203.0, 79.0, 116.0))
 mb = mb.cut(Part.makeCylinder(paq_hole('PA-17'), 10, V(-250.0, 195.0, PZ17), V(0, 1, 0))).cut(Part.makeCylinder(2.75, 10, V(-226.0, 201.0, 95.0), V(1, 0, 0)))
 add('Conduit_mirror_bracket', mb, GC, 'SPHC t3 bent: PA-17 end bracket on the table left face (M5), PAQ-1716 hole D22.7 at (-250, 203, z %.0f)' % PZ17, 'y', '')
 bolts_into('Work_table', 'Conduit_mirror_bracket', [(0, 201.0, 95.0)], 'x', -220.0, 1)
 paq('Conduit_mirror_end_fitting', 'PA-17', (-250.0, 203.0, PZ17), (0, 1, 0), 'y')
-for k, x_ in enumerate((-100.0, 100.0), 1):                    # clamps on the long run: angle on the table rear face, ring around the conduit
-    add('Conduit_rear_clamp_%d' % k, fuse(box(x_ - 10, x_ + 10, 263.5, 266.5, 77.0, 104.0), box(x_ - 10, x_ + 10, 263.5, PY2 + 14.0, 77.0, 80.0),
-        Part.makeCylinder(14.6, 12, V(x_ - 6, PY2, PZ17), V(1, 0, 0)).cut(Part.makeCylinder(11.1, 12, V(x_ - 6, PY2, PZ17), V(1, 0, 0))),
-        box(x_ - 6, x_ + 6, PY2 - 6, PY2 + 6, 80.0, 83.0)).cut(Part.makeCylinder(2.75, 10, V(x_, 260.0, 95.0), V(0, 1, 0))), GC,
-        'SPHC t3 angle on the table rear face (M5) + PA-17 conduit clamp (KSS fixing base, size to confirm)', 'y', '')
-    bolts_into('Work_table', 'Conduit_rear_clamp_%d' % k, [(x_, 0, 95.0)], 'y', 263.5, -1)
 yl = fuse(box(250, 310, -155.0, 400.0, 0.0, TB), box(250, 253, -155.0, 400.0, TB, 30.0), box(307, 310, -155.0, 400.0, TB, 30.0))   # channel (bend to y -147.5)
 for x_, y_ in ((258, -100), (302, 40), (302, 130)): yl = yl.cut(Part.makeCylinder(2.75, 10, V(x_, y_, -3)))
 add('Conduit_Y_base_tray', yl, GC, 'SPHC t3 bent channel 60 x 30: Y conduit lower tray on the datum plate (3 x M5), y -155..400 (cantilever past the '
@@ -664,64 +665,67 @@ bolts_into('Datum_base_plate', 'Conduit_Y_base_tray', [(258, -100, 0), (302, 40,
 # Z run moving end: bracket on the spindle clamp front face (right half, beside the probe slide), arm at z 455 to the end at (110, -80)
 HA = 470.0 - paq_len('PA-29')                                  # arm top z 425.6; the adaptor hangs UNDER the arm (body z 378..422.6), the conduit
 # comes up into its lower end at z 378 (before: body on top of the arm with the conduit passing up through the sheet hole, wrong)
-hb = fuse(box(40, 78, -63.0 - TB, -63.0, 310.0, HA), box(40, 140, -102.0, -63.0, HA - TB, HA), box(137, 140, -102.0, -63.0, HA - 18, HA))   # side flange 3.5 clear of the PAQ-2929 body (r 23.5)
-hb = hb.cut(Part.makeCylinder(paq_hole('PA-29'), 10, V(110, -80, HA - 8)))
+HX = 114.0                                                     # Z run plane (6.75 clear of the Z slide plate x <= 90; design review 2026-11-28)
+hb = fuse(box(40, 78, -63.0 - TB, -63.0, 310.0, HA),            # web on the spindle clamp front face
+          box(40, HX, -106.0, -63.0, HA - TB, HA),               # arm ...
+          Part.makeCylinder(26.0, TB, V(HX, -80, HA - TB)).common(box(HX - 30, HX + 30, -110.0, -63.0, HA - TB, HA)),   # ... end concentric with the adaptor
+          box(40, HX - 26.0, -106.0, -106.0 + TB, HA - 18, HA))   # stiffening flange along the front edge
+hb = hb.removeSplitter().cut(Part.makeCylinder(paq_hole('PA-29'), 10, V(HX, -80, HA - 8)))
 for x_, z_ in ((56, 318), (56, 368), (72, 318), (72, 368)): hb = hb.cut(Part.makeCylinder(2.75, 10, V(x_, -70, z_), V(0, 1, 0)))
 add('Conduit_head_bracket', hb, GC, 'SPHC t3 bent: Z conduit end bracket on the spindle clamp front face (4 x M5, right half; the probe slide is '
-    'on the left half), arm to the conduit end, PAQ-2929 hole D37.3 at (110, -80)', 'z', '')
+    'on the left half), arm with its end concentric with the PAQ-2929 (R26) at (114, -80), front stiffening flange', 'z', '')
 bolts_into('Spindle_clamp', 'Conduit_head_bracket', [(x_, 0, z_) for x_, z_ in ((56, 318), (56, 368), (72, 318), (72, 368))], 'y', -63.0, 1)   # x >= 56: wall to the spindle bore > 20
-paq('Conduit_head_end_fitting', 'PA-29', (110, -80, HA - TB), (0, 0, -1), 'z')
-# X carriage (owner 2026-11-28: conduit visible, sheet-metal guide, small branch box for the Z motor). The roof loop's moving end is held by a
-# clamp at x 171..185 (y 230, z 522); the same PA-29 bends up (R 60, plane y 230), rises at x 110 behind the saddle (clamp at z 627), bends
-# forward over the saddle (R 60, plane x 110) and ends in a PAQ-2929 in the rear wall of a small branch box over the Z roll block. The Z run
-# leaves the box floor through a PAQ-2929 at (110, 40); the Z motor cables leave through an M25 gland toward the motor. The guide is one
-# bent SPHC t3 part: side plate at x 136..139 (y 14..255), rear plate at y 252..255 carrying both clamps, flanges on the saddle ear faces.
+paq('Conduit_head_end_fitting', 'PA-29', (HX, -80, HA - TB), (0, 0, -1), 'z')
+# X carriage (owner 2026-11-28: conduit visible and styled; design review): the roof loop now folds LEFT, so the conduit reaches the carriage
+# heading +x at (34, 230, z 522). One R 60 upturn (bend A, plane y 230) puts it into the plane x 114; there it rises behind the saddle, bends
+# forward over the saddle (bend B, R 60) into a small branch box, and the Z run drops from the box floor in the same plane to the tool head.
+# Carrier = one SPHC t3 welded part, anthracite: rear web (backdrop behind the leg, bend A and the riser, carries both clamps), side fin
+# (quarter-sheave outline behind bend B, welded to the box), saddle flange (4 x M5 in the old arm holes).
 ZT_ = 494.0 + 34.5 / 2 + 10.75                                # X loop centre height (roof adaptor body and nut clear of the plate)
-XCR, ZTOP = 110.0, 743.5                                       # conduit plane over the saddle, centre height of the run into the box
-JB = [(84.0, 136.0, 14.0, 100.0, 712.0, 778.0)]                # branch box (saddle top z 706, Z motor x <= 30 / y >= 49)
+XCR, ZTOP = HX, 743.5                                          # conduit plane x 114, centre height of the run into the box
+web = box(14, 142, 262.0, 265.0, 500.0, 705.0)
+notch = box(14, 79.5, 262.0, 265.0, 556.5, 705.0).cut(box(54, 79.5, 262.0, 265.0, 556.5, 582.0).cut(Part.makeCylinder(25.5, 3, V(54, 262.0, 582.0), V(0, 1, 0))))
+outer = box(54, 142, 262.0, 265.0, 494.0, 582.0).cut(Part.makeCylinder(88.0, 3, V(54, 262.0, 582.0), V(0, 1, 0)))
+web = web.cut(notch).cut(outer)
+fin = box(83, 86, 100.0, 262.0, 565.0, 778.0).cut(box(83, 86, 100.0, 137.0, 565.0, 712.0))
+fin = fin.cut(box(83, 86, 170.0, 262.0, 683.5, 778.0).cut(Part.makeCylinder(94.5, 3, V(83, 170.0, 683.5), V(1, 0, 0))))
+fl = box(60, 118, 134.0, 137.0, 565.0, 660.0)
+for x_, z_ in ((72, 580), (106, 580), (72, 640), (106, 640)): fl = fl.cut(Part.makeCylinder(2.75, 10, V(x_, 130, z_), V(0, 1, 0)))
+add('Conduit_X_carrier', fuse(web, fin, fl).removeSplitter(), GC, 'SPHC t3 laser-cut, welded conduit carrier on the X saddle, powder coat RAL 7016: '
+    'rear web y 262..265 (backdrop of the loop end, bend A R60 and the riser; both PA-29 clamps), side fin x 83..86 (quarter-sheave outline '
+    'concentric with bend B, welded to the branch box), saddle flange 4 x M5', 'x', '')
+bolts_into('X_saddle_plate', 'Conduit_X_carrier', [(x_, 0, z_) for x_, z_ in ((72, 580), (106, 580), (72, 640), (106, 640))], 'y', 134.0, -1)
+JB = [(86.0, 142.0, 14.0, 100.0, 712.0, 778.0)]                # branch box: right face flush with the saddle edge x 142, top flush with the fin
 jb = sheet_box(JB).cut(Part.makeCylinder(paq_hole('PA-29'), 10, V(XCR, 95.0, ZTOP), V(0, 1, 0))).cut(Part.makeCylinder(paq_hole('PA-29'), 10, V(XCR, 40, 707.0)))
-JG = (84.0, 30.0, 745.0)                                       # gland in the left wall, toward -x
+JG = (86.0, 70.0, 748.0)                                       # Z motor gland in the left wall, facing the motor side (x 30)
 jb = jb.cut(Part.makeCylinder(12.5, 10, V(JG[0] - 5, JG[1], JG[2]), V(1, 0, 0)))
-add('X_branch_box', jb, GC, 'SPHC t1.6 welded branch box 52 x 86 x 66 on the conduit guide (2 x M4 into the side plate): PAQ-2929 in the rear wall '
-    '(conduit from the roof loop), PAQ-2929 in the floor at (110, 40) (Z run), M25 gland in the left wall (Z motor cables)', 'x', '')
-add('X_branch_box_lid', box(84.0, 136.0, 14.0, 100.0, 778.0, 779.6), GC, 'SPHC t1.6 lid of the branch box, 4 x M4', 'x', '')
-gp = fuse(box(136, 139, 137.0, 255.0, 560.0, 780.0), box(136, 139, 14.0, 255.0, 712.0, 780.0), box(136, 139, 14.0, 122.0, 560.0, 712.0),   # side plate
-          box(90, 200, 252.0, 255.0, 497.0, 780.0),            # rear plate (behind the conduit), carries the two clamps
-          box(60, 136, 134.0, 137.0, 560.0, 700.0),            # rear flange on the saddle ear back face (old arm holes)
-          box(102, 136, 119.0, 122.0, 560.0, 650.0))           # front flange on the saddle ear front face (below the Z roll block)
-for x_, z_ in ((72, 580), (106, 580), (72, 640), (106, 640)): gp = gp.cut(Part.makeCylinder(2.75, 10, V(x_, 130, z_), V(0, 1, 0)))
-for z_ in (575, 630): gp = gp.cut(Part.makeCylinder(2.75, 10, V(110, 115, z_), V(0, 1, 0)))
-add('Conduit_X_guide', gp, GC, 'SPHC t3 laser-cut, bent and welded conduit guide on the X saddle: side plate x 136..139 carrying the branch box, '
-    'rear plate y 252..255 with the two PA-29 clamps, flanges with 4 + 2 x M5 into the saddle ear faces; edges rounded, powder coated', 'x', '')
-bolts_into('X_saddle_plate', 'Conduit_X_guide', [(x_, 0, z_) for x_, z_ in ((72, 580), (106, 580), (72, 640), (106, 640))], 'y', 134.0, -1)
-for k, z_ in enumerate((575, 630), 5):                         # front flange screws (same guide part)
-    c_ = V(110, 122.0, z_); d_ = V(0, 1, 0)
-    add('Conduit_X_guide_bolt_%d' % k, fuse(Part.makeCylinder(2.5, 10, c_ - d_ * TB, d_), Part.makeCylinder(4.25, 5, c_ - d_ * (TB + 5), d_)), GC,
-        'M5x10 SHCS into X_saddle_plate (M5 tapped 12 deep)', 'x', '')
-    hole('X_saddle_plate', Part.makeCylinder(2.1, 12, c_, d_)); cut('X_saddle_plate', Part.makeCylinder(2.5, 12, c_, d_))
-def ring_clamp(label, c, d, foot):                             # PA-29 conduit clamp (KSS fixing base placeholder) + foot block to the guide
+add('X_branch_box', jb, GC, 'SPHC t1.6 U-bent branch box 56 x 86 x 66, R3 edges, RAL 7016, welded to the carrier fin: PAQ-2929 in the rear wall '
+    '(conduit from the roof loop), PAQ-2929 in the floor at (114, 40) (Z run), M25 gland in the left wall (Z motor cables), blank front', 'x', '')
+add('X_branch_box_lid', box(86.0, 142.0, 14.0, 100.0, 778.0, 779.6), GC, 'SPHC t1.6 lid of the branch box, 4 x M4 stainless button head', 'x', '')
+def ring_clamp(label, c, d, foot, r=17.25):                    # conduit clamp (KSS fixing base placeholder) + foot block to the carrier
     c = V(*c); d = V(*d)
-    sh = Part.makeCylinder(21.25, 14, c - d * 7, d).cut(Part.makeCylinder(17.75, 14, c - d * 7, d)).fuse(box(*foot))
-    add(label, sh.removeSplitter(), GC, 'conduit clamp for PA-29 (KSS fixing base / 浪管固定座) on the conduit guide - size to confirm from the KSS catalog', 'x', '')
-ring_clamp('Conduit_X_moving_clamp', (178.0, 230.0, ZT_), (1, 0, 0), (171.0, 185.0, 249.0, 252.0, ZT_ - 12, ZT_ + 12))
-ring_clamp('Conduit_X_riser_clamp', (XCR, 230.0, 627.0), (0, 0, 1), (100.0, 120.0, 249.0, 252.0, 620.0, 634.0))
+    sh = Part.makeCylinder(r + 4.0, 14, c - d * 7, d).cut(Part.makeCylinder(r + 0.5, 14, c - d * 7, d)).fuse(box(*foot))
+    add(label, sh.removeSplitter(), GC, 'conduit clamp for PA-%d (KSS fixing base / 浪管固定座), RAL 7016 - size to confirm from the KSS catalog'
+        % (29 if r > 15 else 17), 'x' if r > 15 else 'y', '')
+ring_clamp('Conduit_X_moving_clamp', (34.0, 230.0, ZT_), (1, 0, 0), (27.0, 41.0, 250.0, 262.0, ZT_ - 10, ZT_ + 10))
+ring_clamp('Conduit_X_riser_clamp', (XCR, 230.0, 635.0), (0, 0, 1), (104.0, 124.0, 250.0, 262.0, 628.0, 642.0))
 paq('Conduit_X_box_fitting', 'PA-29', (XCR, 100.0, ZTOP), (0, 1, 0), 'x')
 paq('Conduit_ZB_top_fitting', 'PA-29', (XCR, 40, 712.0), (0, 0, -1), 'x')
 add('X_branch_box_gland', fuse(Part.makeCylinder(12.5, 9, V(JG[0] + 7, JG[1], JG[2]), V(-1, 0, 0)), Part.makeCylinder(16.0, 10, V(JG[0], JG[1], JG[2]), V(-1, 0, 0)),
-    Part.makeCylinder(13.0, 9, V(JG[0] - 10, JG[1], JG[2]), V(-1, 0, 0))), GC,
-    'cable gland M25x1.5 nylon with locknut and multi-hole seal (e.g. LAPP SKINTOP ST-M 25x1.5 + multi-hole insert): Z motor power, brake and '
-    'encoder leads; size estimated, confirm on the vendor drawing', 'x', '')
+    Part.makeCylinder(13.0, 6, V(JG[0] - 10, JG[1], JG[2]), V(-1, 0, 0))), GC,
+    'cable gland M25x1.5 nylon, black, with locknut and multi-hole seal (e.g. LAPP SKINTOP ST-M 25x1.5 + multi-hole insert): Z motor power, brake '
+    'and encoder leads; size estimated, confirm on the vendor drawing', 'x', '')
 # roof: 90 deg elbow connector in the box top plate gland (50, 390) and a clamp on the fixed leg
 # roof: KSS has no 90 deg adaptor on the catalog page -> a bent tab on the box top plate carries a straight PAQ-2929 along +x (the fixed
 # leg starts at its body end); the cables leave the adaptor toward -x and drop through the plate hole at (0, 390)
-rt = fuse(box(25, 50, 365.0, 415.0, 494.0, 494.0 + TB), box(50 - TB, 50, 365.0, 415.0, 494.0, ZT_ + 30))
-rt = rt.cut(Part.makeCylinder(paq_hole('PA-29'), 10, V(40, 390, ZT_), V(1, 0, 0)))
+rt = fuse(box(-50, -25, 365.0, 415.0, 494.0, 494.0 + TB), box(-50, -50 + TB, 365.0, 415.0, 494.0, ZT_ + 30))   # mirrored: the loop folds LEFT (2026-11-28)
+rt = rt.cut(Part.makeCylinder(paq_hole('PA-29'), 10, V(-55, 390, ZT_), V(1, 0, 0)))
 for y_ in (375.0, 405.0):
-    rt = rt.cut(Part.makeCylinder(2.75, 10, V(32, y_, 490))); cut('Box_top_plate', Part.makeCylinder(2.75, 10, V(32, y_, 488)))
-    add('Conduit_X_roof_tab_bolt_%d' % (1 if y_ < 390 else 2), fuse(Part.makeCylinder(2.5, 16, V(32, y_, 481.0)), Part.makeCylinder(4.25, 4, V(32, y_, 494.0 + TB))), GC,
+    rt = rt.cut(Part.makeCylinder(2.75, 10, V(-32, y_, 490))); cut('Box_top_plate', Part.makeCylinder(2.75, 10, V(-32, y_, 488)))
+    add('Conduit_X_roof_tab_bolt_%d' % (1 if y_ < 390 else 2), fuse(Part.makeCylinder(2.5, 16, V(-32, y_, 481.0)), Part.makeCylinder(4.25, 4, V(-32, y_, 494.0 + TB))), GC,
         'M5x16 button head: roof adaptor tab through the box top plate and the L-plate flange into the nut under the flange (nut: electrical session)', '', '')
-add('Conduit_X_roof_tab', rt, GC, 'SPHC t3 bent: tab on the box top plate (2 x M5) carrying the X conduit adaptor PAQ-2929 along +x, hole D37.3', '', '')
-paq('Conduit_X_roof_connector', 'PA-29', (50, 390, ZT_), (1, 0, 0), '')
+add('Conduit_X_roof_tab', rt, GC, 'SPHC t3 bent: tab on the box top plate (2 x M5) carrying the X conduit adaptor PAQ-2929 pointing -x (loop folded left), hole D37.3', '', '')
+paq('Conduit_X_roof_connector', 'PA-29', (-50, 390, ZT_), (-1, 0, 0), '')
 # Y run fixed end: bracket on the column box L-plate front face (2 x M5 + nut, holes by the electrical session at x 265 / 295, z 265), shelf
 # z 233..236 under the plate edge back to y 460, adaptor hanging down at (280, 446); the conduit drops to the lower tray (bend R 55)
 yt = fuse(box(255, 305, 255.0 - TB, 255.0, 233.0, 281.0), box(255, 305, 255.0 - TB, 460.0, 233.0, 236.0))

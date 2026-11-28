@@ -15,15 +15,15 @@ ROOT = os.environ.get('CNC_ROOT') or r'D:\\Claude\\CNC DESIGN'
 # only through the bottom cover (Y) and the roof gland (X); everything else of every conduit must stay outside it.
 BOX = ((-392.5, 252.0, 241.0), (392.5, 450.0, 494.0))   # box (electrical session, column_box/) hung under the box top plate (01: z 491..494)
 ZT = BOX[1][2] + 34.5 / 2 + 10.75       # X loop centre height: as the roof adaptor on its tab and the carriage-arm clamp (01)
-XFF = 50.0 + 1.2 * 37.0   # fixed leg start: end of the roof PAQ-2929 body (adaptor on the tab at x 50, 01)
-XF = 185.0     # X loop moving leg end (clamp on the carriage conduit guide, 01; was 80) (fixed leg on the roof, moving leg on the carriage arm): loop spans x -120..368 incl. its radius, roof edge 392.5
-GLANDS = [(50, 390, BOX[1][2], 34.5)]   # (x, y, z, conduit OD): X roof (the Y run no longer enters the box)
+XFF = -50.0 - 1.2 * 37.0  # fixed leg start: end of the roof PAQ-2929 body (adaptor on the tab at x -50 pointing -x, 01; loop folded LEFT, 2026-11-28)
+XF = 34.0      # X loop moving leg end (clamp on the carriage conduit carrier, 01); the conduit leaves it heading +x (fixed leg on the roof, moving leg on the carriage arm): loop spans x -120..368 incl. its radius, roof edge 392.5
+GLANDS = [(-50, 390, BOX[1][2], 34.5)]   # (x, y, z, conduit OD): X roof (the Y run no longer enters the box)
 ATTACH = {   # conduit -> its own end fittings / clamps (01): the conduit ends inside them, reported apart as expected
     'Conduit_Y': ('Conduit_Y_top_fitting', 'Conduit_Y_end_fitting'), 'Conduit_ZB': ('Conduit_head_end_fitting', 'Conduit_ZB_top_fitting'),
     'Conduit_XA': ('Conduit_X_roof_connector', 'Conduit_X_moving_clamp'),
     'Conduit_carriage_run': ('Conduit_X_moving_clamp', 'Conduit_X_riser_clamp', 'Conduit_X_box_fitting'),
     'Conduit_Ymotor_run': ('Conduit_Ymotor_box_fitting', 'Conduit_Ymotor_end_fitting'),
-    'Conduit_mirror_run': ('Conduit_mirror_box_fitting', 'Conduit_mirror_end_fitting', 'Conduit_rear_clamp_1', 'Conduit_rear_clamp_2')}
+    'Conduit_mirror_run': ('Conduit_mirror_box_fitting', 'Conduit_mirror_end_fitting', 'Conduit_Y_yoke_L', 'Conduit_Y_yoke_R')}
 OLD_PANEL = ('Electrical_panel', 'Servo_amp', 'Servo_bolt', 'Controller', 'Board_standoff', 'Panel_standoff')   # replaced by the box
 # name: (label, outer D, length, (frame, point, direction) start, (frame, point, direction) end, min bend radius allowed)
 CONDUITS = {
@@ -33,27 +33,28 @@ CONDUITS = {
     'Conduit_Y': ('Y 軸浪管：立柱電箱 L 板支架直下 → 底座托盤 → R55 滾動彎 → 工作台右後集線盒（KSS PA-23，模型外徑 28.5），x 280 平面', 28.5, None,
                   ('s', (280, 446, 233.0 - 1.2 * 28.3), (0, 0, -1)), ('y', (280, 225.0 - 1.2 * 28.3, 127.25), (0, 1, 0)), 50.0),
     'Conduit_ZB': ('Z 段浪管：X 滑座集線盒 → 工具頭（KSS PA-29，模型外徑 34.5），下垂 U 型', 34.5, 560.0,
-                   ('x', (110, 40, 712.0 - 1.2 * 37.0), (0, 0, -1)), ('z', (110, -80, 470.0 - 2 * 1.2 * 37.0 - 3.0), (0, 0, 1)), 60.0),   # end under the head bracket arm
+                   ('x', (114, 40, 712.0 - 1.2 * 37.0), (0, 0, -1)), ('z', (114, -80, 470.0 - 2 * 1.2 * 37.0 - 3.0), (0, 0, 1)), 60.0),   # end under the head bracket arm
     # rolling loop on the box top plate (X: fixed leg y 390, moving leg y 230 on an arm from the carriage, bend R 80)
     'Conduit_XA': ('X 段浪管：電箱頂板上的水平滾動 U 型環，R 80（KSS PA-29，模型外徑 34.5）', 34.5, None,
-                   ('s', (XFF, 390, ZT), (1, 0, 0)), ('x', (XF, 230, ZT), (1, 0, 0)), 60.0),
+                   ('s', (XFF, 390, ZT), (-1, 0, 0)), ('x', (XF, 230, ZT), (-1, 0, 0)), 60.0),
 }
-ROLL = {'Conduit_XA': {'R': 80.0, 'c': 47.5}}   # c: loop reach unchanged with the moving end at x 185
+ROLL = {'Conduit_XA': {'R': 80.0, 'c': 164.0, 'm': -1}}   # m -1: legs run -x from their ends, bend on the left; c 164: reach x -382.5 at X -182.5, bend left of the fixed leg start at X +182.5
 def _arc(c, r, a0, a1, plane, n=8):    # points on an arc in the 'xz' or 'yz' plane through centre c, angles in degrees
     out = []
     for k in range(n + 1):
         t = math.radians(a0 + (a1 - a0) * k / n); u, w = r * math.cos(t), r * math.sin(t)
         out.append((c[0] + u, c[1], c[2] + w) if plane == 'xz' else (c[0], c[1] + u, c[2] + w))
     return out
-# carriage run (x frame, the same PA-29 as the roof loop, owner 2026-11-28: visible on a sheet-metal guide): moving-end clamp (185, 230)
-# -> bend up R 60 -> riser at x 110 -> bend forward R 60 over the saddle -> PAQ-2929 in the branch box rear wall (01)
-CARRIAGE_RUN = ([(XF, 230, ZT)] + _arc((170, 230, ZT + 60), 60, -90, -180, 'xz') + _arc((110, 170, 683.5), 60, 0, 90, 'yz')
-                + [(110, 100.0 + 1.2 * 37.0, 743.5)])
-MIRROR_RUN = ([(180 - 1.2 * 22.5, 326, 97), (-200, 326, 97)] + [(-200 + 50 * math.cos(math.radians(t)), 276 + 50 * math.sin(math.radians(t)), 97)
-              for t in range(90, 181, 10)] + [(-250, 203 + 1.2 * 22.5, 97)])
+# carriage run (x frame, the same PA-29 as the roof loop; owner 2026-11-28, design review): moving-end clamp at x 34 -> straight to x 54 ->
+# bend A up R 60 (plane y 230) -> riser in the plane x 114 -> bend B forward R 60 over the saddle -> PAQ-2929 in the branch box rear wall (01)
+CARRIAGE_RUN = ([(XF, 230, ZT)] + _arc((54, 230, ZT + 60), 60, -90, 0, 'xz') + _arc((114, 170, 683.5), 60, 0, 90, 'yz')
+                + [(114, 100.0 + 1.2 * 37.0, 743.5)])
+TZ, TY1, TY2 = 99.0, 292.0, 326.0                              # table rear PA-17 lanes: one plane z 99, y 292 (Y motor) / 326 (mirror cover), pitch 34
+MIRROR_RUN = ([(180 - 1.2 * 22.5, TY2, TZ), (-200, TY2, TZ)] + [(-200 + 50 * math.cos(math.radians(t)), 276 + 50 * math.sin(math.radians(t)), TZ)
+              for t in range(90, 181, 10)] + [(-250, 203 + 1.2 * 22.5, TZ)])
 STATIC_RUNS = {   # conduit pieces fixed to one frame (no flexing): drawn and checked for collisions
     'Conduit_carriage_run': ('x', 34.5, CARRIAGE_RUN),
-    'Conduit_Ymotor_run': ('y', 21.2, [(180 - 1.2 * 22.5, 292, 97), (73 + 1.2 * 22.5, 292, 97)]),   # table end box -> Y motor bracket (PA-17)
+    'Conduit_Ymotor_run': ('y', 21.2, [(180 - 1.2 * 22.5, TY1, TZ), (73 + 1.2 * 22.5, TY1, TZ)]),   # table end box -> Y motor bracket (PA-17)
     'Conduit_mirror_run': ('y', 21.2, MIRROR_RUN),                                                  # table end box -> mirror-cover bracket (PA-17)
 }
 def off(fr, P):
@@ -87,16 +88,18 @@ def relax(c, P, n=41, it=6000):
     taut = np.linalg.norm(B - A) > 0.98 * L
     return [tuple(p) for p in x], ('TAUT' if taut else '')
 def roll(name, c, P, n=61):
-    """rolling loop in the plane of the legs: fixed leg from xf, moving leg from xa, both along +x, semicircle R at xb = (xf+xa)/2 + c"""
-    R, cc = ROLL[name]['R'], ROLL[name]['c']
+    """rolling loop in the plane of the legs: fixed leg from xf, moving leg from xa, both along m*x, semicircle R at xb = (xf+xa)/2 + c
+    (computed in u = m*x)"""
+    R, cc, m = ROLL[name]['R'], ROLL[name]['c'], ROLL[name].get('m', 1)
     (f0, a0, _), (f1, a1, _) = c[3], c[4]
     xf, yF, z = a0; xa = a1[0] + off(f1, P)[0]; yM = a1[1]
+    xf, xa = m * xf, m * xa
     xb = (xf + xa) / 2 + cc; yc = (yF + yM) / 2; r = abs(yF - yM) / 2
     q = [(xf + (xb - xf) * k / 12, yF, z) for k in range(13)]
     sgn = 1 if yF > yc else -1
     for k in range(1, 24): t = math.pi * k / 24; q.append((xb + r * math.sin(t), yc + sgn * r * math.cos(t), z))
     q += [(xb - (xb - xa) * k / 12, yM, z) for k in range(13)]
-    return q, ''
+    return [(m * u, y, z_) for u, y, z_ in q], ('INVERTED' if xb < max(xf, xa) - 0.5 else '')
 def hang(c, P, n=60):
     """hanging U: a vertical leg down from each end, joined by a half circle in the vertical plane through both ends (radius = half
     their horizontal distance); leg lengths share the fixed conduit length so both legs end at the same height"""

@@ -16,6 +16,8 @@ def cls(o):
     if n.startswith(('X_block', 'X_carriage', 'X_ball_nut', 'X_nut_bracket', 'X_saddle', 'Z_')): return 'x'
     return ''
 def colour(n, k):
+    if n.startswith(('Conduit_', 'X_branch_box', 'Table_cable', 'Feeder_entry')):   # cable system = one dark layer (design review)
+        return [0.07, 0.07, 0.08] if re.search(r'(fitting|connector|gland)', n) else [0.22, 0.24, 0.27]
     if n.startswith(('Servo_amp', 'X_motor', 'Y_motor', 'Z_motor')) and 'plate' not in n and 'block' not in n: return [0.2, 0.22, 0.25]
     if n.startswith('Controller'): return [0.1, 0.45, 0.25]
     return {'y': [0.78, 0.62, 0.42], 'x': [0.5, 0.64, 0.8], 'z': [0.62, 0.72, 0.84]}.get(k, [0.68, 0.71, 0.75])
