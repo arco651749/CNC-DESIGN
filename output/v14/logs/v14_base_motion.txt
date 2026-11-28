@@ -1,4 +1,4 @@
-parts: 577   motion classes: static 295 / y 55 / x 112 / z 115
+parts: 595   motion classes: static 295 / y 71 / x 114 / z 115
 
 DESIGN CONTACTS AT HOME (overlap > 1 mm3, review): 10
   Coolant_hose_1 x Coolant_hose_2 : 288 mm3
@@ -12,7 +12,9 @@ DESIGN CONTACTS AT HOME (overlap > 1 mm3, review): 10
   Z_ball_nut x Z_nut_housing : 19 mm3
   Z_ballscrew x Z_support_fixed : 137 mm3
 
-COLLISIONS AT TRAVEL ENDS (new vs home): 0
+COLLISIONS AT TRAVEL ENDS (new vs home): 2
+  Coolant_nozzle_2 x Table_cable_end_box : [(-250, 182.5, -50, 78)]
+  Coolant_nozzle_2 x Table_cable_end_box_lid : [(-250, 182.5, -50, 73)]
 
 ALLOWED:
   Tool_D5 x Work_table : [(-250, -182.5, -50, 98), (-250, 182.5, -50, 98), (150, -182.5, -50, 98), (150, 182.5, -50, 98)]
