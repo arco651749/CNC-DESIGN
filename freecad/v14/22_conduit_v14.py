@@ -16,11 +16,14 @@ ROOT = os.environ.get('CNC_ROOT') or r'D:\\Claude\\CNC DESIGN'
 BOX = ((-392.5, 252.0, 241.0), (392.5, 450.0, 494.0))   # box (electrical session, column_box/) hung under the box top plate (01: z 491..494)
 ZT = BOX[1][2] + 34.5 / 2 + 10.75       # X loop centre height: as the roof adaptor on its tab and the carriage-arm clamp (01)
 XFF = 50.0 + 1.2 * 37.0   # fixed leg start: end of the roof PAQ-2929 body (adaptor on the tab at x 50, 01)
-XF = 80.0      # X loop moving leg end (fixed leg on the roof, moving leg on the carriage arm): loop spans x -120..368 incl. its radius, roof edge 392.5
+XF = 185.0     # X loop moving leg end (clamp on the carriage conduit guide, 01; was 80) (fixed leg on the roof, moving leg on the carriage arm): loop spans x -120..368 incl. its radius, roof edge 392.5
 GLANDS = [(50, 390, BOX[1][2], 34.5)]   # (x, y, z, conduit OD): X roof (the Y run no longer enters the box)
 ATTACH = {   # conduit -> its own end fittings / clamps (01): the conduit ends inside them, reported apart as expected
     'Conduit_Y': ('Conduit_Y_top_fitting', 'Conduit_Y_end_fitting'), 'Conduit_ZB': ('Conduit_head_end_fitting', 'Conduit_ZB_top_fitting'),
-    'Conduit_XA': ('Conduit_X_roof_connector', 'Conduit_X_moving_fitting')}
+    'Conduit_XA': ('Conduit_X_roof_connector', 'Conduit_X_moving_clamp'),
+    'Conduit_carriage_run': ('Conduit_X_moving_clamp', 'Conduit_X_riser_clamp', 'Conduit_X_box_fitting'),
+    'Conduit_Ymotor_run': ('Conduit_Ymotor_box_fitting', 'Conduit_Ymotor_end_fitting'),
+    'Conduit_mirror_run': ('Conduit_mirror_box_fitting', 'Conduit_mirror_end_fitting', 'Conduit_rear_clamp_1', 'Conduit_rear_clamp_2')}
 OLD_PANEL = ('Electrical_panel', 'Servo_amp', 'Servo_bolt', 'Controller', 'Board_standoff', 'Panel_standoff')   # replaced by the box
 # name: (label, outer D, length, (frame, point, direction) start, (frame, point, direction) end, min bend radius allowed)
 CONDUITS = {
@@ -35,16 +38,24 @@ CONDUITS = {
     'Conduit_XA': ('X 段浪管：電箱頂板上的水平滾動 U 型環，R 80（KSS PA-29，模型外徑 34.5）', 34.5, None,
                    ('s', (XFF, 390, ZT), (1, 0, 0)), ('x', (XF, 230, ZT), (1, 0, 0)), 60.0),
 }
-ROLL = {'Conduit_XA': {'R': 80.0, 'c': 100.0}}
+ROLL = {'Conduit_XA': {'R': 80.0, 'c': 47.5}}   # c: loop reach unchanged with the moving end at x 185
 def _arc(c, r, a0, a1, plane, n=8):    # points on an arc in the 'xz' or 'yz' plane through centre c, angles in degrees
     out = []
     for k in range(n + 1):
         t = math.radians(a0 + (a1 - a0) * k / n); u, w = r * math.cos(t), r * math.sin(t)
         out.append((c[0] + u, c[1], c[2] + w) if plane == 'xz' else (c[0], c[1] + u, c[2] + w))
     return out
-# (v14 2026-11-28) the open carriage run over the saddle is gone: the X loop ends in the X carriage junction box (01) and the Z run starts
-# from its floor, both on PAQ-2929 adaptors
-STATIC_RUNS = {}
+# carriage run (x frame, the same PA-29 as the roof loop, owner 2026-11-28: visible on a sheet-metal guide): moving-end clamp (185, 230)
+# -> bend up R 60 -> riser at x 110 -> bend forward R 60 over the saddle -> PAQ-2929 in the branch box rear wall (01)
+CARRIAGE_RUN = ([(XF, 230, ZT)] + _arc((170, 230, ZT + 60), 60, -90, -180, 'xz') + _arc((110, 170, 683.5), 60, 0, 90, 'yz')
+                + [(110, 100.0 + 1.2 * 37.0, 743.5)])
+MIRROR_RUN = ([(180 - 1.2 * 22.5, 326, 97), (-200, 326, 97)] + [(-200 + 50 * math.cos(math.radians(t)), 276 + 50 * math.sin(math.radians(t)), 97)
+              for t in range(90, 181, 10)] + [(-250, 203 + 1.2 * 22.5, 97)])
+STATIC_RUNS = {   # conduit pieces fixed to one frame (no flexing): drawn and checked for collisions
+    'Conduit_carriage_run': ('x', 34.5, CARRIAGE_RUN),
+    'Conduit_Ymotor_run': ('y', 21.2, [(180 - 1.2 * 22.5, 292, 97), (73 + 1.2 * 22.5, 292, 97)]),   # table end box -> Y motor bracket (PA-17)
+    'Conduit_mirror_run': ('y', 21.2, MIRROR_RUN),                                                  # table end box -> mirror-cover bracket (PA-17)
+}
 def off(fr, P):
     dx, dy, dz = P
     return {'s': (0, 0, 0), 'y': (0, dy, 0), 'x': (dx, 0, 0), 'z': (dx, 0, dz)}[fr]

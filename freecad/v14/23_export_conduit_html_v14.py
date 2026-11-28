@@ -30,10 +30,10 @@ for o in OBJS:
     if o.TypeId != 'Part::Feature' or o.Shape.isNull() or not o.Shape.Solids: continue
     sh = o.Shape; b = sh.BoundBox
     if o.Label.startswith(('Electrical_panel', 'Servo_amp', 'Controller', 'Board_standoff', 'Panel_standoff', 'Keepout')): continue   # old back plate: replaced by the column box (drawn as its envelope)
-    OWN = ('Conduit_', 'Feeder_entry', 'X_cable_box', 'Table_cable')                # conduit adaptors / glands / boxes are drawn
+    OWN = ('Conduit_', 'Feeder_entry', 'X_branch_box', 'Table_cable')                # conduit adaptors / glands / boxes are drawn
     if sh.Volume < 400 or (re.search(r'(bolt|screw|_pin|dowel|epoxy|shim|fitting|tube|reed|nut$)', o.Label, re.I) and not
             (o.Label.startswith(OWN) and not re.search(r'(bolt|screw)', o.Label))): continue
-    if len(sh.Faces) > 60 and not o.Label.startswith(('Box_top', 'Conduit_', 'Feeder_', 'X_cable_box', 'Table_')):   # vendor-detailed parts as boxes; own sheet parts keep their real outline
+    if len(sh.Faces) > 60 and not o.Label.startswith(('Box_top', 'Conduit_', 'Feeder_', 'X_branch_box', 'Table_')):   # vendor-detailed parts as boxes; own sheet parts keep their real outline
         sh = Part.makeBox(b.XLength, b.YLength, b.ZLength, App.Vector(b.XMin, b.YMin, b.ZMin))
     pts, tris = sh.tessellate(max(1.5, 0.012 * max(b.XLength, b.YLength, b.ZLength)))
     c = [int(round(v * 4)) for p in pts for v in (p.x, p.y, p.z)]; idx = [i for t in tris for i in t]; w = 1 if len(pts) < 65536 else 0

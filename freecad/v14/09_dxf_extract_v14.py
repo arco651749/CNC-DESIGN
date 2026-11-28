@@ -20,7 +20,7 @@ PARTS = [('Datum_base_plate', 1), ('Work_table', 1), ('Column_foot_L', 1), ('Col
          ('Yaw_push_block', 1), ('X_roll_bracket', 1), ('Z_roll_block_L', 1), ('Z_roll_block_R', 1), ('Spindle_roll_block_L', 1), ('Spindle_roll_block_R', 1),
          ('Camera_bracket', 1), ('Camera_bracket_cap', 1), ('Probe_stem', 1), ('Camera_air_ring', 1), ('Mirror_bracket', 1), ('Probe_holder', 1),
          ('Box_top_plate', 1), ('Box_top_shim_L', 2),
-         ('Conduit_Y_table_tray', 1), ('Conduit_Y_base_tray', 1), ('Conduit_head_bracket', 1), ('X_cable_box_flange_R', 1), ('X_cable_box_flange_F', 1),
+         ('Conduit_Y_table_tray', 1), ('Conduit_Y_base_tray', 1), ('Conduit_head_bracket', 1), ('Conduit_X_guide', 1), ('Conduit_Ymotor_bracket', 1), ('Conduit_mirror_bracket', 1),
          ('Conduit_Y_top_bracket', 1), ('Feeder_entry_plate', 1), ('Conduit_X_roof_tab', 1)]
 AX = {'x': App.Vector(1, 0, 0), 'y': App.Vector(0, 1, 0), 'z': App.Vector(0, 0, 1)}
 UV = {'z': ('x', 'y'), 'y': ('x', 'z'), 'x': ('y', 'z')}
