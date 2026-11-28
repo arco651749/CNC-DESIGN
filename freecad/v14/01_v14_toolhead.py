@@ -599,9 +599,11 @@ def paq(label, size, c, d, motion, group=None):
     add(label, sh, group or GC, 'KSS %s easy-type conduit adaptor (%s, NYLON 66, with locknut) for %s; sheet hole D%.1f (catalog); body size estimated'
         % (pn, pg, size, 2 * paq_hole(size)), motion, '')
 # Y run (owner 2026-11-27): rolling loop in the plane x 280, in the gap between the work table (x 220) and the right gantry column (x 312).
-# Lower leg lies in a fixed tray on the datum plate (z 17.25), upper leg ends at a tab on the table's right side face (z 127.25), bend R 55
+# Lower leg lies in a fixed tray on the datum plate (z 17.25), upper leg ends at the table end box (z 117.25), bend R 50
 # moves half the table travel. A hanging U beside the table cannot work: with 400 travel its loop always meets a gantry column.
-YX, YZL, YZU = 280.0, 17.25, 127.25                            # loop plane, lower / upper leg centre heights (PA-23 OD 28.5), R 55
+YX, YZL, YZU = 280.0, 17.25, 117.25                            # loop plane, lower / upper leg centre heights (PA-23 OD 28.5), R 50
+# (R 55 -> 50, 2026-11-28: the coolant nozzles at X +182.5 / Z -50 sweep x 244..272 above z 140 over the whole table-end region; the PAQ-2321
+# body / nut and the end box must stay under that, a check at intermediate Y poses found it)
 # The upper leg cannot lie on a tray along the table: the bend rolls along under it (half the table speed) and would cut through the floor.
 # The table tray only carries the moving end and the last ~60 mm of the upper leg (rel. y 200..262); the rest of the upper leg is a free span
 # (up to ~205 mm at Y +150), like every rolling loop. The lower leg lies in a fixed channel on the datum plate; it covers the datum-plate bolt
@@ -617,24 +619,30 @@ def sheet_box(parts, t=1.6):                                   # welded sheet bo
 YE = 225.0                                                     # end box front wall (adaptor sheet), adaptor body rel. y 191..225
 YF0 = 163.0                                                    # front end of the conduit lane (bend max. rel. y 157.5)
 yu = fuse(box(220, 223, -20.0, 263.5, 75.0, 113.0),           # web on the table right side face (3 x M5)
-          box(223, 303, YF0, YE - 37.0, 110.0, 113.0), box(300, 303, YF0, YE, 113.0, 140.0), box(255, 258, YF0, YE, 113.0, 135.0))   # short lane + lips
+          box(223, 303, YF0, YE - 37.0, 100.0, 103.0), box(300, 303, YF0, YE, 103.0, 125.0), box(255, 258, YF0, YE, 103.0, 120.0))   # short lane + lips
 for y_ in (0.0, 110.0, 220.0): yu = yu.cut(Part.makeCylinder(2.75, 10, V(218.0, y_, 90.0), V(1, 0, 0)))
 add('Conduit_Y_table_tray', yu, GC, 'SPHC t3 bent: Y conduit tray on the work table right side face (3 x M5), short conduit lane x 258..303 '
-    'y 163..188 (the rolling bend passes in front of it), lips; the table end box is welded to its web', 'y', '')
+    'y 163..188, floor z 100..103 (the rolling bend passes in front of it), lips; the table end box is welded to its web', 'y', '')
 bolts_into('Work_table', 'Conduit_Y_table_tray', [(0, y_, 90) for y_ in (0.0, 110.0, 220.0)], 'x', 220.0, -1)
 PZ17, PY1, PY2, PX0 = 99.0, 292.0, 326.0, 180.0               # PA-17 lanes in one plane z 99 (tops at the table top), pitch 34; end box left face
 EBX = [(223.0, 306.0, YE, 276.0, 79.0, 118.0),                 # low L-body, front arm (top z 118: under the ER11 nut / nozzle sweep at X +182.5)
-       (PX0, 258.0, 264.0, 345.0, 79.0, 118.0),                # low L-body, rear arm behind the table (x <= 258: 8 clear of the fixed drop at Y +150)
-       (252.0, 306.0, YE, 276.0, 79.0, 153.0)]                 # turret around the PAQ-2321 nut (r 23.5 at z 127.25)
-eb = sheet_box(EBX).cut(Part.makeCylinder(paq_hole('PA-23'), 10, V(YX, YE - 5, YZU), V(0, 1, 0)))
+       (PX0, 258.0, 264.0, 345.0, 79.0, 118.0)]                # low L-body, rear arm behind the table (x <= 258: 8 clear of the fixed drop at Y +150)
+def chamfered(x0, x1, y0, y1, z0, z1, cx, cz):                 # box with its top-left (-x, +z) edge chamfered 45 deg from (x0, cz) to (cx, z1)
+    tri = Part.Face(Part.makePolygon([V(x0 - 1, y0 - 1, cz - 1), V(x0 - 1, y0 - 1, z1 + 1), V(cx + 2, y0 - 1, z1 + 1), V(x0 - 1, y0 - 1, cz - 1)]))
+    return box(x0, x1, y0, y1, z0, z1).cut(tri.extrude(V(0, y1 - y0 + 2, 0)))
+TUR = (252.0, 306.0, YE, 276.0, 79.0, 143.0, 266.0, 128.0)     # turret around the PAQ-2321 nut (r 23.5 at z 117.25), top z 143, chamfer (252, 128)-(266, 143)
+tout = chamfered(TUR[0], TUR[1], TUR[2], TUR[3], TUR[4], TUR[5], TUR[6], TUR[7])
+tin = chamfered(TUR[0] + 1.6, TUR[1] - 1.6, TUR[2] + 1.6, TUR[3] - 1.6, TUR[4] + 1.6, TUR[5] - 1.6, TUR[6] + 0.66, TUR[7] - 0.66)   # wall 1.6 normal to the chamfer
+eb = fuse(*[box(*q) for q in EBX], tout).cut(fuse(*[box(q[0] + 1.6, q[1] - 1.6, q[2] + 1.6, q[3] - 1.6, q[4] + 1.6, q[5] + (5.0 if k else -1.6))
+    for k, q in enumerate(EBX)], tin)).removeSplitter()   # rear arm open on top (service cover), front arm and turret closed
+eb = eb.cut(Part.makeCylinder(paq_hole('PA-23'), 10, V(YX, YE - 5, YZU), V(0, 1, 0)))
 for y_ in (PY1, PY2): eb = eb.cut(Part.makeCylinder(paq_hole('PA-17'), 10, V(PX0 - 5, y_, PZ17), V(1, 0, 0)))
 for x_ in (190.0, 210.0): eb = eb.cut(Part.makeCylinder(2.75, 10, V(x_, 260.0, 100.0), V(0, 1, 0)))
-add('Table_cable_end_box', eb, GC, 'SPHC t1.6 welded end box (L-body + turret, R3 edges, RAL 7016) at the table right rear corner (welded to the Y tray web, 2 x M5 into the table rear '
+add('Table_cable_end_box', eb, GC, 'SPHC t1.6 welded closed end box (L-body + chamfered turret, R3 edges, RAL 7016) at the table right rear corner (welded to the Y tray web, 2 x M5 into the table rear '
     'face): PAQ-2321 of the Y conduit in the front wall, 2 x PAQ-1716 in the left face of the rear part (Y motor run, mirror-cover run); lid t1.6', 'y', '')
 bolts_into('Work_table', 'Table_cable_end_box', [(x_, 0, 100.0) for x_ in (190.0, 210.0)], 'y', 263.5, -1)
-add('Table_cable_end_box_lid', fuse(*[box(q[0], q[1], q[2], q[3], q[5], q[5] + 1.6) for q in EBX[:2]]).cut(box(252.0, 306.0, YE, 276.0, 110.0, 125.0))
-    .fuse(box(252.0, 306.0, YE, 276.0, 153.0, 154.6)).cut(eb).removeSplitter(), GC,
-    'SPHC t1.6 lid of the table end box (M4 screws into rivet nuts)', 'y', '')
+add('Table_cable_end_box_cover', box(PX0, 258.0, 264.0, 345.0, 118.0, 119.6), GC,
+    'SPHC t1.6 service cover over the rear arm of the end box (top cut out, M4 screws into rivet nuts; cables laid in from the top)', 'y', '')
 paq('Conduit_Y_end_fitting', 'PA-23', (YX, YE, YZU), (0, -1, 0), 'y')
 paq('Conduit_Ymotor_box_fitting', 'PA-17', (PX0, PY1, PZ17), (-1, 0, 0), 'y')
 paq('Conduit_mirror_box_fitting', 'PA-17', (PX0, PY2, PZ17), (-1, 0, 0), 'y')

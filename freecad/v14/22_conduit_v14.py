@@ -30,8 +30,8 @@ CONDUITS = {
     # hanging runs: fixed length between two clamped ends, settles under gravity (Y: panel -> Y motor, Z: X carriage -> tool head)
     # rolling loop in the vertical plane x 280 (table right side): fixed drop from the L-plate bracket, lower leg in the base tray, bend R 55,
     # upper leg in the table tray to the end adaptor (01); the shape is computed by roll_y
-    'Conduit_Y': ('Y 軸浪管：立柱電箱 L 板支架直下 → 底座托盤 → R55 滾動彎 → 工作台右後集線盒（KSS PA-23，模型外徑 28.5），x 280 平面', 28.5, None,
-                  ('s', (280, 446, 233.0 - 1.2 * 28.3), (0, 0, -1)), ('y', (280, 225.0 - 1.2 * 28.3, 127.25), (0, 1, 0)), 50.0),
+    'Conduit_Y': ('Y 軸浪管：立柱電箱 L 板支架直下 → 底座托盤 → R50 滾動彎 → 工作台右後集線盒（KSS PA-23，模型外徑 28.5），x 280 平面', 28.5, None,
+                  ('s', (280, 446, 233.0 - 1.2 * 28.3), (0, 0, -1)), ('y', (280, 225.0 - 1.2 * 28.3, 117.25), (0, 1, 0)), 50.0),
     'Conduit_ZB': ('Z 段浪管：X 滑座分線盒 → 工具頭（KSS PA-23，模型外徑 28.5），x 110 平面下垂 U 型', 28.5, 560.0,
                    ('x', (110, 40, 712.0 - 1.2 * 28.3), (0, 0, -1)), ('z', (110, -80, 470.0 - 2 * 1.2 * 28.3 - 3.0), (0, 0, 1)), 50.0),   # end under the head bracket arm
     # rolling loop on the box top plate (X: fixed leg y 390, moving leg y 230 on an arm from the carriage, bend R 80)
@@ -115,7 +115,7 @@ def hang(c, P, n=60):
         t = math.pi * k / 30; q.append(tuple(C + np.array([-math.cos(t) * hu[0] * r, -math.cos(t) * hu[1] * r, -math.sin(t) * r])))
     q += [tuple(B - [0, 0, b * (15 - k) / 15]) for k in range(16)]
     return q, flag
-YROLL = {'x': 280.0, 'zl': 17.25, 'zu': 127.25, 'R': 55.0, 'yl': 391.0, 'K': 258.5}   # lower leg starts at yl (after the drop bend); K sets the loop
+YROLL = {'x': 280.0, 'zl': 17.25, 'zu': 117.25, 'R': 50.0, 'yl': 396.0, 'K': 261.0}   # lower leg starts at yl (after the drop bend); K sets the loop
 def roll_y(c, P):
     """Y rolling loop: drop from the fixed adaptor, quarter bend into the lower leg (heading -y), half-circle bend, upper leg back (+y) to the
     moving end; the bend sits at yb = (yl + ym) / 2 - K, i.e. it moves half the table travel"""
