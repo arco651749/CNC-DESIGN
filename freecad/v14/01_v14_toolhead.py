@@ -641,7 +641,7 @@ for x_ in (190.0, 210.0): eb = eb.cut(Part.makeCylinder(2.75, 10, V(x_, 260.0, 1
 add('Table_cable_end_box', eb, GC, 'SPHC t1.6 welded closed end box (L-body + chamfered turret, R3 edges, RAL 7016) at the table right rear corner (welded to the Y tray web, 2 x M5 into the table rear '
     'face): PAQ-2321 of the Y conduit in the front wall, 2 x PAQ-1716 in the left face of the rear part (Y motor run, mirror-cover run); lid t1.6', 'y', '')
 bolts_into('Work_table', 'Table_cable_end_box', [(x_, 0, 100.0) for x_ in (190.0, 210.0)], 'y', 263.5, -1)
-add('Table_cable_end_box_cover', box(PX0, 258.0, 264.0, 345.0, 118.0, 119.6), GC,
+add('Table_cable_end_box_cover', box(PX0, 258.0, 264.0, 345.0, 118.0, 119.6).cut(tout), GC,
     'SPHC t1.6 service cover over the rear arm of the end box (top cut out, M4 screws into rivet nuts; cables laid in from the top)', 'y', '')
 paq('Conduit_Y_end_fitting', 'PA-23', (YX, YE, YZU), (0, -1, 0), 'y')
 paq('Conduit_Ymotor_box_fitting', 'PA-17', (PX0, PY1, PZ17), (-1, 0, 0), 'y')
