@@ -2,10 +2,11 @@ v14 conduits: 3 moving runs, 27 poses
 
 Conduit_Y    Y 軸浪管：立柱電箱 L 板支架直下 → 底座托盤 → R55 滾動彎 → 工作台右後集線盒（KSS PA-23，模型外徑 28.5），x 280 平面  length rolling, min bend radius over all poses 55 (allowed 50) OK 
 Conduit_ZB   Z 段浪管：X 滑座集線盒 → 工具頭（KSS PA-29，模型外徑 34.5），下垂 U 型  length 560.0, min bend radius over all poses 60 (allowed 60) OK 
-Conduit_XA   X 段浪管：電箱頂板上的水平滾動 U 型環，R 80（KSS PA-29，模型外徑 34.5）  length rolling, min bend radius over all poses 24 (allowed 60) TOO TIGHT 
+Conduit_XA   X 段浪管：電箱頂板上的水平滾動 U 型環，R 80（KSS PA-29，模型外徑 34.5）  length rolling, min bend radius over all poses 80 (allowed 60) OK 
 
-CONDUIT ENDS IN THEIR OWN FITTINGS / CLAMPS (expected): 1
-  Conduit_XA in Conduit_X_moving_clamp: 54 mm3
+CONDUIT ENDS IN THEIR OWN FITTINGS / CLAMPS (expected): 0
 
-COLLISIONS: 1
-  Conduit_XA x Conduit_X_guide at (182.5, -250, -50): 4063 mm3
+COLLISIONS: 3
+  Conduit_ZB x Box_top_plate at (182.5, -250, -50): 32 mm3
+  Conduit_ZB x Box_top_shim_R at (182.5, -250, -50): 11 mm3
+  Conduit_ZB x Gantry_column_R at (182.5, -250, -50): 2529 mm3
