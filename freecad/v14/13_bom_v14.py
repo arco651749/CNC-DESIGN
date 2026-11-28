@@ -101,10 +101,9 @@ import json, math
 def plen(q): return sum(math.dist(a_, b_) for a_, b_ in zip(q[:-1], q[1:]))
 try:
     cd = json.load(open(os.path.join(ROOT, 'output', 'v14', 'conduits.json'), encoding='utf-8'))
-    L29 = plen(cd['moving']['Conduit_XA']['s'][10]) + plen(cd['static']['Conduit_carriage_run']['p']) \
-          + plen(cd['moving']['Conduit_ZB']['s'][10])
+    L29 = plen(cd['moving']['Conduit_XA']['s'][10]) + plen(cd['moving']['Conduit_ZB']['s'][10])
     L23 = plen(cd['moving']['Conduit_Y']['s'][10])
-    for size, L_, run in (('PA-29', L29, '頂板 PAQ-2929 → 頂板滾動環 → X 滑座 → 工具頭（一條連續）'), ('PA-23', L23, '立柱電控板 Y 支架 PAQ-2321 → Y 馬達支架（一條連續）')):
+    for size, L_, run in (('PA-29', L29, '2 段：頂板 PAQ-2929 → 頂板滾動環 → X 滑座集線盒；集線盒 → 工具頭'), ('PA-23', L23, '立柱電箱 L 板支架 PAQ-2321 → 滾動 U 型 → 工作台（一條連續）')):
         out.append({'群組': '09 Conduits', '零件': 'Conduit_' + size.replace('-', ''), '數量': 1, '類別': '外購件',
                     '規格 / 說明': 'KSS 尼龍浪管 %s（密封型 PA，NYLON 6）：%s；模型長度 %.0f mm，下料 %.0f mm（+10%%）' % (size, run, L_, math.ceil(L_ * 1.1 / 10) * 10),
                     '供應商': 'KSS 凱士士', '料號': size, '連結': 'https://www.kss.com.tw/index.php?action=products3&fid=114&sid=120',

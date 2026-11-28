@@ -19,19 +19,18 @@ XFF = 50.0 + 1.2 * 37.0   # fixed leg start: end of the roof PAQ-2929 body (adap
 XF = 80.0      # X loop moving leg end (fixed leg on the roof, moving leg on the carriage arm): loop spans x -120..368 incl. its radius, roof edge 392.5
 GLANDS = [(50, 390, BOX[1][2], 34.5)]   # (x, y, z, conduit OD): X roof (the Y run no longer enters the box)
 ATTACH = {   # conduit -> its own end fittings / clamps (01): the conduit ends inside them, reported apart as expected
-    'Conduit_Y': ('Conduit_Y_top_fitting', 'Conduit_Y_end_fitting'), 'Conduit_ZB': ('Conduit_head_end_fitting', 'Conduit_carriage_clamp'),
-    'Conduit_XA': ('Conduit_X_roof_connector', 'Conduit_X_arm_clamp'),
-    'Conduit_carriage_run': ('Conduit_carriage_clamp', 'Conduit_X_arm_clamp')}
+    'Conduit_Y': ('Conduit_Y_top_fitting', 'Conduit_Y_end_fitting'), 'Conduit_ZB': ('Conduit_head_end_fitting', 'Conduit_ZB_top_fitting'),
+    'Conduit_XA': ('Conduit_X_roof_connector', 'Conduit_X_moving_fitting')}
 OLD_PANEL = ('Electrical_panel', 'Servo_amp', 'Servo_bolt', 'Controller', 'Board_standoff', 'Panel_standoff')   # replaced by the box
 # name: (label, outer D, length, (frame, point, direction) start, (frame, point, direction) end, min bend radius allowed)
 CONDUITS = {
     # hanging runs: fixed length between two clamped ends, settles under gravity (Y: panel -> Y motor, Z: X carriage -> tool head)
     # rolling loop in the vertical plane x 280 (table right side): fixed drop from the L-plate bracket, lower leg in the base tray, bend R 55,
     # upper leg in the table tray to the end adaptor (01); the shape is computed by roll_y
-    'Conduit_Y': ('Y 軸浪管：立柱電箱 L 板支架直下 → 底座托盤 → R55 滾動彎 → 工作台右側托盤（KSS PA-23，模型外徑 28.5），x 280 平面', 28.5, None,
-                  ('s', (280, 446, 233.0 - 1.2 * 28.3), (0, 0, -1)), ('y', (280, 262.0 - 1.2 * 28.3, 127.25), (0, 1, 0)), 50.0),
-    'Conduit_ZB': ('Z 段浪管：X 滑座 → 工具頭（KSS PA-29，模型外徑 34.5），下垂 U 型', 34.5, 530.0,
-                   ('x', (110, 40, 640), (0, 0, -1)), ('z', (110, -80, 470.0 - 2 * 1.2 * 37.0 - 3.0), (0, 0, 1)), 60.0),   # end under the head bracket arm
+    'Conduit_Y': ('Y 軸浪管：立柱電箱 L 板支架直下 → 底座托盤 → R55 滾動彎 → 工作台右後集線盒（KSS PA-23，模型外徑 28.5），x 280 平面', 28.5, None,
+                  ('s', (280, 446, 233.0 - 1.2 * 28.3), (0, 0, -1)), ('y', (280, 225.0 - 1.2 * 28.3, 127.25), (0, 1, 0)), 50.0),
+    'Conduit_ZB': ('Z 段浪管：X 滑座集線盒 → 工具頭（KSS PA-29，模型外徑 34.5），下垂 U 型', 34.5, 560.0,
+                   ('x', (110, 40, 712.0 - 1.2 * 37.0), (0, 0, -1)), ('z', (110, -80, 470.0 - 2 * 1.2 * 37.0 - 3.0), (0, 0, 1)), 60.0),   # end under the head bracket arm
     # rolling loop on the box top plate (X: fixed leg y 390, moving leg y 230 on an arm from the carriage, bend R 80)
     'Conduit_XA': ('X 段浪管：電箱頂板上的水平滾動 U 型環，R 80（KSS PA-29，模型外徑 34.5）', 34.5, None,
                    ('s', (XFF, 390, ZT), (1, 0, 0)), ('x', (XF, 230, ZT), (1, 0, 0)), 60.0),
@@ -43,12 +42,9 @@ def _arc(c, r, a0, a1, plane, n=8):    # points on an arc in the 'xz' or 'yz' pl
         t = math.radians(a0 + (a1 - a0) * k / n); u, w = r * math.cos(t), r * math.sin(t)
         out.append((c[0] + u, c[1], c[2] + w) if plane == 'xz' else (c[0], c[1] + u, c[2] + w))
     return out
-# carriage run: loop moving-leg end (XF, 230) heading -x -> up at x 20 -> forward over the saddle at z 745 -> down at (110, 40) to the Z loop
-CARRIAGE_RUN = ([(XF, 230, ZT)] + _arc((XF, 230, ZT + 60), 60, -90, -180, 'xz')[1:] + _arc((20, 230 - 55, 690), 55, 0, 90, 'yz')
-                + [(60, 140, 745), (110, 110, 745)] + _arc((110, 90, 695), 50, 90, 180, 'yz') + [(110, 40, 640)])
-STATIC_RUNS = {   # conduit pieces fixed to one frame (no flexing): drawn and checked for collisions
-    'Conduit_carriage_run': ('x', 34.5, CARRIAGE_RUN),   # held by the carriage arm clamp (rear) and the carriage shelf clamp (front), 01
-}
+# (v14 2026-11-28) the open carriage run over the saddle is gone: the X loop ends in the X carriage junction box (01) and the Z run starts
+# from its floor, both on PAQ-2929 adaptors
+STATIC_RUNS = {}
 def off(fr, P):
     dx, dy, dz = P
     return {'s': (0, 0, 0), 'y': (0, dy, 0), 'x': (dx, 0, 0), 'z': (dx, 0, dz)}[fr]
@@ -105,7 +101,7 @@ def hang(c, P, n=60):
         t = math.pi * k / 30; q.append(tuple(C + np.array([-math.cos(t) * hu[0] * r, -math.cos(t) * hu[1] * r, -math.sin(t) * r])))
     q += [tuple(B - [0, 0, b * (15 - k) / 15]) for k in range(16)]
     return q, flag
-YROLL = {'x': 280.0, 'zl': 17.25, 'zu': 127.25, 'R': 55.0, 'yl': 391.0, 'K': 240.0}   # lower leg starts at yl (after the drop bend); K sets the loop
+YROLL = {'x': 280.0, 'zl': 17.25, 'zu': 127.25, 'R': 55.0, 'yl': 391.0, 'K': 258.5}   # lower leg starts at yl (after the drop bend); K sets the loop
 def roll_y(c, P):
     """Y rolling loop: drop from the fixed adaptor, quarter bend into the lower leg (heading -y), half-circle bend, upper leg back (+y) to the
     moving end; the bend sits at yb = (yl + ym) / 2 - K, i.e. it moves half the table travel"""
