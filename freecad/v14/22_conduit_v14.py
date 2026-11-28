@@ -32,8 +32,8 @@ CONDUITS = {
     # upper leg in the table tray to the end adaptor (01); the shape is computed by roll_y
     'Conduit_Y': ('Y 軸浪管：立柱電箱 L 板支架直下 → 底座托盤 → R55 滾動彎 → 工作台右後集線盒（KSS PA-23，模型外徑 28.5），x 280 平面', 28.5, None,
                   ('s', (280, 446, 233.0 - 1.2 * 28.3), (0, 0, -1)), ('y', (280, 225.0 - 1.2 * 28.3, 127.25), (0, 1, 0)), 50.0),
-    'Conduit_ZB': ('Z 段浪管：X 滑座集線盒 → 工具頭（KSS PA-29，模型外徑 34.5），下垂 U 型', 34.5, 560.0,
-                   ('x', (114, 40, 712.0 - 1.2 * 37.0), (0, 0, -1)), ('z', (114, -80, 470.0 - 2 * 1.2 * 37.0 - 3.0), (0, 0, 1)), 60.0),   # end under the head bracket arm
+    'Conduit_ZB': ('Z 段浪管：X 滑座分線盒 → 工具頭（KSS PA-23，模型外徑 28.5），x 110 平面下垂 U 型', 28.5, 560.0,
+                   ('x', (110, 40, 712.0 - 1.2 * 28.3), (0, 0, -1)), ('z', (110, -80, 470.0 - 2 * 1.2 * 28.3 - 3.0), (0, 0, 1)), 50.0),   # end under the head bracket arm
     # rolling loop on the box top plate (X: fixed leg y 390, moving leg y 230 on an arm from the carriage, bend R 80)
     'Conduit_XA': ('X 段浪管：電箱頂板上的水平滾動 U 型環，R 80（KSS PA-29，模型外徑 34.5）', 34.5, None,
                    ('s', (XFF, 390, ZT), (-1, 0, 0)), ('x', (XF, 230, ZT), (-1, 0, 0)), 60.0),
@@ -46,9 +46,9 @@ def _arc(c, r, a0, a1, plane, n=8):    # points on an arc in the 'xz' or 'yz' pl
         out.append((c[0] + u, c[1], c[2] + w) if plane == 'xz' else (c[0], c[1] + u, c[2] + w))
     return out
 # carriage run (x frame, the same PA-29 as the roof loop; owner 2026-11-28, design review): moving-end clamp at x 34 -> straight to x 54 ->
-# bend A up R 60 (plane y 230) -> riser in the plane x 114 -> bend B forward R 60 over the saddle -> PAQ-2929 in the branch box rear wall (01)
-CARRIAGE_RUN = ([(XF, 230, ZT)] + _arc((54, 230, ZT + 60), 60, -90, 0, 'xz') + _arc((114, 170, 683.5), 60, 0, 90, 'yz')
-                + [(114, 100.0 + 1.2 * 37.0, 743.5)])
+# bend A up R 60 (plane y 230) -> riser in the plane x 110 -> bend B forward R 60 over the saddle -> PAQ-2929 in the branch box rear wall (01)
+CARRIAGE_RUN = ([(XF, 230, ZT)] + _arc((50, 230, ZT + 60), 60, -90, 0, 'xz') + _arc((110, 170, 683.5), 60, 0, 90, 'yz')
+                + [(110, 100.0 + 1.2 * 37.0, 743.5)])
 TZ, TY1, TY2 = 99.0, 292.0, 326.0                              # table rear PA-17 lanes: one plane z 99, y 292 (Y motor) / 326 (mirror cover), pitch 34
 MIRROR_RUN = ([(180 - 1.2 * 22.5, TY2, TZ), (-200, TY2, TZ)] + [(-200 + 50 * math.cos(math.radians(t)), 276 + 50 * math.sin(math.radians(t)), TZ)
               for t in range(90, 181, 10)] + [(-250, 203 + 1.2 * 22.5, TZ)])

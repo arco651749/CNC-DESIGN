@@ -663,54 +663,55 @@ add('Conduit_Y_base_tray', yl, GC, 'SPHC t3 bent channel 60 x 30: Y conduit lowe
     'plate edges y -145 / 182); lies over the flush low-head bolt Base_mount_bolt_4', '', '')
 bolts_into('Datum_base_plate', 'Conduit_Y_base_tray', [(258, -100, 0), (302, 40, 0), (302, 130, 0)], 'z', 0.0, -1)
 # Z run moving end: bracket on the spindle clamp front face (right half, beside the probe slide), arm at z 455 to the end at (110, -80)
-HA = 470.0 - paq_len('PA-29')                                  # arm top z 425.6; the adaptor hangs UNDER the arm (body z 378..422.6), the conduit
+HA = 470.0 - paq_len('PA-23')                                  # arm top z 425.6; the adaptor hangs UNDER the arm (body z 378..422.6), the conduit
 # comes up into its lower end at z 378 (before: body on top of the arm with the conduit passing up through the sheet hole, wrong)
-HX = 114.0                                                     # Z run plane (6.75 clear of the Z slide plate x <= 90; design review 2026-11-28)
+HX = 110.0                                                     # Z side plane: Z run PA-23 (OD 28.5) 5.75 clear of the Z slide plate (x <= 90) and of
+# the right column at X +182.5 (x >= 130 relative); PA-29 (OD 34.5) left only 2.75 / 1.25
 hb = fuse(box(40, 78, -63.0 - TB, -63.0, 310.0, HA),            # web on the spindle clamp front face
           box(40, HX, -106.0, -63.0, HA - TB, HA),               # arm ...
           Part.makeCylinder(26.0, TB, V(HX, -80, HA - TB)).common(box(HX - 30, HX + 30, -110.0, -63.0, HA - TB, HA)),   # ... end concentric with the adaptor
           box(40, HX - 26.0, -106.0, -106.0 + TB, HA - 18, HA))   # stiffening flange along the front edge
-hb = hb.removeSplitter().cut(Part.makeCylinder(paq_hole('PA-29'), 10, V(HX, -80, HA - 8)))
+hb = hb.removeSplitter().cut(Part.makeCylinder(paq_hole('PA-23'), 10, V(HX, -80, HA - 8)))
 for x_, z_ in ((56, 318), (56, 368), (72, 318), (72, 368)): hb = hb.cut(Part.makeCylinder(2.75, 10, V(x_, -70, z_), V(0, 1, 0)))
 add('Conduit_head_bracket', hb, GC, 'SPHC t3 bent: Z conduit end bracket on the spindle clamp front face (4 x M5, right half; the probe slide is '
-    'on the left half), arm with its end concentric with the PAQ-2929 (R26) at (114, -80), front stiffening flange', 'z', '')
+    'on the left half), arm with its end concentric with the PAQ-2321 (R26) at (110, -80), front stiffening flange', 'z', '')
 bolts_into('Spindle_clamp', 'Conduit_head_bracket', [(x_, 0, z_) for x_, z_ in ((56, 318), (56, 368), (72, 318), (72, 368))], 'y', -63.0, 1)   # x >= 56: wall to the spindle bore > 20
-paq('Conduit_head_end_fitting', 'PA-29', (HX, -80, HA - TB), (0, 0, -1), 'z')
+paq('Conduit_head_end_fitting', 'PA-23', (HX, -80, HA - TB), (0, 0, -1), 'z')
 # X carriage (owner 2026-11-28: conduit visible and styled; design review): the roof loop now folds LEFT, so the conduit reaches the carriage
 # heading +x at (34, 230, z 522). One R 60 upturn (bend A, plane y 230) puts it into the plane x 114; there it rises behind the saddle, bends
 # forward over the saddle (bend B, R 60) into a small branch box, and the Z run drops from the box floor in the same plane to the tool head.
 # Carrier = one SPHC t3 welded part, anthracite: rear web (backdrop behind the leg, bend A and the riser, carries both clamps), side fin
 # (quarter-sheave outline behind bend B, welded to the box), saddle flange (4 x M5 in the old arm holes).
 ZT_ = 494.0 + 34.5 / 2 + 10.75                                # X loop centre height (roof adaptor body and nut clear of the plate)
-XCR, ZTOP = HX, 743.5                                          # conduit plane x 114, centre height of the run into the box
-web = box(14, 142, 262.0, 265.0, 500.0, 705.0)
-notch = box(14, 79.5, 262.0, 265.0, 556.5, 705.0).cut(box(54, 79.5, 262.0, 265.0, 556.5, 582.0).cut(Part.makeCylinder(25.5, 3, V(54, 262.0, 582.0), V(0, 1, 0))))
-outer = box(54, 142, 262.0, 265.0, 494.0, 582.0).cut(Part.makeCylinder(88.0, 3, V(54, 262.0, 582.0), V(0, 1, 0)))
+XCR, ZTOP = HX, 743.5                                          # conduit plane x 110, centre height of the run into the box
+web = box(14, 138, 262.0, 265.0, 500.0, 705.0)               # bend A centre (50, z 582): outer edge R88, inner corner R25.5
+notch = box(14, 75.5, 262.0, 265.0, 556.5, 705.0).cut(box(50, 75.5, 262.0, 265.0, 556.5, 582.0).cut(Part.makeCylinder(25.5, 3, V(50, 262.0, 582.0), V(0, 1, 0))))
+outer = box(50, 138, 262.0, 265.0, 494.0, 582.0).cut(Part.makeCylinder(88.0, 3, V(50, 262.0, 582.0), V(0, 1, 0)))
 web = web.cut(notch).cut(outer)
-fin = box(83, 86, 100.0, 262.0, 565.0, 778.0).cut(box(83, 86, 100.0, 137.0, 565.0, 712.0))
-fin = fin.cut(box(83, 86, 170.0, 262.0, 683.5, 778.0).cut(Part.makeCylinder(94.5, 3, V(83, 170.0, 683.5), V(1, 0, 0))))
+fin = box(81, 84, 100.0, 262.0, 565.0, 778.0).cut(box(81, 84, 100.0, 137.0, 565.0, 712.0))
+fin = fin.cut(box(81, 84, 170.0, 262.0, 683.5, 778.0).cut(Part.makeCylinder(94.5, 3, V(81, 170.0, 683.5), V(1, 0, 0))))
 fl = box(60, 118, 134.0, 137.0, 565.0, 660.0)
 for x_, z_ in ((72, 580), (106, 580), (72, 640), (106, 640)): fl = fl.cut(Part.makeCylinder(2.75, 10, V(x_, 130, z_), V(0, 1, 0)))
 add('Conduit_X_carrier', fuse(web, fin, fl).removeSplitter(), GC, 'SPHC t3 laser-cut, welded conduit carrier on the X saddle, powder coat RAL 7016: '
-    'rear web y 262..265 (backdrop of the loop end, bend A R60 and the riser; both PA-29 clamps), side fin x 83..86 (quarter-sheave outline '
+    'rear web y 262..265 (backdrop of the loop end, bend A R60 and the riser; both PA-29 clamps), side fin x 81..84 (quarter-sheave outline '
     'concentric with bend B, welded to the branch box), saddle flange 4 x M5', 'x', '')
 bolts_into('X_saddle_plate', 'Conduit_X_carrier', [(x_, 0, z_) for x_, z_ in ((72, 580), (106, 580), (72, 640), (106, 640))], 'y', 134.0, -1)
-JB = [(86.0, 142.0, 14.0, 100.0, 712.0, 778.0)]                # branch box: right face flush with the saddle edge x 142, top flush with the fin
-jb = sheet_box(JB).cut(Part.makeCylinder(paq_hole('PA-29'), 10, V(XCR, 95.0, ZTOP), V(0, 1, 0))).cut(Part.makeCylinder(paq_hole('PA-29'), 10, V(XCR, 40, 707.0)))
-JG = (86.0, 70.0, 748.0)                                       # Z motor gland in the left wall, facing the motor side (x 30)
+JB = [(84.0, 142.0, 14.0, 100.0, 712.0, 778.0)]                # branch box: right face flush with the saddle edge x 142, top flush with the fin
+jb = sheet_box(JB).cut(Part.makeCylinder(paq_hole('PA-29'), 10, V(XCR, 95.0, ZTOP), V(0, 1, 0))).cut(Part.makeCylinder(paq_hole('PA-23'), 10, V(XCR, 40, 707.0)))
+JG = (84.0, 70.0, 748.0)                                       # Z motor gland in the left wall, facing the motor side (x 30)
 jb = jb.cut(Part.makeCylinder(12.5, 10, V(JG[0] - 5, JG[1], JG[2]), V(1, 0, 0)))
-add('X_branch_box', jb, GC, 'SPHC t1.6 U-bent branch box 56 x 86 x 66, R3 edges, RAL 7016, welded to the carrier fin: PAQ-2929 in the rear wall '
-    '(conduit from the roof loop), PAQ-2929 in the floor at (114, 40) (Z run), M25 gland in the left wall (Z motor cables), blank front', 'x', '')
-add('X_branch_box_lid', box(86.0, 142.0, 14.0, 100.0, 778.0, 779.6), GC, 'SPHC t1.6 lid of the branch box, 4 x M4 stainless button head', 'x', '')
+add('X_branch_box', jb, GC, 'SPHC t1.6 U-bent branch box 58 x 86 x 66, R3 edges, RAL 7016, welded to the carrier fin: PAQ-2929 in the rear wall '
+    '(conduit from the roof loop), PAQ-2321 in the floor at (110, 40) (Z run, PA-23), M25 gland in the left wall (Z motor cables), blank front', 'x', '')
+add('X_branch_box_lid', box(84.0, 142.0, 14.0, 100.0, 778.0, 779.6), GC, 'SPHC t1.6 lid of the branch box, 4 x M4 stainless button head', 'x', '')
 def ring_clamp(label, c, d, foot, r=17.25):                    # conduit clamp (KSS fixing base placeholder) + foot block to the carrier
     c = V(*c); d = V(*d)
     sh = Part.makeCylinder(r + 4.0, 14, c - d * 7, d).cut(Part.makeCylinder(r + 0.5, 14, c - d * 7, d)).fuse(box(*foot))
     add(label, sh.removeSplitter(), GC, 'conduit clamp for PA-%d (KSS fixing base / 浪管固定座), RAL 7016 - size to confirm from the KSS catalog'
         % (29 if r > 15 else 17), 'x' if r > 15 else 'y', '')
 ring_clamp('Conduit_X_moving_clamp', (34.0, 230.0, ZT_), (1, 0, 0), (27.0, 41.0, 250.0, 262.0, ZT_ - 10, ZT_ + 10))
-ring_clamp('Conduit_X_riser_clamp', (XCR, 230.0, 635.0), (0, 0, 1), (104.0, 124.0, 250.0, 262.0, 628.0, 642.0))
+ring_clamp('Conduit_X_riser_clamp', (XCR, 230.0, 635.0), (0, 0, 1), (100.0, 120.0, 250.0, 262.0, 628.0, 642.0))
 paq('Conduit_X_box_fitting', 'PA-29', (XCR, 100.0, ZTOP), (0, 1, 0), 'x')
-paq('Conduit_ZB_top_fitting', 'PA-29', (XCR, 40, 712.0), (0, 0, -1), 'x')
+paq('Conduit_ZB_top_fitting', 'PA-23', (XCR, 40, 712.0), (0, 0, -1), 'x')
 add('X_branch_box_gland', fuse(Part.makeCylinder(12.5, 9, V(JG[0] + 7, JG[1], JG[2]), V(-1, 0, 0)), Part.makeCylinder(16.0, 10, V(JG[0], JG[1], JG[2]), V(-1, 0, 0)),
     Part.makeCylinder(13.0, 6, V(JG[0] - 10, JG[1], JG[2]), V(-1, 0, 0))), GC,
     'cable gland M25x1.5 nylon, black, with locknut and multi-hole seal (e.g. LAPP SKINTOP ST-M 25x1.5 + multi-hole insert): Z motor power, brake '
